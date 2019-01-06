@@ -1,0 +1,20 @@
+C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\bin\Debug\UniConverter.exe.config
+C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\bin\Debug\UniConverter.exe
+C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\bin\Debug\UniConverter.pdb
+C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\bin\Debug\UniConverter.xml
+C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\bin\Debug\FastColoredTextBox.dll
+C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\bin\Debug\NAudio.dll
+C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.DeveloperMode.resources
+C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.z_Edits.resources
+C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.keyLED_Edit.resources
+C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.LEDEdit_Advanced.resources
+C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.MainProject.resources
+C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.Info.resources
+C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.MainScreen.resources
+C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.Resources.resources
+C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.Tutorial.resources
+C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter Project.vbproj.GenerateResource.Cache
+C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter Project.vbproj.CoreCompileInputs.cache
+C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter.exe
+C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter.xml
+C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter.pdb
