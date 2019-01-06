@@ -1,7 +1,7 @@
 # UniConverter-Project
 Source Codes of UniConverter Project.
 
-|    MineEric's LARGE-SCALE UniProjects Project. [UniConverter]                    |
+         MineEric's LARGE-SCALE UniProjects Project. [UniConverter]
 ====================================================================================
 
 -UniConverter- V1.0.0.2
