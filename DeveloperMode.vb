@@ -4,58 +4,58 @@ Imports System.Text
 Public Class DeveloperMode
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
 
-        Dim curFile As String = "WorkSpace"
+        Dim curFile As String = "Workspace"
         '파일이 존재하는지 검사
         If Dir(curFile, vbDirectory) <> "" Then
-            MsgBox("Create WorkSpace Failed! Eror Code: 9")
+            MsgBox("Create Workspace Failed! Eror Code: 9")
         Else
-            My.Computer.FileSystem.CreateDirectory("WorkSpace")
-            MsgBox("Created WorkSpace!", vbOKOnly, "UniConverter")
+            My.Computer.FileSystem.CreateDirectory("Workspace")
+            MsgBox("Created Workspace!", vbOKOnly, "UniConverter")
         End If
         '이래야지 오류가 나지 않음
 
     End Sub
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
         '---같은 형식---
-        Dim curFile As String = "WorkSpace\sounds"
+        Dim curFile As String = "Workspace\sounds"
         If Dir(curFile, vbDirectory) <> "" Then
             MsgBox("Create sounds Failed! Eror Code: 9", vbOKOnly, "UniConverter")
         Else
-            My.Computer.FileSystem.CreateDirectory("WorkSpace\sounds")
+            My.Computer.FileSystem.CreateDirectory("Workspace\sounds")
             MsgBox("Created sounds!", vbOKOnly, "UniConverter")
         End If
     End Sub
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
-        Dim curFile As String = "WorkSpace\keyLED"
+        Dim curFile As String = "Workspace\keyLED"
         If Dir(curFile, vbDirectory) <> "" Then
             MsgBox("Create keyLED Failed! Eror Code: 9", vbOKOnly, "UniConverter")
         Else
-            My.Computer.FileSystem.CreateDirectory("WorkSpace\keyLED")
+            My.Computer.FileSystem.CreateDirectory("Workspace\keyLED")
             MsgBox("Created keyLED!", vbOKOnly, "UniConverter")
         End If
     End Sub
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        Dim curFile As String = "WorkSpace"
+        Dim curFile As String = "Workspace"
         If Dir(curFile, vbDirectory) <> "" Then
-            My.Computer.FileSystem.DeleteDirectory("WorkSpace", FileIO.DeleteDirectoryOption.DeleteAllContents)
-            MsgBox("Deleted WorkSpace!", vbOKOnly, "UniConverter")
+            My.Computer.FileSystem.DeleteDirectory("Workspace", FileIO.DeleteDirectoryOption.DeleteAllContents)
+            MsgBox("Deleted Workspace!", vbOKOnly, "UniConverter")
         Else
-            MsgBox("Delete WorkSpace Failed! Eror Code: 9", vbOKOnly, "UniConverter")
+            MsgBox("Delete Workspace Failed! Eror Code: 9", vbOKOnly, "UniConverter")
         End If
     End Sub
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
-        Dim curFile As String = "WorkSpace\sounds"
+        Dim curFile As String = "Workspace\sounds"
         If Dir(curFile, vbDirectory) <> "" Then
-            My.Computer.FileSystem.DeleteDirectory("WorkSpace\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
+            My.Computer.FileSystem.DeleteDirectory("Workspace\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
             MsgBox("Deleted sounds!", vbOKOnly, "UniConverter")
         Else
             MsgBox("Delete sounds Failed! Eror Code: 9", vbOKOnly, "UniConverter")
         End If
     End Sub
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
-        Dim curFile As String = "WorkSpace\keyLED"
+        Dim curFile As String = "Workspace\keyLED"
         If Dir(curFile, vbDirectory) <> "" Then
-            My.Computer.FileSystem.DeleteDirectory("WorkSpace\keyLED", FileIO.DeleteDirectoryOption.DeleteAllContents)
+            My.Computer.FileSystem.DeleteDirectory("Workspace\keyLED", FileIO.DeleteDirectoryOption.DeleteAllContents)
             MsgBox("Deleted keyLED !", vbOKOnly, "UniConverter")
         Else
             MsgBox("Delete keyLED Failed! Eror Code: 9", vbOKOnly, "UniConverter")
@@ -96,8 +96,8 @@ Public Class DeveloperMode
     End Sub
 
     Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
-        Dim curFile As String = "WorkSpace\info"
-        Dim furFile As String = "WorkSpace"
+        Dim curFile As String = "Workspace\info"
+        Dim furFile As String = "Workspace"
 
         If Dir(furFile, vbDirectory) <> "" Then
             If Dir(curFile, vbDirectory) <> "" Then
@@ -107,7 +107,7 @@ Public Class DeveloperMode
                 Dim info As Byte()
 
                 '파일 만듬
-                fs = File.Create("WorkSpace\info")
+                fs = File.Create("Workspace\info")
                 '파일 내용 UTF 8로 인코딩함
                 info = New UTF8Encoding(True).GetBytes("title=UniConverter Test" & vbNewLine & "buttonX=8" & vbNewLine & "buttonY=8" & vbNewLine & "producerName=UniConverter, 최에릭" & vbNewLine & "chain=1" & vbNewLine & "squareButton=true")
                 fs.Write(info, 0, info.Length)
@@ -120,9 +120,9 @@ Public Class DeveloperMode
     End Sub
 
     Private Sub Button12_Click(sender As Object, e As EventArgs) Handles Button12.Click
-        Dim curFile As String = "WorkSpace\info"
+        Dim curFile As String = "Workspace\info"
         If Dir(curFile, vbDirectory) <> "" Then
-            File.Delete("WorkSpace\info")
+            File.Delete("Workspace\info")
             MsgBox("Deleted SInfo!", vbOKOnly, "UniConverter")
         Else
             MsgBox("Delete SInfo Failed! Eror Code: 9", vbOKOnly, "UniConverter")
@@ -130,14 +130,14 @@ Public Class DeveloperMode
     End Sub
 
     Private Sub Button13_Click(sender As Object, e As EventArgs) Handles Button13.Click
-        Dim curFile As String = "WorkSpace\keySound"
+        Dim curFile As String = "Workspace\keySound"
         If Dir(curFile, vbDirectory) <> "" Then
             MsgBox("Create keySound Failed! Eror Code: 9", vbOKOnly, "UniConverter")
         Else
             Dim fs As FileStream
             Dim info As Byte()
 
-            fs = File.Create("WorkSpace\keySound")
+            fs = File.Create("Workspace\keySound")
             info = New UTF8Encoding(True).GetBytes("")
             fs.Write(info, 0, info.Length)
             fs.Close()
@@ -146,9 +146,9 @@ Public Class DeveloperMode
     End Sub
 
     Private Sub Button14_Click(sender As Object, e As EventArgs) Handles Button14.Click
-        Dim curFile As String = "WorkSpace\keySound"
+        Dim curFile As String = "Workspace\keySound"
         If Dir(curFile, vbDirectory) <> "" Then
-            File.Delete("WorkSpace\keySound")
+            File.Delete("Workspace\keySound")
             MsgBox("Deleted keySound!", vbOKOnly, "UniConverter")
         Else
             MsgBox("Delete keySound Failed! Eror Code: 9", vbOKOnly, "UniConverter")

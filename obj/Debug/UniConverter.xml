@@ -47,5 +47,17 @@ UniConverter
   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
 </summary>
 </member>
+<member name="M:UniConverter_Project.MainProject.Lame(System.String,System.String,System.String,System.String,System.String,System.String,Microsoft.VisualBasic.AppWinStyle)">
+ <summary>
+  Lame.exe으로 소리 확장자 변환. FileName의 경우 반드시 Application.StartupPath로 File을 지정하기 바람. (CMDShow | /c = Show, /k = Hide.)
+ </summary>
+ <param name="CMDpath"></param> ex: Application.StartupPath + "\lame\cmd.exe"
+ <param name="LAMEpath"></param> ex: Application.StartupPath +_"\lame\lame.exe"
+ <param name="resFile"></param> ex: Application.StartupPath + "\Workspace\Hello_World.mp3"
+ <param name="desFile"></param> ex: Application.StartupPath + "\Workspace\Hello_World.wav"
+ <param name="LameOption"></param> ex: "--preset extreme"
+ <param name="CMDShow"></param> ex: "/c"
+ <param name="AppStyle"></param> ex: AppWinStyle.Hide
+</member>
 </members>
 </doc>

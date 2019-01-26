@@ -38,13 +38,13 @@ Partial Class DeveloperMode
         Me.Button2 = New System.Windows.Forms.Button()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
+        Me.Button16 = New System.Windows.Forms.Button()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.Button15 = New System.Windows.Forms.Button()
         Me.Button8 = New System.Windows.Forms.Button()
         Me.Button7 = New System.Windows.Forms.Button()
         Me.Button9 = New System.Windows.Forms.Button()
         Me.Button10 = New System.Windows.Forms.Button()
-        Me.Button15 = New System.Windows.Forms.Button()
-        Me.Button16 = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -206,6 +206,15 @@ Partial Class DeveloperMode
         Me.TabPage2.Text = "License Settings"
         Me.TabPage2.UseVisualStyleBackColor = True
         '
+        'Button16
+        '
+        Me.Button16.Location = New System.Drawing.Point(17, 104)
+        Me.Button16.Name = "Button16"
+        Me.Button16.Size = New System.Drawing.Size(161, 31)
+        Me.Button16.TabIndex = 2
+        Me.Button16.Text = "Enable All Modes"
+        Me.Button16.UseVisualStyleBackColor = True
+        '
         'GroupBox3
         '
         Me.GroupBox3.Controls.Add(Me.Button15)
@@ -216,6 +225,15 @@ Partial Class DeveloperMode
         Me.GroupBox3.TabIndex = 1
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "License"
+        '
+        'Button15
+        '
+        Me.Button15.Location = New System.Drawing.Point(16, 20)
+        Me.Button15.Name = "Button15"
+        Me.Button15.Size = New System.Drawing.Size(158, 23)
+        Me.Button15.TabIndex = 1
+        Me.Button15.Text = "Enable Developer Mode"
+        Me.Button15.UseVisualStyleBackColor = True
         '
         'Button8
         '
@@ -252,24 +270,6 @@ Partial Class DeveloperMode
         Me.Button10.TabIndex = 2
         Me.Button10.Text = "OK"
         Me.Button10.UseVisualStyleBackColor = True
-        '
-        'Button15
-        '
-        Me.Button15.Location = New System.Drawing.Point(16, 20)
-        Me.Button15.Name = "Button15"
-        Me.Button15.Size = New System.Drawing.Size(158, 23)
-        Me.Button15.TabIndex = 1
-        Me.Button15.Text = "Enable Developer Mode"
-        Me.Button15.UseVisualStyleBackColor = True
-        '
-        'Button16
-        '
-        Me.Button16.Location = New System.Drawing.Point(17, 104)
-        Me.Button16.Name = "Button16"
-        Me.Button16.Size = New System.Drawing.Size(161, 31)
-        Me.Button16.TabIndex = 2
-        Me.Button16.Text = "Enable All Modes"
-        Me.Button16.UseVisualStyleBackColor = True
         '
         'DeveloperMode
         '

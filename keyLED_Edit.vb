@@ -1,11 +1,43 @@
-﻿Imports System.Text.RegularExpressions
+﻿Imports System.IO
+Imports System.Runtime
+Imports System.Text.RegularExpressions
 Imports NAudio.Midi
 Public Class keyLED_Edit
     Inherits Form
+    Dim midFile As FileInfo
     Private Sub KeyLED_Edit_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'FileName 표시.
-        For Each foundFile As String In My.Computer.FileSystem.GetFiles("WorkSpace\ableproj\CoLED", FileIO.SearchOption.SearchTopLevelOnly, "*.mid") 'FileName의 파일 찾기
-            Dim itm As New ListViewItem(New String() {IO.Path.GetFileName(foundFile), foundFile})
+        For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\ableproj\CoLED", FileIO.SearchOption.SearchTopLevelOnly, "*.mid") 'FileName의 파일 찾기
+            Dim itm As New ListViewItem(New String() {Path.GetFileName(foundFile), foundFile})
+            LED_ListView.Items.Add(itm)  '파일 이름 추가
+        Next
+
+        LED_ListView.AllowDrop = True
+    End Sub
+
+    Private Sub LED_ListView_DragEnter(sender As System.Object, e As DragEventArgs) Handles LED_ListView.DragEnter
+        If e.Data.GetDataPresent(DataFormats.FileDrop) Then
+            e.Effect = DragDropEffects.Copy
+        End If
+    End Sub
+
+    Private Sub LED_ListView_DragDrop(sender As System.Object, e As DragEventArgs) Handles LED_ListView.DragDrop
+        Dim files() As String = e.Data.GetData(DataFormats.FileDrop)
+
+        '---Beta Code: Drag and Drop & Get File Name Only---
+        LED_ListView.Items.Clear()
+        UniLED_Edit.Clear()
+        UniLED1.Text = "File Name: None"
+        If UniLED_Edit.Enabled = True Then UniLED_Edit.Enabled = False
+        If Dir("Workspace\ableproj\CoLED", vbDirectory) <> "" Then My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\CoLED", FileIO.DeleteDirectoryOption.DeleteAllContents)
+
+        My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\CoLED")
+        For i = 0 To files.Length - 1
+            File.Copy(files(i), "Workspace\ableproj\CoLED\" & files(i).Split("\").Last, True)
+        Next
+
+        For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\ableproj\CoLED", FileIO.SearchOption.SearchTopLevelOnly, "*.mid") 'FileName의 파일 찾기
+            Dim itm As New ListViewItem(New String() {Path.GetFileName(foundFile), foundFile})
             LED_ListView.Items.Add(itm)  '파일 이름 추가
         Next
     End Sub
@@ -24,10 +56,10 @@ Public Class keyLED_Edit
         Try
             Dim ConLEDFile = LED_ListView.FocusedItem.SubItems.Item(0).ToString '선택한 아이템.
 
-            ''''''''''''''''
-            ''''  Beta  '''' '이 Beta Convert Code는 오류가 발생할 수 있습니다.
-            ''''  Code  '''' '주의사항을 다 보셨다면, 당신은 Editor 권한을 가질 수 있습니다.
-            ''''''''''''''''
+            'Beta Code!
+            '이 Beta Convert Code는 오류가 발생할 수 있습니다.
+            '주의사항을 다 보셨다면, 당신은 Editor 권한을 가질 수 있습니다.
+
 
             '변환 코드...
             UniLED_Edit.Enabled = True
@@ -36,7 +68,7 @@ Public Class keyLED_Edit
             ConLEDFile = ConLEDFile.Replace("}", "").Trim() '뒷줄 공백 제거. [따라서 ConLEDFile = ":FileName.Ext"]
             'UniLED_Edit.Text = ConLEDFile '[ConLEDFile String 계산: ":FileName.Ext" 오류가 있으면 다른 내용 표시.]
 
-            Dim LEDFIleName = "WorkSpace\ableproj\CoLED\" & ConLEDFile
+            Dim LEDFIleName = "Workspace\ableproj\CoLED\" & ConLEDFile
             Dim LEDFileC As New MidiFile(LEDFIleName, False)
             Dim str As String = ""
 
@@ -443,10 +475,10 @@ Public Class keyLED_Edit
                                 End If
                             End If
                             If LEDEdit_Advanced.DelayMode2.Text = "Delta Time" Then
-                                    If LEDEdit_Advanced.DelayConvert1.Checked = True Then
-                                        str = str & vbNewLine & "d " & a.DeltaTime
-                                    End If
+                                If LEDEdit_Advanced.DelayConvert1.Checked = True Then
+                                    str = str & vbNewLine & "d " & a.DeltaTime
                                 End If
+                            End If
                             If LEDEdit_Advanced.DelayMode2.Text = "Absolute Time" Then
                                 If LEDEdit_Advanced.DelayConvert1.Checked = True Then
                                     str = str & vbNewLine & "d " & a.AbsoluteTime
@@ -481,9 +513,6 @@ Public Class keyLED_Edit
 
     Private Sub RefButton1_Click(sender As Object, e As EventArgs) Handles OpenButton1.Click
         'FileName OPEN.
-        LED_ListView.Items.Clear()
-        UniLED_Edit.Clear()
-
         Dim ofd1 As New OpenFileDialog()
 
         ofd1.Filter = "Sound Files|*.mid"
@@ -492,20 +521,24 @@ Public Class keyLED_Edit
 
         If ofd1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
 
-            If Dir("WorkSpace\ableproj\CoLED", vbDirectory) <> "" Then
-                My.Computer.FileSystem.DeleteDirectory("WorkSpace\ableproj\CoLED", FileIO.DeleteDirectoryOption.DeleteAllContents)
-                My.Computer.FileSystem.CreateDirectory("WorkSpace\ableproj\CoLED")
+            If Dir("Workspace\ableproj\CoLED", vbDirectory) <> "" Then
+                My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\CoLED", FileIO.DeleteDirectoryOption.DeleteAllContents)
+                My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\CoLED")
 OpenLine:
+                LED_ListView.Items.Clear()
+                UniLED_Edit.Clear()
+                UniLED1.Text = "File Name: None"
+                If UniLED_Edit.Enabled = True Then UniLED_Edit.Enabled = False
+
                 For i = 0 To ofd1.FileNames.Length - 1
                     IO.File.Copy(ofd1.FileNames(i), "Workspace\ableproj\CoLED\" & ofd1.FileNames(i).Split("\").Last, True)
                 Next
-
-                For Each foundFile As String In My.Computer.FileSystem.GetFiles("WorkSpace\ableproj\CoLED", FileIO.SearchOption.SearchTopLevelOnly, "*.mid") 'FileName의 파일 찾기
+                For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\ableproj\CoLED", FileIO.SearchOption.SearchTopLevelOnly, "*.mid") 'FileName의 파일 찾기
                     Dim itm As New ListViewItem(New String() {IO.Path.GetFileName(foundFile), foundFile})
                     LED_ListView.Items.Add(itm)  '파일 이름 추가
                 Next
             Else
-                My.Computer.FileSystem.CreateDirectory("WorkSpace\ableproj\CoLED")
+                My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\CoLED")
                 GoTo OpenLine
             End If
         End If

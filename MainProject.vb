@@ -34,6 +34,26 @@ Public Class MainProject
     Dim abl_openedproj As Boolean
     Dim abl_openedsnd As Boolean
     Dim uni_confile As String
+
+    'Dim fslog As FileStream = File.Create("log.txt") '(fslog를 선언할경우 log.txt 만들어져서 일단 일시적으로 주석)
+    'Dim infofs As Byte() '(fslog와 마찬가지로 선언)
+    Dim ast As String = """" 'Special Letter (")
+    ''' <summary>
+    '''  Lame.exe으로 소리 확장자 변환. FileName의 경우 반드시 Application.StartupPath로 File을 지정하기 바람. (CMDShow | /c = Show, /k = Hide.)
+    ''' </summary>
+    ''' <param name="CMDpath"></param> ex: Application.StartupPath + "\lame\cmd.exe"
+    ''' <param name="LAMEpath"></param> ex: Application.StartupPath +_"\lame\lame.exe"
+    ''' <param name="resFile"></param> ex: Application.StartupPath + "\Workspace\Hello_World.mp3"
+    ''' <param name="desFile"></param> ex: Application.StartupPath + "\Workspace\Hello_World.wav"
+    ''' <param name="LameOption"></param> ex: "--preset extreme"
+    ''' <param name="CMDShow"></param> ex: "/c"
+    ''' <param name="AppStyle"></param> ex: AppWinStyle.Hide
+    Public Shared Sub Lame(CMDpath As String, LAMEpath As String, resFile As String, desFile As String, LameOption As String, CMDShow As String, AppStyle As AppWinStyle)
+        Dim ast As String = """" 'Special Letter (")
+
+        Shell(CMDpath + " " & CMDShow & " " & LAMEpath & " " & ast & resFile & ast & " " & desFile & " " & LameOption, AppStyle)
+    End Sub
+
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim curFile As String = "Sources\DeveloperMode.uni" 'License File of Developer Mode.
         Dim file_ex = Application.StartupPath + "\settings.ini"
@@ -97,30 +117,64 @@ Public Class MainProject
     Private Sub OpenSoundsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SoundsToolStripMenuItem.Click
         Dim openFileDialog1 As New OpenFileDialog()
 
-        ' 프로젝트 열기
-        openFileDialog1.Filter = "Sound Files|*.wav|All Files|*.*"
+        openFileDialog1.Filter = "WAV Sound Files|*.wav|MP3 Sound Files|*.mp3"
         openFileDialog1.Title = "Select Sounds"
         openFileDialog1.Multiselect = True
 
         If openFileDialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-            'WorkSpace 폴더 생성, sounds 폴더도 생성
-            If (My.Computer.FileSystem.DirectoryExists("WorkSpace\unipack") = True) Then
-                My.Computer.FileSystem.DeleteDirectory("WorkSpace\unipack", FileIO.DeleteDirectoryOption.DeleteAllContents)
+
+            If Path.GetExtension(openFileDialog1.FileNames(openFileDialog1.FileNames.Length - 1)) = ".wav" Then
+
+                If (My.Computer.FileSystem.DirectoryExists("Workspace\unipack\sounds") = True) Then
+                    My.Computer.FileSystem.DeleteDirectory("Workspace\unipack\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
+                End If
+
+                My.Computer.FileSystem.CreateDirectory("Workspace\unipack\sounds")
+
+                For i = 0 To openFileDialog1.FileNames.Length - 1
+                    File.Copy(openFileDialog1.FileNames(i), "Workspace\unipack\sounds\" & openFileDialog1.FileNames(i).Split("\").Last, True)
+                Next
+
+            ElseIf Path.GetExtension(openFileDialog1.FileNames(openFileDialog1.FileNames.Length - 1)) = ".mp3" Then
+                If (My.Computer.FileSystem.DirectoryExists("Workspace\unipack\sounds") = True) Then
+                    My.Computer.FileSystem.DeleteDirectory("Workspace\unipack\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
+                End If
+                My.Computer.FileSystem.CreateDirectory("Workspace\unipack\sounds")
+
+                For i = 0 To openFileDialog1.FileNames.Length - 1
+                    File.Copy(openFileDialog1.FileNames(i), "Workspace\" & openFileDialog1.FileNames(i).Split("\").Last.Replace(" ", "").Trim(), True)
+                Next
+
+                For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\", FileIO.SearchOption.SearchTopLevelOnly, "*.mp3")
+                    Lame("lame\cmd.exe", "lame\lame.exe", foundFile.Replace(Application.StartupPath + "\", ""), foundFile.Replace(".mp3", ".wav").Replace(Application.StartupPath + "\", ""), "--preset extreme", "/c", AppWinStyle.Hide)
+                Next
+
+                For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\", FileIO.SearchOption.SearchTopLevelOnly, "*.mp3")
+                    Threading.Thread.Sleep(500)
+                    If File.Exists(foundFile.Replace(".mp3", ".wav")) Then
+                        File.Move(foundFile.Replace(".mp3", ".wav"), "Workspace\unipack\sounds\" & Path.GetFileName(foundFile.Replace(".mp3", ".wav")))
+                        File.Delete(foundFile)
+                    End If
+                Next
             End If
-            My.Computer.FileSystem.CreateDirectory("WorkSpace\unipack")
-            My.Computer.FileSystem.CreateDirectory("WorkSpace\unipack\sounds")
-            '파일 복사해서 sounds 폴더에 사운드를 붙여넣기
-            For i = 0 To openFileDialog1.FileNames.Length - 1
-                IO.File.Copy(openFileDialog1.FileNames(i), "Workspace\unipack\sounds\" & openFileDialog1.FileNames(i).Split("\").Last, True)
-            Next
+
             If Not abl_openedsnd = True Then
-                MessageBox.Show("Sounds Loaded!" & vbNewLine &
+                    MessageBox.Show("Sounds Loaded!" & vbNewLine &
                             "You can edit keySound in keySound Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                abl_openedsnd = True
-            Else
-                MessageBox.Show("Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    abl_openedsnd = True
+                Else
+                    MessageBox.Show("Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End If
+
+                Sound_ListView.Items.Clear()
+                keySound_ListView.Items.Clear()
+                ChainXY.Text = "c x y"
+
+                For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\unipack\sounds", FileIO.SearchOption.SearchTopLevelOnly, "*.wav")
+                    Dim itm As New ListViewItem(New String() {Path.GetFileName(foundFile), foundFile})
+                    Sound_ListView.Items.Add(itm)
+                Next
             End If
-        End If
     End Sub
 
     Private Sub DeveloperToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeveloperToolStripMenuItem.Click
@@ -139,8 +193,8 @@ Public Class MainProject
 
         Try
             If SaveFileDialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-                If Dir("WorkSpace\unipack", vbDirectory) <> "" Then
-                    ZipFile.CreateFromDirectory("WorkSpace\unipack", SaveFileDialog1.FileName)
+                If Dir("Workspace\unipack", vbDirectory) <> "" Then
+                    ZipFile.CreateFromDirectory("Workspace\unipack", SaveFileDialog1.FileName)
                     MessageBox.Show("Saved Unipack!", "UniConverter", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Else
                     MessageBox.Show("Save Unipack Failed. Error Code: 9" & vbNewLine &
@@ -161,16 +215,16 @@ Public Class MainProject
         LEDOpen1.Multiselect = True
 
         If LEDOpen1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-            If Dir("WorkSpace\ableproj\CoLED", vbDirectory) <> "" Then
-                My.Computer.FileSystem.DeleteDirectory("WorkSpace\ableproj\CoLED", FileIO.DeleteDirectoryOption.DeleteAllContents)
-                My.Computer.FileSystem.CreateDirectory("WorkSpace\ableproj\CoLED")
+            If Dir("Workspace\ableproj\CoLED", vbDirectory) <> "" Then
+                My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\CoLED", FileIO.DeleteDirectoryOption.DeleteAllContents)
+                My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\CoLED")
 OpenLine:
                 For i = 0 To LEDOpen1.FileNames.Length - 1
                     IO.File.Copy(LEDOpen1.FileNames(i), "Workspace\ableproj\CoLED\" & LEDOpen1.FileNames(i).Split("\").Last, True)
                 Next
                 keyLED_Edit.Show()
             Else
-                My.Computer.FileSystem.CreateDirectory("WorkSpace\ableproj\CoLED")
+                My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\CoLED")
                 GoTo OpenLine
             End If
         End If
@@ -181,6 +235,8 @@ OpenLine:
     End Sub
 
     Public Sub ExtractGZip(gzipFileName As String, targetDir As String)
+
+        '---Beta Code: Extract GZip to Original File---
 
         ' Use a 4K buffer. Any larger is a waste.  
         Dim dataBuffer As Byte() = New Byte(4095) {}
@@ -207,18 +263,17 @@ OpenLine:
 
         If alsOpen1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
 
-            ''''''''''''''''
-            ''''  Beta  '''' '이 Beta Convert Code는 오류가 발생할 수 있습니다.
-            ''''  Code  '''' '주의사항을 다 보셨다면, 당신은 Editor 권한을 가질 수 있습니다.
-            ''''''''''''''''
+            '---Beta Code: Converting mid to keyLED---
+            '이 Beta Convert Code는 오류가 발생할 수 있습니다.
+            '주의사항을 다 보셨다면, 당신은 Editor 권한을 가질 수 있습니다.
 
             'Convert Ableton Project to Unipack Informations. (BETA!!!)
-            If Dir("WorkSpace\ableproj", vbDirectory) <> "" Then
+            If Dir("Workspace\ableproj", vbDirectory) <> "" Then
 OpenProjectLine:
                 abl_FileName = alsOpen1.SafeFileName.Replace(".als", "")
-                File.Copy(alsOpen1.FileName, "WorkSpace\ableproj\abl_proj.gz", True)
-                ExtractGZip("WorkSpace\ableproj\abl_proj.gz", "WorkSpace\ableproj")
-                File.Delete("WorkSpace\ableproj\abl_proj.gz")
+                File.Copy(alsOpen1.FileName, "Workspace\ableproj\abl_proj.gz", True)
+                ExtractGZip("Workspace\ableproj\abl_proj.gz", "Workspace\ableproj")
+                File.Delete("Workspace\ableproj\abl_proj.gz")
                 If Not abl_openedproj = True Then
                     MessageBox.Show("Ableton Project File Loaded!" & vbNewLine &
                                 "You can edit info in Information Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -228,8 +283,8 @@ OpenProjectLine:
                 End If
                 'XML File Load.
                 infoTB1.Text = abl_FileName
-                Else
-                    My.Computer.FileSystem.CreateDirectory("Workspace\ableproj")
+            Else
+                My.Computer.FileSystem.CreateDirectory("Workspace\ableproj")
                 GoTo OpenProjectLine
             End If
         End If
@@ -261,15 +316,15 @@ OpenProjectLine:
             Dim fs As FileStream
             Dim info As Byte()
 
-            If Dir("WorkSpace\unipack", vbDirectory) <> "" Then
+            If Dir("Workspace\unipack", vbDirectory) <> "" Then
 SaveInfoLine:
-                fs = File.Create("WorkSpace\unipack\info")
+                fs = File.Create("Workspace\unipack\info")
                 info = New UTF8Encoding(True).GetBytes("title=" & infoTB1.Text & vbNewLine & "buttonX=8" & vbNewLine & "buttonY=8" & vbNewLine & "producerName=" & infoTB2.Text & vbNewLine & "chain=" & infoTB3.Text & vbNewLine & "squareButton=true")
                 fs.Write(info, 0, info.Length)
                 fs.Close()
                 MessageBox.Show("Saved info!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                My.Computer.FileSystem.CreateDirectory("WorkSpace\unipack")
+                My.Computer.FileSystem.CreateDirectory("Workspace\unipack")
                 GoTo SaveInfoLine
             End If
         Else
@@ -415,7 +470,7 @@ SaveInfoLine:
             ConSndFile = ConSndFile.Replace("}", "").Trim()
 
             If abl_openedsnd = True Then
-                If Not ConSndFile = Nothing Or "" Then
+                If Not ConSndFile = Nothing Then
                     MessageBox.Show("Sorry, You can't use this function." & vbNewLine &
                     "We are developing about Converting keySound!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
                     'GO SOUND CODE!!!
