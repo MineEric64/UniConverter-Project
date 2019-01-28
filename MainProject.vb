@@ -149,15 +149,21 @@ Public Class MainProject
                     Lame("lame\cmd.exe", "lame\lame.exe", foundFile.Replace(Application.StartupPath + "\", ""), foundFile.Replace(".mp3", ".wav").Replace(Application.StartupPath + "\", ""), "--preset extreme", "/c", AppWinStyle.Hide)
                 Next
 
-                For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\", FileIO.SearchOption.SearchTopLevelOnly, "*.mp3")
+                Try
+fexLine:
+                    For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\", FileIO.SearchOption.SearchTopLevelOnly, "*.mp3")
+                        If File.Exists(foundFile.Replace(".mp3", ".wav")) Then
+                            File.Move(foundFile.Replace(".mp3", ".wav"), "Workspace\unipack\sounds\" & Path.GetFileName(foundFile.Replace(".mp3", ".wav")))
+                            File.Delete(foundFile)
+                        End If
+                    Next
+                Catch fex As IOException 'I/O 오류 해결 코드.
                     Threading.Thread.Sleep(500)
-                    If File.Exists(foundFile.Replace(".mp3", ".wav")) Then
-                        File.Move(foundFile.Replace(".mp3", ".wav"), "Workspace\unipack\sounds\" & Path.GetFileName(foundFile.Replace(".mp3", ".wav")))
-                        File.Delete(foundFile)
-                    End If
-                Next
+                    GoTo fexLine
+                End Try
             End If
 
+            '-After Loading WAV/MP3!
             If Not abl_openedsnd = True Then
                     MessageBox.Show("Sounds Loaded!" & vbNewLine &
                             "You can edit keySound in keySound Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
