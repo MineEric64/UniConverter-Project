@@ -17,6 +17,6 @@ Test Version: V1.1.0.3
 My All Programs use .NET Framework 4.6.2!
 They have the comments each Code. So, You can know about Codes easily! :D
 
-DEVELOPING PROJECTS make one convenient. -MineEric64
+DEVELOPING PROJECTS make someone convenient. -MineEric64
 
 -By 2019-02-02 & 최에릭 (MineEric64)
