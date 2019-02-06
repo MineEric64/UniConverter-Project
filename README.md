@@ -4,7 +4,7 @@
 
 ---About "UniConverter"---
 
-using .NET Framework 4.6.2, Fast Colored TextBox, NAudio, LAME
+using .NET Framework 4.6.2, Fast Colored TextBox, ICSharpCode.SharedZipLibrary ,NAudio, LAME
 
 UniConverter converts Ableton Projects to Unipack.
 How? Simple! UniConverter reads Ableton's various algorithms.
