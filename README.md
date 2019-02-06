@@ -1,11 +1,10 @@
 # UniConverter-Project
-Source Codes of UniConverter Project.
 
-         MineEric's LARGE-SCALE UniProjects Project. [UniConverter]
+         MineEric's LARGE-SCALE Projects. [UniConverter]
 
 ---About "UniConverter"---
 
-UniConverter converts Ableton Project Files to Unipack.
+UniConverter converts Ableton Projects to Unipack.
 How? Simple! UniConverter reads Ableton's various algorithms.
 
 For Example, UniConverter reads algorithms to Ableton Project's Information.
@@ -22,8 +21,7 @@ You can download Unitor on "http://www.unitor.ga"! :D
 You can download UniConverter Latest Version on "http://www.ucv.kro.kr".
 If you want to use UniConverter Test Version, You must get permission to me. or, You can build the UniConverter directly!
 
-Latest Version: V1.0.0.2
-Test Version: V1.1.0.3
+Latest Version: V1.0.0.2   |   Test Version: V1.1.0.3
 
 My All Programs use .NET Framework 4.6.2!
 They have the comments each Code. So, You can know about Codes easily! :D
