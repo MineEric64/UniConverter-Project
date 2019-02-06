@@ -26,4 +26,4 @@ They have the comments each Code. So, You can know about Codes easily! :D
 
 DEVELOPING PROJECTS make someone convenient. -MineEric64
 
--By 최에릭 (MineEric64) on 2019-02-06
+-By 최에릭 (MineEric64) on 02/06/19
