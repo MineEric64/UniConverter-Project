@@ -3,10 +3,17 @@ Source Codes of UniConverter Project.
 
          MineEric's LARGE-SCALE UniProjects Project. [UniConverter]
 
----About "UniConverter"
+---About "UniConverter"---
+
 UniConverter converts Ableton Project Files to Unipack.
 How? Simple! UniConverter reads Ableton's various algorithms.
-UniConverter applys algorithms to Ableton Project Files' LED Files.
+For Example, UniConverter reads algorithms to Ableton Project's Information.
+(ex: Project's information, Sounds/LED's Position, More...)
+UniConverter converts Ableton Project's Information to Unipack's Information.
+Last, UniConverter trims some Sounds, LEDs of Unipack.
+Also, you can edit simple information of Unipack directly!
+But, you can edit detail information of Unipack on Unitor.
+You can download Unitor on "http://www.unitor.ga"! :D
 
 You can download UniConverter Latest Version on "http://www.ucv.kro.kr".
 If you want to use UniConverter Test Version, You must get permission to me. or, You can build the UniConverter directly!
@@ -19,4 +26,4 @@ They have the comments each Code. So, You can know about Codes easily! :D
 
 DEVELOPING PROJECTS make someone convenient. -MineEric64
 
--By 2019-02-02 & 최에릭 (MineEric64)
+-By 최에릭 (MineEric64) on 2019-02-06
