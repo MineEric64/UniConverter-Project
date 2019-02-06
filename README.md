@@ -28,9 +28,6 @@ If you want to use UniConverter Test Version, You must get permission to me. or,
 
 Latest Version: V1.0.0.2   |   Test Version: V1.1.0.3
 
-My All Programs use .NET Framework 4.6.2!
-They have the comments each Code. So, You can know about Codes easily! :D
-
 DEVELOPING PROJECTS make someone convenient. -MineEric64
 
 -By 최에릭 (MineEric64) on 02/06/19
