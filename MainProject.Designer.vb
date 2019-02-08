@@ -61,17 +61,17 @@ Partial Class MainProject
         Me.infoTB1 = New System.Windows.Forms.TextBox()
         Me.infoT1 = New System.Windows.Forms.Label()
         Me.KeyS1 = New System.Windows.Forms.TabPage()
+        Me.ChainXY = New System.Windows.Forms.ComboBox()
+        Me.SaveButton2 = New System.Windows.Forms.Button()
+        Me.Tip3 = New System.Windows.Forms.Label()
+        Me.DevelopingLabel1 = New System.Windows.Forms.Label()
+        Me.BackButton = New System.Windows.Forms.Button()
+        Me.GoButton = New System.Windows.Forms.Button()
+        Me.keySound_ListView = New System.Windows.Forms.ListView()
+        Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ConvSndButton = New System.Windows.Forms.Button()
         Me.Sound_ListView = New System.Windows.Forms.ListView()
         Me.FileName = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.keySound_ListView = New System.Windows.Forms.ListView()
-        Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.GoButton = New System.Windows.Forms.Button()
-        Me.BackButton = New System.Windows.Forms.Button()
-        Me.DevelopingLabel1 = New System.Windows.Forms.Label()
-        Me.Tip3 = New System.Windows.Forms.Label()
-        Me.SaveButton2 = New System.Windows.Forms.Button()
-        Me.ChainXY = New System.Windows.Forms.ComboBox()
         Me.MenuStrip1.SuspendLayout()
         Me.HomeEdit1.SuspendLayout()
         Me.Info1.SuspendLayout()
@@ -143,7 +143,7 @@ Partial Class MainProject
         '
         Me.UnipackToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AnyAbletonToolStripMenuItem, Me.AbletonLive9LiteToolStripMenuItem, Me.AbletonLive9TrialToolStripMenuItem, Me.AbletonLive9SuiteToolStripMenuItem, Me.AbletonLive10ToolStripMenuItem})
         Me.UnipackToolStripMenuItem.Name = "UnipackToolStripMenuItem"
-        Me.UnipackToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.UnipackToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
         Me.UnipackToolStripMenuItem.Text = "Ableton"
         '
         'AnyAbletonToolStripMenuItem
@@ -185,7 +185,7 @@ Partial Class MainProject
         '
         Me.UnipackToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ConvertToZipUniToolStripMenuItem})
         Me.UnipackToolStripMenuItem1.Name = "UnipackToolStripMenuItem1"
-        Me.UnipackToolStripMenuItem1.Size = New System.Drawing.Size(152, 22)
+        Me.UnipackToolStripMenuItem1.Size = New System.Drawing.Size(117, 22)
         Me.UnipackToolStripMenuItem1.Text = "Unipack"
         '
         'ConvertToZipUniToolStripMenuItem
@@ -389,6 +389,85 @@ Partial Class MainProject
         Me.KeyS1.Text = "keySound"
         Me.KeyS1.UseVisualStyleBackColor = True
         '
+        'ChainXY
+        '
+        Me.ChainXY.FormattingEnabled = True
+        Me.ChainXY.Location = New System.Drawing.Point(347, 6)
+        Me.ChainXY.Name = "ChainXY"
+        Me.ChainXY.Size = New System.Drawing.Size(54, 20)
+        Me.ChainXY.TabIndex = 38
+        Me.ChainXY.Text = "c x y"
+        '
+        'SaveButton2
+        '
+        Me.SaveButton2.Location = New System.Drawing.Point(550, 373)
+        Me.SaveButton2.Name = "SaveButton2"
+        Me.SaveButton2.Size = New System.Drawing.Size(78, 29)
+        Me.SaveButton2.TabIndex = 37
+        Me.SaveButton2.Text = "Save"
+        Me.SaveButton2.UseVisualStyleBackColor = True
+        '
+        'Tip3
+        '
+        Me.Tip3.AutoSize = True
+        Me.Tip3.ForeColor = System.Drawing.Color.LightCoral
+        Me.Tip3.Location = New System.Drawing.Point(7, 405)
+        Me.Tip3.Name = "Tip3"
+        Me.Tip3.Size = New System.Drawing.Size(258, 12)
+        Me.Tip3.TabIndex = 36
+        Me.Tip3.Text = "Tip: If sound file didn't split, don't put it here."
+        '
+        'DevelopingLabel1
+        '
+        Me.DevelopingLabel1.AutoSize = True
+        Me.DevelopingLabel1.Font = New System.Drawing.Font("Adobe Heiti Std R", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
+        Me.DevelopingLabel1.Location = New System.Drawing.Point(58, 172)
+        Me.DevelopingLabel1.Name = "DevelopingLabel1"
+        Me.DevelopingLabel1.Size = New System.Drawing.Size(544, 68)
+        Me.DevelopingLabel1.TabIndex = 35
+        Me.DevelopingLabel1.Text = "We are developing ""Converting keySound""!" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "                           Coming Soon." &
+    ".."
+        '
+        'BackButton
+        '
+        Me.BackButton.Font = New System.Drawing.Font("맑은 고딕", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.BackButton.Location = New System.Drawing.Point(289, 196)
+        Me.BackButton.Name = "BackButton"
+        Me.BackButton.Size = New System.Drawing.Size(79, 44)
+        Me.BackButton.TabIndex = 34
+        Me.BackButton.Text = "<--"
+        Me.BackButton.UseVisualStyleBackColor = True
+        '
+        'GoButton
+        '
+        Me.GoButton.Font = New System.Drawing.Font("맑은 고딕", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.GoButton.Location = New System.Drawing.Point(289, 134)
+        Me.GoButton.Name = "GoButton"
+        Me.GoButton.Size = New System.Drawing.Size(79, 44)
+        Me.GoButton.TabIndex = 33
+        Me.GoButton.Text = "-->"
+        Me.GoButton.UseVisualStyleBackColor = True
+        '
+        'keySound_ListView
+        '
+        Me.keySound_ListView.AllowDrop = True
+        Me.keySound_ListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1})
+        Me.keySound_ListView.Font = New System.Drawing.Font("맑은 고딕", 9.0!)
+        Me.keySound_ListView.FullRowSelect = True
+        Me.keySound_ListView.Location = New System.Drawing.Point(407, 6)
+        Me.keySound_ListView.MultiSelect = False
+        Me.keySound_ListView.Name = "keySound_ListView"
+        Me.keySound_ListView.Size = New System.Drawing.Size(234, 361)
+        Me.keySound_ListView.Sorting = System.Windows.Forms.SortOrder.Ascending
+        Me.keySound_ListView.TabIndex = 31
+        Me.keySound_ListView.UseCompatibleStateImageBehavior = False
+        Me.keySound_ListView.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader1
+        '
+        Me.ColumnHeader1.Text = "keySound Files"
+        Me.ColumnHeader1.Width = 229
+        '
         'ConvSndButton
         '
         Me.ConvSndButton.Location = New System.Drawing.Point(419, 373)
@@ -418,85 +497,6 @@ Partial Class MainProject
         Me.FileName.Text = "Sound File Name"
         Me.FileName.Width = 229
         '
-        'keySound_ListView
-        '
-        Me.keySound_ListView.AllowDrop = True
-        Me.keySound_ListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1})
-        Me.keySound_ListView.Font = New System.Drawing.Font("맑은 고딕", 9.0!)
-        Me.keySound_ListView.FullRowSelect = True
-        Me.keySound_ListView.Location = New System.Drawing.Point(407, 6)
-        Me.keySound_ListView.MultiSelect = False
-        Me.keySound_ListView.Name = "keySound_ListView"
-        Me.keySound_ListView.Size = New System.Drawing.Size(234, 361)
-        Me.keySound_ListView.Sorting = System.Windows.Forms.SortOrder.Ascending
-        Me.keySound_ListView.TabIndex = 31
-        Me.keySound_ListView.UseCompatibleStateImageBehavior = False
-        Me.keySound_ListView.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader1
-        '
-        Me.ColumnHeader1.Text = "keySound Files"
-        Me.ColumnHeader1.Width = 229
-        '
-        'GoButton
-        '
-        Me.GoButton.Font = New System.Drawing.Font("맑은 고딕", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.GoButton.Location = New System.Drawing.Point(289, 134)
-        Me.GoButton.Name = "GoButton"
-        Me.GoButton.Size = New System.Drawing.Size(79, 44)
-        Me.GoButton.TabIndex = 33
-        Me.GoButton.Text = "-->"
-        Me.GoButton.UseVisualStyleBackColor = True
-        '
-        'BackButton
-        '
-        Me.BackButton.Font = New System.Drawing.Font("맑은 고딕", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.BackButton.Location = New System.Drawing.Point(289, 196)
-        Me.BackButton.Name = "BackButton"
-        Me.BackButton.Size = New System.Drawing.Size(79, 44)
-        Me.BackButton.TabIndex = 34
-        Me.BackButton.Text = "<--"
-        Me.BackButton.UseVisualStyleBackColor = True
-        '
-        'DevelopingLabel1
-        '
-        Me.DevelopingLabel1.AutoSize = True
-        Me.DevelopingLabel1.Font = New System.Drawing.Font("Adobe Heiti Std R", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.DevelopingLabel1.Location = New System.Drawing.Point(58, 172)
-        Me.DevelopingLabel1.Name = "DevelopingLabel1"
-        Me.DevelopingLabel1.Size = New System.Drawing.Size(544, 68)
-        Me.DevelopingLabel1.TabIndex = 35
-        Me.DevelopingLabel1.Text = "We are developing ""Converting keySound""!" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "                           Coming Soon." &
-    ".."
-        '
-        'Tip3
-        '
-        Me.Tip3.AutoSize = True
-        Me.Tip3.ForeColor = System.Drawing.Color.LightCoral
-        Me.Tip3.Location = New System.Drawing.Point(7, 405)
-        Me.Tip3.Name = "Tip3"
-        Me.Tip3.Size = New System.Drawing.Size(258, 12)
-        Me.Tip3.TabIndex = 36
-        Me.Tip3.Text = "Tip: If sound file didn't split, don't put it here."
-        '
-        'SaveButton2
-        '
-        Me.SaveButton2.Location = New System.Drawing.Point(550, 373)
-        Me.SaveButton2.Name = "SaveButton2"
-        Me.SaveButton2.Size = New System.Drawing.Size(78, 29)
-        Me.SaveButton2.TabIndex = 37
-        Me.SaveButton2.Text = "Save"
-        Me.SaveButton2.UseVisualStyleBackColor = True
-        '
-        'ChainXY
-        '
-        Me.ChainXY.FormattingEnabled = True
-        Me.ChainXY.Location = New System.Drawing.Point(347, 6)
-        Me.ChainXY.Name = "ChainXY"
-        Me.ChainXY.Size = New System.Drawing.Size(54, 20)
-        Me.ChainXY.TabIndex = 38
-        Me.ChainXY.Text = "c x y"
-        '
         'MainProject
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
@@ -507,7 +507,7 @@ Partial Class MainProject
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MainMenuStrip = Me.MenuStrip1
         Me.Name = "MainProject"
-        Me.Text = "UniConverter Beta 3"
+        Me.Text = "UniConverter Beta 4"
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
         Me.HomeEdit1.ResumeLayout(False)

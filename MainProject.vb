@@ -158,7 +158,7 @@ fexLine:
                         End If
                     Next
                 Catch fex As IOException 'I/O 오류 해결 코드.
-                    Threading.Thread.Sleep(500)
+                    Threading.Thread.Sleep(100)
                     GoTo fexLine
                 End Try
             End If
