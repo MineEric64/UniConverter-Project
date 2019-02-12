@@ -54,7 +54,7 @@ Public Class keyLED_Edit
 
     Private Sub GazuaButton_Click(sender As Object, e As EventArgs) Handles GazuaButton.Click
         Try
-            Dim ConLEDFile = LED_ListView.FocusedItem.SubItems.Item(0).ToString '선택한 아이템.
+            Dim ConLEDFile = LED_ListView.FocusedItem.SubItems.Item(0).Text '선택한 아이템.
 
             'Beta Code!
             '이 Beta Convert Code는 오류가 발생할 수 있습니다.
@@ -63,14 +63,12 @@ Public Class keyLED_Edit
 
             '변환 코드...
             UniLED_Edit.Enabled = True
-            ConLEDFile = ConLEDFile.Replace("ListViewSubItem:", "").Trim() '남은 String 제거.
-            ConLEDFile = ConLEDFile.Replace("{", "").Trim() '앞줄 공백 제거.
-            ConLEDFile = ConLEDFile.Replace("}", "").Trim() '뒷줄 공백 제거. [따라서 ConLEDFile = ":FileName.Ext"]
-            'UniLED_Edit.Text = ConLEDFile '[ConLEDFile String 계산: ":FileName.Ext" 오류가 있으면 다른 내용 표시.]
+            'V1.0.0.1 ~ V1.0.0.2 - String.Replace로 이용한 ConLED 파일 표시: ConLEDFile '[ConLEDFile String 계산: ":FileName.Ext"]
+            'V1.1.0.3 - Item.ToString을 Item.Text로 코드 최적화.
 
             Dim LEDFIleName = "Workspace\ableproj\CoLED\" & ConLEDFile
             Dim LEDFileC As New MidiFile(LEDFIleName, False)
-            Dim str As String = ""
+            Dim str As String
 
             UniLED_Edit.Clear() 'UniPack LED Text Reset.
             UniLED1.Text = "FileName: " & ConLEDFile 'UniLED1 File Show.

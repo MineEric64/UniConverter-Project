@@ -32,26 +32,30 @@ Public Class MainProject
     Dim abl_ver As String
     Dim abl_FileName As String
     Dim abl_openedproj As Boolean
-    Dim abl_openedsnd As Boolean
+    Public abl_openedsnd As Boolean
     Dim uni_confile As String
 
     'Dim fslog As FileStream = File.Create("log.txt") '(fslog를 선언할경우 log.txt 만들어져서 일단 일시적으로 주석)
     'Dim infofs As Byte() '(fslog와 마찬가지로 선언)
     Dim ast As String = """" 'Special Letter (")
     ''' <summary>
-    '''  Lame.exe으로 소리 확장자 변환. FileName의 경우 반드시 Application.StartupPath로 File을 지정하기 바람. (CMDShow | /c = Show, /k = Hide.)
+    '''  LAME으로 소리 확장자 변환. 현재 MP3toWAV 변환 가능. FileName의 경우 반드시 Application.StartupPath로 File을 지정하기 바람.
     ''' </summary>
     ''' <param name="CMDpath"></param> ex: Application.StartupPath + "\lame\cmd.exe"
-    ''' <param name="LAMEpath"></param> ex: Application.StartupPath +_"\lame\lame.exe"
+    ''' <param name="LAMEpath"></param> ex: Application.StartupPath + "\lame\lame.exe"
     ''' <param name="resFile"></param> ex: Application.StartupPath + "\Workspace\Hello_World.mp3"
     ''' <param name="desFile"></param> ex: Application.StartupPath + "\Workspace\Hello_World.wav"
     ''' <param name="LameOption"></param> ex: "--preset extreme"
-    ''' <param name="CMDShow"></param> ex: "/c"
+    ''' <param name="HideCMD"></param> ex: ""
     ''' <param name="AppStyle"></param> ex: AppWinStyle.Hide
-    Public Shared Sub Lame(CMDpath As String, LAMEpath As String, resFile As String, desFile As String, LameOption As String, CMDShow As String, AppStyle As AppWinStyle)
+    Public Shared Sub Lame(CMDpath As String, LAMEpath As String, resFile As String, desFile As String, LameOption As String, HideCMD As Boolean, AppStyle As AppWinStyle)
         Dim ast As String = """" 'Special Letter (")
 
-        Shell(CMDpath + " " & CMDShow & " " & LAMEpath & " " & ast & resFile & ast & " " & desFile & " " & LameOption, AppStyle)
+        If HideCMD = True Then
+            Shell(CMDpath + " /k " & LAMEpath & " " & ast & resFile & ast & " " & desFile & " " & LameOption, AppStyle)
+        ElseIf HideCMD = False Then
+            Shell(CMDpath + " /c " & LAMEpath & " " & ast & resFile & ast & " " & desFile & " " & LameOption, AppStyle)
+        End If
     End Sub
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -115,72 +119,7 @@ Public Class MainProject
     End Sub
 
     Private Sub OpenSoundsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SoundsToolStripMenuItem.Click
-        Dim openFileDialog1 As New OpenFileDialog()
-
-        openFileDialog1.Filter = "WAV Sound Files|*.wav|MP3 Sound Files|*.mp3"
-        openFileDialog1.Title = "Select Sounds"
-        openFileDialog1.Multiselect = True
-
-        If openFileDialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-
-            If Path.GetExtension(openFileDialog1.FileNames(openFileDialog1.FileNames.Length - 1)) = ".wav" Then
-
-                If (My.Computer.FileSystem.DirectoryExists("Workspace\unipack\sounds") = True) Then
-                    My.Computer.FileSystem.DeleteDirectory("Workspace\unipack\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
-                End If
-
-                My.Computer.FileSystem.CreateDirectory("Workspace\unipack\sounds")
-
-                For i = 0 To openFileDialog1.FileNames.Length - 1
-                    File.Copy(openFileDialog1.FileNames(i), "Workspace\unipack\sounds\" & openFileDialog1.FileNames(i).Split("\").Last, True)
-                Next
-
-            ElseIf Path.GetExtension(openFileDialog1.FileNames(openFileDialog1.FileNames.Length - 1)) = ".mp3" Then
-                If (My.Computer.FileSystem.DirectoryExists("Workspace\unipack\sounds") = True) Then
-                    My.Computer.FileSystem.DeleteDirectory("Workspace\unipack\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
-                End If
-                My.Computer.FileSystem.CreateDirectory("Workspace\unipack\sounds")
-
-                For i = 0 To openFileDialog1.FileNames.Length - 1
-                    File.Copy(openFileDialog1.FileNames(i), "Workspace\" & openFileDialog1.FileNames(i).Split("\").Last.Replace(" ", "").Trim(), True)
-                Next
-
-                For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\", FileIO.SearchOption.SearchTopLevelOnly, "*.mp3")
-                    Lame("lame\cmd.exe", "lame\lame.exe", foundFile.Replace(Application.StartupPath + "\", ""), foundFile.Replace(".mp3", ".wav").Replace(Application.StartupPath + "\", ""), "--preset extreme", "/c", AppWinStyle.Hide)
-                Next
-
-                Try
-fexLine:
-                    For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\", FileIO.SearchOption.SearchTopLevelOnly, "*.mp3")
-                        If File.Exists(foundFile.Replace(".mp3", ".wav")) Then
-                            File.Move(foundFile.Replace(".mp3", ".wav"), "Workspace\unipack\sounds\" & Path.GetFileName(foundFile.Replace(".mp3", ".wav")))
-                            File.Delete(foundFile)
-                        End If
-                    Next
-                Catch fex As IOException 'I/O 오류 해결 코드.
-                    Threading.Thread.Sleep(100)
-                    GoTo fexLine
-                End Try
-            End If
-
-            '-After Loading WAV/MP3!
-            If Not abl_openedsnd = True Then
-                    MessageBox.Show("Sounds Loaded!" & vbNewLine &
-                            "You can edit keySound in keySound Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    abl_openedsnd = True
-                Else
-                    MessageBox.Show("Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                End If
-
-                Sound_ListView.Items.Clear()
-                keySound_ListView.Items.Clear()
-                ChainXY.Text = "c x y"
-
-                For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\unipack\sounds", FileIO.SearchOption.SearchTopLevelOnly, "*.wav")
-                    Dim itm As New ListViewItem(New String() {Path.GetFileName(foundFile), foundFile})
-                    Sound_ListView.Items.Add(itm)
-                Next
-            End If
+        OpenSounds()
     End Sub
 
     Private Sub DeveloperToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeveloperToolStripMenuItem.Click
@@ -418,20 +357,14 @@ SaveInfoLine:
         ConvertToZipUniToolStripMenuItem.Checked = True
     End Sub
 
-    Private Sub ConvSndButton_Click(sender As Object, e As EventArgs) Handles ConvSndButton.Click
+    Private Sub CutSndButton_Click(sender As Object, e As EventArgs) Handles CutSndButton.Click
         Try
-            Dim ConkeySndFile = keySound_ListView.FocusedItem.SubItems.Item(0).ToString.Replace("ListViewSubItem:", "")
-            Dim ConSndFile = Sound_ListView.FocusedItem.SubItems.Item(0).ToString.Replace("ListViewSubItem:", "")
-            ConkeySndFile = ConkeySndFile.Replace("{", "").Trim()
-            ConkeySndFile = ConkeySndFile.Replace("}", "").Trim()
-            ConSndFile = ConSndFile.Replace("{", "").Trim()
-            ConSndFile = ConSndFile.Replace("}", "").Trim()
+            Dim ConkeySndFile = keySound_ListView.FocusedItem.SubItems.Item(0).Text
+            Dim ConSndFile = Sound_ListView.FocusedItem.SubItems.Item(0).Text
 
             If abl_openedsnd = True Then
-                If Not ConkeySndFile = Nothing Or "" Then
-                    MessageBox.Show("Sorry, You can't use this function." & vbNewLine &
-                        "We are developing about Converting keySound!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    'EDIT_KEYSOUND CODE!!!
+                If Not ConkeySndFile = Nothing Then
+                    CuttingSound.Show()
                 Else
                     MessageBox.Show("You didn't select anything!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End If
@@ -444,15 +377,8 @@ SaveInfoLine:
         End Try
     End Sub
 
-    Private Sub SaveButton2_Click(sender As Object, e As EventArgs) Handles SaveButton2.Click
+    Private Sub SaveButton_Click(sender As Object, e As EventArgs) Handles SaveButton.Click
         Try
-            Dim ConkeySndFile = keySound_ListView.FocusedItem.SubItems.Item(0).ToString.Replace("ListViewSubItem:", "")
-            Dim ConSndFile = Sound_ListView.FocusedItem.SubItems.Item(0).ToString.Replace("ListViewSubItem:", "")
-            ConkeySndFile = ConkeySndFile.Replace("{", "").Trim()
-            ConkeySndFile = ConkeySndFile.Replace("}", "").Trim()
-            ConSndFile = ConSndFile.Replace("{", "").Trim()
-            ConSndFile = ConSndFile.Replace("}", "").Trim()
-
             If abl_openedsnd = True Then
                 MessageBox.Show("Sorry, You can't use this function." & vbNewLine &
                         "We are developing about Converting keySound!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -468,12 +394,7 @@ SaveInfoLine:
 
     Private Sub GoButton_Click(sender As Object, e As EventArgs) Handles GoButton.Click
         Try
-            Dim ConkeySndFile = keySound_ListView.FocusedItem.SubItems.Item(0).ToString.Replace("ListViewSubItem:", "")
-            Dim ConSndFile = Sound_ListView.FocusedItem.SubItems.Item(0).ToString.Replace("ListViewSubItem:", "")
-            ConkeySndFile = ConkeySndFile.Replace("{", "").Trim()
-            ConkeySndFile = ConkeySndFile.Replace("}", "").Trim()
-            ConSndFile = ConSndFile.Replace("{", "").Trim()
-            ConSndFile = ConSndFile.Replace("}", "").Trim()
+            Dim ConSndFile = Sound_ListView.FocusedItem.SubItems.Item(0).Text
 
             If abl_openedsnd = True Then
                 If Not ConSndFile = Nothing Then
@@ -494,15 +415,10 @@ SaveInfoLine:
 
     Private Sub BackButton_Click(sender As Object, e As EventArgs) Handles BackButton.Click
         Try
-            Dim ConkeySndFile = keySound_ListView.FocusedItem.SubItems.Item(0).ToString.Replace("ListViewSubItem:", "")
-            Dim ConSndFile = Sound_ListView.FocusedItem.SubItems.Item(0).ToString.Replace("ListViewSubItem:", "")
-            ConkeySndFile = ConkeySndFile.Replace("{", "").Trim()
-            ConkeySndFile = ConkeySndFile.Replace("}", "").Trim()
-            ConSndFile = ConSndFile.Replace("{", "").Trim()
-            ConSndFile = ConSndFile.Replace("}", "").Trim()
+            Dim ConkeySndFile = keySound_ListView.FocusedItem.SubItems.Item(0).Text
 
             If abl_openedsnd = True Then
-                If Not ConSndFile = Nothing Or "" Then
+                If Not ConkeySndFile = Nothing Then
                     MessageBox.Show("Sorry, You can't use this function." & vbNewLine &
                         "We are developing about Converting keySound!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
                     'BACK SOUND CODE!!!
@@ -516,5 +432,81 @@ SaveInfoLine:
         Catch ex As Exception
             MessageBox.Show("Converting Failed. Error Code: Unknown" & vbNewLine & "Warning: " & ex.Message, "UniConverter: Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End Try
+    End Sub
+
+    Private Sub EdKeysButton_Click(sender As Object, e As EventArgs) Handles EdKeysButton.Click
+        If abl_openedsnd = True Then
+            EditkeySound.Show()
+        Else
+            MessageBox.Show("You didn't import sounds!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
+    End Sub
+
+    Public Sub OpenSounds()
+        Dim openFileDialog1 As New OpenFileDialog()
+
+        openFileDialog1.Filter = "WAV Sound Files|*.wav|MP3 Sound Files|*.mp3"
+        openFileDialog1.Title = "Select Sounds"
+        openFileDialog1.Multiselect = True
+
+        If openFileDialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+
+            If Path.GetExtension(openFileDialog1.FileNames(openFileDialog1.FileNames.Length - 1)) = ".wav" Then
+
+                If (My.Computer.FileSystem.DirectoryExists("Workspace\unipack\sounds") = True) Then
+                    My.Computer.FileSystem.DeleteDirectory("Workspace\unipack\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
+                End If
+
+                My.Computer.FileSystem.CreateDirectory("Workspace\unipack\sounds")
+
+                For i = 0 To openFileDialog1.FileNames.Length - 1
+                    File.Copy(openFileDialog1.FileNames(i), "Workspace\unipack\sounds\" & openFileDialog1.FileNames(i).Split("\").Last, True)
+                Next
+
+            ElseIf Path.GetExtension(openFileDialog1.FileNames(openFileDialog1.FileNames.Length - 1)) = ".mp3" Then
+                If (My.Computer.FileSystem.DirectoryExists("Workspace\unipack\sounds") = True) Then
+                    My.Computer.FileSystem.DeleteDirectory("Workspace\unipack\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
+                End If
+                My.Computer.FileSystem.CreateDirectory("Workspace\unipack\sounds")
+
+                For i = 0 To openFileDialog1.FileNames.Length - 1
+                    File.Copy(openFileDialog1.FileNames(i), "Workspace\" & openFileDialog1.FileNames(i).Split("\").Last.Replace(" ", "").Trim(), True)
+                Next
+
+                For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\", FileIO.SearchOption.SearchTopLevelOnly, "*.mp3")
+                    Lame("lame\cmd.exe", "lame\lame.exe", foundFile.Replace(Application.StartupPath + "\", ""), foundFile.Replace(".mp3", ".wav").Replace(Application.StartupPath + "\", ""), "--preset extreme", False, AppWinStyle.Hide)
+                Next
+
+                Try
+fexLine:
+                    For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\", FileIO.SearchOption.SearchTopLevelOnly, "*.mp3")
+                        If File.Exists(foundFile.Replace(".mp3", ".wav")) Then
+                            File.Move(foundFile.Replace(".mp3", ".wav"), "Workspace\unipack\sounds\" & Path.GetFileName(foundFile.Replace(".mp3", ".wav")))
+                            File.Delete(foundFile)
+                        End If
+                    Next
+                Catch fex As IOException 'I/O 오류 해결 코드.
+                    Threading.Thread.Sleep(100)
+                    GoTo fexLine
+                End Try
+            End If
+
+            '-After Loading WAV/MP3!
+            If Not abl_openedsnd = True Then
+                MessageBox.Show("Sounds Loaded!" & vbNewLine &
+                        "You can edit keySound in keySound Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                abl_openedsnd = True
+            Else
+                MessageBox.Show("Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
+
+            Sound_ListView.Items.Clear()
+            keySound_ListView.Items.Clear()
+
+            For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\unipack\sounds", FileIO.SearchOption.SearchTopLevelOnly, "*.wav")
+                Dim itm As New ListViewItem(New String() {Path.GetFileName(foundFile), foundFile})
+                Sound_ListView.Items.Add(itm)
+            Next
+        End If
     End Sub
 End Class

@@ -47,16 +47,21 @@ UniConverter
   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
 </summary>
 </member>
-<member name="M:UniConverter_Project.MainProject.Lame(System.String,System.String,System.String,System.String,System.String,System.String,Microsoft.VisualBasic.AppWinStyle)">
+<member name="M:UniConverter_Project.EditkeySound.Cntstr(System.String,System.String)">
  <summary>
-  Lame.exe으로 소리 확장자 변환. FileName의 경우 반드시 Application.StartupPath로 File을 지정하기 바람. (CMDShow | /c = Show, /k = Hide.)
+ Counting String's Patterns! Showing As Integer.
+ </summary>
+</member>
+<member name="M:UniConverter_Project.MainProject.Lame(System.String,System.String,System.String,System.String,System.String,System.Boolean,Microsoft.VisualBasic.AppWinStyle)">
+ <summary>
+  LAME으로 소리 확장자 변환. 현재 MP3toWAV 변환 가능. FileName의 경우 반드시 Application.StartupPath로 File을 지정하기 바람.
  </summary>
  <param name="CMDpath"></param> ex: Application.StartupPath + "\lame\cmd.exe"
- <param name="LAMEpath"></param> ex: Application.StartupPath +_"\lame\lame.exe"
+ <param name="LAMEpath"></param> ex: Application.StartupPath + "\lame\lame.exe"
  <param name="resFile"></param> ex: Application.StartupPath + "\Workspace\Hello_World.mp3"
  <param name="desFile"></param> ex: Application.StartupPath + "\Workspace\Hello_World.wav"
  <param name="LameOption"></param> ex: "--preset extreme"
- <param name="CMDShow"></param> ex: "/c"
+ <param name="HideCMD"></param> ex: ""
  <param name="AppStyle"></param> ex: AppWinStyle.Hide
 </member>
 </members>

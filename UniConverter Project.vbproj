@@ -106,10 +106,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationEvents.vb" />
+    <Compile Include="CuttingSound.Designer.vb">
+      <DependentUpon>CuttingSound.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CuttingSound.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="DeveloperMode.Designer.vb">
       <DependentUpon>DeveloperMode.vb</DependentUpon>
     </Compile>
     <Compile Include="DeveloperMode.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditkeySound.Designer.vb">
+      <DependentUpon>EditkeySound.vb</DependentUpon>
+    </Compile>
+    <Compile Include="EditkeySound.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="z_Edits.Designer.vb">
@@ -173,8 +185,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="CuttingSound.resx">
+      <DependentUpon>CuttingSound.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DeveloperMode.resx">
       <DependentUpon>DeveloperMode.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditkeySound.resx">
+      <DependentUpon>EditkeySound.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="z_Edits.resx">
       <DependentUpon>z_Edits.vb</DependentUpon>
@@ -221,9 +239,7 @@
   <ItemGroup>
     <None Include="Resources\UniConverter.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="UniPackGUI\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Resources\Katalk.wav" />
     <None Include="Resources\UniConverter1.png" />

@@ -20,3 +20,5 @@ C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniC
 C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter.xml
 C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter.pdb
 C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter Project.vbprojAssemblyReference.cache
+C:\Users\SAMSUNG\Documents\Visual Studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.EditkeySound.resources
+C:\Users\SAMSUNG\Documents\Visual Studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.CuttingSound.resources
