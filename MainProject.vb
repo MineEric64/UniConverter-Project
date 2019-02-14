@@ -208,7 +208,7 @@ OpenLine:
 
         If alsOpen1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
 
-            '---Beta Code: Converting mid to keyLED---
+            '---Beta Code: Converting Ableton Project Info To Unipack Info---
             '이 Beta Convert Code는 오류가 발생할 수 있습니다.
             '주의사항을 다 보셨다면, 당신은 Editor 권한을 가질 수 있습니다.
 
@@ -508,5 +508,9 @@ fexLine:
                 Sound_ListView.Items.Add(itm)
             Next
         End If
+    End Sub
+
+    Private Sub OpenProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenProjectToolStripMenuItem.Click
+
     End Sub
 End Class

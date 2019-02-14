@@ -91,6 +91,7 @@ Partial Class EditkeySound
         Me.uni8_6 = New System.Windows.Forms.Button()
         Me.uni8_7 = New System.Windows.Forms.Button()
         Me.uni8_8 = New System.Windows.Forms.Button()
+        Me.keySoundLayoutButton = New System.Windows.Forms.Button()
         CType(Me.keySoundTextBox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PadLayoutPanel.SuspendLayout()
         Me.SuspendLayout()
@@ -114,7 +115,6 @@ Partial Class EditkeySound
         Me.keySoundTextBox.CharWidth = 8
         Me.keySoundTextBox.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.keySoundTextBox.DisabledColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer))
-        Me.keySoundTextBox.Font = New System.Drawing.Font("Courier New", 9.75!)
         Me.keySoundTextBox.IsReplaceMode = False
         Me.keySoundTextBox.Location = New System.Drawing.Point(-1, 0)
         Me.keySoundTextBox.Name = "keySoundTextBox"
@@ -222,7 +222,7 @@ Partial Class EditkeySound
         Me.PadLayoutPanel.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5!))
         Me.PadLayoutPanel.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5!))
         Me.PadLayoutPanel.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
-        Me.PadLayoutPanel.Size = New System.Drawing.Size(420, 407)
+        Me.PadLayoutPanel.Size = New System.Drawing.Size(385, 374)
         Me.PadLayoutPanel.TabIndex = 45
         '
         'uni1_1
@@ -232,7 +232,7 @@ Partial Class EditkeySound
         Me.uni1_1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni1_1.Location = New System.Drawing.Point(3, 3)
         Me.uni1_1.Name = "uni1_1"
-        Me.uni1_1.Size = New System.Drawing.Size(46, 44)
+        Me.uni1_1.Size = New System.Drawing.Size(42, 40)
         Me.uni1_1.TabIndex = 0
         Me.uni1_1.UseVisualStyleBackColor = False
         '
@@ -242,9 +242,9 @@ Partial Class EditkeySound
         Me.uni1_2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni1_2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni1_2.ForeColor = System.Drawing.Color.Black
-        Me.uni1_2.Location = New System.Drawing.Point(55, 3)
+        Me.uni1_2.Location = New System.Drawing.Point(51, 3)
         Me.uni1_2.Name = "uni1_2"
-        Me.uni1_2.Size = New System.Drawing.Size(46, 44)
+        Me.uni1_2.Size = New System.Drawing.Size(42, 40)
         Me.uni1_2.TabIndex = 1
         Me.uni1_2.UseVisualStyleBackColor = False
         '
@@ -254,9 +254,9 @@ Partial Class EditkeySound
         Me.uni1_3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni1_3.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni1_3.ForeColor = System.Drawing.Color.Black
-        Me.uni1_3.Location = New System.Drawing.Point(107, 3)
+        Me.uni1_3.Location = New System.Drawing.Point(99, 3)
         Me.uni1_3.Name = "uni1_3"
-        Me.uni1_3.Size = New System.Drawing.Size(46, 44)
+        Me.uni1_3.Size = New System.Drawing.Size(42, 40)
         Me.uni1_3.TabIndex = 1
         Me.uni1_3.UseVisualStyleBackColor = False
         '
@@ -266,9 +266,9 @@ Partial Class EditkeySound
         Me.uni1_4.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni1_4.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni1_4.ForeColor = System.Drawing.Color.Black
-        Me.uni1_4.Location = New System.Drawing.Point(159, 3)
+        Me.uni1_4.Location = New System.Drawing.Point(147, 3)
         Me.uni1_4.Name = "uni1_4"
-        Me.uni1_4.Size = New System.Drawing.Size(46, 44)
+        Me.uni1_4.Size = New System.Drawing.Size(42, 40)
         Me.uni1_4.TabIndex = 1
         Me.uni1_4.UseVisualStyleBackColor = False
         '
@@ -278,9 +278,9 @@ Partial Class EditkeySound
         Me.uni1_5.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni1_5.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni1_5.ForeColor = System.Drawing.Color.Black
-        Me.uni1_5.Location = New System.Drawing.Point(211, 3)
+        Me.uni1_5.Location = New System.Drawing.Point(195, 3)
         Me.uni1_5.Name = "uni1_5"
-        Me.uni1_5.Size = New System.Drawing.Size(46, 44)
+        Me.uni1_5.Size = New System.Drawing.Size(42, 40)
         Me.uni1_5.TabIndex = 1
         Me.uni1_5.UseVisualStyleBackColor = False
         '
@@ -290,9 +290,9 @@ Partial Class EditkeySound
         Me.uni1_6.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni1_6.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni1_6.ForeColor = System.Drawing.Color.Black
-        Me.uni1_6.Location = New System.Drawing.Point(263, 3)
+        Me.uni1_6.Location = New System.Drawing.Point(243, 3)
         Me.uni1_6.Name = "uni1_6"
-        Me.uni1_6.Size = New System.Drawing.Size(46, 44)
+        Me.uni1_6.Size = New System.Drawing.Size(42, 40)
         Me.uni1_6.TabIndex = 1
         Me.uni1_6.UseVisualStyleBackColor = False
         '
@@ -302,9 +302,9 @@ Partial Class EditkeySound
         Me.uni1_7.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni1_7.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni1_7.ForeColor = System.Drawing.Color.Black
-        Me.uni1_7.Location = New System.Drawing.Point(315, 3)
+        Me.uni1_7.Location = New System.Drawing.Point(291, 3)
         Me.uni1_7.Name = "uni1_7"
-        Me.uni1_7.Size = New System.Drawing.Size(46, 44)
+        Me.uni1_7.Size = New System.Drawing.Size(42, 40)
         Me.uni1_7.TabIndex = 1
         Me.uni1_7.UseVisualStyleBackColor = False
         '
@@ -314,9 +314,9 @@ Partial Class EditkeySound
         Me.uni1_8.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni1_8.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni1_8.ForeColor = System.Drawing.Color.Black
-        Me.uni1_8.Location = New System.Drawing.Point(367, 3)
+        Me.uni1_8.Location = New System.Drawing.Point(339, 3)
         Me.uni1_8.Name = "uni1_8"
-        Me.uni1_8.Size = New System.Drawing.Size(50, 44)
+        Me.uni1_8.Size = New System.Drawing.Size(43, 40)
         Me.uni1_8.TabIndex = 1
         Me.uni1_8.UseVisualStyleBackColor = False
         '
@@ -326,9 +326,9 @@ Partial Class EditkeySound
         Me.uni2_1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni2_1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni2_1.ForeColor = System.Drawing.Color.Black
-        Me.uni2_1.Location = New System.Drawing.Point(3, 53)
+        Me.uni2_1.Location = New System.Drawing.Point(3, 49)
         Me.uni2_1.Name = "uni2_1"
-        Me.uni2_1.Size = New System.Drawing.Size(46, 44)
+        Me.uni2_1.Size = New System.Drawing.Size(42, 40)
         Me.uni2_1.TabIndex = 1
         Me.uni2_1.UseVisualStyleBackColor = False
         '
@@ -338,9 +338,9 @@ Partial Class EditkeySound
         Me.uni2_2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni2_2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni2_2.ForeColor = System.Drawing.Color.Black
-        Me.uni2_2.Location = New System.Drawing.Point(55, 53)
+        Me.uni2_2.Location = New System.Drawing.Point(51, 49)
         Me.uni2_2.Name = "uni2_2"
-        Me.uni2_2.Size = New System.Drawing.Size(46, 44)
+        Me.uni2_2.Size = New System.Drawing.Size(42, 40)
         Me.uni2_2.TabIndex = 1
         Me.uni2_2.UseVisualStyleBackColor = False
         '
@@ -350,9 +350,9 @@ Partial Class EditkeySound
         Me.uni2_3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni2_3.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni2_3.ForeColor = System.Drawing.Color.Black
-        Me.uni2_3.Location = New System.Drawing.Point(107, 53)
+        Me.uni2_3.Location = New System.Drawing.Point(99, 49)
         Me.uni2_3.Name = "uni2_3"
-        Me.uni2_3.Size = New System.Drawing.Size(46, 44)
+        Me.uni2_3.Size = New System.Drawing.Size(42, 40)
         Me.uni2_3.TabIndex = 1
         Me.uni2_3.UseVisualStyleBackColor = False
         '
@@ -362,9 +362,9 @@ Partial Class EditkeySound
         Me.uni2_4.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni2_4.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni2_4.ForeColor = System.Drawing.Color.Black
-        Me.uni2_4.Location = New System.Drawing.Point(159, 53)
+        Me.uni2_4.Location = New System.Drawing.Point(147, 49)
         Me.uni2_4.Name = "uni2_4"
-        Me.uni2_4.Size = New System.Drawing.Size(46, 44)
+        Me.uni2_4.Size = New System.Drawing.Size(42, 40)
         Me.uni2_4.TabIndex = 1
         Me.uni2_4.UseVisualStyleBackColor = False
         '
@@ -374,9 +374,9 @@ Partial Class EditkeySound
         Me.uni2_5.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni2_5.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni2_5.ForeColor = System.Drawing.Color.Black
-        Me.uni2_5.Location = New System.Drawing.Point(211, 53)
+        Me.uni2_5.Location = New System.Drawing.Point(195, 49)
         Me.uni2_5.Name = "uni2_5"
-        Me.uni2_5.Size = New System.Drawing.Size(46, 44)
+        Me.uni2_5.Size = New System.Drawing.Size(42, 40)
         Me.uni2_5.TabIndex = 1
         Me.uni2_5.UseVisualStyleBackColor = False
         '
@@ -386,9 +386,9 @@ Partial Class EditkeySound
         Me.uni2_6.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni2_6.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni2_6.ForeColor = System.Drawing.Color.Black
-        Me.uni2_6.Location = New System.Drawing.Point(263, 53)
+        Me.uni2_6.Location = New System.Drawing.Point(243, 49)
         Me.uni2_6.Name = "uni2_6"
-        Me.uni2_6.Size = New System.Drawing.Size(46, 44)
+        Me.uni2_6.Size = New System.Drawing.Size(42, 40)
         Me.uni2_6.TabIndex = 1
         Me.uni2_6.UseVisualStyleBackColor = False
         '
@@ -398,9 +398,9 @@ Partial Class EditkeySound
         Me.uni2_7.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni2_7.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni2_7.ForeColor = System.Drawing.Color.Black
-        Me.uni2_7.Location = New System.Drawing.Point(315, 53)
+        Me.uni2_7.Location = New System.Drawing.Point(291, 49)
         Me.uni2_7.Name = "uni2_7"
-        Me.uni2_7.Size = New System.Drawing.Size(46, 44)
+        Me.uni2_7.Size = New System.Drawing.Size(42, 40)
         Me.uni2_7.TabIndex = 1
         Me.uni2_7.UseVisualStyleBackColor = False
         '
@@ -410,9 +410,9 @@ Partial Class EditkeySound
         Me.uni2_8.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni2_8.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni2_8.ForeColor = System.Drawing.Color.Black
-        Me.uni2_8.Location = New System.Drawing.Point(367, 53)
+        Me.uni2_8.Location = New System.Drawing.Point(339, 49)
         Me.uni2_8.Name = "uni2_8"
-        Me.uni2_8.Size = New System.Drawing.Size(50, 44)
+        Me.uni2_8.Size = New System.Drawing.Size(43, 40)
         Me.uni2_8.TabIndex = 1
         Me.uni2_8.UseVisualStyleBackColor = False
         '
@@ -422,9 +422,9 @@ Partial Class EditkeySound
         Me.uni3_1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni3_1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni3_1.ForeColor = System.Drawing.Color.Black
-        Me.uni3_1.Location = New System.Drawing.Point(3, 103)
+        Me.uni3_1.Location = New System.Drawing.Point(3, 95)
         Me.uni3_1.Name = "uni3_1"
-        Me.uni3_1.Size = New System.Drawing.Size(46, 44)
+        Me.uni3_1.Size = New System.Drawing.Size(42, 40)
         Me.uni3_1.TabIndex = 1
         Me.uni3_1.UseVisualStyleBackColor = False
         '
@@ -434,9 +434,9 @@ Partial Class EditkeySound
         Me.uni3_2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni3_2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni3_2.ForeColor = System.Drawing.Color.Black
-        Me.uni3_2.Location = New System.Drawing.Point(55, 103)
+        Me.uni3_2.Location = New System.Drawing.Point(51, 95)
         Me.uni3_2.Name = "uni3_2"
-        Me.uni3_2.Size = New System.Drawing.Size(46, 44)
+        Me.uni3_2.Size = New System.Drawing.Size(42, 40)
         Me.uni3_2.TabIndex = 1
         Me.uni3_2.UseVisualStyleBackColor = False
         '
@@ -446,9 +446,9 @@ Partial Class EditkeySound
         Me.uni3_3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni3_3.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni3_3.ForeColor = System.Drawing.Color.Black
-        Me.uni3_3.Location = New System.Drawing.Point(107, 103)
+        Me.uni3_3.Location = New System.Drawing.Point(99, 95)
         Me.uni3_3.Name = "uni3_3"
-        Me.uni3_3.Size = New System.Drawing.Size(46, 44)
+        Me.uni3_3.Size = New System.Drawing.Size(42, 40)
         Me.uni3_3.TabIndex = 1
         Me.uni3_3.UseVisualStyleBackColor = False
         '
@@ -458,9 +458,9 @@ Partial Class EditkeySound
         Me.uni3_4.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni3_4.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni3_4.ForeColor = System.Drawing.Color.Black
-        Me.uni3_4.Location = New System.Drawing.Point(159, 103)
+        Me.uni3_4.Location = New System.Drawing.Point(147, 95)
         Me.uni3_4.Name = "uni3_4"
-        Me.uni3_4.Size = New System.Drawing.Size(46, 44)
+        Me.uni3_4.Size = New System.Drawing.Size(42, 40)
         Me.uni3_4.TabIndex = 1
         Me.uni3_4.UseVisualStyleBackColor = False
         '
@@ -470,9 +470,9 @@ Partial Class EditkeySound
         Me.uni3_5.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni3_5.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni3_5.ForeColor = System.Drawing.Color.Black
-        Me.uni3_5.Location = New System.Drawing.Point(211, 103)
+        Me.uni3_5.Location = New System.Drawing.Point(195, 95)
         Me.uni3_5.Name = "uni3_5"
-        Me.uni3_5.Size = New System.Drawing.Size(46, 44)
+        Me.uni3_5.Size = New System.Drawing.Size(42, 40)
         Me.uni3_5.TabIndex = 1
         Me.uni3_5.UseVisualStyleBackColor = False
         '
@@ -482,9 +482,9 @@ Partial Class EditkeySound
         Me.uni3_6.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni3_6.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni3_6.ForeColor = System.Drawing.Color.Black
-        Me.uni3_6.Location = New System.Drawing.Point(263, 103)
+        Me.uni3_6.Location = New System.Drawing.Point(243, 95)
         Me.uni3_6.Name = "uni3_6"
-        Me.uni3_6.Size = New System.Drawing.Size(46, 44)
+        Me.uni3_6.Size = New System.Drawing.Size(42, 40)
         Me.uni3_6.TabIndex = 1
         Me.uni3_6.UseVisualStyleBackColor = False
         '
@@ -494,9 +494,9 @@ Partial Class EditkeySound
         Me.uni3_7.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni3_7.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni3_7.ForeColor = System.Drawing.Color.Black
-        Me.uni3_7.Location = New System.Drawing.Point(315, 103)
+        Me.uni3_7.Location = New System.Drawing.Point(291, 95)
         Me.uni3_7.Name = "uni3_7"
-        Me.uni3_7.Size = New System.Drawing.Size(46, 44)
+        Me.uni3_7.Size = New System.Drawing.Size(42, 40)
         Me.uni3_7.TabIndex = 1
         Me.uni3_7.UseVisualStyleBackColor = False
         '
@@ -506,9 +506,9 @@ Partial Class EditkeySound
         Me.uni3_8.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni3_8.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni3_8.ForeColor = System.Drawing.Color.Black
-        Me.uni3_8.Location = New System.Drawing.Point(367, 103)
+        Me.uni3_8.Location = New System.Drawing.Point(339, 95)
         Me.uni3_8.Name = "uni3_8"
-        Me.uni3_8.Size = New System.Drawing.Size(50, 44)
+        Me.uni3_8.Size = New System.Drawing.Size(43, 40)
         Me.uni3_8.TabIndex = 1
         Me.uni3_8.UseVisualStyleBackColor = False
         '
@@ -518,9 +518,9 @@ Partial Class EditkeySound
         Me.uni4_1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni4_1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni4_1.ForeColor = System.Drawing.Color.Black
-        Me.uni4_1.Location = New System.Drawing.Point(3, 153)
+        Me.uni4_1.Location = New System.Drawing.Point(3, 141)
         Me.uni4_1.Name = "uni4_1"
-        Me.uni4_1.Size = New System.Drawing.Size(46, 44)
+        Me.uni4_1.Size = New System.Drawing.Size(42, 40)
         Me.uni4_1.TabIndex = 1
         Me.uni4_1.UseVisualStyleBackColor = False
         '
@@ -530,9 +530,9 @@ Partial Class EditkeySound
         Me.uni4_2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni4_2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni4_2.ForeColor = System.Drawing.Color.Black
-        Me.uni4_2.Location = New System.Drawing.Point(55, 153)
+        Me.uni4_2.Location = New System.Drawing.Point(51, 141)
         Me.uni4_2.Name = "uni4_2"
-        Me.uni4_2.Size = New System.Drawing.Size(46, 44)
+        Me.uni4_2.Size = New System.Drawing.Size(42, 40)
         Me.uni4_2.TabIndex = 1
         Me.uni4_2.UseVisualStyleBackColor = False
         '
@@ -542,9 +542,9 @@ Partial Class EditkeySound
         Me.uni4_3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni4_3.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni4_3.ForeColor = System.Drawing.Color.Black
-        Me.uni4_3.Location = New System.Drawing.Point(107, 153)
+        Me.uni4_3.Location = New System.Drawing.Point(99, 141)
         Me.uni4_3.Name = "uni4_3"
-        Me.uni4_3.Size = New System.Drawing.Size(46, 44)
+        Me.uni4_3.Size = New System.Drawing.Size(42, 40)
         Me.uni4_3.TabIndex = 1
         Me.uni4_3.UseVisualStyleBackColor = False
         '
@@ -554,9 +554,9 @@ Partial Class EditkeySound
         Me.uni4_4.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni4_4.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni4_4.ForeColor = System.Drawing.Color.Black
-        Me.uni4_4.Location = New System.Drawing.Point(159, 153)
+        Me.uni4_4.Location = New System.Drawing.Point(147, 141)
         Me.uni4_4.Name = "uni4_4"
-        Me.uni4_4.Size = New System.Drawing.Size(46, 44)
+        Me.uni4_4.Size = New System.Drawing.Size(42, 40)
         Me.uni4_4.TabIndex = 1
         Me.uni4_4.UseVisualStyleBackColor = False
         '
@@ -566,9 +566,9 @@ Partial Class EditkeySound
         Me.uni4_5.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni4_5.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni4_5.ForeColor = System.Drawing.Color.Black
-        Me.uni4_5.Location = New System.Drawing.Point(211, 153)
+        Me.uni4_5.Location = New System.Drawing.Point(195, 141)
         Me.uni4_5.Name = "uni4_5"
-        Me.uni4_5.Size = New System.Drawing.Size(46, 44)
+        Me.uni4_5.Size = New System.Drawing.Size(42, 40)
         Me.uni4_5.TabIndex = 1
         Me.uni4_5.UseVisualStyleBackColor = False
         '
@@ -578,9 +578,9 @@ Partial Class EditkeySound
         Me.uni4_6.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni4_6.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni4_6.ForeColor = System.Drawing.Color.Black
-        Me.uni4_6.Location = New System.Drawing.Point(263, 153)
+        Me.uni4_6.Location = New System.Drawing.Point(243, 141)
         Me.uni4_6.Name = "uni4_6"
-        Me.uni4_6.Size = New System.Drawing.Size(46, 44)
+        Me.uni4_6.Size = New System.Drawing.Size(42, 40)
         Me.uni4_6.TabIndex = 1
         Me.uni4_6.UseVisualStyleBackColor = False
         '
@@ -590,9 +590,9 @@ Partial Class EditkeySound
         Me.uni4_7.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni4_7.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni4_7.ForeColor = System.Drawing.Color.Black
-        Me.uni4_7.Location = New System.Drawing.Point(315, 153)
+        Me.uni4_7.Location = New System.Drawing.Point(291, 141)
         Me.uni4_7.Name = "uni4_7"
-        Me.uni4_7.Size = New System.Drawing.Size(46, 44)
+        Me.uni4_7.Size = New System.Drawing.Size(42, 40)
         Me.uni4_7.TabIndex = 1
         Me.uni4_7.UseVisualStyleBackColor = False
         '
@@ -602,9 +602,9 @@ Partial Class EditkeySound
         Me.uni4_8.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni4_8.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni4_8.ForeColor = System.Drawing.Color.Black
-        Me.uni4_8.Location = New System.Drawing.Point(367, 153)
+        Me.uni4_8.Location = New System.Drawing.Point(339, 141)
         Me.uni4_8.Name = "uni4_8"
-        Me.uni4_8.Size = New System.Drawing.Size(50, 44)
+        Me.uni4_8.Size = New System.Drawing.Size(43, 40)
         Me.uni4_8.TabIndex = 1
         Me.uni4_8.UseVisualStyleBackColor = False
         '
@@ -614,9 +614,9 @@ Partial Class EditkeySound
         Me.uni5_1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni5_1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni5_1.ForeColor = System.Drawing.Color.Black
-        Me.uni5_1.Location = New System.Drawing.Point(3, 203)
+        Me.uni5_1.Location = New System.Drawing.Point(3, 187)
         Me.uni5_1.Name = "uni5_1"
-        Me.uni5_1.Size = New System.Drawing.Size(46, 44)
+        Me.uni5_1.Size = New System.Drawing.Size(42, 40)
         Me.uni5_1.TabIndex = 1
         Me.uni5_1.UseVisualStyleBackColor = False
         '
@@ -626,9 +626,9 @@ Partial Class EditkeySound
         Me.uni5_2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni5_2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni5_2.ForeColor = System.Drawing.Color.Black
-        Me.uni5_2.Location = New System.Drawing.Point(55, 203)
+        Me.uni5_2.Location = New System.Drawing.Point(51, 187)
         Me.uni5_2.Name = "uni5_2"
-        Me.uni5_2.Size = New System.Drawing.Size(46, 44)
+        Me.uni5_2.Size = New System.Drawing.Size(42, 40)
         Me.uni5_2.TabIndex = 1
         Me.uni5_2.UseVisualStyleBackColor = False
         '
@@ -638,9 +638,9 @@ Partial Class EditkeySound
         Me.uni5_3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni5_3.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni5_3.ForeColor = System.Drawing.Color.Black
-        Me.uni5_3.Location = New System.Drawing.Point(107, 203)
+        Me.uni5_3.Location = New System.Drawing.Point(99, 187)
         Me.uni5_3.Name = "uni5_3"
-        Me.uni5_3.Size = New System.Drawing.Size(46, 44)
+        Me.uni5_3.Size = New System.Drawing.Size(42, 40)
         Me.uni5_3.TabIndex = 1
         Me.uni5_3.UseVisualStyleBackColor = False
         '
@@ -650,9 +650,9 @@ Partial Class EditkeySound
         Me.uni5_4.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni5_4.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni5_4.ForeColor = System.Drawing.Color.Black
-        Me.uni5_4.Location = New System.Drawing.Point(159, 203)
+        Me.uni5_4.Location = New System.Drawing.Point(147, 187)
         Me.uni5_4.Name = "uni5_4"
-        Me.uni5_4.Size = New System.Drawing.Size(46, 44)
+        Me.uni5_4.Size = New System.Drawing.Size(42, 40)
         Me.uni5_4.TabIndex = 1
         Me.uni5_4.UseVisualStyleBackColor = False
         '
@@ -662,9 +662,9 @@ Partial Class EditkeySound
         Me.uni5_5.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni5_5.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni5_5.ForeColor = System.Drawing.Color.Black
-        Me.uni5_5.Location = New System.Drawing.Point(211, 203)
+        Me.uni5_5.Location = New System.Drawing.Point(195, 187)
         Me.uni5_5.Name = "uni5_5"
-        Me.uni5_5.Size = New System.Drawing.Size(46, 44)
+        Me.uni5_5.Size = New System.Drawing.Size(42, 40)
         Me.uni5_5.TabIndex = 1
         Me.uni5_5.UseVisualStyleBackColor = False
         '
@@ -674,9 +674,9 @@ Partial Class EditkeySound
         Me.uni5_6.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni5_6.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni5_6.ForeColor = System.Drawing.Color.Black
-        Me.uni5_6.Location = New System.Drawing.Point(263, 203)
+        Me.uni5_6.Location = New System.Drawing.Point(243, 187)
         Me.uni5_6.Name = "uni5_6"
-        Me.uni5_6.Size = New System.Drawing.Size(46, 44)
+        Me.uni5_6.Size = New System.Drawing.Size(42, 40)
         Me.uni5_6.TabIndex = 1
         Me.uni5_6.UseVisualStyleBackColor = False
         '
@@ -686,9 +686,9 @@ Partial Class EditkeySound
         Me.uni5_7.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni5_7.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni5_7.ForeColor = System.Drawing.Color.Black
-        Me.uni5_7.Location = New System.Drawing.Point(315, 203)
+        Me.uni5_7.Location = New System.Drawing.Point(291, 187)
         Me.uni5_7.Name = "uni5_7"
-        Me.uni5_7.Size = New System.Drawing.Size(46, 44)
+        Me.uni5_7.Size = New System.Drawing.Size(42, 40)
         Me.uni5_7.TabIndex = 1
         Me.uni5_7.UseVisualStyleBackColor = False
         '
@@ -698,9 +698,9 @@ Partial Class EditkeySound
         Me.uni5_8.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni5_8.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni5_8.ForeColor = System.Drawing.Color.Black
-        Me.uni5_8.Location = New System.Drawing.Point(367, 203)
+        Me.uni5_8.Location = New System.Drawing.Point(339, 187)
         Me.uni5_8.Name = "uni5_8"
-        Me.uni5_8.Size = New System.Drawing.Size(50, 44)
+        Me.uni5_8.Size = New System.Drawing.Size(43, 40)
         Me.uni5_8.TabIndex = 1
         Me.uni5_8.UseVisualStyleBackColor = False
         '
@@ -710,9 +710,9 @@ Partial Class EditkeySound
         Me.uni6_1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni6_1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni6_1.ForeColor = System.Drawing.Color.Black
-        Me.uni6_1.Location = New System.Drawing.Point(3, 253)
+        Me.uni6_1.Location = New System.Drawing.Point(3, 233)
         Me.uni6_1.Name = "uni6_1"
-        Me.uni6_1.Size = New System.Drawing.Size(46, 44)
+        Me.uni6_1.Size = New System.Drawing.Size(42, 40)
         Me.uni6_1.TabIndex = 1
         Me.uni6_1.UseVisualStyleBackColor = False
         '
@@ -722,9 +722,9 @@ Partial Class EditkeySound
         Me.uni6_2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni6_2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni6_2.ForeColor = System.Drawing.Color.Black
-        Me.uni6_2.Location = New System.Drawing.Point(55, 253)
+        Me.uni6_2.Location = New System.Drawing.Point(51, 233)
         Me.uni6_2.Name = "uni6_2"
-        Me.uni6_2.Size = New System.Drawing.Size(46, 44)
+        Me.uni6_2.Size = New System.Drawing.Size(42, 40)
         Me.uni6_2.TabIndex = 1
         Me.uni6_2.UseVisualStyleBackColor = False
         '
@@ -734,9 +734,9 @@ Partial Class EditkeySound
         Me.uni6_3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni6_3.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni6_3.ForeColor = System.Drawing.Color.Black
-        Me.uni6_3.Location = New System.Drawing.Point(107, 253)
+        Me.uni6_3.Location = New System.Drawing.Point(99, 233)
         Me.uni6_3.Name = "uni6_3"
-        Me.uni6_3.Size = New System.Drawing.Size(46, 44)
+        Me.uni6_3.Size = New System.Drawing.Size(42, 40)
         Me.uni6_3.TabIndex = 1
         Me.uni6_3.UseVisualStyleBackColor = False
         '
@@ -746,9 +746,9 @@ Partial Class EditkeySound
         Me.uni6_4.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni6_4.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni6_4.ForeColor = System.Drawing.Color.Black
-        Me.uni6_4.Location = New System.Drawing.Point(159, 253)
+        Me.uni6_4.Location = New System.Drawing.Point(147, 233)
         Me.uni6_4.Name = "uni6_4"
-        Me.uni6_4.Size = New System.Drawing.Size(46, 44)
+        Me.uni6_4.Size = New System.Drawing.Size(42, 40)
         Me.uni6_4.TabIndex = 1
         Me.uni6_4.UseVisualStyleBackColor = False
         '
@@ -758,9 +758,9 @@ Partial Class EditkeySound
         Me.uni6_5.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni6_5.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni6_5.ForeColor = System.Drawing.Color.Black
-        Me.uni6_5.Location = New System.Drawing.Point(211, 253)
+        Me.uni6_5.Location = New System.Drawing.Point(195, 233)
         Me.uni6_5.Name = "uni6_5"
-        Me.uni6_5.Size = New System.Drawing.Size(46, 44)
+        Me.uni6_5.Size = New System.Drawing.Size(42, 40)
         Me.uni6_5.TabIndex = 1
         Me.uni6_5.UseVisualStyleBackColor = False
         '
@@ -770,9 +770,9 @@ Partial Class EditkeySound
         Me.uni6_6.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni6_6.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni6_6.ForeColor = System.Drawing.Color.Black
-        Me.uni6_6.Location = New System.Drawing.Point(263, 253)
+        Me.uni6_6.Location = New System.Drawing.Point(243, 233)
         Me.uni6_6.Name = "uni6_6"
-        Me.uni6_6.Size = New System.Drawing.Size(46, 44)
+        Me.uni6_6.Size = New System.Drawing.Size(42, 40)
         Me.uni6_6.TabIndex = 1
         Me.uni6_6.UseVisualStyleBackColor = False
         '
@@ -782,9 +782,9 @@ Partial Class EditkeySound
         Me.uni6_7.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni6_7.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni6_7.ForeColor = System.Drawing.Color.Black
-        Me.uni6_7.Location = New System.Drawing.Point(315, 253)
+        Me.uni6_7.Location = New System.Drawing.Point(291, 233)
         Me.uni6_7.Name = "uni6_7"
-        Me.uni6_7.Size = New System.Drawing.Size(46, 44)
+        Me.uni6_7.Size = New System.Drawing.Size(42, 40)
         Me.uni6_7.TabIndex = 1
         Me.uni6_7.UseVisualStyleBackColor = False
         '
@@ -794,9 +794,9 @@ Partial Class EditkeySound
         Me.uni6_8.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni6_8.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni6_8.ForeColor = System.Drawing.Color.Black
-        Me.uni6_8.Location = New System.Drawing.Point(367, 253)
+        Me.uni6_8.Location = New System.Drawing.Point(339, 233)
         Me.uni6_8.Name = "uni6_8"
-        Me.uni6_8.Size = New System.Drawing.Size(50, 44)
+        Me.uni6_8.Size = New System.Drawing.Size(43, 40)
         Me.uni6_8.TabIndex = 1
         Me.uni6_8.UseVisualStyleBackColor = False
         '
@@ -806,9 +806,9 @@ Partial Class EditkeySound
         Me.uni7_1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni7_1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni7_1.ForeColor = System.Drawing.Color.Black
-        Me.uni7_1.Location = New System.Drawing.Point(3, 303)
+        Me.uni7_1.Location = New System.Drawing.Point(3, 279)
         Me.uni7_1.Name = "uni7_1"
-        Me.uni7_1.Size = New System.Drawing.Size(46, 44)
+        Me.uni7_1.Size = New System.Drawing.Size(42, 40)
         Me.uni7_1.TabIndex = 1
         Me.uni7_1.UseVisualStyleBackColor = False
         '
@@ -818,9 +818,9 @@ Partial Class EditkeySound
         Me.uni7_2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni7_2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni7_2.ForeColor = System.Drawing.Color.Black
-        Me.uni7_2.Location = New System.Drawing.Point(55, 303)
+        Me.uni7_2.Location = New System.Drawing.Point(51, 279)
         Me.uni7_2.Name = "uni7_2"
-        Me.uni7_2.Size = New System.Drawing.Size(46, 44)
+        Me.uni7_2.Size = New System.Drawing.Size(42, 40)
         Me.uni7_2.TabIndex = 1
         Me.uni7_2.UseVisualStyleBackColor = False
         '
@@ -830,9 +830,9 @@ Partial Class EditkeySound
         Me.uni7_3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni7_3.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni7_3.ForeColor = System.Drawing.Color.Black
-        Me.uni7_3.Location = New System.Drawing.Point(107, 303)
+        Me.uni7_3.Location = New System.Drawing.Point(99, 279)
         Me.uni7_3.Name = "uni7_3"
-        Me.uni7_3.Size = New System.Drawing.Size(46, 44)
+        Me.uni7_3.Size = New System.Drawing.Size(42, 40)
         Me.uni7_3.TabIndex = 1
         Me.uni7_3.UseVisualStyleBackColor = False
         '
@@ -842,9 +842,9 @@ Partial Class EditkeySound
         Me.uni7_4.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni7_4.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni7_4.ForeColor = System.Drawing.Color.Black
-        Me.uni7_4.Location = New System.Drawing.Point(159, 303)
+        Me.uni7_4.Location = New System.Drawing.Point(147, 279)
         Me.uni7_4.Name = "uni7_4"
-        Me.uni7_4.Size = New System.Drawing.Size(46, 44)
+        Me.uni7_4.Size = New System.Drawing.Size(42, 40)
         Me.uni7_4.TabIndex = 1
         Me.uni7_4.UseVisualStyleBackColor = False
         '
@@ -854,9 +854,9 @@ Partial Class EditkeySound
         Me.uni7_5.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni7_5.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni7_5.ForeColor = System.Drawing.Color.Black
-        Me.uni7_5.Location = New System.Drawing.Point(211, 303)
+        Me.uni7_5.Location = New System.Drawing.Point(195, 279)
         Me.uni7_5.Name = "uni7_5"
-        Me.uni7_5.Size = New System.Drawing.Size(46, 44)
+        Me.uni7_5.Size = New System.Drawing.Size(42, 40)
         Me.uni7_5.TabIndex = 1
         Me.uni7_5.UseVisualStyleBackColor = False
         '
@@ -866,9 +866,9 @@ Partial Class EditkeySound
         Me.uni7_6.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni7_6.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni7_6.ForeColor = System.Drawing.Color.Black
-        Me.uni7_6.Location = New System.Drawing.Point(263, 303)
+        Me.uni7_6.Location = New System.Drawing.Point(243, 279)
         Me.uni7_6.Name = "uni7_6"
-        Me.uni7_6.Size = New System.Drawing.Size(46, 44)
+        Me.uni7_6.Size = New System.Drawing.Size(42, 40)
         Me.uni7_6.TabIndex = 1
         Me.uni7_6.UseVisualStyleBackColor = False
         '
@@ -878,9 +878,9 @@ Partial Class EditkeySound
         Me.uni7_7.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni7_7.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni7_7.ForeColor = System.Drawing.Color.Black
-        Me.uni7_7.Location = New System.Drawing.Point(315, 303)
+        Me.uni7_7.Location = New System.Drawing.Point(291, 279)
         Me.uni7_7.Name = "uni7_7"
-        Me.uni7_7.Size = New System.Drawing.Size(46, 44)
+        Me.uni7_7.Size = New System.Drawing.Size(42, 40)
         Me.uni7_7.TabIndex = 1
         Me.uni7_7.UseVisualStyleBackColor = False
         '
@@ -890,9 +890,9 @@ Partial Class EditkeySound
         Me.uni7_8.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni7_8.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni7_8.ForeColor = System.Drawing.Color.Black
-        Me.uni7_8.Location = New System.Drawing.Point(367, 303)
+        Me.uni7_8.Location = New System.Drawing.Point(339, 279)
         Me.uni7_8.Name = "uni7_8"
-        Me.uni7_8.Size = New System.Drawing.Size(50, 44)
+        Me.uni7_8.Size = New System.Drawing.Size(43, 40)
         Me.uni7_8.TabIndex = 1
         Me.uni7_8.UseVisualStyleBackColor = False
         '
@@ -902,9 +902,9 @@ Partial Class EditkeySound
         Me.uni8_1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni8_1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni8_1.ForeColor = System.Drawing.Color.Black
-        Me.uni8_1.Location = New System.Drawing.Point(3, 353)
+        Me.uni8_1.Location = New System.Drawing.Point(3, 325)
         Me.uni8_1.Name = "uni8_1"
-        Me.uni8_1.Size = New System.Drawing.Size(46, 51)
+        Me.uni8_1.Size = New System.Drawing.Size(42, 46)
         Me.uni8_1.TabIndex = 1
         Me.uni8_1.UseVisualStyleBackColor = False
         '
@@ -914,9 +914,9 @@ Partial Class EditkeySound
         Me.uni8_2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni8_2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni8_2.ForeColor = System.Drawing.Color.Black
-        Me.uni8_2.Location = New System.Drawing.Point(55, 353)
+        Me.uni8_2.Location = New System.Drawing.Point(51, 325)
         Me.uni8_2.Name = "uni8_2"
-        Me.uni8_2.Size = New System.Drawing.Size(46, 51)
+        Me.uni8_2.Size = New System.Drawing.Size(42, 46)
         Me.uni8_2.TabIndex = 1
         Me.uni8_2.UseVisualStyleBackColor = False
         '
@@ -926,9 +926,9 @@ Partial Class EditkeySound
         Me.uni8_3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni8_3.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni8_3.ForeColor = System.Drawing.Color.Black
-        Me.uni8_3.Location = New System.Drawing.Point(107, 353)
+        Me.uni8_3.Location = New System.Drawing.Point(99, 325)
         Me.uni8_3.Name = "uni8_3"
-        Me.uni8_3.Size = New System.Drawing.Size(46, 51)
+        Me.uni8_3.Size = New System.Drawing.Size(42, 46)
         Me.uni8_3.TabIndex = 1
         Me.uni8_3.UseVisualStyleBackColor = False
         '
@@ -938,9 +938,9 @@ Partial Class EditkeySound
         Me.uni8_4.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni8_4.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni8_4.ForeColor = System.Drawing.Color.Black
-        Me.uni8_4.Location = New System.Drawing.Point(159, 353)
+        Me.uni8_4.Location = New System.Drawing.Point(147, 325)
         Me.uni8_4.Name = "uni8_4"
-        Me.uni8_4.Size = New System.Drawing.Size(46, 51)
+        Me.uni8_4.Size = New System.Drawing.Size(42, 46)
         Me.uni8_4.TabIndex = 1
         Me.uni8_4.UseVisualStyleBackColor = False
         '
@@ -950,9 +950,9 @@ Partial Class EditkeySound
         Me.uni8_5.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni8_5.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni8_5.ForeColor = System.Drawing.Color.Black
-        Me.uni8_5.Location = New System.Drawing.Point(211, 353)
+        Me.uni8_5.Location = New System.Drawing.Point(195, 325)
         Me.uni8_5.Name = "uni8_5"
-        Me.uni8_5.Size = New System.Drawing.Size(46, 51)
+        Me.uni8_5.Size = New System.Drawing.Size(42, 46)
         Me.uni8_5.TabIndex = 1
         Me.uni8_5.UseVisualStyleBackColor = False
         '
@@ -962,9 +962,9 @@ Partial Class EditkeySound
         Me.uni8_6.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni8_6.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni8_6.ForeColor = System.Drawing.Color.Black
-        Me.uni8_6.Location = New System.Drawing.Point(263, 353)
+        Me.uni8_6.Location = New System.Drawing.Point(243, 325)
         Me.uni8_6.Name = "uni8_6"
-        Me.uni8_6.Size = New System.Drawing.Size(46, 51)
+        Me.uni8_6.Size = New System.Drawing.Size(42, 46)
         Me.uni8_6.TabIndex = 1
         Me.uni8_6.UseVisualStyleBackColor = False
         '
@@ -974,9 +974,9 @@ Partial Class EditkeySound
         Me.uni8_7.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni8_7.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni8_7.ForeColor = System.Drawing.Color.Black
-        Me.uni8_7.Location = New System.Drawing.Point(315, 353)
+        Me.uni8_7.Location = New System.Drawing.Point(291, 325)
         Me.uni8_7.Name = "uni8_7"
-        Me.uni8_7.Size = New System.Drawing.Size(46, 51)
+        Me.uni8_7.Size = New System.Drawing.Size(42, 46)
         Me.uni8_7.TabIndex = 1
         Me.uni8_7.UseVisualStyleBackColor = False
         '
@@ -986,21 +986,32 @@ Partial Class EditkeySound
         Me.uni8_8.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uni8_8.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.uni8_8.ForeColor = System.Drawing.Color.Black
-        Me.uni8_8.Location = New System.Drawing.Point(367, 353)
+        Me.uni8_8.Location = New System.Drawing.Point(339, 325)
         Me.uni8_8.Name = "uni8_8"
-        Me.uni8_8.Size = New System.Drawing.Size(50, 51)
+        Me.uni8_8.Size = New System.Drawing.Size(43, 46)
         Me.uni8_8.TabIndex = 1
         Me.uni8_8.UseVisualStyleBackColor = False
+        '
+        'keySoundLayoutButton
+        '
+        Me.keySoundLayoutButton.Location = New System.Drawing.Point(593, 384)
+        Me.keySoundLayoutButton.Name = "keySoundLayoutButton"
+        Me.keySoundLayoutButton.Size = New System.Drawing.Size(274, 23)
+        Me.keySoundLayoutButton.TabIndex = 46
+        Me.keySoundLayoutButton.Text = "Show keySound Layout"
+        Me.keySoundLayoutButton.UseVisualStyleBackColor = True
         '
         'EditkeySound
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(955, 419)
+        Me.ClientSize = New System.Drawing.Size(919, 419)
+        Me.Controls.Add(Me.keySoundLayoutButton)
         Me.Controls.Add(Me.PadLayoutPanel)
         Me.Controls.Add(Me.CancelButton)
         Me.Controls.Add(Me.keySoundTextBox)
         Me.Controls.Add(Me.SaveButton)
+        Me.KeyPreview = True
         Me.Name = "EditkeySound"
         Me.Text = "Editing keySound!"
         CType(Me.keySoundTextBox, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1076,4 +1087,5 @@ Partial Class EditkeySound
     Friend WithEvents uni8_6 As Button
     Friend WithEvents uni8_7 As Button
     Friend WithEvents uni8_8 As Button
+    Friend WithEvents keySoundLayoutButton As Button
 End Class

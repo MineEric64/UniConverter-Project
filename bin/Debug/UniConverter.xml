@@ -47,6 +47,11 @@ UniConverter
   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
 </summary>
 </member>
+<member name="F:UniConverter_Project.EditkeySound.ctrl">
+ <summary>
+ 버튼 저장
+ </summary>
+</member>
 <member name="M:UniConverter_Project.EditkeySound.Cntstr(System.String,System.String)">
  <summary>
  Counting String's Patterns! Showing As Integer.
