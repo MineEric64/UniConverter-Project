@@ -47,6 +47,31 @@ UniConverter
   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
 </summary>
 </member>
+<member name="F:UniConverter_Project.EditkeySound.UniPack_SelectedChain">
+ <summary>
+ 선택한 체인. (1~8)
+ </summary>
+</member>
+<member name="F:UniConverter_Project.EditkeySound.UniPack_X">
+ <summary>
+ X 버튼 좌표. (1~8)
+ </summary>
+</member>
+<member name="F:UniConverter_Project.EditkeySound.UniPack_Y">
+ <summary>
+ Y 버튼 좌표. (1~8)
+ </summary>
+</member>
+<member name="F:UniConverter_Project.EditkeySound.keySound_SMax">
+ <summary>
+ 최대 다중 매핑 지원. (1, 같은 사운드 다중 매핑 적용)
+ </summary>
+</member>
+<member name="F:UniConverter_Project.EditkeySound.keySound_DifM">
+ <summary>
+ 최대 다중 매핑 지원. (2, 다른 사운드 다중 매핑 적용)
+ </summary>
+</member>
 <member name="F:UniConverter_Project.EditkeySound.ctrl">
  <summary>
  버튼 저장
@@ -54,7 +79,7 @@ UniConverter
 </member>
 <member name="M:UniConverter_Project.EditkeySound.Cntstr(System.String,System.String)">
  <summary>
- Counting String's Patterns! Showing As Integer.
+ String의 수를 세줍니다. 결과는 Integer.
  </summary>
 </member>
 <member name="M:UniConverter_Project.MainProject.Lame(System.String,System.String,System.String,System.String,System.String,System.Boolean,Microsoft.VisualBasic.AppWinStyle)">
