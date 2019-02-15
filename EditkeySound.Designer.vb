@@ -92,6 +92,14 @@ Partial Class EditkeySound
         Me.uni8_7 = New System.Windows.Forms.Button()
         Me.uni8_8 = New System.Windows.Forms.Button()
         Me.keySoundLayoutButton = New System.Windows.Forms.Button()
+        Me.btnPad_chain1 = New System.Windows.Forms.Button()
+        Me.btnPad_chain2 = New System.Windows.Forms.Button()
+        Me.btnPad_chain3 = New System.Windows.Forms.Button()
+        Me.btnPad_chain4 = New System.Windows.Forms.Button()
+        Me.btnPad_chain5 = New System.Windows.Forms.Button()
+        Me.btnPad_chain6 = New System.Windows.Forms.Button()
+        Me.btnPad_chain7 = New System.Windows.Forms.Button()
+        Me.btnPad_chain8 = New System.Windows.Forms.Button()
         CType(Me.keySoundTextBox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PadLayoutPanel.SuspendLayout()
         Me.SuspendLayout()
@@ -116,11 +124,11 @@ Partial Class EditkeySound
         Me.keySoundTextBox.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.keySoundTextBox.DisabledColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer))
         Me.keySoundTextBox.IsReplaceMode = False
-        Me.keySoundTextBox.Location = New System.Drawing.Point(-1, 0)
+        Me.keySoundTextBox.Location = New System.Drawing.Point(12, 0)
         Me.keySoundTextBox.Name = "keySoundTextBox"
         Me.keySoundTextBox.Paddings = New System.Windows.Forms.Padding(0)
         Me.keySoundTextBox.SelectionColor = System.Drawing.Color.FromArgb(CType(CType(60, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.keySoundTextBox.Size = New System.Drawing.Size(529, 341)
+        Me.keySoundTextBox.Size = New System.Drawing.Size(516, 341)
         Me.keySoundTextBox.TabIndex = 41
         Me.keySoundTextBox.Zoom = 100
         '
@@ -994,18 +1002,114 @@ Partial Class EditkeySound
         '
         'keySoundLayoutButton
         '
-        Me.keySoundLayoutButton.Location = New System.Drawing.Point(593, 384)
+        Me.keySoundLayoutButton.Location = New System.Drawing.Point(585, 384)
         Me.keySoundLayoutButton.Name = "keySoundLayoutButton"
-        Me.keySoundLayoutButton.Size = New System.Drawing.Size(274, 23)
+        Me.keySoundLayoutButton.Size = New System.Drawing.Size(343, 23)
         Me.keySoundLayoutButton.TabIndex = 46
         Me.keySoundLayoutButton.Text = "Show keySound Layout"
         Me.keySoundLayoutButton.UseVisualStyleBackColor = True
+        '
+        'btnPad_chain1
+        '
+        Me.btnPad_chain1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.btnPad_chain1.Location = New System.Drawing.Point(925, 3)
+        Me.btnPad_chain1.MinimumSize = New System.Drawing.Size(10, 10)
+        Me.btnPad_chain1.Name = "btnPad_chain1"
+        Me.btnPad_chain1.Size = New System.Drawing.Size(48, 40)
+        Me.btnPad_chain1.TabIndex = 47
+        Me.btnPad_chain1.Text = "1"
+        Me.btnPad_chain1.UseVisualStyleBackColor = True
+        '
+        'btnPad_chain2
+        '
+        Me.btnPad_chain2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.btnPad_chain2.Location = New System.Drawing.Point(925, 49)
+        Me.btnPad_chain2.MinimumSize = New System.Drawing.Size(10, 10)
+        Me.btnPad_chain2.Name = "btnPad_chain2"
+        Me.btnPad_chain2.Size = New System.Drawing.Size(48, 40)
+        Me.btnPad_chain2.TabIndex = 48
+        Me.btnPad_chain2.Text = "2"
+        Me.btnPad_chain2.UseVisualStyleBackColor = True
+        '
+        'btnPad_chain3
+        '
+        Me.btnPad_chain3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.btnPad_chain3.Location = New System.Drawing.Point(925, 95)
+        Me.btnPad_chain3.MinimumSize = New System.Drawing.Size(10, 10)
+        Me.btnPad_chain3.Name = "btnPad_chain3"
+        Me.btnPad_chain3.Size = New System.Drawing.Size(48, 40)
+        Me.btnPad_chain3.TabIndex = 49
+        Me.btnPad_chain3.Text = "3"
+        Me.btnPad_chain3.UseVisualStyleBackColor = True
+        '
+        'btnPad_chain4
+        '
+        Me.btnPad_chain4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.btnPad_chain4.Location = New System.Drawing.Point(925, 141)
+        Me.btnPad_chain4.MinimumSize = New System.Drawing.Size(10, 10)
+        Me.btnPad_chain4.Name = "btnPad_chain4"
+        Me.btnPad_chain4.Size = New System.Drawing.Size(48, 40)
+        Me.btnPad_chain4.TabIndex = 50
+        Me.btnPad_chain4.Text = "4"
+        Me.btnPad_chain4.UseVisualStyleBackColor = True
+        '
+        'btnPad_chain5
+        '
+        Me.btnPad_chain5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.btnPad_chain5.Location = New System.Drawing.Point(925, 187)
+        Me.btnPad_chain5.MinimumSize = New System.Drawing.Size(10, 10)
+        Me.btnPad_chain5.Name = "btnPad_chain5"
+        Me.btnPad_chain5.Size = New System.Drawing.Size(48, 40)
+        Me.btnPad_chain5.TabIndex = 51
+        Me.btnPad_chain5.Text = "5"
+        Me.btnPad_chain5.UseVisualStyleBackColor = True
+        '
+        'btnPad_chain6
+        '
+        Me.btnPad_chain6.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.btnPad_chain6.Location = New System.Drawing.Point(925, 233)
+        Me.btnPad_chain6.MinimumSize = New System.Drawing.Size(10, 10)
+        Me.btnPad_chain6.Name = "btnPad_chain6"
+        Me.btnPad_chain6.Size = New System.Drawing.Size(48, 40)
+        Me.btnPad_chain6.TabIndex = 52
+        Me.btnPad_chain6.Text = "6"
+        Me.btnPad_chain6.UseVisualStyleBackColor = True
+        '
+        'btnPad_chain7
+        '
+        Me.btnPad_chain7.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.btnPad_chain7.Location = New System.Drawing.Point(925, 279)
+        Me.btnPad_chain7.MinimumSize = New System.Drawing.Size(10, 10)
+        Me.btnPad_chain7.Name = "btnPad_chain7"
+        Me.btnPad_chain7.Size = New System.Drawing.Size(48, 40)
+        Me.btnPad_chain7.TabIndex = 53
+        Me.btnPad_chain7.Text = "7"
+        Me.btnPad_chain7.UseVisualStyleBackColor = True
+        '
+        'btnPad_chain8
+        '
+        Me.btnPad_chain8.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.btnPad_chain8.Location = New System.Drawing.Point(925, 325)
+        Me.btnPad_chain8.MinimumSize = New System.Drawing.Size(10, 10)
+        Me.btnPad_chain8.Name = "btnPad_chain8"
+        Me.btnPad_chain8.Size = New System.Drawing.Size(48, 49)
+        Me.btnPad_chain8.TabIndex = 54
+        Me.btnPad_chain8.Text = "8"
+        Me.btnPad_chain8.UseVisualStyleBackColor = True
         '
         'EditkeySound
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(919, 419)
+        Me.ClientSize = New System.Drawing.Size(979, 419)
+        Me.Controls.Add(Me.btnPad_chain8)
+        Me.Controls.Add(Me.btnPad_chain7)
+        Me.Controls.Add(Me.btnPad_chain6)
+        Me.Controls.Add(Me.btnPad_chain5)
+        Me.Controls.Add(Me.btnPad_chain4)
+        Me.Controls.Add(Me.btnPad_chain3)
+        Me.Controls.Add(Me.btnPad_chain2)
+        Me.Controls.Add(Me.btnPad_chain1)
         Me.Controls.Add(Me.keySoundLayoutButton)
         Me.Controls.Add(Me.PadLayoutPanel)
         Me.Controls.Add(Me.CancelButton)
@@ -1088,4 +1192,12 @@ Partial Class EditkeySound
     Friend WithEvents uni8_7 As Button
     Friend WithEvents uni8_8 As Button
     Friend WithEvents keySoundLayoutButton As Button
+    Friend WithEvents btnPad_chain1 As Button
+    Friend WithEvents btnPad_chain2 As Button
+    Friend WithEvents btnPad_chain3 As Button
+    Friend WithEvents btnPad_chain4 As Button
+    Friend WithEvents btnPad_chain5 As Button
+    Friend WithEvents btnPad_chain6 As Button
+    Friend WithEvents btnPad_chain7 As Button
+    Friend WithEvents btnPad_chain8 As Button
 End Class

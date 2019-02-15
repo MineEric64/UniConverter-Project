@@ -62,7 +62,12 @@ UniConverter
  Y 버튼 좌표. (1~8)
  </summary>
 </member>
-<member name="F:UniConverter_Project.EditkeySound.keySound_SMax">
+<member name="F:UniConverter_Project.EditkeySound.keySound_Mapping">
+ <summary>
+ 키사운드 매핑.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.EditkeySound.keySound_SameM">
  <summary>
  최대 다중 매핑 지원. (1, 같은 사운드 다중 매핑 적용)
  </summary>
@@ -70,6 +75,26 @@ UniConverter
 <member name="F:UniConverter_Project.EditkeySound.keySound_DifM">
  <summary>
  최대 다중 매핑 지원. (2, 다른 사운드 다중 매핑 적용)
+ </summary>
+</member>
+<member name="F:UniConverter_Project.EditkeySound.keySound_CChain">
+ <summary>
+ 현재 체인. (1~8)
+ </summary>
+</member>
+<member name="F:UniConverter_Project.EditkeySound.keySound_MChain">
+ <summary>
+ 최대 체인. (1~8)
+ </summary>
+</member>
+<member name="F:UniConverter_Project.EditkeySound.keySoundLayoutTrue">
+ <summary>
+ 키사운드 레이아웃 Boolean 여부.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.EditkeySound.keySound_Line">
+ <summary>
+ 키사운드 텍스트 라인. 0부터 시작
  </summary>
 </member>
 <member name="F:UniConverter_Project.EditkeySound.ctrl">
