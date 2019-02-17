@@ -4,6 +4,7 @@ Imports NAudio.Midi
 Imports ICSharpCode.SharpZipLib.GZip
 Imports ICSharpCode.SharpZipLib.Core
 Imports System.Text
+Imports mshtml
 
 Module modINI
     'ini 파일 구조
@@ -28,6 +29,7 @@ Module modINI
         ReadIni = Left$(ParamVal, LenParamVal)
     End Function
 End Module
+
 Public Class MainProject
     Dim abl_ver As String
     Dim abl_FileName As String
@@ -219,6 +221,7 @@ OpenProjectLine:
                 File.Copy(alsOpen1.FileName, "Workspace\ableproj\abl_proj.gz", True)
                 ExtractGZip("Workspace\ableproj\abl_proj.gz", "Workspace\ableproj")
                 File.Delete("Workspace\ableproj\abl_proj.gz")
+                File.Move("Workspace\ableproj\abl_proj", "Workspace\ableproj\abl_proj.xml")
                 If Not abl_openedproj = True Then
                     MessageBox.Show("Ableton Project File Loaded!" & vbNewLine &
                                 "You can edit info in Information Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -435,6 +438,8 @@ SaveInfoLine:
     End Sub
 
     Private Sub EdKeysButton_Click(sender As Object, e As EventArgs) Handles EdKeysButton.Click
+
+
         If abl_openedsnd = True Then
             EditkeySound.Show()
         Else
