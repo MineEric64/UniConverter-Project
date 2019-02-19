@@ -468,17 +468,17 @@ Public Class keyLED_Edit
 #Region "Advanced Delay Mode"
                         If AdvChk.Checked = True Then
                             If LEDEdit_Advanced.DelayMode2.Text = "Note Length" Then
-                                If LEDEdit_Advanced.DelayConvert1.Checked = True Then
+                                If LEDEdit_Advanced.DelayConvert1_1.Checked = True Then
                                     str = str & vbNewLine & "d " & a.NoteLength
                                 End If
                             End If
                             If LEDEdit_Advanced.DelayMode2.Text = "Delta Time" Then
-                                If LEDEdit_Advanced.DelayConvert1.Checked = True Then
+                                If LEDEdit_Advanced.DelayConvert1_1.Checked = True Then
                                     str = str & vbNewLine & "d " & a.DeltaTime
                                 End If
                             End If
                             If LEDEdit_Advanced.DelayMode2.Text = "Absolute Time" Then
-                                If LEDEdit_Advanced.DelayConvert1.Checked = True Then
+                                If LEDEdit_Advanced.DelayConvert1_1.Checked = True Then
                                     str = str & vbNewLine & "d " & a.AbsoluteTime
                                 End If
                             End If
