@@ -4,7 +4,6 @@ Imports NAudio.Midi
 Imports ICSharpCode.SharpZipLib.GZip
 Imports ICSharpCode.SharpZipLib.Core
 Imports System.Text
-Imports mshtml
 
 Module modINI
     'ini 파일 구조
