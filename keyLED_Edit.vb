@@ -82,8 +82,8 @@ Public Class keyLED_Edit
                         Dim a = DirectCast(mdEvent, MetaEvent)
                     ElseIf (mdEvent.CommandCode = MidiCommandCode.NoteOn) Then
                         Dim a = DirectCast(mdEvent, NoteOnEvent)
-#Region "#Ableton 9 #1 Settings"
-                        If SelCon1.Text = "Ableton 9 #1" Then 'Ableton 9 #1은 Ableton X/Y:64를 Unipack X/Y:1로 변환 하는 것. [Ableton 9에서 작동하는 알고리즘 #1]
+#Region "#Ableton 9 ALG1 Settings"
+                        If SelCon1.Text = "Ableton 9 ALG1" Then 'Ableton X / Y: 64를 Unipack X / Y: 1로 변환 하는 것.
                             '[Ableton LED To UniPack LED Convert CODE] [BETA!!]'
 
                             'X1, Y1 ~ X1, Y8
@@ -457,8 +457,8 @@ Public Class keyLED_Edit
 
                         End If
 #End Region
-#Region "Ableton 9 #2 Settings"
-                        If SelCon1.Text = "Ableton 9 #2" Then
+#Region "Ableton 9 ALG2 Settings"
+                        If SelCon1.Text = "Ableton 9 ALG2" Then
                             If a.NoteNumber = 64 Then
 
                             End If
@@ -467,19 +467,22 @@ Public Class keyLED_Edit
                         str = str & vbNewLine & "o " & a.NoteNumber & " " & UniNoteNumber & " a " & a.Velocity
 #Region "Advanced Delay Mode"
                         If AdvChk.Checked = True Then
-                            If LEDEdit_Advanced.DelayMode2.Text = "Note Length" Then
+                            If LEDEdit_Advanced.DelayMode1.Text = "Note Length" Then
                                 If LEDEdit_Advanced.DelayConvert1_1.Checked = True Then
                                     str = str & vbNewLine & "d " & a.NoteLength
                                 End If
                             End If
-                            If LEDEdit_Advanced.DelayMode2.Text = "Delta Time" Then
-                                If LEDEdit_Advanced.DelayConvert1_1.Checked = True Then
+                            If LEDEdit_Advanced.DelayMode1.Text = "Delta Time" Then
+                                If LEDEdit_Advanced.DelayConvert2_1.Checked = True Then
                                     str = str & vbNewLine & "d " & a.DeltaTime
                                 End If
                             End If
-                            If LEDEdit_Advanced.DelayMode2.Text = "Absolute Time" Then
-                                If LEDEdit_Advanced.DelayConvert1_1.Checked = True Then
+                            If LEDEdit_Advanced.DelayMode1.Text = "Absolute Time" Then
+                                If LEDEdit_Advanced.DelayConvert3_1.Checked = True Then
                                     str = str & vbNewLine & "d " & a.AbsoluteTime
+                                ElseIf LEDEdit_Advanced.DelayConvert3_2.Checked = True Then
+                                    'str = str & vbNewLine & "d " & Math.Truncate(a.AbsoluteTime / LEDFileC.DeltaTicksPerQuarterNote * 120)
+                                    'str = str & vbNewLine & "d " & Math.Truncate(((a.AbsoluteTime - LastTempoEvent.AbsoluteTime) / LEDFileC.DeltaTicksPerQuarterNote) * 120 + LastTempoEvent.RealTime)
                                 End If
                             End If
                         Else

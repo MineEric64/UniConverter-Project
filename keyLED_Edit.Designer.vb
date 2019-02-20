@@ -60,6 +60,7 @@ Partial Class keyLED_Edit
         '
         'CopyButton
         '
+        Me.CopyButton.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CopyButton.Location = New System.Drawing.Point(436, 404)
         Me.CopyButton.Name = "CopyButton"
         Me.CopyButton.Size = New System.Drawing.Size(75, 23)
@@ -120,6 +121,7 @@ Partial Class keyLED_Edit
         'OpenButton1
         '
         Me.OpenButton1.Cursor = System.Windows.Forms.Cursors.Default
+        Me.OpenButton1.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.OpenButton1.Location = New System.Drawing.Point(12, 411)
         Me.OpenButton1.Name = "OpenButton1"
         Me.OpenButton1.Size = New System.Drawing.Size(75, 23)
@@ -129,31 +131,33 @@ Partial Class keyLED_Edit
         '
         'SelCon1
         '
+        Me.SelCon1.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.SelCon1.FormattingEnabled = True
-        Me.SelCon1.Items.AddRange(New Object() {"Ableton 9 #1", "Ableton 9 #2", "Ableton 10 (BETA)", "Non-Convert (Developer Mode)"})
+        Me.SelCon1.Items.AddRange(New Object() {"Ableton 9 ALG1", "Ableton 9 ALG2", "Ableton 10 (BETA)", "Non-Convert (Developer Mode)"})
         Me.SelCon1.Location = New System.Drawing.Point(93, 413)
         Me.SelCon1.Name = "SelCon1"
-        Me.SelCon1.Size = New System.Drawing.Size(144, 20)
+        Me.SelCon1.Size = New System.Drawing.Size(144, 22)
         Me.SelCon1.TabIndex = 26
-        Me.SelCon1.Text = "Ableton 9 #1"
+        Me.SelCon1.Text = "Ableton 9 ALG1"
         '
         'UniLED1
         '
         Me.UniLED1.AutoSize = True
-        Me.UniLED1.Font = New System.Drawing.Font("-윤디자인웹돋움", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.UniLED1.Font = New System.Drawing.Font("맑은 고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.UniLED1.Location = New System.Drawing.Point(293, 9)
         Me.UniLED1.Name = "UniLED1"
-        Me.UniLED1.Size = New System.Drawing.Size(106, 13)
+        Me.UniLED1.Size = New System.Drawing.Size(108, 17)
         Me.UniLED1.TabIndex = 27
         Me.UniLED1.Text = "File Name: None"
         '
         'Tip1
         '
         Me.Tip1.AutoSize = True
+        Me.Tip1.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Tip1.ForeColor = System.Drawing.Color.LightCoral
-        Me.Tip1.Location = New System.Drawing.Point(285, 444)
+        Me.Tip1.Location = New System.Drawing.Point(262, 441)
         Me.Tip1.Name = "Tip1"
-        Me.Tip1.Size = New System.Drawing.Size(292, 24)
+        Me.Tip1.Size = New System.Drawing.Size(317, 28)
         Me.Tip1.TabIndex = 28
         Me.Tip1.Text = "Tip: Launchpad MK2 Project File can only convert." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Otherwise, UniConverter will s" &
     "how you Error."
@@ -161,9 +165,10 @@ Partial Class keyLED_Edit
         'AdvChk
         '
         Me.AdvChk.AutoSize = True
+        Me.AdvChk.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.AdvChk.Location = New System.Drawing.Point(13, 451)
         Me.AdvChk.Name = "AdvChk"
-        Me.AdvChk.Size = New System.Drawing.Size(116, 16)
+        Me.AdvChk.Size = New System.Drawing.Size(125, 18)
         Me.AdvChk.TabIndex = 29
         Me.AdvChk.Text = "Advanced Mode"
         Me.AdvChk.UseVisualStyleBackColor = True
