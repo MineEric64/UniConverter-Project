@@ -74,6 +74,7 @@ Partial Class MainProject
         Me.FileName = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.keyLED1 = New System.Windows.Forms.TabPage()
         Me.keyLED2 = New System.Windows.Forms.TabPage()
+        Me.CheckUpdateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.HomeEdit1.SuspendLayout()
         Me.Info1.SuspendLayout()
@@ -145,7 +146,7 @@ Partial Class MainProject
         '
         Me.UnipackToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AnyAbletonToolStripMenuItem, Me.AbletonLive9LiteToolStripMenuItem, Me.AbletonLive9TrialToolStripMenuItem, Me.AbletonLive9SuiteToolStripMenuItem, Me.AbletonLive10ToolStripMenuItem})
         Me.UnipackToolStripMenuItem.Name = "UnipackToolStripMenuItem"
-        Me.UnipackToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
+        Me.UnipackToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.UnipackToolStripMenuItem.Text = "Ableton"
         '
         'AnyAbletonToolStripMenuItem
@@ -187,7 +188,7 @@ Partial Class MainProject
         '
         Me.UnipackToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ConvertToZipUniToolStripMenuItem})
         Me.UnipackToolStripMenuItem1.Name = "UnipackToolStripMenuItem1"
-        Me.UnipackToolStripMenuItem1.Size = New System.Drawing.Size(117, 22)
+        Me.UnipackToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
         Me.UnipackToolStripMenuItem1.Text = "Unipack"
         '
         'ConvertToZipUniToolStripMenuItem
@@ -206,7 +207,7 @@ Partial Class MainProject
         '
         'SettingsToolStripMenuItem
         '
-        Me.SettingsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ReportBugsToolStripMenuItem, Me.SettingsToolStripMenuItem1, Me.InfoToolStripMenuItem, Me.DeveloperToolStripMenuItem})
+        Me.SettingsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ReportBugsToolStripMenuItem, Me.CheckUpdateToolStripMenuItem, Me.SettingsToolStripMenuItem1, Me.InfoToolStripMenuItem, Me.DeveloperToolStripMenuItem})
         Me.SettingsToolStripMenuItem.Name = "SettingsToolStripMenuItem"
         Me.SettingsToolStripMenuItem.Size = New System.Drawing.Size(52, 20)
         Me.SettingsToolStripMenuItem.Text = "About"
@@ -214,26 +215,26 @@ Partial Class MainProject
         'ReportBugsToolStripMenuItem
         '
         Me.ReportBugsToolStripMenuItem.Name = "ReportBugsToolStripMenuItem"
-        Me.ReportBugsToolStripMenuItem.Size = New System.Drawing.Size(163, 22)
+        Me.ReportBugsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ReportBugsToolStripMenuItem.Text = "Report Bugs"
         '
         'SettingsToolStripMenuItem1
         '
         Me.SettingsToolStripMenuItem1.Name = "SettingsToolStripMenuItem1"
-        Me.SettingsToolStripMenuItem1.Size = New System.Drawing.Size(163, 22)
+        Me.SettingsToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
         Me.SettingsToolStripMenuItem1.Text = "Settings"
         '
         'InfoToolStripMenuItem
         '
         Me.InfoToolStripMenuItem.Name = "InfoToolStripMenuItem"
-        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(163, 22)
+        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.InfoToolStripMenuItem.Text = "Info"
         '
         'DeveloperToolStripMenuItem
         '
         Me.DeveloperToolStripMenuItem.Enabled = False
         Me.DeveloperToolStripMenuItem.Name = "DeveloperToolStripMenuItem"
-        Me.DeveloperToolStripMenuItem.Size = New System.Drawing.Size(163, 22)
+        Me.DeveloperToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.DeveloperToolStripMenuItem.Text = "Developer Mode"
         Me.DeveloperToolStripMenuItem.Visible = False
         '
@@ -521,6 +522,12 @@ Partial Class MainProject
         Me.keyLED2.Text = "keyLED (mid)"
         Me.keyLED2.UseVisualStyleBackColor = True
         '
+        'CheckUpdateToolStripMenuItem
+        '
+        Me.CheckUpdateToolStripMenuItem.Name = "CheckUpdateToolStripMenuItem"
+        Me.CheckUpdateToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CheckUpdateToolStripMenuItem.Text = "Check Update"
+        '
         'MainProject
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
@@ -595,4 +602,5 @@ Partial Class MainProject
     Friend WithEvents keySound1 As ColumnHeader
     Friend WithEvents keyLED1 As TabPage
     Friend WithEvents keyLED2 As TabPage
+    Friend WithEvents CheckUpdateToolStripMenuItem As ToolStripMenuItem
 End Class
