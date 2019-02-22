@@ -1,0 +1,19 @@
+---UniConverter V1.0.0.2 Update Log---
+
+- Added Function "Reading Ableton Project File". (Beta)
+- You can Open Ableton Project, Sounds, LEDS.
+(also You can Save them to Unipack.)
+- Fixed some bugs.
+- There is an error in opening sounds. We will fix it in V1.0.0.3
+- We are developing keySound. You can't use keySound Function now.
+- Added Drag & Drop in Editing keyLED Form.
+- Added keyLED Advanced Mode.
+
+- 에이블톤 프로젝트 파일을 읽는 기능이 추가되었습니다. (베타)
+- 에이블톤 프로젝트 파일과 사운드, LED를 열 수 있습니다.
+(또한 그것들로 유니팩으로 저장할 수 있습니다.)
+- 몇몇 버그들을 고쳤습니다.
+- 사운드를 열 때 오류가 있습니다. V1.0.0.3때 고칠 것 입니다
+- keySound 기능을 개발 중입니다. 아직은 keySound 기능을 사용할 수 없습니다.
+- keyLED 폼에서 Drag & Drop을 할 수 있습니다.
+- keyLED Advanced 모드가 추가되었습니다.

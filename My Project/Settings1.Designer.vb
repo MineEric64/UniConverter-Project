@@ -56,10 +56,10 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
-        Public Property 설정() As Byte
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property 설정() As String
             Get
-                Return CType(Me("설정"),Byte)
+                Return CType(Me("설정"),String)
             End Get
             Set
                 Me("설정") = value

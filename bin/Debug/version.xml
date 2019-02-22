@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Update-XML>
+  <Update-Info>
+  <Name>UniConverter</Name>
+    <Version>1.1.0.3</Version>
+    <Update-Log>
+	- Hello, World!
+	</Update-Log>
+  </Update-Info>
+</Update-XML>

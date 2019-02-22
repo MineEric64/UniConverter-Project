@@ -107,6 +107,36 @@ UniConverter
  String의 수를 세줍니다. 결과는 Integer.
  </summary>
 </member>
+<member name="F:UniConverter_Project.MainProject.FileInfo">
+ <summary>
+ UniConverter 최신 버전.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.VerLog">
+ <summary>
+ UniConverter 최신 버전 업데이트 로그.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.abl_openedsnd">
+ <summary>
+ 에이블톤 사운드 로딩.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.vxml">
+ <summary>
+ Version.XML 파일 분석.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.uni_confile">
+ <summary>
+ settings.ini 중 Convert Unipack 설정.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.ast">
+ <summary>
+ 특별 기호 (")
+ </summary>
+</member>
 <member name="M:UniConverter_Project.MainProject.Lame(System.String,System.String,System.String,System.String,System.String,System.Boolean,Microsoft.VisualBasic.AppWinStyle)">
  <summary>
   LAME으로 소리 확장자 변환. 현재 MP3toWAV 변환 가능. FileName의 경우 반드시 Application.StartupPath로 File을 지정하기 바람.

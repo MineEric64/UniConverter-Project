@@ -33,7 +33,6 @@ Partial Class REPORTForm
         '
         'UplButton
         '
-        Me.UplButton.Enabled = False
         Me.UplButton.Font = New System.Drawing.Font("Ubuntu", 9.749999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.UplButton.Location = New System.Drawing.Point(383, 222)
         Me.UplButton.Name = "UplButton"
@@ -63,7 +62,6 @@ Partial Class REPORTForm
         '
         'DelButton
         '
-        Me.DelButton.Enabled = False
         Me.DelButton.Font = New System.Drawing.Font("Ubuntu", 9.749999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.DelButton.Location = New System.Drawing.Point(303, 258)
         Me.DelButton.Name = "DelButton"
@@ -74,7 +72,6 @@ Partial Class REPORTForm
         '
         'SenButton
         '
-        Me.SenButton.Enabled = False
         Me.SenButton.Font = New System.Drawing.Font("Ubuntu", 9.749999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.SenButton.Location = New System.Drawing.Point(394, 258)
         Me.SenButton.Name = "SenButton"
@@ -89,11 +86,9 @@ Partial Class REPORTForm
         Me.DescBox.Location = New System.Drawing.Point(23, 21)
         Me.DescBox.Multiline = True
         Me.DescBox.Name = "DescBox"
-        Me.DescBox.ReadOnly = True
         Me.DescBox.Size = New System.Drawing.Size(446, 190)
         Me.DescBox.TabIndex = 10
-        Me.DescBox.Text = "" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "                                   " & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "                               " & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "   " &
-    "                                Please Write your opinion! :D"
+        Me.DescBox.Text = "Please write your amazing opinion! :D"
         '
         'REPORTForm
         '

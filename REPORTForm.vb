@@ -6,14 +6,14 @@ Public Class REPORTForm
             Dim Smtp As New SmtpClient
             Dim e_mail As New MailMessage()
             Smtp.UseDefaultCredentials = False
-            Smtp.Credentials = New Net.NetworkCredential("gobackeric@gmail.com", "1973seyoun")
+            Smtp.Credentials = New Net.NetworkCredential("unirep1204@gmail.com", "Q$=rS')4*d<Y / Drrn8Zx9Tx9x")
             Smtp.Port = 587
             Smtp.EnableSsl = True
             Smtp.Host = "smtp.gmail.com"
             e_mail = New MailMessage()
-            e_mail.From = New MailAddress("gobackeric@gmail.com")
+            e_mail.From = New MailAddress("unirep1204@gmail.com")
             e_mail.To.Add("besteric40@gmail.com")
-            e_mail.Subject = "Report a Bug From UniConverter V" & MainProject.FileInfo & "."
+            e_mail.Subject = "Report a Bug From UniConverter V" & MainProject.FileInfo.ToString & "."
             e_mail.IsBodyHtml = False 'HTML USING.
             e_mail.Body = DescBox.Text
             If Replace(MAIL_ATTACHMENT.Text, " ", "") <> "" Then

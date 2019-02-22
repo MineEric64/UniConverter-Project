@@ -37,17 +37,28 @@ Public Class MainProject
     ''' <summary>
     ''' UniConverter 최신 버전.
     ''' </summary>
-    Public FileInfo As String
+    Public FileInfo As Version
     ''' <summary>
     ''' UniConverter 최신 버전 업데이트 로그.
     ''' </summary>
     Public VerLog As String
+    ''' <summary>
+    ''' 에이블톤 사운드 로딩.
+    ''' </summary>
     Public abl_openedsnd As Boolean
+    ''' <summary>
+    ''' Version.XML 파일 분석.
+    ''' </summary>
+    Public vxml As XDocument
+    ''' <summary>
+    ''' settings.ini 중 Convert Unipack 설정.
+    ''' </summary>
     Dim uni_confile As String
+    ''' <summary>
+    ''' 특별 기호 (")
+    ''' </summary>
+    Dim ast As String = """"
 
-    'Dim fslog As FileStream = File.Create("log.txt") '(fslog를 선언할경우 log.txt 만들어져서 일단 일시적으로 주석)
-    'Dim infofs As Byte() '(fslog와 마찬가지로 선언)
-    Dim ast As String = """" 'Special Letter (")
     ''' <summary>
     '''  LAME으로 소리 확장자 변환. 현재 MP3toWAV 변환 가능. FileName의 경우 반드시 Application.StartupPath로 File을 지정하기 바람.
     ''' </summary>
@@ -68,9 +79,12 @@ Public Class MainProject
         End If
     End Sub
 
-    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub MainProject_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim curFile As String = "Sources\DeveloperMode.uni" 'License File of Developer Mode.
         Dim file_ex = Application.StartupPath + "\settings.ini"
+        vxml = XDocument.Load(Application.StartupPath & "\version.xml")
+        FileInfo = Version.Parse(vxml.<Update-XML>.<Update-Info>.<Version>.Value)
+        VerLog = vxml.<Update-XML>.<Update-Info>.<Update-Log>.Value.TrimStart
         abl_openedproj = False
         abl_openedsnd = False
 
@@ -121,7 +135,6 @@ Public Class MainProject
         If ReadIni(file_ex, "UCV_PATH", "ConvertUnipack", "") = "zip/uni" Then
             ConvertToZipUniToolStripMenuItem.Checked = True
         End If
-
     End Sub
 
     Private Sub InfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InfoToolStripMenuItem.Click
@@ -530,21 +543,16 @@ fexLine:
     Private Sub CheckUpdateToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CheckUpdateToolStripMenuItem.Click
         CheckUpdate()
 
-        If (My.Computer.Network.IsAvailable = True) Then
-            If My.Application.Info.Version.ToString = FileInfo Then
+        If My.Computer.Network.IsAvailable = True Then
+            If My.Application.Info.Version = FileInfo Then
                 MessageBox.Show("You are using a Latest Version." & vbNewLine & vbNewLine &
-                       "Current Version : " & My.Application.Info.Version.ToString & vbNewLine & "Latest Version : " & FileInfo, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                       "Current Version : " & My.Application.Info.Version.ToString & vbNewLine & "Latest Version : " & FileInfo.ToString, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            ElseIf My.Application.Info.Version > FileInfo Then
+                MessageBox.Show("You are using a Test Version!" & vbNewLine & vbNewLine & "Current Version : " & FileInfo.ToString & vbNewLine &
+                       "Your Test Version : " & My.Application.Info.Version.ToString, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
         Else
-            MsgBox("Network Connect Failed! Can't Check For Updates.", vbCritical)
-        End If
-        If (My.Computer.Network.IsAvailable = True) Then
-            If My.Application.Info.Version.ToString > FileInfo Then
-                MsgBox("You are using a Test Version!" & vbNewLine & vbNewLine & "Current Version : " & FileInfo & vbNewLine &
-                       "Your Test Version : " & My.Application.Info.Version.ToString, vbInformation)
-            End If
-        Else
-            MsgBox("Network Connect Failed! Can't Check For Updates.", vbCritical)
+            MessageBox.Show("Network Connect Failed! Can't Check Update.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
     End Sub
 
@@ -553,48 +561,49 @@ fexLine:
 
         If My.Computer.Network.IsAvailable = True Then
             Client.DownloadFile("http://dver.ucv.kro.kr", Application.StartupPath & "\version.xml")
-            Dim xml = XDocument.Load(Application.StartupPath & "\version.xml")
-            FileInfo = xml.<Update-XML>.<Update-Info>.<Version>.Value
-            VerLog = xml.<Update-XML>.<Update-Info>.<Update-Log>.Value
-            If My.Application.Info.Version.ToString < FileInfo Then
-                If MessageBox.Show("New Version " & FileInfo & " is Available!" & vbNewLine & "Current Version : " & My.Application.Info.Version.ToString & vbNewLine & "Latest Version : " & FileInfo & vbNewLine &
+            FileInfo = Version.Parse(vxml.<Update-XML>.<Update-Info>.<Version>.Value)
+            VerLog = vxml.<Update-XML>.<Update-Info>.<Update-Log>.Value.TrimStart
+            If My.Application.Info.Version < FileInfo Then
+                If MessageBox.Show("New Version " & FileInfo.ToString & " is Available!" & vbNewLine & "Current Version : " & My.Application.Info.Version.ToString & vbNewLine & "Latest Version : " & FileInfo.ToString & vbNewLine &
                                  vbNewLine & "Update Log:" & vbNewLine & VerLog, "UniConverter", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
                     With LOADINGForm
+                        .Text = "Downloading UniConverter V" & FileInfo.ToString
                         .DLabel1.Left = 101
                         .DLabel1.Top = 108
-                        .DLabel1.Text = "Downloading UniConverter " & FileInfo & " ..."
+                        .DLabel1.Text = "Downloading UniConverter " & FileInfo.ToString & " ..."
                         .DProgress1.Value = 800
-                        .Show()
                         .DProgress1.MarqueeAnimationSpeed = 100
+                        .Show()
                     End With
                     Client.DownloadFile("http://dprg0.ucv.kro.kr", My.Computer.FileSystem.SpecialDirectories.Temp & "\UniConverter-Update.zip")
-                    If Dir("UniConverter_v" & FileInfo, vbDirectory) <> "" Then
-                        If File.Exists("UniConverter_v" & FileInfo & "\UniConverter.exe") Then
-                            My.Computer.FileSystem.DeleteDirectory("UniConverter_v" & FileInfo, FileIO.DeleteDirectoryOption.DeleteAllContents)
-                            My.Computer.FileSystem.CreateDirectory("UniConverter_v" & FileInfo)
-                            ZipFile.ExtractToDirectory(My.Computer.FileSystem.SpecialDirectories.Temp & "\UniConverter-Update.zip", "UniConverter_v" & FileInfo)
+                    If Dir(Application.StartupPath & "UniConverter_v" & FileInfo.ToString, vbDirectory) <> "" Then
+                        If File.Exists(Application.StartupPath & "UniConverter_v" & FileInfo.ToString & "\UniConverter.exe") Then
+                            My.Computer.FileSystem.DeleteDirectory(Application.StartupPath & "UniConverter_v" & FileInfo.ToString, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                            My.Computer.FileSystem.CreateDirectory(Application.StartupPath & "UniConverter_v" & FileInfo.ToString)
+                            ZipFile.ExtractToDirectory(My.Computer.FileSystem.SpecialDirectories.Temp & "\UniConverter-Update.zip", "UniConverter_v" & FileInfo.ToString)
                         Else
-                            ZipFile.ExtractToDirectory(My.Computer.FileSystem.SpecialDirectories.Temp & "\UniConverter-Update.zip", "UniConverter_v" & FileInfo)
+                            ZipFile.ExtractToDirectory(My.Computer.FileSystem.SpecialDirectories.Temp & "\UniConverter-Update.zip", "UniConverter_v" & FileInfo.ToString)
                         End If
                     Else
-                        My.Computer.FileSystem.CreateDirectory("UniConverter_v" & FileInfo)
-                        ZipFile.ExtractToDirectory(My.Computer.FileSystem.SpecialDirectories.Temp & "\UniConverter-Update.zip", "UniConverter_v" & FileInfo)
+                        My.Computer.FileSystem.CreateDirectory(Application.StartupPath & "UniConverter_v" & FileInfo.ToString)
+                        ZipFile.ExtractToDirectory(My.Computer.FileSystem.SpecialDirectories.Temp & "\UniConverter-Update.zip", "UniConverter_v" & FileInfo.ToString)
                     End If
-                    Threading.Thread.Sleep(3000)
-                    LOADINGForm.DProgress1.Value = 1000
-                    If LOADINGForm.DProgress1.Value = 1000 Then
-                        LOADINGForm.DLabel1.Left = 151
-                        LOADINGForm.DLabel1.Top = 108
-                        LOADINGForm.DLabel1.Text = "Update Complete!"
-                        If MessageBox.Show("Update Complete! UniConverter " & FileInfo & " is in 'UniConverter_v" & FileInfo & "' Folder.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information) = DialogResult.OK Then
-                            File.Delete(My.Computer.FileSystem.SpecialDirectories.Temp & "\UniConverter-Update.zip")
-                            LOADINGForm.Dispose()
+                    With LOADINGForm
+                        .DProgress1.Value = 1000
+                        If .DProgress1.Value = 1000 Then
+                            .DLabel1.Left = 151
+                            .DLabel1.Top = 108
+                            .DLabel1.Text = "Update Complete!"
+                            If MessageBox.Show("Update Complete! UniConverter " & FileInfo.ToString & " is in 'UniConverter_v" & FileInfo.ToString & "' Folder.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information) = DialogResult.OK Then
+                                File.Delete(My.Computer.FileSystem.SpecialDirectories.Temp & "\UniConverter-Update.zip")
+                                .Dispose()
+                            End If
                         End If
-                    End If
+                    End With
                 End If
             End If
         Else
-            MessageBox.Show("Network Connect Failed! Can't Check For Updates.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            MessageBox.Show("Network Connect Failed! Can't Check Update.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
     End Sub
 
