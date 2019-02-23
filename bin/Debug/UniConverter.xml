@@ -97,6 +97,11 @@ UniConverter
  키사운드 텍스트 라인. 0부터 시작
  </summary>
 </member>
+<member name="F:UniConverter_Project.EditkeySound.PrChain">
+ <summary>
+ 이전 체인.
+ </summary>
+</member>
 <member name="F:UniConverter_Project.EditkeySound.ctrl">
  <summary>
  버튼 저장
