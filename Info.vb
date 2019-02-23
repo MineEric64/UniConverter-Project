@@ -3,20 +3,17 @@ Imports System.Text
 
 Public Class Info
 
-    Private Sub Form2_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub Info_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.Text = MainProject.Text & ": Information"
         InfoText.Text = "Ver " & My.Application.Info.Version.ToString
     End Sub
 
-    Private Sub Label3_Click(sender As Object, e As EventArgs) Handles Label3.Click
-
-    End Sub
-
-    Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles PictureBox1.Click
+    Private Sub UCV_Icon_Click(sender As Object, e As EventArgs) Handles UCV_Icon.DoubleClick
         '이스터에그 1
-        MsgBox("Unfortunatly, This Project (UniConverter) will be terminated without notice. 어쩌면, 이 프로젝트 (UniConverter)는 예고 없이 서비스가 종료될 수 있습니다.", , "By EasterEgg :(")
+        MessageBox.Show("Unfortunatly, UniConverter Project will be terminated without notice... :(", MainProject.Text & ": Easter Egg", MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+    Private Sub OKButton_Click(sender As Object, e As EventArgs) Handles OKButton.Click
         Dim fs As FileStream
         Dim info As Byte()
         Dim curFile As String = "Sources\DeveloperMode.uni"
@@ -25,7 +22,7 @@ Public Class Info
         'BASE64 | UTF-8 | CRLF
         If ModeE.Text = "UniConverterProject_DeveloperMode" Then
             If Dir(curFile, vbDirectory) <> "" Then
-                MsgBox("Enable Devleoper Mode Failed! Error Code: 9")
+                MessageBox.Show("Enable Devleoper Mode Failed! Error Code: 9 (I/O Error)", MainProject.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
                 'Sources 파일 생성
                 My.Computer.FileSystem.CreateDirectory("Sources")
@@ -36,28 +33,23 @@ Public Class Info
 		" & vbNewLine & "//This UniConverter's Developer Mode license." & vbNewLine & "- UniConverter ⓒ 2018 최에릭 All Rights Reserved.")
                 fs.Write(info, 0, info.Length)
                 fs.Close()
-                If MsgBox("Developer Mode Enabled! Do you reboot the UniConverter?", vbYesNo, "UniConverter") = vbYes Then
-                    MsgBox("After Reboot, Execute the UniConverter.")
+                If MessageBox.Show("Developer Mode Enabled! Would you like to reboot the UniConverter?", MainProject.Text, MessageBoxButtons.OK, MessageBoxIcon.Information) = DialogResult.OK Then
                     Application.Restart()
                 Else
                 End If
             End If
         Else
-            '만약 이스터에그를 넣을꺼라면 여기다가 코드를 짜시오.
-            If ModeE.Text = "Follow_JB" Then
-                '이스터에그 2
-                MsgBox("He's a God of Unitor." & vbNewLine & "He can do Everything. He's a Super Ultra Ultimate Fantastic God :D")
-            End If
-            If ModeE.Text = "Unitor" Then
-                '이스터에그 2
-                MsgBox("Godnitor Appeared!!!" & vbNewLine & "Godnitor = Unitor")
-            End If
-            MsgBox("Incorrect Character :(", vbOKOnly, "UniConverter")
+            MessageBox.Show("Incorrect Character.", MainProject.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
+
+
     End Sub
 
-    Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
-        '인터넷으로 ucv.kro.kr 을 접속
+    Private Sub ucv_link_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles ucv_link.LinkClicked
         Shell("explorer.exe http://ucv.kro.kr")
+    End Sub
+
+    Private Sub unitor_link_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles unitor_link.LinkClicked
+        Shell("explorer.exe http://unitor.ga")
     End Sub
 End Class

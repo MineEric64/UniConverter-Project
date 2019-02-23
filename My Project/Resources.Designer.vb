@@ -47,8 +47,8 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  이 강력한 형식의 리소스 클래스를 사용하여 모든 리소스 조회에 대한 현재 스레드의 CurrentUICulture
-        '''  속성을 재정의합니다.
+        '''  이 강력한 형식의 리소스 클래스를 사용하여 모든 리소스 조회에 대해 현재 스레드의 CurrentUICulture 속성을
+        '''  재정의합니다.
         '''</summary>
         <Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Advanced)>  _
         Friend Property Culture() As Global.System.Globalization.CultureInfo
@@ -61,40 +61,11 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  System.IO.MemoryStream과(와) 유사한 System.IO.UnmanagedMemoryStream 형식의 지역화된 리소스를 찾습니다.
-        '''</summary>
-        Friend ReadOnly Property Katalk() As System.IO.UnmanagedMemoryStream
-            Get
-                Return ResourceManager.GetStream("Katalk", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         '''</summary>
-        Friend ReadOnly Property UniConverter() As System.Drawing.Bitmap
+        Friend ReadOnly Property UniConverterV2() As System.Drawing.Bitmap
             Get
-                Dim obj As Object = ResourceManager.GetObject("UniConverter", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
-        '''</summary>
-        Friend ReadOnly Property UniConverter_Alpha() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("UniConverter_Alpha", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
-        '''</summary>
-        Friend ReadOnly Property UniConverter1() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("UniConverter1", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("UniConverterV2", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property

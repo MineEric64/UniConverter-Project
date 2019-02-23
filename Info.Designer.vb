@@ -24,15 +24,15 @@ Partial Class Info
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Info))
         Me.InfoText = New System.Windows.Forms.Label()
-        Me.Label3 = New System.Windows.Forms.Label()
+        Me.TipText1 = New System.Windows.Forms.Label()
         Me.ModeE = New System.Windows.Forms.TextBox()
-        Me.Button1 = New System.Windows.Forms.Button()
-        Me.LinkLabel1 = New System.Windows.Forms.LinkLabel()
-        Me.PictureBox2 = New System.Windows.Forms.PictureBox()
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
-        Me.LinkLabel2 = New System.Windows.Forms.LinkLabel()
-        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.OKButton = New System.Windows.Forms.Button()
+        Me.ucv_link = New System.Windows.Forms.LinkLabel()
+        Me.UCV_Alpha = New System.Windows.Forms.PictureBox()
+        Me.UCV_Icon = New System.Windows.Forms.PictureBox()
+        Me.unitor_link = New System.Windows.Forms.LinkLabel()
+        CType(Me.UCV_Alpha, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.UCV_Icon, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'InfoText
@@ -45,14 +45,14 @@ Partial Class Info
         Me.InfoText.TabIndex = 2
         Me.InfoText.Text = "Ver."
         '
-        'Label3
+        'TipText1
         '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(35, 211)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(332, 12)
-        Me.Label3.TabIndex = 3
-        Me.Label3.Text = "ⓒ 2018 MineEric (최에릭), Follow_JB All Rights Reserved."
+        Me.TipText1.AutoSize = True
+        Me.TipText1.Location = New System.Drawing.Point(35, 211)
+        Me.TipText1.Name = "TipText1"
+        Me.TipText1.Size = New System.Drawing.Size(332, 12)
+        Me.TipText1.TabIndex = 3
+        Me.TipText1.Text = "ⓒ 2018 MineEric (최에릭), Follow_JB All Rights Reserved."
         '
         'ModeE
         '
@@ -61,86 +61,86 @@ Partial Class Info
         Me.ModeE.Size = New System.Drawing.Size(169, 21)
         Me.ModeE.TabIndex = 4
         '
-        'Button1
+        'OKButton
         '
-        Me.Button1.Location = New System.Drawing.Point(252, 226)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(75, 23)
-        Me.Button1.TabIndex = 5
-        Me.Button1.Text = "OK"
-        Me.Button1.UseVisualStyleBackColor = True
+        Me.OKButton.Location = New System.Drawing.Point(252, 228)
+        Me.OKButton.Name = "OKButton"
+        Me.OKButton.Size = New System.Drawing.Size(75, 23)
+        Me.OKButton.TabIndex = 5
+        Me.OKButton.Text = "OK"
+        Me.OKButton.UseVisualStyleBackColor = True
         '
-        'LinkLabel1
+        'ucv_link
         '
-        Me.LinkLabel1.AutoSize = True
-        Me.LinkLabel1.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.LinkLabel1.Location = New System.Drawing.Point(7, 313)
-        Me.LinkLabel1.Name = "LinkLabel1"
-        Me.LinkLabel1.Size = New System.Drawing.Size(60, 12)
-        Me.LinkLabel1.TabIndex = 6
-        Me.LinkLabel1.TabStop = True
-        Me.LinkLabel1.Text = "ucv.kro.kr"
+        Me.ucv_link.AutoSize = True
+        Me.ucv_link.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.ucv_link.Location = New System.Drawing.Point(7, 313)
+        Me.ucv_link.Name = "ucv_link"
+        Me.ucv_link.Size = New System.Drawing.Size(60, 12)
+        Me.ucv_link.TabIndex = 6
+        Me.ucv_link.TabStop = True
+        Me.ucv_link.Text = "ucv.kro.kr"
         '
-        'PictureBox2
+        'UCV_Alpha
         '
-        Me.PictureBox2.Image = Global.UniConverter_Project.My.Resources.Resources.UniConverter_Alpha
-        Me.PictureBox2.Location = New System.Drawing.Point(121, 160)
-        Me.PictureBox2.Name = "PictureBox2"
-        Me.PictureBox2.Size = New System.Drawing.Size(163, 42)
-        Me.PictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.PictureBox2.TabIndex = 7
-        Me.PictureBox2.TabStop = False
+        Me.UCV_Alpha.Image = CType(resources.GetObject("UCV_Alpha.Image"), System.Drawing.Image)
+        Me.UCV_Alpha.Location = New System.Drawing.Point(121, 160)
+        Me.UCV_Alpha.Name = "UCV_Alpha"
+        Me.UCV_Alpha.Size = New System.Drawing.Size(163, 42)
+        Me.UCV_Alpha.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.UCV_Alpha.TabIndex = 7
+        Me.UCV_Alpha.TabStop = False
         '
-        'PictureBox1
+        'UCV_Icon
         '
-        Me.PictureBox1.Image = Global.UniConverter_Project.My.Resources.Resources.UniConverter
-        Me.PictureBox1.Location = New System.Drawing.Point(134, 26)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(131, 130)
-        Me.PictureBox1.TabIndex = 0
-        Me.PictureBox1.TabStop = False
+        Me.UCV_Icon.Image = CType(resources.GetObject("UCV_Icon.Image"), System.Drawing.Image)
+        Me.UCV_Icon.Location = New System.Drawing.Point(134, 26)
+        Me.UCV_Icon.Name = "UCV_Icon"
+        Me.UCV_Icon.Size = New System.Drawing.Size(131, 130)
+        Me.UCV_Icon.TabIndex = 0
+        Me.UCV_Icon.TabStop = False
         '
-        'LinkLabel2
+        'unitor_link
         '
-        Me.LinkLabel2.AutoSize = True
-        Me.LinkLabel2.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.LinkLabel2.Location = New System.Drawing.Point(73, 314)
-        Me.LinkLabel2.Name = "LinkLabel2"
-        Me.LinkLabel2.Size = New System.Drawing.Size(54, 12)
-        Me.LinkLabel2.TabIndex = 8
-        Me.LinkLabel2.TabStop = True
-        Me.LinkLabel2.Text = "unitor.ga"
+        Me.unitor_link.AutoSize = True
+        Me.unitor_link.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.unitor_link.Location = New System.Drawing.Point(73, 314)
+        Me.unitor_link.Name = "unitor_link"
+        Me.unitor_link.Size = New System.Drawing.Size(54, 12)
+        Me.unitor_link.TabIndex = 8
+        Me.unitor_link.TabStop = True
+        Me.unitor_link.Text = "unitor.ga"
         '
         'Info
         '
-        Me.AcceptButton = Me.Button1
+        Me.AcceptButton = Me.OKButton
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(412, 331)
-        Me.Controls.Add(Me.LinkLabel2)
-        Me.Controls.Add(Me.PictureBox2)
-        Me.Controls.Add(Me.LinkLabel1)
-        Me.Controls.Add(Me.Button1)
+        Me.Controls.Add(Me.unitor_link)
+        Me.Controls.Add(Me.UCV_Alpha)
+        Me.Controls.Add(Me.ucv_link)
+        Me.Controls.Add(Me.OKButton)
         Me.Controls.Add(Me.ModeE)
-        Me.Controls.Add(Me.Label3)
+        Me.Controls.Add(Me.TipText1)
         Me.Controls.Add(Me.InfoText)
-        Me.Controls.Add(Me.PictureBox1)
+        Me.Controls.Add(Me.UCV_Icon)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "Info"
         Me.Text = "Info"
-        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.UCV_Alpha, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.UCV_Icon, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
 
-    Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents UCV_Icon As PictureBox
     Friend WithEvents InfoText As Label
-    Friend WithEvents Label3 As Label
+    Friend WithEvents TipText1 As Label
     Friend WithEvents ModeE As TextBox
-    Friend WithEvents Button1 As Button
-    Friend WithEvents LinkLabel1 As LinkLabel
-    Friend WithEvents PictureBox2 As PictureBox
-    Friend WithEvents LinkLabel2 As LinkLabel
+    Friend WithEvents OKButton As Button
+    Friend WithEvents ucv_link As LinkLabel
+    Friend WithEvents UCV_Alpha As PictureBox
+    Friend WithEvents unitor_link As LinkLabel
 End Class

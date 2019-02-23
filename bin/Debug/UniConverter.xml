@@ -18,26 +18,11 @@ UniConverter
 </member>
 <member name="P:UniConverter_Project.My.Resources.Resources.Culture">
 <summary>
-  이 강력한 형식의 리소스 클래스를 사용하여 모든 리소스 조회에 대한 현재 스레드의 CurrentUICulture
-  속성을 재정의합니다.
+  이 강력한 형식의 리소스 클래스를 사용하여 모든 리소스 조회에 대해 현재 스레드의 CurrentUICulture 속성을
+  재정의합니다.
 </summary>
 </member>
-<member name="P:UniConverter_Project.My.Resources.Resources.Katalk">
-<summary>
-  System.IO.MemoryStream과(와) 유사한 System.IO.UnmanagedMemoryStream 형식의 지역화된 리소스를 찾습니다.
-</summary>
-</member>
-<member name="P:UniConverter_Project.My.Resources.Resources.UniConverter">
-<summary>
-  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
-</summary>
-</member>
-<member name="P:UniConverter_Project.My.Resources.Resources.UniConverter_Alpha">
-<summary>
-  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
-</summary>
-</member>
-<member name="P:UniConverter_Project.My.Resources.Resources.UniConverter1">
+<member name="P:UniConverter_Project.My.Resources.Resources.UniConverterV2">
 <summary>
   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
 </summary>

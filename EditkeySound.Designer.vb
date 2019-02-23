@@ -25,7 +25,7 @@ Partial Class EditkeySound
         Me.components = New System.ComponentModel.Container()
         Me.SaveButton = New System.Windows.Forms.Button()
         Me.keySoundTextBox = New FastColoredTextBoxNS.FastColoredTextBox()
-        Me.CancelButton = New System.Windows.Forms.Button()
+        Me.CancelButton2 = New System.Windows.Forms.Button()
         Me.PadLayoutPanel = New System.Windows.Forms.TableLayoutPanel()
         Me.uni1_1 = New System.Windows.Forms.Button()
         Me.uni1_2 = New System.Windows.Forms.Button()
@@ -100,6 +100,7 @@ Partial Class EditkeySound
         Me.btnPad_chain6 = New System.Windows.Forms.Button()
         Me.btnPad_chain7 = New System.Windows.Forms.Button()
         Me.btnPad_chain8 = New System.Windows.Forms.Button()
+        Me.CancelButton3 = New System.Windows.Forms.Button()
         CType(Me.keySoundTextBox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PadLayoutPanel.SuspendLayout()
         Me.SuspendLayout()
@@ -123,6 +124,7 @@ Partial Class EditkeySound
         Me.keySoundTextBox.CharWidth = 8
         Me.keySoundTextBox.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.keySoundTextBox.DisabledColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer))
+        Me.keySoundTextBox.Font = New System.Drawing.Font("Courier New", 9.75!)
         Me.keySoundTextBox.IsReplaceMode = False
         Me.keySoundTextBox.Location = New System.Drawing.Point(12, 0)
         Me.keySoundTextBox.Name = "keySoundTextBox"
@@ -132,14 +134,14 @@ Partial Class EditkeySound
         Me.keySoundTextBox.TabIndex = 41
         Me.keySoundTextBox.Zoom = 100
         '
-        'CancelButton
+        'CancelButton2
         '
-        Me.CancelButton.Location = New System.Drawing.Point(187, 351)
-        Me.CancelButton.Name = "CancelButton"
-        Me.CancelButton.Size = New System.Drawing.Size(162, 56)
-        Me.CancelButton.TabIndex = 42
-        Me.CancelButton.Text = "Cancel"
-        Me.CancelButton.UseVisualStyleBackColor = True
+        Me.CancelButton2.Location = New System.Drawing.Point(187, 351)
+        Me.CancelButton2.Name = "CancelButton2"
+        Me.CancelButton2.Size = New System.Drawing.Size(162, 56)
+        Me.CancelButton2.TabIndex = 42
+        Me.CancelButton2.Text = "Cancel"
+        Me.CancelButton2.UseVisualStyleBackColor = True
         '
         'PadLayoutPanel
         '
@@ -1097,6 +1099,15 @@ Partial Class EditkeySound
         Me.btnPad_chain8.Text = "8"
         Me.btnPad_chain8.UseVisualStyleBackColor = True
         '
+        'CancelButton3
+        '
+        Me.CancelButton3.Location = New System.Drawing.Point(187, 351)
+        Me.CancelButton3.Name = "CancelButton3"
+        Me.CancelButton3.Size = New System.Drawing.Size(162, 56)
+        Me.CancelButton3.TabIndex = 42
+        Me.CancelButton3.Text = "Cancel"
+        Me.CancelButton3.UseVisualStyleBackColor = True
+        '
         'EditkeySound
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
@@ -1112,7 +1123,7 @@ Partial Class EditkeySound
         Me.Controls.Add(Me.btnPad_chain1)
         Me.Controls.Add(Me.keySoundLayoutButton)
         Me.Controls.Add(Me.PadLayoutPanel)
-        Me.Controls.Add(Me.CancelButton)
+        Me.Controls.Add(Me.CancelButton2)
         Me.Controls.Add(Me.keySoundTextBox)
         Me.Controls.Add(Me.SaveButton)
         Me.KeyPreview = True
@@ -1125,7 +1136,7 @@ Partial Class EditkeySound
     End Sub
     Friend WithEvents SaveButton As Button
     Friend WithEvents keySoundTextBox As FastColoredTextBoxNS.FastColoredTextBox
-    Friend WithEvents CancelButton As Button
+    Friend WithEvents CancelButton2 As Button
     Friend WithEvents PadLayoutPanel As TableLayoutPanel
     Friend WithEvents uni1_1 As Button
     Friend WithEvents uni1_2 As Button
@@ -1200,4 +1211,5 @@ Partial Class EditkeySound
     Friend WithEvents btnPad_chain6 As Button
     Friend WithEvents btnPad_chain7 As Button
     Friend WithEvents btnPad_chain8 As Button
+    Friend WithEvents CancelButton3 As Button
 End Class

@@ -121,16 +121,7 @@
   <data name="Unipad" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Unipad.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="UniConverter" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UniConverter.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Katalk" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Katalk.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="UniConverter1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UniConverter1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="UniConverter_Alpha" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UniConverter_Alpha.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="UniConverterV2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UniConverterV2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

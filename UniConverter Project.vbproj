@@ -133,6 +133,11 @@
     <Compile Include="LoadingForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="My Project\Settings1.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -142,12 +147,6 @@
       <DependentUpon>REPORTForm.vb</DependentUpon>
     </Compile>
     <Compile Include="REPORTForm.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="z_Edits.Designer.vb">
-      <DependentUpon>z_Edits.vb</DependentUpon>
-    </Compile>
-    <Compile Include="z_Edits.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FileSystemObject.vb" />
@@ -187,20 +186,15 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
     </Compile>
-    <Compile Include="My Project\Resources.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="My Project\Settings.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Tutorial.Designer.vb">
-      <DependentUpon>Tutorial.vb</DependentUpon>
+    <Compile Include="z_Tutorial.Designer.vb">
+      <DependentUpon>z_Tutorial.vb</DependentUpon>
     </Compile>
-    <Compile Include="Tutorial.vb">
+    <Compile Include="z_Tutorial.vb">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
@@ -220,9 +214,6 @@
     <EmbeddedResource Include="REPORTForm.resx">
       <DependentUpon>REPORTForm.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="z_Edits.resx">
-      <DependentUpon>z_Edits.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="keyLED_Edit.resx">
       <DependentUpon>keyLED_Edit.vb</DependentUpon>
     </EmbeddedResource>
@@ -240,12 +231,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tutorial.resx">
-      <DependentUpon>Tutorial.vb</DependentUpon>
+    <EmbeddedResource Include="z_Tutorial.resx">
+      <DependentUpon>z_Tutorial.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -260,18 +251,12 @@
     </None>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Unipad.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\UniConverter.png" />
-  </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <None Include="Resources\UniConverter1.png" />
-    <None Include="Resources\UniConverter_Alpha.png" />
     <Content Include="FastColoredTextBox.dll" />
     <Content Include="NAudio.dll" />
+    <None Include="Resources\Unipad.png" />
+    <None Include="Resources\UniConverterV2.png" />
     <Content Include="UniConverter.ico" />
   </ItemGroup>
   <ItemGroup>
