@@ -268,7 +268,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <None Include="Resources\Katalk.wav" />
     <None Include="Resources\UniConverter1.png" />
     <None Include="Resources\UniConverter_Alpha.png" />
     <Content Include="FastColoredTextBox.dll" />

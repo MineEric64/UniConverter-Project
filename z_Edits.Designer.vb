@@ -25,6 +25,7 @@ Partial Class z_Edits
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(z_Edits))
         Me.EControl = New System.Windows.Forms.TabControl()
         Me.Sounds = New System.Windows.Forms.TabPage()
+        Me.WarningLabel1 = New System.Windows.Forms.Label()
         Me.Button5 = New System.Windows.Forms.Button()
         Me.Button4 = New System.Windows.Forms.Button()
         Me.info = New System.Windows.Forms.TabPage()
@@ -42,7 +43,6 @@ Partial Class z_Edits
         Me.infoT1 = New System.Windows.Forms.Label()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Button2 = New System.Windows.Forms.Button()
-        Me.WarningLabel1 = New System.Windows.Forms.Label()
         Me.EControl.SuspendLayout()
         Me.Sounds.SuspendLayout()
         Me.info.SuspendLayout()
@@ -70,6 +70,17 @@ Partial Class z_Edits
         Me.Sounds.TabIndex = 0
         Me.Sounds.Text = "Sounds"
         Me.Sounds.UseVisualStyleBackColor = True
+        '
+        'WarningLabel1
+        '
+        Me.WarningLabel1.AutoSize = True
+        Me.WarningLabel1.Font = New System.Drawing.Font("Adobe Fan Heiti Std B", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
+        Me.WarningLabel1.Location = New System.Drawing.Point(72, 207)
+        Me.WarningLabel1.Name = "WarningLabel1"
+        Me.WarningLabel1.Size = New System.Drawing.Size(549, 68)
+        Me.WarningLabel1.TabIndex = 2
+        Me.WarningLabel1.Text = "The data folder deleted in 1.0.0.2 version." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "This form causes errors. Don't use t" &
+    "his form!"
         '
         'Button5
         '
@@ -240,17 +251,6 @@ Partial Class z_Edits
         Me.Button2.TabIndex = 2
         Me.Button2.Text = "OK"
         Me.Button2.UseVisualStyleBackColor = True
-        '
-        'WarningLabel1
-        '
-        Me.WarningLabel1.AutoSize = True
-        Me.WarningLabel1.Font = New System.Drawing.Font("Adobe Fan Heiti Std B", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.WarningLabel1.Location = New System.Drawing.Point(72, 207)
-        Me.WarningLabel1.Name = "WarningLabel1"
-        Me.WarningLabel1.Size = New System.Drawing.Size(549, 68)
-        Me.WarningLabel1.TabIndex = 2
-        Me.WarningLabel1.Text = "The data folder deleted in 1.0.0.2 version." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "This form causes errors. Don't use t" &
-    "his form!"
         '
         'z_Edits
         '
