@@ -61,8 +61,8 @@ Public Class EditkeySound
 #Region "Dictionary 버튼 추가"
             With Me
                 '버튼 사전 추가
-                ctrl.Add(11, .uni1_1)
-                ctrl.Add(12, .uni1_2)
+                .ctrl.Add(11, .uni1_1)
+                .ctrl.Add(12, .uni1_2)
                 .ctrl.Add(13, .uni1_3)
                 .ctrl.Add(14, .uni1_4)
                 .ctrl.Add(15, .uni1_5)
@@ -236,7 +236,7 @@ Public Class EditkeySound
                                             Else
                                                 keySound_SameM = Microsoft.VisualBasic.Right(strLine.Remove(0, 1), 1)
                                             End If
-                                            keySound_DifM = Cntstr(keySoundTextBox.Text, UniPack_SelectedChain & " " & UniPack_X & " " & UniPack_Y)
+                                            keySound_DifM = Cntstr(keySoundTextBox.Text, UniPack_SelectedChain & " " & UniPack_X & " " & UniPack_Y & " ")
 
                                             PrChain = Mid(strLine.Remove(0, 1), 1, 1)
                                             lou = lou + 1
@@ -268,6 +268,8 @@ Public Class EditkeySound
                             End If
                         Next
                     Else
+                        '2체인 이상 keySound 매핑 작업
+
                         If My.Computer.FileSystem.DirectoryExists(Application.StartupPath & "\Workspace") Then
                             File.WriteAllText(Application.StartupPath & "\Workspace\keySoundText.txt", keySoundTextBox.Text)
                         Else
@@ -275,11 +277,12 @@ Public Class EditkeySound
                             File.WriteAllText(Application.StartupPath & "\Workspace\keySoundText.txt", keySoundTextBox.Text)
                         End If
 
+                        'Index로 불필요한 String Remove.
+
                         For Each Linestr As String In File.ReadAllText(Application.StartupPath & "\Workspace\keySoundText.txt").Split(Environment.NewLine)
                             'Index 찾기를 이용하여 체인을 찾는 방법.
 
                             If Not Linestr.Remove(0, 1) = "" Then
-
                                 UniPack_SelectedChain = Mid(Linestr.Remove(0, 1), 1, 1)
                                 UniPack_X = Mid(Linestr.Remove(0, 1), 3, 1)
                                 UniPack_Y = Mid(Linestr.Remove(0, 1), 5, 1)
