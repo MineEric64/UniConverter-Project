@@ -40,7 +40,7 @@ Public Class EditkeySound
     ''' </summary>
     Dim keySoundLayoutTrue As Boolean
     ''' <summary>
-    ''' 키사운드 텍스트 라인. 0부터 시작
+    ''' 키사운드 텍스트 라인. Index: 0부터 시작
     ''' </summary>
     Public keySound_Line As Integer
     ''' <summary>
@@ -271,15 +271,23 @@ Public Class EditkeySound
                         '2체인 이상 keySound 매핑 작업
 
                         If My.Computer.FileSystem.DirectoryExists(Application.StartupPath & "\Workspace") Then
-                            File.WriteAllText(Application.StartupPath & "\Workspace\keySoundText.txt", keySoundTextBox.Text)
+                            File.WriteAllText(Application.StartupPath & "\Workspace\ksTmp.txt", keySoundTextBox.Text)
                         Else
                             My.Computer.FileSystem.CreateDirectory(Application.StartupPath & "\Workspace")
-                            File.WriteAllText(Application.StartupPath & "\Workspace\keySoundText.txt", keySoundTextBox.Text)
+                            File.WriteAllText(Application.StartupPath & "\Workspace\ksTmp.txt", keySoundTextBox.Text)
                         End If
 
-                        'Index로 불필요한 String Remove.
+                        'Index로 불필요한 문자열 제거.
 
-                        For Each Linestr As String In File.ReadAllText(Application.StartupPath & "\Workspace\keySoundText.txt").Split(Environment.NewLine)
+                        'Replace로 하니 빈 문자열이 생겨버림. 자세한 내용은 Workspace\ksTmp.txt 참조
+                        Dim ksW As String
+                        ksW = File.ReadAllText(Application.StartupPath & "\Workspace\ksTmp.txt")
+                        For i As Integer = 0 To keySound_Line - 1
+                            ksW = ksW.Replace(File.ReadAllLines(Application.StartupPath & "\Workspace\ksTmp.txt")(i), "")
+                        Next
+                        File.WriteAllText(Application.StartupPath & "\Workspace\ksTmp.txt", ksW)
+
+                        For Each Linestr As String In File.ReadAllText(Application.StartupPath & "\Workspace\ksTmp.txt").Split(Environment.NewLine)
                             'Index 찾기를 이용하여 체인을 찾는 방법.
 
                             If Not Linestr.Remove(0, 1) = "" Then
@@ -287,15 +295,15 @@ Public Class EditkeySound
                                 UniPack_X = Mid(Linestr.Remove(0, 1), 3, 1)
                                 UniPack_Y = Mid(Linestr.Remove(0, 1), 5, 1)
 
-                                If Microsoft.VisualBasic.Right(Linestr.Remove(0, 1), 1) = "" Then
+                                If Strings.Right(Linestr.Remove(0, 1), 1) = "" Then
                                     keySound_Mapping = 1
-                                ElseIf Microsoft.VisualBasic.Right(Linestr.Remove(0, 1), 1) = "v" Then
+                                ElseIf Strings.Right(Linestr.Remove(0, 1), 1) = "v" Then
                                     keySound_Mapping = 1
                                 Else
-                                    keySound_SameM = Microsoft.VisualBasic.Right(Linestr.Remove(0, 1), 1)
+                                    keySound_SameM = Strings.Right(Linestr.Remove(0, 1), 1)
                                 End If
 
-                                keySound_DifM = Cntstr(File.ReadAllText(Application.StartupPath & "\Workspace\keySoundText.txt"), UniPack_SelectedChain & " " & UniPack_X & " " & UniPack_Y)
+                                keySound_DifM = Cntstr(File.ReadAllText(Application.StartupPath & "\Workspace\ksTmp.txt"), UniPack_SelectedChain & " " & UniPack_X & " " & UniPack_Y)
                             Else
                                 Continue For
                             End If

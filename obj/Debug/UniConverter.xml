@@ -79,7 +79,7 @@ UniConverter
 </member>
 <member name="F:UniConverter_Project.EditkeySound.keySound_Line">
  <summary>
- 키사운드 텍스트 라인. 0부터 시작
+ 키사운드 텍스트 라인. Index: 0부터 시작
  </summary>
 </member>
 <member name="F:UniConverter_Project.EditkeySound.PrChain">
