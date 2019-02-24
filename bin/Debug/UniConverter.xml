@@ -87,6 +87,11 @@ UniConverter
  이전 체인.
  </summary>
 </member>
+<member name="F:UniConverter_Project.EditkeySound.ResetChain">
+ <summary>
+ 체인을 리셋. (keySound Layout 버튼)
+ </summary>
+</member>
 <member name="F:UniConverter_Project.EditkeySound.ctrl">
  <summary>
  버튼 저장
