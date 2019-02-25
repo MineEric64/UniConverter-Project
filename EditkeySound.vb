@@ -241,9 +241,6 @@ Public Class EditkeySound
                                             UniPack_X = Mid(strLine.Remove(0, 1), 3, 1)
                                             UniPack_Y = Mid(strLine.Remove(0, 1), 5, 1)
 
-                                            UniPack_SelectedChain = Mid(strLine.Remove(0, 1), 1, 1)
-                                            UniPack_X = Mid(strLine.Remove(0, 1), 3, 1)
-                                            UniPack_Y = Mid(strLine.Remove(0, 1), 5, 1)
                                             If Strings.Right(strLine.Remove(0, 1), 1) = "" Then
                                                 keySound_Mapping = 1
                                             ElseIf Strings.Right(strLine.Remove(0, 1), 1) = "v" Then
@@ -339,10 +336,11 @@ Public Class EditkeySound
                                 'Index 찾기를 이용하여 체인을 찾는 방법.
 
                                 If loi = 1 Then
-                                    If Not Linestr = "" Then
-                                        If Not Linestr = vbNewLine Then
-                                            lou = lou + 1
+                                If Not Linestr = "" Then
+                                    If Not Linestr = vbNewLine Then
+                                        lou = lou + 1
 
+                                        If Mid(Linestr, 1, 1) Then
                                             UniPack_SelectedChain = Mid(Linestr, 1, 1)
                                             UniPack_X = Mid(Linestr, 3, 1)
                                             UniPack_Y = Mid(Linestr, 5, 1)
@@ -352,7 +350,7 @@ Public Class EditkeySound
                                             ElseIf Strings.Right(Linestr, 1) = "v" Then
                                                 keySound_Mapping = 1
                                             Else
-                                                keySound_SameM = Strings.Right(Linestr, 1)
+                                                keySound_SameM = CInt(Strings.Right(Linestr, 1))
                                             End If
 
                                             keySound_DifM = Cntstr(File.ReadAllText(Application.StartupPath & "\Workspace\ksTmp.txt"), UniPack_SelectedChain & " " & UniPack_X & " " & UniPack_Y & " ")
@@ -367,54 +365,59 @@ Public Class EditkeySound
                                             loi = 0
                                             PrChain = Mid(Linestr, 1, 1)
                                         End If
+                                    Else
+                                        Continue For
                                     End If
                                 Else
-                                    If Not Linestr.Remove(0, 1) = "" Then
-                                        If Not Linestr.Remove(0, 1) = vbNewLine Then
-                                            UniPack_SelectedChain = Mid(Linestr.Remove(0, 1), 1, 1)
-                                            UniPack_X = Mid(Linestr.Remove(0, 1), 3, 1)
-                                            UniPack_Y = Mid(Linestr.Remove(0, 1), 5, 1)
-
-                                            If Strings.Right(Linestr.Remove(0, 1), 1) = "" Then
-                                                keySound_Mapping = 1
-                                            ElseIf Strings.Right(Linestr.Remove(0, 1), 1) = "v" Then
-                                                keySound_Mapping = 1
-                                            Else
-                                                keySound_SameM = Strings.Right(Linestr.Remove(0, 1), 1)
-                                            End If
-
-                                            keySound_DifM = Cntstr(File.ReadAllText(Application.StartupPath & "\Workspace\ksTmp.txt"), UniPack_SelectedChain & " " & UniPack_X & " " & UniPack_Y & " ")
-                                            PrChain = Mid(Linestr.Remove(0, 1), 1, 1)
-                                            lou = lou + 1
-                                        Else
-                                            Continue For
-                                        End If
-
-                                        If Not Mid(Linestr.Remove(0, 1), 1, 1) = PrChain Then '선택한 체인과 이전에 선택한 체인과 다른 경우
-                                            keySound_Line = lou
-                                            Exit For
-                                        End If
-                                    End If
-
-                                    If keySound_Mapping > 0 Then '기본적인 사운드 매핑.
-                                        btnText = keySound_Mapping
-                                    End If
-
-                                    If keySound_SameM > 0 Then
-                                        btnText = keySound_SameM
-                                    End If
-
-                                    If keySound_DifM > 1 Then '사운드 다중 매핑.
-                                        If keySound_SameM > 0 Then
-                                            btnText = keySound_DifM + keySound_SameM
-                                        Else
-                                            btnText = keySound_DifM
-                                        End If
-                                    End If
-
-                                    ctrl(UniPack_X & UniPack_Y).BackColor = Color.Green
-                                    ctrl(UniPack_X & UniPack_Y).Text = btnText
+                                    Continue For
                                 End If
+                            Else
+                                If Not Linestr.Remove(0, 1) = "" Then
+                                    If Not Linestr.Remove(0, 1) = vbNewLine Then
+                                        UniPack_SelectedChain = CInt(Mid(Linestr.Remove(0, 1), 1, 1))
+                                        UniPack_X = CInt(Mid(Linestr.Remove(0, 1), 3, 1))
+                                        UniPack_Y = CInt(Mid(Linestr.Remove(0, 1), 5, 1))
+
+                                        If Strings.Right(Linestr.Remove(0, 1), 1) = "" Then
+                                            keySound_Mapping = 1
+                                        ElseIf Strings.Right(Linestr.Remove(0, 1), 1) = "v" Then
+                                            keySound_Mapping = 1
+                                        Else
+                                            keySound_SameM = CInt(Strings.Right(Linestr.Remove(0, 1), 1))
+                                        End If
+
+                                        keySound_DifM = Cntstr(File.ReadAllText(Application.StartupPath & "\Workspace\ksTmp.txt"), UniPack_SelectedChain & " " & UniPack_X & " " & UniPack_Y & " ")
+                                        PrChain = CInt(Mid(Linestr.Remove(0, 1), 1, 1))
+                                        lou = lou + 1
+                                    Else
+                                        Continue For
+                                    End If
+
+                                    If Not Mid(Linestr.Remove(0, 1), 1, 1) = PrChain Then '선택한 체인과 이전에 선택한 체인과 다른 경우
+                                        keySound_Line = lou
+                                        Exit For
+                                    Else
+                                        If keySound_Mapping > 0 Then '기본적인 사운드 매핑.
+                                            btnText = keySound_Mapping
+                                        End If
+
+                                        If keySound_SameM > 0 Then
+                                            btnText = keySound_SameM
+                                        End If
+
+                                        If keySound_DifM > 1 Then '사운드 다중 매핑.
+                                            If keySound_SameM > 0 Then
+                                                btnText = keySound_DifM + keySound_SameM
+                                            Else
+                                                btnText = keySound_DifM
+                                            End If
+                                        End If
+
+                                        ctrl(UniPack_X & UniPack_Y).BackColor = Color.Green
+                                        ctrl(UniPack_X & UniPack_Y).Text = btnText
+                                    End If
+                                End If
+                            End If
                             Next
                         End If
                         Else
@@ -442,7 +445,7 @@ Public Class EditkeySound
     Private Sub keySound_ChainChanged(sender As Object, e As EventArgs) Handles btnPad_chain1.Click, btnPad_chain2.Click, btnPad_chain3.Click, btnPad_chain4.Click, btnPad_chain5.Click, btnPad_chain6.Click, btnPad_chain7.Click, btnPad_chain8.Click
         '선택한 체인 선언.
         Dim ClickedBtn As Button = CType(sender, Button)
-        keySound_CChain = ClickedBtn.Name.Substring(12, 1)
+        keySound_CChain = CInt(ClickedBtn.Name.Substring(12, 1))
 
         '선택한 체인으로 레이아웃 새로고침.
         If keySoundLayoutTrue = True Then
