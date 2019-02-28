@@ -181,6 +181,7 @@ Public Class EditkeySound
     Private Sub keySoundLayoutButton_Click(sender As Object, e As EventArgs) Handles keySoundLayoutButton.Click
         Try
             If keySoundLayoutTrue = False Then EkeySoundLayout()
+
             For x As Integer = 1 To 8
                 For y As Integer = 1 To 8
                     ctrl(x & y).Text = Nothing
@@ -189,9 +190,134 @@ Public Class EditkeySound
                 Next
             Next
 
+#Region "keySound Opened Project 1"
+            '---BETA CODE (Show keySound & Chain)---
+            Dim loi As Integer = 1
+            Dim btnText As String = ""
+            Dim ksTmpTXT As String = Application.StartupPath & "\Workspace\ksTmp.txt"
+            If Not keySoundTextBox.Text = "" Then
+                If Not keySoundTextBox.Text = Environment.NewLine Then
+
+                    Dim keySoundText As String
+                    keySoundText = keySoundTextBox.Text.TrimStart
+                    keySoundText = keySoundTextBox.Text.TrimEnd
+
+                    If My.Computer.FileSystem.DirectoryExists(Application.StartupPath & "\Workspace") Then
+                        File.WriteAllText(ksTmpTXT, keySoundText)
+                    Else
+                        My.Computer.FileSystem.CreateDirectory(Application.StartupPath & "\Workspace")
+                        File.WriteAllText(ksTmpTXT, keySoundText)
+                    End If
+
+                    For Each strLine As String In File.ReadAllText(ksTmpTXT).Split(Environment.NewLine) 'String을 각 라인마다 자름.
+
+                        If loi = 1 Then
+                            If Not strLine = "" Then
+                                If Not strLine.StartsWith(vbNewLine) Then
+                                    Select Case CInt(Mid(strLine, 1, 1))
+                                        Case 1 To 8
+                                            'Continue.
+                                        Case Else
+                                            MessageBox.Show("Error! - Chain " & keySound_CChain.ToString & " doesn't exists in keySound. (Ex: Check Failed Chain " & Mid(strLine, 1, 1) & ", Full: " & strLine & ")", Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                                            Exit Sub
+                                    End Select
+
+                                    If CInt(Mid(strLine, 1, 1)) = keySound_CChain Then
+
+                                        UniPack_SelectedChain = keySound_CChain
+                                        UniPack_X = CInt(Mid(strLine, 3, 1))
+                                        UniPack_Y = CInt(Mid(strLine, 5, 1))
+
+                                        'ex: 1 1 1 001.wav 1 (같은 사운드 다중 매핑 적용)
+                                        If Strings.Right(strLine, 4) = ".mp3" Then '.mp3의 경우
+                                            keySound_Mapping = 1
+                                        ElseIf Strings.Right(strLine, 4) = ".wav" Then '.wav의 경우
+                                            keySound_Mapping = 1
+                                        Else
+                                            keySound_SameM = Strings.Right(strLine, 1) '반복문이 1 이상의 경우
+                                        End If
+
+                                        'ex: 1 1 1 001.wav, 1 1 1 002.wav (다른 사운드 다중 매핑 적용, 추천)
+                                        keySound_DifM = Cntstr(File.ReadAllText(ksTmpTXT), UniPack_SelectedChain & " " & UniPack_X & " " & UniPack_Y & " ")
+
+                                        loi = 0
+
+                                    Else
+                                        loi = 0
+                                        Continue For
+                                    End If
+                                Else
+                                    loi = 0
+                                    Continue For
+                                End If
+                            Else
+                                loi = 0
+                                Continue For
+                            End If
+                        Else
+                            If Not strLine.Remove(0, 1) = "" Then
+                                If Not strLine.Remove(0, 1).StartsWith(vbNewLine) Then
+                                    Select Case CInt(Mid(strLine.Remove(0, 1), 1, 1))
+                                        Case 1 To 8
+                                            'Continue.
+                                        Case Else
+                                            MessageBox.Show("Error! - Chain " & keySound_CChain.ToString & " doesn't exists in keySound. (Ex: Check Failed Chain " & Mid(strLine.Remove(0, 1), 1, 1) & ", Full: " & strLine.Remove(0, 1) & ")", Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                                            Exit Sub
+                                    End Select
+
+                                    If CInt(Mid(strLine.Remove(0, 1), 1, 1)) = keySound_CChain Then
+
+                                        UniPack_SelectedChain = keySound_CChain
+                                        UniPack_X = CInt(Mid(strLine.Remove(0, 1), 3, 1))
+                                        UniPack_Y = CInt(Mid(strLine.Remove(0, 1), 5, 1))
+
+                                        'ex: 1 1 1 001.wav 1 (같은 사운드 다중 매핑 적용)
+                                        If Strings.Right(strLine.Remove(0, 1), 4) = ".mp3" Then '.mp3의 경우
+                                            keySound_Mapping = 1
+                                        ElseIf Strings.Right(strLine.Remove(0, 1), 4) = ".wav" Then '.wav의 경우
+                                            keySound_Mapping = 1
+                                        Else
+                                            keySound_SameM = Strings.Right(strLine.Remove(0, 1), 1) '반복문이 1 이상의 경우
+                                        End If
+
+                                        'ex: 1 1 1 001.wav, 1 1 1 002.wav (다른 사운드 다중 매핑 적용, 추천)
+                                        keySound_DifM = Cntstr(File.ReadAllText(ksTmpTXT), UniPack_SelectedChain & " " & UniPack_X & " " & UniPack_Y & " ")
+                                    End If
+                                End If
+                            End If
+                        End If
+
+                        If keySound_Mapping > 0 Then '기본적인 사운드 매핑.
+                                btnText = keySound_Mapping
+                            End If
+
+                            If keySound_SameM > 0 Then
+                                btnText = keySound_SameM
+                            End If
+
+                            If keySound_DifM > 1 Then '사운드 다중 매핑.
+                                If keySound_SameM > 0 Then
+                                    btnText = keySound_DifM + keySound_SameM
+                                Else
+                                    btnText = keySound_DifM
+                                End If
+                            End If
+
+                            ctrl(UniPack_X & UniPack_Y).BackColor = Color.Green
+                        ctrl(UniPack_X & UniPack_Y).Text = btnText
+                    Next
+                End If
+            Else
+                MessageBox.Show("Error! - keySound doesn't exists.", Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+#End Region
+
+#Region "z_keySound Closed Project 1"
+            '개발 하다가 Project 취소된 코드 작업.
+        Catch OldAlgorithm1 As DivideByZeroException
             keySound_Line = 0
 
-                Dim loi As Integer = 1
+            Dim loi As Integer = 1
             Dim lou As Integer = 0
             Dim btnText As String = ""
             If Not keySoundTextBox.Text = "" Then
@@ -291,7 +417,7 @@ Public Class EditkeySound
 
                         Dim lop As Integer = 0
                         lou = 0
-                            loi = 1
+                        loi = 1
                         For Each Indexstr As String In File.ReadAllText(Application.StartupPath & "\Workspace\ksTmp.txt").Split(Environment.NewLine)
                             If loi = 1 Then
                                 If Mid(Indexstr, 1, 1) = keySound_CChain.ToString Then
@@ -331,11 +457,11 @@ Public Class EditkeySound
 
                         keySound_Line = 0 'keySound 라인 초기화.
 
-                            loi = 1
-                            For Each Linestr As String In File.ReadAllText(Application.StartupPath & "\Workspace\ksTmp.txt").Split(Environment.NewLine)
-                                'Index 찾기를 이용하여 체인을 찾는 방법.
+                        loi = 1
+                        For Each Linestr As String In File.ReadAllText(Application.StartupPath & "\Workspace\ksTmp.txt").Split(Environment.NewLine)
+                            'Index 찾기를 이용하여 체인을 찾는 방법.
 
-                                If loi = 1 Then
+                            If loi = 1 Then
                                 If Not Linestr = "" Then
                                     If Not Linestr = vbNewLine Then
                                         lou = lou + 1
@@ -418,14 +544,15 @@ Public Class EditkeySound
                                     End If
                                 End If
                             End If
-                            Next
-                        End If
-                        Else
+                        Next
+                    End If
+                Else
                     MessageBox.Show("Error! - String is Empty!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End If
             Else
                 MessageBox.Show("Error! - String is Empty!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
+#End Region
 
         Catch ex As Exception
             MessageBox.Show("Error! - " & ex.Message & vbNewLine & ex.StackTrace,
