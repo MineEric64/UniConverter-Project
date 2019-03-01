@@ -1,7 +1,10 @@
 ﻿Imports System.IO
 Imports System.Text
 
-Public Class DeveloperMode
+Public Class z_DeveloperMode
+    '                                                      ---Warning---
+    'Workspace Folder changed With New Functions at UniConverter V1.0.0.1!
+    'This Form causes Error. It will delete at UniConverter V2.0... 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
 
         Dim curFile As String = "Workspace"
@@ -174,8 +177,8 @@ Public Class DeveloperMode
                 Else
                     My.Computer.FileSystem.CreateDirectory("Sources")
                     fs = File.Create("Sources\DeveloperMode.uni")
-                    Info = New UTF8Encoding(True).GetBytes("//This UniConverter's Developer Mode license." & vbNewLine & vbNewLine & "- UniConverter ⓒ 2018 최에릭 All Rights Reserved.")
-                    fs.Write(Info, 0, Info.Length)
+                    info = New UTF8Encoding(True).GetBytes("//This UniConverter's Developer Mode license." & vbNewLine & vbNewLine & "- UniConverter ⓒ 2018 최에릭 All Rights Reserved.")
+                    fs.Write(info, 0, info.Length)
                     fs.Close()
                     If MsgBox("Enabled Developer Mode! Do you reboot the UniConverter?", vbYesNo, "UniConverter") = vbYes Then
                         MsgBox("After Reboot, Execute the UniConverter.")

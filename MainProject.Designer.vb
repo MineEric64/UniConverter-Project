@@ -43,9 +43,9 @@ Partial Class MainProject
         Me.TutorialsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ReportBugsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CheckUpdateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SettingsToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.InfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.DeveloperToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.LEDOpen1 = New System.Windows.Forms.OpenFileDialog()
@@ -61,6 +61,9 @@ Partial Class MainProject
         Me.infoTB1 = New System.Windows.Forms.TextBox()
         Me.infoT1 = New System.Windows.Forms.Label()
         Me.KeyS1 = New System.Windows.Forms.TabPage()
+        Me.ks_SelY = New System.Windows.Forms.ComboBox()
+        Me.ks_SelX = New System.Windows.Forms.ComboBox()
+        Me.ks_SelChain = New System.Windows.Forms.ComboBox()
         Me.EdKeysButton = New System.Windows.Forms.Button()
         Me.SaveButton = New System.Windows.Forms.Button()
         Me.CutSndButton = New System.Windows.Forms.Button()
@@ -74,11 +77,14 @@ Partial Class MainProject
         Me.FileName = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.keyLED1 = New System.Windows.Forms.TabPage()
         Me.keyLED2 = New System.Windows.Forms.TabPage()
-        Me.CheckUpdateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DevelopingLabel2 = New System.Windows.Forms.Label()
+        Me.Label1 = New System.Windows.Forms.Label()
         Me.MenuStrip1.SuspendLayout()
         Me.HomeEdit1.SuspendLayout()
         Me.Info1.SuspendLayout()
         Me.KeyS1.SuspendLayout()
+        Me.keyLED1.SuspendLayout()
+        Me.keyLED2.SuspendLayout()
         Me.SuspendLayout()
         '
         'MenuStrip1
@@ -146,7 +152,7 @@ Partial Class MainProject
         '
         Me.UnipackToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AnyAbletonToolStripMenuItem, Me.AbletonLive9LiteToolStripMenuItem, Me.AbletonLive9TrialToolStripMenuItem, Me.AbletonLive9SuiteToolStripMenuItem, Me.AbletonLive10ToolStripMenuItem})
         Me.UnipackToolStripMenuItem.Name = "UnipackToolStripMenuItem"
-        Me.UnipackToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.UnipackToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
         Me.UnipackToolStripMenuItem.Text = "Ableton"
         '
         'AnyAbletonToolStripMenuItem
@@ -188,7 +194,7 @@ Partial Class MainProject
         '
         Me.UnipackToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ConvertToZipUniToolStripMenuItem})
         Me.UnipackToolStripMenuItem1.Name = "UnipackToolStripMenuItem1"
-        Me.UnipackToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.UnipackToolStripMenuItem1.Size = New System.Drawing.Size(117, 22)
         Me.UnipackToolStripMenuItem1.Text = "Unipack"
         '
         'ConvertToZipUniToolStripMenuItem
@@ -207,7 +213,7 @@ Partial Class MainProject
         '
         'SettingsToolStripMenuItem
         '
-        Me.SettingsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ReportBugsToolStripMenuItem, Me.CheckUpdateToolStripMenuItem, Me.SettingsToolStripMenuItem1, Me.InfoToolStripMenuItem, Me.DeveloperToolStripMenuItem})
+        Me.SettingsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CheckUpdateToolStripMenuItem, Me.ReportBugsToolStripMenuItem, Me.SettingsToolStripMenuItem1, Me.InfoToolStripMenuItem})
         Me.SettingsToolStripMenuItem.Name = "SettingsToolStripMenuItem"
         Me.SettingsToolStripMenuItem.Size = New System.Drawing.Size(52, 20)
         Me.SettingsToolStripMenuItem.Text = "About"
@@ -217,6 +223,12 @@ Partial Class MainProject
         Me.ReportBugsToolStripMenuItem.Name = "ReportBugsToolStripMenuItem"
         Me.ReportBugsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ReportBugsToolStripMenuItem.Text = "Report Bugs"
+        '
+        'CheckUpdateToolStripMenuItem
+        '
+        Me.CheckUpdateToolStripMenuItem.Name = "CheckUpdateToolStripMenuItem"
+        Me.CheckUpdateToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CheckUpdateToolStripMenuItem.Text = "Check Update"
         '
         'SettingsToolStripMenuItem1
         '
@@ -229,14 +241,6 @@ Partial Class MainProject
         Me.InfoToolStripMenuItem.Name = "InfoToolStripMenuItem"
         Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.InfoToolStripMenuItem.Text = "Info"
-        '
-        'DeveloperToolStripMenuItem
-        '
-        Me.DeveloperToolStripMenuItem.Enabled = False
-        Me.DeveloperToolStripMenuItem.Name = "DeveloperToolStripMenuItem"
-        Me.DeveloperToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.DeveloperToolStripMenuItem.Text = "Developer Mode"
-        Me.DeveloperToolStripMenuItem.Visible = False
         '
         'OpenFileDialog1
         '
@@ -378,6 +382,9 @@ Partial Class MainProject
         '
         'KeyS1
         '
+        Me.KeyS1.Controls.Add(Me.ks_SelY)
+        Me.KeyS1.Controls.Add(Me.ks_SelX)
+        Me.KeyS1.Controls.Add(Me.ks_SelChain)
         Me.KeyS1.Controls.Add(Me.EdKeysButton)
         Me.KeyS1.Controls.Add(Me.SaveButton)
         Me.KeyS1.Controls.Add(Me.CutSndButton)
@@ -394,6 +401,33 @@ Partial Class MainProject
         Me.KeyS1.TabIndex = 1
         Me.KeyS1.Text = "keySound"
         Me.KeyS1.UseVisualStyleBackColor = True
+        '
+        'ks_SelY
+        '
+        Me.ks_SelY.FormattingEnabled = True
+        Me.ks_SelY.Location = New System.Drawing.Point(368, 6)
+        Me.ks_SelY.Name = "ks_SelY"
+        Me.ks_SelY.Size = New System.Drawing.Size(29, 20)
+        Me.ks_SelY.TabIndex = 46
+        Me.ks_SelY.Text = "y"
+        '
+        'ks_SelX
+        '
+        Me.ks_SelX.FormattingEnabled = True
+        Me.ks_SelX.Location = New System.Drawing.Point(335, 6)
+        Me.ks_SelX.Name = "ks_SelX"
+        Me.ks_SelX.Size = New System.Drawing.Size(29, 20)
+        Me.ks_SelX.TabIndex = 45
+        Me.ks_SelX.Text = "x"
+        '
+        'ks_SelChain
+        '
+        Me.ks_SelChain.FormattingEnabled = True
+        Me.ks_SelChain.Location = New System.Drawing.Point(300, 6)
+        Me.ks_SelChain.Name = "ks_SelChain"
+        Me.ks_SelChain.Size = New System.Drawing.Size(29, 20)
+        Me.ks_SelChain.TabIndex = 44
+        Me.ks_SelChain.Text = "c"
         '
         'EdKeysButton
         '
@@ -506,6 +540,7 @@ Partial Class MainProject
         '
         'keyLED1
         '
+        Me.keyLED1.Controls.Add(Me.DevelopingLabel2)
         Me.keyLED1.Location = New System.Drawing.Point(4, 22)
         Me.keyLED1.Name = "keyLED1"
         Me.keyLED1.Size = New System.Drawing.Size(669, 423)
@@ -515,6 +550,7 @@ Partial Class MainProject
         '
         'keyLED2
         '
+        Me.keyLED2.Controls.Add(Me.Label1)
         Me.keyLED2.Location = New System.Drawing.Point(4, 22)
         Me.keyLED2.Name = "keyLED2"
         Me.keyLED2.Size = New System.Drawing.Size(669, 423)
@@ -522,11 +558,27 @@ Partial Class MainProject
         Me.keyLED2.Text = "keyLED (mid)"
         Me.keyLED2.UseVisualStyleBackColor = True
         '
-        'CheckUpdateToolStripMenuItem
+        'DevelopingLabel2
         '
-        Me.CheckUpdateToolStripMenuItem.Name = "CheckUpdateToolStripMenuItem"
-        Me.CheckUpdateToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.CheckUpdateToolStripMenuItem.Text = "Check Update"
+        Me.DevelopingLabel2.AutoSize = True
+        Me.DevelopingLabel2.Font = New System.Drawing.Font("Adobe Heiti Std R", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
+        Me.DevelopingLabel2.Location = New System.Drawing.Point(62, 177)
+        Me.DevelopingLabel2.Name = "DevelopingLabel2"
+        Me.DevelopingLabel2.Size = New System.Drawing.Size(512, 68)
+        Me.DevelopingLabel2.TabIndex = 36
+        Me.DevelopingLabel2.Text = "We are developing ""Converting keyLED""!" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "                           Coming Soon..." &
+    ""
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Font = New System.Drawing.Font("Adobe Heiti Std R", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
+        Me.Label1.Location = New System.Drawing.Point(39, 177)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(593, 68)
+        Me.Label1.TabIndex = 37
+        Me.Label1.Text = "We are developing ""Converting keyLED (MIDI)""!" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "                                Co" &
+    "ming Soon..."
         '
         'MainProject
         '
@@ -546,6 +598,10 @@ Partial Class MainProject
         Me.Info1.PerformLayout()
         Me.KeyS1.ResumeLayout(False)
         Me.KeyS1.PerformLayout()
+        Me.keyLED1.ResumeLayout(False)
+        Me.keyLED1.PerformLayout()
+        Me.keyLED2.ResumeLayout(False)
+        Me.keyLED2.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -561,7 +617,6 @@ Partial Class MainProject
     Friend WithEvents OpenFileDialog1 As OpenFileDialog
     Friend WithEvents TutorialsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents SettingsToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents DeveloperToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents UnipackToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents SaveFileDialog1 As SaveFileDialog
     Friend WithEvents SoundsToolStripMenuItem As ToolStripMenuItem
@@ -603,4 +658,9 @@ Partial Class MainProject
     Friend WithEvents keyLED1 As TabPage
     Friend WithEvents keyLED2 As TabPage
     Friend WithEvents CheckUpdateToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ks_SelY As ComboBox
+    Friend WithEvents ks_SelX As ComboBox
+    Friend WithEvents ks_SelChain As ComboBox
+    Friend WithEvents DevelopingLabel2 As Label
+    Friend WithEvents Label1 As Label
 End Class

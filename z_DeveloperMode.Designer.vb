@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class DeveloperMode
+Partial Class z_DeveloperMode
     Inherits System.Windows.Forms.Form
 
     'Form은 Dispose를 재정의하여 구성 요소 목록을 정리합니다.
@@ -22,7 +22,7 @@ Partial Class DeveloperMode
     '코드 편집기에서는 수정하지 마세요.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(DeveloperMode))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(z_DeveloperMode))
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
@@ -45,6 +45,8 @@ Partial Class DeveloperMode
         Me.Button7 = New System.Windows.Forms.Button()
         Me.Button9 = New System.Windows.Forms.Button()
         Me.Button10 = New System.Windows.Forms.Button()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -65,6 +67,7 @@ Partial Class DeveloperMode
         '
         'TabPage1
         '
+        Me.TabPage1.Controls.Add(Me.Label1)
         Me.TabPage1.Controls.Add(Me.GroupBox2)
         Me.TabPage1.Controls.Add(Me.GroupBox1)
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
@@ -195,6 +198,7 @@ Partial Class DeveloperMode
         '
         'TabPage2
         '
+        Me.TabPage2.Controls.Add(Me.Label2)
         Me.TabPage2.Controls.Add(Me.Button16)
         Me.TabPage2.Controls.Add(Me.GroupBox3)
         Me.TabPage2.Controls.Add(Me.Button7)
@@ -271,6 +275,26 @@ Partial Class DeveloperMode
         Me.Button10.Text = "OK"
         Me.Button10.UseVisualStyleBackColor = True
         '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Font = New System.Drawing.Font("Adobe Fan Heiti Std B", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
+        Me.Label1.Location = New System.Drawing.Point(4, 124)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(549, 60)
+        Me.Label1.TabIndex = 3
+        Me.Label1.Text = resources.GetString("Label1.Text")
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Font = New System.Drawing.Font("Adobe Fan Heiti Std B", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
+        Me.Label2.Location = New System.Drawing.Point(2, 124)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(549, 60)
+        Me.Label2.TabIndex = 4
+        Me.Label2.Text = resources.GetString("Label2.Text")
+        '
         'DeveloperMode
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
@@ -284,9 +308,11 @@ Partial Class DeveloperMode
         Me.Text = "Developer Mode"
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
+        Me.TabPage1.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox1.ResumeLayout(False)
         Me.TabPage2.ResumeLayout(False)
+        Me.TabPage2.PerformLayout()
         Me.GroupBox3.ResumeLayout(False)
         Me.ResumeLayout(False)
 
@@ -314,4 +340,6 @@ Partial Class DeveloperMode
     Friend WithEvents Button13 As Button
     Friend WithEvents Button16 As Button
     Friend WithEvents Button15 As Button
+    Friend WithEvents Label1 As Label
+    Friend WithEvents Label2 As Label
 End Class

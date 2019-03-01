@@ -145,10 +145,6 @@ Public Class MainProject
         OpenSounds()
     End Sub
 
-    Private Sub DeveloperToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeveloperToolStripMenuItem.Click
-        DeveloperMode.Show()
-    End Sub
-
     Private Sub TutorialsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TutorialsToolStripMenuItem.Click
         MessageBox.Show("We are developing the NEW Tutorial Function." & vbNewLine & "Coming Soon...!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
         'z_Tutorial.Show()

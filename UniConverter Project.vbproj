@@ -115,10 +115,10 @@
     <Compile Include="CuttingSound.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DeveloperMode.Designer.vb">
-      <DependentUpon>DeveloperMode.vb</DependentUpon>
+    <Compile Include="z_DeveloperMode.Designer.vb">
+      <DependentUpon>z_DeveloperMode.vb</DependentUpon>
     </Compile>
-    <Compile Include="DeveloperMode.vb">
+    <Compile Include="z_DeveloperMode.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="EditkeySound.Designer.vb">
@@ -202,8 +202,8 @@
     <EmbeddedResource Include="CuttingSound.resx">
       <DependentUpon>CuttingSound.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DeveloperMode.resx">
-      <DependentUpon>DeveloperMode.vb</DependentUpon>
+    <EmbeddedResource Include="z_DeveloperMode.resx">
+      <DependentUpon>z_DeveloperMode.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditkeySound.resx">
       <DependentUpon>EditkeySound.vb</DependentUpon>
