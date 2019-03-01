@@ -88,13 +88,6 @@ Public Class MainProject
         abl_openedproj = False
         abl_openedsnd = False
 
-        'Devloper Mode
-        If File.Exists(curFile) Then
-            '개발자 툴 지원
-            DeveloperToolStripMenuItem.Visible = True
-            DeveloperToolStripMenuItem.Enabled = True
-        End If
-
         'Text of Info TextBox
         infoTB1.Text = "My Amazing Launchpad Project!" 'Title
         infoTB2.Text = "UniConverter, MineEric64, More..." 'Producer Name
