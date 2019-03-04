@@ -460,12 +460,24 @@ SaveInfoLine:
 
     Public Sub OpenSounds()
         Dim openFileDialog1 As New OpenFileDialog()
+        Dim MaxFileLength As Integer
+        Dim LoadedFiles As Integer
 
         openFileDialog1.Filter = "WAV Sound Files|*.wav|MP3 Sound Files|*.mp3"
         openFileDialog1.Title = "Select Sounds"
         openFileDialog1.Multiselect = True
+        LoadedFiles = 0
 
         If openFileDialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+            MaxFileLength = openFileDialog1.FileNames.Length
+
+            With LOADINGForm
+                .Show()
+                .Text = "Loading Sound Files..."
+                .DLabel1.Text = "Loading Sound Files... (" & LoadedFiles & "/" & MaxFileLength & ")"
+                .DProgress1.Maximum = MaxFileLength
+                .DProgress1.Style = ProgressBarStyle.Marquee
+            End With
 
             If Path.GetExtension(openFileDialog1.FileNames(openFileDialog1.FileNames.Length - 1)) = ".wav" Then
 
@@ -477,6 +489,10 @@ SaveInfoLine:
 
                 For i = 0 To openFileDialog1.FileNames.Length - 1
                     File.Copy(openFileDialog1.FileNames(i), "Workspace\unipack\sounds\" & openFileDialog1.FileNames(i).Split("\").Last, True)
+                    LoadedFiles = LoadedFiles + 1
+                    LOADINGForm.DProgress1.Style = ProgressBarStyle.Continuous
+                    LOADINGForm.DLabel1.Text = "Loading Sound Files... (" & LoadedFiles & "/" & MaxFileLength & ")"
+                    LOADINGForm.DProgress1.Value = LoadedFiles
                 Next
 
             ElseIf Path.GetExtension(openFileDialog1.FileNames(openFileDialog1.FileNames.Length - 1)) = ".mp3" Then
@@ -499,6 +515,10 @@ fexLine:
                         If File.Exists(foundFile.Replace(".mp3", ".wav")) Then
                             File.Move(foundFile.Replace(".mp3", ".wav"), "Workspace\unipack\sounds\" & Path.GetFileName(foundFile.Replace(".mp3", ".wav")))
                             File.Delete(foundFile)
+                            LoadedFiles = LoadedFiles + 1
+                            LOADINGForm.DProgress1.Style = ProgressBarStyle.Continuous
+                            LOADINGForm.DLabel1.Text = "Loading Sound Files... (" & LoadedFiles & "/" & MaxFileLength & ")"
+                            LOADINGForm.DProgress1.Value = LoadedFiles
                         End If
                     Next
                 Catch fex As IOException 'I/O 오류 해결 코드.
@@ -508,22 +528,31 @@ fexLine:
             End If
 
             '-After Loading WAV/MP3!
-            If Not abl_openedsnd = True Then
-                MessageBox.Show("Sounds Loaded!" & vbNewLine &
+            If LoadedFiles = MaxFileLength Then
+                If MaxFileLength = Directory.GetFiles(Application.StartupPath & "\Workspace\unipack\sounds\", "*.wav").Length Then
+                    LOADINGForm.Dispose()
+                    If Not abl_openedsnd = True Then
+                        MessageBox.Show("Sounds Loaded!" & vbNewLine &
                         "You can edit keySound in keySound Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                abl_openedsnd = True
+                        abl_openedsnd = True
+                    Else
+                        MessageBox.Show("Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End If
+                Else
+                    MessageBox.Show("Error! - Code: MaxFileLength.Value = GetFiles.Length", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End If
             Else
-                MessageBox.Show("Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show("Error! - Code: LoadedFiles.Value = MaxFileLength.Value", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
 
             Sound_ListView.Items.Clear()
-            keySound_ListView.Items.Clear()
+                keySound_ListView.Items.Clear()
 
-            For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\unipack\sounds", FileIO.SearchOption.SearchTopLevelOnly, "*.wav")
-                Dim itm As New ListViewItem(New String() {Path.GetFileName(foundFile), foundFile})
-                Sound_ListView.Items.Add(itm)
-            Next
-        End If
+                For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\unipack\sounds", FileIO.SearchOption.SearchTopLevelOnly, "*.wav")
+                    Dim itm As New ListViewItem(New String() {Path.GetFileName(foundFile), foundFile})
+                    Sound_ListView.Items.Add(itm)
+                Next
+            End If
     End Sub
 
     Private Sub OpenProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenProjectToolStripMenuItem.Click

@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class EditkeySound
     Inherits System.Windows.Forms.Form
 
     'Form은 Dispose를 재정의하여 구성 요소 목록을 정리합니다.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class EditkeySound
     '참고: 다음 프로시저는 Windows Form 디자이너에 필요합니다.
     '수정하려면 Windows Form 디자이너를 사용하십시오.  
     '코드 편집기에서는 수정하지 마세요.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.SaveButton = New System.Windows.Forms.Button()
@@ -124,7 +124,6 @@ Partial Class EditkeySound
         Me.keySoundTextBox.CharWidth = 8
         Me.keySoundTextBox.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.keySoundTextBox.DisabledColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer))
-        Me.keySoundTextBox.Font = New System.Drawing.Font("Courier New", 9.75!)
         Me.keySoundTextBox.IsReplaceMode = False
         Me.keySoundTextBox.Location = New System.Drawing.Point(12, 0)
         Me.keySoundTextBox.Name = "keySoundTextBox"
@@ -1004,9 +1003,9 @@ Partial Class EditkeySound
         '
         'keySoundLayoutButton
         '
-        Me.keySoundLayoutButton.Location = New System.Drawing.Point(585, 384)
+        Me.keySoundLayoutButton.Location = New System.Drawing.Point(555, 384)
         Me.keySoundLayoutButton.Name = "keySoundLayoutButton"
-        Me.keySoundLayoutButton.Size = New System.Drawing.Size(343, 23)
+        Me.keySoundLayoutButton.Size = New System.Drawing.Size(394, 23)
         Me.keySoundLayoutButton.TabIndex = 46
         Me.keySoundLayoutButton.Text = "Show keySound Layout"
         Me.keySoundLayoutButton.UseVisualStyleBackColor = True

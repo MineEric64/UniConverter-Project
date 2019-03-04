@@ -92,11 +92,6 @@ UniConverter
  체인을 리셋. (keySound Layout 버튼)
  </summary>
 </member>
-<member name="F:UniConverter_Project.EditkeySound.keySoundLoop">
- <summary>
- keySound Loop 여부.
- </summary>
-</member>
 <member name="F:UniConverter_Project.EditkeySound.ctrl">
  <summary>
  버튼 저장
