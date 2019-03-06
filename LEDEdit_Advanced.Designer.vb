@@ -123,12 +123,11 @@ Partial Class LEDEdit_Advanced
         'DelayConvert1_2
         '
         Me.DelayConvert1_2.AutoSize = True
-        Me.DelayConvert1_2.Enabled = False
         Me.DelayConvert1_2.Location = New System.Drawing.Point(15, 57)
         Me.DelayConvert1_2.Name = "DelayConvert1_2"
-        Me.DelayConvert1_2.Size = New System.Drawing.Size(75, 16)
+        Me.DelayConvert1_2.Size = New System.Drawing.Size(140, 16)
         Me.DelayConvert1_2.TabIndex = 1
-        Me.DelayConvert1_2.Text = "[1] X + Y"
+        Me.DelayConvert1_2.Text = "[1] NL4Ticks, N2MS"
         Me.DelayConvert1_2.UseVisualStyleBackColor = True
         '
         'DelayMode3

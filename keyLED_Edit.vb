@@ -74,13 +74,11 @@ Public Class keyLED_Edit
             UniLED1.Text = "FileName: " & ConLEDFile 'UniLED1 File Show.
 
             '이 코드는 Follow_JB님의 midi2keyLED를 참고하여 만든 코드. (Thanks to Follow_JB. :D)
-            Dim UniNoteNumber As Integer 'YButton
-
+            Dim UniNoteNumberX As Integer 'X
+            Dim UniNoteNumberY As Integer 'Y
             For Each mdEvent_list In LEDFileC.Events
                 For Each mdEvent In mdEvent_list
-                    If (mdEvent.CommandCode = MidiCommandCode.MetaEvent) Then
-                        Dim a = DirectCast(mdEvent, MetaEvent)
-                    ElseIf (mdEvent.CommandCode = MidiCommandCode.NoteOn) Then
+                    If mdEvent.CommandCode = MidiCommandCode.NoteOn Then
                         Dim a = DirectCast(mdEvent, NoteOnEvent)
 #Region "#Ableton 9 ALG1 Settings"
                         If SelCon1.Text = "Ableton 9 ALG1" Then 'Ableton X / Y: 64를 Unipack X / Y: 1로 변환 하는 것.
@@ -88,388 +86,397 @@ Public Class keyLED_Edit
 
                             'X1, Y1 ~ X1, Y8
                             If a.NoteNumber = 64 Then '[Ableton Button]'
-                                a.NoteNumber = 1 '[UniPack X Button]'
-                                UniNoteNumber = 1 '[UniPack Y Button]'
+                                UniNoteNumberX = 1 '[UniPack X Button]'
+                                UniNoteNumberY = 1 '[UniPack Y Button]'
                             End If
 
                             If a.NoteNumber = 65 Then
-                                a.NoteNumber = 1
-                                UniNoteNumber = 2
+                                UniNoteNumberX = 1
+                                UniNoteNumberY = 2
                             End If
 
                             If a.NoteNumber = 66 Then
-                                a.NoteNumber = 1
-                                UniNoteNumber = 3
+                                UniNoteNumberX = 1
+                                UniNoteNumberY = 3
                             End If
 
                             If a.NoteNumber = 67 Then
-                                a.NoteNumber = 1
-                                UniNoteNumber = 4
+                                UniNoteNumberX = 1
+                                UniNoteNumberY = 4
                             End If
 
                             If a.NoteNumber = 96 Then
-                                a.NoteNumber = 1
-                                UniNoteNumber = 5
+                                UniNoteNumberX = 1
+                                UniNoteNumberY = 5
                             End If
 
                             If a.NoteNumber = 97 Then
-                                a.NoteNumber = 1
-                                UniNoteNumber = 6
+                                UniNoteNumberX = 1
+                                UniNoteNumberY = 6
                             End If
 
                             If a.NoteNumber = 98 Then
-                                a.NoteNumber = 1
-                                UniNoteNumber = 7
+                                UniNoteNumberX = 1
+                                UniNoteNumberY = 7
                             End If
 
                             If a.NoteNumber = 99 Then
-                                a.NoteNumber = 1
-                                UniNoteNumber = 8
+                                UniNoteNumberX = 1
+                                UniNoteNumberY = 8
                             End If
 
                             'X2, Y1 ~ X2, Y8
                             If a.NoteNumber = 60 Then
-                                a.NoteNumber = 2
-                                UniNoteNumber = 1
+                                UniNoteNumberX = 2
+                                UniNoteNumberY = 1
                             End If
 
                             If a.NoteNumber = 61 Then
-                                a.NoteNumber = 2
-                                UniNoteNumber = 2
+                                UniNoteNumberX = 2
+                                UniNoteNumberY = 2
                             End If
 
                             If a.NoteNumber = 62 Then
-                                a.NoteNumber = 2
-                                UniNoteNumber = 3
+                                UniNoteNumberX = 2
+                                UniNoteNumberY = 3
                             End If
 
                             If a.NoteNumber = 63 Then
-                                a.NoteNumber = 2
-                                UniNoteNumber = 4
+                                UniNoteNumberX = 2
+                                UniNoteNumberY = 4
                             End If
 
                             If a.NoteNumber = 92 Then
-                                a.NoteNumber = 2
-                                UniNoteNumber = 5
+                                UniNoteNumberX = 2
+                                UniNoteNumberY = 5
                             End If
 
                             If a.NoteNumber = 93 Then
-                                a.NoteNumber = 2
-                                UniNoteNumber = 6
+                                UniNoteNumberX = 2
+                                UniNoteNumberY = 6
                             End If
 
                             If a.NoteNumber = 94 Then
-                                a.NoteNumber = 2
-                                UniNoteNumber = 7
+                                UniNoteNumberX = 2
+                                UniNoteNumberY = 7
                             End If
 
                             If a.NoteNumber = 95 Then
-                                a.NoteNumber = 2
-                                UniNoteNumber = 8
+                                UniNoteNumberX = 2
+                                UniNoteNumberY = 8
                             End If
 
                             'X3, Y1 ~ X3, Y8
                             If a.NoteNumber = 56 Then
-                                a.NoteNumber = 3
-                                UniNoteNumber = 1
+                                UniNoteNumberX = 3
+                                UniNoteNumberY = 1
                             End If
 
                             If a.NoteNumber = 57 Then
-                                a.NoteNumber = 3
-                                UniNoteNumber = 2
+                                UniNoteNumberX = 3
+                                UniNoteNumberY = 2
                             End If
 
                             If a.NoteNumber = 58 Then
-                                a.NoteNumber = 3
-                                UniNoteNumber = 3
+                                UniNoteNumberX = 3
+                                UniNoteNumberY = 3
                             End If
 
                             If a.NoteNumber = 59 Then
-                                a.NoteNumber = 3
-                                UniNoteNumber = 4
+                                UniNoteNumberX = 3
+                                UniNoteNumberY = 4
                             End If
 
                             If a.NoteNumber = 88 Then
-                                a.NoteNumber = 3
-                                UniNoteNumber = 5
+                                UniNoteNumberX = 3
+                                UniNoteNumberY = 5
                             End If
 
                             If a.NoteNumber = 89 Then
-                                a.NoteNumber = 3
-                                UniNoteNumber = 6
+                                UniNoteNumberX = 3
+                                UniNoteNumberY = 6
                             End If
 
                             If a.NoteNumber = 90 Then
-                                a.NoteNumber = 3
-                                UniNoteNumber = 7
+                                UniNoteNumberX = 3
+                                UniNoteNumberY = 7
                             End If
 
                             If a.NoteNumber = 91 Then
-                                a.NoteNumber = 3
-                                UniNoteNumber = 8
+                                UniNoteNumberX = 3
+                                UniNoteNumberY = 8
                             End If
 
                             'X4, Y1 ~ X4, Y8
                             If a.NoteNumber = 52 Then
-                                a.NoteNumber = 4
-                                UniNoteNumber = 1
+                                UniNoteNumberX = 4
+                                UniNoteNumberY = 1
                             End If
 
                             If a.NoteNumber = 53 Then
-                                a.NoteNumber = 4
-                                UniNoteNumber = 2
+                                UniNoteNumberX = 4
+                                UniNoteNumberY = 2
                             End If
 
                             If a.NoteNumber = 54 Then
-                                a.NoteNumber = 4
-                                UniNoteNumber = 3
+                                UniNoteNumberX = 4
+                                UniNoteNumberY = 3
                             End If
 
                             If a.NoteNumber = 55 Then
-                                a.NoteNumber = 4
-                                UniNoteNumber = 4
+                                UniNoteNumberX = 4
+                                UniNoteNumberY = 4
                             End If
 
                             If a.NoteNumber = 84 Then
-                                a.NoteNumber = 4
-                                UniNoteNumber = 5
+                                UniNoteNumberX = 4
+                                UniNoteNumberY = 5
                             End If
 
                             If a.NoteNumber = 85 Then
-                                a.NoteNumber = 4
-                                UniNoteNumber = 6
+                                UniNoteNumberX = 4
+                                UniNoteNumberY = 6
                             End If
 
                             If a.NoteNumber = 86 Then
-                                a.NoteNumber = 4
-                                UniNoteNumber = 7
+                                UniNoteNumberX = 4
+                                UniNoteNumberY = 7
                             End If
 
                             If a.NoteNumber = 87 Then
-                                a.NoteNumber = 4
-                                UniNoteNumber = 8
+                                UniNoteNumberX = 4
+                                UniNoteNumberY = 8
                             End If
 
                             'X5, Y1 ~ X5, Y8
                             If a.NoteNumber = 48 Then
-                                a.NoteNumber = 5
-                                UniNoteNumber = 1
+                                UniNoteNumberX = 5
+                                UniNoteNumberY = 1
                             End If
 
                             If a.NoteNumber = 49 Then
-                                a.NoteNumber = 5
-                                UniNoteNumber = 2
+                                UniNoteNumberX = 5
+                                UniNoteNumberY = 2
                             End If
 
                             If a.NoteNumber = 50 Then
-                                a.NoteNumber = 5
-                                UniNoteNumber = 3
+                                UniNoteNumberX = 5
+                                UniNoteNumberY = 3
                             End If
 
                             If a.NoteNumber = 51 Then
-                                a.NoteNumber = 5
-                                UniNoteNumber = 4
+                                UniNoteNumberX = 5
+                                UniNoteNumberY = 4
                             End If
 
                             If a.NoteNumber = 80 Then
-                                a.NoteNumber = 5
-                                UniNoteNumber = 5
+                                UniNoteNumberX = 5
+                                UniNoteNumberY = 5
                             End If
 
                             If a.NoteNumber = 81 Then
-                                a.NoteNumber = 5
-                                UniNoteNumber = 6
+                                UniNoteNumberX = 5
+                                UniNoteNumberY = 6
                             End If
 
                             If a.NoteNumber = 82 Then
-                                a.NoteNumber = 5
-                                UniNoteNumber = 7
+                                UniNoteNumberX = 5
+                                UniNoteNumberY = 7
                             End If
 
                             If a.NoteNumber = 83 Then
-                                a.NoteNumber = 5
-                                UniNoteNumber = 8
+                                UniNoteNumberX = 5
+                                UniNoteNumberY = 8
                             End If
 
                             'X6, Y1 ~ X6, Y8
                             If a.NoteNumber = 44 Then
-                                a.NoteNumber = 6
-                                UniNoteNumber = 1
+                                UniNoteNumberX = 6
+                                UniNoteNumberY = 1
                             End If
 
                             If a.NoteNumber = 45 Then
-                                a.NoteNumber = 6
-                                UniNoteNumber = 2
+                                UniNoteNumberX = 6
+                                UniNoteNumberY = 2
                             End If
 
                             If a.NoteNumber = 46 Then
-                                a.NoteNumber = 6
-                                UniNoteNumber = 3
+                                UniNoteNumberX = 6
+                                UniNoteNumberY = 3
                             End If
 
                             If a.NoteNumber = 47 Then
-                                a.NoteNumber = 6
-                                UniNoteNumber = 4
+                                UniNoteNumberX = 6
+                                UniNoteNumberY = 4
                             End If
 
                             If a.NoteNumber = 76 Then
-                                a.NoteNumber = 6
-                                UniNoteNumber = 5
+                                UniNoteNumberX = 6
+                                UniNoteNumberY = 5
                             End If
 
                             If a.NoteNumber = 77 Then
-                                a.NoteNumber = 6
-                                UniNoteNumber = 6
+                                UniNoteNumberX = 6
+                                UniNoteNumberY = 6
                             End If
 
                             If a.NoteNumber = 78 Then
-                                a.NoteNumber = 6
-                                UniNoteNumber = 7
+                                UniNoteNumberX = 6
+                                UniNoteNumberY = 7
                             End If
 
                             If a.NoteNumber = 79 Then
-                                a.NoteNumber = 6
-                                UniNoteNumber = 8
+                                UniNoteNumberX = 6
+                                UniNoteNumberY = 8
                             End If
 
                             'X7, Y1 ~ X7, Y8
                             If a.NoteNumber = 40 Then
-                                a.NoteNumber = 7
-                                UniNoteNumber = 1
+                                UniNoteNumberX = 7
+                                UniNoteNumberY = 1
                             End If
 
                             If a.NoteNumber = 41 Then
-                                a.NoteNumber = 7
-                                UniNoteNumber = 2
+                                UniNoteNumberX = 7
+                                UniNoteNumberY = 2
                             End If
 
                             If a.NoteNumber = 42 Then
-                                a.NoteNumber = 7
-                                UniNoteNumber = 3
+                                UniNoteNumberX = 7
+                                UniNoteNumberY = 3
                             End If
 
                             If a.NoteNumber = 43 Then
-                                a.NoteNumber = 7
-                                UniNoteNumber = 4
+                                UniNoteNumberX = 7
+                                UniNoteNumberY = 4
                             End If
 
                             If a.NoteNumber = 72 Then
-                                a.NoteNumber = 7
-                                UniNoteNumber = 5
+                                UniNoteNumberX = 7
+                                UniNoteNumberY = 5
                             End If
 
                             If a.NoteNumber = 73 Then
-                                a.NoteNumber = 7
-                                UniNoteNumber = 6
+                                UniNoteNumberX = 7
+                                UniNoteNumberY = 6
                             End If
 
                             If a.NoteNumber = 74 Then
-                                a.NoteNumber = 7
-                                UniNoteNumber = 7
+                                UniNoteNumberX = 7
+                                UniNoteNumberY = 7
                             End If
 
                             If a.NoteNumber = 75 Then
-                                a.NoteNumber = 7
-                                UniNoteNumber = 8
+                                UniNoteNumberX = 7
+                                UniNoteNumberY = 8
                             End If
 
                             'X8, Y1 ~ X8, Y8
                             If a.NoteNumber = 36 Then
-                                a.NoteNumber = 8
-                                UniNoteNumber = 1
+                                UniNoteNumberX = 8
+                                UniNoteNumberY = 1
                             End If
 
                             If a.NoteNumber = 37 Then
-                                a.NoteNumber = 8
-                                UniNoteNumber = 2
+                                UniNoteNumberX = 8
+                                UniNoteNumberY = 2
                             End If
 
                             If a.NoteNumber = 38 Then
-                                a.NoteNumber = 8
-                                UniNoteNumber = 3
+                                UniNoteNumberX = 8
+                                UniNoteNumberY = 3
                             End If
 
                             If a.NoteNumber = 39 Then
-                                a.NoteNumber = 8
-                                UniNoteNumber = 4
+                                UniNoteNumberX = 8
+                                UniNoteNumberY = 4
                             End If
 
                             If a.NoteNumber = 68 Then
-                                a.NoteNumber = 8
-                                UniNoteNumber = 5
+                                UniNoteNumberX = 8
+                                UniNoteNumberY = 5
                             End If
 
                             If a.NoteNumber = 69 Then
-                                a.NoteNumber = 8
-                                UniNoteNumber = 6
+                                UniNoteNumberX = 8
+                                UniNoteNumberY = 6
                             End If
 
                             If a.NoteNumber = 70 Then
-                                a.NoteNumber = 8
-                                UniNoteNumber = 7
+                                UniNoteNumberX = 8
+                                UniNoteNumberY = 7
                             End If
 
                             If a.NoteNumber = 71 Then
-                                a.NoteNumber = 8
-                                UniNoteNumber = 8
+                                UniNoteNumberX = 8
+                                UniNoteNumberY = 8
                             End If
 
                             'MC9 ~ MC16
                             If a.NoteNumber = 100 Then
-                                a.NoteNumber = 9
-                                UniNoteNumber = 8192
+                                UniNoteNumberX = 9
+                                UniNoteNumberY = 8192
                             End If
 
                             If a.NoteNumber = 101 Then
-                                a.NoteNumber = 10
-                                UniNoteNumber = 8192
+                                UniNoteNumberX = 10
+                                UniNoteNumberY = 8192
                             End If
 
                             If a.NoteNumber = 102 Then
-                                a.NoteNumber = 11
-                                UniNoteNumber = 8192
+                                UniNoteNumberX = 11
+                                UniNoteNumberY = 8192
                             End If
 
                             If a.NoteNumber = 103 Then
-                                a.NoteNumber = 12
-                                UniNoteNumber = 8192
+                                UniNoteNumberX = 12
+                                UniNoteNumberY = 8192
                             End If
 
                             If a.NoteNumber = 104 Then
-                                a.NoteNumber = 13
-                                UniNoteNumber = 8192
+                                UniNoteNumberX = 13
+                                UniNoteNumberY = 8192
                             End If
 
                             If a.NoteNumber = 105 Then
-                                a.NoteNumber = 14
-                                UniNoteNumber = 8192
+                                UniNoteNumberX = 14
+                                UniNoteNumberY = 8192
                             End If
 
                             If a.NoteNumber = 106 Then
-                                a.NoteNumber = 15
-                                UniNoteNumber = 8192
+                                UniNoteNumberX = 15
+                                UniNoteNumberY = 8192
                             End If
 
                             If a.NoteNumber = 107 Then
-                                a.NoteNumber = 16
-                                UniNoteNumber = 8192
+                                UniNoteNumberX = 16
+                                UniNoteNumberY = 8192
                             End If
 
                         End If
 #End Region
 #Region "Ableton 9 ALG2 Settings"
                         If SelCon1.Text = "Ableton 9 ALG2" Then
-                            If a.NoteNumber = 64 Then
 
-                            End If
                         End If
 #End Region
-                        str = str & vbNewLine & "o " & a.NoteNumber & " " & UniNoteNumber & " a " & a.Velocity
+                        If Not SelCon1.SelectedItem.ToString = "Non-Convert (Developer Mode)" Then
+                            str = str & vbNewLine & "o " & UniNoteNumberX & " " & UniNoteNumberY & " a " & a.Velocity
+                        Else
+                            str = str & vbNewLine & "o " & a.NoteNumber & " a " & a.Velocity
+                        End If
 #Region "Advanced Delay Mode"
                         If AdvChk.Checked = True Then
                             If LEDEdit_Advanced.DelayMode1.Text = "Note Length" Then
                                 If LEDEdit_Advanced.DelayConvert1_1.Checked = True Then
                                     str = str & vbNewLine & "d " & a.NoteLength
+                                ElseIf LEDEdit_Advanced.DelayConvert1_2.Checked = True Then
+                                    If Not a.DeltaTime = 0 Then
+                                        Dim bpm, ppq As Integer
+                                        bpm = 120
+                                        ppq = 192
+                                        str = str & vbNewLine & "d " & Math.Truncate(a.NoteLength * 60000 / 192 / bpm)
+                                    End If
                                 End If
                             End If
                             If LEDEdit_Advanced.DelayMode1.Text = "Delta Time" Then
@@ -481,6 +488,10 @@ Public Class keyLED_Edit
                                 If LEDEdit_Advanced.DelayConvert3_1.Checked = True Then
                                     str = str & vbNewLine & "d " & a.AbsoluteTime
                                 ElseIf LEDEdit_Advanced.DelayConvert3_2.Checked = True Then
+                                    Dim bpm As Integer = 120
+                                    Dim ppq = LEDFileC.DeltaTicksPerQuarterNote
+                                    Dim r As Integer = ppq * bpm
+                                    str = str & vbNewLine & "d " & Math.Truncate(a.AbsoluteTime * 60000 / r)
                                     'str = str & vbNewLine & "d " & Math.Truncate(a.AbsoluteTime / LEDFileC.DeltaTicksPerQuarterNote * 120)
                                     'str = str & vbNewLine & "d " & Math.Truncate(((a.AbsoluteTime - LastTempoEvent.AbsoluteTime) / LEDFileC.DeltaTicksPerQuarterNote) * 120 + LastTempoEvent.RealTime)
                                 End If
@@ -493,9 +504,388 @@ Public Class keyLED_Edit
                         'NoteLength = 노트 길이, DeltaTime = 노트와의 간격 시간, AbsoulteTime = 절대적인 시간
                         '셋 다 DELAY는 아님. NoteLength나 DeltaTime을 Delay로 바꾸는 알고리즘이 필요.
                         '그런데 문제가 그 알고리즘을 만드는 것이 매우 힘듬.
-                    ElseIf (mdEvent.CommandCode = MidiCommandCode.NoteOff) Then
+                    ElseIf mdEvent.CommandCode = MidiCommandCode.NoteOff Then
                         Dim a = DirectCast(mdEvent, NoteEvent)
-                        str = str & vbNewLine & "f " & a.NoteNumber & " " & UniNoteNumber
+#Region "#Ableton 9 ALG1 Settings"
+                        If SelCon1.Text = "Ableton 9 ALG1" Then 'Ableton X / Y: 64를 Unipack X / Y: 1로 변환 하는 것.
+                            '[Ableton LED To UniPack LED Convert CODE] [BETA!!]'
+
+                            'X1, Y1 ~ X1, Y8
+                            If a.NoteNumber = 64 Then '[Ableton Button]'
+                                UniNoteNumberX = 1 '[UniPack X Button]'
+                                UniNoteNumberY = 1 '[UniPack Y Button]'
+                            End If
+
+                            If a.NoteNumber = 65 Then
+                                UniNoteNumberX = 1
+                                UniNoteNumberY = 2
+                            End If
+
+                            If a.NoteNumber = 66 Then
+                                UniNoteNumberX = 1
+                                UniNoteNumberY = 3
+                            End If
+
+                            If a.NoteNumber = 67 Then
+                                UniNoteNumberX = 1
+                                UniNoteNumberY = 4
+                            End If
+
+                            If a.NoteNumber = 96 Then
+                                UniNoteNumberX = 1
+                                UniNoteNumberY = 5
+                            End If
+
+                            If a.NoteNumber = 97 Then
+                                UniNoteNumberX = 1
+                                UniNoteNumberY = 6
+                            End If
+
+                            If a.NoteNumber = 98 Then
+                                UniNoteNumberX = 1
+                                UniNoteNumberY = 7
+                            End If
+
+                            If a.NoteNumber = 99 Then
+                                UniNoteNumberX = 1
+                                UniNoteNumberY = 8
+                            End If
+
+                            'X2, Y1 ~ X2, Y8
+                            If a.NoteNumber = 60 Then
+                                UniNoteNumberX = 2
+                                UniNoteNumberY = 1
+                            End If
+
+                            If a.NoteNumber = 61 Then
+                                UniNoteNumberX = 2
+                                UniNoteNumberY = 2
+                            End If
+
+                            If a.NoteNumber = 62 Then
+                                UniNoteNumberX = 2
+                                UniNoteNumberY = 3
+                            End If
+
+                            If a.NoteNumber = 63 Then
+                                UniNoteNumberX = 2
+                                UniNoteNumberY = 4
+                            End If
+
+                            If a.NoteNumber = 92 Then
+                                UniNoteNumberX = 2
+                                UniNoteNumberY = 5
+                            End If
+
+                            If a.NoteNumber = 93 Then
+                                UniNoteNumberX = 2
+                                UniNoteNumberY = 6
+                            End If
+
+                            If a.NoteNumber = 94 Then
+                                UniNoteNumberX = 2
+                                UniNoteNumberY = 7
+                            End If
+
+                            If a.NoteNumber = 95 Then
+                                UniNoteNumberX = 2
+                                UniNoteNumberY = 8
+                            End If
+
+                            'X3, Y1 ~ X3, Y8
+                            If a.NoteNumber = 56 Then
+                                UniNoteNumberX = 3
+                                UniNoteNumberY = 1
+                            End If
+
+                            If a.NoteNumber = 57 Then
+                                UniNoteNumberX = 3
+                                UniNoteNumberY = 2
+                            End If
+
+                            If a.NoteNumber = 58 Then
+                                UniNoteNumberX = 3
+                                UniNoteNumberY = 3
+                            End If
+
+                            If a.NoteNumber = 59 Then
+                                UniNoteNumberX = 3
+                                UniNoteNumberY = 4
+                            End If
+
+                            If a.NoteNumber = 88 Then
+                                UniNoteNumberX = 3
+                                UniNoteNumberY = 5
+                            End If
+
+                            If a.NoteNumber = 89 Then
+                                UniNoteNumberX = 3
+                                UniNoteNumberY = 6
+                            End If
+
+                            If a.NoteNumber = 90 Then
+                                UniNoteNumberX = 3
+                                UniNoteNumberY = 7
+                            End If
+
+                            If a.NoteNumber = 91 Then
+                                UniNoteNumberX = 3
+                                UniNoteNumberY = 8
+                            End If
+
+                            'X4, Y1 ~ X4, Y8
+                            If a.NoteNumber = 52 Then
+                                UniNoteNumberX = 4
+                                UniNoteNumberY = 1
+                            End If
+
+                            If a.NoteNumber = 53 Then
+                                UniNoteNumberX = 4
+                                UniNoteNumberY = 2
+                            End If
+
+                            If a.NoteNumber = 54 Then
+                                UniNoteNumberX = 4
+                                UniNoteNumberY = 3
+                            End If
+
+                            If a.NoteNumber = 55 Then
+                                UniNoteNumberX = 4
+                                UniNoteNumberY = 4
+                            End If
+
+                            If a.NoteNumber = 84 Then
+                                UniNoteNumberX = 4
+                                UniNoteNumberY = 5
+                            End If
+
+                            If a.NoteNumber = 85 Then
+                                UniNoteNumberX = 4
+                                UniNoteNumberY = 6
+                            End If
+
+                            If a.NoteNumber = 86 Then
+                                UniNoteNumberX = 4
+                                UniNoteNumberY = 7
+                            End If
+
+                            If a.NoteNumber = 87 Then
+                                UniNoteNumberX = 4
+                                UniNoteNumberY = 8
+                            End If
+
+                            'X5, Y1 ~ X5, Y8
+                            If a.NoteNumber = 48 Then
+                                UniNoteNumberX = 5
+                                UniNoteNumberY = 1
+                            End If
+
+                            If a.NoteNumber = 49 Then
+                                UniNoteNumberX = 5
+                                UniNoteNumberY = 2
+                            End If
+
+                            If a.NoteNumber = 50 Then
+                                UniNoteNumberX = 5
+                                UniNoteNumberY = 3
+                            End If
+
+                            If a.NoteNumber = 51 Then
+                                UniNoteNumberX = 5
+                                UniNoteNumberY = 4
+                            End If
+
+                            If a.NoteNumber = 80 Then
+                                UniNoteNumberX = 5
+                                UniNoteNumberY = 5
+                            End If
+
+                            If a.NoteNumber = 81 Then
+                                UniNoteNumberX = 5
+                                UniNoteNumberY = 6
+                            End If
+
+                            If a.NoteNumber = 82 Then
+                                UniNoteNumberX = 5
+                                UniNoteNumberY = 7
+                            End If
+
+                            If a.NoteNumber = 83 Then
+                                UniNoteNumberX = 5
+                                UniNoteNumberY = 8
+                            End If
+
+                            'X6, Y1 ~ X6, Y8
+                            If a.NoteNumber = 44 Then
+                                UniNoteNumberX = 6
+                                UniNoteNumberY = 1
+                            End If
+
+                            If a.NoteNumber = 45 Then
+                                UniNoteNumberX = 6
+                                UniNoteNumberY = 2
+                            End If
+
+                            If a.NoteNumber = 46 Then
+                                UniNoteNumberX = 6
+                                UniNoteNumberY = 3
+                            End If
+
+                            If a.NoteNumber = 47 Then
+                                UniNoteNumberX = 6
+                                UniNoteNumberY = 4
+                            End If
+
+                            If a.NoteNumber = 76 Then
+                                UniNoteNumberX = 6
+                                UniNoteNumberY = 5
+                            End If
+
+                            If a.NoteNumber = 77 Then
+                                UniNoteNumberX = 6
+                                UniNoteNumberY = 6
+                            End If
+
+                            If a.NoteNumber = 78 Then
+                                UniNoteNumberX = 6
+                                UniNoteNumberY = 7
+                            End If
+
+                            If a.NoteNumber = 79 Then
+                                UniNoteNumberX = 6
+                                UniNoteNumberY = 8
+                            End If
+
+                            'X7, Y1 ~ X7, Y8
+                            If a.NoteNumber = 40 Then
+                                UniNoteNumberX = 7
+                                UniNoteNumberY = 1
+                            End If
+
+                            If a.NoteNumber = 41 Then
+                                UniNoteNumberX = 7
+                                UniNoteNumberY = 2
+                            End If
+
+                            If a.NoteNumber = 42 Then
+                                UniNoteNumberX = 7
+                                UniNoteNumberY = 3
+                            End If
+
+                            If a.NoteNumber = 43 Then
+                                UniNoteNumberX = 7
+                                UniNoteNumberY = 4
+                            End If
+
+                            If a.NoteNumber = 72 Then
+                                UniNoteNumberX = 7
+                                UniNoteNumberY = 5
+                            End If
+
+                            If a.NoteNumber = 73 Then
+                                UniNoteNumberX = 7
+                                UniNoteNumberY = 6
+                            End If
+
+                            If a.NoteNumber = 74 Then
+                                UniNoteNumberX = 7
+                                UniNoteNumberY = 7
+                            End If
+
+                            If a.NoteNumber = 75 Then
+                                UniNoteNumberX = 7
+                                UniNoteNumberY = 8
+                            End If
+
+                            'X8, Y1 ~ X8, Y8
+                            If a.NoteNumber = 36 Then
+                                UniNoteNumberX = 8
+                                UniNoteNumberY = 1
+                            End If
+
+                            If a.NoteNumber = 37 Then
+                                UniNoteNumberX = 8
+                                UniNoteNumberY = 2
+                            End If
+
+                            If a.NoteNumber = 38 Then
+                                UniNoteNumberX = 8
+                                UniNoteNumberY = 3
+                            End If
+
+                            If a.NoteNumber = 39 Then
+                                UniNoteNumberX = 8
+                                UniNoteNumberY = 4
+                            End If
+
+                            If a.NoteNumber = 68 Then
+                                UniNoteNumberX = 8
+                                UniNoteNumberY = 5
+                            End If
+
+                            If a.NoteNumber = 69 Then
+                                UniNoteNumberX = 8
+                                UniNoteNumberY = 6
+                            End If
+
+                            If a.NoteNumber = 70 Then
+                                UniNoteNumberX = 8
+                                UniNoteNumberY = 7
+                            End If
+
+                            If a.NoteNumber = 71 Then
+                                UniNoteNumberX = 8
+                                UniNoteNumberY = 8
+                            End If
+
+                            'MC9 ~ MC16
+                            If a.NoteNumber = 100 Then
+                                UniNoteNumberX = 9
+                                UniNoteNumberY = 8192
+                            End If
+
+                            If a.NoteNumber = 101 Then
+                                UniNoteNumberX = 10
+                                UniNoteNumberY = 8192
+                            End If
+
+                            If a.NoteNumber = 102 Then
+                                UniNoteNumberX = 11
+                                UniNoteNumberY = 8192
+                            End If
+
+                            If a.NoteNumber = 103 Then
+                                UniNoteNumberX = 12
+                                UniNoteNumberY = 8192
+                            End If
+
+                            If a.NoteNumber = 104 Then
+                                UniNoteNumberX = 13
+                                UniNoteNumberY = 8192
+                            End If
+
+                            If a.NoteNumber = 105 Then
+                                UniNoteNumberX = 14
+                                UniNoteNumberY = 8192
+                            End If
+
+                            If a.NoteNumber = 106 Then
+                                UniNoteNumberX = 15
+                                UniNoteNumberY = 8192
+                            End If
+
+                            If a.NoteNumber = 107 Then
+                                UniNoteNumberX = 16
+                                UniNoteNumberY = 8192
+                            End If
+
+                        End If
+#End Region
+                        If Not SelCon1.SelectedItem.ToString = "Non-Convert (Developer Mode)" Then
+                            str = str & vbNewLine & "f " & UniNoteNumberX & " " & UniNoteNumberY
+                        Else
+                            str = str & vbNewLine & "f " & a.NoteNumber
+                        End If
                     End If
                 Next
             Next

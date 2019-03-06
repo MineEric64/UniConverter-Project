@@ -481,14 +481,14 @@ SaveInfoLine:
 
             If Path.GetExtension(openFileDialog1.FileNames(openFileDialog1.FileNames.Length - 1)) = ".wav" Then
 
-                If (My.Computer.FileSystem.DirectoryExists("Workspace\unipack\sounds") = True) Then
-                    My.Computer.FileSystem.DeleteDirectory("Workspace\unipack\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
+                If (My.Computer.FileSystem.DirectoryExists("Workspace\ableproj\sounds") = True) Then
+                    My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
                 End If
 
-                My.Computer.FileSystem.CreateDirectory("Workspace\unipack\sounds")
+                My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\sounds")
 
                 For i = 0 To openFileDialog1.FileNames.Length - 1
-                    File.Copy(openFileDialog1.FileNames(i), "Workspace\unipack\sounds\" & openFileDialog1.FileNames(i).Split("\").Last, True)
+                    File.Copy(openFileDialog1.FileNames(i), "Workspace\ableproj\sounds\" & openFileDialog1.FileNames(i).Split("\").Last, True)
                     LoadedFiles = LoadedFiles + 1
                     LOADINGForm.DProgress1.Style = ProgressBarStyle.Continuous
                     LOADINGForm.DLabel1.Text = "Loading Sound Files... (" & LoadedFiles & "/" & MaxFileLength & ")"
@@ -496,10 +496,10 @@ SaveInfoLine:
                 Next
 
             ElseIf Path.GetExtension(openFileDialog1.FileNames(openFileDialog1.FileNames.Length - 1)) = ".mp3" Then
-                If (My.Computer.FileSystem.DirectoryExists("Workspace\unipack\sounds") = True) Then
-                    My.Computer.FileSystem.DeleteDirectory("Workspace\unipack\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
+                If (My.Computer.FileSystem.DirectoryExists("Workspace\ableproj\sounds") = True) Then
+                    My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
                 End If
-                My.Computer.FileSystem.CreateDirectory("Workspace\unipack\sounds")
+                My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\sounds")
 
                 For i = 0 To openFileDialog1.FileNames.Length - 1
                     File.Copy(openFileDialog1.FileNames(i), "Workspace\" & openFileDialog1.FileNames(i).Split("\").Last.Replace(" ", "").Trim(), True)
@@ -513,7 +513,7 @@ SaveInfoLine:
 fexLine:
                     For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\", FileIO.SearchOption.SearchTopLevelOnly, "*.mp3")
                         If File.Exists(foundFile.Replace(".mp3", ".wav")) Then
-                            File.Move(foundFile.Replace(".mp3", ".wav"), "Workspace\unipack\sounds\" & Path.GetFileName(foundFile.Replace(".mp3", ".wav")))
+                            File.Move(foundFile.Replace(".mp3", ".wav"), "Workspace\ableproj\sounds\" & Path.GetFileName(foundFile.Replace(".mp3", ".wav")))
                             File.Delete(foundFile)
                             LoadedFiles = LoadedFiles + 1
                             LOADINGForm.DProgress1.Style = ProgressBarStyle.Continuous
@@ -529,7 +529,7 @@ fexLine:
 
             '-After Loading WAV/MP3!
             If LoadedFiles = MaxFileLength Then
-                If MaxFileLength = Directory.GetFiles(Application.StartupPath & "\Workspace\unipack\sounds\", "*.wav").Length Then
+                If MaxFileLength = Directory.GetFiles(Application.StartupPath & "\Workspace\ableproj\sounds\", "*.wav").Length Then
                     LOADINGForm.Dispose()
                     If Not abl_openedsnd = True Then
                         MessageBox.Show("Sounds Loaded!" & vbNewLine &
@@ -546,13 +546,13 @@ fexLine:
             End If
 
             Sound_ListView.Items.Clear()
-                keySound_ListView.Items.Clear()
+            keySound_ListView.Items.Clear()
 
-                For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\unipack\sounds", FileIO.SearchOption.SearchTopLevelOnly, "*.wav")
-                    Dim itm As New ListViewItem(New String() {Path.GetFileName(foundFile), foundFile})
-                    Sound_ListView.Items.Add(itm)
-                Next
-            End If
+            For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\ableproj\sounds", FileIO.SearchOption.SearchTopLevelOnly, "*.wav")
+                Dim itm As New ListViewItem(New String() {Path.GetFileName(foundFile), foundFile})
+                Sound_ListView.Items.Add(itm)
+            Next
+        End If
     End Sub
 
     Private Sub OpenProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenProjectToolStripMenuItem.Click
