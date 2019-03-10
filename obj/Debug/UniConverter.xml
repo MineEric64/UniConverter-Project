@@ -137,6 +137,11 @@ UniConverter
  특별 기호 (")
  </summary>
 </member>
+<member name="F:UniConverter_Project.MainProject.IsSaved">
+ <summary>
+ MainProject 저장 여부.
+ </summary>
+</member>
 <member name="M:UniConverter_Project.MainProject.Lame(System.String,System.String,System.String,System.String,System.String,System.Boolean,Microsoft.VisualBasic.AppWinStyle)">
  <summary>
   LAME으로 소리 확장자 변환. 현재 MP3toWAV 변환 가능. FileName의 경우 반드시 Application.StartupPath로 File을 지정하기 바람.

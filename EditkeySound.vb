@@ -615,9 +615,9 @@ Public Class EditkeySound
         Dim WavFile As String
         Dim ksTmpTXT As String = Application.StartupPath & "\Workspace\ksTmp.txt"
         Dim keySoundText As String
-                keySoundText = keySoundTextBox.Text.TrimStart
-                keySoundText = keySoundTextBox.Text.TrimEnd
-                File.WriteAllText(ksTmpTXT, keySoundText)
+        keySoundText = keySoundTextBox.Text.TrimStart
+        keySoundText = keySoundTextBox.Text.TrimEnd
+        File.WriteAllText(ksTmpTXT, keySoundText)
 
         Dim loi As Integer = 1
         For Each strLine As String In File.ReadAllText(Application.StartupPath & "\Workspace\ksTmp.txt").Split(Environment.NewLine)
@@ -626,19 +626,19 @@ Public Class EditkeySound
                     For Each WavFileName As String In strLine.Split(" ") 'Split(" ")의 경우에는 loi가 필요 없음.
                         If WavFileName.Contains(".wav") Then
                             WavFile = WavFileName
-                            If File.Exists(Application.StartupPath & "\Workspace\ableproj\sounds\" & WavFile) Then
+                            If File.Exists(Application.StartupPath & "\Workspace\unipack\sounds\" & WavFile) Then
                                 If Strings.Right(strLine, 4) = ".wav" Then
-                                    My.Computer.Audio.Play(Application.StartupPath & "\Workspace\ableproj\sounds\" & WavFile, AudioPlayMode.Background)
+                                    My.Computer.Audio.Play(Application.StartupPath & "\Workspace\unipack\sounds\" & WavFile, AudioPlayMode.Background)
                                     If keySoundLoop = True Then keySoundLoop = False
                                 ElseIf Strings.Right(strLine, 1) = "1" Then
-                                    My.Computer.Audio.Play(Application.StartupPath & "\Workspace\ableproj\sounds\" & WavFile, AudioPlayMode.Background)
+                                    My.Computer.Audio.Play(Application.StartupPath & "\Workspace\unipack\sounds\" & WavFile, AudioPlayMode.Background)
                                     If keySoundLoop = True Then keySoundLoop = False
                                 ElseIf Strings.Right(strLine, 1) = "0" Then
-                                    My.Computer.Audio.Play(Application.StartupPath & "\Workspace\ableproj\sounds\" & WavFile, AudioPlayMode.BackgroundLoop)
+                                    My.Computer.Audio.Play(Application.StartupPath & "\Workspace\unipack\sounds\" & WavFile, AudioPlayMode.BackgroundLoop)
                                     keySoundLoop = True
                                 Else
                                     For i As Integer = 1 To CInt(Strings.Right(strLine, 1))
-                                        My.Computer.Audio.Play(Application.StartupPath & "\Workspace\ableproj\sounds\" & WavFile, AudioPlayMode.WaitToComplete)
+                                        My.Computer.Audio.Play(Application.StartupPath & "\Workspace\unipack\sounds\" & WavFile, AudioPlayMode.WaitToComplete)
                                         If keySoundLoop = True Then keySoundLoop = False
                                     Next
                                 End If
@@ -653,19 +653,19 @@ Public Class EditkeySound
                     For Each WavFileName As String In strLine.Remove(0, 1).Split(" ")
                         If WavFileName.Contains(".wav") Then
                             WavFile = WavFileName
-                            If File.Exists(Application.StartupPath & "\Workspace\ableproj\sounds\" & WavFile) Then
+                            If File.Exists(Application.StartupPath & "\Workspace\unipack\sounds\" & WavFile) Then
                                 If Strings.Right(strLine.Remove(0, 1), 4) = ".wav" Then
-                                    My.Computer.Audio.Play(Application.StartupPath & "\Workspace\ableproj\sounds\" & WavFile, AudioPlayMode.Background)
+                                    My.Computer.Audio.Play(Application.StartupPath & "\Workspace\unipack\sounds\" & WavFile, AudioPlayMode.Background)
                                     If keySoundLoop = True Then keySoundLoop = False
                                 ElseIf Strings.Right(strLine.Remove(0, 1), 1) = "1" Then
-                                    My.Computer.Audio.Play(Application.StartupPath & "\Workspace\ableproj\sounds\" & WavFile, AudioPlayMode.Background)
+                                    My.Computer.Audio.Play(Application.StartupPath & "\Workspace\unipack\sounds\" & WavFile, AudioPlayMode.Background)
                                     If keySoundLoop = True Then keySoundLoop = False
                                 ElseIf Strings.Right(strLine.Remove(0, 1), 1) = "0" Then
-                                    My.Computer.Audio.Play(Application.StartupPath & "\Workspace\ableproj\sounds\" & WavFile, AudioPlayMode.BackgroundLoop)
+                                    My.Computer.Audio.Play(Application.StartupPath & "\Workspace\unipack\sounds\" & WavFile, AudioPlayMode.BackgroundLoop)
                                     keySoundLoop = True
                                 Else
                                     For i As Integer = 1 To CInt(Strings.Right(strLine, 1))
-                                        My.Computer.Audio.Play(Application.StartupPath & "\Workspace\ableproj\sounds\" & WavFile, AudioPlayMode.WaitToComplete)
+                                        My.Computer.Audio.Play(Application.StartupPath & "\Workspace\unipack\sounds\" & WavFile, AudioPlayMode.WaitToComplete)
                                         If keySoundLoop = True Then keySoundLoop = False
                                     Next
                                 End If

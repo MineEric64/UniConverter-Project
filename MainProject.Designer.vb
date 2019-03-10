@@ -23,7 +23,7 @@ Partial Class MainProject
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainProject))
-        Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
+        Me.MenuStrip = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenProjectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenAbletonProjectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -40,14 +40,15 @@ Partial Class MainProject
         Me.AbletonLive10ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.UnipackToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ConvertToZipUniToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DeleteWorkspaceToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TutorialsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CheckUpdateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ReportBugsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SettingsToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.InfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
+        Me.ofd = New System.Windows.Forms.OpenFileDialog()
+        Me.sfd = New System.Windows.Forms.SaveFileDialog()
         Me.LEDOpen1 = New System.Windows.Forms.OpenFileDialog()
         Me.HomeEdit1 = New System.Windows.Forms.TabControl()
         Me.Info1 = New System.Windows.Forms.TabPage()
@@ -79,8 +80,7 @@ Partial Class MainProject
         Me.DevelopingLabel2 = New System.Windows.Forms.Label()
         Me.keyLED2 = New System.Windows.Forms.TabPage()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.DeleteWorkspaceToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MenuStrip1.SuspendLayout()
+        Me.MenuStrip.SuspendLayout()
         Me.HomeEdit1.SuspendLayout()
         Me.Info1.SuspendLayout()
         Me.KeyS1.SuspendLayout()
@@ -88,14 +88,14 @@ Partial Class MainProject
         Me.keyLED2.SuspendLayout()
         Me.SuspendLayout()
         '
-        'MenuStrip1
+        'MenuStrip
         '
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.EditToolStripMenuItem, Me.TutorialsToolStripMenuItem, Me.SettingsToolStripMenuItem})
-        Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
-        Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(699, 24)
-        Me.MenuStrip1.TabIndex = 0
-        Me.MenuStrip1.Text = "MenuStrip1"
+        Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.EditToolStripMenuItem, Me.TutorialsToolStripMenuItem, Me.SettingsToolStripMenuItem})
+        Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
+        Me.MenuStrip.Name = "MenuStrip"
+        Me.MenuStrip.Size = New System.Drawing.Size(699, 24)
+        Me.MenuStrip.TabIndex = 0
+        Me.MenuStrip.Text = "MenuStrip1"
         '
         'FileToolStripMenuItem
         '
@@ -153,7 +153,7 @@ Partial Class MainProject
         '
         Me.UnipackToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AnyAbletonToolStripMenuItem, Me.AbletonLive9LiteToolStripMenuItem, Me.AbletonLive9TrialToolStripMenuItem, Me.AbletonLive9SuiteToolStripMenuItem, Me.AbletonLive10ToolStripMenuItem})
         Me.UnipackToolStripMenuItem.Name = "UnipackToolStripMenuItem"
-        Me.UnipackToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.UnipackToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
         Me.UnipackToolStripMenuItem.Text = "Ableton"
         '
         'AnyAbletonToolStripMenuItem
@@ -195,7 +195,7 @@ Partial Class MainProject
         '
         Me.UnipackToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ConvertToZipUniToolStripMenuItem})
         Me.UnipackToolStripMenuItem1.Name = "UnipackToolStripMenuItem1"
-        Me.UnipackToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.UnipackToolStripMenuItem1.Size = New System.Drawing.Size(170, 22)
         Me.UnipackToolStripMenuItem1.Text = "Unipack"
         '
         'ConvertToZipUniToolStripMenuItem
@@ -205,6 +205,12 @@ Partial Class MainProject
         Me.ConvertToZipUniToolStripMenuItem.Name = "ConvertToZipUniToolStripMenuItem"
         Me.ConvertToZipUniToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
         Me.ConvertToZipUniToolStripMenuItem.Text = "Convert to zip, uni"
+        '
+        'DeleteWorkspaceToolStripMenuItem
+        '
+        Me.DeleteWorkspaceToolStripMenuItem.Name = "DeleteWorkspaceToolStripMenuItem"
+        Me.DeleteWorkspaceToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
+        Me.DeleteWorkspaceToolStripMenuItem.Text = "Delete Workspace"
         '
         'TutorialsToolStripMenuItem
         '
@@ -222,34 +228,34 @@ Partial Class MainProject
         'CheckUpdateToolStripMenuItem
         '
         Me.CheckUpdateToolStripMenuItem.Name = "CheckUpdateToolStripMenuItem"
-        Me.CheckUpdateToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CheckUpdateToolStripMenuItem.Size = New System.Drawing.Size(149, 22)
         Me.CheckUpdateToolStripMenuItem.Text = "Check Update"
         '
         'ReportBugsToolStripMenuItem
         '
         Me.ReportBugsToolStripMenuItem.Name = "ReportBugsToolStripMenuItem"
-        Me.ReportBugsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ReportBugsToolStripMenuItem.Size = New System.Drawing.Size(149, 22)
         Me.ReportBugsToolStripMenuItem.Text = "Report Bugs"
         '
         'SettingsToolStripMenuItem1
         '
         Me.SettingsToolStripMenuItem1.Name = "SettingsToolStripMenuItem1"
-        Me.SettingsToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.SettingsToolStripMenuItem1.Size = New System.Drawing.Size(149, 22)
         Me.SettingsToolStripMenuItem1.Text = "Settings"
         '
         'InfoToolStripMenuItem
         '
         Me.InfoToolStripMenuItem.Name = "InfoToolStripMenuItem"
-        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(149, 22)
         Me.InfoToolStripMenuItem.Text = "Info"
         '
-        'OpenFileDialog1
+        'ofd
         '
-        Me.OpenFileDialog1.FileName = "OpenFileDialog1"
+        Me.ofd.FileName = "OpenFileDialog1"
         '
-        'SaveFileDialog1
+        'sfd
         '
-        Me.SaveFileDialog1.AddExtension = False
+        Me.sfd.AddExtension = False
         '
         'LEDOpen1
         '
@@ -581,25 +587,19 @@ Partial Class MainProject
         Me.Label1.Text = "We are developing ""Converting keyLED (MIDI)""!" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "                                Co" &
     "ming Soon..."
         '
-        'DeleteWorkspaceToolStripMenuItem
-        '
-        Me.DeleteWorkspaceToolStripMenuItem.Name = "DeleteWorkspaceToolStripMenuItem"
-        Me.DeleteWorkspaceToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.DeleteWorkspaceToolStripMenuItem.Text = "Delete Workspace"
-        '
         'MainProject
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(699, 485)
         Me.Controls.Add(Me.HomeEdit1)
-        Me.Controls.Add(Me.MenuStrip1)
+        Me.Controls.Add(Me.MenuStrip)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.MainMenuStrip = Me.MenuStrip1
+        Me.MainMenuStrip = Me.MenuStrip
         Me.Name = "MainProject"
         Me.Text = "UniConverter Beta 4"
-        Me.MenuStrip1.ResumeLayout(False)
-        Me.MenuStrip1.PerformLayout()
+        Me.MenuStrip.ResumeLayout(False)
+        Me.MenuStrip.PerformLayout()
         Me.HomeEdit1.ResumeLayout(False)
         Me.Info1.ResumeLayout(False)
         Me.Info1.PerformLayout()
@@ -614,18 +614,18 @@ Partial Class MainProject
 
     End Sub
 
-    Friend WithEvents MenuStrip1 As MenuStrip
+    Friend WithEvents MenuStrip As MenuStrip
     Friend WithEvents FileToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents OpenProjectToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents SaveProjectToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents EditToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents SettingsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents InfoToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents OpenFileDialog1 As OpenFileDialog
+    Friend WithEvents ofd As OpenFileDialog
     Friend WithEvents TutorialsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents SettingsToolStripMenuItem1 As ToolStripMenuItem
     Friend WithEvents UnipackToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents SaveFileDialog1 As SaveFileDialog
+    Friend WithEvents sfd As SaveFileDialog
     Friend WithEvents SoundsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents KeyLEDBetaToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents LEDOpen1 As OpenFileDialog

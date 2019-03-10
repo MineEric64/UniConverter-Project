@@ -127,10 +127,10 @@
     <Compile Include="EditkeySound.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LoadingForm.Designer.vb">
-      <DependentUpon>LoadingForm.vb</DependentUpon>
+    <Compile Include="Loading.Designer.vb">
+      <DependentUpon>Loading.vb</DependentUpon>
     </Compile>
-    <Compile Include="LoadingForm.vb">
+    <Compile Include="Loading.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\Resources.Designer.vb">
@@ -208,8 +208,8 @@
     <EmbeddedResource Include="EditkeySound.resx">
       <DependentUpon>EditkeySound.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LoadingForm.resx">
-      <DependentUpon>LoadingForm.vb</DependentUpon>
+    <EmbeddedResource Include="Loading.resx">
+      <DependentUpon>Loading.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="REPORTForm.resx">
       <DependentUpon>REPORTForm.vb</DependentUpon>

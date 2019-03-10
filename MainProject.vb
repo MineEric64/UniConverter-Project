@@ -58,6 +58,11 @@ Public Class MainProject
     ''' 특별 기호 (")
     ''' </summary>
     Dim ast As String = """"
+    ''' <summary>
+    ''' MainProject 저장 여부.
+    ''' </summary>
+    Dim IsSaved As Boolean
+    Public Shared loading_openSounds_msg As String = "Loading Sound Files... ({0} / {1})"
 
     ''' <summary>
     '''  LAME으로 소리 확장자 변환. 현재 MP3toWAV 변환 가능. FileName의 경우 반드시 Application.StartupPath로 File을 지정하기 바람.
@@ -85,6 +90,7 @@ Public Class MainProject
         vxml = XDocument.Load(Application.StartupPath & "\version.xml")
         FileInfo = Version.Parse(vxml.<Update-XML>.<Update-Info>.<Version>.Value)
         VerLog = vxml.<Update-XML>.<Update-Info>.<Update-Log>.Value.TrimStart
+        IsSaved = True
         abl_openedproj = False
         abl_openedsnd = False
 
@@ -144,25 +150,7 @@ Public Class MainProject
     End Sub
 
     Private Sub SaveProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveProjectToolStripMenuItem.Click
-        Dim SaveFileDialog1 As New SaveFileDialog()
-        SaveFileDialog1.Filter = "Zip File|*.zip|Unipack File|*.uni"
-        SaveFileDialog1.Title = "Select Save Unipack"
-        SaveFileDialog1.AddExtension = False
-
-        Try
-            If SaveFileDialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-                If Dir("Workspace\unipack", vbDirectory) <> "" Then
-                    ZipFile.CreateFromDirectory("Workspace\unipack", SaveFileDialog1.FileName)
-                    MessageBox.Show("Saved Unipack!", "UniConverter", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Else
-                    MessageBox.Show("Save Unipack Failed. Error Code: 9" & vbNewLine &
-                                    "Warning: There's no file to save project.", "UniConverter: Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                End If
-            End If
-
-        Catch ex As Exception
-            MessageBox.Show("Save Unipack Failed. Error Code: Unknown" & vbNewLine & "Warning: " & ex.Message, "UniConverter: Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-        End Try
+        Save2Project(True)
     End Sub
 
     Private Sub KeyLEDBetaToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles KeyLEDBetaToolStripMenuItem.Click
@@ -414,6 +402,9 @@ SaveInfoLine:
                 If Not ConSndFile = Nothing Then
                     MessageBox.Show("Sorry, You can't use this function." & vbNewLine &
                     "We are developing about Converting keySound!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Exit Sub
+
+                    IsSaved = False
                     'GO SOUND CODE!!!
                 Else
                     MessageBox.Show("You didn't select anything!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -435,6 +426,9 @@ SaveInfoLine:
                 If Not ConkeySndFile = Nothing Then
                     MessageBox.Show("Sorry, You can't use this function." & vbNewLine &
                         "We are developing about Converting keySound!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Exit Sub
+
+                    IsSaved = False
                     'BACK SOUND CODE!!!
                 Else
                     MessageBox.Show("You didn't select anything!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -449,9 +443,13 @@ SaveInfoLine:
     End Sub
 
     Private Sub EdKeysButton_Click(sender As Object, e As EventArgs) Handles EdKeysButton.Click
-
-
         If abl_openedsnd = True Then
+            If IsSaved = False Then
+                Dim result As DialogResult = MessageBox.Show("You didn't save your UniPack's Sounds. Would you like to save your UniPack's Sounds?", Me.Text & ": Not Saved", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
+                If result = DialogResult.Yes Then
+                    Save2Project(False)
+                End If
+            End If
             EditkeySound.Show()
         Else
             MessageBox.Show("You didn't import sounds!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -459,27 +457,23 @@ SaveInfoLine:
     End Sub
 
     Public Sub OpenSounds()
-        Dim openFileDialog1 As New OpenFileDialog()
-        Dim MaxFileLength As Integer
-        Dim LoadedFiles As Integer
+        Dim ofd As New OpenFileDialog With {
+            .Filter = "WAV Sound Files|*.wav|MP3 Sound Files|*.mp3",
+            .Title = "Select Sounds",
+            .Multiselect = True
+        }
 
-        openFileDialog1.Filter = "WAV Sound Files|*.wav|MP3 Sound Files|*.mp3"
-        openFileDialog1.Title = "Select Sounds"
-        openFileDialog1.Multiselect = True
-        LoadedFiles = 0
+        If ofd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+            Me.Invoke(Sub()
+                          Loading.Show()
+                          Loading.Text = Me.Text & ": Loading Sound Files..."
+                          Loading.DPr.Maximum = ofd.FileNames.Length
+                          Loading.DLb.Left = 20
+                          Loading.DLb.Text = "Moving Sound Files to Workspace Directory..."
+                          Loading.DLb.Refresh()
+                      End Sub)
 
-        If openFileDialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-            MaxFileLength = openFileDialog1.FileNames.Length
-
-            With LOADINGForm
-                .Show()
-                .Text = "Loading Sound Files..."
-                .DLabel1.Text = "Loading Sound Files... (" & LoadedFiles & "/" & MaxFileLength & ")"
-                .DProgress1.Maximum = MaxFileLength
-                .DProgress1.Style = ProgressBarStyle.Marquee
-            End With
-
-            If Path.GetExtension(openFileDialog1.FileNames(openFileDialog1.FileNames.Length - 1)) = ".wav" Then
+            If Path.GetExtension(ofd.FileNames(ofd.FileNames.Length - 1)) = ".wav" Then
 
                 If (My.Computer.FileSystem.DirectoryExists("Workspace\ableproj\sounds") = True) Then
                     My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
@@ -487,22 +481,22 @@ SaveInfoLine:
 
                 My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\sounds")
 
-                For i = 0 To openFileDialog1.FileNames.Length - 1
-                    File.Copy(openFileDialog1.FileNames(i), "Workspace\ableproj\sounds\" & openFileDialog1.FileNames(i).Split("\").Last, True)
-                    LoadedFiles = LoadedFiles + 1
-                    LOADINGForm.DProgress1.Style = ProgressBarStyle.Continuous
-                    LOADINGForm.DLabel1.Text = "Loading Sound Files... (" & LoadedFiles & "/" & MaxFileLength & ")"
-                    LOADINGForm.DProgress1.Value = LoadedFiles
+                For i = 0 To ofd.FileNames.Length - 1
+                    File.Copy(ofd.FileNames(i), "Workspace\ableproj\sounds\" & ofd.FileNames(i).Split("\").Last, True)
+                    Loading.DPr.Style = ProgressBarStyle.Continuous
+                    Loading.DPr.Value += 1
+                    Loading.DLb.Text = String.Format(loading_openSounds_msg, Loading.DPr.Value, ofd.FileNames.Length)
+                    Loading.DLb.Refresh()
                 Next
 
-            ElseIf Path.GetExtension(openFileDialog1.FileNames(openFileDialog1.FileNames.Length - 1)) = ".mp3" Then
+            ElseIf Path.GetExtension(ofd.FileNames(ofd.FileNames.Length - 1)) = ".mp3" Then
                 If (My.Computer.FileSystem.DirectoryExists("Workspace\ableproj\sounds") = True) Then
                     My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
                 End If
                 My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\sounds")
 
-                For i = 0 To openFileDialog1.FileNames.Length - 1
-                    File.Copy(openFileDialog1.FileNames(i), "Workspace\" & openFileDialog1.FileNames(i).Split("\").Last.Replace(" ", "").Trim(), True)
+                For i = 0 To ofd.FileNames.Length - 1
+                    File.Copy(ofd.FileNames(i), "Workspace\" & ofd.FileNames(i).Split("\").Last.Replace(" ", "").Trim(), True)
                 Next
 
                 For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\", FileIO.SearchOption.SearchTopLevelOnly, "*.mp3")
@@ -515,10 +509,11 @@ fexLine:
                         If File.Exists(foundFile.Replace(".mp3", ".wav")) Then
                             File.Move(foundFile.Replace(".mp3", ".wav"), "Workspace\ableproj\sounds\" & Path.GetFileName(foundFile.Replace(".mp3", ".wav")))
                             File.Delete(foundFile)
-                            LoadedFiles = LoadedFiles + 1
-                            LOADINGForm.DProgress1.Style = ProgressBarStyle.Continuous
-                            LOADINGForm.DLabel1.Text = "Loading Sound Files... (" & LoadedFiles & "/" & MaxFileLength & ")"
-                            LOADINGForm.DProgress1.Value = LoadedFiles
+
+                            Loading.DPr.Style = ProgressBarStyle.Continuous
+                            Loading.DPr.Value += 1
+                            Loading.DLb.Text = String.Format(loading_openSounds_msg, Loading.DPr.Value, ofd.FileNames.Length)
+                            Loading.DLb.Refresh()
                         End If
                     Next
                 Catch fex As IOException 'I/O 오류 해결 코드.
@@ -528,9 +523,9 @@ fexLine:
             End If
 
             '-After Loading WAV/MP3!
-            If LoadedFiles = MaxFileLength Then
-                If MaxFileLength = Directory.GetFiles(Application.StartupPath & "\Workspace\ableproj\sounds\", "*.wav").Length Then
-                    LOADINGForm.Dispose()
+            If Loading.DPr.Value = ofd.FileNames.Length Then
+                If ofd.FileNames.Length = Directory.GetFiles(Application.StartupPath & "\Workspace\ableproj\sounds\", "*.wav").Length Then
+                    Loading.Close()
                     If Not abl_openedsnd = True Then
                         MessageBox.Show("Sounds Loaded!" & vbNewLine &
                         "You can edit keySound in keySound Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -584,35 +579,36 @@ fexLine:
             VerLog = vxml.<Update-XML>.<Update-Info>.<Update-Log>.Value.TrimStart
             If My.Application.Info.Version < FileInfo Then
                 If MessageBox.Show("New Version " & FileInfo.ToString & " is Available!" & vbNewLine & "Current Version : " & My.Application.Info.Version.ToString & vbNewLine & "Latest Version : " & FileInfo.ToString & vbNewLine &
-                                 vbNewLine & "Update Log:" & vbNewLine & VerLog, "UniConverter", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-                    With LOADINGForm
-                        .Text = "Downloading UniConverter V" & FileInfo.ToString
-                        .DLabel1.Left = 101
-                        .DLabel1.Top = 108
-                        .DLabel1.Text = "Downloading UniConverter " & FileInfo.ToString & " ..."
-                        .DProgress1.Value = 800
-                        .DProgress1.MarqueeAnimationSpeed = 100
+                                 vbNewLine & "Update Log:" & vbNewLine & VerLog, Me.Text & ": Update", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+                    With Loading
                         .Show()
+                        .Text = "Downloading UniConverter V" & FileInfo.ToString
+                        .DPr.Refresh()
+                        .DLb.Text = "Downloading UniConverter V" & FileInfo.ToString & " ..."
+                        .DLb.Left = 20
+                        .DLb.Refresh()
                     End With
                     Client.DownloadFile("http://dprg0.ucv.kro.kr", My.Computer.FileSystem.SpecialDirectories.Temp & "\UniConverter-Update.zip")
-                    If Dir(Application.StartupPath & "UniConverter_v" & FileInfo.ToString, vbDirectory) <> "" Then
-                        If File.Exists(Application.StartupPath & "UniConverter_v" & FileInfo.ToString & "\UniConverter.exe") Then
-                            My.Computer.FileSystem.DeleteDirectory(Application.StartupPath & "UniConverter_v" & FileInfo.ToString, FileIO.DeleteDirectoryOption.DeleteAllContents)
-                            My.Computer.FileSystem.CreateDirectory(Application.StartupPath & "UniConverter_v" & FileInfo.ToString)
+                    Loading.DPr.Style = ProgressBarStyle.Continuous
+                    Loading.DPr.Value = 800
+
+                    If Dir(Application.StartupPath & "\UniConverter_v" & FileInfo.ToString, vbDirectory) <> "" Then
+                        If File.Exists(Application.StartupPath & "\UniConverter_v" & FileInfo.ToString & "\UniConverter.exe") Then
+                            My.Computer.FileSystem.DeleteDirectory(Application.StartupPath & "\UniConverter_v" & FileInfo.ToString, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                            My.Computer.FileSystem.CreateDirectory(Application.StartupPath & "\UniConverter_v" & FileInfo.ToString)
                             ZipFile.ExtractToDirectory(My.Computer.FileSystem.SpecialDirectories.Temp & "\UniConverter-Update.zip", "UniConverter_v" & FileInfo.ToString)
                         Else
                             ZipFile.ExtractToDirectory(My.Computer.FileSystem.SpecialDirectories.Temp & "\UniConverter-Update.zip", "UniConverter_v" & FileInfo.ToString)
                         End If
                     Else
-                        My.Computer.FileSystem.CreateDirectory(Application.StartupPath & "UniConverter_v" & FileInfo.ToString)
+                        My.Computer.FileSystem.CreateDirectory(Application.StartupPath & "\UniConverter_v" & FileInfo.ToString)
                         ZipFile.ExtractToDirectory(My.Computer.FileSystem.SpecialDirectories.Temp & "\UniConverter-Update.zip", "UniConverter_v" & FileInfo.ToString)
                     End If
-                    With LOADINGForm
-                        .DProgress1.Value = 1000
-                        If .DProgress1.Value = 1000 Then
-                            .DLabel1.Left = 151
-                            .DLabel1.Top = 108
-                            .DLabel1.Text = "Update Complete!"
+                    With Loading
+                        .DPr.Value = 1000
+                        If .DPr.Value = 1000 Then
+                            .DLb.Left = 120
+                            .DLb.Text = "Update Complete!"
                             If MessageBox.Show("Update Complete! UniConverter " & FileInfo.ToString & " is in 'UniConverter_v" & FileInfo.ToString & "' Folder.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information) = DialogResult.OK Then
                                 File.Delete(My.Computer.FileSystem.SpecialDirectories.Temp & "\UniConverter-Update.zip")
                                 .Dispose()
@@ -628,5 +624,50 @@ fexLine:
 
     Private Sub ReportBugsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReportBugsToolStripMenuItem.Click
         REPORTForm.Show()
+    End Sub
+
+    Private Sub MainProject_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        If IsSaved = False Then
+            Dim result As DialogResult = MessageBox.Show("You didn't save your UniPack. Would you like to save your UniPack?", Me.Text & ": Not Saved", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
+            If result = DialogResult.Yes Then
+                Save2Project(False)
+            ElseIf result = DialogResult.Cancel Then
+                e.Cancel = True
+            End If
+        End If
+    End Sub
+
+    Private Sub Save2Project(Waiting As Boolean)
+        Dim sfd As New SaveFileDialog()
+        sfd.Filter = "Zip File|*.zip|Unipack File|*.uni"
+        sfd.Title = "Select Save Unipack"
+        sfd.AddExtension = False
+
+        Try
+            If sfd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+                If My.Computer.FileSystem.DirectoryExists(Application.StartupPath & "\Workspace\unipack") Then
+                    ZipFile.CreateFromDirectory(Application.StartupPath & "\Workspace\unipack", sfd.FileName)
+                    If Waiting = True Then
+                        IsSaved = True
+                        MessageBox.Show("Saved Unipack!", "UniConverter", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End If
+                End If
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show("Save Unipack Failed. Error Code: Unknown" & vbNewLine & "Warning: " & ex.Message, "UniConverter: Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        End Try
+    End Sub
+
+    Private Sub infoTB1_TextChanged(sender As Object, e As EventArgs) Handles infoTB1.TextChanged
+        IsSaved = False
+    End Sub
+
+    Private Sub infoTB2_TextChanged(sender As Object, e As EventArgs) Handles infoTB2.TextChanged
+        IsSaved = False
+    End Sub
+
+    Private Sub infoTB3_SelectedItemChanged(sender As Object, e As EventArgs) Handles infoTB3.SelectedItemChanged
+        IsSaved = False
     End Sub
 End Class

@@ -7,7 +7,6 @@ C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniC
 C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter Project.vbprojAssemblyReference.cache
 C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.CuttingSound.resources
 C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.EditkeySound.resources
-C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.LOADINGForm.resources
 C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.REPORTForm.resources
 C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.keyLED_Edit.resources
 C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.LEDEdit_Advanced.resources
@@ -23,3 +22,4 @@ C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniC
 C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter.xml
 C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter.pdb
 C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.z_DeveloperMode.resources
+C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.Loading.resources
