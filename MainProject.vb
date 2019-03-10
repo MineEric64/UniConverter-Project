@@ -1,6 +1,7 @@
 ﻿Imports System.IO
 Imports System.IO.Compression
 Imports NAudio.Midi
+Imports NAudio.Wave
 Imports ICSharpCode.SharpZipLib.GZip
 Imports ICSharpCode.SharpZipLib.Core
 Imports System.Text
@@ -63,6 +64,7 @@ Public Class MainProject
     ''' </summary>
     Dim IsSaved As Boolean
     Public Shared loading_openSounds_msg As String = "Loading Sound Files... ({0} / {1})"
+    Dim LLV As New ListView
 
     ''' <summary>
     '''  LAME으로 소리 확장자 변환. 현재 MP3toWAV 변환 가능. FileName의 경우 반드시 Application.StartupPath로 File을 지정하기 바람.
@@ -166,7 +168,7 @@ Public Class MainProject
                 My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\CoLED")
 OpenLine:
                 For i = 0 To LEDOpen1.FileNames.Length - 1
-                    IO.File.Copy(LEDOpen1.FileNames(i), "Workspace\ableproj\CoLED\" & LEDOpen1.FileNames(i).Split("\").Last, True)
+                    File.Copy(LEDOpen1.FileNames(i), "Workspace\ableproj\CoLED\" & LEDOpen1.FileNames(i).Split("\").Last, True)
                 Next
                 keyLED_Edit.Show()
             Else
@@ -187,7 +189,7 @@ OpenLine:
         ' Use a 4K buffer. Any larger is a waste.  
         Dim dataBuffer As Byte() = New Byte(4095) {}
 
-        Using fs As System.IO.Stream = New FileStream(gzipFileName, FileMode.Open, FileAccess.Read)
+        Using fs As Stream = New FileStream(gzipFileName, FileMode.Open, FileAccess.Read)
             Using gzipStream As New GZipInputStream(fs)
 
                 ' Change this to your needs
@@ -396,25 +398,56 @@ SaveInfoLine:
 
     Private Sub GoButton_Click(sender As Object, e As EventArgs) Handles GoButton.Click
         Try
-            Dim ConSndFile = Sound_ListView.FocusedItem.SubItems.Item(0).Text
+            Dim SelectedIndex As Integer = Sound_ListView.SelectedIndices.Count
+            Dim ConSndFile As ListViewItem = Sound_ListView.SelectedItems.Item(0)
+            Dim SndInfo As New WaveFileReader(Application.StartupPath & "\Workspace\unipack\sounds\" & ConSndFile.Text)
 
             If abl_openedsnd = True Then
-                If Not ConSndFile = Nothing Then
-                    MessageBox.Show("Sorry, You can't use this function." & vbNewLine &
-                    "We are developing about Converting keySound!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    Exit Sub
+                IsSaved = False
+                If SelectedIndex = 1 Then
+                    Dim loopNum = InputBox("Please input the loop number of the new sounds." & vbNewLine & "Default is 1.", "Setting Loop Number", 1)
+                    If IsNumeric(loopNum) = False Then
+                        If loopNum.Length = 1 Then
+                            MessageBox.Show("Please input number! Not character.", "Not Numeric", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
+                            Exit Sub
+                        ElseIf loopNum.Length > 1 Then
+                            MessageBox.Show("Please input number! Not characters.", "Not Numeric", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
+                            Exit Sub
+                        ElseIf loopNum.Length = 0 Then
+                            MessageBox.Show("Please input number! Not Null.", "Text is Null", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
+                            Exit Sub
+                        End If
+                    End If
 
-                    IsSaved = False
-                    'GO SOUND CODE!!!
-                Else
-                    MessageBox.Show("You didn't select anything!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    keySound_ListView.Items.Add(New ListViewItem({keySound_ListView.Items.Count + 1, ConSndFile.Text, SndInfo.TotalTime.Minutes & ":" & SndInfo.TotalTime.Seconds & "." & SndInfo.TotalTime.Milliseconds, loopNum}))
+
+                ElseIf SelectedIndex > 1 Then
+                    Dim loopNum = InputBox("Please input the loop number of the new sounds." & vbNewLine & "Default is 1.", "Setting Loop Number", 1)
+                    If IsNumeric(loopNum) = False Then
+                        If loopNum.Length = 1 Then
+                            MessageBox.Show("Please input number! Not character.", "Not Numeric", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
+                            Exit Sub
+                        ElseIf loopNum.Length > 1 Then
+                            MessageBox.Show("Please input number! Not characters.", "Not Numeric", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
+                            Exit Sub
+                        ElseIf loopNum.Length = 0 Then
+                            MessageBox.Show("Please input number! Not Null.", "Text is Null", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
+                            Exit Sub
+                        End If
+                    End If
+
+                    For i As Integer = 0 To SelectedIndex - 1
+                        ConSndFile = Sound_ListView.SelectedItems.Item(i)
+                        SndInfo = New WaveFileReader(Application.StartupPath & "\Workspace\unipack\sounds\" & ConSndFile.Text)
+                        keySound_ListView.Items.Add(New ListViewItem({keySound_ListView.Items.Count + 1, ConSndFile.Text, SndInfo.TotalTime.Minutes & ":" & SndInfo.TotalTime.Seconds & "." & SndInfo.TotalTime.Milliseconds, loopNum}))
+                    Next
                 End If
             Else
                 MessageBox.Show("You didn't import sounds!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
 
         Catch ex As Exception
-            MessageBox.Show("Converting Failed. Error Code: Unknown" & vbNewLine & "Warning: " & ex.Message, "UniConverter: Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -447,13 +480,25 @@ SaveInfoLine:
             If IsSaved = False Then
                 Dim result As DialogResult = MessageBox.Show("You didn't save your UniPack's Sounds. Would you like to save your UniPack's Sounds?", Me.Text & ": Not Saved", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
                 If result = DialogResult.Yes Then
-                    Save2Project(False)
+                    SaveSounds(False)
                 End If
             End If
             EditkeySound.Show()
         Else
             MessageBox.Show("You didn't import sounds!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
+    End Sub
+
+    Public Sub SaveSounds(Waiting As Boolean)
+        Try
+            For Each unipack_sounds As ListViewItem In keySound_ListView.Items
+                Dim keySoundTxt As String = File.ReadAllText(Application.StartupPath & "\Workspace\unipack\keySound")
+
+            Next
+
+        Catch ex As Exception
+            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Public Sub OpenSounds()
@@ -468,32 +513,33 @@ SaveInfoLine:
                           Loading.Show()
                           Loading.Text = Me.Text & ": Loading Sound Files..."
                           Loading.DPr.Maximum = ofd.FileNames.Length
-                          Loading.DLb.Left = 20
-                          Loading.DLb.Text = "Moving Sound Files to Workspace Directory..."
+                          Loading.DLb.Left = 40
+                          Loading.DLb.Text = "Loading Sound Files..."
                           Loading.DLb.Refresh()
                       End Sub)
 
             If Path.GetExtension(ofd.FileNames(ofd.FileNames.Length - 1)) = ".wav" Then
 
-                If (My.Computer.FileSystem.DirectoryExists("Workspace\ableproj\sounds") = True) Then
-                    My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
+                If My.Computer.FileSystem.DirectoryExists("Workspace\unipack\sounds") = True Then
+                    My.Computer.FileSystem.DeleteDirectory("Workspace\unipack\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
                 End If
 
-                My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\sounds")
+                My.Computer.FileSystem.CreateDirectory("Workspace\unipack\sounds")
 
                 For i = 0 To ofd.FileNames.Length - 1
-                    File.Copy(ofd.FileNames(i), "Workspace\ableproj\sounds\" & ofd.FileNames(i).Split("\").Last, True)
+                    File.Copy(ofd.FileNames(i), "Workspace\unipack\sounds\" & ofd.FileNames(i).Split("\").Last, True)
                     Loading.DPr.Style = ProgressBarStyle.Continuous
                     Loading.DPr.Value += 1
+                    Loading.DLb.Left = 40
                     Loading.DLb.Text = String.Format(loading_openSounds_msg, Loading.DPr.Value, ofd.FileNames.Length)
                     Loading.DLb.Refresh()
                 Next
 
             ElseIf Path.GetExtension(ofd.FileNames(ofd.FileNames.Length - 1)) = ".mp3" Then
-                If (My.Computer.FileSystem.DirectoryExists("Workspace\ableproj\sounds") = True) Then
-                    My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
+                If (My.Computer.FileSystem.DirectoryExists("Workspace\unipack\sounds") = True) Then
+                    My.Computer.FileSystem.DeleteDirectory("Workspace\unipack\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
                 End If
-                My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\sounds")
+                My.Computer.FileSystem.CreateDirectory("Workspace\unipack\sounds")
 
                 For i = 0 To ofd.FileNames.Length - 1
                     File.Copy(ofd.FileNames(i), "Workspace\" & ofd.FileNames(i).Split("\").Last.Replace(" ", "").Trim(), True)
@@ -507,11 +553,12 @@ SaveInfoLine:
 fexLine:
                     For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\", FileIO.SearchOption.SearchTopLevelOnly, "*.mp3")
                         If File.Exists(foundFile.Replace(".mp3", ".wav")) Then
-                            File.Move(foundFile.Replace(".mp3", ".wav"), "Workspace\ableproj\sounds\" & Path.GetFileName(foundFile.Replace(".mp3", ".wav")))
+                            File.Move(foundFile.Replace(".mp3", ".wav"), "Workspace\unipack\sounds\" & Path.GetFileName(foundFile.Replace(".mp3", ".wav")))
                             File.Delete(foundFile)
 
                             Loading.DPr.Style = ProgressBarStyle.Continuous
                             Loading.DPr.Value += 1
+                            Loading.DLb.Left = 40
                             Loading.DLb.Text = String.Format(loading_openSounds_msg, Loading.DPr.Value, ofd.FileNames.Length)
                             Loading.DLb.Refresh()
                         End If
@@ -524,7 +571,7 @@ fexLine:
 
             '-After Loading WAV/MP3!
             If Loading.DPr.Value = ofd.FileNames.Length Then
-                If ofd.FileNames.Length = Directory.GetFiles(Application.StartupPath & "\Workspace\ableproj\sounds\", "*.wav").Length Then
+                If ofd.FileNames.Length = Directory.GetFiles(Application.StartupPath & "\Workspace\unipack\sounds\", "*.wav").Length Then
                     Loading.Close()
                     If Not abl_openedsnd = True Then
                         MessageBox.Show("Sounds Loaded!" & vbNewLine &
@@ -543,9 +590,13 @@ fexLine:
             Sound_ListView.Items.Clear()
             keySound_ListView.Items.Clear()
 
-            For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\ableproj\sounds", FileIO.SearchOption.SearchTopLevelOnly, "*.wav")
-                Dim itm As New ListViewItem(New String() {Path.GetFileName(foundFile), foundFile})
-                Sound_ListView.Items.Add(itm)
+            For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\unipack\sounds", FileIO.SearchOption.SearchTopLevelOnly, "*.wav")
+                Dim SndInfo As New WaveFileReader(foundFile)
+                Sound_ListView.Items.Add(New ListViewItem({Path.GetFileName(foundFile), SndInfo.TotalTime.Minutes & ":" & SndInfo.TotalTime.Seconds & "." & SndInfo.TotalTime.Milliseconds, ""}))
+            Next
+
+            For Each itm As ListViewItem In Sound_ListView.Items
+                LLV.Items.Add(New ListViewItem({itm.SubItems(0).Text, itm.SubItems(1).Text, itm.SubItems(2).Text}))
             Next
         End If
     End Sub
@@ -667,7 +718,39 @@ fexLine:
         IsSaved = False
     End Sub
 
-    Private Sub infoTB3_SelectedItemChanged(sender As Object, e As EventArgs) Handles infoTB3.SelectedItemChanged
+    Private Sub infoTB3_SelectedItemChanged(sender As Object, e As EventArgs)
         IsSaved = False
+    End Sub
+
+    Private Sub ks_SearchSound_TextChanged(sender As Object, e As EventArgs) Handles ks_SearchSound.TextChanged
+        Dim LV As New ListView
+        If Not ks_SearchSound.Text = "" Then
+            Dim loi = 1
+            For i As Integer = 0 To Sound_ListView.Items.Count - 1
+
+                For Each itm As ListViewItem In LLV.Items
+                    LV.Items.Add(New ListViewItem({itm.SubItems(0).Text, itm.SubItems(1).Text, itm.SubItems(2).Text}))
+                Next
+
+                Dim Find_Sounds As ListViewItem = LV.Items.Item(i)
+                Dim FndSnd As String = Find_Sounds.SubItems(2).Text
+                If Find_Sounds.SubItems(0).Text.Contains(ks_SearchSound.Text) Then
+                    Dim SndInfo As New WaveFileReader(Application.StartupPath & "\Workspace\unipack\sounds\" & Find_Sounds.SubItems(0).Text)
+                    Dim AssingedButtons As String = FndSnd
+                    If loi = 1 Then
+                        Sound_ListView.Items.Clear()
+                        Sound_ListView.Items.Add(New ListViewItem({Find_Sounds.Text, SndInfo.TotalTime.Minutes & ":" & SndInfo.TotalTime.Seconds & "." & SndInfo.TotalTime.Milliseconds, AssingedButtons}))
+                        loi = 0
+                    Else
+                        Sound_ListView.Items.Add(New ListViewItem({Find_Sounds.Text, SndInfo.TotalTime.Minutes & ":" & SndInfo.TotalTime.Seconds & "." & SndInfo.TotalTime.Milliseconds, AssingedButtons}))
+                    End If
+                End If
+            Next
+        Else
+            Sound_ListView.Items.Clear()
+            For Each recover_sounds As ListViewItem In LLV.Items
+                Sound_ListView.Items.Add(New ListViewItem({recover_sounds.SubItems(0).Text, recover_sounds.SubItems(1).Text, recover_sounds.SubItems(2).Text}))
+            Next
+        End If
     End Sub
 End Class
