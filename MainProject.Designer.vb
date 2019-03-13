@@ -40,7 +40,6 @@ Partial Class MainProject
         Me.AbletonLive10ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.UnipackToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ConvertToZipUniToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.DeleteWorkspaceToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TutorialsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CheckUpdateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -50,7 +49,7 @@ Partial Class MainProject
         Me.ofd = New System.Windows.Forms.OpenFileDialog()
         Me.sfd = New System.Windows.Forms.SaveFileDialog()
         Me.LEDOpen1 = New System.Windows.Forms.OpenFileDialog()
-        Me.HomeEdit1 = New System.Windows.Forms.TabControl()
+        Me.HomeEdit = New System.Windows.Forms.TabControl()
         Me.Info1 = New System.Windows.Forms.TabPage()
         Me.infoTB3 = New System.Windows.Forms.TextBox()
         Me.Tip1 = New System.Windows.Forms.Label()
@@ -61,6 +60,8 @@ Partial Class MainProject
         Me.infoTB1 = New System.Windows.Forms.TextBox()
         Me.infoT1 = New System.Windows.Forms.Label()
         Me.KeySoundTab = New System.Windows.Forms.TabPage()
+        Me.ks_SearchLabel = New System.Windows.Forms.Label()
+        Me.ks_SearchSound = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.ks_Sound1 = New System.Windows.Forms.Label()
         Me.ks_SelY = New System.Windows.Forms.ComboBox()
@@ -86,10 +87,8 @@ Partial Class MainProject
         Me.DevelopingLabel2 = New System.Windows.Forms.Label()
         Me.keyLED2 = New System.Windows.Forms.TabPage()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.ks_SearchLabel = New System.Windows.Forms.Label()
-        Me.ks_SearchSound = New System.Windows.Forms.TextBox()
         Me.MenuStrip.SuspendLayout()
-        Me.HomeEdit1.SuspendLayout()
+        Me.HomeEdit.SuspendLayout()
         Me.Info1.SuspendLayout()
         Me.KeySoundTab.SuspendLayout()
         Me.keyLED1.SuspendLayout()
@@ -152,7 +151,7 @@ Partial Class MainProject
         '
         'EditToolStripMenuItem
         '
-        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UnipackToolStripMenuItem, Me.UnipackToolStripMenuItem1, Me.DeleteWorkspaceToolStripMenuItem})
+        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UnipackToolStripMenuItem, Me.UnipackToolStripMenuItem1})
         Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
         Me.EditToolStripMenuItem.Size = New System.Drawing.Size(39, 20)
         Me.EditToolStripMenuItem.Text = "Edit"
@@ -161,7 +160,7 @@ Partial Class MainProject
         '
         Me.UnipackToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AnyAbletonToolStripMenuItem, Me.AbletonLive9LiteToolStripMenuItem, Me.AbletonLive9TrialToolStripMenuItem, Me.AbletonLive9SuiteToolStripMenuItem, Me.AbletonLive10ToolStripMenuItem})
         Me.UnipackToolStripMenuItem.Name = "UnipackToolStripMenuItem"
-        Me.UnipackToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
+        Me.UnipackToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
         Me.UnipackToolStripMenuItem.Text = "Ableton"
         '
         'AnyAbletonToolStripMenuItem
@@ -203,7 +202,7 @@ Partial Class MainProject
         '
         Me.UnipackToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ConvertToZipUniToolStripMenuItem})
         Me.UnipackToolStripMenuItem1.Name = "UnipackToolStripMenuItem1"
-        Me.UnipackToolStripMenuItem1.Size = New System.Drawing.Size(170, 22)
+        Me.UnipackToolStripMenuItem1.Size = New System.Drawing.Size(117, 22)
         Me.UnipackToolStripMenuItem1.Text = "Unipack"
         '
         'ConvertToZipUniToolStripMenuItem
@@ -213,12 +212,6 @@ Partial Class MainProject
         Me.ConvertToZipUniToolStripMenuItem.Name = "ConvertToZipUniToolStripMenuItem"
         Me.ConvertToZipUniToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
         Me.ConvertToZipUniToolStripMenuItem.Text = "Convert to zip, uni"
-        '
-        'DeleteWorkspaceToolStripMenuItem
-        '
-        Me.DeleteWorkspaceToolStripMenuItem.Name = "DeleteWorkspaceToolStripMenuItem"
-        Me.DeleteWorkspaceToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
-        Me.DeleteWorkspaceToolStripMenuItem.Text = "Delete Workspace"
         '
         'TutorialsToolStripMenuItem
         '
@@ -269,18 +262,18 @@ Partial Class MainProject
         '
         Me.LEDOpen1.FileName = "LEDOpen1"
         '
-        'HomeEdit1
+        'HomeEdit
         '
-        Me.HomeEdit1.Controls.Add(Me.Info1)
-        Me.HomeEdit1.Controls.Add(Me.KeySoundTab)
-        Me.HomeEdit1.Controls.Add(Me.keyLED1)
-        Me.HomeEdit1.Controls.Add(Me.keyLED2)
-        Me.HomeEdit1.HotTrack = True
-        Me.HomeEdit1.Location = New System.Drawing.Point(12, 27)
-        Me.HomeEdit1.Name = "HomeEdit1"
-        Me.HomeEdit1.SelectedIndex = 0
-        Me.HomeEdit1.Size = New System.Drawing.Size(784, 522)
-        Me.HomeEdit1.TabIndex = 1
+        Me.HomeEdit.Controls.Add(Me.Info1)
+        Me.HomeEdit.Controls.Add(Me.KeySoundTab)
+        Me.HomeEdit.Controls.Add(Me.keyLED1)
+        Me.HomeEdit.Controls.Add(Me.keyLED2)
+        Me.HomeEdit.HotTrack = True
+        Me.HomeEdit.Location = New System.Drawing.Point(12, 27)
+        Me.HomeEdit.Name = "HomeEdit"
+        Me.HomeEdit.SelectedIndex = 0
+        Me.HomeEdit.Size = New System.Drawing.Size(784, 522)
+        Me.HomeEdit.TabIndex = 1
         '
         'Info1
         '
@@ -403,6 +396,24 @@ Partial Class MainProject
         Me.KeySoundTab.TabIndex = 1
         Me.KeySoundTab.Text = "keySound"
         Me.KeySoundTab.UseVisualStyleBackColor = True
+        '
+        'ks_SearchLabel
+        '
+        Me.ks_SearchLabel.AutoSize = True
+        Me.ks_SearchLabel.Font = New System.Drawing.Font("맑은 고딕", 9.0!)
+        Me.ks_SearchLabel.Location = New System.Drawing.Point(14, 14)
+        Me.ks_SearchLabel.Name = "ks_SearchLabel"
+        Me.ks_SearchLabel.Size = New System.Drawing.Size(85, 15)
+        Me.ks_SearchLabel.TabIndex = 50
+        Me.ks_SearchLabel.Text = "Search Sound:"
+        '
+        'ks_SearchSound
+        '
+        Me.ks_SearchSound.Font = New System.Drawing.Font("맑은 고딕", 9.0!)
+        Me.ks_SearchSound.Location = New System.Drawing.Point(103, 13)
+        Me.ks_SearchSound.Name = "ks_SearchSound"
+        Me.ks_SearchSound.Size = New System.Drawing.Size(141, 23)
+        Me.ks_SearchSound.TabIndex = 49
         '
         'Label2
         '
@@ -598,10 +609,10 @@ Partial Class MainProject
         'DevelopingLabel2
         '
         Me.DevelopingLabel2.AutoSize = True
-        Me.DevelopingLabel2.Font = New System.Drawing.Font("Adobe Heiti Std R", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.DevelopingLabel2.Location = New System.Drawing.Point(62, 177)
+        Me.DevelopingLabel2.Font = New System.Drawing.Font("Adobe Heiti Std R", 24.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
+        Me.DevelopingLabel2.Location = New System.Drawing.Point(83, 191)
         Me.DevelopingLabel2.Name = "DevelopingLabel2"
-        Me.DevelopingLabel2.Size = New System.Drawing.Size(512, 68)
+        Me.DevelopingLabel2.Size = New System.Drawing.Size(605, 80)
         Me.DevelopingLabel2.TabIndex = 36
         Me.DevelopingLabel2.Text = "We are developing ""Converting keyLED""!" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "                           Coming Soon..." &
     ""
@@ -619,46 +630,30 @@ Partial Class MainProject
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Adobe Heiti Std R", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Label1.Location = New System.Drawing.Point(39, 177)
+        Me.Label1.Font = New System.Drawing.Font("Adobe Heiti Std R", 24.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
+        Me.Label1.Location = New System.Drawing.Point(42, 196)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(593, 68)
+        Me.Label1.Size = New System.Drawing.Size(701, 80)
         Me.Label1.TabIndex = 37
         Me.Label1.Text = "We are developing ""Converting keyLED (MIDI)""!" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "                                Co" &
     "ming Soon..."
-        '
-        'ks_SearchLabel
-        '
-        Me.ks_SearchLabel.AutoSize = True
-        Me.ks_SearchLabel.Font = New System.Drawing.Font("맑은 고딕", 9.0!)
-        Me.ks_SearchLabel.Location = New System.Drawing.Point(14, 14)
-        Me.ks_SearchLabel.Name = "ks_SearchLabel"
-        Me.ks_SearchLabel.Size = New System.Drawing.Size(85, 15)
-        Me.ks_SearchLabel.TabIndex = 50
-        Me.ks_SearchLabel.Text = "Search Sound:"
-        '
-        'ks_SearchSound
-        '
-        Me.ks_SearchSound.Font = New System.Drawing.Font("맑은 고딕", 9.0!)
-        Me.ks_SearchSound.Location = New System.Drawing.Point(103, 13)
-        Me.ks_SearchSound.Name = "ks_SearchSound"
-        Me.ks_SearchSound.Size = New System.Drawing.Size(141, 23)
-        Me.ks_SearchSound.TabIndex = 49
         '
         'MainProject
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.BackColor = System.Drawing.SystemColors.Control
         Me.ClientSize = New System.Drawing.Size(796, 547)
-        Me.Controls.Add(Me.HomeEdit1)
+        Me.Controls.Add(Me.HomeEdit)
         Me.Controls.Add(Me.MenuStrip)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.KeyPreview = True
         Me.MainMenuStrip = Me.MenuStrip
         Me.Name = "MainProject"
         Me.Text = "UniConverter Beta 4"
         Me.MenuStrip.ResumeLayout(False)
         Me.MenuStrip.PerformLayout()
-        Me.HomeEdit1.ResumeLayout(False)
+        Me.HomeEdit.ResumeLayout(False)
         Me.Info1.ResumeLayout(False)
         Me.Info1.PerformLayout()
         Me.KeySoundTab.ResumeLayout(False)
@@ -688,7 +683,7 @@ Partial Class MainProject
     Friend WithEvents KeyLEDBetaToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents LEDOpen1 As OpenFileDialog
     Friend WithEvents ReportBugsToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents HomeEdit1 As TabControl
+    Friend WithEvents HomeEdit As TabControl
     Friend WithEvents Info1 As TabPage
     Friend WithEvents KeySoundTab As TabPage
     Friend WithEvents AbletonLive9LiteToolStripMenuItem As ToolStripMenuItem
@@ -726,7 +721,6 @@ Partial Class MainProject
     Friend WithEvents ks_SelChain As ComboBox
     Friend WithEvents DevelopingLabel2 As Label
     Friend WithEvents Label1 As Label
-    Friend WithEvents DeleteWorkspaceToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents infoTB3 As TextBox
     Friend WithEvents Length As ColumnHeader
     Friend WithEvents AssingedButtons As ColumnHeader
