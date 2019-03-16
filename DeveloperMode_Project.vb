@@ -49,12 +49,15 @@ Public Class DeveloperMode_Project
 
     Private Sub Info_ListView_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Info_ListView.SelectedIndexChanged
         Try
-            If Info_ListView.SelectedItems(0).Text = "File Name" Then
-                Info_TextBox.Text = Path.GetFileNameWithoutExtension(DeveloperMode_abl_FileName)
-            ElseIf Info_ListView.SelectedItems(0).Text = "Chains" Then
+            If Info_ListView.SelectedItems.Count > 0 Then
+                Dim SelectedItem As ListViewItem = Info_ListView.SelectedItems(0)
+                If SelectedItem.Text = "File Name" Then
+                    Info_TextBox.Text = Path.GetFileNameWithoutExtension(DeveloperMode_abl_FileName)
+                ElseIf SelectedItem.Text = "Chains" Then
 
-            ElseIf Info_ListView.SelectedItems(0).Text = "File Version" Then
-                Info_TextBox.Text = DeveloperMode_abl_FileVersion
+                ElseIf SelectedItem.Text = "File Version" Then
+                    Info_TextBox.Text = DeveloperMode_abl_FileVersion
+                End If
             End If
         Catch ex As Exception
             MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
