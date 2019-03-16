@@ -160,7 +160,7 @@ Public Class EditkeySound
                     End If
                 End If
                 Else
-                    If Not File.Exists(Application.StartupPath + "\Sources\DeveloperMode.uni") Then
+                If Not File.Exists(MainProject.LicenseFile) Then
                     MessageBox.Show("keySound File doesn't exists! (File Path: " & Application.StartupPath + "Workspace\unipack\keySound",
                                     Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End If

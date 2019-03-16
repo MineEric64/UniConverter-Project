@@ -115,6 +115,12 @@
     <Compile Include="CuttingSound.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="DeveloperMode_Project.Designer.vb">
+      <DependentUpon>DeveloperMode_Project.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DeveloperMode_Project.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="z_DeveloperMode.Designer.vb">
       <DependentUpon>z_DeveloperMode.vb</DependentUpon>
     </Compile>
@@ -201,6 +207,9 @@
   <ItemGroup>
     <EmbeddedResource Include="CuttingSound.resx">
       <DependentUpon>CuttingSound.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DeveloperMode_Project.resx">
+      <DependentUpon>DeveloperMode_Project.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="z_DeveloperMode.resx">
       <DependentUpon>z_DeveloperMode.vb</DependentUpon>

@@ -107,6 +107,11 @@ UniConverter
  String의 수를 세줍니다. 결과는 Integer.
  </summary>
 </member>
+<member name="F:UniConverter_Project.MainProject.LicenseFile">
+ <summary>
+  Developer Mode의 라이센스 파일.
+ </summary>
+</member>
 <member name="F:UniConverter_Project.MainProject.FileInfo">
  <summary>
  UniConverter 최신 버전.
@@ -115,11 +120,6 @@ UniConverter
 <member name="F:UniConverter_Project.MainProject.VerLog">
  <summary>
  UniConverter 최신 버전 업데이트 로그.
- </summary>
-</member>
-<member name="F:UniConverter_Project.MainProject.abl_openedsnd">
- <summary>
- 에이블톤 사운드 로딩.
  </summary>
 </member>
 <member name="F:UniConverter_Project.MainProject.vxml">
@@ -140,11 +140,6 @@ UniConverter
 <member name="F:UniConverter_Project.MainProject.IsSaved">
  <summary>
  MainProject 저장 여부.
- </summary>
-</member>
-<member name="F:UniConverter_Project.MainProject.loading_openSounds_msg">
- <summary>
- 로딩 OpenSounds() 메시지.
  </summary>
 </member>
 <member name="F:UniConverter_Project.MainProject.LLV">

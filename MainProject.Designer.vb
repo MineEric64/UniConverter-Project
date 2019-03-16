@@ -51,6 +51,7 @@ Partial Class MainProject
         Me.LEDOpen1 = New System.Windows.Forms.OpenFileDialog()
         Me.HomeEdit = New System.Windows.Forms.TabControl()
         Me.Info1 = New System.Windows.Forms.TabPage()
+        Me.Info_AdvancedButton = New System.Windows.Forms.Button()
         Me.infoTB3 = New System.Windows.Forms.TextBox()
         Me.Tip1 = New System.Windows.Forms.Label()
         Me.Info_SaveButton = New System.Windows.Forms.Button()
@@ -87,6 +88,7 @@ Partial Class MainProject
         Me.DevelopingLabel2 = New System.Windows.Forms.Label()
         Me.keyLED2 = New System.Windows.Forms.TabPage()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.BGW_keyLED = New System.ComponentModel.BackgroundWorker()
         Me.MenuStrip.SuspendLayout()
         Me.HomeEdit.SuspendLayout()
         Me.Info1.SuspendLayout()
@@ -128,7 +130,7 @@ Partial Class MainProject
         '
         Me.SoundsToolStripMenuItem.Name = "SoundsToolStripMenuItem"
         Me.SoundsToolStripMenuItem.Size = New System.Drawing.Size(232, 22)
-        Me.SoundsToolStripMenuItem.Text = "Open Sounds (Advanced)"
+        Me.SoundsToolStripMenuItem.Text = "Open Sounds"
         '
         'KeyLEDBetaToolStripMenuItem
         '
@@ -277,6 +279,7 @@ Partial Class MainProject
         '
         'Info1
         '
+        Me.Info1.Controls.Add(Me.Info_AdvancedButton)
         Me.Info1.Controls.Add(Me.infoTB3)
         Me.Info1.Controls.Add(Me.Tip1)
         Me.Info1.Controls.Add(Me.Info_SaveButton)
@@ -292,6 +295,16 @@ Partial Class MainProject
         Me.Info1.TabIndex = 0
         Me.Info1.Text = "Information"
         Me.Info1.UseVisualStyleBackColor = True
+        '
+        'Info_AdvancedButton
+        '
+        Me.Info_AdvancedButton.Location = New System.Drawing.Point(414, 391)
+        Me.Info_AdvancedButton.Name = "Info_AdvancedButton"
+        Me.Info_AdvancedButton.Size = New System.Drawing.Size(166, 95)
+        Me.Info_AdvancedButton.TabIndex = 31
+        Me.Info_AdvancedButton.Text = "Show Advanced Info"
+        Me.Info_AdvancedButton.UseVisualStyleBackColor = True
+        Me.Info_AdvancedButton.Visible = False
         '
         'infoTB3
         '
@@ -315,7 +328,7 @@ Partial Class MainProject
         '
         'Info_SaveButton
         '
-        Me.Info_SaveButton.Location = New System.Drawing.Point(585, 391)
+        Me.Info_SaveButton.Location = New System.Drawing.Point(586, 391)
         Me.Info_SaveButton.Name = "Info_SaveButton"
         Me.Info_SaveButton.Size = New System.Drawing.Size(169, 95)
         Me.Info_SaveButton.TabIndex = 27
@@ -638,6 +651,9 @@ Partial Class MainProject
         Me.Label1.Text = "We are developing ""Converting keyLED (MIDI)""!" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "                                Co" &
     "ming Soon..."
         '
+        'BGW_keyLED
+        '
+        '
         'MainProject
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
@@ -731,4 +747,6 @@ Partial Class MainProject
     Friend WithEvents Label2 As Label
     Friend WithEvents ks_SearchLabel As Label
     Friend WithEvents ks_SearchSound As TextBox
+    Friend WithEvents BGW_keyLED As System.ComponentModel.BackgroundWorker
+    Friend WithEvents Info_AdvancedButton As Button
 End Class

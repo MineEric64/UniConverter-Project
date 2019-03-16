@@ -10,43 +10,73 @@ Public Class keyLED_Edit
     Private trd_FileNames() As String
     Private Sub KeyLED_Edit_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'FileName 표시.
-        For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\ableproj\CoLED", FileIO.SearchOption.SearchTopLevelOnly, "*.mid") 'FileName의 파일 찾기
-            Dim itm As New ListViewItem(New String() {Path.GetFileName(foundFile), foundFile})
-            LED_ListView.Items.Add(itm)  '파일 이름 추가
-        Next
+        Invoke(Sub()
+                   For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\ableproj\CoLED", FileIO.SearchOption.SearchTopLevelOnly, "*.mid") 'FileName의 파일 찾기
+                       Dim itm As New ListViewItem(New String() {Path.GetFileName(foundFile), foundFile})
+                       LED_ListView.Items.Add(itm)  '파일 이름 추가
+                   Next
 
-        LED_ListView.AllowDrop = True
+                   LED_ListView.AllowDrop = True
+               End Sub)
     End Sub
 
     Private Sub LED_ListView_DragEnter(sender As Object, e As DragEventArgs) Handles LED_ListView.DragEnter
-        If e.Data.GetDataPresent(DataFormats.FileDrop) Then
-            e.Effect = DragDropEffects.Copy
-        End If
+        Invoke(Sub()
+                   If e.Data.GetDataPresent(DataFormats.FileDrop) Then
+                       e.Effect = DragDropEffects.Copy
+                   End If
+               End Sub)
     End Sub
 
     Private Sub LED_ListView_DragDrop(sender As Object, e As DragEventArgs) Handles LED_ListView.DragDrop
-        Dim files() As String = e.Data.GetData(DataFormats.FileDrop)
-        trd_DNDFiles = files
+        Invoke(Sub()
+                   Dim files() As String = e.Data.GetData(DataFormats.FileDrop)
+                   trd_DNDFiles = files
+                   trd = New Thread(AddressOf LED_OpenLEDFiles)
+                   trd.SetApartmentState(ApartmentState.MTA)
+                   trd.IsBackground = True
+                   trd.Start()
+               End Sub)
     End Sub
 
     Private Sub LED_OpenLEDFiles(Files() As String)
         '---Beta Code: Drag and Drop & Get File Name Only---
-        Files = trd_DNDFiles
-        LED_ListView.Items.Clear()
-        UniLED_Edit.Clear()
-        UniLED1.Text = "File Name: None"
-        If UniLED_Edit.Enabled = True Then UniLED_Edit.Enabled = False
+        Invoke(Sub()
+                   Files = trd_DNDFiles
+                   LED_ListView.Items.Clear()
+                   UniLED_Edit.Clear()
+                   UniLED1.Text = "File Name: None"
+                   If UniLED_Edit.Enabled = True Then UniLED_Edit.Enabled = False
+                   Invoke(Sub()
+                              Loading.Show()
+                              Loading.Text = Me.Text & ": Loading LED Files..."
+                              Loading.DPr.Maximum = Files.Length
+                              Loading.DLb.Left = 40
+                              Loading.DLb.Text = "Loading LED Files..."
+                              Loading.DLb.Refresh()
+                          End Sub)
+               End Sub)
+
         If Dir("Workspace\ableproj\CoLED", vbDirectory) <> "" Then My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\CoLED", FileIO.DeleteDirectoryOption.DeleteAllContents)
 
-        My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\CoLED")
+                   My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\CoLED")
         For i = 0 To Files.Length - 1
             File.Copy(Files(i), "Workspace\ableproj\CoLED\" & Files(i).Split("\").Last, True)
+            Invoke(Sub()
+                       Loading.DPr.Style = ProgressBarStyle.Continuous
+                       Loading.DPr.Value += 1
+                       Loading.DLb.Left = 40
+                       Loading.DLb.Text = String.Format(MainProject.loading_LED_open_msg, Loading.DPr.Value, Files.Length)
+                       Loading.DLb.Refresh()
+                   End Sub)
         Next
 
-        For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\ableproj\CoLED", FileIO.SearchOption.SearchTopLevelOnly, "*.mid") 'FileName의 파일 찾기
-            Dim itm As New ListViewItem(New String() {Path.GetFileName(foundFile), foundFile})
-            LED_ListView.Items.Add(itm)  '파일 이름 추가
-        Next
+        Invoke(Sub()
+                   For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\ableproj\CoLED", FileIO.SearchOption.SearchTopLevelOnly, "*.mid") 'FileName의 파일 찾기
+                       Dim itm As New ListViewItem(New String() {Path.GetFileName(foundFile), foundFile})
+                       LED_ListView.Items.Add(itm)  '파일 이름 추가
+                   Next
+               End Sub)
     End Sub
 
     Private Sub CopyButton_Click(sender As Object, e As EventArgs) Handles CopyButton.Click
@@ -945,6 +975,17 @@ Public Class keyLED_Edit
     Private Sub keyLED_RefreshNOpen(FileNames() As String)
         Invoke(Sub()
                    FileNames = trd_FileNames
+
+                   Invoke(Sub()
+                              Loading.Show()
+                              Loading.Text = MainProject.Text & ": Loading LED Files..."
+                              Loading.DPr.Maximum = FileNames.Length
+                              Loading.DPr.Refresh()
+                              Loading.DLb.Left = 40
+                              Loading.DLb.Text = "Loading LED Files..."
+                              Loading.DLb.Refresh()
+                          End Sub)
+
                    If Dir("Workspace\ableproj\CoLED", vbDirectory) <> "" Then
                        My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\CoLED", FileIO.DeleteDirectoryOption.DeleteAllContents)
                        My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\CoLED")
@@ -956,11 +997,27 @@ OpenLine:
 
                        For i = 0 To FileNames.Length - 1
                            File.Copy(FileNames(i), "Workspace\ableproj\CoLED\" & FileNames(i).Split("\").Last, True)
+                           Invoke(Sub()
+                                      Loading.DPr.Style = ProgressBarStyle.Continuous
+                                      Loading.DPr.Value += 1
+                                      Loading.DLb.Left = 40
+                                      Loading.DLb.Text = String.Format(MainProject.loading_LED_open_msg, Loading.DPr.Value, FileNames.Length)
+                                      Loading.DLb.Refresh()
+                                  End Sub)
                        Next
+                       Loading.DPr.Value = 0
                        For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\ableproj\CoLED", FileIO.SearchOption.SearchTopLevelOnly, "*.mid") 'FileName의 파일 찾기
                            Dim itm As New ListViewItem(New String() {Path.GetFileName(foundFile), foundFile})
                            LED_ListView.Items.Add(itm)  '파일 이름 추가
+                           Invoke(Sub()
+                                      Loading.DPr.Style = ProgressBarStyle.Continuous
+                                      Loading.DPr.Value += 1
+                                      Loading.DLb.Left = 40
+                                      Loading.DLb.Text = String.Format(MainProject.loading_LED_openList_msg, Loading.DPr.Value, FileNames.Length)
+                                      Loading.DLb.Refresh()
+                                  End Sub)
                        Next
+                       Loading.Dispose()
                    Else
                        My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\CoLED")
                        GoTo OpenLine

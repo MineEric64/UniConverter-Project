@@ -33,9 +33,16 @@ Module modINI
 End Module
 
 Public Class MainProject
-    Dim abl_ver As String
-    Dim abl_FileName As String
-    Dim abl_openedproj As Boolean
+    ''' <summary>
+    '''  Developer Mode의 라이센스 파일.
+    ''' </summary>
+    Public Shared LicenseFile As String = Application.StartupPath & "\DeveloperMode.uni"
+    Public Shared abl_ver As String
+    Public Shared abl_FileName As String
+    Public Shared abl_Name As String
+    Public Shared abl_openedproj As Boolean
+    Public Shared abl_openedsnd As Boolean
+
     ''' <summary>
     ''' UniConverter 최신 버전.
     ''' </summary>
@@ -44,10 +51,6 @@ Public Class MainProject
     ''' UniConverter 최신 버전 업데이트 로그.
     ''' </summary>
     Public VerLog As String
-    ''' <summary>
-    ''' 에이블톤 사운드 로딩.
-    ''' </summary>
-    Public abl_openedsnd As Boolean
     ''' <summary>
     ''' Version.XML 파일 분석.
     ''' </summary>
@@ -59,20 +62,27 @@ Public Class MainProject
     ''' <summary>
     ''' 특별 기호 (")
     ''' </summary>
-    Dim ast As String = """"
+    Public Shared ast As String = """"
     ''' <summary>
     ''' MainProject 저장 여부.
     ''' </summary>
     Dim IsSaved As Boolean
-    ''' <summary>
-    ''' 로딩 OpenSounds() 메시지.
-    ''' </summary>
-    Public Shared loading_openSounds_msg As String = "Loading Sound Files... ({0} / {1})"
+
+    Public Shared loading_Sound_Open_msg As String = "Loading Sound Files... ({0} / {1})"
+    Public Shared loading_LED_open_msg As String = "Loading LED Files... ({0} / {1})"
+    Public Shared loading_LED_openList_msg As String = "Replacing LED Files... ({0} / {1})"
+    Public Shared loading_Project_Extract_msg As String = "Extracting The Project File..."
+    Public Shared loading_Project_Load_msg As String = "Loading The Project File..."
+    Public Shared loading_Project_DeleteTmp_msg As String = "Deleting The Tempoary Files..."
+    Public Shared loading_Project_ChangeExt_msg As String = "Applying to readable Infos..."
+    Public Shared loading_Project_FileName_msg As String = "Finding File Name..."
+
     ''' <summary>
     ''' 사운드 검색시 원본 리스트뷰.
     ''' </summary>
     Dim LLV As New ListView
     Private trd As Thread
+    Private ofd_FileName As String
     Private ofd_FileNames() As String
     Private trd_ListView As ListView
     Private trd_KeyEvent_e As KeyEventArgs
@@ -98,7 +108,6 @@ Public Class MainProject
     End Sub
 
     Private Sub MainProject_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim curFile As String = "Sources\DeveloperMode.uni" 'License File of Developer Mode.
         Dim file_ex = Application.StartupPath + "\settings.ini"
         vxml = XDocument.Load(Application.StartupPath & "\version.xml")
         FileInfo = Version.Parse(vxml.<Update-XML>.<Update-Info>.<Version>.Value)
@@ -107,6 +116,12 @@ Public Class MainProject
         IsSaved = True
         abl_openedproj = False
         abl_openedsnd = False
+
+        'License File of Developer Mode.
+        If File.Exists(LicenseFile) Then
+            Me.Text = Me.Text & " (Enabled Developer Mode)"
+            Info_AdvancedButton.Visible = True
+        End If
 
         'Text of Info TextBox
         infoTB1.Text = "My Amazing Launchpad Project!" 'Title
@@ -167,7 +182,6 @@ Public Class MainProject
             trd.SetApartmentState(ApartmentState.MTA)
             trd.IsBackground = True
             trd.Start()
-            'Loading.Dispose()
         End If
     End Sub
 
@@ -189,26 +203,64 @@ Public Class MainProject
 
         If LEDOpen1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
             Try
-                If Dir("Workspace\ableproj\CoLED", vbDirectory) <> "" Then
-                    My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\CoLED", FileIO.DeleteDirectoryOption.DeleteAllContents)
-                    My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\CoLED")
-OpenLine:
-                    For i = 0 To LEDOpen1.FileNames.Length - 1
-                        File.Copy(LEDOpen1.FileNames(i), "Workspace\ableproj\CoLED\" & LEDOpen1.FileNames(i).Split("\").Last, True)
-                    Next
-                    keyLED_Edit.Show()
-                Else
-                    My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\CoLED")
-                    GoTo OpenLine
-                End If
+                ofd_FileNames = LEDOpen1.FileNames
+                BGW_keyLED.RunWorkerAsync()
             Catch ex As Exception
                 MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         End If
     End Sub
 
-    Private Sub keyLED1_Button_Click(sender As Object, e As EventArgs)
-        keyLED_Edit.Show()
+    Private Sub BGW_keyLED_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles BGW_keyLED.DoWork
+        Try
+            Dim FileNames = ofd_FileNames
+
+            Invoke(Sub()
+                       Loading.Show()
+                       Loading.Text = Me.Text & ": Loading LED Files..."
+                       FileNames = ofd_FileNames
+                       Loading.DPr.Maximum = FileNames.Length
+                       Loading.DLb.Left = 40
+                       Loading.DLb.Text = "Loading LED Files..."
+                       Loading.DLb.Refresh()
+                   End Sub)
+
+            If Dir("Workspace\ableproj\CoLED", vbDirectory) <> "" Then
+                My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\CoLED", FileIO.DeleteDirectoryOption.DeleteAllContents)
+                My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\CoLED")
+OpenLine:
+                For i = 0 To FileNames.Length - 1
+                    File.Copy(FileNames(i), "Workspace\ableproj\CoLED\" & FileNames(i).Split("\").Last, True)
+                    Invoke(Sub()
+                               Loading.DPr.Style = ProgressBarStyle.Continuous
+                               Loading.DPr.Value += 1
+                               Loading.DLb.Left = 40
+                               Loading.DLb.Text = String.Format(loading_LED_open_msg, Loading.DPr.Value, FileNames.Length)
+                               Loading.DLb.Refresh()
+                           End Sub)
+                Next
+                Invoke(Sub() Loading.DPr.Value = Loading.DPr.Maximum)
+            Else
+                My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\CoLED")
+                GoTo OpenLine
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private Sub BGW_keyLED_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles BGW_keyLED.RunWorkerCompleted
+        Try
+            If e.Error IsNot Nothing Then
+                MessageBox.Show("Error - " & e.Error.Message & vbNewLine & "Error Message: " & e.Error.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            ElseIf e.Cancelled Then
+            Else
+                keyLED_Edit.Show()
+                Loading.Dispose()
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Public Sub ExtractGZip(gzipFileName As String, targetDir As String)
@@ -231,6 +283,80 @@ OpenLine:
         End Using
     End Sub
 
+    Private Sub Ableton_OpenProject(ByVal FileName As String)
+        '---Beta Code: Converting Ableton Project Info To Unipack Info---
+        '이 Beta Convert Code는 오류가 발생할 수 있습니다.
+        '주의사항을 다 보셨다면, 당신은 Editor 권한을 가질 수 있습니다.
+
+        'Convert Ableton Project to Unipack Informations. (BETA!!!)
+        FileName = ofd_FileName
+        If Dir("Workspace\ableproj", vbDirectory) <> "" Then
+OpenProjectLine:
+            Invoke(Sub()
+                       Loading.Show()
+                       Loading.DLb.Left = 40
+                       Loading.Text = Me.Text & ": Loading The Ableton Project File..."
+                       Loading.DLb.Text = loading_Project_Load_msg
+                       Loading.DLb.Refresh()
+                   End Sub)
+            abl_FileName = FileName
+            File.Copy(FileName, "Workspace\ableproj\abl_proj.gz", True)
+            Invoke(Sub()
+                       Loading.DLb.Left = 40
+                       Loading.DLb.Text = loading_Project_Extract_msg
+                       Loading.DLb.Refresh()
+                   End Sub)
+            ExtractGZip("Workspace\ableproj\abl_proj.gz", "Workspace\ableproj")
+            Invoke(Sub()
+                       Loading.DLb.Left = 40
+                       Loading.DLb.Text = loading_Project_DeleteTmp_msg
+                       Loading.DLb.Refresh()
+                   End Sub)
+            File.Delete("Workspace\ableproj\abl_proj.gz")
+            File.Delete("Workspace\ableproj\abl_proj.xml")
+            Invoke(Sub()
+                       Loading.DLb.Left = 40
+                       Loading.DLb.Text = loading_Project_ChangeExt_msg
+                       Loading.DLb.Refresh()
+                   End Sub)
+            File.Move("Workspace\ableproj\abl_proj", "Workspace\ableproj\abl_proj.xml")
+            Invoke(Sub()
+                       Loading.DLb.Left = 40
+                       Loading.DLb.Text = loading_Project_DeleteTmp_msg
+                       Loading.DLb.Refresh()
+                   End Sub)
+            File.Delete("Workspace\ableproj\abl_proj")
+            'Reading Informations of Ableton Project.
+            Invoke(Sub()
+                       Loading.DLb.Left = 40
+                       Loading.DLb.Text = loading_Project_FileName_msg
+                       Loading.DLb.Refresh()
+                   End Sub)
+            abl_Name = Path.GetFileNameWithoutExtension(FileName)
+            Invoke(Sub()
+                       Loading.DLb.Left = 40
+                       Loading.DLb.Text = "Loading The Ableton Project File..."
+                       Loading.DLb.Refresh()
+                   End Sub)
+
+            Invoke(Sub() Loading.Dispose())
+            If Not abl_openedproj = True Then
+                MessageBox.Show("Ableton Project File Loaded!" & vbNewLine &
+                            "You can edit info in Information Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                abl_openedproj = True
+            Else
+                MessageBox.Show("Ableton Project File Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
+            'XML File Load.
+            Invoke(Sub()
+                       infoTB1.Text = abl_Name
+                   End Sub)
+        Else
+            My.Computer.FileSystem.CreateDirectory("Workspace\ableproj")
+            GoTo OpenProjectLine
+        End If
+    End Sub
+
     Private Sub OpenAbletonProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenAbletonProjectToolStripMenuItem.Click
         Dim alsOpen1 As New OpenFileDialog
         alsOpen1.Filter = "Ableton Project File|*.als"
@@ -239,32 +365,11 @@ OpenLine:
         alsOpen1.Multiselect = False
 
         If alsOpen1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-
-            '---Beta Code: Converting Ableton Project Info To Unipack Info---
-            '이 Beta Convert Code는 오류가 발생할 수 있습니다.
-            '주의사항을 다 보셨다면, 당신은 Editor 권한을 가질 수 있습니다.
-
-            'Convert Ableton Project to Unipack Informations. (BETA!!!)
-            If Dir("Workspace\ableproj", vbDirectory) <> "" Then
-OpenProjectLine:
-                abl_FileName = alsOpen1.SafeFileName.Replace(".als", "")
-                File.Copy(alsOpen1.FileName, "Workspace\ableproj\abl_proj.gz", True)
-                ExtractGZip("Workspace\ableproj\abl_proj.gz", "Workspace\ableproj")
-                File.Delete("Workspace\ableproj\abl_proj.gz")
-                File.Move("Workspace\ableproj\abl_proj", "Workspace\ableproj\abl_proj.xml")
-                If Not abl_openedproj = True Then
-                    MessageBox.Show("Ableton Project File Loaded!" & vbNewLine &
-                                "You can edit info in Information Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    abl_openedproj = True
-                Else
-                    MessageBox.Show("Ableton Project File Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                End If
-                'XML File Load.
-                infoTB1.Text = abl_FileName
-            Else
-                My.Computer.FileSystem.CreateDirectory("Workspace\ableproj")
-                GoTo OpenProjectLine
-            End If
+            trd = New Thread(AddressOf Ableton_OpenProject)
+            ofd_FileName = alsOpen1.FileName
+            trd.SetApartmentState(ApartmentState.MTA)
+            trd.IsBackground = True
+            trd.Start()
         End If
     End Sub
 
@@ -568,7 +673,7 @@ SaveInfoLine:
                            Loading.DPr.Style = ProgressBarStyle.Continuous
                            Loading.DPr.Value += 1
                            Loading.DLb.Left = 40
-                           Loading.DLb.Text = String.Format(loading_openSounds_msg, Loading.DPr.Value, FileNames.Length)
+                           Loading.DLb.Text = String.Format(loading_Sound_Open_msg, Loading.DPr.Value, FileNames.Length)
                            Loading.DLb.Refresh()
                        End Sub)
             Next
@@ -597,7 +702,7 @@ fexLine:
                                    Loading.DPr.Style = ProgressBarStyle.Continuous
                                    Loading.DPr.Value += 1
                                    Loading.DLb.Left = 40
-                                   Loading.DLb.Text = String.Format(loading_openSounds_msg, Loading.DPr.Value, ofd.FileNames.Length)
+                                   Loading.DLb.Text = String.Format(loading_Sound_Open_msg, Loading.DPr.Value, ofd.FileNames.Length)
                                    Loading.DLb.Refresh()
                                End Sub)
                     End If
@@ -752,6 +857,20 @@ fexLine:
         Try
             If sfd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
                 If My.Computer.FileSystem.DirectoryExists(Application.StartupPath & "\Workspace\unipack") Then
+                    If Waiting = True Then
+                        Invoke(Sub()
+                                   Loading.Show()
+                                   Loading.Text = Me.Text & ": Saving Ableton Project File to UniPack..."
+                                   Loading.DLb.Left = 40
+                                   Dim result As String = Path.GetExtension(sfd.FileName)
+                                   If result = ".zip" Then
+                                       Loading.DLb.Text = "Creating UniPack to zip File..."
+                                   ElseIf result = ".uni" Then
+                                       Loading.DLb.Text = "Creating UniPack to uni File..."
+                                   End If
+                                   Loading.DLb.Refresh()
+                               End Sub)
+                    End If
                     ZipFile.CreateFromDirectory(Application.StartupPath & "\Workspace\unipack", sfd.FileName)
                     If Waiting = True Then
                         IsSaved = True
@@ -770,10 +889,6 @@ fexLine:
     End Sub
 
     Private Sub infoTB2_TextChanged(sender As Object, e As EventArgs) Handles infoTB2.TextChanged
-        IsSaved = False
-    End Sub
-
-    Private Sub infoTB3_SelectedItemChanged(sender As Object, e As EventArgs)
         IsSaved = False
     End Sub
 
@@ -878,5 +993,9 @@ fexLine:
             MessageBox.Show("Error! - " & ex.Message & vbNewLine & ex.StackTrace,
         Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
+    End Sub
+
+    Private Sub Info_AdvancedButton_Click(sender As Object, e As EventArgs) Handles Info_AdvancedButton.Click
+        DeveloperMode_Project.Show()
     End Sub
 End Class
