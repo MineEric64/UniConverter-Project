@@ -49,7 +49,7 @@ Public Class DeveloperMode_Project
 
     Private Sub Info_ListView_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Info_ListView.SelectedIndexChanged
         Try
-            If Info_ListView.SelectedItems.Count > 0 Then
+            If Info_ListView.SelectedItems.Count > 0 Then '이것이 신의 한수... SelectedItem 코드 작성 시 꼭 필요. (invaildArgument 오류)
                 Dim SelectedItem As ListViewItem = Info_ListView.SelectedItems(0)
                 If SelectedItem.Text = "File Name" Then
                     Info_TextBox.Text = Path.GetFileNameWithoutExtension(DeveloperMode_abl_FileName)
