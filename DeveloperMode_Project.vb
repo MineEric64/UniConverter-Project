@@ -1,4 +1,6 @@
-﻿Imports System.IO
+﻿Imports System
+Imports System.IO
+Imports System.Xml
 
 Public Class DeveloperMode_Project
     Dim DeveloperMode_abl_openedproj As Boolean
@@ -41,7 +43,8 @@ Public Class DeveloperMode_Project
         Next
 
         Dim itm As New List(Of String) _
-    From {"File Name", "Chains", "File Version"}
+    From {"File Name", "Chains", "File Version", "KeyTracks"}
+        Info_ListView.Items.Clear()
         For Each items As String In itm
             Info_ListView.Items.Add(items)
         Next
@@ -57,6 +60,29 @@ Public Class DeveloperMode_Project
 
                 ElseIf SelectedItem.Text = "File Version" Then
                     Info_TextBox.Text = DeveloperMode_abl_FileVersion
+                ElseIf SelectedItem.Text = "KeyTracks" Then
+                    'Dim Xpath As String = "/Ableton/LiveSet"
+                    Dim doc As New XmlDocument
+                    Dim NewElementList As XmlNodeList
+                    doc.Load(Application.StartupPath & "\Workspace\ableproj\abl_proj.xml")
+                    Dim str As String
+
+                    '와... 진짜 LED 구현하느라 완전 힘들었다........ ㅠㅠ
+                    NewElementList = doc.GetElementsByTagName("KeyTracks")
+                    For i As Integer = 0 To NewElementList.Count - 1
+                        For q As Integer = 0 To NewElementList(i).ChildNodes.Count - 1
+                            If NewElementList(i).HasChildNodes Then str = str & NewElementList(i).ChildNodes(q).InnerXml & vbNewLine
+                        Next
+                    Next
+                    Info_TextBox.Text = str
+                    File.WriteAllText(Application.StartupPath & "\Workspace\ableproj\KeyTracks.xml", str)
+                    Dim notes As XmlNodeList = doc.GetElementsByTagName("MidiNoteEvent")
+                    Dim noteArr As New ListView
+                    For i As Integer = 0 To doc.GetElementsByTagName("MidiKey").Count - 1
+                        Dim note As Integer = CInt(Mid(doc.GetElementsByTagName("MidiKey")(i).OuterXml, doc.GetElementsByTagName("MidiKey")(i).OuterXml.Length - 5, 2))
+                        noteArr.Items.Add(note)
+                    Next
+                    'LED 변환... (For x : notes 및 Short Message 부분)
                 End If
             End If
         Catch ex As Exception
@@ -64,8 +90,17 @@ Public Class DeveloperMode_Project
         End Try
     End Sub
 
+    Private Shared Function GetXpath(ByVal node As XmlNode) As String
+        If node.Name = "#document" Then Return String.Empty
+        Return GetXpath(node.SelectSingleNode("..")) & "/" + If(node.NodeType = XmlNodeType.Attribute, "@", String.Empty) + node.Name
+    End Function
+
     Private Sub Info_TextBox_DoubleClick(sender As Object, e As EventArgs) Handles Info_TextBox.DoubleClick
         Clipboard.SetText(Info_TextBox.Text)
-        Console.WriteLine("Copied To Clipboard.")
+        Debug.WriteLine("Copied To Clipboard.")
+    End Sub
+
+    Private Sub BackgroundWorker1_DoWork(sender As Object, e As ComponentModel.DoWorkEventArgs) Handles BackgroundWorker1.DoWork
+
     End Sub
 End Class

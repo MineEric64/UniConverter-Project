@@ -29,6 +29,7 @@ Partial Class DeveloperMode_Project
         Me.Project_OpenButton = New System.Windows.Forms.Button()
         Me.Info_TextBox = New FastColoredTextBoxNS.FastColoredTextBox()
         Me.ofd_Project = New System.Windows.Forms.OpenFileDialog()
+        Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
         CType(Me.Info_TextBox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -78,6 +79,7 @@ Partial Class DeveloperMode_Project
         Me.Info_TextBox.CharWidth = 8
         Me.Info_TextBox.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.Info_TextBox.DisabledColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer))
+        Me.Info_TextBox.Font = New System.Drawing.Font("Courier New", 9.75!)
         Me.Info_TextBox.IsReplaceMode = False
         Me.Info_TextBox.Location = New System.Drawing.Point(288, 51)
         Me.Info_TextBox.Name = "Info_TextBox"
@@ -91,6 +93,9 @@ Partial Class DeveloperMode_Project
         '
         Me.ofd_Project.Filter = "Ableton Project File|*.als"
         Me.ofd_Project.Title = "Please Select Ableton Project File"
+        '
+        'BackgroundWorker1
+        '
         '
         'DeveloperMode_Project
         '
@@ -115,4 +120,5 @@ Partial Class DeveloperMode_Project
     Friend WithEvents Project_OpenButton As Button
     Friend WithEvents Info_TextBox As FastColoredTextBoxNS.FastColoredTextBox
     Friend WithEvents ofd_Project As OpenFileDialog
+    Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
 End Class
