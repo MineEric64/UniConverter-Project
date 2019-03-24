@@ -1,0 +1,31 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+A2U Project
+</name>
+</assembly>
+<members>
+<member name="T:A2U_Project.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:A2U_Project.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:A2U_Project.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="F:A2U_Project.A2UP.keyLED_AC.NoteNumber">
+ <summary>
+ Changing Note Number (64 to 1 1).
+ </summary>
+</member>
+</members>
+</doc>

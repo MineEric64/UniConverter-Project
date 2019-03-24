@@ -1,4 +1,5 @@
-﻿Imports System
+﻿Imports NAudio.Midi
+Imports A2U_Project
 Imports System.IO
 Imports System.Xml
 
@@ -9,7 +10,7 @@ Public Class DeveloperMode_Project
     Dim DeveloperMode_abl_FileVersion As String
 
     Private Sub DeveloperMode_Project_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Text = String.Format("{0}: Developer Mode - Ableton Project Info", MainProject.Text)
+        Me.Text = String.Format("{0}: Ableton Project Info", MainProject.Text)
         DeveloperMode_abl_openedproj = False
 
         If MainProject.abl_openedproj = True Then
@@ -43,7 +44,7 @@ Public Class DeveloperMode_Project
         Next
 
         Dim itm As New List(Of String) _
-    From {"File Name", "Chains", "File Version", "KeyTracks"}
+    From {"File Name", "Chains", "File Version", "KeyTracks (keyLED)", "keyLED (using mid file)"}
         Info_ListView.Items.Clear()
         For Each items As String In itm
             Info_ListView.Items.Add(items)
@@ -60,7 +61,10 @@ Public Class DeveloperMode_Project
 
                 ElseIf SelectedItem.Text = "File Version" Then
                     Info_TextBox.Text = DeveloperMode_abl_FileVersion
-                ElseIf SelectedItem.Text = "KeyTracks" Then
+                ElseIf SelectedItem.Text = "KeyTracks (keyLED)" Then
+
+                    Dim bpm As Integer = 120
+                    Dim ppq As Integer = 96
                     'Dim Xpath As String = "/Ableton/LiveSet"
                     Dim doc As New XmlDocument
                     Dim NewElementList As XmlNodeList
@@ -68,21 +72,48 @@ Public Class DeveloperMode_Project
                     Dim str As String
 
                     '와... 진짜 LED 구현하느라 완전 힘들었다........ ㅠㅠ
-                    NewElementList = doc.GetElementsByTagName("KeyTracks")
+                    NewElementList = doc.GetElementsByTagName("KeyTracks") 'KeyTracks XML 트랙
                     For i As Integer = 0 To NewElementList.Count - 1
-                        For q As Integer = 0 To NewElementList(i).ChildNodes.Count - 1
+                        For q As Integer = 0 To NewElementList(i).ChildNodes.Count - 1 'XML 트랙 아이 추출
                             If NewElementList(i).HasChildNodes Then str = str & NewElementList(i).ChildNodes(q).InnerXml & vbNewLine
                         Next
                     Next
-                    Info_TextBox.Text = str
+
+                    If String.IsNullOrWhiteSpace(str) Then 'KeyTracks가 없으면 예외 발생
+                        Throw New Exception("There is no KeyTracks. Please use keyLED (mid).")
+                    End If
+
                     File.WriteAllText(Application.StartupPath & "\Workspace\ableproj\KeyTracks.xml", str)
-                    Dim notes As XmlNodeList = doc.GetElementsByTagName("MidiNoteEvent")
+                    Debug.WriteLine("Added KeyTracks.xml")
+                    Dim notes As XmlNodeList = doc.GetElementsByTagName("MidiNoteEvent") 'Note Event Value
+                    Dim MidiKey As XmlNodeList = doc.GetElementsByTagName("MidiKey")
                     Dim noteArr As New ListView
-                    For i As Integer = 0 To doc.GetElementsByTagName("MidiKey").Count - 1
-                        Dim note As Integer = CInt(Mid(doc.GetElementsByTagName("MidiKey")(i).OuterXml, doc.GetElementsByTagName("MidiKey")(i).OuterXml.Length - 5, 2))
+                    For Each xi As XmlElement In MidiKey
+                        Dim note As Integer = CInt(xi.GetAttribute("Value"))
                         noteArr.Items.Add(note)
                     Next
-                    'LED 변환... (For x : notes 및 Short Message 부분)
+                    For Each x As XmlElement In notes
+                        Dim timeStart As Double = x.GetAttribute("Time") 'Start Time
+                        Dim timeEnd As Double = timeStart + x.GetAttribute("Duration") 'Start Time + Duration (End Time)
+                        Dim time As Double = timeEnd - timeStart 'Duration
+                        Dim FinalTime As String = Convert.ToDouble(Mid(Convert.ToString(time), 1, 5)) * 1000 'Milliseconds
+
+                        'keyLED Code.
+                    Next
+
+                ElseIf SelectedItem.Text = "keyLED (using mid file)" Then
+                    Dim result1 As DialogResult = MessageBox.Show("Did you import keyLED (MID) Files?", MainProject.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
+                    If result1 = DialogResult.Yes Then
+                        Dim result2 = InputBox("Please write the Mid File Name." & vbNewLine & "", Me.Text, "1.mid")
+
+                        Dim LEDFileName = "Workspace\ableproj\CoLED\" & result2
+                        Dim LEDFileC As New MidiFile(LEDFileName, False)
+
+                        'A2UP keyLED Code.
+
+                    ElseIf result1 = DialogResult.No Then
+                        Exit Sub
+                    End If
                 End If
             End If
         Catch ex As Exception
@@ -97,7 +128,6 @@ Public Class DeveloperMode_Project
 
     Private Sub Info_TextBox_DoubleClick(sender As Object, e As EventArgs) Handles Info_TextBox.DoubleClick
         Clipboard.SetText(Info_TextBox.Text)
-        Debug.WriteLine("Copied To Clipboard.")
     End Sub
 
     Private Sub BackgroundWorker1_DoWork(sender As Object, e As ComponentModel.DoWorkEventArgs) Handles BackgroundWorker1.DoWork

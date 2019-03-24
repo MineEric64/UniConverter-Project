@@ -51,7 +51,6 @@ Partial Class MainProject
         Me.LEDOpen1 = New System.Windows.Forms.OpenFileDialog()
         Me.HomeEdit = New System.Windows.Forms.TabControl()
         Me.Info1 = New System.Windows.Forms.TabPage()
-        Me.Info_AdvancedButton = New System.Windows.Forms.Button()
         Me.infoTB3 = New System.Windows.Forms.TextBox()
         Me.Tip1 = New System.Windows.Forms.Label()
         Me.Info_SaveButton = New System.Windows.Forms.Button()
@@ -89,6 +88,7 @@ Partial Class MainProject
         Me.keyLED2 = New System.Windows.Forms.TabPage()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.BGW_keyLED = New System.ComponentModel.BackgroundWorker()
+        Me.DeveloperModeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip.SuspendLayout()
         Me.HomeEdit.SuspendLayout()
         Me.Info1.SuspendLayout()
@@ -223,7 +223,7 @@ Partial Class MainProject
         '
         'SettingsToolStripMenuItem
         '
-        Me.SettingsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CheckUpdateToolStripMenuItem, Me.ReportBugsToolStripMenuItem, Me.SettingsToolStripMenuItem1, Me.InfoToolStripMenuItem})
+        Me.SettingsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CheckUpdateToolStripMenuItem, Me.ReportBugsToolStripMenuItem, Me.DeveloperModeToolStripMenuItem, Me.SettingsToolStripMenuItem1, Me.InfoToolStripMenuItem})
         Me.SettingsToolStripMenuItem.Name = "SettingsToolStripMenuItem"
         Me.SettingsToolStripMenuItem.Size = New System.Drawing.Size(52, 20)
         Me.SettingsToolStripMenuItem.Text = "About"
@@ -231,25 +231,25 @@ Partial Class MainProject
         'CheckUpdateToolStripMenuItem
         '
         Me.CheckUpdateToolStripMenuItem.Name = "CheckUpdateToolStripMenuItem"
-        Me.CheckUpdateToolStripMenuItem.Size = New System.Drawing.Size(149, 22)
+        Me.CheckUpdateToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.CheckUpdateToolStripMenuItem.Text = "Check Update"
         '
         'ReportBugsToolStripMenuItem
         '
         Me.ReportBugsToolStripMenuItem.Name = "ReportBugsToolStripMenuItem"
-        Me.ReportBugsToolStripMenuItem.Size = New System.Drawing.Size(149, 22)
+        Me.ReportBugsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ReportBugsToolStripMenuItem.Text = "Report Bugs"
         '
         'SettingsToolStripMenuItem1
         '
         Me.SettingsToolStripMenuItem1.Name = "SettingsToolStripMenuItem1"
-        Me.SettingsToolStripMenuItem1.Size = New System.Drawing.Size(149, 22)
+        Me.SettingsToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
         Me.SettingsToolStripMenuItem1.Text = "Settings"
         '
         'InfoToolStripMenuItem
         '
         Me.InfoToolStripMenuItem.Name = "InfoToolStripMenuItem"
-        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(149, 22)
+        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.InfoToolStripMenuItem.Text = "Info"
         '
         'ofd
@@ -279,7 +279,6 @@ Partial Class MainProject
         '
         'Info1
         '
-        Me.Info1.Controls.Add(Me.Info_AdvancedButton)
         Me.Info1.Controls.Add(Me.infoTB3)
         Me.Info1.Controls.Add(Me.Tip1)
         Me.Info1.Controls.Add(Me.Info_SaveButton)
@@ -295,16 +294,6 @@ Partial Class MainProject
         Me.Info1.TabIndex = 0
         Me.Info1.Text = "Information"
         Me.Info1.UseVisualStyleBackColor = True
-        '
-        'Info_AdvancedButton
-        '
-        Me.Info_AdvancedButton.Location = New System.Drawing.Point(414, 391)
-        Me.Info_AdvancedButton.Name = "Info_AdvancedButton"
-        Me.Info_AdvancedButton.Size = New System.Drawing.Size(166, 95)
-        Me.Info_AdvancedButton.TabIndex = 31
-        Me.Info_AdvancedButton.Text = "Show Advanced Info"
-        Me.Info_AdvancedButton.UseVisualStyleBackColor = True
-        Me.Info_AdvancedButton.Visible = False
         '
         'infoTB3
         '
@@ -552,10 +541,8 @@ Partial Class MainProject
         Me.keySound_ListView.Font = New System.Drawing.Font("맑은 고딕", 9.0!)
         Me.keySound_ListView.FullRowSelect = True
         Me.keySound_ListView.Location = New System.Drawing.Point(473, 32)
-        Me.keySound_ListView.MultiSelect = False
         Me.keySound_ListView.Name = "keySound_ListView"
         Me.keySound_ListView.Size = New System.Drawing.Size(283, 370)
-        Me.keySound_ListView.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.keySound_ListView.TabIndex = 31
         Me.keySound_ListView.UseCompatibleStateImageBehavior = False
         Me.keySound_ListView.View = System.Windows.Forms.View.Details
@@ -654,6 +641,13 @@ Partial Class MainProject
         'BGW_keyLED
         '
         '
+        'DeveloperModeToolStripMenuItem
+        '
+        Me.DeveloperModeToolStripMenuItem.Name = "DeveloperModeToolStripMenuItem"
+        Me.DeveloperModeToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.DeveloperModeToolStripMenuItem.Text = "Developer Mode"
+        Me.DeveloperModeToolStripMenuItem.Visible = False
+        '
         'MainProject
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
@@ -748,5 +742,5 @@ Partial Class MainProject
     Friend WithEvents ks_SearchLabel As Label
     Friend WithEvents ks_SearchSound As TextBox
     Friend WithEvents BGW_keyLED As System.ComponentModel.BackgroundWorker
-    Friend WithEvents Info_AdvancedButton As Button
+    Friend WithEvents DeveloperModeToolStripMenuItem As ToolStripMenuItem
 End Class

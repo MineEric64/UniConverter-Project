@@ -120,7 +120,7 @@ Public Class MainProject
         'License File of Developer Mode.
         If File.Exists(LicenseFile) Then
             Me.Text = Me.Text & " (Enabled Developer Mode)"
-            Info_AdvancedButton.Visible = True
+            DeveloperModeToolStripMenuItem.Visible = True
         End If
 
         'Text of Info TextBox
@@ -599,18 +599,25 @@ SaveInfoLine:
 
     Private Sub BackButton_Click(sender As Object, e As EventArgs) Handles BackButton.Click
         Try
-            Dim ConkeySndFile = keySound_ListView.FocusedItem.SubItems.Item(0).Text
+            Dim ConkeySnd As ListViewItem = keySound_ListView.SelectedItems(0)
+            Dim SelectedIndex As Integer = Sound_ListView.SelectedIndices.Count
 
             If abl_openedsnd = True Then
-                If Not ConkeySndFile = Nothing Then
-                    MessageBox.Show("Sorry, You can't use this function." & vbNewLine &
-                        "We are developing about Converting keySound!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    Exit Sub
-
+                If Not ConkeySnd Is Nothing Then
                     IsSaved = False
-                    'BACK SOUND CODE!!!
+                    If SelectedIndex = 1 Then
+                        keySound_ListView.Items.Remove(ConkeySnd)
+                    ElseIf SelectedIndex > 1 Then
+                        Dim keySnd As ListViewItem
+                        For i As Integer = 0 To SelectedIndex - 1
+                            keySnd = keySound_ListView.SelectedItems(i)
+                            keySound_ListView.Items.Remove(keySnd)
+                        Next
+                    ElseIf SelectedIndex < 1 Then
+                        Throw New IndexOutOfRangeException("Index Out Of Range. (SelectedIndex < 1)")
+                    End If
                 Else
-                    MessageBox.Show("You didn't select anything!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                        MessageBox.Show("You didn't select anything!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End If
             Else
                 MessageBox.Show("You didn't import sounds!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -995,7 +1002,7 @@ fexLine:
         End Try
     End Sub
 
-    Private Sub Info_AdvancedButton_Click(sender As Object, e As EventArgs) Handles Info_AdvancedButton.Click
+    Private Sub DeveloperModeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeveloperModeToolStripMenuItem.Click
         DeveloperMode_Project.Show()
     End Sub
 End Class
