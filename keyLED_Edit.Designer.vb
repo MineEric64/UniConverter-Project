@@ -35,6 +35,7 @@ Partial Class keyLED_Edit
         Me.UniLED1 = New System.Windows.Forms.Label()
         Me.Tip1 = New System.Windows.Forms.Label()
         Me.AdvChk = New System.Windows.Forms.CheckBox()
+        Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
         CType(Me.UniLED_Edit, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -49,7 +50,6 @@ Partial Class keyLED_Edit
         Me.UniLED_Edit.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.UniLED_Edit.DisabledColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer))
         Me.UniLED_Edit.Enabled = False
-        Me.UniLED_Edit.Font = New System.Drawing.Font("Courier New", 9.75!)
         Me.UniLED_Edit.IsReplaceMode = False
         Me.UniLED_Edit.Location = New System.Drawing.Point(362, 43)
         Me.UniLED_Edit.Name = "UniLED_Edit"
@@ -134,7 +134,7 @@ Partial Class keyLED_Edit
         '
         Me.SelCon1.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.SelCon1.FormattingEnabled = True
-        Me.SelCon1.Items.AddRange(New Object() {"Ableton 9 ALG1", "Ableton 9 ALG2", "Ableton 10 (BETA)", "Non-Convert (Developer Mode)"})
+        Me.SelCon1.Items.AddRange(New Object() {"Ableton 9 ALG1", "Non-Convert (Developer Mode)"})
         Me.SelCon1.Location = New System.Drawing.Point(93, 413)
         Me.SelCon1.Name = "SelCon1"
         Me.SelCon1.Size = New System.Drawing.Size(144, 22)
@@ -211,4 +211,5 @@ Partial Class keyLED_Edit
     Friend WithEvents UniLED1 As Label
     Friend WithEvents Tip1 As Label
     Friend WithEvents AdvChk As CheckBox
+    Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
 End Class
