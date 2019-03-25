@@ -2,6 +2,7 @@
 Imports A2U_Project
 Imports System.IO
 Imports System.Xml
+Imports System.Text.RegularExpressions
 
 Public Class DeveloperMode_Project
     Dim DeveloperMode_abl_openedproj As Boolean
@@ -63,8 +64,6 @@ Public Class DeveloperMode_Project
                     Info_TextBox.Text = DeveloperMode_abl_FileVersion
                 ElseIf SelectedItem.Text = "KeyTracks (keyLED)" Then
 
-                    Dim bpm As Integer = 120
-                    Dim ppq As Integer = 96
                     'Dim Xpath As String = "/Ableton/LiveSet"
                     Dim doc As New XmlDocument
                     Dim NewElementList As XmlNodeList
@@ -110,6 +109,36 @@ Public Class DeveloperMode_Project
                         Dim LEDFileC As New MidiFile(LEDFileName, False)
 
                         'A2UP keyLED Code.
+                        Dim str As String
+                        Dim UniNoteNumberX As Integer 'X
+                        Dim UniNoteNumberY As Integer 'Y
+                        For Each mdEvent_list In LEDFileC.Events
+                            For Each mdEvent In mdEvent_list
+                                If mdEvent.CommandCode = MidiCommandCode.NoteOn Then
+                                    Dim a = DirectCast(mdEvent, NoteOnEvent)
+                                    Dim b As New A2UP
+                                    UniNoteNumberX = b.GX_keyLED(b.keyLED_AC.C_NoteNumber1, a.NoteNumber)
+                                    UniNoteNumberY = b.GY_keyLED(b.keyLED_AC.C_NoteNumber1, a.NoteNumber)
+                                    str = str & vbNewLine & "o " & UniNoteNumberX & " " & UniNoteNumberY & " a " & a.Velocity
+                                    If Not a.DeltaTime = 0 Then
+                                        str = str & vbNewLine & "d " & b.GetNoteDelay(b.keyLED_AC.T_NoteLength1, 120, 192, a.NoteLength)
+                                    End If
+                                ElseIf mdEvent.CommandCode = MidiCommandCode.NoteOff Then
+                                    Dim a = DirectCast(mdEvent, NoteEvent)
+                                    Dim b As New A2UP
+                                    UniNoteNumberX = b.GX_keyLED(b.keyLED_AC.C_NoteNumber1, a.NoteNumber)
+                                    UniNoteNumberY = b.GY_keyLED(b.keyLED_AC.C_NoteNumber1, a.NoteNumber)
+                                    str = str & vbNewLine & "f " & UniNoteNumberX & " " & UniNoteNumberY
+                                End If
+                            Next
+                        Next
+
+                        If Regex.IsMatch(str, "8192") Then '8192 = Non-UniNoteNumber
+                            str = str.Replace(" 8192", "").Trim() 'MC LED Convert.
+                            str = str.Replace("o ", "o mc ").Trim() 'On MC LED Convert.
+                            str = str.Replace("f ", "f mc ").Trim() 'Off MC LED Convert.
+                        End If
+                        Info_TextBox.Text = str
 
                     ElseIf result1 = DialogResult.No Then
                         Exit Sub

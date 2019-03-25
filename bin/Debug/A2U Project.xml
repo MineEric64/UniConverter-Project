@@ -22,10 +22,26 @@ A2U Project
   resource lookups using this strongly typed resource class.
 </summary>
 </member>
-<member name="F:A2U_Project.A2UP.keyLED_AC.NoteNumber">
+<member name="F:A2U_Project.A2UP.keyLED_AC.C_NoteNumber1">
  <summary>
- Changing Note Number (64 to 1 1).
+ Changing Note Number (64 to x1 y1).
  </summary>
+</member>
+<member name="M:A2U_Project.A2UP.GX_keyLED(A2U_Project.A2UP.keyLED_AC,System.Int32)">
+ <summary>
+ Get keyLED Position X. (Supports Only MK2)
+ </summary>
+ <param name="List">keyLED Algorithm List.</param>
+ <param name="NoteNumber">MIDI Note Number.</param>
+ <returns></returns>
+</member>
+<member name="M:A2U_Project.A2UP.GY_keyLED(A2U_Project.A2UP.keyLED_AC,System.Int32)">
+ <summary>
+ Get keyLED Position Y. (Supports Only MK2)
+ </summary>
+ <param name="List">keyLED Algorithm List.</param>
+ <param name="NoteNumber">MIDI Note Number.</param>
+ <returns></returns>
 </member>
 </members>
 </doc>

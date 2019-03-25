@@ -111,22 +111,22 @@ Partial Class LEDEdit_Advanced
         'DelayConvert1_1
         '
         Me.DelayConvert1_1.AutoSize = True
-        Me.DelayConvert1_1.Checked = True
         Me.DelayConvert1_1.Location = New System.Drawing.Point(15, 20)
         Me.DelayConvert1_1.Name = "DelayConvert1_1"
         Me.DelayConvert1_1.Size = New System.Drawing.Size(95, 16)
         Me.DelayConvert1_1.TabIndex = 2
-        Me.DelayConvert1_1.TabStop = True
         Me.DelayConvert1_1.Text = "Non-Convert"
         Me.DelayConvert1_1.UseVisualStyleBackColor = True
         '
         'DelayConvert1_2
         '
         Me.DelayConvert1_2.AutoSize = True
+        Me.DelayConvert1_2.Checked = True
         Me.DelayConvert1_2.Location = New System.Drawing.Point(15, 57)
         Me.DelayConvert1_2.Name = "DelayConvert1_2"
         Me.DelayConvert1_2.Size = New System.Drawing.Size(140, 16)
         Me.DelayConvert1_2.TabIndex = 1
+        Me.DelayConvert1_2.TabStop = True
         Me.DelayConvert1_2.Text = "[1] NL4Ticks, N2MS"
         Me.DelayConvert1_2.UseVisualStyleBackColor = True
         '
