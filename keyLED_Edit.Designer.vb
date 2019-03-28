@@ -50,6 +50,7 @@ Partial Class keyLED_Edit
         Me.UniLED_Edit.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.UniLED_Edit.DisabledColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer))
         Me.UniLED_Edit.Enabled = False
+        Me.UniLED_Edit.Font = New System.Drawing.Font("Courier New", 9.75!)
         Me.UniLED_Edit.IsReplaceMode = False
         Me.UniLED_Edit.Location = New System.Drawing.Point(362, 43)
         Me.UniLED_Edit.Name = "UniLED_Edit"

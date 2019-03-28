@@ -168,7 +168,7 @@ Public Class keyLED_Edit
                                            End If
                                        End If
                                    Else
-                                       If Not a.deltaTime = 0 Then
+                                       If Not a.DeltaTime = 0 Then
                                            Dim b As New A2UP
                                            str = str & vbNewLine & "d " & b.GetNoteDelay(b.keyLED_AC.T_NoteLength1, 120, 48, a.NoteLength) 'Default Option.
                                        End If
@@ -192,6 +192,7 @@ Public Class keyLED_Edit
                        Next
                        UniLED_Edit.Text = str
 
+                       '8192는 MC LED 번호.
                        If Regex.IsMatch(str, "8192") Then '8192 = Non-UniNoteNumber
                            UniLED_Edit.Text = str.Replace(" 8192", "").Trim() 'MC LED Convert.
                            UniLED_Edit.Text = UniLED_Edit.Text.Replace("o ", "o mc ").Trim() 'On MC LED Convert.

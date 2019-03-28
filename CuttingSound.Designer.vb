@@ -32,19 +32,17 @@ Partial Class CuttingSound
         Me.lblSoundLength = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.lblstat = New System.Windows.Forms.Label()
-        Me.btnSelectdir = New System.Windows.Forms.Button()
-        Me.Label3 = New System.Windows.Forms.Label()
         Me.ofdFile = New System.Windows.Forms.OpenFileDialog()
         Me.btnSelectSource = New System.Windows.Forms.Button()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.RichTextBox1 = New System.Windows.Forms.RichTextBox()
-        Me.txtTargetDir = New System.Windows.Forms.TextBox()
         Me.txtSource = New System.Windows.Forms.TextBox()
         Me.CutButton = New System.Windows.Forms.Button()
         Me.fbdFolder = New System.Windows.Forms.FolderBrowserDialog()
         Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
         Me.AfterTabCheckBox = New System.Windows.Forms.CheckBox()
         Me.asdFileButton = New System.Windows.Forms.Button()
+        Me.alcFileButton = New System.Windows.Forms.Button()
         CType(Me.SoundCutControl, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -80,7 +78,7 @@ Partial Class CuttingSound
         '
         'btnAddRow
         '
-        Me.btnAddRow.Location = New System.Drawing.Point(414, 107)
+        Me.btnAddRow.Location = New System.Drawing.Point(414, 122)
         Me.btnAddRow.Name = "btnAddRow"
         Me.btnAddRow.Size = New System.Drawing.Size(110, 51)
         Me.btnAddRow.TabIndex = 32
@@ -125,31 +123,13 @@ Partial Class CuttingSound
         Me.lblstat.TabIndex = 28
         Me.lblstat.Text = "Ready"
         '
-        'btnSelectdir
-        '
-        Me.btnSelectdir.Location = New System.Drawing.Point(349, 104)
-        Me.btnSelectdir.Name = "btnSelectdir"
-        Me.btnSelectdir.Size = New System.Drawing.Size(27, 23)
-        Me.btnSelectdir.TabIndex = 27
-        Me.btnSelectdir.Text = "..."
-        Me.btnSelectdir.UseVisualStyleBackColor = True
-        '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(20, 107)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(60, 12)
-        Me.Label3.TabIndex = 24
-        Me.Label3.Text = "Target Dir"
-        '
         'ofdFile
         '
         Me.ofdFile.Filter = "WAV File|*.wav"
         '
         'btnSelectSource
         '
-        Me.btnSelectSource.Location = New System.Drawing.Point(349, 75)
+        Me.btnSelectSource.Location = New System.Drawing.Point(348, 93)
         Me.btnSelectSource.Name = "btnSelectSource"
         Me.btnSelectSource.Size = New System.Drawing.Size(27, 23)
         Me.btnSelectSource.TabIndex = 26
@@ -159,7 +139,7 @@ Partial Class CuttingSound
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(22, 80)
+        Me.Label2.Location = New System.Drawing.Point(21, 98)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(69, 12)
         Me.Label2.TabIndex = 25
@@ -175,16 +155,9 @@ Partial Class CuttingSound
     "(second)s] [file name OR auto (if you select auto, soundname will be saved to tr" &
     "_(LINENUMBER).wav)]"
         '
-        'txtTargetDir
-        '
-        Me.txtTargetDir.Location = New System.Drawing.Point(97, 104)
-        Me.txtTargetDir.Name = "txtTargetDir"
-        Me.txtTargetDir.Size = New System.Drawing.Size(246, 21)
-        Me.txtTargetDir.TabIndex = 19
-        '
         'txtSource
         '
-        Me.txtSource.Location = New System.Drawing.Point(97, 77)
+        Me.txtSource.Location = New System.Drawing.Point(96, 95)
         Me.txtSource.Name = "txtSource"
         Me.txtSource.Size = New System.Drawing.Size(246, 21)
         Me.txtSource.TabIndex = 18
@@ -226,11 +199,21 @@ Partial Class CuttingSound
         Me.asdFileButton.Text = "Hoxy using .asd file?"
         Me.asdFileButton.UseVisualStyleBackColor = True
         '
+        'alcFileButton
+        '
+        Me.alcFileButton.Location = New System.Drawing.Point(430, 67)
+        Me.alcFileButton.Name = "alcFileButton"
+        Me.alcFileButton.Size = New System.Drawing.Size(94, 49)
+        Me.alcFileButton.TabIndex = 35
+        Me.alcFileButton.Text = "Hoxy using .alc file?"
+        Me.alcFileButton.UseVisualStyleBackColor = True
+        '
         'CuttingSound
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(546, 456)
+        Me.Controls.Add(Me.alcFileButton)
         Me.Controls.Add(Me.asdFileButton)
         Me.Controls.Add(Me.AfterTabCheckBox)
         Me.Controls.Add(Me.btnAddRow)
@@ -238,12 +221,9 @@ Partial Class CuttingSound
         Me.Controls.Add(Me.lblSoundLength)
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.lblstat)
-        Me.Controls.Add(Me.btnSelectdir)
-        Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.btnSelectSource)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.RichTextBox1)
-        Me.Controls.Add(Me.txtTargetDir)
         Me.Controls.Add(Me.txtSource)
         Me.Controls.Add(Me.CutButton)
         Me.Controls.Add(Me.ProgressBar1)
@@ -265,17 +245,15 @@ Partial Class CuttingSound
     Friend WithEvents lblSoundLength As Label
     Friend WithEvents Label4 As Label
     Friend WithEvents lblstat As Label
-    Friend WithEvents btnSelectdir As Button
-    Friend WithEvents Label3 As Label
     Friend WithEvents ofdFile As OpenFileDialog
     Friend WithEvents btnSelectSource As Button
     Friend WithEvents Label2 As Label
     Friend WithEvents RichTextBox1 As RichTextBox
-    Friend WithEvents txtTargetDir As TextBox
     Friend WithEvents txtSource As TextBox
     Friend WithEvents CutButton As Button
     Friend WithEvents fbdFolder As FolderBrowserDialog
     Friend WithEvents ProgressBar1 As ProgressBar
     Friend WithEvents AfterTabCheckBox As CheckBox
     Friend WithEvents asdFileButton As Button
+    Friend WithEvents alcFileButton As Button
 End Class

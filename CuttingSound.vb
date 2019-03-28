@@ -8,7 +8,7 @@ Public Class CuttingSound
 
 
     Private Sub CutButton_Click(sender As Object, e As EventArgs) Handles CutButton.Click
-        Threading.ThreadPool.QueueUserWorkItem(AddressOf CutSound)
+        ThreadPool.QueueUserWorkItem(AddressOf CutSound)
     End Sub
 
     Private Sub CutSound()
@@ -23,9 +23,7 @@ Public Class CuttingSound
                       Me.CutButton.Enabled = False
                       Me.RichTextBox1.Enabled = False
                       str = Me.RichTextBox1.Lines()
-                      Me.txtTargetDir.Enabled = False
                       Me.txtSource.Enabled = False
-                      Me.btnSelectdir.Enabled = False
                       Me.btnSelectSource.Enabled = False
                   End Sub)
 
@@ -63,9 +61,11 @@ Public Class CuttingSound
 
                     Dim outputPath As String
                     If (sp(2) = "auto") Then
-                        outputPath = Me.txtTargetDir.Text & "\tr_" & i & ".wav"
+                        '수정 해야할 사항: 사운드 파일 이름 asd파일이나 alc파일로 추출.
+                        outputPath = "Workspace\unipack\sounds\tr_" & i & ".wav"
                     Else
-                        outputPath = Me.txtTargetDir.Text & "\" & sp(2) & ".wav"
+                        '수정 해야할 사항: 사운드 파일 이름 asd파일이나 alc파일로 추출.
+                        outputPath = "Workspace\unipack\sounds\" & sp(2) & ".wav"
                     End If
                     If (sp(1).Substring(sp(1).Length - 1) = "s") Then
                         sp(1) = TimeSpan.Parse(sp(0)).Add(TimeSpan.FromSeconds(sp(1).Substring(0, sp(1).Length - 1))).ToString '시간 더하기 (지정된 초만큼)
@@ -83,13 +83,13 @@ Public Class CuttingSound
 
                 MainProject.Sound_ListView.Items.Clear()
                 MainProject.keySound_ListView.Items.Clear()
-                For Each foundFile As String In My.Computer.FileSystem.GetFiles(txtTargetDir.Text + "\", FileIO.SearchOption.SearchTopLevelOnly, "*.wav")
+                For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\unipack\sounds\", FileIO.SearchOption.SearchTopLevelOnly, "*.wav")
                     File.Copy(foundFile, Application.StartupPath + "Workspace\unipack\sounds\" & foundFile.Split("\").Last, True)
 
                     Dim itm As New ListViewItem(New String() {Path.GetFileName(foundFile), foundFile})
                     MainProject.Sound_ListView.Items.Add(itm)
                 Next
-                If MainProject.abl_openedsnd = False Then MainProject.abl_openedsnd = True
+                If MainProject.abl_openedprj = False Then MainProject.abl_openedprj = True
             End If
         Catch
             MessageBox.Show("An error occured! Message: " & Err.Description, "Error Occured", MessageBoxButtons.OK, MessageBoxIcon.Warning)
@@ -99,9 +99,7 @@ Public Class CuttingSound
                           Me.lblstat.Text = "Error"
                           Me.RichTextBox1.Enabled = True
                           Me.CutButton.Enabled = True
-                          Me.txtTargetDir.Enabled = True
                           Me.txtSource.Enabled = True
-                          Me.btnSelectdir.Enabled = True
                           Me.btnSelectSource.Enabled = True
                       End Sub)
             Exit Sub
@@ -119,15 +117,13 @@ Public Class CuttingSound
                       Me.lblstat.Text = "Ready"
                       Me.RichTextBox1.Enabled = True
                       Me.CutButton.Enabled = True
-                      Me.txtTargetDir.Enabled = True
                       Me.txtSource.Enabled = True
-                      Me.btnSelectdir.Enabled = True
                       Me.btnSelectSource.Enabled = True
                   End Sub)
     End Sub
 
     'http://stackoverflow.com/questions/7932951/trimming-mp3-files-using-naudio
-    Private Sub TrimMp3(inputPath As String, outputPath As String, begin As System.Nullable(Of TimeSpan), [end] As System.Nullable(Of TimeSpan))
+    Private Sub TrimMp3(inputPath As String, outputPath As String, begin As TimeSpan?, [end] As TimeSpan?)
         If begin.HasValue AndAlso [end].HasValue AndAlso begin > [end] Then
             Throw New Exception("Script Error. End sound path must be greater than first!")
         End If
@@ -135,7 +131,7 @@ Public Class CuttingSound
         Using reader = New Mp3FileReader(inputPath)
             Using writer = File.Create(outputPath)
                 Dim frame As Mp3Frame
-                While (InlineAssignHelper(frame, reader.ReadNextFrame())) IsNot Nothing
+                While InlineAssignHelper(frame, reader.ReadNextFrame()) IsNot Nothing
                     If reader.CurrentTime >= begin OrElse Not begin.HasValue Then
                         If reader.CurrentTime <= [end] OrElse Not [end].HasValue Then
                             writer.Write(frame.RawData, 0, frame.RawData.Length)
@@ -195,12 +191,6 @@ Public Class CuttingSound
         End If
     End Sub
 
-    Private Sub btnSelectdir_Click(sender As Object, e As EventArgs) Handles btnSelectdir.Click
-        If (Me.fbdFolder.ShowDialog = Windows.Forms.DialogResult.OK) Then
-            Me.txtTargetDir.Text = Me.fbdFolder.SelectedPath
-        End If
-    End Sub
-
     Private Sub txtSource_TextChanged(sender As Object, e As EventArgs) Handles txtSource.TextChanged
         If (My.Computer.FileSystem.FileExists(Me.txtSource.Text) = True) Then
             Dim a As New Mp3FileReader(Me.txtSource.Text)
@@ -234,7 +224,7 @@ Public Class CuttingSound
             Try
                 Dim endPos As String = SoundCutControl.Rows(e.RowIndex).Cells(1).Value
                 If (endPos.Substring(endPos.Length - 1) = "s") Then
-                    endPos = TimeSpan.Parse(SoundCutControl.Rows(e.RowIndex).Cells(0).Value).Add(TimeSpan.FromSeconds(Me.txtTargetDir.Text & "\" & SoundCutControl.Rows(e.RowIndex).Cells(1).Value.Substring(0, endPos.Length - 1))).ToString '시간 더하기 (지정된 초만큼)
+                    endPos = TimeSpan.Parse(SoundCutControl.Rows(e.RowIndex).Cells(0).Value).Add(TimeSpan.FromSeconds("Workspace\unipack\sounds\" & SoundCutControl.Rows(e.RowIndex).Cells(1).Value.Substring(0, endPos.Length - 1))).ToString '시간 더하기 (지정된 초만큼)
                 End If
                 TrimMp3_TESTTRIM(Me.txtSource.Text, "TmpSound\testtrim.wav", TimeSpan.Parse(SoundCutControl.Rows(e.RowIndex).Cells(0).Value), TimeSpan.Parse(endPos))
             Catch ex As Exception
@@ -260,5 +250,9 @@ Public Class CuttingSound
 
         ' InitializeComponent() 호출 뒤에 초기화 코드를 추가하십시오.
 
+    End Sub
+
+    Private Sub CuttingSound_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        txtSource.Text = MainProject.ofd_FileName
     End Sub
 End Class

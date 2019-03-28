@@ -41,7 +41,7 @@ Public Class MainProject
     Public Shared abl_FileName As String
     Public Shared abl_Name As String
     Public Shared abl_openedproj As Boolean
-    Public Shared abl_openedsnd As Boolean
+    Public Shared abl_openedprj As Boolean
 
     ''' <summary>
     ''' UniConverter 최신 버전.
@@ -81,8 +81,13 @@ Public Class MainProject
     ''' 사운드 검색시 원본 리스트뷰.
     ''' </summary>
     Dim LLV As New ListView
+    ''' <summary>
+    ''' Tempoary Virtual ListView. 사운드 로드시 임시로 저장하는 리스트뷰.
+    ''' </summary>
+    Dim TVLV As New ListView
+
     Private trd As Thread
-    Private ofd_FileName As String
+    Public Shared ofd_FileName As String
     Private ofd_FileNames() As String
     Private trd_ListView As ListView
     Private trd_KeyEvent_e As KeyEventArgs
@@ -115,7 +120,7 @@ Public Class MainProject
         Me.KeyPreview = True
         IsSaved = True
         abl_openedproj = False
-        abl_openedsnd = False
+        abl_openedprj = False
 
         'License File of Developer Mode.
         If File.Exists(LicenseFile) Then
@@ -192,23 +197,6 @@ Public Class MainProject
 
     Private Sub SaveProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveProjectToolStripMenuItem.Click
         Save2Project(True)
-    End Sub
-
-    Private Sub KeyLEDBetaToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles KeyLEDBetaToolStripMenuItem.Click
-        Dim LEDOpen1 As New OpenFileDialog
-        LEDOpen1.Filter = "Ableton LED File|*.mid"
-        LEDOpen1.Title = "Select a Ableton LED File"
-        LEDOpen1.AddExtension = False
-        LEDOpen1.Multiselect = True
-
-        If LEDOpen1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-            Try
-                ofd_FileNames = LEDOpen1.FileNames
-                BGW_keyLED.RunWorkerAsync()
-            Catch ex As Exception
-                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End Try
-        End If
     End Sub
 
     Private Sub BGW_keyLED_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles BGW_keyLED.DoWork
@@ -347,9 +335,20 @@ OpenProjectLine:
             Else
                 MessageBox.Show("Ableton Project File Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
+
             'XML File Load.
             Invoke(Sub()
                        infoTB1.Text = abl_Name
+
+                       'Tempoary Virtual ListView Add Items. (keySound)
+
+                       'keySound 코드.
+                       If abl_openedprj = True Then
+                           TVLV.Items.Clear()
+                           For Each FoundItem As ListViewItem In TVLV.Items
+                               keySound_ListView.Items.Add(New ListViewItem({FoundItem.SubItems(0).Text, FoundItem.SubItems(1).Text, FoundItem.SubItems(2).Text, FoundItem.SubItems(3).Text}))
+                           Next
+                       End If
                    End Sub)
         Else
             My.Computer.FileSystem.CreateDirectory("Workspace\ableproj")
@@ -497,19 +496,11 @@ SaveInfoLine:
 
     Private Sub CutSndButton_Click(sender As Object, e As EventArgs) Handles CutSndButton.Click
         Try
-            Dim ConkeySndFile = keySound_ListView.FocusedItem.SubItems.Item(0).Text
-            Dim ConSndFile = Sound_ListView.FocusedItem.SubItems.Item(0).Text
-
-            If abl_openedsnd = True Then
-                If Not ConkeySndFile = Nothing Then
-                    CuttingSound.Show()
-                Else
-                    MessageBox.Show("You didn't select anything!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-                End If
-            Else
-                MessageBox.Show("You didn't import sounds!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            ofd.Filter = "MP3 File|*.mp3|WAV File|*.wav"
+            If ofd.ShowDialog = DialogResult.OK Then
+                ofd_FileName = ofd.FileName
+                CuttingSound.Show()
             End If
-
         Catch ex As Exception
             MessageBox.Show("Editing keySound Failed. Error Code: Unknown" & vbNewLine & "Warning: " & ex.Message, "UniConverter: Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End Try
@@ -517,10 +508,16 @@ SaveInfoLine:
 
     Private Sub SaveButton_Click(sender As Object, e As EventArgs) Handles SaveButton.Click
         Try
-            If abl_openedsnd = True Then
+            If abl_openedprj = True Then
                 MessageBox.Show("Sorry, You can't use this function." & vbNewLine &
                         "We are developing about Converting keySound!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
+
                 'SAVING CODE!!!
+                trd = New Thread(AddressOf SaveSounds)
+                trd.SetApartmentState(ApartmentState.MTA)
+                trd.IsBackground = True
+                trd.Start()
             Else
                 MessageBox.Show("You didn't import sounds!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
@@ -548,7 +545,7 @@ SaveInfoLine:
                        Dim ConSndFile As ListViewItem = Sound_ListView.SelectedItems.Item(0)
                        Dim SndInfo As New WaveFileReader(Application.StartupPath & "\Workspace\unipack\sounds\" & ConSndFile.Text)
 
-                       If abl_openedsnd = True Then
+                       If abl_openedprj = True Then
                            IsSaved = False
                            If SelectedIndex = 1 Then
                                Dim loopNum = InputBox("Please input the loop number of the new sounds." & vbNewLine & "Default is 1.", "Setting Loop Number", 1)
@@ -602,7 +599,7 @@ SaveInfoLine:
             Dim ConkeySnd As ListViewItem = keySound_ListView.SelectedItems(0)
             Dim SelectedIndex As Integer = Sound_ListView.SelectedIndices.Count
 
-            If abl_openedsnd = True Then
+            If abl_openedprj = True Then
                 If Not ConkeySnd Is Nothing Then
                     IsSaved = False
                     If SelectedIndex = 1 Then
@@ -617,7 +614,7 @@ SaveInfoLine:
                         Throw New IndexOutOfRangeException("Index Out Of Range. (SelectedIndex < 1)")
                     End If
                 Else
-                        MessageBox.Show("You didn't select anything!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    MessageBox.Show("You didn't select anything!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End If
             Else
                 MessageBox.Show("You didn't import sounds!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -629,11 +626,14 @@ SaveInfoLine:
     End Sub
 
     Private Sub EdKeysButton_Click(sender As Object, e As EventArgs) Handles EdKeysButton.Click
-        If abl_openedsnd = True Then
+        If abl_openedprj = True Then
             If IsSaved = False Then
                 Dim result As DialogResult = MessageBox.Show("You didn't save your UniPack's Sounds. Would you like to save your UniPack's Sounds?", Me.Text & ": Not Saved", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
                 If result = DialogResult.Yes Then
-                    SaveSounds(False)
+                    trd = New Thread(AddressOf SaveSounds)
+                    trd.SetApartmentState(ApartmentState.MTA)
+                    trd.IsBackground = True
+                    trd.Start()
                 End If
             End If
             EditkeySound.Show()
@@ -642,7 +642,7 @@ SaveInfoLine:
         End If
     End Sub
 
-    Public Sub SaveSounds(Waiting As Boolean)
+    Public Sub SaveSounds()
         Try
             For Each unipack_sounds As ListViewItem In keySound_ListView.Items
                 Dim keySoundTxt As String = File.ReadAllText(Application.StartupPath & "\Workspace\unipack\keySound")
@@ -725,7 +725,7 @@ fexLine:
                    Loading.DPr.Value = Loading.DPr.Maximum
                    If Loading.DPr.Value = FileNames.Length Then
                        If FileNames.Length = Directory.GetFiles(Application.StartupPath & "\Workspace\unipack\sounds\", "*.wav").Length Then
-                           If Not abl_openedsnd = True Then
+                           If Not abl_openedprj = True Then
                                Sound_ListView.Items.Clear()
                                keySound_ListView.Items.Clear()
                                For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\unipack\sounds", FileIO.SearchOption.SearchTopLevelOnly, "*.wav")
@@ -736,7 +736,7 @@ fexLine:
                                Loading.Dispose()
                                MessageBox.Show("Sounds Loaded!" & vbNewLine &
                     "You can edit keySound in keySound Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                               abl_openedsnd = True
+                               abl_openedprj = True
 
                                For Each itm As ListViewItem In Sound_ListView.Items
                                    LLV.Items.Add(New ListViewItem({itm.SubItems(0).Text, itm.SubItems(1).Text, itm.SubItems(2).Text}))
@@ -753,11 +753,18 @@ fexLine:
 
                                Loading.Dispose()
                                MessageBox.Show("Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                               abl_openedsnd = True
+                               abl_openedprj = True
 
                                For Each itm As ListViewItem In Sound_ListView.Items
                                    LLV.Items.Add(New ListViewItem({itm.SubItems(0).Text, itm.SubItems(1).Text, itm.SubItems(2).Text}))
                                Next
+
+                               If abl_openedprj = True Then
+                                   For Each FoundItem As ListViewItem In TVLV.Items
+                                       keySound_ListView.Items.Add(New ListViewItem({FoundItem.SubItems(0).Text, FoundItem.SubItems(1).Text, FoundItem.SubItems(2).Text, FoundItem.SubItems(3).Text}))
+                                   Next
+                               End If
+
                            End If
                        Else
                            MessageBox.Show("Error! - Code: MaxFileLength.Value = GetFiles.Length", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -1004,5 +1011,22 @@ fexLine:
 
     Private Sub DeveloperModeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeveloperModeToolStripMenuItem.Click
         DeveloperMode_Project.Show()
+    End Sub
+
+    Private Sub keyLEDBetaButton_Click(sender As Object, e As EventArgs) Handles keyLEDBetaButton.Click
+        Dim LEDOpen1 As New OpenFileDialog
+        LEDOpen1.Filter = "Ableton LED File|*.mid"
+        LEDOpen1.Title = "Select a Ableton LED File"
+        LEDOpen1.AddExtension = False
+        LEDOpen1.Multiselect = True
+
+        If LEDOpen1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+            Try
+                ofd_FileNames = LEDOpen1.FileNames
+                BGW_keyLED.RunWorkerAsync()
+            Catch ex As Exception
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
+        End If
     End Sub
 End Class

@@ -147,6 +147,11 @@ UniConverter
  사운드 검색시 원본 리스트뷰.
  </summary>
 </member>
+<member name="F:UniConverter_Project.MainProject.TVLV">
+ <summary>
+ Tempoary Virtual ListView. 사운드 로드시 임시로 저장하는 리스트뷰.
+ </summary>
+</member>
 <member name="M:UniConverter_Project.MainProject.Lame(System.String,System.String,System.String,System.String,System.String,System.Boolean,Microsoft.VisualBasic.AppWinStyle)">
  <summary>
   LAME으로 소리 확장자 변환. 현재 MP3toWAV 변환 가능. FileName의 경우 반드시 Application.StartupPath로 File을 지정하기 바람.

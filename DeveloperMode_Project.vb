@@ -37,12 +37,11 @@ Public Class DeveloperMode_Project
         DeveloperMode_abl_FileVersion = File.ReadAllLines(DeveloperMode_abl_TmpFileName)(1)
 
         'Reading Project Infos
-        For Each strLine As String In DeveloperMode_abl_FileVersion.Split("=")
-            If strLine.Contains("Ableton Live") Then
-                DeveloperMode_abl_FileVersion = strLine.Replace("Revision", "")
-                DeveloperMode_abl_FileVersion = DeveloperMode_abl_FileVersion.Replace(MainProject.ast, "")
-            End If
-        Next
+        Dim doc As New XmlDocument
+        Dim NewElementList As XmlElement
+        doc.Load(Application.StartupPath & "\Workspace\ableproj\abl_proj.xml")
+        NewElementList = doc.GetElementsByTagName("Ableton")(0)
+        DeveloperMode_abl_FileVersion = NewElementList.GetAttribute("Creator")
 
         Dim itm As New List(Of String) _
     From {"File Name", "Chains", "File Version", "KeyTracks (keyLED)", "keyLED (using mid file)"}
@@ -91,6 +90,8 @@ Public Class DeveloperMode_Project
                         Dim note As Integer = CInt(xi.GetAttribute("Value"))
                         noteArr.Items.Add(note)
                     Next
+
+                    Dim evstr As String
                     For Each x As XmlElement In notes
                         Dim timeStart As Double = x.GetAttribute("Time") 'Start Time
                         Dim timeEnd As Double = timeStart + x.GetAttribute("Duration") 'Start Time + Duration (End Time)
@@ -98,6 +99,8 @@ Public Class DeveloperMode_Project
                         Dim FinalTime As String = Convert.ToDouble(Mid(Convert.ToString(time), 1, 5)) * 1000 'Milliseconds
 
                         'keyLED Code.
+                        Dim a As New MidiEvent(timeStart, 1, MidiCommandCode.NoteOn)
+                        '수정 해야할 사항: Short Message 클래스 만들어 KeyTracks 코드 마무리. 
                     Next
 
                 ElseIf SelectedItem.Text = "keyLED (using mid file)" Then

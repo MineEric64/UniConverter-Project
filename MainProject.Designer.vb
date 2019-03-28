@@ -28,7 +28,7 @@ Partial Class MainProject
         Me.OpenProjectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenAbletonProjectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SoundsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.KeyLEDBetaToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OpenKeyLEDToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveProjectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ConvertALSToUnipackToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -44,6 +44,7 @@ Partial Class MainProject
         Me.SettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CheckUpdateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ReportBugsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DeveloperModeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SettingsToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.InfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ofd = New System.Windows.Forms.OpenFileDialog()
@@ -86,9 +87,9 @@ Partial Class MainProject
         Me.keyLED1 = New System.Windows.Forms.TabPage()
         Me.DevelopingLabel2 = New System.Windows.Forms.Label()
         Me.keyLED2 = New System.Windows.Forms.TabPage()
+        Me.keyLEDBetaButton = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.BGW_keyLED = New System.ComponentModel.BackgroundWorker()
-        Me.DeveloperModeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip.SuspendLayout()
         Me.HomeEdit.SuspendLayout()
         Me.Info1.SuspendLayout()
@@ -115,7 +116,7 @@ Partial Class MainProject
         '
         'OpenProjectToolStripMenuItem
         '
-        Me.OpenProjectToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenAbletonProjectToolStripMenuItem, Me.SoundsToolStripMenuItem, Me.KeyLEDBetaToolStripMenuItem})
+        Me.OpenProjectToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenAbletonProjectToolStripMenuItem, Me.SoundsToolStripMenuItem, Me.OpenKeyLEDToolStripMenuItem})
         Me.OpenProjectToolStripMenuItem.Name = "OpenProjectToolStripMenuItem"
         Me.OpenProjectToolStripMenuItem.Size = New System.Drawing.Size(268, 22)
         Me.OpenProjectToolStripMenuItem.Text = "Open Project"
@@ -123,20 +124,20 @@ Partial Class MainProject
         'OpenAbletonProjectToolStripMenuItem
         '
         Me.OpenAbletonProjectToolStripMenuItem.Name = "OpenAbletonProjectToolStripMenuItem"
-        Me.OpenAbletonProjectToolStripMenuItem.Size = New System.Drawing.Size(232, 22)
+        Me.OpenAbletonProjectToolStripMenuItem.Size = New System.Drawing.Size(225, 22)
         Me.OpenAbletonProjectToolStripMenuItem.Text = "Open Ableton Project (Beta)"
         '
         'SoundsToolStripMenuItem
         '
         Me.SoundsToolStripMenuItem.Name = "SoundsToolStripMenuItem"
-        Me.SoundsToolStripMenuItem.Size = New System.Drawing.Size(232, 22)
-        Me.SoundsToolStripMenuItem.Text = "Open Sounds"
+        Me.SoundsToolStripMenuItem.Size = New System.Drawing.Size(225, 22)
+        Me.SoundsToolStripMenuItem.Text = "Open Sound Files"
         '
-        'KeyLEDBetaToolStripMenuItem
+        'OpenKeyLEDToolStripMenuItem
         '
-        Me.KeyLEDBetaToolStripMenuItem.Name = "KeyLEDBetaToolStripMenuItem"
-        Me.KeyLEDBetaToolStripMenuItem.Size = New System.Drawing.Size(232, 22)
-        Me.KeyLEDBetaToolStripMenuItem.Text = "Edit keyLED (Beta, Advanced)"
+        Me.OpenKeyLEDToolStripMenuItem.Name = "OpenKeyLEDToolStripMenuItem"
+        Me.OpenKeyLEDToolStripMenuItem.Size = New System.Drawing.Size(225, 22)
+        Me.OpenKeyLEDToolStripMenuItem.Text = "Open LED Files"
         '
         'SaveProjectToolStripMenuItem
         '
@@ -231,25 +232,32 @@ Partial Class MainProject
         'CheckUpdateToolStripMenuItem
         '
         Me.CheckUpdateToolStripMenuItem.Name = "CheckUpdateToolStripMenuItem"
-        Me.CheckUpdateToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CheckUpdateToolStripMenuItem.Size = New System.Drawing.Size(163, 22)
         Me.CheckUpdateToolStripMenuItem.Text = "Check Update"
         '
         'ReportBugsToolStripMenuItem
         '
         Me.ReportBugsToolStripMenuItem.Name = "ReportBugsToolStripMenuItem"
-        Me.ReportBugsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ReportBugsToolStripMenuItem.Size = New System.Drawing.Size(163, 22)
         Me.ReportBugsToolStripMenuItem.Text = "Report Bugs"
+        '
+        'DeveloperModeToolStripMenuItem
+        '
+        Me.DeveloperModeToolStripMenuItem.Name = "DeveloperModeToolStripMenuItem"
+        Me.DeveloperModeToolStripMenuItem.Size = New System.Drawing.Size(163, 22)
+        Me.DeveloperModeToolStripMenuItem.Text = "Developer Mode"
+        Me.DeveloperModeToolStripMenuItem.Visible = False
         '
         'SettingsToolStripMenuItem1
         '
         Me.SettingsToolStripMenuItem1.Name = "SettingsToolStripMenuItem1"
-        Me.SettingsToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.SettingsToolStripMenuItem1.Size = New System.Drawing.Size(163, 22)
         Me.SettingsToolStripMenuItem1.Text = "Settings"
         '
         'InfoToolStripMenuItem
         '
         Me.InfoToolStripMenuItem.Name = "InfoToolStripMenuItem"
-        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(163, 22)
         Me.InfoToolStripMenuItem.Text = "Info"
         '
         'ofd
@@ -619,6 +627,7 @@ Partial Class MainProject
         '
         'keyLED2
         '
+        Me.keyLED2.Controls.Add(Me.keyLEDBetaButton)
         Me.keyLED2.Controls.Add(Me.Label1)
         Me.keyLED2.Location = New System.Drawing.Point(4, 22)
         Me.keyLED2.Name = "keyLED2"
@@ -626,6 +635,15 @@ Partial Class MainProject
         Me.keyLED2.TabIndex = 3
         Me.keyLED2.Text = "keyLED (mid)"
         Me.keyLED2.UseVisualStyleBackColor = True
+        '
+        'keyLEDBetaButton
+        '
+        Me.keyLEDBetaButton.Location = New System.Drawing.Point(261, 323)
+        Me.keyLEDBetaButton.Name = "keyLEDBetaButton"
+        Me.keyLEDBetaButton.Size = New System.Drawing.Size(247, 144)
+        Me.keyLEDBetaButton.TabIndex = 38
+        Me.keyLEDBetaButton.Text = "Edit keyLED! (Advanced)"
+        Me.keyLEDBetaButton.UseVisualStyleBackColor = True
         '
         'Label1
         '
@@ -640,13 +658,6 @@ Partial Class MainProject
         '
         'BGW_keyLED
         '
-        '
-        'DeveloperModeToolStripMenuItem
-        '
-        Me.DeveloperModeToolStripMenuItem.Name = "DeveloperModeToolStripMenuItem"
-        Me.DeveloperModeToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.DeveloperModeToolStripMenuItem.Text = "Developer Mode"
-        Me.DeveloperModeToolStripMenuItem.Visible = False
         '
         'MainProject
         '
@@ -690,7 +701,6 @@ Partial Class MainProject
     Friend WithEvents UnipackToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents sfd As SaveFileDialog
     Friend WithEvents SoundsToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents KeyLEDBetaToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents LEDOpen1 As OpenFileDialog
     Friend WithEvents ReportBugsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents HomeEdit As TabControl
@@ -743,4 +753,6 @@ Partial Class MainProject
     Friend WithEvents ks_SearchSound As TextBox
     Friend WithEvents BGW_keyLED As System.ComponentModel.BackgroundWorker
     Friend WithEvents DeveloperModeToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents OpenKeyLEDToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents keyLEDBetaButton As Button
 End Class
