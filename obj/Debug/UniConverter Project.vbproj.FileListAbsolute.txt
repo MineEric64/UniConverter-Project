@@ -6,7 +6,6 @@ C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniC
 C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\bin\Debug\NAudio.dll
 C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter Project.vbprojAssemblyReference.cache
 C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.CuttingSound.resources
-C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.z_DeveloperMode.resources
 C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.EditkeySound.resources
 C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.Loading.resources
 C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.REPORTForm.resources
@@ -27,3 +26,5 @@ C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniC
 C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\bin\Debug\A2U Project.dll
 C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\bin\Debug\A2U Project.pdb
 C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\bin\Debug\A2U Project.xml
+C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.DeveloperMode_Main.resources
+C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.DeveloperMode_Workspace.resources

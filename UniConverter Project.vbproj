@@ -118,16 +118,22 @@
     <Compile Include="CuttingSound.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="DeveloperMode_Main.Designer.vb">
+      <DependentUpon>DeveloperMode_Main.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DeveloperMode_Main.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="DeveloperMode_Project.Designer.vb">
       <DependentUpon>DeveloperMode_Project.vb</DependentUpon>
     </Compile>
     <Compile Include="DeveloperMode_Project.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="z_DeveloperMode.Designer.vb">
-      <DependentUpon>z_DeveloperMode.vb</DependentUpon>
+    <Compile Include="DeveloperMode_Workspace.Designer.vb">
+      <DependentUpon>DeveloperMode_Workspace.vb</DependentUpon>
     </Compile>
-    <Compile Include="z_DeveloperMode.vb">
+    <Compile Include="DeveloperMode_Workspace.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="EditkeySound.Designer.vb">
@@ -211,11 +217,14 @@
     <EmbeddedResource Include="CuttingSound.resx">
       <DependentUpon>CuttingSound.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DeveloperMode_Main.resx">
+      <DependentUpon>DeveloperMode_Main.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DeveloperMode_Project.resx">
       <DependentUpon>DeveloperMode_Project.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="z_DeveloperMode.resx">
-      <DependentUpon>z_DeveloperMode.vb</DependentUpon>
+    <EmbeddedResource Include="DeveloperMode_Workspace.resx">
+      <DependentUpon>DeveloperMode_Workspace.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditkeySound.resx">
       <DependentUpon>EditkeySound.vb</DependentUpon>
@@ -269,6 +278,8 @@
     <Content Include="NAudio.dll" />
     <None Include="Resources\Unipad.png" />
     <None Include="Resources\UniConverterV2.png" />
+    <None Include="Resources\CMDCode-help.txt" />
+    <None Include="Resources\LicenseText.txt" />
     <Content Include="UniConverter.ico" />
   </ItemGroup>
   <ItemGroup>

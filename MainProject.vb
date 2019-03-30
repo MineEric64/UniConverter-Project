@@ -118,12 +118,11 @@ Public Class MainProject
         FileInfo = Version.Parse(vxml.<Update-XML>.<Update-Info>.<Version>.Value)
         VerLog = vxml.<Update-XML>.<Update-Info>.<Update-Log>.Value.TrimStart
         Me.KeyPreview = True
-        IsSaved = True
         abl_openedproj = False
         abl_openedprj = False
 
         'License File of Developer Mode.
-        If File.Exists(LicenseFile) Then
+        If File.Exists(LicenseFile) AndAlso File.ReadAllText(LicenseFile) = My.Resources.LicenseText Then
             Me.Text = Me.Text & " (Enabled Developer Mode)"
             DeveloperModeToolStripMenuItem.Visible = True
         End If
@@ -168,6 +167,8 @@ Public Class MainProject
         If ReadIni(file_ex, "UCV_PATH", "ConvertUnipack", "") = "zip/uni" Then
             ConvertToZipUniToolStripMenuItem.Checked = True
         End If
+
+        IsSaved = True
     End Sub
 
     Private Sub InfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InfoToolStripMenuItem.Click
@@ -908,7 +909,7 @@ fexLine:
 
     Private Sub ks_SearchSound_TextChanged(sender As Object, e As EventArgs) Handles ks_SearchSound.TextChanged
         Dim LV As New ListView
-        If Not ks_SearchSound.Text = "" Then
+        If Not ks_SearchSound.Text = "" OrElse String.IsNullOrWhiteSpace(ks_SearchSound.Text) Then
             Dim loi = 1
             For i As Integer = 0 To Sound_ListView.Items.Count - 1
 
@@ -1010,7 +1011,8 @@ fexLine:
     End Sub
 
     Private Sub DeveloperModeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeveloperModeToolStripMenuItem.Click
-        DeveloperMode_Project.Show()
+        My.Computer.Audio.PlaySystemSound(Media.SystemSounds.Asterisk)
+        DeveloperMode_Main.Show()
     End Sub
 
     Private Sub keyLEDBetaButton_Click(sender As Object, e As EventArgs) Handles keyLEDBetaButton.Click
