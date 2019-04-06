@@ -89,7 +89,7 @@ Public Class CuttingSound
                     Dim itm As New ListViewItem(New String() {Path.GetFileName(foundFile), foundFile})
                     MainProject.Sound_ListView.Items.Add(itm)
                 Next
-                If MainProject.abl_openedprj = False Then MainProject.abl_openedprj = True
+                If MainProject.abl_openedsnd = False Then MainProject.abl_openedsnd = True
             End If
         Catch
             MessageBox.Show("An error occured! Message: " & Err.Description, "Error Occured", MessageBoxButtons.OK, MessageBoxIcon.Warning)

@@ -146,6 +146,11 @@ UniConverter
  Version.XML 파일 분석.
  </summary>
 </member>
+<member name="F:UniConverter_Project.MainProject.setxml">
+ <summary>
+ Settings.XML 파일 분석.
+ </summary>
+</member>
 <member name="F:UniConverter_Project.MainProject.uni_confile">
  <summary>
  settings.ini 중 Convert Unipack 설정.
@@ -159,6 +164,11 @@ UniConverter
 <member name="F:UniConverter_Project.MainProject.IsSaved">
  <summary>
  MainProject 저장 여부.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.SoundIsSaved">
+ <summary>
+ keySound 저장 여부.
  </summary>
 </member>
 <member name="F:UniConverter_Project.MainProject.LLV">
@@ -175,13 +185,13 @@ UniConverter
  <summary>
   LAME으로 소리 확장자 변환. 현재 MP3toWAV 변환 가능. FileName의 경우 반드시 Application.StartupPath로 File을 지정하기 바람.
  </summary>
- <param name="CMDpath"></param> ex: Application.StartupPath + "\lame\cmd.exe"
- <param name="LAMEpath"></param> ex: Application.StartupPath + "\lame\lame.exe"
- <param name="resFile"></param> ex: Application.StartupPath + "\Workspace\Hello_World.mp3"
- <param name="desFile"></param> ex: Application.StartupPath + "\Workspace\Hello_World.wav"
- <param name="LameOption"></param> ex: "--preset extreme"
- <param name="HideCMD"></param> ex: ""
- <param name="AppStyle"></param> ex: AppWinStyle.Hide
+ <param name="CMDpath">CMD Path. (ex: Application.StartupPath + "\lame\cmd.exe")</param>
+ <param name="LAMEpath">Lame Path. (ex: Application.StartupPath + "\lame\lame.exe")</param> 
+ <param name="resFile">Original File Path. (ex: Application.StartupPath + "\Workspace\Hello_World.mp3")</param> 
+ <param name="desFile">Destination File Path. (ex: Application.StartupPath + "\Workspace\Hello_World.wav")</param> 
+ <param name="LameOption">Lame's Option Argument. (ex: "--preset extreme")</param> 
+ <param name="HideCMD">Hiding CMD. (ex: True)</param>
+ <param name="AppStyle">CMD App Style. (ex: AppWinStyle.Hide)</param>
 </member>
 </members>
 </doc>

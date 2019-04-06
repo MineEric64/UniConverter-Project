@@ -2,76 +2,14 @@
 Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports NAudio.Midi
-Imports A2U_Project
+Imports A2UP
 Public Class keyLED_Edit
     Inherits Form
     Dim midFile As FileInfo
     Private trd As Thread
-    Private trd_DNDFiles() As String
-    Private trd_FileNames() As String
+
     Private Sub KeyLED_Edit_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'FileName 표시.
-        Invoke(Sub()
-                   For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\ableproj\CoLED", FileIO.SearchOption.SearchTopLevelOnly, "*.mid") 'FileName의 파일 찾기
-                       Dim itm As New ListViewItem(New String() {Path.GetFileName(foundFile), foundFile})
-                       LED_ListView.Items.Add(itm)  '파일 이름 추가
-                   Next
-
-                   LED_ListView.AllowDrop = True
-               End Sub)
-    End Sub
-
-    Private Sub LED_ListView_DragEnter(sender As Object, e As DragEventArgs) Handles LED_ListView.DragEnter
-        Invoke(Sub()
-                   If e.Data.GetDataPresent(DataFormats.FileDrop) Then
-                       e.Effect = DragDropEffects.Copy
-                   End If
-               End Sub)
-    End Sub
-
-    Private Sub LED_ListView_DragDrop(sender As Object, e As DragEventArgs) Handles LED_ListView.DragDrop
-        Invoke(Sub()
-                   Dim files() As String = e.Data.GetData(DataFormats.FileDrop)
-                   trd_DNDFiles = files
-                   trd = New Thread(AddressOf LED_OpenLEDFiles)
-                   trd.SetApartmentState(ApartmentState.MTA)
-                   trd.IsBackground = True
-                   trd.Start()
-               End Sub)
-    End Sub
-
-    Private Sub LED_OpenLEDFiles(Files() As String)
-        '---Beta Code: Drag and Drop & Get File Name Only---
-        Invoke(Sub()
-                   Files = trd_DNDFiles
-                   LED_ListView.Items.Clear()
-                   UniLED_Edit.Clear()
-                   UniLED1.Text = "File Name: None"
-                   If UniLED_Edit.Enabled = True Then UniLED_Edit.Enabled = False
-                   Invoke(Sub()
-                              Loading.Show()
-                              Loading.Text = Me.Text & ": Loading LED Files..."
-                              Loading.DPr.Maximum = Files.Length
-                              Loading.DLb.Left = 40
-                              Loading.DLb.Text = "Loading LED Files..."
-                              Loading.DLb.Refresh()
-                          End Sub)
-               End Sub)
-
-        If Dir("Workspace\ableproj\CoLED", vbDirectory) <> "" Then My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\CoLED", FileIO.DeleteDirectoryOption.DeleteAllContents)
-
-                   My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\CoLED")
-        For i = 0 To Files.Length - 1
-            File.Copy(Files(i), "Workspace\ableproj\CoLED\" & Files(i).Split("\").Last, True)
-            Invoke(Sub()
-                       Loading.DPr.Style = ProgressBarStyle.Continuous
-                       Loading.DPr.Value += 1
-                       Loading.DLb.Left = 40
-                       Loading.DLb.Text = String.Format(MainProject.loading_LED_open_msg, Loading.DPr.Value, Files.Length)
-                       Loading.DLb.Refresh()
-                   End Sub)
-        Next
-
         Invoke(Sub()
                    For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\ableproj\CoLED", FileIO.SearchOption.SearchTopLevelOnly, "*.mid") 'FileName의 파일 찾기
                        Dim itm As New ListViewItem(New String() {Path.GetFileName(foundFile), foundFile})
@@ -131,7 +69,7 @@ Public Class keyLED_Edit
                                If mdEvent.CommandCode = MidiCommandCode.NoteOn Then
                                    Dim a = DirectCast(mdEvent, NoteOnEvent)
                                    If Not SelCon1.SelectedItem.ToString = "Non-Convert (Developer Mode)" Then
-                                       Dim b As New A2UP
+                                       Dim b As New A2U
                                        UniNoteNumberX = b.GX_keyLED(b.keyLED_AC.C_NoteNumber1, a.NoteNumber)
                                        UniNoteNumberY = b.GY_keyLED(b.keyLED_AC.C_NoteNumber1, a.NoteNumber)
                                        str = str & vbNewLine & "o " & UniNoteNumberX & " " & UniNoteNumberY & " a " & a.Velocity
@@ -145,7 +83,7 @@ Public Class keyLED_Edit
                                                str = str & vbNewLine & "d " & a.NoteLength
                                            ElseIf LEDEdit_Advanced.DelayConvert1_2.Checked = True Then
                                                If Not a.DeltaTime = 0 Then
-                                                   Dim b As New A2UP
+                                                   Dim b As New A2U
                                                    str = str & vbNewLine & "d " & b.GetNoteDelay(b.keyLED_AC.T_NoteLength1, 120, 192, a.NoteLength)
                                                End If
                                            End If
@@ -169,7 +107,7 @@ Public Class keyLED_Edit
                                        End If
                                    Else
                                        If Not a.DeltaTime = 0 Then
-                                           Dim b As New A2UP
+                                           Dim b As New A2U
                                            str = str & vbNewLine & "d " & b.GetNoteDelay(b.keyLED_AC.T_NoteLength1, 120, 48, a.NoteLength) 'Default Option.
                                        End If
                                    End If
@@ -180,7 +118,7 @@ Public Class keyLED_Edit
                                ElseIf mdEvent.CommandCode = MidiCommandCode.NoteOff Then
                                    Dim a = DirectCast(mdEvent, NoteEvent)
                                    If Not SelCon1.SelectedItem.ToString = "Non-Convert (Developer Mode)" Then
-                                       Dim b As New A2UP
+                                       Dim b As New A2U
                                        UniNoteNumberX = b.GX_keyLED(b.keyLED_AC.C_NoteNumber1, a.NoteNumber)
                                        UniNoteNumberY = b.GY_keyLED(b.keyLED_AC.C_NoteNumber1, a.NoteNumber)
                                        str = str & vbNewLine & "f " & UniNoteNumberX & " " & UniNoteNumberY
@@ -202,80 +140,6 @@ Public Class keyLED_Edit
         Catch ex As Exception
             MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
-    End Sub
-
-    Private Sub RefButton1_Click(sender As Object, e As EventArgs) Handles OpenButton1.Click
-        'FileName OPEN.
-        Dim ofd1 As New OpenFileDialog()
-
-        ofd1.Filter = "LED Files|*.mid"
-        ofd1.Title = "Select Ableton LED File"
-        ofd1.Multiselect = True
-
-        If ofd1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-            Try
-                trd = New Thread(AddressOf keyLED_RefreshNOpen)
-                trd_FileNames = ofd1.FileNames
-                trd.SetApartmentState(ApartmentState.MTA)
-                trd.IsBackground = True
-                trd.Start()
-            Catch ex As Exception
-                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End Try
-        End If
-    End Sub
-
-    Private Sub keyLED_RefreshNOpen(FileNames() As String)
-        Invoke(Sub()
-                   FileNames = trd_FileNames
-
-                   Invoke(Sub()
-                              Loading.Show()
-                              Loading.Text = MainProject.Text & ": Loading LED Files..."
-                              Loading.DPr.Maximum = FileNames.Length
-                              Loading.DPr.Refresh()
-                              Loading.DLb.Left = 40
-                              Loading.DLb.Text = "Loading LED Files..."
-                              Loading.DLb.Refresh()
-                          End Sub)
-
-                   If Dir("Workspace\ableproj\CoLED", vbDirectory) <> "" Then
-                       My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\CoLED", FileIO.DeleteDirectoryOption.DeleteAllContents)
-                       My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\CoLED")
-OpenLine:
-                       LED_ListView.Items.Clear()
-                       UniLED_Edit.Clear()
-                       UniLED1.Text = "File Name: None"
-                       If UniLED_Edit.Enabled = True Then UniLED_Edit.Enabled = False
-
-                       For i = 0 To FileNames.Length - 1
-                           File.Copy(FileNames(i), "Workspace\ableproj\CoLED\" & FileNames(i).Split("\").Last, True)
-                           Invoke(Sub()
-                                      Loading.DPr.Style = ProgressBarStyle.Continuous
-                                      Loading.DPr.Value += 1
-                                      Loading.DLb.Left = 40
-                                      Loading.DLb.Text = String.Format(MainProject.loading_LED_open_msg, Loading.DPr.Value, FileNames.Length)
-                                      Loading.DLb.Refresh()
-                                  End Sub)
-                       Next
-                       Loading.DPr.Value = 0
-                       For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\ableproj\CoLED", FileIO.SearchOption.SearchTopLevelOnly, "*.mid") 'FileName의 파일 찾기
-                           Dim itm As New ListViewItem(New String() {Path.GetFileName(foundFile), foundFile})
-                           LED_ListView.Items.Add(itm)  '파일 이름 추가
-                           Invoke(Sub()
-                                      Loading.DPr.Style = ProgressBarStyle.Continuous
-                                      Loading.DPr.Value += 1
-                                      Loading.DLb.Left = 40
-                                      Loading.DLb.Text = String.Format(MainProject.loading_LED_openList_msg, Loading.DPr.Value, FileNames.Length)
-                                      Loading.DLb.Refresh()
-                                  End Sub)
-                       Next
-                       Loading.Dispose()
-                   Else
-                       My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\CoLED")
-                       GoTo OpenLine
-                   End If
-               End Sub)
     End Sub
 
     Private Sub AdvChk_CheckedChanged(sender As Object, e As EventArgs) Handles AdvChk.CheckedChanged

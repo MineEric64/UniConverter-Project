@@ -66,8 +66,9 @@
     <ApplicationIcon>UniConverter.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="A2U Project">
-      <HintPath>..\A2U Project\bin\Debug\A2U Project.dll</HintPath>
+    <Reference Include="A2UP, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\A2UP.dll</HintPath>
     </Reference>
     <Reference Include="FastColoredTextBox, Version=2.15.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

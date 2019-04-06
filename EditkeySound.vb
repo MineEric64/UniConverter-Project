@@ -326,6 +326,7 @@ Public Class EditkeySound
 
 #Region "z_keySound Closed Project 1"
             '개발 하다가 Project 취소된 코드 작업.
+#Enable Warning BC42356
         Catch OldAlgorithm1 As DivideByZeroException
             keySound_Line = 0
 
@@ -564,6 +565,7 @@ Public Class EditkeySound
             Else
                 MessageBox.Show("Error! - String is Empty!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
+#Disable Warning
 #End Region
 
         Catch ex As Exception

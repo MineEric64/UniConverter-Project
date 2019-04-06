@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Settings-XML>
+  <UCV-Settings>
+    <CheckUpdate>True</CheckUpdate>
+    <LatestVer>False</LatestVer>
+  </UCV-Settings>
+  <UCV-PATH>
+    <AbletonVersion>AnyAbleton</AbletonVersion>
+    <ConvertUniPack>zip/uni</ConvertUniPack>
+  </UCV-PATH>
+</Settings-XML>

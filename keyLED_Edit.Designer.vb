@@ -30,7 +30,6 @@ Partial Class keyLED_Edit
         Me.LED_ListView = New System.Windows.Forms.ListView()
         Me.FileName = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.GazuaButton = New System.Windows.Forms.Button()
-        Me.OpenButton1 = New System.Windows.Forms.Button()
         Me.SelCon1 = New System.Windows.Forms.ComboBox()
         Me.UniLED1 = New System.Windows.Forms.Label()
         Me.Tip1 = New System.Windows.Forms.Label()
@@ -50,7 +49,6 @@ Partial Class keyLED_Edit
         Me.UniLED_Edit.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.UniLED_Edit.DisabledColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer))
         Me.UniLED_Edit.Enabled = False
-        Me.UniLED_Edit.Font = New System.Drawing.Font("Courier New", 9.75!)
         Me.UniLED_Edit.IsReplaceMode = False
         Me.UniLED_Edit.Location = New System.Drawing.Point(362, 43)
         Me.UniLED_Edit.Name = "UniLED_Edit"
@@ -120,25 +118,14 @@ Partial Class keyLED_Edit
         Me.GazuaButton.Text = "-->"
         Me.GazuaButton.UseVisualStyleBackColor = True
         '
-        'OpenButton1
-        '
-        Me.OpenButton1.Cursor = System.Windows.Forms.Cursors.Default
-        Me.OpenButton1.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.OpenButton1.Location = New System.Drawing.Point(12, 411)
-        Me.OpenButton1.Name = "OpenButton1"
-        Me.OpenButton1.Size = New System.Drawing.Size(75, 23)
-        Me.OpenButton1.TabIndex = 25
-        Me.OpenButton1.Text = "Open"
-        Me.OpenButton1.UseVisualStyleBackColor = True
-        '
         'SelCon1
         '
         Me.SelCon1.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.SelCon1.FormattingEnabled = True
         Me.SelCon1.Items.AddRange(New Object() {"Ableton 9 ALG1", "Non-Convert (Developer Mode)"})
-        Me.SelCon1.Location = New System.Drawing.Point(93, 413)
+        Me.SelCon1.Location = New System.Drawing.Point(12, 413)
         Me.SelCon1.Name = "SelCon1"
-        Me.SelCon1.Size = New System.Drawing.Size(144, 22)
+        Me.SelCon1.Size = New System.Drawing.Size(225, 22)
         Me.SelCon1.TabIndex = 26
         Me.SelCon1.Text = "Ableton 9 ALG1"
         '
@@ -146,7 +133,7 @@ Partial Class keyLED_Edit
         '
         Me.UniLED1.AutoSize = True
         Me.UniLED1.Font = New System.Drawing.Font("맑은 고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.UniLED1.Location = New System.Drawing.Point(293, 9)
+        Me.UniLED1.Location = New System.Drawing.Point(281, 9)
         Me.UniLED1.Name = "UniLED1"
         Me.UniLED1.Size = New System.Drawing.Size(108, 17)
         Me.UniLED1.TabIndex = 27
@@ -157,7 +144,7 @@ Partial Class keyLED_Edit
         Me.Tip1.AutoSize = True
         Me.Tip1.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Tip1.ForeColor = System.Drawing.Color.LightCoral
-        Me.Tip1.Location = New System.Drawing.Point(262, 441)
+        Me.Tip1.Location = New System.Drawing.Point(262, 431)
         Me.Tip1.Name = "Tip1"
         Me.Tip1.Size = New System.Drawing.Size(317, 28)
         Me.Tip1.TabIndex = 28
@@ -168,7 +155,7 @@ Partial Class keyLED_Edit
         '
         Me.AdvChk.AutoSize = True
         Me.AdvChk.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.AdvChk.Location = New System.Drawing.Point(13, 451)
+        Me.AdvChk.Location = New System.Drawing.Point(12, 441)
         Me.AdvChk.Name = "AdvChk"
         Me.AdvChk.Size = New System.Drawing.Size(125, 18)
         Me.AdvChk.TabIndex = 29
@@ -180,12 +167,11 @@ Partial Class keyLED_Edit
         Me.AllowDrop = True
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(579, 473)
+        Me.ClientSize = New System.Drawing.Size(579, 464)
         Me.Controls.Add(Me.AdvChk)
         Me.Controls.Add(Me.Tip1)
         Me.Controls.Add(Me.UniLED1)
         Me.Controls.Add(Me.SelCon1)
-        Me.Controls.Add(Me.OpenButton1)
         Me.Controls.Add(Me.GazuaButton)
         Me.Controls.Add(Me.LED_ListView)
         Me.Controls.Add(Me.UniLED)
@@ -207,7 +193,6 @@ Partial Class keyLED_Edit
     Friend WithEvents LED_ListView As ListView
     Friend WithEvents FileName As ColumnHeader
     Friend WithEvents GazuaButton As Button
-    Friend WithEvents OpenButton1 As Button
     Friend WithEvents SelCon1 As ComboBox
     Friend WithEvents UniLED1 As Label
     Friend WithEvents Tip1 As Label

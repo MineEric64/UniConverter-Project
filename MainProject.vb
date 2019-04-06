@@ -7,6 +7,7 @@ Imports ICSharpCode.SharpZipLib.Core
 Imports System.Text
 Imports System.Net
 Imports System.Threading
+Imports System.Xml
 
 Module modINI
     'ini 파일 구조
@@ -37,11 +38,22 @@ Public Class MainProject
     '''  Developer Mode의 라이센스 파일.
     ''' </summary>
     Public Shared LicenseFile As String = Application.StartupPath & "\DeveloperMode.uni"
+    Public Shared TempDirectory As String = My.Computer.FileSystem.SpecialDirectories.Temp
     Public Shared abl_ver As String
     Public Shared abl_FileName As String
     Public Shared abl_Name As String
     Public Shared abl_openedproj As Boolean
-    Public Shared abl_openedprj As Boolean
+    Public Shared abl_openedsnd As Boolean
+    Public Shared abl_openedled As Boolean
+
+    Public Shared loading_Sound_Open_msg As String = "Loading Sound Files... ({0} / {1})"
+    Public Shared loading_LED_open_msg As String = "Loading LED Files... ({0} / {1})"
+    Public Shared loading_LED_openList_msg As String = "Replacing LED Files... ({0} / {1})"
+    Public Shared loading_Project_Extract_msg As String = "Extracting The Project File..."
+    Public Shared loading_Project_Load_msg As String = "Loading The Project File..."
+    Public Shared loading_Project_DeleteTmp_msg As String = "Deleting The Tempoary Files..."
+    Public Shared loading_Project_ChangeExt_msg As String = "Applying to readable Infos..."
+    Public Shared loading_Project_FileName_msg As String = "Finding File Name..."
 
     ''' <summary>
     ''' UniConverter 최신 버전.
@@ -56,6 +68,10 @@ Public Class MainProject
     ''' </summary>
     Public vxml As XDocument
     ''' <summary>
+    ''' Settings.XML 파일 분석.
+    ''' </summary>
+    Public setxml As XDocument
+    ''' <summary>
     ''' settings.ini 중 Convert Unipack 설정.
     ''' </summary>
     Dim uni_confile As String
@@ -67,16 +83,11 @@ Public Class MainProject
     ''' MainProject 저장 여부.
     ''' </summary>
     Dim IsSaved As Boolean
-
-    Public Shared loading_Sound_Open_msg As String = "Loading Sound Files... ({0} / {1})"
-    Public Shared loading_LED_open_msg As String = "Loading LED Files... ({0} / {1})"
-    Public Shared loading_LED_openList_msg As String = "Replacing LED Files... ({0} / {1})"
-    Public Shared loading_Project_Extract_msg As String = "Extracting The Project File..."
-    Public Shared loading_Project_Load_msg As String = "Loading The Project File..."
-    Public Shared loading_Project_DeleteTmp_msg As String = "Deleting The Tempoary Files..."
-    Public Shared loading_Project_ChangeExt_msg As String = "Applying to readable Infos..."
-    Public Shared loading_Project_FileName_msg As String = "Finding File Name..."
-
+    ''' <summary>
+    ''' keySound 저장 여부.
+    ''' </summary>
+    Dim SoundIsSaved As Boolean
+    Dim OpenProjectOnce As Boolean
     ''' <summary>
     ''' 사운드 검색시 원본 리스트뷰.
     ''' </summary>
@@ -95,13 +106,13 @@ Public Class MainProject
     ''' <summary>
     '''  LAME으로 소리 확장자 변환. 현재 MP3toWAV 변환 가능. FileName의 경우 반드시 Application.StartupPath로 File을 지정하기 바람.
     ''' </summary>
-    ''' <param name="CMDpath"></param> ex: Application.StartupPath + "\lame\cmd.exe"
-    ''' <param name="LAMEpath"></param> ex: Application.StartupPath + "\lame\lame.exe"
-    ''' <param name="resFile"></param> ex: Application.StartupPath + "\Workspace\Hello_World.mp3"
-    ''' <param name="desFile"></param> ex: Application.StartupPath + "\Workspace\Hello_World.wav"
-    ''' <param name="LameOption"></param> ex: "--preset extreme"
-    ''' <param name="HideCMD"></param> ex: ""
-    ''' <param name="AppStyle"></param> ex: AppWinStyle.Hide
+    ''' <param name="CMDpath">CMD Path. (ex: Application.StartupPath + "\lame\cmd.exe")</param>
+    ''' <param name="LAMEpath">Lame Path. (ex: Application.StartupPath + "\lame\lame.exe")</param> 
+    ''' <param name="resFile">Original File Path. (ex: Application.StartupPath + "\Workspace\Hello_World.mp3")</param> 
+    ''' <param name="desFile">Destination File Path. (ex: Application.StartupPath + "\Workspace\Hello_World.wav")</param> 
+    ''' <param name="LameOption">Lame's Option Argument. (ex: "--preset extreme")</param> 
+    ''' <param name="HideCMD">Hiding CMD. (ex: True)</param>
+    ''' <param name="AppStyle">CMD App Style. (ex: AppWinStyle.Hide)</param>
     Public Shared Sub Lame(CMDpath As String, LAMEpath As String, resFile As String, desFile As String, LameOption As String, HideCMD As Boolean, AppStyle As AppWinStyle)
         Dim ast As String = """" 'Special Letter (")
 
@@ -113,62 +124,79 @@ Public Class MainProject
     End Sub
 
     Private Sub MainProject_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim file_ex = Application.StartupPath + "\settings.ini"
-        vxml = XDocument.Load(Application.StartupPath & "\version.xml")
-        FileInfo = Version.Parse(vxml.<Update-XML>.<Update-Info>.<Version>.Value)
-        VerLog = vxml.<Update-XML>.<Update-Info>.<Update-Log>.Value.TrimStart
-        Me.KeyPreview = True
-        abl_openedproj = False
-        abl_openedprj = False
+        Try
+            Dim file_ex = Application.StartupPath + "\settings.xml"
 
-        'License File of Developer Mode.
-        If File.Exists(LicenseFile) AndAlso File.ReadAllText(LicenseFile) = My.Resources.LicenseText Then
-            Me.Text = Me.Text & " (Enabled Developer Mode)"
-            DeveloperModeToolStripMenuItem.Visible = True
-        End If
+            If File.Exists(file_ex) = False Then
+                Throw New FileNotFoundException("Settings File doesn't exists.")
+            End If
 
-        'Text of Info TextBox
-        infoTB1.Text = "My Amazing Launchpad Project!" 'Title
-        infoTB2.Text = "UniConverter, MineEric64, More..." 'Producer Name
-        'Chain!
+            vxml = XDocument.Load(TempDirectory & "\UniConverter-version.xml")
+            FileInfo = Version.Parse(vxml.<Update-XML>.<Update-Info>.<Version>.Value)
+            VerLog = vxml.<Update-XML>.<Update-Info>.<Update-Log>.Value.TrimStart
+            setxml = XDocument.Load(file_ex)
+            Me.KeyPreview = True
+            ks_SelChain.Text = String.Empty
+            ks_SelX.Text = String.Empty
+            ks_SelY.Text = String.Empty
+            abl_openedproj = False
+            abl_openedsnd = False
+            abl_openedled = False
+            OpenProjectOnce = False
 
-        'Edit>Ableton Option.
-        AnyAbletonToolStripMenuItem.Checked = False
-        AbletonLive9LiteToolStripMenuItem.Checked = False
-        AbletonLive9TrialToolStripMenuItem.Checked = False
-        AbletonLive9SuiteToolStripMenuItem.Checked = False
-        AbletonLive10ToolStripMenuItem.Checked = False
-        'RESET!!!
+            '수정 해야 할 사항: 자동 업데이트 확인.
 
-        If ReadIni(file_ex, "UCV_PATH", "AbletonVersion", "") = "AnyAbleton" Then
-            AnyAbletonToolStripMenuItem.Checked = True
-        End If
+            'License File of Developer Mode.
+            If File.Exists(LicenseFile) AndAlso File.ReadAllText(LicenseFile) = My.Resources.LicenseText Then
+                Me.Text = Me.Text & " (Enabled Developer Mode)"
+                DeveloperModeToolStripMenuItem.Visible = True
+            End If
 
-        If ReadIni(file_ex, "UCV_PATH", "AbletonVersion", "") = "Ableton9_Lite" Then
-            AbletonLive9LiteToolStripMenuItem.Checked = True
-        End If
+            'Text of Info TextBox
+            infoTB1.Text = "My Amazing Launchpad Project!" 'Title
+            infoTB2.Text = "UniConverter, MineEric64, More..." 'Producer Name
+            'Chain!
 
-        If ReadIni(file_ex, "UCV_PATH", "AbletonVersion", "") = "Ableton9_Trial" Then
-            AbletonLive9TrialToolStripMenuItem.Checked = True
-        End If
+            'Edit>Ableton Option.
+            AnyAbletonToolStripMenuItem.Checked = False
+            AbletonLive9LiteToolStripMenuItem.Checked = False
+            AbletonLive9TrialToolStripMenuItem.Checked = False
+            AbletonLive9SuiteToolStripMenuItem.Checked = False
+            AbletonLive10ToolStripMenuItem.Checked = False
+            'RESET!!!
 
-        If ReadIni(file_ex, "UCV_PATH", "AbletonVersion", "") = "Ableton9_Suite" Then
-            AbletonLive9SuiteToolStripMenuItem.Checked = True
-        End If
+            If setxml.<Settings-XML>.<UCV-PATH>.<AbletonVersion>.Value = "AnyAbleton" Then
+                AnyAbletonToolStripMenuItem.Checked = True
+            End If
 
-        If ReadIni(file_ex, "UCV_PATH", "AbletonVersion", "") = "Ableton10" Then
-            AbletonLive10ToolStripMenuItem.Checked = True
-        End If
+            If setxml.<Settings-XML>.<UCV-PATH>.<AbletonVersion>.Value = "Ableton9_Lite" Then
+                AbletonLive9LiteToolStripMenuItem.Checked = True
+            End If
 
-        'Edit>Unipack Option.
-        ConvertToZipUniToolStripMenuItem.Checked = False
-        'RESET!!!
+            If setxml.<Settings-XML>.<UCV-PATH>.<AbletonVersion>.Value = "Ableton9_Trial" Then
+                AbletonLive9TrialToolStripMenuItem.Checked = True
+            End If
 
-        If ReadIni(file_ex, "UCV_PATH", "ConvertUnipack", "") = "zip/uni" Then
-            ConvertToZipUniToolStripMenuItem.Checked = True
-        End If
+            If setxml.<Settings-XML>.<UCV-PATH>.<AbletonVersion>.Value = "Ableton9_Suite" Then
+                AbletonLive9SuiteToolStripMenuItem.Checked = True
+            End If
 
-        IsSaved = True
+            If setxml.<Settings-XML>.<UCV-PATH>.<AbletonVersion>.Value = "Ableton10" Then
+                AbletonLive10ToolStripMenuItem.Checked = True
+            End If
+
+            'Edit>Unipack Option.
+            ConvertToZipUniToolStripMenuItem.Checked = False
+            'RESET!!!
+
+            If setxml.<Settings-XML>.<UCV-PATH>.<ConvertUniPack>.Value = "zip/uni" Then
+                ConvertToZipUniToolStripMenuItem.Checked = True
+            End If
+
+            IsSaved = True
+        Catch ex As Exception
+            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Private Sub InfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InfoToolStripMenuItem.Click
@@ -183,11 +211,8 @@ Public Class MainProject
         }
 
         If ofd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-            trd = New Thread(AddressOf OpenSounds)
             ofd_FileNames = ofd.FileNames
-            trd.SetApartmentState(ApartmentState.MTA)
-            trd.IsBackground = True
-            trd.Start()
+            BGW_sounds.RunWorkerAsync()
         End If
     End Sub
 
@@ -235,6 +260,7 @@ OpenLine:
             End If
         Catch ex As Exception
             MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            e.Cancel = True
         End Try
     End Sub
 
@@ -242,10 +268,52 @@ OpenLine:
         Try
             If e.Error IsNot Nothing Then
                 MessageBox.Show("Error - " & e.Error.Message & vbNewLine & "Error Message: " & e.Error.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Exit Sub
             ElseIf e.Cancelled Then
+                Exit Sub
             Else
-                keyLED_Edit.Show()
                 Loading.Dispose()
+                If abl_openedled = True Then
+                    abl_openedled = True
+                    If OpenProjectOnce = False Then
+                        MessageBox.Show("LED Files Loaded! You can edit LEDs in 'keyLED (MIDI Extension)' Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Else
+                        OpenProjectOnce = False
+                        If abl_openedproj AndAlso abl_openedsnd AndAlso abl_openedled Then
+                            MessageBox.Show("Ableton Project, Sounds, LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        ElseIf abl_openedproj AndAlso abl_openedsnd AndAlso abl_openedled Then
+                            MessageBox.Show("Ableton Project, Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        ElseIf abl_openedproj Then
+                            MessageBox.Show("Ableton Project Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        ElseIf abl_openedsnd AndAlso abl_openedled Then
+                            MessageBox.Show("Sounds, LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        ElseIf abl_openedsnd Then
+                            MessageBox.Show("Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        ElseIf abl_openedled Then
+                            MessageBox.Show("LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        End If
+                    End If
+                Else
+                    abl_openedled = True
+                    If OpenProjectOnce = False Then
+                        MessageBox.Show("LED Files Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Else
+                        OpenProjectOnce = False
+                        If abl_openedproj AndAlso abl_openedsnd AndAlso abl_openedled Then
+                            MessageBox.Show("Ableton Project, Sounds, LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        ElseIf abl_openedproj AndAlso abl_openedsnd AndAlso abl_openedled Then
+                            MessageBox.Show("Ableton Project, Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        ElseIf abl_openedproj Then
+                            MessageBox.Show("Ableton Project Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        ElseIf abl_openedsnd AndAlso abl_openedled Then
+                            MessageBox.Show("Sounds, LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        ElseIf abl_openedsnd Then
+                            MessageBox.Show("Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        ElseIf abl_openedled Then
+                            MessageBox.Show("LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        End If
+                    End If
+                End If
             End If
         Catch ex As Exception
             MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -272,13 +340,13 @@ OpenLine:
         End Using
     End Sub
 
-    Private Sub Ableton_OpenProject(ByVal FileName As String)
+    Private Sub Ableton_OpenProject(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles BGW_ablproj.DoWork
         '---Beta Code: Converting Ableton Project Info To Unipack Info---
         '이 Beta Convert Code는 오류가 발생할 수 있습니다.
         '주의사항을 다 보셨다면, 당신은 Editor 권한을 가질 수 있습니다.
 
         'Convert Ableton Project to Unipack Informations. (BETA!!!)
-        FileName = ofd_FileName
+        Dim FileName As String = ofd_FileName
         If Dir("Workspace\ableproj", vbDirectory) <> "" Then
 OpenProjectLine:
             Invoke(Sub()
@@ -330,11 +398,10 @@ OpenProjectLine:
 
             Invoke(Sub() Loading.Dispose())
             If Not abl_openedproj = True Then
-                MessageBox.Show("Ableton Project File Loaded!" & vbNewLine &
-                            "You can edit info in Information Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                If OpenProjectOnce = False Then MessageBox.Show("Ableton Project File Loaded!" & vbNewLine & "You can edit info in Information Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
                 abl_openedproj = True
             Else
-                MessageBox.Show("Ableton Project File Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                If OpenProjectOnce = False Then MessageBox.Show("Ableton Project File Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
 
             'XML File Load.
@@ -344,7 +411,7 @@ OpenProjectLine:
                        'Tempoary Virtual ListView Add Items. (keySound)
 
                        'keySound 코드.
-                       If abl_openedprj = True Then
+                       If abl_openedsnd = True Then
                            TVLV.Items.Clear()
                            For Each FoundItem As ListViewItem In TVLV.Items
                                keySound_ListView.Items.Add(New ListViewItem({FoundItem.SubItems(0).Text, FoundItem.SubItems(1).Text, FoundItem.SubItems(2).Text, FoundItem.SubItems(3).Text}))
@@ -357,6 +424,21 @@ OpenProjectLine:
         End If
     End Sub
 
+    Private Sub BGW_ablproj_Completed(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles BGW_ablproj.RunWorkerCompleted
+        Try
+            If e.Error IsNot Nothing Then
+                MessageBox.Show("Error - " & e.Error.Message & vbNewLine & "Error Message: " & e.Error.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Exit Sub
+            ElseIf e.Cancelled Then
+                Exit Sub
+            Else
+                If OpenProjectOnce Then OpenSoundsToolStripMenuItem_Click(Nothing, Nothing)
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
     Private Sub OpenAbletonProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenAbletonProjectToolStripMenuItem.Click
         Dim alsOpen1 As New OpenFileDialog
         alsOpen1.Filter = "Ableton Project File|*.als"
@@ -365,11 +447,8 @@ OpenProjectLine:
         alsOpen1.Multiselect = False
 
         If alsOpen1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-            trd = New Thread(AddressOf Ableton_OpenProject)
             ofd_FileName = alsOpen1.FileName
-            trd.SetApartmentState(ApartmentState.MTA)
-            trd.IsBackground = True
-            trd.Start()
+            BGW_ablproj.RunWorkerAsync()
         End If
     End Sub
 
@@ -377,7 +456,7 @@ OpenProjectLine:
 
         Dim Conv2 As New SaveFileDialog()
         If ConvertToZipUniToolStripMenuItem.Checked = True Then
-            Conv2.Filter = "Zip File|*.zip|Unipack FIle|*.uni"
+            Conv2.Filter = "Zip File|*.zip|UniPack FIle|*.uni"
         Else
             'Anothoer Convert File Code,
         End If
@@ -416,83 +495,161 @@ SaveInfoLine:
     End Sub
 
     Private Sub AnyAbletonToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AnyAbletonToolStripMenuItem.Click
-        Dim file_ex = Application.StartupPath + "\settings.ini"
+        Try
+            Dim file_ex = Application.StartupPath + "\settings.xml"
+            Dim setNode As New XmlDocument
 
-        AnyAbletonToolStripMenuItem.Checked = False
-        AbletonLive9LiteToolStripMenuItem.Checked = False
-        AbletonLive9TrialToolStripMenuItem.Checked = False
-        AbletonLive9SuiteToolStripMenuItem.Checked = False
-        AbletonLive10ToolStripMenuItem.Checked = False
+            AnyAbletonToolStripMenuItem.Checked = False
+            AbletonLive9LiteToolStripMenuItem.Checked = False
+            AbletonLive9TrialToolStripMenuItem.Checked = False
+            AbletonLive9SuiteToolStripMenuItem.Checked = False
+            AbletonLive10ToolStripMenuItem.Checked = False
 
-        abl_ver = "AnyAbleton"
-        writeIni(file_ex, "UCV_PATH", "AbletonVersion", abl_ver)
-        AnyAbletonToolStripMenuItem.Checked = True
+            abl_ver = "AnyAbleton"
+            setNode.Load(file_ex)
+            Dim setaNode As XmlNode = setNode.SelectSingleNode("/Settings-XML/UCV-PATH")
+
+            If setaNode IsNot Nothing Then
+                setaNode.ChildNodes(0).InnerText = abl_ver
+            Else
+                Throw New Exception("Settings XML File's Argument is invaild.")
+            End If
+            setNode.Save(file_ex)
+            AnyAbletonToolStripMenuItem.Checked = True
+        Catch ex As Exception
+            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Private Sub AbletonLive9LiteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AbletonLive9LiteToolStripMenuItem.Click
-        Dim file_ex = Application.StartupPath + "\settings.ini"
+        Try
+            Dim file_ex = Application.StartupPath + "\settings.xml"
+            Dim setNode As New XmlDocument
 
-        AnyAbletonToolStripMenuItem.Checked = False
-        AbletonLive9LiteToolStripMenuItem.Checked = False
-        AbletonLive9TrialToolStripMenuItem.Checked = False
-        AbletonLive9SuiteToolStripMenuItem.Checked = False
-        AbletonLive10ToolStripMenuItem.Checked = False
+            AnyAbletonToolStripMenuItem.Checked = False
+            AbletonLive9LiteToolStripMenuItem.Checked = False
+            AbletonLive9TrialToolStripMenuItem.Checked = False
+            AbletonLive9SuiteToolStripMenuItem.Checked = False
+            AbletonLive10ToolStripMenuItem.Checked = False
 
-        abl_ver = "Ableton9_Lite"
-        writeIni(file_ex, "UCV_PATH", "AbletonVersion", abl_ver)
-        AbletonLive9LiteToolStripMenuItem.Checked = True
+            abl_ver = "Ableton9_Lite"
+            setNode.Load(file_ex)
+            Dim setaNode As XmlNode = setNode.SelectSingleNode("/Settings-XML/UCV-PATH")
+
+            If setaNode IsNot Nothing Then
+                setaNode.ChildNodes(0).InnerText = abl_ver
+            Else
+                Throw New Exception("Settings XML File's Argument is invaild.")
+            End If
+            setNode.Save(file_ex)
+            AbletonLive9LiteToolStripMenuItem.Checked = True
+        Catch ex As Exception
+            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Private Sub AbletonLive9TrialToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AbletonLive9TrialToolStripMenuItem.Click
-        Dim file_ex = Application.StartupPath + "\settings.ini"
+        Try
+            Dim file_ex = Application.StartupPath + "\settings.xml"
+            Dim setNode As New XmlDocument
 
-        AnyAbletonToolStripMenuItem.Checked = False
-        AbletonLive9LiteToolStripMenuItem.Checked = False
-        AbletonLive9TrialToolStripMenuItem.Checked = False
-        AbletonLive9SuiteToolStripMenuItem.Checked = False
-        AbletonLive10ToolStripMenuItem.Checked = False
+            AnyAbletonToolStripMenuItem.Checked = False
+            AbletonLive9LiteToolStripMenuItem.Checked = False
+            AbletonLive9TrialToolStripMenuItem.Checked = False
+            AbletonLive9SuiteToolStripMenuItem.Checked = False
+            AbletonLive10ToolStripMenuItem.Checked = False
 
-        abl_ver = "Ableton9_Trial"
-        writeIni(file_ex, "UCV_PATH", "AbletonVersion", abl_ver)
-        AbletonLive9TrialToolStripMenuItem.Checked = True
+            abl_ver = "Ableton9_Trial"
+            setNode.Load(file_ex)
+            Dim setaNode As XmlNode = setNode.SelectSingleNode("/Settings-XML/UCV-PATH")
+
+            If setaNode IsNot Nothing Then
+                setaNode.ChildNodes(0).InnerText = abl_ver
+            Else
+                Throw New Exception("Settings XML File's Argument is invaild.")
+            End If
+            setNode.Save(file_ex)
+            AbletonLive9TrialToolStripMenuItem.Checked = True
+        Catch ex As Exception
+            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Private Sub AbletonLive9SuiteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AbletonLive9SuiteToolStripMenuItem.Click
-        Dim file_ex = Application.StartupPath + "\settings.ini"
+        Try
+            Dim file_ex = Application.StartupPath + "\settings.xml"
+            Dim setNode As New XmlDocument
 
-        AnyAbletonToolStripMenuItem.Checked = False
-        AbletonLive9LiteToolStripMenuItem.Checked = False
-        AbletonLive9TrialToolStripMenuItem.Checked = False
-        AbletonLive9SuiteToolStripMenuItem.Checked = False
-        AbletonLive10ToolStripMenuItem.Checked = False
+            AnyAbletonToolStripMenuItem.Checked = False
+            AbletonLive9LiteToolStripMenuItem.Checked = False
+            AbletonLive9TrialToolStripMenuItem.Checked = False
+            AbletonLive9SuiteToolStripMenuItem.Checked = False
+            AbletonLive10ToolStripMenuItem.Checked = False
 
-        abl_ver = "Ableton9_Suite"
-        writeIni(file_ex, "UCV_PATH", "AbletonVersion", abl_ver)
-        AbletonLive9SuiteToolStripMenuItem.Checked = True
+            abl_ver = "Ableton9_Suite"
+            setNode.Load(file_ex)
+            Dim setaNode As XmlNode = setNode.SelectSingleNode("/Settings-XML/UCV-PATH")
+
+            If setaNode IsNot Nothing Then
+                setaNode.ChildNodes(0).InnerText = abl_ver
+            Else
+                Throw New Exception("Settings XML File's Argument is invaild.")
+            End If
+            setNode.Save(file_ex)
+            AbletonLive9SuiteToolStripMenuItem.Checked = True
+        Catch ex As Exception
+            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Private Sub AbletonLive10ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AbletonLive10ToolStripMenuItem.Click
-        Dim file_ex = Application.StartupPath + "\settings.ini"
+        Try
+            Dim file_ex = Application.StartupPath + "\settings.xml"
+            Dim setNode As New XmlDocument
 
-        AnyAbletonToolStripMenuItem.Checked = False
-        AbletonLive9LiteToolStripMenuItem.Checked = False
-        AbletonLive9TrialToolStripMenuItem.Checked = False
-        AbletonLive9SuiteToolStripMenuItem.Checked = False
-        AbletonLive10ToolStripMenuItem.Checked = False
+            AnyAbletonToolStripMenuItem.Checked = False
+            AbletonLive9LiteToolStripMenuItem.Checked = False
+            AbletonLive9TrialToolStripMenuItem.Checked = False
+            AbletonLive9SuiteToolStripMenuItem.Checked = False
+            AbletonLive10ToolStripMenuItem.Checked = False
 
-        abl_ver = "Ableton10"
-        writeIni(file_ex, "UCV_PATH", "AbletonVersion", abl_ver)
-        AbletonLive10ToolStripMenuItem.Checked = True
+            abl_ver = "Ableton10"
+            setNode.Load(file_ex)
+            Dim setaNode As XmlNode = setNode.SelectSingleNode("/Settings-XML/UCV-PATH")
+
+            If setaNode IsNot Nothing Then
+                setaNode.ChildNodes(0).InnerText = abl_ver
+            Else
+                Throw New Exception("Settings XML File's Argument is invaild.")
+            End If
+            setNode.Save(file_ex)
+            AbletonLive10ToolStripMenuItem.Checked = True
+        Catch ex As Exception
+            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Private Sub ConvertToZipUniToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ConvertToZipUniToolStripMenuItem.Click
-        Dim file_ex = Application.StartupPath + "\settings.ini"
+        Try
+            Dim file_ex = Application.StartupPath + "\settings.xml"
+            Dim setNode As New XmlDocument
 
-        ConvertToZipUniToolStripMenuItem.Checked = False
+            ConvertToZipUniToolStripMenuItem.Checked = False
 
-        uni_confile = "zip/uni"
-        writeIni(file_ex, "UCV_PATH", "ConvertUnipack", uni_confile)
-        ConvertToZipUniToolStripMenuItem.Checked = True
+            uni_confile = "zip/uni"
+            setNode.Load(file_ex)
+            Dim setaNode As XmlNode = setNode.SelectSingleNode("/Settings-XML/UCV-PATH")
+
+            If setaNode IsNot Nothing Then
+                setaNode.ChildNodes(1).InnerText = uni_confile
+            Else
+                Throw New Exception("Settings XML File's Argument is invaild.")
+            End If
+            setNode.Save(file_ex)
+            ConvertToZipUniToolStripMenuItem.Checked = True
+        Catch ex As Exception
+            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Private Sub CutSndButton_Click(sender As Object, e As EventArgs) Handles CutSndButton.Click
@@ -509,7 +666,7 @@ SaveInfoLine:
 
     Private Sub SaveButton_Click(sender As Object, e As EventArgs) Handles SaveButton.Click
         Try
-            If abl_openedprj = True Then
+            If abl_openedsnd = True Then
                 MessageBox.Show("Sorry, You can't use this function." & vbNewLine &
                         "We are developing about Converting keySound!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
@@ -546,8 +703,9 @@ SaveInfoLine:
                        Dim ConSndFile As ListViewItem = Sound_ListView.SelectedItems.Item(0)
                        Dim SndInfo As New WaveFileReader(Application.StartupPath & "\Workspace\unipack\sounds\" & ConSndFile.Text)
 
-                       If abl_openedprj = True Then
+                       If abl_openedsnd = True Then
                            IsSaved = False
+                           SoundIsSaved = False
                            If SelectedIndex = 1 Then
                                Dim loopNum = InputBox("Please input the loop number of the new sounds." & vbNewLine & "Default is 1.", "Setting Loop Number", 1)
                                If IsNumeric(loopNum) = False Then
@@ -600,9 +758,10 @@ SaveInfoLine:
             Dim ConkeySnd As ListViewItem = keySound_ListView.SelectedItems(0)
             Dim SelectedIndex As Integer = Sound_ListView.SelectedIndices.Count
 
-            If abl_openedprj = True Then
+            If abl_openedsnd = True Then
                 If Not ConkeySnd Is Nothing Then
                     IsSaved = False
+                    SoundIsSaved = False
                     If SelectedIndex = 1 Then
                         keySound_ListView.Items.Remove(ConkeySnd)
                     ElseIf SelectedIndex > 1 Then
@@ -622,13 +781,13 @@ SaveInfoLine:
             End If
 
         Catch ex As Exception
-            MessageBox.Show("Converting Failed. Error Code: Unknown" & vbNewLine & "Warning: " & ex.Message, "UniConverter: Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
     Private Sub EdKeysButton_Click(sender As Object, e As EventArgs) Handles EdKeysButton.Click
-        If abl_openedprj = True Then
-            If IsSaved = False Then
+        If abl_openedsnd = True Then
+            If IsSaved = False OrElse SoundIsSaved = False Then
                 Dim result As DialogResult = MessageBox.Show("You didn't save your UniPack's Sounds. Would you like to save your UniPack's Sounds?", Me.Text & ": Not Saved", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
                 If result = DialogResult.Yes Then
                     trd = New Thread(AddressOf SaveSounds)
@@ -655,7 +814,8 @@ SaveInfoLine:
         End Try
     End Sub
 
-    Public Sub OpenSounds(ByVal FileNames() As String)
+    Public Sub OpenSounds(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles BGW_sounds.DoWork
+        Dim FileNames() As String
         Invoke(Sub()
                    Loading.Show()
                    Loading.Text = Me.Text & ": Loading Sound Files..."
@@ -726,7 +886,7 @@ fexLine:
                    Loading.DPr.Value = Loading.DPr.Maximum
                    If Loading.DPr.Value = FileNames.Length Then
                        If FileNames.Length = Directory.GetFiles(Application.StartupPath & "\Workspace\unipack\sounds\", "*.wav").Length Then
-                           If Not abl_openedprj = True Then
+                           If Not abl_openedsnd = True Then
                                Sound_ListView.Items.Clear()
                                keySound_ListView.Items.Clear()
                                For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\unipack\sounds", FileIO.SearchOption.SearchTopLevelOnly, "*.wav")
@@ -735,9 +895,8 @@ fexLine:
                                Next
 
                                Loading.Dispose()
-                               MessageBox.Show("Sounds Loaded!" & vbNewLine &
-                    "You can edit keySound in keySound Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                               abl_openedprj = True
+                               If OpenProjectOnce = False Then MessageBox.Show("Sounds Loaded!" & vbNewLine & "You can edit keySound in keySound Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                               abl_openedsnd = True
 
                                For Each itm As ListViewItem In Sound_ListView.Items
                                    LLV.Items.Add(New ListViewItem({itm.SubItems(0).Text, itm.SubItems(1).Text, itm.SubItems(2).Text}))
@@ -753,14 +912,14 @@ fexLine:
                                Next
 
                                Loading.Dispose()
-                               MessageBox.Show("Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                               abl_openedprj = True
+                               If OpenProjectOnce = False Then MessageBox.Show("Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                               abl_openedsnd = True
 
                                For Each itm As ListViewItem In Sound_ListView.Items
                                    LLV.Items.Add(New ListViewItem({itm.SubItems(0).Text, itm.SubItems(1).Text, itm.SubItems(2).Text}))
                                Next
 
-                               If abl_openedprj = True Then
+                               If abl_openedsnd = True Then
                                    For Each FoundItem As ListViewItem In TVLV.Items
                                        keySound_ListView.Items.Add(New ListViewItem({FoundItem.SubItems(0).Text, FoundItem.SubItems(1).Text, FoundItem.SubItems(2).Text, FoundItem.SubItems(3).Text}))
                                    Next
@@ -776,8 +935,33 @@ fexLine:
                End Sub)
     End Sub
 
-    Private Sub OpenProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenProjectToolStripMenuItem.Click
+    Private Sub BGW_sounds_Completed(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles BGW_sounds.RunWorkerCompleted
+        Try
+            If e.Error IsNot Nothing Then
+                MessageBox.Show("Error - " & e.Error.Message & vbNewLine & "Error Message: " & e.Error.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Exit Sub
+            ElseIf e.Cancelled Then
+                Exit Sub
+            Else
+                If OpenProjectOnce Then OpenKeyLEDToolStripMenuItem_Click(Nothing, Nothing)
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
 
+    Private Sub OpenProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenProjectToolStripMenuItem.Click
+        Dim alsOpen1 As New OpenFileDialog
+        alsOpen1.Filter = "Ableton Project File|*.als"
+        alsOpen1.Title = "Select a Ableton Project File"
+        alsOpen1.AddExtension = False
+        alsOpen1.Multiselect = False
+
+        If alsOpen1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+            ofd_FileName = alsOpen1.FileName
+            OpenProjectOnce = True
+            BGW_ablproj.RunWorkerAsync()
+        End If
     End Sub
 
     Private Sub CheckUpdateToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CheckUpdateToolStripMenuItem.Click
@@ -800,7 +984,8 @@ fexLine:
         Dim Client As New WebClient
 
         If My.Computer.Network.IsAvailable = True Then
-            Client.DownloadFile("http://dver.ucv.kro.kr", Application.StartupPath & "\version.xml")
+            Client.DownloadFile("http://dver.ucv.kro.kr", TempDirectory & "\UniConverter-version.xml")
+            vxml = XDocument.Load(TempDirectory & "\UniConverter-version.xml")
             FileInfo = Version.Parse(vxml.<Update-XML>.<Update-Info>.<Version>.Value)
             VerLog = vxml.<Update-XML>.<Update-Info>.<Update-Log>.Value.TrimStart
             If My.Application.Info.Version < FileInfo Then
@@ -865,7 +1050,7 @@ fexLine:
 
     Private Sub Save2Project(Waiting As Boolean)
         Dim sfd As New SaveFileDialog()
-        sfd.Filter = "Zip File|*.zip|Unipack File|*.uni"
+        sfd.Filter = "Zip File|*.zip|UniPack File|*.uni"
         sfd.Title = "Select Save Unipack"
         sfd.AddExtension = False
 
@@ -1016,19 +1201,27 @@ fexLine:
     End Sub
 
     Private Sub keyLEDBetaButton_Click(sender As Object, e As EventArgs) Handles keyLEDBetaButton.Click
-        Dim LEDOpen1 As New OpenFileDialog
-        LEDOpen1.Filter = "Ableton LED File|*.mid"
-        LEDOpen1.Title = "Select a Ableton LED File"
-        LEDOpen1.AddExtension = False
-        LEDOpen1.Multiselect = True
+        Try
+            If abl_openedled = True Then
+                keyLED_Edit.Show()
+            Else
+                Throw New Exception("There is no LED Files! Please Try Open LED Files.")
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
 
-        If LEDOpen1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-            Try
-                ofd_FileNames = LEDOpen1.FileNames
+    Private Sub OpenKeyLEDToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenKeyLEDToolStripMenuItem.Click
+        Try
+            ofd.Multiselect = True
+            ofd.Filter = "LED Files|*.mid"
+            If ofd.ShowDialog() = DialogResult.OK Then
+                ofd_FileNames = ofd.FileNames
                 BGW_keyLED.RunWorkerAsync()
-            Catch ex As Exception
-                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End Try
-        End If
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 End Class

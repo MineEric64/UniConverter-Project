@@ -1,5 +1,5 @@
 ﻿Imports NAudio.Midi
-Imports A2U_Project
+Imports A2UP
 Imports System.IO
 Imports System.Xml
 Imports System.Text.RegularExpressions
@@ -44,7 +44,7 @@ Public Class DeveloperMode_Project
         DeveloperMode_abl_FileVersion = NewElementList.GetAttribute("Creator")
 
         Dim itm As New List(Of String) _
-    From {"File Name", "Chains", "File Version", "KeyTracks (keyLED)", "keyLED (using mid file)"}
+    From {"File Name", "Chains", "File Version", "KeyTracks (keyLED)", "keyLED (MIDI Extension)"}
         Info_ListView.Items.Clear()
         For Each items As String In itm
             Info_ListView.Items.Add(items)
@@ -58,7 +58,7 @@ Public Class DeveloperMode_Project
                 If SelectedItem.Text = "File Name" Then
                     Info_TextBox.Text = Path.GetFileNameWithoutExtension(DeveloperMode_abl_FileName)
                 ElseIf SelectedItem.Text = "Chains" Then
-
+                    Info_TextBox.Text = "No Way :("
                 ElseIf SelectedItem.Text = "File Version" Then
                     Info_TextBox.Text = DeveloperMode_abl_FileVersion
                 ElseIf SelectedItem.Text = "KeyTracks (keyLED)" Then
@@ -78,7 +78,7 @@ Public Class DeveloperMode_Project
                     Next
 
                     If String.IsNullOrWhiteSpace(str) Then 'KeyTracks가 없으면 예외 발생
-                        Throw New Exception("There is no KeyTracks. Please use keyLED (mid).")
+                        Throw New Exception("There is no KeyTracks. Please use keyLED (MIDI Extension).")
                     End If
 
                     File.WriteAllText(Application.StartupPath & "\Workspace\ableproj\KeyTracks.xml", str)
@@ -103,10 +103,10 @@ Public Class DeveloperMode_Project
                         '수정 해야할 사항: Short Message 클래스 만들어 KeyTracks 코드 마무리. 
                     Next
 
-                ElseIf SelectedItem.Text = "keyLED (using mid file)" Then
-                    Dim result1 As DialogResult = MessageBox.Show("Did you import keyLED (MID) Files?", MainProject.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
+                ElseIf SelectedItem.Text = "keyLED (MIDI Extension)" Then
+                    Dim result1 As DialogResult = MessageBox.Show("Did you import keyLED (MIDI Extension) Files?", MainProject.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
                     If result1 = DialogResult.Yes Then
-                        Dim result2 = InputBox("Please write the Mid File Name." & vbNewLine & "", Me.Text, "1.mid")
+                        Dim result2 = InputBox("Please write the LED File Name." & vbNewLine & "", Me.Text, "bFINAL.mid")
 
                         Dim LEDFileName = "Workspace\ableproj\CoLED\" & result2
                         Dim LEDFileC As New MidiFile(LEDFileName, False)
@@ -119,7 +119,7 @@ Public Class DeveloperMode_Project
                             For Each mdEvent In mdEvent_list
                                 If mdEvent.CommandCode = MidiCommandCode.NoteOn Then
                                     Dim a = DirectCast(mdEvent, NoteOnEvent)
-                                    Dim b As New A2UP
+                                    Dim b As New A2U
                                     UniNoteNumberX = b.GX_keyLED(b.keyLED_AC.C_NoteNumber1, a.NoteNumber)
                                     UniNoteNumberY = b.GY_keyLED(b.keyLED_AC.C_NoteNumber1, a.NoteNumber)
                                     str = str & vbNewLine & "o " & UniNoteNumberX & " " & UniNoteNumberY & " a " & a.Velocity
@@ -128,7 +128,7 @@ Public Class DeveloperMode_Project
                                     End If
                                 ElseIf mdEvent.CommandCode = MidiCommandCode.NoteOff Then
                                     Dim a = DirectCast(mdEvent, NoteEvent)
-                                    Dim b As New A2UP
+                                    Dim b As New A2U
                                     UniNoteNumberX = b.GX_keyLED(b.keyLED_AC.C_NoteNumber1, a.NoteNumber)
                                     UniNoteNumberY = b.GY_keyLED(b.keyLED_AC.C_NoteNumber1, a.NoteNumber)
                                     str = str & vbNewLine & "f " & UniNoteNumberX & " " & UniNoteNumberY
@@ -160,9 +160,5 @@ Public Class DeveloperMode_Project
 
     Private Sub Info_TextBox_DoubleClick(sender As Object, e As EventArgs) Handles Info_TextBox.DoubleClick
         Clipboard.SetText(Info_TextBox.Text)
-    End Sub
-
-    Private Sub BackgroundWorker1_DoWork(sender As Object, e As ComponentModel.DoWorkEventArgs) Handles BackgroundWorker1.DoWork
-
     End Sub
 End Class

@@ -63,7 +63,7 @@ Partial Class MainProject
         Me.KeySoundTab = New System.Windows.Forms.TabPage()
         Me.ks_SearchLabel = New System.Windows.Forms.Label()
         Me.ks_SearchSound = New System.Windows.Forms.TextBox()
-        Me.Label2 = New System.Windows.Forms.Label()
+        Me.ks_Sound2 = New System.Windows.Forms.Label()
         Me.ks_Sound1 = New System.Windows.Forms.Label()
         Me.ks_SelY = New System.Windows.Forms.ComboBox()
         Me.ks_SelX = New System.Windows.Forms.ComboBox()
@@ -87,9 +87,11 @@ Partial Class MainProject
         Me.keyLED1 = New System.Windows.Forms.TabPage()
         Me.DevelopingLabel2 = New System.Windows.Forms.Label()
         Me.keyLED2 = New System.Windows.Forms.TabPage()
+        Me.DevelopingLabel3 = New System.Windows.Forms.Label()
         Me.keyLEDBetaButton = New System.Windows.Forms.Button()
-        Me.Label1 = New System.Windows.Forms.Label()
         Me.BGW_keyLED = New System.ComponentModel.BackgroundWorker()
+        Me.BGW_ablproj = New System.ComponentModel.BackgroundWorker()
+        Me.BGW_sounds = New System.ComponentModel.BackgroundWorker()
         Me.MenuStrip.SuspendLayout()
         Me.HomeEdit.SuspendLayout()
         Me.Info1.SuspendLayout()
@@ -111,6 +113,7 @@ Partial Class MainProject
         '
         Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenProjectToolStripMenuItem, Me.SaveProjectToolStripMenuItem, Me.ConvertALSToUnipackToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
+        Me.FileToolStripMenuItem.ShowShortcutKeys = False
         Me.FileToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
         Me.FileToolStripMenuItem.Text = "File"
         '
@@ -206,7 +209,7 @@ Partial Class MainProject
         Me.UnipackToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ConvertToZipUniToolStripMenuItem})
         Me.UnipackToolStripMenuItem1.Name = "UnipackToolStripMenuItem1"
         Me.UnipackToolStripMenuItem1.Size = New System.Drawing.Size(117, 22)
-        Me.UnipackToolStripMenuItem1.Text = "Unipack"
+        Me.UnipackToolStripMenuItem1.Text = "UniPack"
         '
         'ConvertToZipUniToolStripMenuItem
         '
@@ -259,10 +262,6 @@ Partial Class MainProject
         Me.InfoToolStripMenuItem.Name = "InfoToolStripMenuItem"
         Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(163, 22)
         Me.InfoToolStripMenuItem.Text = "Info"
-        '
-        'ofd
-        '
-        Me.ofd.FileName = "OpenFileDialog1"
         '
         'sfd
         '
@@ -385,7 +384,7 @@ Partial Class MainProject
         '
         Me.KeySoundTab.Controls.Add(Me.ks_SearchLabel)
         Me.KeySoundTab.Controls.Add(Me.ks_SearchSound)
-        Me.KeySoundTab.Controls.Add(Me.Label2)
+        Me.KeySoundTab.Controls.Add(Me.ks_Sound2)
         Me.KeySoundTab.Controls.Add(Me.ks_Sound1)
         Me.KeySoundTab.Controls.Add(Me.ks_SelY)
         Me.KeySoundTab.Controls.Add(Me.ks_SelX)
@@ -425,15 +424,15 @@ Partial Class MainProject
         Me.ks_SearchSound.Size = New System.Drawing.Size(141, 23)
         Me.ks_SearchSound.TabIndex = 49
         '
-        'Label2
+        'ks_Sound2
         '
-        Me.Label2.AutoSize = True
-        Me.Label2.Font = New System.Drawing.Font("Ubuntu", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(469, 10)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(127, 19)
-        Me.Label2.TabIndex = 48
-        Me.Label2.Text = "Sounds In Button"
+        Me.ks_Sound2.AutoSize = True
+        Me.ks_Sound2.Font = New System.Drawing.Font("Ubuntu", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ks_Sound2.Location = New System.Drawing.Point(469, 10)
+        Me.ks_Sound2.Name = "ks_Sound2"
+        Me.ks_Sound2.Size = New System.Drawing.Size(127, 19)
+        Me.ks_Sound2.TabIndex = 48
+        Me.ks_Sound2.Text = "Sounds In Button"
         '
         'ks_Sound1
         '
@@ -627,36 +626,40 @@ Partial Class MainProject
         '
         'keyLED2
         '
+        Me.keyLED2.Controls.Add(Me.DevelopingLabel3)
         Me.keyLED2.Controls.Add(Me.keyLEDBetaButton)
-        Me.keyLED2.Controls.Add(Me.Label1)
         Me.keyLED2.Location = New System.Drawing.Point(4, 22)
         Me.keyLED2.Name = "keyLED2"
         Me.keyLED2.Size = New System.Drawing.Size(776, 496)
         Me.keyLED2.TabIndex = 3
-        Me.keyLED2.Text = "keyLED (mid)"
+        Me.keyLED2.Text = "keyLED (MIDI Extension)"
         Me.keyLED2.UseVisualStyleBackColor = True
+        '
+        'DevelopingLabel3
+        '
+        Me.DevelopingLabel3.AutoSize = True
+        Me.DevelopingLabel3.Font = New System.Drawing.Font("Adobe Heiti Std R", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
+        Me.DevelopingLabel3.Location = New System.Drawing.Point(28, 303)
+        Me.DevelopingLabel3.Name = "DevelopingLabel3"
+        Me.DevelopingLabel3.Size = New System.Drawing.Size(719, 68)
+        Me.DevelopingLabel3.TabIndex = 39
+        Me.DevelopingLabel3.Text = "We are developing ""Converting keyLED (MIDI Extension)""!" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "                        " &
+    "                Coming Soon..."
         '
         'keyLEDBetaButton
         '
-        Me.keyLEDBetaButton.Location = New System.Drawing.Point(261, 323)
+        Me.keyLEDBetaButton.Font = New System.Drawing.Font("Ubuntu", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.keyLEDBetaButton.Location = New System.Drawing.Point(199, 117)
         Me.keyLEDBetaButton.Name = "keyLEDBetaButton"
-        Me.keyLEDBetaButton.Size = New System.Drawing.Size(247, 144)
+        Me.keyLEDBetaButton.Size = New System.Drawing.Size(347, 149)
         Me.keyLEDBetaButton.TabIndex = 38
-        Me.keyLEDBetaButton.Text = "Edit keyLED! (Advanced)"
+        Me.keyLEDBetaButton.Text = "Edit keyLED! (MIDI Extension) (Advanced)"
         Me.keyLEDBetaButton.UseVisualStyleBackColor = True
         '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Adobe Heiti Std R", 24.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Label1.Location = New System.Drawing.Point(42, 196)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(701, 80)
-        Me.Label1.TabIndex = 37
-        Me.Label1.Text = "We are developing ""Converting keyLED (MIDI)""!" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "                                Co" &
-    "ming Soon..."
-        '
         'BGW_keyLED
+        '
+        '
+        'BGW_sounds
         '
         '
         'MainProject
@@ -740,7 +743,6 @@ Partial Class MainProject
     Friend WithEvents ks_SelX As ComboBox
     Friend WithEvents ks_SelChain As ComboBox
     Friend WithEvents DevelopingLabel2 As Label
-    Friend WithEvents Label1 As Label
     Friend WithEvents infoTB3 As TextBox
     Friend WithEvents Length As ColumnHeader
     Friend WithEvents AssingedButtons As ColumnHeader
@@ -748,11 +750,14 @@ Partial Class MainProject
     Friend WithEvents SortingNumber As ColumnHeader
     Friend WithEvents Length2 As ColumnHeader
     Friend WithEvents Loop2 As ColumnHeader
-    Friend WithEvents Label2 As Label
+    Friend WithEvents ks_Sound2 As Label
     Friend WithEvents ks_SearchLabel As Label
     Friend WithEvents ks_SearchSound As TextBox
     Friend WithEvents BGW_keyLED As System.ComponentModel.BackgroundWorker
     Friend WithEvents DeveloperModeToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents OpenKeyLEDToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents keyLEDBetaButton As Button
+    Friend WithEvents DevelopingLabel3 As Label
+    Friend WithEvents BGW_ablproj As System.ComponentModel.BackgroundWorker
+    Friend WithEvents BGW_sounds As System.ComponentModel.BackgroundWorker
 End Class
