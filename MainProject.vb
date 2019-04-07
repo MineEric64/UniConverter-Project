@@ -87,6 +87,10 @@ Public Class MainProject
     ''' keySound 저장 여부.
     ''' </summary>
     Dim SoundIsSaved As Boolean
+    ''' <summary>
+    ''' 업데이트 여부.
+    ''' </summary>
+    Dim IsUpdated As Boolean
     Dim OpenProjectOnce As Boolean
     ''' <summary>
     ''' 사운드 검색시 원본 리스트뷰.
@@ -142,15 +146,16 @@ Public Class MainProject
             abl_openedproj = False
             abl_openedsnd = False
             abl_openedled = False
+            IsUpdated = False
             OpenProjectOnce = False
-
-            '수정 해야 할 사항: 자동 업데이트 확인.
 
             'License File of Developer Mode.
             If File.Exists(LicenseFile) AndAlso File.ReadAllText(LicenseFile) = My.Resources.LicenseText Then
                 Me.Text = Me.Text & " (Enabled Developer Mode)"
                 DeveloperModeToolStripMenuItem.Visible = True
             End If
+
+            If Convert.ToBoolean(setxml.<Settings-XML>.<UCV-Settings>.<CheckUpdate>.Value) = True Then CheckUpdate()
 
             'Text of Info TextBox
             infoTB1.Text = "My Amazing Launchpad Project!" 'Title
@@ -456,7 +461,7 @@ OpenProjectLine:
 
         Dim Conv2 As New SaveFileDialog()
         If ConvertToZipUniToolStripMenuItem.Checked = True Then
-            Conv2.Filter = "Zip File|*.zip|UniPack FIle|*.uni"
+            Conv2.Filter = "Zip File|*.zip|UniPack File|*.uni"
         Else
             'Anothoer Convert File Code,
         End If
@@ -1020,9 +1025,14 @@ fexLine:
                         If .DPr.Value = 1000 Then
                             .DLb.Left = 120
                             .DLb.Text = "Update Complete!"
+                            IsUpdated = True
                             If MessageBox.Show("Update Complete! UniConverter " & FileInfo.ToString & " is in 'UniConverter_v" & FileInfo.ToString & "' Folder.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information) = DialogResult.OK Then
                                 File.Delete(My.Computer.FileSystem.SpecialDirectories.Temp & "\UniConverter-Update.zip")
                                 .Dispose()
+                                If Convert.ToBoolean(setxml.<Settings-XML>.<UCV-Settings>.<LatestVer>.Value) = True Then
+                                    Process.Start(String.Format("{0}\UniConverter_v{1}\UniConverter.exe", Application.StartupPath, FileInfo.ToString))
+                                    Application.Exit()
+                                End If
                             End If
                         End If
                     End With
@@ -1038,6 +1048,7 @@ fexLine:
     End Sub
 
     Private Sub MainProject_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        If IsUpdated = True Then Exit Sub
         If IsSaved = False Then
             Dim result As DialogResult = MessageBox.Show("You didn't save your UniPack. Would you like to save your UniPack?", Me.Text & ": Not Saved", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
             If result = DialogResult.Yes Then
@@ -1223,5 +1234,9 @@ fexLine:
         Catch ex As Exception
             MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
+    End Sub
+
+    Private Sub SettingsToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SettingsToolStripMenuItem1.Click
+        UG_Settings.Show()
     End Sub
 End Class

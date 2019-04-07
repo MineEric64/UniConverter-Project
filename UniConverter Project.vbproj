@@ -207,6 +207,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="UG-Settings.Designer.vb">
+      <DependentUpon>UG-Settings.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UG-Settings.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="z_Tutorial.Designer.vb">
       <DependentUpon>z_Tutorial.vb</DependentUpon>
     </Compile>
@@ -256,6 +262,9 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UG-Settings.resx">
+      <DependentUpon>UG-Settings.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="z_Tutorial.resx">
       <DependentUpon>z_Tutorial.vb</DependentUpon>

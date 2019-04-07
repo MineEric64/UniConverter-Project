@@ -25,3 +25,4 @@ C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniC
 C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter.xml
 C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter.pdb
 C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter Project.vbprojAssemblyReference.cache
+C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.UG_Settings.resources

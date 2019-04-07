@@ -171,6 +171,11 @@ UniConverter
  keySound 저장 여부.
  </summary>
 </member>
+<member name="F:UniConverter_Project.MainProject.IsUpdated">
+ <summary>
+ 업데이트 여부.
+ </summary>
+</member>
 <member name="F:UniConverter_Project.MainProject.LLV">
  <summary>
  사운드 검색시 원본 리스트뷰.
@@ -192,6 +197,12 @@ UniConverter
  <param name="LameOption">Lame's Option Argument. (ex: "--preset extreme")</param> 
  <param name="HideCMD">Hiding CMD. (ex: True)</param>
  <param name="AppStyle">CMD App Style. (ex: AppWinStyle.Hide)</param>
+</member>
+<member name="M:UniConverter_Project.UG_Settings.Save2Settings(System.Boolean)">
+ <summary>
+ Save Settings To XML.
+ </summary>
+ <param name="ShowMessage">Showing Message.</param>
 </member>
 </members>
 </doc>
