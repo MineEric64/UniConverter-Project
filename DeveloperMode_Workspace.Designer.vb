@@ -31,26 +31,29 @@ Partial Class DeveloperMode_Workspace
         '
         'DebugText
         '
-        Me.DebugText.Location = New System.Drawing.Point(12, 44)
+        Me.DebugText.Font = New System.Drawing.Font("나눔바른고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.DebugText.Location = New System.Drawing.Point(12, 57)
         Me.DebugText.Multiline = True
         Me.DebugText.Name = "DebugText"
         Me.DebugText.ReadOnly = True
         Me.DebugText.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.DebugText.Size = New System.Drawing.Size(420, 211)
+        Me.DebugText.Size = New System.Drawing.Size(523, 285)
         Me.DebugText.TabIndex = 0
         '
         'cmdText
         '
+        Me.cmdText.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.cmdText.Location = New System.Drawing.Point(12, 12)
         Me.cmdText.Name = "cmdText"
-        Me.cmdText.Size = New System.Drawing.Size(339, 21)
+        Me.cmdText.Size = New System.Drawing.Size(447, 29)
         Me.cmdText.TabIndex = 1
         '
         'DOE
         '
-        Me.DOE.Location = New System.Drawing.Point(357, 10)
+        Me.DOE.Font = New System.Drawing.Font("Ubuntu", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.DOE.Location = New System.Drawing.Point(465, 12)
         Me.DOE.Name = "DOE"
-        Me.DOE.Size = New System.Drawing.Size(75, 23)
+        Me.DOE.Size = New System.Drawing.Size(70, 31)
         Me.DOE.TabIndex = 2
         Me.DOE.Text = "OK"
         Me.DOE.UseVisualStyleBackColor = True
@@ -64,7 +67,7 @@ Partial Class DeveloperMode_Workspace
         Me.AcceptButton = Me.DOE
         Me.AutoScaleDimensions = New System.Drawing.SizeF(96.0!, 96.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
-        Me.ClientSize = New System.Drawing.Size(447, 268)
+        Me.ClientSize = New System.Drawing.Size(547, 359)
         Me.Controls.Add(Me.DOE)
         Me.Controls.Add(Me.cmdText)
         Me.Controls.Add(Me.DebugText)

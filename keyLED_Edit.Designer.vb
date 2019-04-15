@@ -49,6 +49,7 @@ Partial Class keyLED_Edit
         Me.UniLED_Edit.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.UniLED_Edit.DisabledColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer))
         Me.UniLED_Edit.Enabled = False
+        Me.UniLED_Edit.Font = New System.Drawing.Font("Courier New", 9.75!)
         Me.UniLED_Edit.IsReplaceMode = False
         Me.UniLED_Edit.Location = New System.Drawing.Point(362, 43)
         Me.UniLED_Edit.Name = "UniLED_Edit"
@@ -71,20 +72,20 @@ Partial Class keyLED_Edit
         'AblLED
         '
         Me.AblLED.AutoSize = True
-        Me.AblLED.Font = New System.Drawing.Font("맑은 고딕 Semilight", 10.0!)
-        Me.AblLED.Location = New System.Drawing.Point(71, 21)
+        Me.AblLED.Font = New System.Drawing.Font("나눔바른고딕", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.AblLED.Location = New System.Drawing.Point(66, 21)
         Me.AblLED.Name = "AblLED"
-        Me.AblLED.Size = New System.Drawing.Size(108, 19)
+        Me.AblLED.Size = New System.Drawing.Size(120, 17)
         Me.AblLED.TabIndex = 21
         Me.AblLED.Text = "Ableton LED File"
         '
         'UniLED
         '
         Me.UniLED.AutoSize = True
-        Me.UniLED.Font = New System.Drawing.Font("맑은 고딕 Semilight", 10.0!)
+        Me.UniLED.Font = New System.Drawing.Font("나눔바른고딕", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.UniLED.Location = New System.Drawing.Point(405, 21)
         Me.UniLED.Name = "UniLED"
-        Me.UniLED.Size = New System.Drawing.Size(114, 19)
+        Me.UniLED.Size = New System.Drawing.Size(126, 17)
         Me.UniLED.TabIndex = 22
         Me.UniLED.Text = "Unipack LED Text"
         '
@@ -92,7 +93,7 @@ Partial Class keyLED_Edit
         '
         Me.LED_ListView.AllowDrop = True
         Me.LED_ListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.FileName})
-        Me.LED_ListView.Font = New System.Drawing.Font("맑은 고딕", 9.0!)
+        Me.LED_ListView.Font = New System.Drawing.Font("나눔고딕", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.LED_ListView.FullRowSelect = True
         Me.LED_ListView.Location = New System.Drawing.Point(12, 43)
         Me.LED_ListView.MultiSelect = False
@@ -110,7 +111,7 @@ Partial Class keyLED_Edit
         '
         'GazuaButton
         '
-        Me.GazuaButton.Font = New System.Drawing.Font("맑은 고딕", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.GazuaButton.Font = New System.Drawing.Font("Ubuntu", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GazuaButton.Location = New System.Drawing.Point(265, 178)
         Me.GazuaButton.Name = "GazuaButton"
         Me.GazuaButton.Size = New System.Drawing.Size(75, 66)
@@ -120,7 +121,7 @@ Partial Class keyLED_Edit
         '
         'SelCon1
         '
-        Me.SelCon1.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SelCon1.Font = New System.Drawing.Font("나눔고딕", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.SelCon1.FormattingEnabled = True
         Me.SelCon1.Items.AddRange(New Object() {"Ableton 9 ALG1", "Non-Convert (Developer Mode)"})
         Me.SelCon1.Location = New System.Drawing.Point(12, 413)
@@ -132,10 +133,10 @@ Partial Class keyLED_Edit
         'UniLED1
         '
         Me.UniLED1.AutoSize = True
-        Me.UniLED1.Font = New System.Drawing.Font("맑은 고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.UniLED1.Font = New System.Drawing.Font("나눔바른고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.UniLED1.Location = New System.Drawing.Point(281, 9)
         Me.UniLED1.Name = "UniLED1"
-        Me.UniLED1.Size = New System.Drawing.Size(108, 17)
+        Me.UniLED1.Size = New System.Drawing.Size(103, 15)
         Me.UniLED1.TabIndex = 27
         Me.UniLED1.Text = "File Name: None"
         '
@@ -154,10 +155,10 @@ Partial Class keyLED_Edit
         'AdvChk
         '
         Me.AdvChk.AutoSize = True
-        Me.AdvChk.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.AdvChk.Font = New System.Drawing.Font("나눔고딕", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.AdvChk.Location = New System.Drawing.Point(12, 441)
         Me.AdvChk.Name = "AdvChk"
-        Me.AdvChk.Size = New System.Drawing.Size(125, 18)
+        Me.AdvChk.Size = New System.Drawing.Size(118, 18)
         Me.AdvChk.TabIndex = 29
         Me.AdvChk.Text = "Advanced Mode"
         Me.AdvChk.UseVisualStyleBackColor = True

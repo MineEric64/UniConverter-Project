@@ -38,24 +38,26 @@ Partial Class Info
         'InfoText
         '
         Me.InfoText.AutoSize = True
-        Me.InfoText.Font = New System.Drawing.Font("굴림", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.InfoText.Location = New System.Drawing.Point(321, 314)
+        Me.InfoText.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.InfoText.Location = New System.Drawing.Point(300, 305)
         Me.InfoText.Name = "InfoText"
-        Me.InfoText.Size = New System.Drawing.Size(32, 12)
+        Me.InfoText.Size = New System.Drawing.Size(45, 22)
         Me.InfoText.TabIndex = 2
         Me.InfoText.Text = "Ver."
         '
         'TipText1
         '
         Me.TipText1.AutoSize = True
+        Me.TipText1.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.TipText1.Location = New System.Drawing.Point(35, 211)
         Me.TipText1.Name = "TipText1"
-        Me.TipText1.Size = New System.Drawing.Size(332, 12)
+        Me.TipText1.Size = New System.Drawing.Size(321, 14)
         Me.TipText1.TabIndex = 3
         Me.TipText1.Text = "ⓒ 2018 MineEric (최에릭), Follow_JB All Rights Reserved."
         '
         'ModeE
         '
+        Me.ModeE.Font = New System.Drawing.Font("나눔바른고딕", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.ModeE.Location = New System.Drawing.Point(77, 228)
         Me.ModeE.Name = "ModeE"
         Me.ModeE.Size = New System.Drawing.Size(169, 21)
@@ -63,6 +65,7 @@ Partial Class Info
         '
         'OKButton
         '
+        Me.OKButton.Font = New System.Drawing.Font("나눔고딕", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.OKButton.Location = New System.Drawing.Point(252, 228)
         Me.OKButton.Name = "OKButton"
         Me.OKButton.Size = New System.Drawing.Size(75, 23)
@@ -74,9 +77,10 @@ Partial Class Info
         '
         Me.ucv_link.AutoSize = True
         Me.ucv_link.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.ucv_link.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.ucv_link.Location = New System.Drawing.Point(7, 313)
         Me.ucv_link.Name = "ucv_link"
-        Me.ucv_link.Size = New System.Drawing.Size(60, 12)
+        Me.ucv_link.Size = New System.Drawing.Size(63, 14)
         Me.ucv_link.TabIndex = 6
         Me.ucv_link.TabStop = True
         Me.ucv_link.Text = "ucv.kro.kr"
@@ -104,9 +108,10 @@ Partial Class Info
         '
         Me.unitor_link.AutoSize = True
         Me.unitor_link.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.unitor_link.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.unitor_link.Location = New System.Drawing.Point(73, 314)
         Me.unitor_link.Name = "unitor_link"
-        Me.unitor_link.Size = New System.Drawing.Size(54, 12)
+        Me.unitor_link.Size = New System.Drawing.Size(58, 14)
         Me.unitor_link.TabIndex = 8
         Me.unitor_link.TabStop = True
         Me.unitor_link.Text = "unitor.ga"

@@ -35,7 +35,7 @@ Partial Class DeveloperMode_Project
         'Info_ListView
         '
         Me.Info_ListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.Info})
-        Me.Info_ListView.Font = New System.Drawing.Font("맑은 고딕", 9.0!)
+        Me.Info_ListView.Font = New System.Drawing.Font("나눔바른고딕", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.Info_ListView.FullRowSelect = True
         Me.Info_ListView.Location = New System.Drawing.Point(12, 51)
         Me.Info_ListView.MultiSelect = False
@@ -52,7 +52,7 @@ Partial Class DeveloperMode_Project
         '
         'Project_FNTextBox
         '
-        Me.Project_FNTextBox.Font = New System.Drawing.Font("맑은 고딕", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.Project_FNTextBox.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.Project_FNTextBox.Location = New System.Drawing.Point(12, 12)
         Me.Project_FNTextBox.Name = "Project_FNTextBox"
         Me.Project_FNTextBox.Size = New System.Drawing.Size(412, 29)
@@ -60,7 +60,7 @@ Partial Class DeveloperMode_Project
         '
         'Project_OpenButton
         '
-        Me.Project_OpenButton.Font = New System.Drawing.Font("맑은 고딕", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.Project_OpenButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.Project_OpenButton.Location = New System.Drawing.Point(442, 12)
         Me.Project_OpenButton.Name = "Project_OpenButton"
         Me.Project_OpenButton.Size = New System.Drawing.Size(90, 29)

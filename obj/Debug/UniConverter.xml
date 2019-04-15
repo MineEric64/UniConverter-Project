@@ -51,6 +51,30 @@ UniConverter
   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
 </summary>
 </member>
+<member name="F:UniConverter_Project.DeveloperMode_Project.EachCode.keyLED_1">
+ <summary>
+ XML2keyLED Code.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.DeveloperMode_Project.EachCode.keyLED_MIDEX_1">
+ <summary>
+ MID2keyLED (MIDI Extension) Code.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.DeveloperMode_Project.EachCode.SlicePoints_1">
+ <summary>
+ XML2Sounds Code.
+ </summary>
+</member>
+<member name="M:UniConverter_Project.DeveloperMode_Project.GetkeyLED(UniConverter_Project.DeveloperMode_Project.EachCode,System.String,System.Boolean,System.Boolean)">
+ <summary>
+ Converting keyLED with XML2keyLED.
+ </summary>
+ <param name="XMLPath">XML Path.</param>
+ <param name="keyLEDFiles">(Create/Don't Create) keyLED Files.</param>
+ <param name="DebugFiles">(Create/Don't Create) Debug Files.</param>
+ <returns></returns>
+</member>
 <member name="F:UniConverter_Project.EditkeySound.UniPack_SelectedChain">
  <summary>
  선택한 체인. (1~8)

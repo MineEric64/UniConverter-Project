@@ -35,11 +35,11 @@ Partial Class MainScreen
         '
         Me.Label2.AutoSize = True
         Me.Label2.BackColor = System.Drawing.Color.FromArgb(CType(CType(22, Byte), Integer), CType(CType(30, Byte), Integer), CType(CType(43, Byte), Integer))
-        Me.Label2.Font = New System.Drawing.Font("Adobe Fan Heiti Std B", 14.0!)
+        Me.Label2.Font = New System.Drawing.Font("나눔바른고딕OTF", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.Label2.ForeColor = System.Drawing.Color.White
-        Me.Label2.Location = New System.Drawing.Point(272, 256)
+        Me.Label2.Location = New System.Drawing.Point(268, 259)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(95, 24)
+        Me.Label2.Size = New System.Drawing.Size(104, 24)
         Me.Label2.TabIndex = 7
         Me.Label2.Text = "Loading..."
         '
@@ -47,11 +47,11 @@ Partial Class MainScreen
         '
         Me.VerText.AutoSize = True
         Me.VerText.BackColor = System.Drawing.Color.FromArgb(CType(CType(22, Byte), Integer), CType(CType(30, Byte), Integer), CType(CType(43, Byte), Integer))
-        Me.VerText.Font = New System.Drawing.Font("Adobe Fan Heiti Std B", 14.0!)
+        Me.VerText.Font = New System.Drawing.Font("나눔바른고딕OTF", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.VerText.ForeColor = System.Drawing.Color.White
-        Me.VerText.Location = New System.Drawing.Point(566, 336)
+        Me.VerText.Location = New System.Drawing.Point(560, 337)
         Me.VerText.Name = "VerText"
-        Me.VerText.Size = New System.Drawing.Size(74, 24)
+        Me.VerText.Size = New System.Drawing.Size(81, 24)
         Me.VerText.TabIndex = 6
         Me.VerText.Text = "Version"
         '
@@ -71,11 +71,11 @@ Partial Class MainScreen
         '
         Me.Label3.AutoSize = True
         Me.Label3.BackColor = System.Drawing.Color.FromArgb(CType(CType(22, Byte), Integer), CType(CType(30, Byte), Integer), CType(CType(43, Byte), Integer))
-        Me.Label3.Font = New System.Drawing.Font("HY산B", 10.0!)
+        Me.Label3.Font = New System.Drawing.Font("나눔바른고딕OTF", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.Label3.ForeColor = System.Drawing.Color.White
-        Me.Label3.Location = New System.Drawing.Point(0, 349)
+        Me.Label3.Location = New System.Drawing.Point(4, 342)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(441, 14)
+        Me.Label3.Size = New System.Drawing.Size(452, 18)
         Me.Label3.TabIndex = 8
         Me.Label3.Text = "ⓒ 2018 ~ 2019 UniLab, 최에릭, Follow_JB All Rights Reserved."
         '

@@ -102,6 +102,7 @@ Partial Class MainProject
         '
         'MenuStrip
         '
+        Me.MenuStrip.Font = New System.Drawing.Font("나눔바른고딕", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.EditToolStripMenuItem, Me.TutorialsToolStripMenuItem, Me.SettingsToolStripMenuItem})
         Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip.Name = "MenuStrip"
@@ -114,59 +115,59 @@ Partial Class MainProject
         Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenProjectToolStripMenuItem, Me.SaveProjectToolStripMenuItem, Me.ConvertALSToUnipackToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
         Me.FileToolStripMenuItem.ShowShortcutKeys = False
-        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
+        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(39, 20)
         Me.FileToolStripMenuItem.Text = "File"
         '
         'OpenProjectToolStripMenuItem
         '
         Me.OpenProjectToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenAbletonProjectToolStripMenuItem, Me.SoundsToolStripMenuItem, Me.OpenKeyLEDToolStripMenuItem})
         Me.OpenProjectToolStripMenuItem.Name = "OpenProjectToolStripMenuItem"
-        Me.OpenProjectToolStripMenuItem.Size = New System.Drawing.Size(268, 22)
+        Me.OpenProjectToolStripMenuItem.Size = New System.Drawing.Size(284, 22)
         Me.OpenProjectToolStripMenuItem.Text = "Open Project"
         '
         'OpenAbletonProjectToolStripMenuItem
         '
         Me.OpenAbletonProjectToolStripMenuItem.Name = "OpenAbletonProjectToolStripMenuItem"
-        Me.OpenAbletonProjectToolStripMenuItem.Size = New System.Drawing.Size(225, 22)
+        Me.OpenAbletonProjectToolStripMenuItem.Size = New System.Drawing.Size(243, 22)
         Me.OpenAbletonProjectToolStripMenuItem.Text = "Open Ableton Project (Beta)"
         '
         'SoundsToolStripMenuItem
         '
         Me.SoundsToolStripMenuItem.Name = "SoundsToolStripMenuItem"
-        Me.SoundsToolStripMenuItem.Size = New System.Drawing.Size(225, 22)
+        Me.SoundsToolStripMenuItem.Size = New System.Drawing.Size(243, 22)
         Me.SoundsToolStripMenuItem.Text = "Open Sound Files"
         '
         'OpenKeyLEDToolStripMenuItem
         '
         Me.OpenKeyLEDToolStripMenuItem.Name = "OpenKeyLEDToolStripMenuItem"
-        Me.OpenKeyLEDToolStripMenuItem.Size = New System.Drawing.Size(225, 22)
+        Me.OpenKeyLEDToolStripMenuItem.Size = New System.Drawing.Size(243, 22)
         Me.OpenKeyLEDToolStripMenuItem.Text = "Open LED Files"
         '
         'SaveProjectToolStripMenuItem
         '
         Me.SaveProjectToolStripMenuItem.Name = "SaveProjectToolStripMenuItem"
-        Me.SaveProjectToolStripMenuItem.Size = New System.Drawing.Size(268, 22)
+        Me.SaveProjectToolStripMenuItem.Size = New System.Drawing.Size(284, 22)
         Me.SaveProjectToolStripMenuItem.Text = "Save Project (Loaded Project Only)"
         '
         'ConvertALSToUnipackToolStripMenuItem
         '
         Me.ConvertALSToUnipackToolStripMenuItem.Enabled = False
         Me.ConvertALSToUnipackToolStripMenuItem.Name = "ConvertALSToUnipackToolStripMenuItem"
-        Me.ConvertALSToUnipackToolStripMenuItem.Size = New System.Drawing.Size(268, 22)
+        Me.ConvertALSToUnipackToolStripMenuItem.Size = New System.Drawing.Size(284, 22)
         Me.ConvertALSToUnipackToolStripMenuItem.Text = "Convert Ableton Project to Unipack!"
         '
         'EditToolStripMenuItem
         '
         Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UnipackToolStripMenuItem, Me.UnipackToolStripMenuItem1})
         Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
-        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(39, 20)
+        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(40, 20)
         Me.EditToolStripMenuItem.Text = "Edit"
         '
         'UnipackToolStripMenuItem
         '
         Me.UnipackToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AnyAbletonToolStripMenuItem, Me.AbletonLive9LiteToolStripMenuItem, Me.AbletonLive9TrialToolStripMenuItem, Me.AbletonLive9SuiteToolStripMenuItem, Me.AbletonLive10ToolStripMenuItem})
         Me.UnipackToolStripMenuItem.Name = "UnipackToolStripMenuItem"
-        Me.UnipackToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
+        Me.UnipackToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.UnipackToolStripMenuItem.Text = "Ableton"
         '
         'AnyAbletonToolStripMenuItem
@@ -174,41 +175,41 @@ Partial Class MainProject
         Me.AnyAbletonToolStripMenuItem.Checked = True
         Me.AnyAbletonToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
         Me.AnyAbletonToolStripMenuItem.Name = "AnyAbletonToolStripMenuItem"
-        Me.AnyAbletonToolStripMenuItem.Size = New System.Drawing.Size(185, 22)
+        Me.AnyAbletonToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
         Me.AnyAbletonToolStripMenuItem.Text = "Any Ableton Version"
         '
         'AbletonLive9LiteToolStripMenuItem
         '
         Me.AbletonLive9LiteToolStripMenuItem.Name = "AbletonLive9LiteToolStripMenuItem"
-        Me.AbletonLive9LiteToolStripMenuItem.Size = New System.Drawing.Size(185, 22)
+        Me.AbletonLive9LiteToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
         Me.AbletonLive9LiteToolStripMenuItem.Text = "Ableton Live 9 Lite"
         '
         'AbletonLive9TrialToolStripMenuItem
         '
         Me.AbletonLive9TrialToolStripMenuItem.Enabled = False
         Me.AbletonLive9TrialToolStripMenuItem.Name = "AbletonLive9TrialToolStripMenuItem"
-        Me.AbletonLive9TrialToolStripMenuItem.Size = New System.Drawing.Size(185, 22)
+        Me.AbletonLive9TrialToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
         Me.AbletonLive9TrialToolStripMenuItem.Text = "Ableton Live 9 Trial"
         '
         'AbletonLive9SuiteToolStripMenuItem
         '
         Me.AbletonLive9SuiteToolStripMenuItem.Enabled = False
         Me.AbletonLive9SuiteToolStripMenuItem.Name = "AbletonLive9SuiteToolStripMenuItem"
-        Me.AbletonLive9SuiteToolStripMenuItem.Size = New System.Drawing.Size(185, 22)
+        Me.AbletonLive9SuiteToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
         Me.AbletonLive9SuiteToolStripMenuItem.Text = "Ableton Live 9 Suite"
         '
         'AbletonLive10ToolStripMenuItem
         '
         Me.AbletonLive10ToolStripMenuItem.Enabled = False
         Me.AbletonLive10ToolStripMenuItem.Name = "AbletonLive10ToolStripMenuItem"
-        Me.AbletonLive10ToolStripMenuItem.Size = New System.Drawing.Size(185, 22)
+        Me.AbletonLive10ToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
         Me.AbletonLive10ToolStripMenuItem.Text = "Ableton Live 10"
         '
         'UnipackToolStripMenuItem1
         '
         Me.UnipackToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ConvertToZipUniToolStripMenuItem})
         Me.UnipackToolStripMenuItem1.Name = "UnipackToolStripMenuItem1"
-        Me.UnipackToolStripMenuItem1.Size = New System.Drawing.Size(117, 22)
+        Me.UnipackToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
         Me.UnipackToolStripMenuItem1.Text = "UniPack"
         '
         'ConvertToZipUniToolStripMenuItem
@@ -216,13 +217,13 @@ Partial Class MainProject
         Me.ConvertToZipUniToolStripMenuItem.Checked = True
         Me.ConvertToZipUniToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
         Me.ConvertToZipUniToolStripMenuItem.Name = "ConvertToZipUniToolStripMenuItem"
-        Me.ConvertToZipUniToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
+        Me.ConvertToZipUniToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
         Me.ConvertToZipUniToolStripMenuItem.Text = "Convert to zip, uni"
         '
         'TutorialsToolStripMenuItem
         '
         Me.TutorialsToolStripMenuItem.Name = "TutorialsToolStripMenuItem"
-        Me.TutorialsToolStripMenuItem.Size = New System.Drawing.Size(64, 20)
+        Me.TutorialsToolStripMenuItem.Size = New System.Drawing.Size(67, 20)
         Me.TutorialsToolStripMenuItem.Text = "Tutorials"
         '
         'SettingsToolStripMenuItem
@@ -235,32 +236,32 @@ Partial Class MainProject
         'CheckUpdateToolStripMenuItem
         '
         Me.CheckUpdateToolStripMenuItem.Name = "CheckUpdateToolStripMenuItem"
-        Me.CheckUpdateToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CheckUpdateToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
         Me.CheckUpdateToolStripMenuItem.Text = "Check Update"
         '
         'ReportBugsToolStripMenuItem
         '
         Me.ReportBugsToolStripMenuItem.Name = "ReportBugsToolStripMenuItem"
-        Me.ReportBugsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ReportBugsToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
         Me.ReportBugsToolStripMenuItem.Text = "Report Bugs"
         '
         'DeveloperModeToolStripMenuItem
         '
         Me.DeveloperModeToolStripMenuItem.Name = "DeveloperModeToolStripMenuItem"
-        Me.DeveloperModeToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.DeveloperModeToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
         Me.DeveloperModeToolStripMenuItem.Text = "Developer Mode"
         Me.DeveloperModeToolStripMenuItem.Visible = False
         '
         'SettingsToolStripMenuItem1
         '
         Me.SettingsToolStripMenuItem1.Name = "SettingsToolStripMenuItem1"
-        Me.SettingsToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.SettingsToolStripMenuItem1.Size = New System.Drawing.Size(178, 22)
         Me.SettingsToolStripMenuItem1.Text = "Settings"
         '
         'InfoToolStripMenuItem
         '
         Me.InfoToolStripMenuItem.Name = "InfoToolStripMenuItem"
-        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
         Me.InfoToolStripMenuItem.Text = "Info"
         '
         'sfd
@@ -277,6 +278,7 @@ Partial Class MainProject
         Me.HomeEdit.Controls.Add(Me.KeySoundTab)
         Me.HomeEdit.Controls.Add(Me.keyLED1)
         Me.HomeEdit.Controls.Add(Me.keyLED2)
+        Me.HomeEdit.Font = New System.Drawing.Font("나눔바른고딕", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.HomeEdit.HotTrack = True
         Me.HomeEdit.Location = New System.Drawing.Point(12, 27)
         Me.HomeEdit.Name = "HomeEdit"
@@ -294,39 +296,41 @@ Partial Class MainProject
         Me.Info1.Controls.Add(Me.infoTB2)
         Me.Info1.Controls.Add(Me.infoTB1)
         Me.Info1.Controls.Add(Me.infoT1)
-        Me.Info1.Location = New System.Drawing.Point(4, 22)
+        Me.Info1.Location = New System.Drawing.Point(4, 23)
         Me.Info1.Name = "Info1"
         Me.Info1.Padding = New System.Windows.Forms.Padding(3)
-        Me.Info1.Size = New System.Drawing.Size(776, 496)
+        Me.Info1.Size = New System.Drawing.Size(776, 495)
         Me.Info1.TabIndex = 0
         Me.Info1.Text = "Information"
         Me.Info1.UseVisualStyleBackColor = True
         '
         'infoTB3
         '
-        Me.infoTB3.Location = New System.Drawing.Point(295, 246)
+        Me.infoTB3.Font = New System.Drawing.Font("나눔바른고딕OTF", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.infoTB3.Location = New System.Drawing.Point(248, 268)
         Me.infoTB3.Name = "infoTB3"
         Me.infoTB3.ReadOnly = True
-        Me.infoTB3.Size = New System.Drawing.Size(200, 21)
+        Me.infoTB3.Size = New System.Drawing.Size(329, 39)
         Me.infoTB3.TabIndex = 30
         Me.infoTB3.Text = "1"
         '
         'Tip1
         '
         Me.Tip1.AutoSize = True
-        Me.Tip1.Font = New System.Drawing.Font("맑은 고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.Tip1.Font = New System.Drawing.Font("나눔바른고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.Tip1.ForeColor = System.Drawing.Color.LightCoral
         Me.Tip1.Location = New System.Drawing.Point(6, 472)
         Me.Tip1.Name = "Tip1"
-        Me.Tip1.Size = New System.Drawing.Size(307, 17)
+        Me.Tip1.Size = New System.Drawing.Size(296, 15)
         Me.Tip1.TabIndex = 29
         Me.Tip1.Text = "Tip: You can edit Info after open Ableton Project."
         '
         'Info_SaveButton
         '
-        Me.Info_SaveButton.Location = New System.Drawing.Point(586, 391)
+        Me.Info_SaveButton.Font = New System.Drawing.Font("Ubuntu", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Info_SaveButton.Location = New System.Drawing.Point(557, 360)
         Me.Info_SaveButton.Name = "Info_SaveButton"
-        Me.Info_SaveButton.Size = New System.Drawing.Size(169, 95)
+        Me.Info_SaveButton.Size = New System.Drawing.Size(196, 116)
         Me.Info_SaveButton.TabIndex = 27
         Me.Info_SaveButton.Text = "Save"
         Me.Info_SaveButton.UseVisualStyleBackColor = True
@@ -334,49 +338,51 @@ Partial Class MainProject
         'infoT3
         '
         Me.infoT3.AutoSize = True
-        Me.infoT3.Font = New System.Drawing.Font("맑은 고딕", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.infoT3.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.infoT3.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.infoT3.Location = New System.Drawing.Point(249, 247)
+        Me.infoT3.Location = New System.Drawing.Point(182, 278)
         Me.infoT3.Name = "infoT3"
-        Me.infoT3.Size = New System.Drawing.Size(39, 15)
+        Me.infoT3.Size = New System.Drawing.Size(60, 22)
         Me.infoT3.TabIndex = 26
         Me.infoT3.Text = "Chain"
         '
         'infoT2
         '
         Me.infoT2.AutoSize = True
-        Me.infoT2.Font = New System.Drawing.Font("맑은 고딕", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.infoT2.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.infoT2.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.infoT2.Location = New System.Drawing.Point(190, 195)
+        Me.infoT2.Location = New System.Drawing.Point(100, 184)
         Me.infoT2.Name = "infoT2"
-        Me.infoT2.Size = New System.Drawing.Size(98, 15)
+        Me.infoT2.Size = New System.Drawing.Size(142, 22)
         Me.infoT2.TabIndex = 24
         Me.infoT2.Text = "Producer Name"
         '
         'infoTB2
         '
-        Me.infoTB2.Location = New System.Drawing.Point(295, 194)
+        Me.infoTB2.Font = New System.Drawing.Font("-윤디자인웹돋움", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.infoTB2.Location = New System.Drawing.Point(248, 181)
         Me.infoTB2.Name = "infoTB2"
-        Me.infoTB2.Size = New System.Drawing.Size(200, 21)
+        Me.infoTB2.Size = New System.Drawing.Size(329, 30)
         Me.infoTB2.TabIndex = 23
         Me.infoTB2.Text = "UniConverter V1.1.0.3"
         '
         'infoTB1
         '
-        Me.infoTB1.Location = New System.Drawing.Point(295, 146)
+        Me.infoTB1.Font = New System.Drawing.Font("-윤디자인웹돋움", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.infoTB1.Location = New System.Drawing.Point(249, 96)
         Me.infoTB1.Name = "infoTB1"
-        Me.infoTB1.Size = New System.Drawing.Size(200, 21)
+        Me.infoTB1.Size = New System.Drawing.Size(328, 30)
         Me.infoTB1.TabIndex = 21
         Me.infoTB1.Text = "UniPack Project"
         '
         'infoT1
         '
         Me.infoT1.AutoSize = True
-        Me.infoT1.Font = New System.Drawing.Font("맑은 고딕", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.infoT1.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.infoT1.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.infoT1.Location = New System.Drawing.Point(257, 147)
+        Me.infoT1.Location = New System.Drawing.Point(192, 99)
         Me.infoT1.Name = "infoT1"
-        Me.infoT1.Size = New System.Drawing.Size(32, 15)
+        Me.infoT1.Size = New System.Drawing.Size(50, 22)
         Me.infoT1.TabIndex = 22
         Me.infoT1.Text = "Title"
         '
@@ -398,10 +404,10 @@ Partial Class MainProject
         Me.KeySoundTab.Controls.Add(Me.GoButton)
         Me.KeySoundTab.Controls.Add(Me.keySound_ListView)
         Me.KeySoundTab.Controls.Add(Me.Sound_ListView)
-        Me.KeySoundTab.Location = New System.Drawing.Point(4, 22)
+        Me.KeySoundTab.Location = New System.Drawing.Point(4, 23)
         Me.KeySoundTab.Name = "KeySoundTab"
         Me.KeySoundTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.KeySoundTab.Size = New System.Drawing.Size(776, 496)
+        Me.KeySoundTab.Size = New System.Drawing.Size(776, 495)
         Me.KeySoundTab.TabIndex = 1
         Me.KeySoundTab.Text = "keySound"
         Me.KeySoundTab.UseVisualStyleBackColor = True
@@ -409,19 +415,19 @@ Partial Class MainProject
         'ks_SearchLabel
         '
         Me.ks_SearchLabel.AutoSize = True
-        Me.ks_SearchLabel.Font = New System.Drawing.Font("맑은 고딕", 9.0!)
+        Me.ks_SearchLabel.Font = New System.Drawing.Font("나눔스퀘어라운드 Regular", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.ks_SearchLabel.Location = New System.Drawing.Point(14, 14)
         Me.ks_SearchLabel.Name = "ks_SearchLabel"
-        Me.ks_SearchLabel.Size = New System.Drawing.Size(85, 15)
+        Me.ks_SearchLabel.Size = New System.Drawing.Size(88, 13)
         Me.ks_SearchLabel.TabIndex = 50
         Me.ks_SearchLabel.Text = "Search Sound:"
         '
         'ks_SearchSound
         '
-        Me.ks_SearchSound.Font = New System.Drawing.Font("맑은 고딕", 9.0!)
-        Me.ks_SearchSound.Location = New System.Drawing.Point(103, 13)
+        Me.ks_SearchSound.Font = New System.Drawing.Font("나눔스퀘어라운드 Regular", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.ks_SearchSound.Location = New System.Drawing.Point(108, 9)
         Me.ks_SearchSound.Name = "ks_SearchSound"
-        Me.ks_SearchSound.Size = New System.Drawing.Size(141, 23)
+        Me.ks_SearchSound.Size = New System.Drawing.Size(141, 21)
         Me.ks_SearchSound.TabIndex = 49
         '
         'ks_Sound2
@@ -446,33 +452,37 @@ Partial Class MainProject
         '
         'ks_SelY
         '
+        Me.ks_SelY.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.ks_SelY.FormattingEnabled = True
         Me.ks_SelY.Location = New System.Drawing.Point(431, 9)
         Me.ks_SelY.Name = "ks_SelY"
-        Me.ks_SelY.Size = New System.Drawing.Size(29, 20)
+        Me.ks_SelY.Size = New System.Drawing.Size(29, 22)
         Me.ks_SelY.TabIndex = 46
         Me.ks_SelY.Text = "y"
         '
         'ks_SelX
         '
+        Me.ks_SelX.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.ks_SelX.FormattingEnabled = True
         Me.ks_SelX.Location = New System.Drawing.Point(398, 9)
         Me.ks_SelX.Name = "ks_SelX"
-        Me.ks_SelX.Size = New System.Drawing.Size(29, 20)
+        Me.ks_SelX.Size = New System.Drawing.Size(29, 22)
         Me.ks_SelX.TabIndex = 45
         Me.ks_SelX.Text = "x"
         '
         'ks_SelChain
         '
+        Me.ks_SelChain.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.ks_SelChain.FormattingEnabled = True
         Me.ks_SelChain.Location = New System.Drawing.Point(363, 9)
         Me.ks_SelChain.Name = "ks_SelChain"
-        Me.ks_SelChain.Size = New System.Drawing.Size(29, 20)
+        Me.ks_SelChain.Size = New System.Drawing.Size(29, 22)
         Me.ks_SelChain.TabIndex = 44
         Me.ks_SelChain.Text = "c"
         '
         'EdKeysButton
         '
+        Me.EdKeysButton.Font = New System.Drawing.Font("Ubuntu", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.EdKeysButton.Location = New System.Drawing.Point(473, 408)
         Me.EdKeysButton.Name = "EdKeysButton"
         Me.EdKeysButton.Size = New System.Drawing.Size(152, 38)
@@ -482,6 +492,7 @@ Partial Class MainProject
         '
         'SaveButton
         '
+        Me.SaveButton.Font = New System.Drawing.Font("Ubuntu", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.SaveButton.Location = New System.Drawing.Point(631, 408)
         Me.SaveButton.Name = "SaveButton"
         Me.SaveButton.Size = New System.Drawing.Size(125, 78)
@@ -491,6 +502,7 @@ Partial Class MainProject
         '
         'CutSndButton
         '
+        Me.CutSndButton.Font = New System.Drawing.Font("Ubuntu", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CutSndButton.Location = New System.Drawing.Point(473, 452)
         Me.CutSndButton.Name = "CutSndButton"
         Me.CutSndButton.Size = New System.Drawing.Size(152, 34)
@@ -501,11 +513,11 @@ Partial Class MainProject
         'Tip3
         '
         Me.Tip3.AutoSize = True
-        Me.Tip3.Font = New System.Drawing.Font("맑은 고딕", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.Tip3.Font = New System.Drawing.Font("나눔바른고딕", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.Tip3.ForeColor = System.Drawing.Color.LightCoral
         Me.Tip3.Location = New System.Drawing.Point(6, 463)
         Me.Tip3.Name = "Tip3"
-        Me.Tip3.Size = New System.Drawing.Size(268, 30)
+        Me.Tip3.Size = New System.Drawing.Size(268, 28)
         Me.Tip3.TabIndex = 36
         Me.Tip3.Text = "Tip: If sound file didn't split, don't put it here." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Instead, you can cut sound o" &
     "n Cut Sound Form."
@@ -513,17 +525,17 @@ Partial Class MainProject
         'DevelopingLabel1
         '
         Me.DevelopingLabel1.AutoSize = True
-        Me.DevelopingLabel1.Font = New System.Drawing.Font("Adobe Heiti Std R", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
+        Me.DevelopingLabel1.Font = New System.Drawing.Font("나눔바른고딕OTF", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.DevelopingLabel1.Location = New System.Drawing.Point(115, 190)
         Me.DevelopingLabel1.Name = "DevelopingLabel1"
-        Me.DevelopingLabel1.Size = New System.Drawing.Size(544, 68)
+        Me.DevelopingLabel1.Size = New System.Drawing.Size(540, 62)
         Me.DevelopingLabel1.TabIndex = 35
         Me.DevelopingLabel1.Text = "We are developing ""Converting keySound""!" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "                           Coming Soon." &
     ".."
         '
         'BackButton
         '
-        Me.BackButton.Font = New System.Drawing.Font("맑은 고딕", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.BackButton.Font = New System.Drawing.Font("Ubuntu", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BackButton.Location = New System.Drawing.Point(335, 237)
         Me.BackButton.Name = "BackButton"
         Me.BackButton.Size = New System.Drawing.Size(106, 66)
@@ -533,7 +545,7 @@ Partial Class MainProject
         '
         'GoButton
         '
-        Me.GoButton.Font = New System.Drawing.Font("맑은 고딕", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.GoButton.Font = New System.Drawing.Font("Ubuntu", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GoButton.Location = New System.Drawing.Point(335, 141)
         Me.GoButton.Name = "GoButton"
         Me.GoButton.Size = New System.Drawing.Size(106, 69)
@@ -545,7 +557,7 @@ Partial Class MainProject
         '
         Me.keySound_ListView.AllowDrop = True
         Me.keySound_ListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.SortingNumber, Me.FileName2, Me.Length2, Me.Loop2})
-        Me.keySound_ListView.Font = New System.Drawing.Font("맑은 고딕", 9.0!)
+        Me.keySound_ListView.Font = New System.Drawing.Font("나눔스퀘어라운드 Regular", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.keySound_ListView.FullRowSelect = True
         Me.keySound_ListView.Location = New System.Drawing.Point(473, 32)
         Me.keySound_ListView.Name = "keySound_ListView"
@@ -562,7 +574,7 @@ Partial Class MainProject
         'FileName2
         '
         Me.FileName2.Text = "Loaded Sound Files"
-        Me.FileName2.Width = 120
+        Me.FileName2.Width = 121
         '
         'Length2
         '
@@ -578,7 +590,7 @@ Partial Class MainProject
         '
         Me.Sound_ListView.AllowDrop = True
         Me.Sound_ListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.FileName, Me.Length, Me.AssingedButtons})
-        Me.Sound_ListView.Font = New System.Drawing.Font("맑은 고딕", 9.0!)
+        Me.Sound_ListView.Font = New System.Drawing.Font("나눔스퀘어라운드 Regular", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.Sound_ListView.FullRowSelect = True
         Me.Sound_ListView.Location = New System.Drawing.Point(17, 61)
         Me.Sound_ListView.Name = "Sound_ListView"
@@ -606,9 +618,9 @@ Partial Class MainProject
         'keyLED1
         '
         Me.keyLED1.Controls.Add(Me.DevelopingLabel2)
-        Me.keyLED1.Location = New System.Drawing.Point(4, 22)
+        Me.keyLED1.Location = New System.Drawing.Point(4, 23)
         Me.keyLED1.Name = "keyLED1"
-        Me.keyLED1.Size = New System.Drawing.Size(776, 496)
+        Me.keyLED1.Size = New System.Drawing.Size(776, 495)
         Me.keyLED1.TabIndex = 2
         Me.keyLED1.Text = "keyLED"
         Me.keyLED1.UseVisualStyleBackColor = True
@@ -616,10 +628,10 @@ Partial Class MainProject
         'DevelopingLabel2
         '
         Me.DevelopingLabel2.AutoSize = True
-        Me.DevelopingLabel2.Font = New System.Drawing.Font("Adobe Heiti Std R", 24.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
+        Me.DevelopingLabel2.Font = New System.Drawing.Font("나눔바른고딕OTF", 24.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.DevelopingLabel2.Location = New System.Drawing.Point(83, 191)
         Me.DevelopingLabel2.Name = "DevelopingLabel2"
-        Me.DevelopingLabel2.Size = New System.Drawing.Size(605, 80)
+        Me.DevelopingLabel2.Size = New System.Drawing.Size(607, 74)
         Me.DevelopingLabel2.TabIndex = 36
         Me.DevelopingLabel2.Text = "We are developing ""Converting keyLED""!" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "                           Coming Soon..." &
     ""
@@ -628,9 +640,9 @@ Partial Class MainProject
         '
         Me.keyLED2.Controls.Add(Me.DevelopingLabel3)
         Me.keyLED2.Controls.Add(Me.keyLEDBetaButton)
-        Me.keyLED2.Location = New System.Drawing.Point(4, 22)
+        Me.keyLED2.Location = New System.Drawing.Point(4, 23)
         Me.keyLED2.Name = "keyLED2"
-        Me.keyLED2.Size = New System.Drawing.Size(776, 496)
+        Me.keyLED2.Size = New System.Drawing.Size(776, 495)
         Me.keyLED2.TabIndex = 3
         Me.keyLED2.Text = "keyLED (MIDI Extension)"
         Me.keyLED2.UseVisualStyleBackColor = True
@@ -638,10 +650,10 @@ Partial Class MainProject
         'DevelopingLabel3
         '
         Me.DevelopingLabel3.AutoSize = True
-        Me.DevelopingLabel3.Font = New System.Drawing.Font("Adobe Heiti Std R", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
+        Me.DevelopingLabel3.Font = New System.Drawing.Font("나눔바른고딕OTF", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.DevelopingLabel3.Location = New System.Drawing.Point(28, 303)
         Me.DevelopingLabel3.Name = "DevelopingLabel3"
-        Me.DevelopingLabel3.Size = New System.Drawing.Size(719, 68)
+        Me.DevelopingLabel3.Size = New System.Drawing.Size(725, 62)
         Me.DevelopingLabel3.TabIndex = 39
         Me.DevelopingLabel3.Text = "We are developing ""Converting keyLED (MIDI Extension)""!" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "                        " &
     "                Coming Soon..."
@@ -673,6 +685,7 @@ Partial Class MainProject
         Me.ClientSize = New System.Drawing.Size(796, 547)
         Me.Controls.Add(Me.HomeEdit)
         Me.Controls.Add(Me.MenuStrip)
+        Me.Font = New System.Drawing.Font("굴림", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.KeyPreview = True
         Me.MainMenuStrip = Me.MenuStrip

@@ -35,9 +35,10 @@ Partial Class UG_Settings
         Me.ChkUpdate.AutoSize = True
         Me.ChkUpdate.Checked = True
         Me.ChkUpdate.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ChkUpdate.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ChkUpdate.Location = New System.Drawing.Point(29, 26)
         Me.ChkUpdate.Name = "ChkUpdate"
-        Me.ChkUpdate.Size = New System.Drawing.Size(132, 16)
+        Me.ChkUpdate.Size = New System.Drawing.Size(147, 18)
         Me.ChkUpdate.TabIndex = 0
         Me.ChkUpdate.Text = "Auto Check Update"
         Me.ChkUpdate.UseVisualStyleBackColor = True
@@ -45,34 +46,38 @@ Partial Class UG_Settings
         'LatestVer
         '
         Me.LatestVer.AutoSize = True
+        Me.LatestVer.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LatestVer.Location = New System.Drawing.Point(29, 48)
         Me.LatestVer.Name = "LatestVer"
-        Me.LatestVer.Size = New System.Drawing.Size(227, 16)
+        Me.LatestVer.Size = New System.Drawing.Size(254, 18)
         Me.LatestVer.TabIndex = 1
         Me.LatestVer.Text = "Execute Latest Version After Update"
         Me.LatestVer.UseVisualStyleBackColor = True
         '
         'AbletonSet
         '
+        Me.AbletonSet.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.AbletonSet.FormattingEnabled = True
         Me.AbletonSet.Location = New System.Drawing.Point(29, 87)
         Me.AbletonSet.Name = "AbletonSet"
-        Me.AbletonSet.Size = New System.Drawing.Size(108, 20)
+        Me.AbletonSet.Size = New System.Drawing.Size(108, 22)
         Me.AbletonSet.TabIndex = 2
         Me.AbletonSet.Text = "Any Ableton"
         '
         'UniPackSet
         '
+        Me.UniPackSet.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.UniPackSet.FormattingEnabled = True
         Me.UniPackSet.Location = New System.Drawing.Point(148, 87)
         Me.UniPackSet.Name = "UniPackSet"
-        Me.UniPackSet.Size = New System.Drawing.Size(108, 20)
+        Me.UniPackSet.Size = New System.Drawing.Size(108, 22)
         Me.UniPackSet.TabIndex = 3
         Me.UniPackSet.Text = "Zip / Uni File"
         '
         'SaveButton
         '
-        Me.SaveButton.Location = New System.Drawing.Point(191, 132)
+        Me.SaveButton.Font = New System.Drawing.Font("Ubuntu", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SaveButton.Location = New System.Drawing.Point(200, 131)
         Me.SaveButton.Name = "SaveButton"
         Me.SaveButton.Size = New System.Drawing.Size(75, 47)
         Me.SaveButton.TabIndex = 4
@@ -81,7 +86,8 @@ Partial Class UG_Settings
         '
         'ResetButton
         '
-        Me.ResetButton.Location = New System.Drawing.Point(110, 132)
+        Me.ResetButton.Font = New System.Drawing.Font("Ubuntu", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ResetButton.Location = New System.Drawing.Point(119, 131)
         Me.ResetButton.Name = "ResetButton"
         Me.ResetButton.Size = New System.Drawing.Size(75, 47)
         Me.ResetButton.TabIndex = 5
@@ -92,7 +98,7 @@ Partial Class UG_Settings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(278, 191)
+        Me.ClientSize = New System.Drawing.Size(284, 187)
         Me.Controls.Add(Me.ResetButton)
         Me.Controls.Add(Me.SaveButton)
         Me.Controls.Add(Me.UniPackSet)

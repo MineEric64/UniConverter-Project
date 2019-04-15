@@ -53,7 +53,7 @@ Partial Class REPORTForm
         '
         'MAIL_ATTACHMENT
         '
-        Me.MAIL_ATTACHMENT.Font = New System.Drawing.Font("Ubuntu", 9.749999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MAIL_ATTACHMENT.Font = New System.Drawing.Font("나눔고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MAIL_ATTACHMENT.Location = New System.Drawing.Point(126, 223)
         Me.MAIL_ATTACHMENT.Name = "MAIL_ATTACHMENT"
         Me.MAIL_ATTACHMENT.ReadOnly = True
@@ -82,10 +82,11 @@ Partial Class REPORTForm
         '
         'DescBox
         '
-        Me.DescBox.Font = New System.Drawing.Font("맑은 고딕", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.DescBox.Font = New System.Drawing.Font("나눔고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.DescBox.Location = New System.Drawing.Point(23, 21)
         Me.DescBox.Multiline = True
         Me.DescBox.Name = "DescBox"
+        Me.DescBox.ScrollBars = System.Windows.Forms.ScrollBars.Both
         Me.DescBox.Size = New System.Drawing.Size(446, 190)
         Me.DescBox.TabIndex = 10
         Me.DescBox.Text = "Please write your amazing opinion! :D"

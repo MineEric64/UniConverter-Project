@@ -107,6 +107,7 @@ Partial Class EditkeySound
         '
         'SaveButton
         '
+        Me.SaveButton.Font = New System.Drawing.Font("Ubuntu", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.SaveButton.Location = New System.Drawing.Point(365, 351)
         Me.SaveButton.Name = "SaveButton"
         Me.SaveButton.Size = New System.Drawing.Size(163, 56)
@@ -135,6 +136,7 @@ Partial Class EditkeySound
         '
         'CancelButton2
         '
+        Me.CancelButton2.Font = New System.Drawing.Font("Ubuntu", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CancelButton2.Location = New System.Drawing.Point(187, 351)
         Me.CancelButton2.Name = "CancelButton2"
         Me.CancelButton2.Size = New System.Drawing.Size(162, 56)
@@ -219,6 +221,7 @@ Partial Class EditkeySound
         Me.PadLayoutPanel.Controls.Add(Me.uni8_6, 5, 7)
         Me.PadLayoutPanel.Controls.Add(Me.uni8_7, 6, 7)
         Me.PadLayoutPanel.Controls.Add(Me.uni8_8, 7, 7)
+        Me.PadLayoutPanel.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.PadLayoutPanel.Location = New System.Drawing.Point(534, 0)
         Me.PadLayoutPanel.Name = "PadLayoutPanel"
         Me.PadLayoutPanel.RowCount = 8
@@ -1003,6 +1006,7 @@ Partial Class EditkeySound
         '
         'keySoundLayoutButton
         '
+        Me.keySoundLayoutButton.Font = New System.Drawing.Font("나눔바른고딕", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.keySoundLayoutButton.Location = New System.Drawing.Point(555, 384)
         Me.keySoundLayoutButton.Name = "keySoundLayoutButton"
         Me.keySoundLayoutButton.Size = New System.Drawing.Size(394, 23)
@@ -1013,6 +1017,7 @@ Partial Class EditkeySound
         'btnPad_chain1
         '
         Me.btnPad_chain1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.btnPad_chain1.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.btnPad_chain1.Location = New System.Drawing.Point(925, 3)
         Me.btnPad_chain1.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btnPad_chain1.Name = "btnPad_chain1"
@@ -1024,6 +1029,7 @@ Partial Class EditkeySound
         'btnPad_chain2
         '
         Me.btnPad_chain2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.btnPad_chain2.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.btnPad_chain2.Location = New System.Drawing.Point(925, 49)
         Me.btnPad_chain2.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btnPad_chain2.Name = "btnPad_chain2"
@@ -1035,6 +1041,7 @@ Partial Class EditkeySound
         'btnPad_chain3
         '
         Me.btnPad_chain3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.btnPad_chain3.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.btnPad_chain3.Location = New System.Drawing.Point(925, 95)
         Me.btnPad_chain3.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btnPad_chain3.Name = "btnPad_chain3"
@@ -1046,6 +1053,7 @@ Partial Class EditkeySound
         'btnPad_chain4
         '
         Me.btnPad_chain4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.btnPad_chain4.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.btnPad_chain4.Location = New System.Drawing.Point(925, 141)
         Me.btnPad_chain4.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btnPad_chain4.Name = "btnPad_chain4"
@@ -1057,6 +1065,7 @@ Partial Class EditkeySound
         'btnPad_chain5
         '
         Me.btnPad_chain5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.btnPad_chain5.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.btnPad_chain5.Location = New System.Drawing.Point(925, 187)
         Me.btnPad_chain5.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btnPad_chain5.Name = "btnPad_chain5"
@@ -1068,6 +1077,7 @@ Partial Class EditkeySound
         'btnPad_chain6
         '
         Me.btnPad_chain6.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.btnPad_chain6.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.btnPad_chain6.Location = New System.Drawing.Point(925, 233)
         Me.btnPad_chain6.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btnPad_chain6.Name = "btnPad_chain6"
@@ -1079,6 +1089,7 @@ Partial Class EditkeySound
         'btnPad_chain7
         '
         Me.btnPad_chain7.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.btnPad_chain7.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.btnPad_chain7.Location = New System.Drawing.Point(925, 279)
         Me.btnPad_chain7.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btnPad_chain7.Name = "btnPad_chain7"
@@ -1090,6 +1101,7 @@ Partial Class EditkeySound
         'btnPad_chain8
         '
         Me.btnPad_chain8.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.btnPad_chain8.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.btnPad_chain8.Location = New System.Drawing.Point(925, 325)
         Me.btnPad_chain8.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btnPad_chain8.Name = "btnPad_chain8"

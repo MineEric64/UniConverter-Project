@@ -63,6 +63,8 @@ Public Class UG_Settings
                     Throw New FormatException("<ConvertUniPack>'s Value is invaild.")
             End Select
 
+            IsSaved = True
+
         Catch ex As Exception
             MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try

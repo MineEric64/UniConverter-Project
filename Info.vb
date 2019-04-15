@@ -38,9 +38,9 @@ Public Class Info
                 End If
 
             ElseIf ModeE.Text = "UniConverter-Project" Then
-                MessageBox.Show(String.Format("UniConverter V{0} - MineEric64 (최에릭)" & vbNewLine & "A2UP V{1} - MineEric64 (최에릭)" & vbNewLine & vbNewLine & "Help By Follow_JB, Ph-r", My.Application.Info.Version.ToString, GetFileVerInfo(A2UP_File)), Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show(String.Format("UniConverter V{0} - MineEric64 (최에릭)" & vbNewLine & "A2UP V{1} - MineEric64 (최에릭)" & vbNewLine & vbNewLine & "Help By Follow_JB, EX867, Ph-r", My.Application.Info.Version.ToString, GetFileVerInfo(A2UP_File)), Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                MessageBox.Show("Incorrect Character.", MainProject.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show("Not Good :(", MainProject.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End If
         Catch ex As Exception
             MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)

@@ -54,8 +54,8 @@ Public Class keyLED_Edit
                        'V1.0.0.1 ~ V1.0.0.2 - String.Replace로 이용한 ConLED 파일 표시: ConLEDFile '[ConLEDFile String 계산: ":FileName.Ext"]
                        'V1.1.0.3 - Item.ToString을 Item.Text로 코드 최적화.
 
-                       Dim LEDFIleName = "Workspace\ableproj\CoLED\" & ConLEDFile
-                       Dim LEDFileC As New MidiFile(LEDFIleName, False)
+                       Dim LEDFileName = "Workspace\ableproj\CoLED\" & ConLEDFile
+                       Dim LEDFileC As New MidiFile(LEDFileName, False)
                        Dim str As String
 
                        UniLED_Edit.Clear() 'UniPack LED Text Reset.
