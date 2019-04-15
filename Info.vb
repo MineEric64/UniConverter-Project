@@ -66,4 +66,16 @@ Public Class Info
             MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
+
+    Private Sub Unipad_link_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles unipad_link.LinkClicked
+        Shell("explorer.exe http://cafe.naver.com/unipad")
+    End Sub
+
+    Private Sub Unipadc_link_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles unipadc_link.LinkClicked
+        Shell("explorer.exe http://test.unipad.kr")
+    End Sub
+
+    Private Sub Ucvg_link_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles ucvg_link.LinkClicked
+        Shell("explorer.exe http://github.com/MineEric64/UniConverter-Project")
+    End Sub
 End Class

@@ -31,6 +31,9 @@ Partial Class Info
         Me.UCV_Alpha = New System.Windows.Forms.PictureBox()
         Me.UCV_Icon = New System.Windows.Forms.PictureBox()
         Me.unitor_link = New System.Windows.Forms.LinkLabel()
+        Me.ucvg_link = New System.Windows.Forms.LinkLabel()
+        Me.unipad_link = New System.Windows.Forms.LinkLabel()
+        Me.unipadc_link = New System.Windows.Forms.LinkLabel()
         CType(Me.UCV_Alpha, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.UCV_Icon, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -78,12 +81,12 @@ Partial Class Info
         Me.ucv_link.AutoSize = True
         Me.ucv_link.Cursor = System.Windows.Forms.Cursors.Hand
         Me.ucv_link.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.ucv_link.Location = New System.Drawing.Point(7, 313)
+        Me.ucv_link.Location = New System.Drawing.Point(12, 290)
         Me.ucv_link.Name = "ucv_link"
-        Me.ucv_link.Size = New System.Drawing.Size(63, 14)
+        Me.ucv_link.Size = New System.Drawing.Size(105, 14)
         Me.ucv_link.TabIndex = 6
         Me.ucv_link.TabStop = True
-        Me.ucv_link.Text = "ucv.kro.kr"
+        Me.ucv_link.Text = "UniConverter Site"
         '
         'UCV_Alpha
         '
@@ -109,12 +112,48 @@ Partial Class Info
         Me.unitor_link.AutoSize = True
         Me.unitor_link.Cursor = System.Windows.Forms.Cursors.Hand
         Me.unitor_link.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.unitor_link.Location = New System.Drawing.Point(73, 314)
+        Me.unitor_link.Location = New System.Drawing.Point(12, 313)
         Me.unitor_link.Name = "unitor_link"
-        Me.unitor_link.Size = New System.Drawing.Size(58, 14)
+        Me.unitor_link.Size = New System.Drawing.Size(65, 14)
         Me.unitor_link.TabIndex = 8
         Me.unitor_link.TabStop = True
-        Me.unitor_link.Text = "unitor.ga"
+        Me.unitor_link.Text = "Unitor Site"
+        '
+        'ucvg_link
+        '
+        Me.ucvg_link.AutoSize = True
+        Me.ucvg_link.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.ucvg_link.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.ucvg_link.Location = New System.Drawing.Point(123, 290)
+        Me.ucvg_link.Name = "ucvg_link"
+        Me.ucvg_link.Size = New System.Drawing.Size(123, 14)
+        Me.ucvg_link.TabIndex = 9
+        Me.ucvg_link.TabStop = True
+        Me.ucvg_link.Text = "UniConverter GitHub"
+        '
+        'unipad_link
+        '
+        Me.unipad_link.AutoSize = True
+        Me.unipad_link.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.unipad_link.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.unipad_link.Location = New System.Drawing.Point(159, 313)
+        Me.unipad_link.Name = "unipad_link"
+        Me.unipad_link.Size = New System.Drawing.Size(75, 14)
+        Me.unipad_link.TabIndex = 10
+        Me.unipad_link.TabStop = True
+        Me.unipad_link.Text = "UniPad Cafe"
+        '
+        'unipadc_link
+        '
+        Me.unipadc_link.AutoSize = True
+        Me.unipadc_link.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.unipadc_link.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.unipadc_link.Location = New System.Drawing.Point(83, 313)
+        Me.unipadc_link.Name = "unipadc_link"
+        Me.unipadc_link.Size = New System.Drawing.Size(70, 14)
+        Me.unipadc_link.TabIndex = 11
+        Me.unipadc_link.TabStop = True
+        Me.unipadc_link.Text = "UniPad Site"
         '
         'Info
         '
@@ -122,6 +161,9 @@ Partial Class Info
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(412, 331)
+        Me.Controls.Add(Me.unipadc_link)
+        Me.Controls.Add(Me.unipad_link)
+        Me.Controls.Add(Me.ucvg_link)
         Me.Controls.Add(Me.unitor_link)
         Me.Controls.Add(Me.UCV_Alpha)
         Me.Controls.Add(Me.ucv_link)
@@ -148,4 +190,7 @@ Partial Class Info
     Friend WithEvents ucv_link As LinkLabel
     Friend WithEvents UCV_Alpha As PictureBox
     Friend WithEvents unitor_link As LinkLabel
+    Friend WithEvents ucvg_link As LinkLabel
+    Friend WithEvents unipad_link As LinkLabel
+    Friend WithEvents unipadc_link As LinkLabel
 End Class
