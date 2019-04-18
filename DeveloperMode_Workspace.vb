@@ -2,11 +2,11 @@
 Imports System.Threading
 
 Public Class DeveloperMode_Workspace
-    Private trd As Thread
 #Region "Workspace Paths"
     Public Shared Workspace As String = Application.StartupPath & "\Workspace"
     Public Shared abl_proj As String = Application.StartupPath & "\Workspace\ableproj\abl_proj.xml"
-    Public Shared sounds As String = Application.StartupPath & "\Workspace\unipack\sounds"
+    Public Shared asounds As String = Application.StartupPath & "\Workspace\ableproj\sounds"
+    Public Shared usounds As String = Application.StartupPath & "\Workspace\unipack\sounds"
     Public Shared keySound As String = Application.StartupPath & "\Workspace\unipack\keySound"
     Public Shared CoLED As String = Application.StartupPath & "\Workspace\ableproj\CoLED"
     Public Shared keyLED As String = Application.StartupPath & "\Workspace\unipack\keyLED"
@@ -20,22 +20,19 @@ Public Class DeveloperMode_Workspace
     End Sub
 
     Private Sub DOE_Click(sender As Object, e As EventArgs) Handles DOE.Click
-        trd = New Thread(AddressOf DOEC)
-        trd.SetApartmentState(ApartmentState.MTA)
-        trd.IsBackground = True
-        trd.Start()
+        BGW_Workspace.RunWorkerAsync()
     End Sub
 
-    Private Sub DOEC()
+    Private Sub DOEC(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles BGW_Workspace.DoWork
         Try
             Dim CMDText2 As String
-            Invoke(Sub() CMDText2 = cmdText.Text.Trim())
+            CMDText2 = cmdText.Text.Trim()
             Select Case CMDText2
                 Case "/?", "/help"
                     Invoke(Sub() DebugText.Text = DebugText.Text & String.Format("{0} - {1}", Date.Now.ToString("tt hh:mm:ss"), My.Resources.CMDCode_help))
 
                 Case "/clear"
-                    Invoke(Sub() DebugText.Clear())
+                    DebugText.Clear()
 
 #Region "/del <Workspace Name>"
                 Case "/del"
@@ -60,12 +57,17 @@ Public Class DeveloperMode_Workspace
                     End If
 
                 Case "/del sounds"
-                    Invoke(Sub() DebugText.Text = DebugText.Text & String.Format("{0} - Deleting sounds...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine)
-                    If My.Computer.FileSystem.DirectoryExists(sounds) Then
-                        My.Computer.FileSystem.DeleteDirectory(sounds, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                    Invoke(Sub() DebugText.Text = DebugText.Text & String.Format("{0} - Deleting Loaded / UniPack sounds...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine)
+                    If My.Computer.FileSystem.DirectoryExists(asounds) AndAlso My.Computer.FileSystem.DirectoryExists(usounds) Then
+                        My.Computer.FileSystem.DeleteDirectory(asounds, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                        My.Computer.FileSystem.DeleteDirectory(usounds, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                    ElseIf My.Computer.FileSystem.DirectoryExists(asounds) Then
+                        My.Computer.FileSystem.DeleteDirectory(asounds, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                    ElseIf My.Computer.FileSystem.DirectoryExists(usounds) Then
+                        My.Computer.FileSystem.DeleteDirectory(asounds, FileIO.DeleteDirectoryOption.DeleteAllContents)
                         Invoke(Sub() DebugText.Text = DebugText.Text & String.Format("{0} - Deleted sounds!", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine)
                     Else
-                        Throw New Exception("The Directory 'sounds' doesn't exists.")
+                        Throw New Exception("The Directory 'sounds' (Ableton, UniPack sounds) doesn't exists.")
                     End If
 
                 Case "/del keySound"
@@ -141,88 +143,90 @@ Public Class DeveloperMode_Workspace
 
                 Case "/exists sounds"
                     Invoke(Sub()
-                               DebugText.Text = DebugText.Text & String.Format("{0} - 'sounds' Directory Exists: ", Date.Now.ToString("tt hh:mm:ss"))
-                               DebugText.Text = DebugText.Text & Convert.ToString(My.Computer.FileSystem.DirectoryExists(sounds)) & vbNewLine
+                               DebugText.Text = DebugText.Text & String.Format("{0} - 'sounds' (Ableton) Directory Exists: ", Date.Now.ToString("tt hh:mm:ss"))
+                               DebugText.Text = DebugText.Text & Convert.ToString(My.Computer.FileSystem.DirectoryExists(asounds)) & vbNewLine
+                               DebugText.Text = DebugText.Text & String.Format("{0} - 'sounds' (UniPack) Directory Exists: ", Date.Now.ToString("tt hh:mm:ss"))
+                               DebugText.Text = DebugText.Text & Convert.ToString(My.Computer.FileSystem.DirectoryExists(usounds)) & vbNewLine
                            End Sub)
 
                 Case "/exists keySound"
-                    Invoke(Sub()
-                               DebugText.Text = DebugText.Text & String.Format("{0} - 'keySound' File Exists: ", Date.Now.ToString("tt hh:mm:ss"))
-                               DebugText.Text = DebugText.Text & Convert.ToString(File.Exists(keySound)) & vbNewLine
-                           End Sub)
+                              Invoke(Sub()
+                                         DebugText.Text = DebugText.Text & String.Format("{0} - 'keySound' File Exists: ", Date.Now.ToString("tt hh:mm:ss"))
+                                         DebugText.Text = DebugText.Text & Convert.ToString(File.Exists(keySound)) & vbNewLine
+                                     End Sub)
 
-                Case "/exists CoLED"
-                    Invoke(Sub()
-                               DebugText.Text = DebugText.Text & String.Format("{0} - 'CoLED' Directory Exists: ", Date.Now.ToString("tt hh:mm:ss"))
-                               DebugText.Text = DebugText.Text & Convert.ToString(My.Computer.FileSystem.DirectoryExists(CoLED)) & vbNewLine
-                           End Sub)
+                              Case "/exists CoLED"
+                              Invoke(Sub()
+                                         DebugText.Text = DebugText.Text & String.Format("{0} - 'CoLED' Directory Exists: ", Date.Now.ToString("tt hh:mm:ss"))
+                                         DebugText.Text = DebugText.Text & Convert.ToString(My.Computer.FileSystem.DirectoryExists(CoLED)) & vbNewLine
+                                     End Sub)
 
-                Case "/exists keyLED"
-                    Invoke(Sub()
-                               DebugText.Text = DebugText.Text & String.Format("{0} - 'keyLED' Directory Exists: ", Date.Now.ToString("tt hh:mm:ss"))
-                               DebugText.Text = DebugText.Text & Convert.ToString(My.Computer.FileSystem.DirectoryExists(keyLED)) & vbNewLine
-                           End Sub)
+                              Case "/exists keyLED"
+                              Invoke(Sub()
+                                         DebugText.Text = DebugText.Text & String.Format("{0} - 'keyLED' Directory Exists: ", Date.Now.ToString("tt hh:mm:ss"))
+                                         DebugText.Text = DebugText.Text & Convert.ToString(My.Computer.FileSystem.DirectoryExists(keyLED)) & vbNewLine
+                                     End Sub)
 
-                Case "/exists info"
-                    Invoke(Sub()
-                               DebugText.Text = DebugText.Text & String.Format("{0} - 'info' File Exists: ", Date.Now.ToString("tt hh:mm:ss"))
-                               DebugText.Text = DebugText.Text & Convert.ToString(File.Exists(info)) & vbNewLine
-                           End Sub)
+                              Case "/exists info"
+                              Invoke(Sub()
+                                         DebugText.Text = DebugText.Text & String.Format("{0} - 'info' File Exists: ", Date.Now.ToString("tt hh:mm:ss"))
+                                         DebugText.Text = DebugText.Text & Convert.ToString(File.Exists(info)) & vbNewLine
+                                     End Sub)
 
-                Case "/exists ksTmp"
-                    Invoke(Sub()
-                               DebugText.Text = DebugText.Text & String.Format("{0} - 'ksTmp.txt' File Exists: ", Date.Now.ToString("tt hh:mm:ss"))
-                               DebugText.Text = DebugText.Text & Convert.ToString(File.Exists(ksTmp)) & vbNewLine
-                           End Sub)
+                              Case "/exists ksTmp"
+                              Invoke(Sub()
+                                         DebugText.Text = DebugText.Text & String.Format("{0} - 'ksTmp.txt' File Exists: ", Date.Now.ToString("tt hh:mm:ss"))
+                                         DebugText.Text = DebugText.Text & Convert.ToString(File.Exists(ksTmp)) & vbNewLine
+                                     End Sub)
 
-                Case "/exists KeyTracks"
-                    Invoke(Sub()
-                               DebugText.Text = DebugText.Text & String.Format("{0} - 'KeyTracks.xml' File Exists: ", Date.Now.ToString("tt hh:mm:ss"))
-                               DebugText.Text = DebugText.Text & Convert.ToString(File.Exists(KeyTracks)) & vbNewLine
-                           End Sub)
+                              Case "/exists KeyTracks"
+                              Invoke(Sub()
+                                         DebugText.Text = DebugText.Text & String.Format("{0} - 'KeyTracks.xml' File Exists: ", Date.Now.ToString("tt hh:mm:ss"))
+                                         DebugText.Text = DebugText.Text & Convert.ToString(File.Exists(KeyTracks)) & vbNewLine
+                                     End Sub)
 #End Region
 
 #Region "/enable <Mode Name>"
-                Case "/enable"
-                    Invoke(Sub() DebugText.Text = DebugText.Text & String.Format("{0} - Command Usage: '/enable <ModeName>'", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine)
+                              Case "/enable"
+                              Invoke(Sub() DebugText.Text = DebugText.Text & String.Format("{0} - Command Usage: '/enable <ModeName>'", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine)
 
-                Case "/enable DeveloperMode"
-                    If File.Exists(MainProject.LicenseFile) Then Throw New Exception("'Developer Mode' License already exists.")
+                              Case "/enable DeveloperMode"
+                              If File.Exists(MainProject.LicenseFile) Then Throw New Exception("'Developer Mode' License already exists.")
 
-                    Invoke(Sub()
-                               DebugText.Text = DebugText.Text & String.Format("{0} - Enabling Developer Mode...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
-                               DebugText.Text = DebugText.Text & String.Format("{0} - Encoding Developer Mode's License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
-                               DebugText.Text = DebugText.Text & String.Format("{0} - Writing Developer Mode's License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
-                               DebugText.Text = DebugText.Text & String.Format("{0} - Encrypting Developer Mode's License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
-                           End Sub)
-                    File.WriteAllText(MainProject.LicenseFile, My.Resources.LicenseText)
-                    Invoke(Sub() DebugText.Text = DebugText.Text & String.Format("{0} - Enabled Developer Mode!", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine)
+                              Invoke(Sub()
+                                         DebugText.Text = DebugText.Text & String.Format("{0} - Enabling Developer Mode...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                                         DebugText.Text = DebugText.Text & String.Format("{0} - Encoding Developer Mode's License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                                         DebugText.Text = DebugText.Text & String.Format("{0} - Writing Developer Mode's License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                                         DebugText.Text = DebugText.Text & String.Format("{0} - Encrypting Developer Mode's License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                                     End Sub)
+                              File.WriteAllText(MainProject.LicenseFile, My.Resources.LicenseText)
+                              Invoke(Sub() DebugText.Text = DebugText.Text & String.Format("{0} - Enabled Developer Mode!", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine)
 #End Region
 
 #Region "/disable <Mode Name>"
-                Case "/disable"
-                    Invoke(Sub() DebugText.Text = DebugText.Text & String.Format("{0} - Command Usage: '/disable <ModeName>'", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine)
+                              Case "/disable"
+                              Invoke(Sub() DebugText.Text = DebugText.Text & String.Format("{0} - Command Usage: '/disable <ModeName>'", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine)
 
-                Case "/disable DeveloperMode"
-                    If File.Exists(MainProject.LicenseFile) = False Then Throw New Exception("'Developer Mode' License doesn't exists.")
+                              Case "/disable DeveloperMode"
+                              If File.Exists(MainProject.LicenseFile) = False Then Throw New Exception("'Developer Mode' License doesn't exists.")
 
-                    Invoke(Sub()
-                               DebugText.Text = DebugText.Text & String.Format("{0} - Disabling Developer Mode...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
-                               DebugText.Text = DebugText.Text & String.Format("{0} - Decrypting Developer Mode's License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
-                               DebugText.Text = DebugText.Text & String.Format("{0} - Decoding Developer Mode's License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
-                               DebugText.Text = DebugText.Text & String.Format("{0} - Reading Developer Mode's License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
-                               DebugText.Text = DebugText.Text & String.Format("{0} - Deleting Developer Mode's License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
-                           End Sub)
-                    File.Delete(MainProject.LicenseFile)
-                    Invoke(Sub()
-                               DebugText.Text = DebugText.Text & String.Format("{0} - Disabled Developer Mode!", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
-                               DebugText.Text = DebugText.Text & String.Format("{0} - UniConverter will reboot after 3 seconds for refresh Codes...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
-                               RebootTimer.Start()
-                           End Sub)
+                              Invoke(Sub()
+                                         DebugText.Text = DebugText.Text & String.Format("{0} - Disabling Developer Mode...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                                         DebugText.Text = DebugText.Text & String.Format("{0} - Decrypting Developer Mode's License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                                         DebugText.Text = DebugText.Text & String.Format("{0} - Decoding Developer Mode's License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                                         DebugText.Text = DebugText.Text & String.Format("{0} - Reading Developer Mode's License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                                         DebugText.Text = DebugText.Text & String.Format("{0} - Deleting Developer Mode's License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                                     End Sub)
+                              File.Delete(MainProject.LicenseFile)
+                              Invoke(Sub()
+                                         DebugText.Text = DebugText.Text & String.Format("{0} - Disabled Developer Mode!", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                                         DebugText.Text = DebugText.Text & String.Format("{0} - UniConverter will reboot after 3 seconds for refresh Codes...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                                         RebootTimer.Start()
+                                     End Sub)
 #End Region
 
-                Case Else
-                    Invoke(Sub() DebugText.Text = DebugText.Text & String.Format("{0} - Type '/?' or '/help' to help.", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine)
+                              Case Else
+                              Invoke(Sub() DebugText.Text = DebugText.Text & String.Format("{0} - Type '/?' or '/help' to help.", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine)
             End Select
 
         Catch ex As Exception

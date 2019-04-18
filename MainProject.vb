@@ -233,15 +233,13 @@ Public Class MainProject
         Try
             Dim FileNames = ofd_FileNames
 
-            Invoke(Sub()
-                       Loading.Show()
-                       Loading.Text = Me.Text & ": Loading LED Files..."
+            Loading.Show()
+            Loading.Text = Me.Text & ": Loading LED Files..."
                        FileNames = ofd_FileNames
                        Loading.DPr.Maximum = FileNames.Length
                        Loading.DLb.Left = 40
                        Loading.DLb.Text = "Loading LED Files..."
                        Loading.DLb.Refresh()
-                   End Sub)
 
             If Dir("Workspace\ableproj\CoLED", vbDirectory) <> "" Then
                 My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\CoLED", FileIO.DeleteDirectoryOption.DeleteAllContents)
@@ -249,19 +247,25 @@ Public Class MainProject
 OpenLine:
                 For i = 0 To FileNames.Length - 1
                     File.Copy(FileNames(i), "Workspace\ableproj\CoLED\" & FileNames(i).Split("\").Last, True)
-                    Invoke(Sub()
-                               Loading.DPr.Style = ProgressBarStyle.Continuous
-                               Loading.DPr.Value += 1
-                               Loading.DLb.Left = 40
-                               Loading.DLb.Text = String.Format(loading_LED_open_msg, Loading.DPr.Value, FileNames.Length)
-                               Loading.DLb.Refresh()
-                           End Sub)
+                    Loading.DPr.Style = ProgressBarStyle.Continuous
+                    Loading.DPr.Value += 1
+                    Loading.DLb.Left = 40
+                    Loading.DLb.Text = String.Format(loading_LED_open_msg, Loading.DPr.Value, FileNames.Length)
+                    Loading.DLb.Refresh()
                 Next
-                Invoke(Sub() Loading.DPr.Value = Loading.DPr.Maximum)
+
+                Loading.DPr.Value = Loading.DPr.Maximum
+                Loading.DPr.Style = ProgressBarStyle.Marquee
+                Loading.DPr.Refresh()
+                Loading.DLb.Left = 40
+                Loading.DLb.Text = "Loaded Sound Files. Please Wait..."
+                Loading.DLb.Refresh()
             Else
                 My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\CoLED")
                 GoTo OpenLine
             End If
+
+            Loading.Dispose()
         Catch ex As Exception
             MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             e.Cancel = True
@@ -276,7 +280,6 @@ OpenLine:
             ElseIf e.Cancelled Then
                 Exit Sub
             Else
-                Loading.Dispose()
                 If abl_openedled = True Then
                     abl_openedled = True
                     If OpenProjectOnce = False Then
@@ -810,7 +813,9 @@ SaveInfoLine:
         Try
             For Each unipack_sounds As ListViewItem In keySound_ListView.Items
                 Dim keySoundTxt As String = File.ReadAllText(Application.StartupPath & "\Workspace\unipack\keySound")
+                Dim WavName As String
 
+                WavName = unipack_sounds.SubItems(1).Text
             Next
 
         Catch ex As Exception
@@ -820,15 +825,14 @@ SaveInfoLine:
 
     Public Sub OpenSounds(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles BGW_sounds.DoWork
         Dim FileNames() As String
-        Invoke(Sub()
-                   Loading.Show()
+
+        Loading.Show()
                    Loading.Text = Me.Text & ": Loading Sound Files..."
                    FileNames = ofd_FileNames
                    Loading.DPr.Maximum = FileNames.Length
                    Loading.DLb.Left = 40
                    Loading.DLb.Text = "Loading Sound Files..."
-                   Loading.DLb.Refresh()
-               End Sub)
+        Loading.DLb.Refresh()
 
         If Path.GetExtension(FileNames(FileNames.Length - 1)) = ".wav" Then
 
@@ -841,13 +845,11 @@ SaveInfoLine:
 
             For i = 0 To FileNames.Length - 1
                 File.Copy(FileNames(i), "Workspace\ableproj\sounds\" & FileNames(i).Split("\").Last, True)
-                Invoke(Sub()
-                           Loading.DPr.Style = ProgressBarStyle.Continuous
+                Loading.DPr.Style = ProgressBarStyle.Continuous
                            Loading.DPr.Value += 1
                            Loading.DLb.Left = 40
                            Loading.DLb.Text = String.Format(loading_Sound_Open_msg, Loading.DPr.Value, FileNames.Length)
-                           Loading.DLb.Refresh()
-                       End Sub)
+                Loading.DLb.Refresh()
             Next
 
         ElseIf Path.GetExtension(FileNames(FileNames.Length - 1)) = ".mp3" Then
@@ -870,13 +872,11 @@ fexLine:
                     If File.Exists(foundFile.Replace(".mp3", ".wav")) Then
                         File.Move(foundFile.Replace(".mp3", ".wav"), "Workspace\ableproj\sounds\" & Path.GetFileName(foundFile.Replace(".mp3", ".wav")))
                         File.Delete(foundFile)
-                        Invoke(Sub()
-                                   Loading.DPr.Style = ProgressBarStyle.Continuous
+                        Loading.DPr.Style = ProgressBarStyle.Continuous
                                    Loading.DPr.Value += 1
                                    Loading.DLb.Left = 40
                                    Loading.DLb.Text = String.Format(loading_Sound_Open_msg, Loading.DPr.Value, ofd.FileNames.Length)
                                    Loading.DLb.Refresh()
-                               End Sub)
                     End If
                 Next
             Catch fex As IOException 'I/O 오류 해결 코드.
@@ -886,57 +886,60 @@ fexLine:
         End If
 
         '-After Loading WAV/MP3!
-        Invoke(Sub()
-                   Loading.DPr.Value = Loading.DPr.Maximum
-                   If Loading.DPr.Value = FileNames.Length Then
-                       If FileNames.Length = Directory.GetFiles(Application.StartupPath & "\Workspace\ableproj\sounds\", "*.wav").Length Then
-                           If Not abl_openedsnd = True Then
-                               Sound_ListView.Items.Clear()
-                               keySound_ListView.Items.Clear()
-                               For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\ableproj\sounds", FileIO.SearchOption.SearchTopLevelOnly, "*.wav")
-                                   Dim SndInfo As New WaveFileReader(foundFile)
-                                   Sound_ListView.Items.Add(New ListViewItem({Path.GetFileName(foundFile), SndInfo.TotalTime.Minutes & ":" & SndInfo.TotalTime.Seconds & "." & SndInfo.TotalTime.Milliseconds, ""}))
-                               Next
+        Loading.DPr.Value = Loading.DPr.Maximum
+        If Loading.DPr.Value = FileNames.Length Then
+            If FileNames.Length = Directory.GetFiles(Application.StartupPath & "\Workspace\ableproj\sounds\", "*.wav").Length Then
+                Loading.DPr.Style = ProgressBarStyle.Marquee
+                Loading.DPr.Refresh()
+                Loading.DLb.Left = 40
+                Loading.DLb.Text = "Loaded Sound Files. Please Wait..."
+                Loading.DLb.Refresh()
+                If Not abl_openedsnd = True Then
+                    Sound_ListView.Items.Clear()
+                    keySound_ListView.Items.Clear()
+                    For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\ableproj\sounds", FileIO.SearchOption.SearchTopLevelOnly, "*.wav")
+                        Dim SndInfo As New WaveFileReader(foundFile)
+                        Sound_ListView.Items.Add(New ListViewItem({Path.GetFileName(foundFile), SndInfo.TotalTime.Minutes & ":" & SndInfo.TotalTime.Seconds & "." & SndInfo.TotalTime.Milliseconds, ""}))
+                    Next
 
-                               Loading.Dispose()
-                               If OpenProjectOnce = False Then MessageBox.Show("Sounds Loaded!" & vbNewLine & "You can edit keySound in keySound Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                               abl_openedsnd = True
+                    Loading.Dispose()
+                    If OpenProjectOnce = False Then MessageBox.Show("Sounds Loaded!" & vbNewLine & "You can edit keySound in keySound Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    abl_openedsnd = True
 
-                               For Each itm As ListViewItem In Sound_ListView.Items
-                                   LLV.Items.Add(New ListViewItem({itm.SubItems(0).Text, itm.SubItems(1).Text, itm.SubItems(2).Text}))
-                               Next
-                           Else
-                               Sound_ListView.Items.Clear()
-                               keySound_ListView.Items.Clear()
+                    For Each itm As ListViewItem In Sound_ListView.Items
+                        LLV.Items.Add(New ListViewItem({itm.SubItems(0).Text, itm.SubItems(1).Text, itm.SubItems(2).Text}))
+                    Next
+                Else
+                    Sound_ListView.Items.Clear()
+                    keySound_ListView.Items.Clear()
 
 
-                               For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\ableproj\sounds", FileIO.SearchOption.SearchTopLevelOnly, "*.wav")
-                                   Dim SndInfo As New WaveFileReader(foundFile)
-                                   Sound_ListView.Items.Add(New ListViewItem({Path.GetFileName(foundFile), SndInfo.TotalTime.Minutes & ":" & SndInfo.TotalTime.Seconds & "." & SndInfo.TotalTime.Milliseconds, ""}))
-                               Next
+                    For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\ableproj\sounds", FileIO.SearchOption.SearchTopLevelOnly, "*.wav")
+                        Dim SndInfo As New WaveFileReader(foundFile)
+                        Sound_ListView.Items.Add(New ListViewItem({Path.GetFileName(foundFile), SndInfo.TotalTime.Minutes & ":" & SndInfo.TotalTime.Seconds & "." & SndInfo.TotalTime.Milliseconds, ""}))
+                    Next
 
-                               Loading.Dispose()
-                               If OpenProjectOnce = False Then MessageBox.Show("Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                               abl_openedsnd = True
+                    Loading.Dispose()
+                    If OpenProjectOnce = False Then MessageBox.Show("Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    abl_openedsnd = True
 
-                               For Each itm As ListViewItem In Sound_ListView.Items
-                                   LLV.Items.Add(New ListViewItem({itm.SubItems(0).Text, itm.SubItems(1).Text, itm.SubItems(2).Text}))
-                               Next
+                    For Each itm As ListViewItem In Sound_ListView.Items
+                        LLV.Items.Add(New ListViewItem({itm.SubItems(0).Text, itm.SubItems(1).Text, itm.SubItems(2).Text}))
+                    Next
 
-                               If abl_openedsnd = True Then
-                                   For Each FoundItem As ListViewItem In TVLV.Items
-                                       keySound_ListView.Items.Add(New ListViewItem({FoundItem.SubItems(0).Text, FoundItem.SubItems(1).Text, FoundItem.SubItems(2).Text, FoundItem.SubItems(3).Text}))
-                                   Next
-                               End If
+                    If abl_openedsnd = True Then
+                        For Each FoundItem As ListViewItem In TVLV.Items
+                            keySound_ListView.Items.Add(New ListViewItem({FoundItem.SubItems(0).Text, FoundItem.SubItems(1).Text, FoundItem.SubItems(2).Text, FoundItem.SubItems(3).Text}))
+                        Next
+                    End If
 
-                           End If
-                       Else
-                           MessageBox.Show("Error! - Code: MaxFileLength.Value = GetFiles.Length", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-                       End If
-                   Else
-                       MessageBox.Show("Error! - Code: LoadedFiles.Value = MaxFileLength.Value", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-                   End If
-               End Sub)
+                End If
+            Else
+                MessageBox.Show("Error! - Code: MaxFileLength.Value = GetFiles.Length", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+        Else
+            MessageBox.Show("Error! - Code: LoadedFiles.Value = MaxFileLength.Value", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
     End Sub
 
     Private Sub BGW_sounds_Completed(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles BGW_sounds.RunWorkerCompleted

@@ -27,6 +27,7 @@ Partial Class DeveloperMode_Workspace
         Me.cmdText = New System.Windows.Forms.TextBox()
         Me.DOE = New System.Windows.Forms.Button()
         Me.RebootTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.BGW_Workspace = New System.ComponentModel.BackgroundWorker()
         Me.SuspendLayout()
         '
         'DebugText
@@ -82,4 +83,5 @@ Partial Class DeveloperMode_Workspace
     Friend WithEvents cmdText As TextBox
     Friend WithEvents DOE As Button
     Friend WithEvents RebootTimer As Timer
+    Friend WithEvents BGW_Workspace As System.ComponentModel.BackgroundWorker
 End Class
