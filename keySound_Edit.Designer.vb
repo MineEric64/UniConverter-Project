@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class EditkeySound
+Partial Class keySound_Edit
     Inherits System.Windows.Forms.Form
 
     'Form은 Dispose를 재정의하여 구성 요소 목록을 정리합니다.
@@ -125,6 +125,7 @@ Partial Class EditkeySound
         Me.keySoundTextBox.CharWidth = 8
         Me.keySoundTextBox.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.keySoundTextBox.DisabledColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer))
+        Me.keySoundTextBox.Font = New System.Drawing.Font("Courier New", 9.75!)
         Me.keySoundTextBox.IsReplaceMode = False
         Me.keySoundTextBox.Location = New System.Drawing.Point(12, 0)
         Me.keySoundTextBox.Name = "keySoundTextBox"
@@ -1119,7 +1120,7 @@ Partial Class EditkeySound
         Me.CancelButton3.Text = "Cancel"
         Me.CancelButton3.UseVisualStyleBackColor = True
         '
-        'EditkeySound
+        'keySound_Edit
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -1138,7 +1139,7 @@ Partial Class EditkeySound
         Me.Controls.Add(Me.keySoundTextBox)
         Me.Controls.Add(Me.SaveButton)
         Me.KeyPreview = True
-        Me.Name = "EditkeySound"
+        Me.Name = "keySound_Edit"
         Me.Text = "Editing keySound!"
         CType(Me.keySoundTextBox, System.ComponentModel.ISupportInitialize).EndInit()
         Me.PadLayoutPanel.ResumeLayout(False)

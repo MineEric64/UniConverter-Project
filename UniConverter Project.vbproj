@@ -113,10 +113,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationEvents.vb" />
-    <Compile Include="CuttingSound.Designer.vb">
-      <DependentUpon>CuttingSound.vb</DependentUpon>
+    <Compile Include="Sound_Cutting.Designer.vb">
+      <DependentUpon>Sound_Cutting.vb</DependentUpon>
     </Compile>
-    <Compile Include="CuttingSound.vb">
+    <Compile Include="Sound_Cutting.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="DeveloperMode_Main.Designer.vb">
@@ -137,10 +137,10 @@
     <Compile Include="DeveloperMode_Workspace.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EditkeySound.Designer.vb">
-      <DependentUpon>EditkeySound.vb</DependentUpon>
+    <Compile Include="keySound_Edit.Designer.vb">
+      <DependentUpon>keySound_Edit.vb</DependentUpon>
     </Compile>
-    <Compile Include="EditkeySound.vb">
+    <Compile Include="keySound_Edit.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Loading.Designer.vb">
@@ -172,10 +172,10 @@
     <Compile Include="keyLED_Edit.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LEDEdit_Advanced.Designer.vb">
-      <DependentUpon>LEDEdit_Advanced.vb</DependentUpon>
+    <Compile Include="keyLED_Edit_Advanced.Designer.vb">
+      <DependentUpon>keyLED_Edit_Advanced.vb</DependentUpon>
     </Compile>
-    <Compile Include="LEDEdit_Advanced.vb">
+    <Compile Include="keyLED_Edit_Advanced.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainProject.vb">
@@ -221,8 +221,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="CuttingSound.resx">
-      <DependentUpon>CuttingSound.vb</DependentUpon>
+    <EmbeddedResource Include="Sound_Cutting.resx">
+      <DependentUpon>Sound_Cutting.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DeveloperMode_Main.resx">
       <DependentUpon>DeveloperMode_Main.vb</DependentUpon>
@@ -233,8 +233,8 @@
     <EmbeddedResource Include="DeveloperMode_Workspace.resx">
       <DependentUpon>DeveloperMode_Workspace.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EditkeySound.resx">
-      <DependentUpon>EditkeySound.vb</DependentUpon>
+    <EmbeddedResource Include="keySound_Edit.resx">
+      <DependentUpon>keySound_Edit.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Loading.resx">
       <DependentUpon>Loading.vb</DependentUpon>
@@ -245,8 +245,8 @@
     <EmbeddedResource Include="keyLED_Edit.resx">
       <DependentUpon>keyLED_Edit.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LEDEdit_Advanced.resx">
-      <DependentUpon>LEDEdit_Advanced.vb</DependentUpon>
+    <EmbeddedResource Include="keyLED_Edit_Advanced.resx">
+      <DependentUpon>keyLED_Edit_Advanced.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainProject.resx">
       <DependentUpon>MainProject.vb</DependentUpon>

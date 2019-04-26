@@ -1,7 +1,8 @@
 ﻿Imports System.IO
 Imports System.Text.RegularExpressions
+Imports System.Media
 
-Public Class EditkeySound
+Public Class keySound_Edit
 #Region "keySound Variables"
     ''' <summary>
     ''' 선택한 체인. (1~8)
@@ -192,7 +193,7 @@ Public Class EditkeySound
 
     Private Sub keySoundLayoutButton_Click(sender As Object, e As EventArgs) Handles keySoundLayoutButton.Click
         Try
-            If keySoundLayoutTrue = False Then EkeySoundLayout()
+            If keySoundLayoutTrue = False Then SREkeySoundLayout()
 
             For x As Integer = 1 To 8
                 For y As Integer = 1 To 8
@@ -207,7 +208,7 @@ Public Class EditkeySound
             Dim loi As Integer = 1
             Dim btnText As String = ""
             Dim ksTmpTXT As String = Application.StartupPath & "\Workspace\ksTmp.txt"
-            If Not keySoundTextBox.Text = "" Then
+            If String.IsNullOrWhiteSpace(keySoundTextBox.Text) = False AndAlso String.IsNullOrEmpty(keySoundTextBox.Text) = False Then
                 If Not keySoundTextBox.Text = Environment.NewLine Then
 
                     Dim keySoundText As String
@@ -222,10 +223,9 @@ Public Class EditkeySound
                     End If
 
                     For Each strLine As String In File.ReadAllText(ksTmpTXT).Split(Environment.NewLine) 'String을 각 라인마다 자름.
-
                         If loi = 1 Then
-                            If Not strLine = "" Then
-                                If Not strLine.StartsWith(vbNewLine) Then
+                            If Not String.IsNullOrWhiteSpace(strLine) = False AndAlso String.IsNullOrEmpty(strLine) = False Then
+                                If strLine.Contains(Environment.NewLine) = False OrElse strLine = Environment.NewLine Then
                                     Select Case CInt(Mid(strLine, 1, 1))
                                         Case 1 To 8
                                             'Continue.
@@ -268,7 +268,7 @@ Public Class EditkeySound
                             End If
                         Else
                             If Not strLine.Remove(0, 1) = "" Then
-                                If Not strLine.Remove(0, 1).StartsWith(vbNewLine) Then
+                                If Not strLine.Remove(0, 1).Contains(vbNewLine) Then
                                     Select Case CInt(Mid(strLine.Remove(0, 1), 1, 1))
                                         Case 1 To 8
                                             'Continue.
@@ -300,22 +300,22 @@ Public Class EditkeySound
                         End If
 
                         If keySound_Mapping > 0 Then '기본적인 사운드 매핑.
-                                btnText = keySound_Mapping
-                            End If
+                            btnText = keySound_Mapping
+                        End If
 
+                        If keySound_SameM > 0 Then
+                            btnText = keySound_SameM
+                        End If
+
+                        If keySound_DifM > 1 Then '사운드 다중 매핑.
                             If keySound_SameM > 0 Then
-                                btnText = keySound_SameM
+                                btnText = keySound_DifM + keySound_SameM
+                            Else
+                                btnText = keySound_DifM
                             End If
+                        End If
 
-                            If keySound_DifM > 1 Then '사운드 다중 매핑.
-                                If keySound_SameM > 0 Then
-                                    btnText = keySound_DifM + keySound_SameM
-                                Else
-                                    btnText = keySound_DifM
-                                End If
-                            End If
-
-                            ctrl(UniPack_X & UniPack_Y).BackColor = Color.Green
+                        ctrl(UniPack_X & UniPack_Y).BackColor = Color.Green
                         ctrl(UniPack_X & UniPack_Y).Text = btnText
                     Next
                 End If
@@ -594,19 +594,17 @@ Public Class EditkeySound
         End If
     End Sub
 
-    Private Sub EkeySoundLayout()
-        With Me
-            .PadLayoutPanel.Enabled = True
-            .btnPad_chain1.Enabled = True
-            .btnPad_chain2.Enabled = True
-            .btnPad_chain3.Enabled = True
-            .btnPad_chain4.Enabled = True
-            .btnPad_chain5.Enabled = True
-            .btnPad_chain6.Enabled = True
-            .btnPad_chain7.Enabled = True
-            .btnPad_chain8.Enabled = True
-            .keySoundLayoutTrue = True
-        End With
+    Private Sub SREkeySoundLayout()
+        PadLayoutPanel.Enabled = True
+        btnPad_chain1.Enabled = True
+        btnPad_chain2.Enabled = True
+        btnPad_chain3.Enabled = True
+        btnPad_chain4.Enabled = True
+        btnPad_chain5.Enabled = True
+        btnPad_chain6.Enabled = True
+        btnPad_chain7.Enabled = True
+        btnPad_chain8.Enabled = True
+        keySoundLayoutTrue = True
     End Sub
 
     Private Sub UniPadButtons_Click(sender As Object, e As EventArgs) Handles uni1_1.MouseDown, uni1_2.MouseDown, uni1_3.MouseDown, uni1_4.MouseDown, uni1_5.MouseDown, uni1_6.MouseDown, uni1_7.MouseDown, uni1_8.MouseDown, uni2_1.MouseDown, uni2_2.MouseDown, uni2_3.MouseDown, uni2_4.MouseDown, uni2_5.MouseDown, uni2_6.MouseDown, uni2_7.MouseDown, uni2_8.MouseDown, uni3_1.MouseDown, uni3_2.MouseDown, uni3_3.MouseDown, uni3_4.MouseDown, uni3_5.MouseDown, uni3_6.MouseDown, uni3_7.MouseDown, uni3_8.MouseDown, uni4_1.MouseDown, uni4_2.MouseDown, uni4_3.MouseDown, uni4_4.MouseDown, uni4_5.MouseDown, uni4_6.MouseDown, uni4_7.MouseDown, uni4_8.MouseDown, uni5_1.MouseDown, uni5_2.MouseDown, uni5_3.MouseDown, uni5_4.MouseDown, uni5_5.MouseDown, uni5_6.MouseDown, uni5_7.MouseDown, uni5_8.MouseDown, uni6_1.MouseDown, uni6_2.MouseDown, uni6_3.MouseDown, uni6_4.MouseDown, uni6_5.MouseDown, uni6_6.MouseDown, uni6_7.MouseDown, uni6_8.MouseDown, uni7_1.MouseDown, uni7_2.MouseDown, uni7_3.MouseDown, uni7_4.MouseDown, uni7_5.MouseDown, uni7_6.MouseDown, uni7_7.MouseDown, uni7_8.MouseDown, uni8_1.MouseDown, uni8_2.MouseDown, uni8_3.MouseDown, uni8_4.MouseDown, uni8_5.MouseDown, uni8_6.MouseDown, uni8_7.MouseDown, uni8_8.MouseDown
@@ -628,15 +626,21 @@ Public Class EditkeySound
                     For Each WavFileName As String In strLine.Split(" ") 'Split(" ")의 경우에는 loi가 필요 없음.
                         If WavFileName.Contains(".wav") Then
                             WavFile = WavFileName
+                            Dim WavFie As New SoundPlayer(Application.StartupPath & "\Workspace\unipack\sounds\" & WavFile)
+                            WavFie.Load()
+                            WavFie.Play()
                             If File.Exists(Application.StartupPath & "\Workspace\unipack\sounds\" & WavFile) Then
                                 If Strings.Right(strLine, 4) = ".wav" Then
-                                    My.Computer.Audio.Play(Application.StartupPath & "\Workspace\unipack\sounds\" & WavFile, AudioPlayMode.Background)
+                                    'My.Computer.Audio.Play(Application.StartupPath & "\Workspace\unipack\sounds\" & WavFile, AudioPlayMode.Background)
+
                                     If keySoundLoop = True Then keySoundLoop = False
                                 ElseIf Strings.Right(strLine, 1) = "1" Then
-                                    My.Computer.Audio.Play(Application.StartupPath & "\Workspace\unipack\sounds\" & WavFile, AudioPlayMode.Background)
+                                    'My.Computer.Audio.Play(Application.StartupPath & "\Workspace\unipack\sounds\" & WavFile, AudioPlayMode.Background)
+
                                     If keySoundLoop = True Then keySoundLoop = False
                                 ElseIf Strings.Right(strLine, 1) = "0" Then
-                                    My.Computer.Audio.Play(Application.StartupPath & "\Workspace\unipack\sounds\" & WavFile, AudioPlayMode.BackgroundLoop)
+                                    'My.Computer.Audio.Play(Application.StartupPath & "\Workspace\unipack\sounds\" & WavFile, AudioPlayMode.BackgroundLoop)
+
                                     keySoundLoop = True
                                 Else
                                     For i As Integer = 1 To CInt(Strings.Right(strLine, 1))

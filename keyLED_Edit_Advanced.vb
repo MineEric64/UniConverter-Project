@@ -1,6 +1,6 @@
 ﻿Imports NAudio.Wave
 
-Public Class LEDEdit_Advanced
+Public Class keyLED_Edit_Advanced
     Private Sub Load_Timer_Tick(sender As Object, e As EventArgs) Handles Load_Timer.Tick
         Dim AdvChk_Checked As Boolean
 

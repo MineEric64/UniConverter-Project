@@ -52,16 +52,16 @@ Partial Class Info
         '
         Me.TipText1.AutoSize = True
         Me.TipText1.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.TipText1.Location = New System.Drawing.Point(35, 211)
+        Me.TipText1.Location = New System.Drawing.Point(24, 205)
         Me.TipText1.Name = "TipText1"
-        Me.TipText1.Size = New System.Drawing.Size(321, 14)
+        Me.TipText1.Size = New System.Drawing.Size(363, 14)
         Me.TipText1.TabIndex = 3
-        Me.TipText1.Text = "ⓒ 2018 MineEric (최에릭), Follow_JB All Rights Reserved."
+        Me.TipText1.Text = "ⓒ 2018 ~ 2019 MineEric (최에릭), Follow_JB All Rights Reserved."
         '
         'ModeE
         '
         Me.ModeE.Font = New System.Drawing.Font("나눔바른고딕", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.ModeE.Location = New System.Drawing.Point(77, 228)
+        Me.ModeE.Location = New System.Drawing.Point(77, 222)
         Me.ModeE.Name = "ModeE"
         Me.ModeE.Size = New System.Drawing.Size(169, 21)
         Me.ModeE.TabIndex = 4
@@ -69,7 +69,7 @@ Partial Class Info
         'OKButton
         '
         Me.OKButton.Font = New System.Drawing.Font("나눔고딕", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.OKButton.Location = New System.Drawing.Point(252, 228)
+        Me.OKButton.Location = New System.Drawing.Point(252, 222)
         Me.OKButton.Name = "OKButton"
         Me.OKButton.Size = New System.Drawing.Size(75, 23)
         Me.OKButton.TabIndex = 5

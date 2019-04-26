@@ -78,25 +78,25 @@ Public Class keyLED_Edit
                                    End If
 #Region "Advanced Delay Mode"
                                    If AdvChk.Checked = True Then
-                                       If LEDEdit_Advanced.DelayMode1.Text = "Note Length" Then
-                                           If LEDEdit_Advanced.DelayConvert1_1.Checked = True Then
+                                       If keyLED_Edit_Advanced.DelayMode1.Text = "Note Length" Then
+                                           If keyLED_Edit_Advanced.DelayConvert1_1.Checked = True Then
                                                str = str & vbNewLine & "d " & a.NoteLength
-                                           ElseIf LEDEdit_Advanced.DelayConvert1_2.Checked = True Then
+                                           ElseIf keyLED_Edit_Advanced.DelayConvert1_2.Checked = True Then
                                                If Not a.DeltaTime = 0 Then
                                                    Dim b As New A2U
                                                    str = str & vbNewLine & "d " & b.GetNoteDelay(b.keyLED_AC.T_NoteLength1, 120, 192, a.NoteLength)
                                                End If
                                            End If
                                        End If
-                                       If LEDEdit_Advanced.DelayMode1.Text = "Delta Time" Then
-                                           If LEDEdit_Advanced.DelayConvert2_1.Checked = True Then
+                                       If keyLED_Edit_Advanced.DelayMode1.Text = "Delta Time" Then
+                                           If keyLED_Edit_Advanced.DelayConvert2_1.Checked = True Then
                                                str = str & vbNewLine & "d " & a.DeltaTime
                                            End If
                                        End If
-                                       If LEDEdit_Advanced.DelayMode1.Text = "Absolute Time" Then
-                                           If LEDEdit_Advanced.DelayConvert3_1.Checked = True Then
+                                       If keyLED_Edit_Advanced.DelayMode1.Text = "Absolute Time" Then
+                                           If keyLED_Edit_Advanced.DelayConvert3_1.Checked = True Then
                                                str = str & vbNewLine & "d " & a.AbsoluteTime
-                                           ElseIf LEDEdit_Advanced.DelayConvert3_2.Checked = True Then
+                                           ElseIf keyLED_Edit_Advanced.DelayConvert3_2.Checked = True Then
                                                Dim bpm As Integer = 120
                                                Dim ppq = LEDFileC.DeltaTicksPerQuarterNote
                                                Dim r As Integer = ppq * bpm
@@ -144,11 +144,11 @@ Public Class keyLED_Edit
 
     Private Sub AdvChk_CheckedChanged(sender As Object, e As EventArgs) Handles AdvChk.CheckedChanged
         If AdvChk.Checked = True Then
-            If LEDEdit_Advanced.Enabled = True Then
+            If keyLED_Edit_Advanced.Enabled = True Then
                 If MessageBox.Show("This mode changes the LED algorithm in detail." & vbNewLine &
                         "Developers don't recommend this mode. Would you like to continue?",
                         Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-                    LEDEdit_Advanced.Show()
+                    keyLED_Edit_Advanced.Show()
                 Else
                     AdvChk.Checked = False
                 End If
@@ -157,7 +157,7 @@ Public Class keyLED_Edit
     End Sub
 
     Private Sub KeyLED_Edit_Closed(sender As Object, e As EventArgs) Handles MyBase.Closed
-        LEDEdit_Advanced.Enabled = True
-        LEDEdit_Advanced.Hide()
+        keyLED_Edit_Advanced.Enabled = True
+        keyLED_Edit_Advanced.Hide()
     End Sub
 End Class

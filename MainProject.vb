@@ -356,54 +356,49 @@ OpenLine:
         Dim FileName As String = ofd_FileName
         If Dir("Workspace\ableproj", vbDirectory) <> "" Then
 OpenProjectLine:
-            Invoke(Sub()
-                       Loading.Show()
-                       Loading.DLb.Left = 40
-                       Loading.Text = Me.Text & ": Loading The Ableton Project File..."
-                       Loading.DLb.Text = loading_Project_Load_msg
-                       Loading.DLb.Refresh()
-                   End Sub)
+
+            Loading.Show()
+            Loading.DLb.Left = 40
+            Loading.Text = Me.Text & ": Loading The Ableton Project File..."
+            Loading.DLb.Text = loading_Project_Load_msg
+            Loading.DPr.Refresh()
+            Loading.DLb.Refresh()
+
             abl_FileName = FileName
             File.Copy(FileName, "Workspace\ableproj\abl_proj.gz", True)
-            Invoke(Sub()
-                       Loading.DLb.Left = 40
-                       Loading.DLb.Text = loading_Project_Extract_msg
-                       Loading.DLb.Refresh()
-                   End Sub)
+
+            Loading.DLb.Text = loading_Project_Extract_msg
+            Loading.DLb.Refresh()
+
             ExtractGZip("Workspace\ableproj\abl_proj.gz", "Workspace\ableproj")
-            Invoke(Sub()
-                       Loading.DLb.Left = 40
-                       Loading.DLb.Text = loading_Project_DeleteTmp_msg
-                       Loading.DLb.Refresh()
-                   End Sub)
+
+            Loading.DLb.Text = loading_Project_DeleteTmp_msg
+            Loading.DLb.Refresh()
+
             File.Delete("Workspace\ableproj\abl_proj.gz")
             File.Delete("Workspace\ableproj\abl_proj.xml")
-            Invoke(Sub()
-                       Loading.DLb.Left = 40
-                       Loading.DLb.Text = loading_Project_ChangeExt_msg
-                       Loading.DLb.Refresh()
-                   End Sub)
-            File.Move("Workspace\ableproj\abl_proj", "Workspace\ableproj\abl_proj.xml")
-            Invoke(Sub()
-                       Loading.DLb.Left = 40
-                       Loading.DLb.Text = loading_Project_DeleteTmp_msg
-                       Loading.DLb.Refresh()
-                   End Sub)
-            File.Delete("Workspace\ableproj\abl_proj")
-            'Reading Informations of Ableton Project.
-            Invoke(Sub()
-                       Loading.DLb.Left = 40
-                       Loading.DLb.Text = loading_Project_FileName_msg
-                       Loading.DLb.Refresh()
-                   End Sub)
-            abl_Name = Path.GetFileNameWithoutExtension(FileName)
-            Invoke(Sub()
-                       Loading.DLb.Left = 40
-                       Loading.DLb.Text = "Loading The Ableton Project File..."
-                       Loading.DLb.Refresh()
-                   End Sub)
 
-            Invoke(Sub() Loading.Dispose())
+            Loading.DLb.Text = loading_Project_ChangeExt_msg
+            Loading.DLb.Refresh()
+
+            File.Move("Workspace\ableproj\abl_proj", "Workspace\ableproj\abl_proj.xml")
+
+            Loading.DLb.Text = loading_Project_DeleteTmp_msg
+            Loading.DLb.Refresh()
+
+            File.Delete("Workspace\ableproj\abl_proj")
+
+            'Reading Informations of Ableton Project.
+            Loading.DLb.Text = loading_Project_FileName_msg
+            Loading.DLb.Refresh()
+
+            abl_Name = Path.GetFileNameWithoutExtension(FileName)
+
+            Loading.DLb.Text = "Loading The Ableton Project File..."
+            Loading.DLb.Refresh()
+
+            Loading.Dispose()
+
             If Not abl_openedproj = True Then
                 If OpenProjectOnce = False Then MessageBox.Show("Ableton Project File Loaded!" & vbNewLine & "You can edit info in Information Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
                 abl_openedproj = True
@@ -412,19 +407,20 @@ OpenProjectLine:
             End If
 
             'XML File Load.
-            Invoke(Sub()
-                       infoTB1.Text = abl_Name
+            Invoke(Sub() infoTB1.Text = abl_Name)
 
-                       'Tempoary Virtual ListView Add Items. (keySound)
+            'Tempoary Virtual ListView Add Items. (keySound)
 
-                       'keySound 코드.
-                       If abl_openedsnd = True Then
-                           TVLV.Items.Clear()
+            'keySound 코드.
+            If abl_openedsnd = True Then
+                TVLV.Items.Clear()
+
+                Invoke(Sub()
                            For Each FoundItem As ListViewItem In TVLV.Items
                                keySound_ListView.Items.Add(New ListViewItem({FoundItem.SubItems(0).Text, FoundItem.SubItems(1).Text, FoundItem.SubItems(2).Text, FoundItem.SubItems(3).Text}))
                            Next
-                       End If
-                   End Sub)
+                       End Sub)
+            End If
         Else
             My.Computer.FileSystem.CreateDirectory("Workspace\ableproj")
             GoTo OpenProjectLine
@@ -664,7 +660,7 @@ SaveInfoLine:
             ofd.Filter = "MP3 File|*.mp3|WAV File|*.wav"
             If ofd.ShowDialog = DialogResult.OK Then
                 ofd_FileName = ofd.FileName
-                CuttingSound.Show()
+                Sound_Cutting.Show()
             End If
         Catch ex As Exception
             MessageBox.Show("Editing keySound Failed. Error Code: Unknown" & vbNewLine & "Warning: " & ex.Message, "UniConverter: Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -803,7 +799,7 @@ SaveInfoLine:
                     trd.Start()
                 End If
             End If
-            EditkeySound.Show()
+            keySound_Edit.Show()
         Else
             MessageBox.Show("You didn't import sounds!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -894,45 +890,35 @@ fexLine:
                 Loading.DLb.Left = 40
                 Loading.DLb.Text = "Loaded Sound Files. Please Wait..."
                 Loading.DLb.Refresh()
-                If Not abl_openedsnd = True Then
-                    Sound_ListView.Items.Clear()
-                    keySound_ListView.Items.Clear()
-                    For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\ableproj\sounds", FileIO.SearchOption.SearchTopLevelOnly, "*.wav")
-                        Dim SndInfo As New WaveFileReader(foundFile)
-                        Sound_ListView.Items.Add(New ListViewItem({Path.GetFileName(foundFile), SndInfo.TotalTime.Minutes & ":" & SndInfo.TotalTime.Seconds & "." & SndInfo.TotalTime.Milliseconds, ""}))
-                    Next
 
-                    Loading.Dispose()
-                    If OpenProjectOnce = False Then MessageBox.Show("Sounds Loaded!" & vbNewLine & "You can edit keySound in keySound Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    abl_openedsnd = True
-
-                    For Each itm As ListViewItem In Sound_ListView.Items
-                        LLV.Items.Add(New ListViewItem({itm.SubItems(0).Text, itm.SubItems(1).Text, itm.SubItems(2).Text}))
-                    Next
-                Else
-                    Sound_ListView.Items.Clear()
+                Sound_ListView.Items.Clear()
                     keySound_ListView.Items.Clear()
 
-
+                    '사운드 리스트 뷰.
                     For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\ableproj\sounds", FileIO.SearchOption.SearchTopLevelOnly, "*.wav")
                         Dim SndInfo As New WaveFileReader(foundFile)
-                        Sound_ListView.Items.Add(New ListViewItem({Path.GetFileName(foundFile), SndInfo.TotalTime.Minutes & ":" & SndInfo.TotalTime.Seconds & "." & SndInfo.TotalTime.Milliseconds, ""}))
-                    Next
+                    Invoke(Sub() Sound_ListView.Items.Add(New ListViewItem({Path.GetFileName(foundFile), SndInfo.TotalTime.Minutes & ":" & SndInfo.TotalTime.Seconds & "." & SndInfo.TotalTime.Milliseconds, ""})))
+                Next
 
-                    Loading.Dispose()
-                    If OpenProjectOnce = False Then MessageBox.Show("Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    abl_openedsnd = True
+                Loading.Dispose()
+                If OpenProjectOnce = False Then MessageBox.Show("Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                abl_openedsnd = True
+                SoundIsSaved = True
 
-                    For Each itm As ListViewItem In Sound_ListView.Items
-                        LLV.Items.Add(New ListViewItem({itm.SubItems(0).Text, itm.SubItems(1).Text, itm.SubItems(2).Text}))
-                    Next
+                    '검색할 때 돌아오기 위해서는 필요한 리스트 뷰.
+                    Invoke(Sub()
+                               For Each itm As ListViewItem In Sound_ListView.Items
+                                   Invoke(Sub() LLV.Items.Add(New ListViewItem({itm.SubItems(0).Text, itm.SubItems(1).Text, itm.SubItems(2).Text})))
+                               Next
+                           End Sub)
 
-                    If abl_openedsnd = True Then
-                        For Each FoundItem As ListViewItem In TVLV.Items
-                            keySound_ListView.Items.Add(New ListViewItem({FoundItem.SubItems(0).Text, FoundItem.SubItems(1).Text, FoundItem.SubItems(2).Text, FoundItem.SubItems(3).Text}))
-                        Next
-                    End If
-
+                If abl_openedsnd = True Then
+                    '에이블톤 프로젝트가 로드가 안돼어있을 때 임시로 저장하는 리스트 뷰. 
+                    Invoke(Sub()
+                               For Each FoundItem As ListViewItem In TVLV.Items
+                                   Invoke(Sub() keySound_ListView.Items.Add(New ListViewItem({FoundItem.SubItems(0).Text, FoundItem.SubItems(1).Text, FoundItem.SubItems(2).Text, FoundItem.SubItems(3).Text})))
+                               Next
+                           End Sub)
                 End If
             Else
                 MessageBox.Show("Error! - Code: MaxFileLength.Value = GetFiles.Length", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)

@@ -2,7 +2,7 @@
 Imports System.IO
 Imports System.Threading
 Imports System.Globalization
-Public Class CuttingSound
+Public Class Sound_Cutting
     'http://www.vbforums.com/showthread.php?620394-WIP-Double-TrackBar&p=4057480#post4057480
     'Dim a As NAudio.Gui.WaveViewer
 

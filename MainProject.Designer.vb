@@ -340,7 +340,7 @@ Partial Class MainProject
         Me.infoT3.AutoSize = True
         Me.infoT3.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.infoT3.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.infoT3.Location = New System.Drawing.Point(182, 278)
+        Me.infoT3.Location = New System.Drawing.Point(159, 278)
         Me.infoT3.Name = "infoT3"
         Me.infoT3.Size = New System.Drawing.Size(60, 22)
         Me.infoT3.TabIndex = 26
@@ -351,7 +351,7 @@ Partial Class MainProject
         Me.infoT2.AutoSize = True
         Me.infoT2.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.infoT2.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.infoT2.Location = New System.Drawing.Point(100, 184)
+        Me.infoT2.Location = New System.Drawing.Point(77, 184)
         Me.infoT2.Name = "infoT2"
         Me.infoT2.Size = New System.Drawing.Size(142, 22)
         Me.infoT2.TabIndex = 24
@@ -380,7 +380,7 @@ Partial Class MainProject
         Me.infoT1.AutoSize = True
         Me.infoT1.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.infoT1.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.infoT1.Location = New System.Drawing.Point(192, 99)
+        Me.infoT1.Location = New System.Drawing.Point(169, 99)
         Me.infoT1.Name = "infoT1"
         Me.infoT1.Size = New System.Drawing.Size(50, 22)
         Me.infoT1.TabIndex = 22

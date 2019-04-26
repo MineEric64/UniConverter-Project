@@ -67,8 +67,8 @@ Public Class DeveloperMode_Project
     End Sub
 
     Private Sub Info_ListView_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Info_ListView.SelectedIndexChanged
-        Try
-            If Info_ListView.SelectedItems.Count > 0 Then '이것이 신의 한수... SelectedItem 코드 작성 시 꼭 필요. (invaildArgument 오류)
+        'Try
+        If Info_ListView.SelectedItems.Count > 0 Then '이것이 신의 한수... SelectedItem 코드 작성 시 꼭 필요. (invaildArgument 오류)
                 Dim SelectedItem As ListViewItem = Info_ListView.SelectedItems(0)
                 Select Case SelectedItem.Text
                     Case "File Name"
@@ -85,9 +85,9 @@ Public Class DeveloperMode_Project
                         GetkeyLED(EachCode.keyLED_MIDEX_1, Application.StartupPath & "\Workspace\ableproj\abl_proj.xml", True, True)
                 End Select
             End If
-        Catch ex As Exception
-            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
+            'Catch ex As Exception
+        'MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        'End Try
     End Sub
 
     Private Shared Function GetXpath(ByVal node As XmlNode) As String
@@ -138,17 +138,18 @@ Public Class DeveloperMode_Project
                     noteArr.Items.Add(note)
                 Next
 
+                Dim TimeArray, FinalTimeArr As Double()
+                TimeArray = {0}
+                FinalTimeArr = {0}
                 For Each x As XmlElement In notes
                     Dim timeStart As Double = x.GetAttribute("Time") 'Start Time
-                    Dim timeEnd As Double = timeStart + x.GetAttribute("Duration") 'Start Time + Duration (End Time)
-                    Dim time As Double = timeEnd - timeStart 'Duration
-                    Dim FinalTime As String = Convert.ToDouble(Mid(Convert.ToString(time), 1, 5)) * 1000 'Milliseconds
+                    TimeArray.SetValue(timeStart, TimeArray.Length - 1) 'TimeArray = timeStart.
+                    Array.Sort(TimeArray) 'TimeArray 변수를 정렬.
 
-                    'keyLED Code.
-                    If keyLEDFiles Then
-                        Dim keyLEDFolder As String = Application.StartupPath & "\Workspace\unipack\keyLED"
-                        My.Computer.FileSystem.CreateDirectory(keyLEDFolder)
-                    End If
+                    Dim FinalTime As Double = Convert.ToDouble(Mid(x.GetAttribute("Duration"), 1, 5)) * 1000 'Milliseconds
+                    FinalTimeArr.SetValue(FinalTime, GetIndex(TimeArray, Convert.ToString(timeStart))) 'TimeArray와 같은 Array Length를 세팅하는 코드.
+
+                    Debug.WriteLine(String.Format("{0}, {1}", TimeArray(0), FinalTimeArr(0)))
 
                     '수정 해야할 사항: XML에 있는 On 메시지와 딜레이 구문 추가 후 딜레이가 끝나면 Off 메시지 구문 추가.
                 Next
@@ -201,6 +202,16 @@ Public Class DeveloperMode_Project
         End Select
 
         Return String.Empty
+    End Function
+
+    Public Shared Function GetIndex(ByVal BSoo As Object, ByVal itemName As String) As Integer
+        For i As Integer = 0 To BSoo.Length - 1
+            If itemName.Equals(Convert.ToString(BSoo(i))) Then
+                Return i
+            End If
+        Next
+
+        Return -1
     End Function
 
     Public Shared Function GetSoundCutting(ByVal CodeArg As EachCode, ByVal XMLPath As String, ByVal SoundsDir As String, ByVal DebugFiles As Boolean) As String
