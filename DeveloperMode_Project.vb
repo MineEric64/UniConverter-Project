@@ -138,20 +138,33 @@ Public Class DeveloperMode_Project
                     noteArr.Items.Add(note)
                 Next
 
-                Dim TimeArray, FinalTimeArr As Double()
-                TimeArray = {0}
-                FinalTimeArr = {0}
+                Dim lin As Integer = 0
+                For Each xi As XmlElement In notes
+                    lin += 1
+                Next
+                Debug.WriteLine(String.Format("Array lin: {0}", lin))
+
+                Dim TimeArray As Double() = New Double(lin) {}
+                Dim FinalTimeArr As Double() = New Double(lin) {}
+
+                Dim lil As Integer = 0
+                Dim lon As Integer = 0
                 For Each x As XmlElement In notes
-                    Dim timeStart As Double = x.GetAttribute("Time") 'Start Time
-                    TimeArray.SetValue(timeStart, TimeArray.Length - 1) 'TimeArray = timeStart.
-                    Array.Sort(TimeArray) 'TimeArray 변수를 정렬.
+                    TimeArray(lil) = Convert.ToDouble(x.GetAttribute("Time")) 'Start Time
+                    lil += 1
+                Next
+                Array.Sort(TimeArray) 'TimeArray 변수를 정렬.
 
-                    Dim FinalTime As Double = Convert.ToDouble(Mid(x.GetAttribute("Duration"), 1, 5)) * 1000 'Milliseconds
-                    FinalTimeArr.SetValue(FinalTime, GetIndex(TimeArray, Convert.ToString(timeStart))) 'TimeArray와 같은 Array Length를 세팅하는 코드.
+                Dim li As Integer = 0
+                For Each x As XmlElement In notes
+                    'Milliseconds, TimeArray와 같은 Array Length를 세팅하는 코드.
+                    FinalTimeArr(GetIndex(TimeArray, Convert.ToString(TimeArray(li)), FinalTimeArr, 0)) = Convert.ToDouble(Mid(x.GetAttribute("Duration"), 1, 5)) * 1000
+                    li += 1
 
-                    Debug.WriteLine(String.Format("{0}, {1}", TimeArray(0), FinalTimeArr(0)))
+                    Debug.WriteLine(String.Format("{0}, {1}", TimeArray(lon), FinalTimeArr(lon)))
 
                     '수정 해야할 사항: XML에 있는 On 메시지와 딜레이 구문 추가 후 딜레이가 끝나면 Off 메시지 구문 추가.
+                    lon += 1
                 Next
 
                 Return String.Empty
@@ -204,10 +217,25 @@ Public Class DeveloperMode_Project
         Return String.Empty
     End Function
 
-    Public Shared Function GetIndex(ByVal BSoo As Object, ByVal itemName As String) As Integer
+    ''' <summary>
+    ''' Get Index from Object.
+    ''' </summary>
+    ''' <param name="BSoo">1 Object To Get Object's Index.</param>
+    ''' <param name="itemName">Object's Item Name.</param>
+    ''' <param name="B2Soo">Compare with 1 Object.</param>
+    ''' <param name="DefaultVal">Object's Default Value.</param>
+    ''' <param name="B2SooAR">1 Object's Length = 2 Object's Length</param>
+    ''' <returns></returns>
+    Public Shared Function GetIndex(ByVal BSoo As Object, ByVal itemName As String, Optional ByVal B2Soo As Object = Nothing, Optional ByVal DefaultVal As Object = Nothing, Optional ByVal B2SooAR As Boolean = True) As Integer
         For i As Integer = 0 To BSoo.Length - 1
-            If itemName.Equals(Convert.ToString(BSoo(i))) Then
-                Return i
+            If itemName.Equals(Convert.ToString(BSoo(i))) = True Then
+                If B2SooAR = True Then
+                    If B2Soo(i) Is DefaultVal OrElse B2Soo(i) = DefaultVal Then
+                        Return i
+                    Else
+                        Continue For
+                    End If
+                End If
             End If
         Next
 

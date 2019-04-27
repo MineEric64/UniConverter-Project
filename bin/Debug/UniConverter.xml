@@ -75,6 +75,17 @@ UniConverter
  <param name="DebugFiles">(Create/Don't Create) Debug Files.</param>
  <returns></returns>
 </member>
+<member name="M:UniConverter_Project.DeveloperMode_Project.GetIndex(System.Object,System.String,System.Object,System.Object,System.Boolean)">
+ <summary>
+ Get Index from Object.
+ </summary>
+ <param name="BSoo">1 Object To Get Object's Index.</param>
+ <param name="itemName">Object's Item Name.</param>
+ <param name="B2Soo">Compare with 1 Object.</param>
+ <param name="DefaultVal">Object's Default Value.</param>
+ <param name="B2SooAR">1 Object's Length = 2 Object's Length</param>
+ <returns></returns>
+</member>
 <member name="F:UniConverter_Project.keySound_Edit.UniPack_SelectedChain">
  <summary>
  선택한 체인. (1~8)

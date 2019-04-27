@@ -30,21 +30,21 @@ Partial Class DeveloperMode_Main
         'DM_CW
         '
         Me.DM_CW.Font = New System.Drawing.Font("-윤디자인웹돋움", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.DM_CW.Location = New System.Drawing.Point(16, 24)
+        Me.DM_CW.Location = New System.Drawing.Point(245, 15)
         Me.DM_CW.Name = "DM_CW"
-        Me.DM_CW.Size = New System.Drawing.Size(212, 154)
+        Me.DM_CW.Size = New System.Drawing.Size(212, 174)
         Me.DM_CW.TabIndex = 0
         Me.DM_CW.Text = "Clean Workspace"
         Me.DM_CW.UseVisualStyleBackColor = True
         '
         'DM_CF
         '
-        Me.DM_CF.Font = New System.Drawing.Font("-윤디자인웹돋움", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.DM_CF.Location = New System.Drawing.Point(251, 24)
+        Me.DM_CF.Font = New System.Drawing.Font("나눔바른고딕OTF", 36.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.DM_CF.Location = New System.Drawing.Point(12, 15)
         Me.DM_CF.Name = "DM_CF"
-        Me.DM_CF.Size = New System.Drawing.Size(209, 154)
+        Me.DM_CF.Size = New System.Drawing.Size(227, 174)
         Me.DM_CF.TabIndex = 1
-        Me.DM_CF.Text = "Converting Function"
+        Me.DM_CF.Text = "2CNVR"
         Me.DM_CF.UseVisualStyleBackColor = True
         '
         'SLabel
