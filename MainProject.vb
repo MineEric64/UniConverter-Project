@@ -221,8 +221,13 @@ Public Class MainProject
     End Sub
 
     Private Sub TutorialsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TutorialsToolStripMenuItem.Click
-        MessageBox.Show("We are developing the NEW Tutorial Function." & vbNewLine & "Coming Soon...!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+        'MessageBox.Show("We are developing the NEW Tutorial Function." & vbNewLine & "Coming Soon...!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
         'z_Tutorial.Show()
+
+        Dim README As String = "https://raw.githubusercontent.com/MineEric64/GUCCI-TEST/master/README.md"
+        Dim client As WebClient = New WebClient()
+        Dim reader As StreamReader = New StreamReader(client.OpenRead(README))
+        Debug.WriteLine(reader.ReadToEnd)
     End Sub
 
     Private Sub SaveProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveProjectToolStripMenuItem.Click

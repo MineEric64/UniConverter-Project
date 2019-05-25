@@ -131,11 +131,19 @@ Public Class DeveloperMode_Project
                 End If
                 Dim notes As XmlNodeList = doc.GetElementsByTagName("MidiNoteEvent") 'Note Event Value
                 Dim MidiKey As XmlNodeList = doc.GetElementsByTagName("MidiKey")
-                Dim noteArr As New ListView
 
+                Dim Thow As Integer = 0
+                For Each xi As XmlElement In MidiKey
+                    Thow += 1
+                Next
+                Debug.WriteLine(String.Format("MidiKey Value (Thow): {0}", Thow))
+
+                Dim noteArr As Integer() = New Integer(Thow) {}
+                Dim Noo As Integer = 0
                 For Each xi As XmlElement In MidiKey
                     Dim note As Integer = Integer.Parse(xi.GetAttribute("Value"))
-                    noteArr.Items.Add(note)
+                    noteArr(Noo) = note
+                    Noo += 1
                 Next
 
                 Dim lin As Integer = 0
@@ -145,7 +153,8 @@ Public Class DeveloperMode_Project
                 Debug.WriteLine(String.Format("Array lin: {0}", lin))
 
                 Dim TimeArray As Double() = New Double(lin) {}
-                Dim FinalTimeArr As Double() = New Double(lin) {}
+                Dim FinalTimeArr As Integer() = New Integer(lin) {}
+                Dim FinNOTEArr As Integer() = New Integer(Thow) {}
 
                 Dim lil As Integer = 0
                 Dim lon As Integer = 0
@@ -155,19 +164,27 @@ Public Class DeveloperMode_Project
                 Next
                 Array.Sort(TimeArray) 'TimeArray 변수를 정렬.
 
+
+
                 Dim li As Integer = 0
+                Dim RetStr As String = String.Empty '결과 반환 문자열.
                 For Each x As XmlElement In notes
                     'Milliseconds, TimeArray와 같은 Array Length를 세팅하는 코드.
-                    FinalTimeArr(GetIndex(TimeArray, Convert.ToString(TimeArray(li)), FinalTimeArr, 0)) = Convert.ToDouble(Mid(x.GetAttribute("Duration"), 1, 5)) * 1000
+                    FinalTimeArr(GetIndex(TimeArray, Convert.ToString(TimeArray(li)), FinalTimeArr, 0)) = Integer.Parse(Mid(x.GetAttribute("Duration"), 1, 5)) * 1000
+                    FinNOTEArr(GetIndex(TimeArray, Convert.ToString(TimeArray(li)), noteArr, 0)) = Integer.Parse(Mid(x.GetAttribute("Duration"), 1, 5)) * 1000
                     li += 1
 
-                    Debug.WriteLine(String.Format("{0}, {1}", TimeArray(lon), FinalTimeArr(lon)))
+                    Debug.WriteLine(String.Format("{0}, {1}, {2}", TimeArray(lon), FinalTimeArr(lon), FinNOTEArr(lon)))
 
                     '수정 해야할 사항: XML에 있는 On 메시지와 딜레이 구문 추가 후 딜레이가 끝나면 Off 메시지 구문 추가.
+                    Dim b As New A2U
+
+                    'RetStr = RetStr & vbNewLine & String.Format("o {0} {1} a {2}")
+
                     lon += 1
                 Next
 
-                Return String.Empty
+                Return RetStr
 
             Case EachCode.keyLED_MIDEX_1
                 Dim result1 As DialogResult = MessageBox.Show("Did you import keyLED (MIDI Extension) Files?", MainProject.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
@@ -176,42 +193,50 @@ Public Class DeveloperMode_Project
 
                     Dim LEDFileName = "Workspace\ableproj\CoLED\" & result2
                     Dim LEDFileC As New MidiFile(LEDFileName, False)
-
-                    'A2UP keyLED Code.
-                    Dim str As String
-                    Dim UniNoteNumberX As Integer 'X
-                    Dim UniNoteNumberY As Integer 'Y
-                    For Each mdEvent_list In LEDFileC.Events
-                        For Each mdEvent In mdEvent_list
-                            If mdEvent.CommandCode = MidiCommandCode.NoteOn Then
-                                Dim a = DirectCast(mdEvent, NoteOnEvent)
-                                Dim b As New A2U
-                                UniNoteNumberX = b.GX_keyLED(b.keyLED_AC.C_NoteNumber1, a.NoteNumber)
-                                UniNoteNumberY = b.GY_keyLED(b.keyLED_AC.C_NoteNumber1, a.NoteNumber)
-                                str = str & vbNewLine & "o " & UniNoteNumberX & " " & UniNoteNumberY & " a " & a.Velocity
-                                If Not a.DeltaTime = 0 Then
-                                    str = str & vbNewLine & "d " & b.GetNoteDelay(b.keyLED_AC.T_NoteLength1, 120, 192, a.NoteLength)
-                                End If
-                            ElseIf mdEvent.CommandCode = MidiCommandCode.NoteOff Then
-                                Dim a = DirectCast(mdEvent, NoteEvent)
-                                Dim b As New A2U
-                                UniNoteNumberX = b.GX_keyLED(b.keyLED_AC.C_NoteNumber1, a.NoteNumber)
-                                UniNoteNumberY = b.GY_keyLED(b.keyLED_AC.C_NoteNumber1, a.NoteNumber)
-                                str = str & vbNewLine & "f " & UniNoteNumberX & " " & UniNoteNumberY
-                            End If
-                        Next
-                    Next
-
-                    If Regex.IsMatch(str, "8192") Then '8192 = Non-UniNoteNumber
-                        str = str.Replace(" 8192", "").Trim() 'MC LED Convert.
-                        str = str.Replace("o ", "o mc ").Trim() 'On MC LED Convert.
-                        str = str.Replace("f ", "f mc ").Trim() 'Off MC LED Convert.
-                    End If
-                    Return str
+                    Return GetkeyLED_MIDEX2(EachCode.keyLED_MIDEX_1, LEDFileC)
 
                 ElseIf result1 = DialogResult.No Then
                     Return String.Empty
                 End If
+        End Select
+
+        Return String.Empty
+    End Function
+
+    Public Shared Function GetkeyLED_MIDEX2(ByVal LEDArg As EachCode, ByVal keyLEDFile As MidiFile) As String
+        'A2UP keyLED Code.
+        Select Case LEDArg
+            Case EachCode.keyLED_MIDEX_1
+                Dim str As String
+                Dim UniNoteNumberX As Integer 'X
+                Dim UniNoteNumberY As Integer 'Y
+                For Each mdEvent_list In keyLEDFile.Events
+                    For Each mdEvent In mdEvent_list
+                        If mdEvent.CommandCode = MidiCommandCode.NoteOn Then
+                            Dim a = DirectCast(mdEvent, NoteOnEvent)
+                            Dim b As New A2U
+                            UniNoteNumberX = b.GX_keyLED(b.keyLED_AC.C_NoteNumber1, a.NoteNumber)
+                            UniNoteNumberY = b.GY_keyLED(b.keyLED_AC.C_NoteNumber1, a.NoteNumber)
+                            str = str & vbNewLine & "o " & UniNoteNumberX & " " & UniNoteNumberY & " a " & a.Velocity
+                            If Not a.DeltaTime = 0 Then
+                                str = str & vbNewLine & "d " & b.GetNoteDelay(b.keyLED_AC.T_NoteLength1, 120, 192, a.NoteLength)
+                            End If
+                        ElseIf mdEvent.CommandCode = MidiCommandCode.NoteOff Then
+                            Dim a = DirectCast(mdEvent, NoteEvent)
+                            Dim b As New A2U
+                            UniNoteNumberX = b.GX_keyLED(b.keyLED_AC.C_NoteNumber1, a.NoteNumber)
+                            UniNoteNumberY = b.GY_keyLED(b.keyLED_AC.C_NoteNumber1, a.NoteNumber)
+                            str = str & vbNewLine & "f " & UniNoteNumberX & " " & UniNoteNumberY
+                        End If
+                    Next
+                Next
+
+                If Regex.IsMatch(str, "8192") Then '8192 = Non-UniNoteNumber
+                    str = str.Replace(" 8192", "").Trim() 'MC LED Convert.
+                    str = str.Replace("o ", "o mc ").Trim() 'On MC LED Convert.
+                    str = str.Replace("f ", "f mc ").Trim() 'Off MC LED Convert.
+                End If
+                Return str
         End Select
 
         Return String.Empty
