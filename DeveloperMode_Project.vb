@@ -152,37 +152,64 @@ Public Class DeveloperMode_Project
                 Next
                 Debug.WriteLine(String.Format("Array lin: {0}", lin))
 
-                Dim TimeArray As Double() = New Double(lin) {}
-                Dim FinalTimeArr As Integer() = New Integer(lin) {}
-                Dim FinNOTEArr As Integer() = New Integer(Thow) {}
+                Dim TimeArray As Double() = New Double(lin) {} 'Start Time Array.
+                Dim DurArray As Integer() = New Integer(lin) {} 'Duration Array.
+                Dim FirstKey As Double() = New Double(lin) {} 'First Start Time Array.
+                Dim FinalTimeArr As Double() = New Double(lin) {} 'Last Start Time Array after SORT. (TimeArray = FinalTimeArr)
+                Dim FinalDurArr As Integer() = New Integer(lin) {} 'Last Duration Array after SORT.
+                Dim FinNOTEArr As Integer() = New Integer(Thow) {} 'Last MIDIKEY Array after SORT.
+                Dim LastNOTEArr As Integer() = New Integer(lin) {} 'keynote를 맞추기 위해 FinNOTE를 순서대로 복제하는 Array.
+                Dim YKey As String() = New String(lin) {} 'REAL Duration.
+                Dim FinalYKey As String() = New String(lin) {} 'REAL-Duration!
 
                 Dim lil As Integer = 0
-                Dim lon As Integer = 0
                 For Each x As XmlElement In notes
                     TimeArray(lil) = Convert.ToDouble(x.GetAttribute("Time")) 'Start Time
+                    DurArray(lil) = Integer.Parse(Double.Parse(Mid(x.GetAttribute("Duration"), 1, 5)) * 1000) 'Duration (ms).
+                    YKey(lil) = x.GetAttribute("Duration")
                     lil += 1
                 Next
-                Array.Sort(TimeArray) 'TimeArray 변수를 정렬.
 
-
+                For i As Integer = 0 To lin - 1 '정렬 전 Key를 조합.
+                    FirstKey(i) = TimeArray(i)
+                Next
+                Array.Sort(TimeArray)
 
                 Dim li As Integer = 0
                 Dim RetStr As String = String.Empty '결과 반환 문자열.
                 For Each x As XmlElement In notes
                     'Milliseconds, TimeArray와 같은 Array Length를 세팅하는 코드.
-                    FinalTimeArr(GetIndex(TimeArray, Convert.ToString(TimeArray(li)), FinalTimeArr, 0)) = Integer.Parse(Mid(x.GetAttribute("Duration"), 1, 5)) * 1000
-                    FinNOTEArr(GetIndex(TimeArray, Convert.ToString(TimeArray(li)), noteArr, 0)) = Integer.Parse(Mid(x.GetAttribute("Duration"), 1, 5)) * 1000
+                    FinalTimeArr(li) = TimeArray(li)
+                    FinalDurArr(GetIndex(TimeArray, Convert.ToString(FirstKey(li)), FinalDurArr, 0)) = DurArray(li)
+                    FinalYKey(GetIndex(TimeArray, Convert.ToString(FirstKey(li)), FinalYKey, 0)) = YKey(li)
                     li += 1
-
-                    Debug.WriteLine(String.Format("{0}, {1}, {2}", TimeArray(lon), FinalTimeArr(lon), FinNOTEArr(lon)))
-
-                    '수정 해야할 사항: XML에 있는 On 메시지와 딜레이 구문 추가 후 딜레이가 끝나면 Off 메시지 구문 추가.
-                    Dim b As New A2U
-
-                    'RetStr = RetStr & vbNewLine & String.Format("o {0} {1} a {2}")
-
-                    lon += 1
                 Next
+
+                Dim KeyTrstr As String() = File.ReadAllLines(Application.StartupPath & "\Workspace\ableproj\KeyTracks.xml")
+                For i As Integer = 0 To KeyTrstr.Count - 1
+                    If Not KeyTrstr(i) = "" Then
+                        For q As Integer = 0 To lin - 1
+                            If KeyTrstr(i).Contains(String.Format("Duration={0}{1}", Chr(34), FinalYKey(q))) Then
+                                If LastNOTEArr(q) = 0 Then
+                                    LastNOTEArr(q) = noteArr(i)
+                                Else
+                                    Continue For
+                                End If
+                            Else
+                                Continue For
+                            End If
+                        Next
+                    End If
+                Next
+
+                For i As Integer = 0 To lin - 1
+                    Debug.WriteLine(String.Format("{0}, {1}, {2}", FinalTimeArr(i), FinalDurArr(i), LastNOTEArr(i)))
+                Next
+
+                '수정 해야할 사항: XML에 있는 On 메시지와 딜레이 구문 추가 후 딜레이가 끝나면 Off 메시지 구문 추가.
+                Dim b As New A2U
+
+                'RetStr = RetStr & vbNewLine & String.Format("o {0} {1} a {2}")
 
                 Return RetStr
 
