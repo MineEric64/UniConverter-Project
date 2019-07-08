@@ -896,11 +896,11 @@ fexLine:
                 Loading.DLb.Text = "Loaded Sound Files. Please Wait..."
                 Loading.DLb.Refresh()
 
-                Sound_ListView.Items.Clear()
-                    keySound_ListView.Items.Clear()
+                Invoke(Sub() Sound_ListView.Items.Clear())
+                Invoke(Sub() keySound_ListView.Items.Clear())
 
-                    '사운드 리스트 뷰.
-                    For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\ableproj\sounds", FileIO.SearchOption.SearchTopLevelOnly, "*.wav")
+                '사운드 리스트 뷰.
+                For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\ableproj\sounds", FileIO.SearchOption.SearchTopLevelOnly, "*.wav")
                         Dim SndInfo As New WaveFileReader(foundFile)
                     Invoke(Sub() Sound_ListView.Items.Add(New ListViewItem({Path.GetFileName(foundFile), SndInfo.TotalTime.Minutes & ":" & SndInfo.TotalTime.Seconds & "." & SndInfo.TotalTime.Milliseconds, ""})))
                 Next
