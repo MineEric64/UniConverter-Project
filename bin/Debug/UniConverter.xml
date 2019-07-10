@@ -24,21 +24,30 @@ UniConverter
 </member>
 <member name="P:UniConverter_Project.My.Resources.Resources.CMDCode_help">
 <summary>
-  CMDCode-help V1.0.0.2 (2019-03-30 By MineEric64)
+  CMDCode-help V1.2.0.5 (2019-03-31 By MineEric64)
 
 /help - Showing How To Use Command. It shows the Commands to you.
 /? - Same as &apos;/help&apos;
 /clear - Clear Text.
 /del &lt;Name&gt; - Delete File/Directory named &lt;Name&gt;.
 /exists &lt;WName&gt; - Exists File/Directory named &lt;Name&gt;. Showing As Boolean.
-&lt;WName&gt; Lists: Workspace, abl_proj (Ableton Project File), sounds, CoLED (LED Files), keyLED (UniPack LED Files), info (UniPack Information), ksTmp.txt (Tempoary keySound), KeyTracks.xml (LED KeyTracks)
-
-/enable &lt;ModeName[나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 문자열을 찾습니다.
+&lt;WName&gt; Lists: Workspace, abl_proj (Ableton Project File), sounds, keySound (Sound Mapping File), CoLED (LED Files), keyLED (UniPack LED Files), info (UniPack Information), ksTmp (Tempoary keySound), KeyTracks (LED KeyTrack[나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
-<member name="P:UniConverter_Project.My.Resources.Resources.LicenseText">
+<member name="P:UniConverter_Project.My.Resources.Resources.License_DeveloperMode">
 <summary>
-  RGltIGN1ckZpbGUgQXMgU3RyaW5nID0gIlNvdXJjZXNcRGV2ZWxvcGVyTW9kZS51bmkiDQoNCiAgICAgICAgSWYgRmlsZS5FeGlzdHMoY3VyRmlsZSkgVGhlbg0KICAgICAgICAgICAgRGV2ZWxvcGVyVG9vbFN0cmlwTWVudUl0ZW0uVmlzaWJsZSA9IFRydWUNCiAgICAgICAgICAgIERldmVsb3BlclRvb2xTdHJpcE1lbnVJdGVtLkVuYWJsZWQgPSBUcnVlDQogICAgICAgIEVuZCBJZg0KCQkNCgkJJ0RldmVsb3BlclRvb2xTdHJpcE1lbnVJdGVtDQoJCURldmVsb3Blck1vZGUuU2hvdygpDQoJCQ0KCQknSW5mby52YiAtIE1vZEUNCgkJSWYgTW9kZUUuVGV4dCA9ICJVbmlDb252ZXJ0ZXJQcm9qZWN0X0RldmVsb3Blck1vZGUiIFRoZW4NCiAgICAgICAgICAgIElmIERpcihjdXJG[나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 문자열을 찾습니다.
+  PExpY2Vuc2VOYW1lPSJEZXZlbG9wZXIgTW9kZSIgTGljZW5zZURldmVsb3Blcj0iTWluZUVyaWM2NCIgUHJvZ3JhbTJ1c2VMaWNlbnNlPSJVbmlDb252ZXJ0ZXIiIExpY2Vuc2VDcmVhdGVEYXRlPSIyMDE5LTA3LTEwLTEzLTQ2IiBFeHBpcmVkRGF0ZT0iMjAyNC0wNy0xMC0xMy00NiI+
+
+//This UniConverter&apos;s Developer Mode license.
+- UniConverter ⓒ 2018~2019 최에릭 All Rights Reserved.과(와) 유사한 지역화된 문자열을 찾습니다.
+</summary>
+</member>
+<member name="P:UniConverter_Project.My.Resources.Resources.License_GreatExMode">
+<summary>
+  PExpY2Vuc2VOYW1lPSJHcmVhdEV4IE1vZGUiIExpY2Vuc2VEZXZlbG9wZXI9Ik1pbmVFcmljNjQiIFByb2dyYW0ydXNlTGljZW5zZT0iVW5pQ29udmVydGVyIiBMaWNlbnNlQ3JlYXRlRGF0ZT0iMjAxOS0wNy0xMC0xMy01MCIgRXhwaXJlZERhdGU9IjIwMjQtMDctMTAtMTMtNTAiPg==
+
+//This UniConverter&apos;s GreatEx Mode License.
+- UniConverter ⓒ 2018~2019 최에릭 (MineEric64) All Rights Reserved.과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter_Project.My.Resources.Resources.UniConverterV2">
@@ -161,9 +170,21 @@ UniConverter
  String의 수를 세줍니다. 결과는 Integer.
  </summary>
 </member>
+<member name="M:UniConverter_Project.keyLED_Edit_Advanced.Save2Settings(System.Boolean)">
+ <summary>
+ Save Settings To XML.
+ </summary>
+ <param name="ShowMessage">Showing Message.</param>
+</member>
+<member name="M:UniConverter_Project.keyLED_Edit_Advanced.LoadSettings(System.Boolean)">
+ <summary>
+ Load Settings To XML.
+ </summary>
+ <param name="ShowMessage">Showing Message.</param>
+</member>
 <member name="F:UniConverter_Project.MainProject.LicenseFile">
  <summary>
-  Developer Mode의 라이센스 파일.
+  라이센스 파일. (0: Developer Mode, 1: GreatEx Mode)
  </summary>
 </member>
 <member name="F:UniConverter_Project.MainProject.FileInfo">
@@ -189,6 +210,16 @@ UniConverter
 <member name="F:UniConverter_Project.MainProject.uni_confile">
  <summary>
  settings.ini 중 Convert Unipack 설정.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.IsDeveloperMode">
+ <summary>
+ Developer Mode?
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.IsGreatExMode">
+ <summary>
+ Great Exception Mode!
  </summary>
 </member>
 <member name="F:UniConverter_Project.MainProject.ast">

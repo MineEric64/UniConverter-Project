@@ -114,10 +114,10 @@ Partial Class Info
         Me.unitor_link.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.unitor_link.Location = New System.Drawing.Point(12, 313)
         Me.unitor_link.Name = "unitor_link"
-        Me.unitor_link.Size = New System.Drawing.Size(65, 14)
+        Me.unitor_link.Size = New System.Drawing.Size(112, 14)
         Me.unitor_link.TabIndex = 8
         Me.unitor_link.TabStop = True
-        Me.unitor_link.Text = "Unitor Site"
+        Me.unitor_link.Text = "MineEric64 GitHub"
         '
         'ucvg_link
         '
@@ -136,7 +136,7 @@ Partial Class Info
         Me.unipad_link.AutoSize = True
         Me.unipad_link.Cursor = System.Windows.Forms.Cursors.Hand
         Me.unipad_link.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.unipad_link.Location = New System.Drawing.Point(159, 313)
+        Me.unipad_link.Location = New System.Drawing.Point(206, 313)
         Me.unipad_link.Name = "unipad_link"
         Me.unipad_link.Size = New System.Drawing.Size(75, 14)
         Me.unipad_link.TabIndex = 10
@@ -148,7 +148,7 @@ Partial Class Info
         Me.unipadc_link.AutoSize = True
         Me.unipadc_link.Cursor = System.Windows.Forms.Cursors.Hand
         Me.unipadc_link.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.unipadc_link.Location = New System.Drawing.Point(83, 313)
+        Me.unipadc_link.Location = New System.Drawing.Point(130, 313)
         Me.unipadc_link.Name = "unipadc_link"
         Me.unipadc_link.Size = New System.Drawing.Size(70, 14)
         Me.unipadc_link.TabIndex = 11

@@ -22,7 +22,7 @@ Namespace My.Resources
     '''<summary>
     '''  지역화된 문자열 등을 찾기 위한 강력한 형식의 리소스 클래스입니다.
     '''</summary>
-    <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0"),  _
+    <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0"),  _
      Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(),  _
      Global.Microsoft.VisualBasic.HideModuleNameAttribute()>  _
@@ -61,16 +61,14 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  CMDCode-help V1.0.0.2 (2019-03-30 By MineEric64)
+        '''  CMDCode-help V1.2.0.5 (2019-03-31 By MineEric64)
         '''
         '''/help - Showing How To Use Command. It shows the Commands to you.
         '''/? - Same as &apos;/help&apos;
         '''/clear - Clear Text.
         '''/del &lt;Name&gt; - Delete File/Directory named &lt;Name&gt;.
         '''/exists &lt;WName&gt; - Exists File/Directory named &lt;Name&gt;. Showing As Boolean.
-        '''&lt;WName&gt; Lists: Workspace, abl_proj (Ableton Project File), sounds, CoLED (LED Files), keyLED (UniPack LED Files), info (UniPack Information), ksTmp.txt (Tempoary keySound), KeyTracks.xml (LED KeyTracks)
-        '''
-        '''/enable &lt;ModeName[나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 문자열을 찾습니다.
+        '''&lt;WName&gt; Lists: Workspace, abl_proj (Ableton Project File), sounds, keySound (Sound Mapping File), CoLED (LED Files), keyLED (UniPack LED Files), info (UniPack Information), ksTmp (Tempoary keySound), KeyTracks (LED KeyTrack[나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 문자열을 찾습니다.
         '''</summary>
         Friend ReadOnly Property CMDCode_help() As String
             Get
@@ -79,11 +77,26 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  RGltIGN1ckZpbGUgQXMgU3RyaW5nID0gIlNvdXJjZXNcRGV2ZWxvcGVyTW9kZS51bmkiDQoNCiAgICAgICAgSWYgRmlsZS5FeGlzdHMoY3VyRmlsZSkgVGhlbg0KICAgICAgICAgICAgRGV2ZWxvcGVyVG9vbFN0cmlwTWVudUl0ZW0uVmlzaWJsZSA9IFRydWUNCiAgICAgICAgICAgIERldmVsb3BlclRvb2xTdHJpcE1lbnVJdGVtLkVuYWJsZWQgPSBUcnVlDQogICAgICAgIEVuZCBJZg0KCQkNCgkJJ0RldmVsb3BlclRvb2xTdHJpcE1lbnVJdGVtDQoJCURldmVsb3Blck1vZGUuU2hvdygpDQoJCQ0KCQknSW5mby52YiAtIE1vZEUNCgkJSWYgTW9kZUUuVGV4dCA9ICJVbmlDb252ZXJ0ZXJQcm9qZWN0X0RldmVsb3Blck1vZGUiIFRoZW4NCiAgICAgICAgICAgIElmIERpcihjdXJG[나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 문자열을 찾습니다.
+        '''  PExpY2Vuc2VOYW1lPSJEZXZlbG9wZXIgTW9kZSIgTGljZW5zZURldmVsb3Blcj0iTWluZUVyaWM2NCIgUHJvZ3JhbTJ1c2VMaWNlbnNlPSJVbmlDb252ZXJ0ZXIiIExpY2Vuc2VDcmVhdGVEYXRlPSIyMDE5LTA3LTEwLTEzLTQ2IiBFeHBpcmVkRGF0ZT0iMjAyNC0wNy0xMC0xMy00NiI+
+        '''
+        '''//This UniConverter&apos;s Developer Mode license.
+        '''- UniConverter ⓒ 2018~2019 최에릭 All Rights Reserved.과(와) 유사한 지역화된 문자열을 찾습니다.
         '''</summary>
-        Friend ReadOnly Property LicenseText() As String
+        Friend ReadOnly Property License_DeveloperMode() As String
             Get
-                Return ResourceManager.GetString("LicenseText", resourceCulture)
+                Return ResourceManager.GetString("License_DeveloperMode", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  PExpY2Vuc2VOYW1lPSJHcmVhdEV4IE1vZGUiIExpY2Vuc2VEZXZlbG9wZXI9Ik1pbmVFcmljNjQiIFByb2dyYW0ydXNlTGljZW5zZT0iVW5pQ29udmVydGVyIiBMaWNlbnNlQ3JlYXRlRGF0ZT0iMjAxOS0wNy0xMC0xMy01MCIgRXhwaXJlZERhdGU9IjIwMjQtMDctMTAtMTMtNTAiPg==
+        '''
+        '''//This UniConverter&apos;s GreatEx Mode License.
+        '''- UniConverter ⓒ 2018~2019 최에릭 (MineEric64) All Rights Reserved.과(와) 유사한 지역화된 문자열을 찾습니다.
+        '''</summary>
+        Friend ReadOnly Property License_GreatExMode() As String
+            Get
+                Return ResourceManager.GetString("License_GreatExMode", resourceCulture)
             End Get
         End Property
         

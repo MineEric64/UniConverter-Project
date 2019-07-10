@@ -1,6 +1,13 @@
-﻿Imports NAudio.Wave
+﻿Imports System.Xml
+Imports NAudio.Wave
 
 Public Class keyLED_Edit_Advanced
+    Public Shared IsSaved = True
+
+    Private Sub KeyLED_Edit_Advanced_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        LoadSettings(True)
+    End Sub
+
     Private Sub Load_Timer_Tick(sender As Object, e As EventArgs) Handles Load_Timer.Tick
         Dim AdvChk_Checked As Boolean
 
@@ -9,7 +16,7 @@ Public Class keyLED_Edit_Advanced
             AdvChk_Checked = False
         End If
 
-        If keyLED_Edit.AdvChk.Checked = True And AdvChk_Checked = False Then
+        If keyLED_Edit.AdvChk.Checked = True AndAlso AdvChk_Checked = False Then
             Me.Enabled = True
             AdvChk_Checked = True
         End If
@@ -29,20 +36,21 @@ Public Class keyLED_Edit_Advanced
         For Each va In itm
             DelayMode1.Items.Add(va) 'Add the Delay Mode Items.
         Next
-        DelayMode1.SelectedIndex = 0 'Reset the Selected Item.
+        DelayMode1.SelectedIndex = 2 'Reset the Selected Item.
 
         'Delay Convert #1
-        DelayConvert1_1.Checked = True
-        DelayConvert1_2.Checked = False
+        DelayConvert1_1.Checked = False
+        DelayConvert1_2.Checked = True
 
         'Delay Convert #2
         DelayConvert2_1.Checked = True
-        DelayConvert2_2.Checked = -False
 
         'Delay Convert #3
-        DelayConvert3_1.Checked = True
+        DelayConvert3_1.Checked = False
         DelayConvert3_2.Checked = False
+        DelayConvert3_3.Checked = True
 
+        Save2Settings(False)
     End Sub
 
     Private Sub DelayMode1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles DelayMode1.SelectedIndexChanged
@@ -59,9 +67,136 @@ Public Class keyLED_Edit_Advanced
             DelayMode3.Enabled = False
             DelayMode4.Enabled = True
         End If
+        IsSaved = False
     End Sub
 
     Private Sub LED_SaveButton_Click(sender As Object, e As EventArgs) Handles LED_SaveButton.Click
+        Save2Settings(True)
+    End Sub
 
+    ''' <summary>
+    ''' Save Settings To XML.
+    ''' </summary>
+    ''' <param name="ShowMessage">Showing Message.</param>
+    Public Sub Save2Settings(ShowMessage As Boolean)
+        '이 설정 저장 코드는 설정 코드가 수정될 때 마다 코드를 수정 해야 합니다.
+        Try
+            Dim file_ex = Application.StartupPath + "\settings.xml"
+            Dim setNode As New XmlDocument
+            Dim setaNode As XmlNode
+            setNode.Load(file_ex)
+
+            setaNode = setNode.SelectSingleNode("/Settings-XML/keyLED-Adv")
+            If setaNode IsNot Nothing Then
+
+                If DelayMode1.SelectedItem.ToString = "Note Length" Then
+                    setaNode.ChildNodes(0).InnerText = "NoteLength"
+                ElseIf DelayMode1.SelectedItem.ToString = "Delta Time" Then
+                    setaNode.ChildNodes(0).InnerText = "DeltaTime"
+                ElseIf DelayMode1.SelectedItem.ToString = "Absolute Time" Then
+                    setaNode.ChildNodes(0).InnerText = "AbsoluteTime"
+                End If
+
+                If DelayConvert1_1.Checked Then
+                    setaNode.ChildNodes(1).InnerText = "Non-Convert"
+                ElseIf DelayConvert1_2.Checked Then
+                    setaNode.ChildNodes(1).InnerText = "NL4Ticks/NL2M"
+                End If
+
+                If DelayConvert2_1.Checked Then
+                    setaNode.ChildNodes(2).InnerText = "Non-Convert"
+                End If
+
+                If DelayConvert3_1.Checked Then
+                    setaNode.ChildNodes(3).InnerText = "Non-Convert"
+                ElseIf DelayConvert3_2.Checked Then
+                    setaNode.ChildNodes(3).InnerText = "AbTofMIDI"
+                ElseIf DelayConvert3_3.Checked Then
+                    setaNode.ChildNodes(3).InnerText = "TimeLine/NL2M"
+                End If
+
+            Else
+                Throw New FormatException("Settings XML's Argument is invaild. <keyLED-Adv>")
+            End If
+
+            setNode.Save(file_ex)
+            IsSaved = True
+            If ShowMessage = True Then MessageBox.Show("Saved Settings!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+        Catch ex As Exception
+            If MainProject.IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+            IsSaved = False
+        End Try
+    End Sub
+
+    ''' <summary>
+    ''' Load Settings To XML.
+    ''' </summary>
+    ''' <param name="ShowMessage">Showing Message.</param>
+    Public Sub LoadSettings(ShowMessage As Boolean)
+        '이 설정 불러오기 코드는 설정 코드가 수정될 때 마다 코드를 수정 해야 합니다.
+        Try
+            Dim file_ex = Application.StartupPath + "\settings.xml"
+            Dim setNode As New XmlDocument
+            Dim setaNode As XmlNode
+            setNode.Load(file_ex)
+
+            setaNode = setNode.SelectSingleNode("/Settings-XML/keyLED-Adv")
+            If setaNode IsNot Nothing Then
+
+                If setaNode.ChildNodes(0).InnerText = "NoteLength" Then
+                    DelayMode1.Text = "Note Length"
+                ElseIf setaNode.ChildNodes(0).InnerText = "DeltaTime" Then
+                    DelayMode1.Text = "Delta Time"
+                ElseIf setaNode.ChildNodes(0).InnerText = "AbsoluteTime" Then
+                    DelayMode1.Text = "Absolute Time"
+                End If
+
+                If setaNode.ChildNodes(1).InnerText = "Non-Convert" Then
+                    DelayConvert1_1.Checked = True
+                    DelayConvert1_2.Checked = False
+                ElseIf setaNode.ChildNodes(1).InnerText = "NL4Ticks/NL2M" Then
+                    DelayConvert1_1.Checked = False
+                    DelayConvert1_2.Checked = True
+                End If
+
+                If setaNode.ChildNodes(2).InnerText = "Non-Convert" Then
+                    DelayConvert2_1.Checked = True
+                End If
+
+                If setaNode.ChildNodes(3).InnerText = "Non-Convert" Then
+                    DelayConvert3_1.Checked = True
+                    DelayConvert3_2.Checked = False
+                    DelayConvert3_3.Checked = False
+                ElseIf setaNode.ChildNodes(3).InnerText = "AbTofMIDI" Then
+                    DelayConvert3_1.Checked = False
+                    DelayConvert3_2.Checked = True
+                    DelayConvert3_3.Checked = False
+                ElseIf setaNode.ChildNodes(3).InnerText = "TimeLine/NL2M" Then
+                    DelayConvert3_1.Checked = False
+                    DelayConvert3_2.Checked = False
+                    DelayConvert3_3.Checked = True
+                End If
+
+            Else
+                Throw New FormatException("Settings XML's Argument is invaild. <keyLED-Adv>")
+            End If
+
+            setNode.Save(file_ex)
+            IsSaved = True
+            If ShowMessage = True Then MessageBox.Show("Saved Settings!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+        Catch ex As Exception
+            If MainProject.IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+            IsSaved = False
+        End Try
     End Sub
 End Class

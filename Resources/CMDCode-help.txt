@@ -1,12 +1,12 @@
-CMDCode-help V1.2.0.5 (2019-03-31 By MineEric64)
+CMDCode-help V1.2.0.6 (2019-07-10 By MineEric64)
 
 /help - Showing How To Use Command. It shows the Commands to you.
 /? - Same as '/help'
 /clear - Clear Text.
-/del <Name> - Delete File/Directory named <Name>.
-/exists <WName> - Exists File/Directory named <Name>. Showing As Boolean.
+/del <WName> - Delete File/Directory named <WName>.
+/exists <WName> - Exists File/Directory named <WName>. Showing As Boolean.
 <WName> Lists: Workspace, abl_proj (Ableton Project File), sounds, keySound (Sound Mapping File), CoLED (LED Files), keyLED (UniPack LED Files), info (UniPack Information), ksTmp (Tempoary keySound), KeyTracks (LED KeyTracks)
 
 /enable <ModeName> - Enabling The Mode named <ModeName>.
 /disable <ModeName> - Disabling The Mode named <ModeName>.
-<ModeName> Lists: DeveloperMode
+<ModeName> Lists: DeveloperMode, GreatExMode

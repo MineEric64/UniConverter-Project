@@ -34,8 +34,8 @@ Partial Class keyLED_Edit_Advanced
         Me.DelayConvert1_2 = New System.Windows.Forms.RadioButton()
         Me.DelayMode3 = New System.Windows.Forms.GroupBox()
         Me.DelayConvert2_1 = New System.Windows.Forms.RadioButton()
-        Me.DelayConvert2_2 = New System.Windows.Forms.RadioButton()
         Me.DelayMode1 = New System.Windows.Forms.ComboBox()
+        Me.DelayConvert3_3 = New System.Windows.Forms.RadioButton()
         Me.DelayMode4.SuspendLayout()
         Me.DelayMode2.SuspendLayout()
         Me.DelayMode3.SuspendLayout()
@@ -67,6 +67,7 @@ Partial Class keyLED_Edit_Advanced
         '
         'DelayMode4
         '
+        Me.DelayMode4.Controls.Add(Me.DelayConvert3_3)
         Me.DelayMode4.Controls.Add(Me.DelayConvert3_1)
         Me.DelayMode4.Controls.Add(Me.DelayConvert3_2)
         Me.DelayMode4.Enabled = False
@@ -81,12 +82,10 @@ Partial Class keyLED_Edit_Advanced
         'DelayConvert3_1
         '
         Me.DelayConvert3_1.AutoSize = True
-        Me.DelayConvert3_1.Checked = True
         Me.DelayConvert3_1.Location = New System.Drawing.Point(6, 22)
         Me.DelayConvert3_1.Name = "DelayConvert3_1"
-        Me.DelayConvert3_1.Size = New System.Drawing.Size(95, 20)
+        Me.DelayConvert3_1.Size = New System.Drawing.Size(95, 18)
         Me.DelayConvert3_1.TabIndex = 2
-        Me.DelayConvert3_1.TabStop = True
         Me.DelayConvert3_1.Text = "Non-Convert"
         Me.DelayConvert3_1.UseVisualStyleBackColor = True
         '
@@ -95,7 +94,7 @@ Partial Class keyLED_Edit_Advanced
         Me.DelayConvert3_2.AutoSize = True
         Me.DelayConvert3_2.Location = New System.Drawing.Point(6, 62)
         Me.DelayConvert3_2.Name = "DelayConvert3_2"
-        Me.DelayConvert3_2.Size = New System.Drawing.Size(148, 20)
+        Me.DelayConvert3_2.Size = New System.Drawing.Size(148, 18)
         Me.DelayConvert3_2.TabIndex = 1
         Me.DelayConvert3_2.Text = "[1] Exact Time of MIDI"
         Me.DelayConvert3_2.UseVisualStyleBackColor = True
@@ -117,7 +116,7 @@ Partial Class keyLED_Edit_Advanced
         Me.DelayConvert1_1.AutoSize = True
         Me.DelayConvert1_1.Location = New System.Drawing.Point(15, 22)
         Me.DelayConvert1_1.Name = "DelayConvert1_1"
-        Me.DelayConvert1_1.Size = New System.Drawing.Size(95, 20)
+        Me.DelayConvert1_1.Size = New System.Drawing.Size(95, 18)
         Me.DelayConvert1_1.TabIndex = 2
         Me.DelayConvert1_1.Text = "Non-Convert"
         Me.DelayConvert1_1.UseVisualStyleBackColor = True
@@ -128,16 +127,15 @@ Partial Class keyLED_Edit_Advanced
         Me.DelayConvert1_2.Checked = True
         Me.DelayConvert1_2.Location = New System.Drawing.Point(15, 62)
         Me.DelayConvert1_2.Name = "DelayConvert1_2"
-        Me.DelayConvert1_2.Size = New System.Drawing.Size(134, 20)
+        Me.DelayConvert1_2.Size = New System.Drawing.Size(127, 18)
         Me.DelayConvert1_2.TabIndex = 1
         Me.DelayConvert1_2.TabStop = True
-        Me.DelayConvert1_2.Text = "[1] NL4Ticks, N2MS"
+        Me.DelayConvert1_2.Text = "[1] NL4Ticks, N2M"
         Me.DelayConvert1_2.UseVisualStyleBackColor = True
         '
         'DelayMode3
         '
         Me.DelayMode3.Controls.Add(Me.DelayConvert2_1)
-        Me.DelayMode3.Controls.Add(Me.DelayConvert2_2)
         Me.DelayMode3.Enabled = False
         Me.DelayMode3.Font = New System.Drawing.Font("나눔고딕", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.DelayMode3.Location = New System.Drawing.Point(194, 54)
@@ -153,26 +151,15 @@ Partial Class keyLED_Edit_Advanced
         Me.DelayConvert2_1.Checked = True
         Me.DelayConvert2_1.Location = New System.Drawing.Point(15, 22)
         Me.DelayConvert2_1.Name = "DelayConvert2_1"
-        Me.DelayConvert2_1.Size = New System.Drawing.Size(95, 20)
+        Me.DelayConvert2_1.Size = New System.Drawing.Size(95, 18)
         Me.DelayConvert2_1.TabIndex = 2
         Me.DelayConvert2_1.TabStop = True
         Me.DelayConvert2_1.Text = "Non-Convert"
         Me.DelayConvert2_1.UseVisualStyleBackColor = True
         '
-        'DelayConvert2_2
-        '
-        Me.DelayConvert2_2.AutoSize = True
-        Me.DelayConvert2_2.Enabled = False
-        Me.DelayConvert2_2.Location = New System.Drawing.Point(15, 62)
-        Me.DelayConvert2_2.Name = "DelayConvert2_2"
-        Me.DelayConvert2_2.Size = New System.Drawing.Size(73, 20)
-        Me.DelayConvert2_2.TabIndex = 1
-        Me.DelayConvert2_2.Text = "[1] X + Y"
-        Me.DelayConvert2_2.UseVisualStyleBackColor = True
-        '
         'DelayMode1
         '
-        Me.DelayMode1.Font = New System.Drawing.Font("나눔고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.DelayMode1.Font = New System.Drawing.Font("나눔바른고딕OTF", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.DelayMode1.FormattingEnabled = True
         Me.DelayMode1.Items.AddRange(New Object() {"Note Length", "Delta Time", "Absolute Time"})
         Me.DelayMode1.Location = New System.Drawing.Point(124, 13)
@@ -181,7 +168,19 @@ Partial Class keyLED_Edit_Advanced
         Me.DelayMode1.TabIndex = 0
         Me.DelayMode1.Text = "Note Length"
         '
-        'LEDEdit_Advanced
+        'DelayConvert3_3
+        '
+        Me.DelayConvert3_3.AutoSize = True
+        Me.DelayConvert3_3.Checked = True
+        Me.DelayConvert3_3.Location = New System.Drawing.Point(6, 103)
+        Me.DelayConvert3_3.Name = "DelayConvert3_3"
+        Me.DelayConvert3_3.Size = New System.Drawing.Size(138, 18)
+        Me.DelayConvert3_3.TabIndex = 3
+        Me.DelayConvert3_3.TabStop = True
+        Me.DelayConvert3_3.Text = "[2] TimeLine - NL2M"
+        Me.DelayConvert3_3.UseVisualStyleBackColor = True
+        '
+        'keyLED_Edit_Advanced
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -193,7 +192,7 @@ Partial Class keyLED_Edit_Advanced
         Me.Controls.Add(Me.LED_ResetButton)
         Me.Controls.Add(Me.LED_SaveButton)
         Me.Font = New System.Drawing.Font("Symbol", 8.25!)
-        Me.Name = "LEDEdit_Advanced"
+        Me.Name = "keyLED_Edit_Advanced"
         Me.Text = "keyLED Edit: Advanced Mode"
         Me.DelayMode4.ResumeLayout(False)
         Me.DelayMode4.PerformLayout()
@@ -216,6 +215,6 @@ Partial Class keyLED_Edit_Advanced
     Friend WithEvents DelayConvert1_2 As RadioButton
     Friend WithEvents DelayMode3 As GroupBox
     Friend WithEvents DelayConvert2_1 As RadioButton
-    Friend WithEvents DelayConvert2_2 As RadioButton
     Friend WithEvents DelayMode1 As ComboBox
+    Friend WithEvents DelayConvert3_3 As RadioButton
 End Class

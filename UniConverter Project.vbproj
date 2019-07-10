@@ -113,6 +113,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationEvents.vb" />
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Sound_Cutting.Designer.vb">
       <DependentUpon>Sound_Cutting.vb</DependentUpon>
     </Compile>
@@ -148,11 +153,6 @@
     </Compile>
     <Compile Include="Loading.vb">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="My Project\Resources.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="My Project\Settings1.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -289,7 +289,8 @@
     <None Include="Resources\Unipad.png" />
     <None Include="Resources\UniConverterV2.png" />
     <None Include="Resources\CMDCode-help.txt" />
-    <None Include="Resources\LicenseText.txt" />
+    <None Include="Resources\License_DeveloperMode.txt" />
+    <None Include="Resources\License_GreatExMode.txt" />
     <Content Include="UniConverter.ico" />
   </ItemGroup>
   <ItemGroup>

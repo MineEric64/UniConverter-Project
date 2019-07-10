@@ -35,9 +35,9 @@ End Module
 
 Public Class MainProject
     ''' <summary>
-    '''  Developer Mode의 라이센스 파일.
+    '''  라이센스 파일. (0: Developer Mode, 1: GreatEx Mode)
     ''' </summary>
-    Public Shared LicenseFile As String = Application.StartupPath & "\DeveloperMode.uni"
+    Public Shared LicenseFile As String() = New String(1) {Application.StartupPath & "\MDSL\DeveloperMode.uni", Application.StartupPath & "\MDSL\GreatExMode.uni"}
     Public Shared TempDirectory As String = My.Computer.FileSystem.SpecialDirectories.Temp
     Public Shared abl_ver As String
     Public Shared abl_FileName As String
@@ -75,6 +75,14 @@ Public Class MainProject
     ''' settings.ini 중 Convert Unipack 설정.
     ''' </summary>
     Dim uni_confile As String
+    ''' <summary>
+    ''' Developer Mode?
+    ''' </summary>
+    Public Shared IsDeveloperMode As Boolean = False
+    ''' <summary>
+    ''' Great Exception Mode!
+    ''' </summary>
+    Public Shared IsGreatExMode As Boolean = False
     ''' <summary>
     ''' 특별 기호 (")
     ''' </summary>
@@ -151,9 +159,17 @@ Public Class MainProject
             OpenProjectOnce = False
 
             'License File of Developer Mode.
-            If File.Exists(LicenseFile) AndAlso File.ReadAllText(LicenseFile) = My.Resources.LicenseText Then
+            If File.Exists(LicenseFile(0)) AndAlso File.ReadAllText(LicenseFile(0)) = My.Resources.License_DeveloperMode Then
+                IsDeveloperMode = True
+            End If
+
+            If IsDeveloperMode Then
                 Me.Text = Me.Text & " (Enabled Developer Mode)"
                 DeveloperModeToolStripMenuItem.Visible = True
+            End If
+
+            If File.Exists(LicenseFile(1)) AndAlso File.ReadAllText(LicenseFile(1)) = My.Resources.License_GreatExMode Then
+                IsGreatExMode = True
             End If
 
             'Text of Info TextBox
@@ -199,7 +215,11 @@ Public Class MainProject
 
             IsSaved = True
         Catch ex As Exception
-            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         End Try
     End Sub
 
@@ -240,11 +260,11 @@ Public Class MainProject
 
             Loading.Show()
             Loading.Text = Me.Text & ": Loading LED Files..."
-                       FileNames = ofd_FileNames
-                       Loading.DPr.Maximum = FileNames.Length
-                       Loading.DLb.Left = 40
-                       Loading.DLb.Text = "Loading LED Files..."
-                       Loading.DLb.Refresh()
+            FileNames = ofd_FileNames
+            Loading.DPr.Maximum = FileNames.Length
+            Loading.DLb.Left = 40
+            Loading.DLb.Text = "Loading LED Files..."
+            Loading.DLb.Refresh()
 
             If Dir("Workspace\ableproj\CoLED", vbDirectory) <> "" Then
                 My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\CoLED", FileIO.DeleteDirectoryOption.DeleteAllContents)
@@ -272,7 +292,11 @@ OpenLine:
 
             Loading.Dispose()
         Catch ex As Exception
-            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
             e.Cancel = True
         End Try
     End Sub
@@ -328,7 +352,11 @@ OpenLine:
                 End If
             End If
         Catch ex As Exception
-            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         End Try
     End Sub
 
@@ -443,7 +471,11 @@ OpenProjectLine:
                 If OpenProjectOnce Then OpenSoundsToolStripMenuItem_Click(Nothing, Nothing)
             End If
         Catch ex As Exception
-            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         End Try
     End Sub
 
@@ -477,29 +509,42 @@ OpenProjectLine:
             End If
 
         Catch ex As Exception
-            MessageBox.Show("Save Unipack Failed. Error Code: Unknown" & vbNewLine & "Warning: " & ex.Message, "UniConverter: Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            If IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Failed to save UniPack." & vbNewLine & "Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         End Try
     End Sub
 
     Private Sub Info_SaveButton_Click(sender As Object, e As EventArgs) Handles Info_SaveButton.Click
-        If abl_openedproj = True Then
-            Dim fs As FileStream
-            Dim info As Byte()
+        Try
+            If abl_openedproj = True Then
+                Dim fs As FileStream
+                Dim info As Byte()
 
-            If Dir("Workspace\unipack", vbDirectory) <> "" Then
+                If Dir("Workspace\unipack", vbDirectory) <> "" Then
 SaveInfoLine:
-                fs = File.Create("Workspace\unipack\info")
-                info = New UTF8Encoding(True).GetBytes("title=" & infoTB1.Text & vbNewLine & "buttonX=8" & vbNewLine & "buttonY=8" & vbNewLine & "producerName=" & infoTB2.Text & vbNewLine & "chain=" & infoTB3.Text & vbNewLine & "squareButton=true")
-                fs.Write(info, 0, info.Length)
-                fs.Close()
-                MessageBox.Show("Saved info!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    fs = File.Create("Workspace\unipack\info")
+                    info = New UTF8Encoding(True).GetBytes("title=" & infoTB1.Text & vbNewLine & "buttonX=8" & vbNewLine & "buttonY=8" & vbNewLine & "producerName=" & infoTB2.Text & vbNewLine & "chain=" & infoTB3.Text & vbNewLine & "squareButton=true")
+                    fs.Write(info, 0, info.Length)
+                    fs.Close()
+                    MessageBox.Show("Saved info!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Else
+                    My.Computer.FileSystem.CreateDirectory("Workspace\unipack")
+                    GoTo SaveInfoLine
+                End If
             Else
-                My.Computer.FileSystem.CreateDirectory("Workspace\unipack")
-                GoTo SaveInfoLine
+                MessageBox.Show("You didn't open Ableton Project!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
-        Else
-            MessageBox.Show("You didn't open Ableton Project!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End If
+
+        Catch ex As Exception
+            If IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+        End Try
     End Sub
 
     Private Sub AnyAbletonToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AnyAbletonToolStripMenuItem.Click
@@ -525,7 +570,11 @@ SaveInfoLine:
             setNode.Save(file_ex)
             AnyAbletonToolStripMenuItem.Checked = True
         Catch ex As Exception
-            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         End Try
     End Sub
 
@@ -552,7 +601,11 @@ SaveInfoLine:
             setNode.Save(file_ex)
             AbletonLive9LiteToolStripMenuItem.Checked = True
         Catch ex As Exception
-            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         End Try
     End Sub
 
@@ -579,7 +632,11 @@ SaveInfoLine:
             setNode.Save(file_ex)
             AbletonLive9TrialToolStripMenuItem.Checked = True
         Catch ex As Exception
-            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         End Try
     End Sub
 
@@ -606,7 +663,11 @@ SaveInfoLine:
             setNode.Save(file_ex)
             AbletonLive9SuiteToolStripMenuItem.Checked = True
         Catch ex As Exception
-            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         End Try
     End Sub
 
@@ -633,7 +694,11 @@ SaveInfoLine:
             setNode.Save(file_ex)
             AbletonLive10ToolStripMenuItem.Checked = True
         Catch ex As Exception
-            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         End Try
     End Sub
 
@@ -656,7 +721,11 @@ SaveInfoLine:
             setNode.Save(file_ex)
             ConvertToZipUniToolStripMenuItem.Checked = True
         Catch ex As Exception
-            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         End Try
     End Sub
 
@@ -668,7 +737,11 @@ SaveInfoLine:
                 Sound_Cutting.Show()
             End If
         Catch ex As Exception
-            MessageBox.Show("Editing keySound Failed. Error Code: Unknown" & vbNewLine & "Warning: " & ex.Message, "UniConverter: Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            If IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Failed to edit keySound." & vbNewLine & "Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         End Try
     End Sub
 
@@ -689,7 +762,11 @@ SaveInfoLine:
             End If
 
         Catch ex As Exception
-            MessageBox.Show("Save keySound Failed. Error Code: Unknown" & vbNewLine & "Warning: " & ex.Message, "UniConverter: Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            If IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Failed to save keySound." & vbNewLine & "Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         End Try
     End Sub
 
@@ -700,7 +777,11 @@ SaveInfoLine:
             trd.IsBackground = True
             trd.Start()
         Catch ex As Exception
-            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         End Try
     End Sub
 
@@ -757,7 +838,11 @@ SaveInfoLine:
                        End If
                    End Sub)
         Catch ex As Exception
-            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         End Try
     End Sub
 
@@ -789,7 +874,11 @@ SaveInfoLine:
             End If
 
         Catch ex As Exception
-            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         End Try
     End Sub
 
@@ -820,7 +909,11 @@ SaveInfoLine:
             Next
 
         Catch ex As Exception
-            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         End Try
     End Sub
 
@@ -828,11 +921,11 @@ SaveInfoLine:
         Dim FileNames() As String
 
         Loading.Show()
-                   Loading.Text = Me.Text & ": Loading Sound Files..."
-                   FileNames = ofd_FileNames
-                   Loading.DPr.Maximum = FileNames.Length
-                   Loading.DLb.Left = 40
-                   Loading.DLb.Text = "Loading Sound Files..."
+        Loading.Text = Me.Text & ": Loading Sound Files..."
+        FileNames = ofd_FileNames
+        Loading.DPr.Maximum = FileNames.Length
+        Loading.DLb.Left = 40
+        Loading.DLb.Text = "Loading Sound Files..."
         Loading.DLb.Refresh()
 
         If Path.GetExtension(FileNames(FileNames.Length - 1)) = ".wav" Then
@@ -847,9 +940,9 @@ SaveInfoLine:
             For i = 0 To FileNames.Length - 1
                 File.Copy(FileNames(i), "Workspace\ableproj\sounds\" & FileNames(i).Split("\").Last, True)
                 Loading.DPr.Style = ProgressBarStyle.Continuous
-                           Loading.DPr.Value += 1
-                           Loading.DLb.Left = 40
-                           Loading.DLb.Text = String.Format(loading_Sound_Open_msg, Loading.DPr.Value, FileNames.Length)
+                Loading.DPr.Value += 1
+                Loading.DLb.Left = 40
+                Loading.DLb.Text = String.Format(loading_Sound_Open_msg, Loading.DPr.Value, FileNames.Length)
                 Loading.DLb.Refresh()
             Next
 
@@ -874,10 +967,10 @@ fexLine:
                         File.Move(foundFile.Replace(".mp3", ".wav"), "Workspace\ableproj\sounds\" & Path.GetFileName(foundFile.Replace(".mp3", ".wav")))
                         File.Delete(foundFile)
                         Loading.DPr.Style = ProgressBarStyle.Continuous
-                                   Loading.DPr.Value += 1
-                                   Loading.DLb.Left = 40
-                                   Loading.DLb.Text = String.Format(loading_Sound_Open_msg, Loading.DPr.Value, ofd.FileNames.Length)
-                                   Loading.DLb.Refresh()
+                        Loading.DPr.Value += 1
+                        Loading.DLb.Left = 40
+                        Loading.DLb.Text = String.Format(loading_Sound_Open_msg, Loading.DPr.Value, ofd.FileNames.Length)
+                        Loading.DLb.Refresh()
                     End If
                 Next
             Catch fex As IOException 'I/O 오류 해결 코드.
@@ -901,7 +994,7 @@ fexLine:
 
                 '사운드 리스트 뷰.
                 For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\ableproj\sounds", FileIO.SearchOption.SearchTopLevelOnly, "*.wav")
-                        Dim SndInfo As New WaveFileReader(foundFile)
+                    Dim SndInfo As New WaveFileReader(foundFile)
                     Invoke(Sub() Sound_ListView.Items.Add(New ListViewItem({Path.GetFileName(foundFile), SndInfo.TotalTime.Minutes & ":" & SndInfo.TotalTime.Seconds & "." & SndInfo.TotalTime.Milliseconds, ""})))
                 Next
 
@@ -910,12 +1003,12 @@ fexLine:
                 abl_openedsnd = True
                 SoundIsSaved = True
 
-                    '검색할 때 돌아오기 위해서는 필요한 리스트 뷰.
-                    Invoke(Sub()
-                               For Each itm As ListViewItem In Sound_ListView.Items
-                                   Invoke(Sub() LLV.Items.Add(New ListViewItem({itm.SubItems(0).Text, itm.SubItems(1).Text, itm.SubItems(2).Text})))
-                               Next
-                           End Sub)
+                '검색할 때 돌아오기 위해서는 필요한 리스트 뷰.
+                Invoke(Sub()
+                           For Each itm As ListViewItem In Sound_ListView.Items
+                               Invoke(Sub() LLV.Items.Add(New ListViewItem({itm.SubItems(0).Text, itm.SubItems(1).Text, itm.SubItems(2).Text})))
+                           Next
+                       End Sub)
 
                 If abl_openedsnd = True Then
                     '에이블톤 프로젝트가 로드가 안돼어있을 때 임시로 저장하는 리스트 뷰. 
@@ -944,7 +1037,11 @@ fexLine:
                 If OpenProjectOnce Then OpenKeyLEDToolStripMenuItem_Click(Nothing, Nothing)
             End If
         Catch ex As Exception
-            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         End Try
     End Sub
 
@@ -1084,7 +1181,11 @@ fexLine:
             End If
 
         Catch ex As Exception
-            MessageBox.Show("Save Unipack Failed. Error Code: Unknown" & vbNewLine & "Warning: " & ex.Message, "UniConverter: Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            If IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         End Try
     End Sub
 
@@ -1194,8 +1295,11 @@ fexLine:
                        Next i
                    End Sub)
         Catch ex As Exception
-            MessageBox.Show("Error! - " & ex.Message & vbNewLine & ex.StackTrace,
-        Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         End Try
     End Sub
 
@@ -1212,7 +1316,11 @@ fexLine:
                 Throw New Exception("There is no LED Files! Please Try Open LED Files.")
             End If
         Catch ex As Exception
-            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         End Try
     End Sub
 
@@ -1225,7 +1333,11 @@ fexLine:
                 BGW_keyLED.RunWorkerAsync()
             End If
         Catch ex As Exception
-            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         End Try
     End Sub
 
