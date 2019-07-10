@@ -5,6 +5,9 @@ Imports A2UP
 Imports NAudio.Midi
 
 Public Class DeveloperMode_Project
+    'Developer Mode에서는 Exception 예외 처리 때 GreatEx가 필요 없습니다.
+    '어처피 Developer Mode는 불안정한 모드들을 Beta 기능으로 지원해주기 때문에 GreatEx가 필요 없습니다.
+
     Dim DeveloperMode_abl_openedproj As Boolean
     Dim DeveloperMode_abl_FileName As String
     Dim DeveloperMode_abl_TmpFileName As String
@@ -67,27 +70,23 @@ Public Class DeveloperMode_Project
     End Sub
 
     Private Sub Info_ListView_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Info_ListView.SelectedIndexChanged
-        'Try
         If Info_ListView.SelectedItems.Count > 0 Then '이것이 신의 한수... SelectedItem 코드 작성 시 꼭 필요. (invaildArgument 오류)
-                Dim SelectedItem As ListViewItem = Info_ListView.SelectedItems(0)
-                Select Case SelectedItem.Text
-                    Case "File Name"
-                        Info_TextBox.Text = Path.GetFileNameWithoutExtension(DeveloperMode_abl_FileName)
-                    Case "Chains"
-                        Info_TextBox.Text = "No Way :("
-                    Case "File Version"
-                        Info_TextBox.Text = DeveloperMode_abl_FileVersion
-                    Case "Sound Cutting"
-                        GetSoundCutting(EachCode.SlicePoints_1, Application.StartupPath & "\Workspace\ableproj\abl_proj.xml", Application.StartupPath & "Workspace\unipack\", True)
-                    Case "KeyTracks (keyLED)"
+            Dim SelectedItem As ListViewItem = Info_ListView.SelectedItems(0)
+            Select Case SelectedItem.Text
+                Case "File Name"
+                    Info_TextBox.Text = Path.GetFileNameWithoutExtension(DeveloperMode_abl_FileName)
+                Case "Chains"
+                    Info_TextBox.Text = "No Way :("
+                Case "File Version"
+                    Info_TextBox.Text = DeveloperMode_abl_FileVersion
+                Case "Sound Cutting"
+                    GetSoundCutting(EachCode.SlicePoints_1, Application.StartupPath & "\Workspace\ableproj\abl_proj.xml", Application.StartupPath & "Workspace\unipack\", True)
+                Case "KeyTracks (keyLED)"
                     Info_TextBox.Text = GetkeyLED(EachCode.keyLED_1, Application.StartupPath & "\Workspace\ableproj\abl_proj.xml", True, True)
                 Case "keyLED (MIDI Extension)"
                     Info_TextBox.Text = GetkeyLED(EachCode.keyLED_MIDEX_1, Application.StartupPath & "\Workspace\ableproj\abl_proj.xml", True, True)
             End Select
-            End If
-            'Catch ex As Exception
-        'MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        'End Try
+        End If
     End Sub
 
     Private Shared Function GetXpath(ByVal node As XmlNode) As String
@@ -114,7 +113,7 @@ Public Class DeveloperMode_Project
                 Dim doc As New XmlDocument
                 Dim NewElementList As XmlNodeList
                 doc.Load(XMLPath)
-                Dim str As String
+                Dim str As String = String.Empty
 
                 '와... 진짜 LED 구현하느라 완전 힘들었다........ ㅠㅠ
                 NewElementList = doc.GetElementsByTagName("KeyTracks") 'KeyTracks XML 트랙
@@ -157,7 +156,6 @@ Public Class DeveloperMode_Project
                 Dim TimeArray As Double() = New Double(lin) {} 'Start Time Array.
                 Dim DurArray As Integer() = New Integer(lin) {} 'Duration Array.
                 Dim FirstKey As Double() = New Double(lin) {} 'First Start Time Array.
-                Dim FinalTimeArr As Double() = New Double(lin) {} 'Last Start Time Array after SORT. (TimeArray = FinalTimeArr)
                 Dim FinalDurArr As Integer() = New Integer(lin) {} 'Last Duration Array after SORT.
                 Dim FinNOTEArr As Integer() = New Integer(Thow) {} 'Last MIDIKEY Array after SORT.
                 Dim LastNOTEArr As Integer() = New Integer(lin) {} 'keynote를 맞추기 위해 FinNOTE를 순서대로 복제하는 Array.
@@ -189,7 +187,6 @@ Public Class DeveloperMode_Project
                 Dim RetStr As String = String.Empty '결과 반환 문자열.
                 For Each x As XmlElement In notes
                     'Milliseconds, TimeArray와 같은 Array Length를 세팅하는 코드.
-                    FinalTimeArr(li) = TimeArray(li)
                     FinalDurArr(GetIndex(TimeArray, Convert.ToString(FirstKey(li)), FinalDurArr, 0)) = DurArray(li)
                     FinalYKey(GetIndex(TimeArray, Convert.ToString(FirstKey(li)), FinalYKey, 0)) = YKey(li)
                     FinalVelocity(GetIndex(TimeArray, Convert.ToString(FirstKey(li)), FinalVelocity, 0)) = VelArr(li)
@@ -216,7 +213,7 @@ Public Class DeveloperMode_Project
                 Next
 
                 For i As Integer = 0 To lin - 1
-                    Debug.WriteLine(String.Format("Start Time: {0}, Duration: {1}, MidiKey: {2}, Velocity: {3}", FinalTimeArr(i), FinalDurArr(i), LastNOTEArr(i), FinalVelocity(i)))
+                    Debug.WriteLine(String.Format("Start Time: {0}, Duration: {1}, MidiKey: {2}, Velocity: {3}", TimeArray(i), FinalDurArr(i), LastNOTEArr(i), FinalVelocity(i)))
                 Next
 
                 '수정 해야할 사항: XML에 있는 On 메시지와 딜레이 구문 추가 후 딜레이가 끝나면 Off 메시지 구문 추가.
@@ -257,7 +254,7 @@ Public Class DeveloperMode_Project
                         li += 1
                     Next
                 Next
-                Dim str As String() = New String(li + 500) {}
+                Dim str As String() = New String(li + 100000) {}
 
                 Dim i As Integer = 0
                 Dim delaycount As Integer = 0
@@ -283,8 +280,8 @@ Public Class DeveloperMode_Project
 
                             Dim a = DirectCast(mdEvent, NoteEvent)
                             Dim b As New A2U
-                                UniNoteNumberX = b.GX_keyLED(b.keyLED_AC.C_NoteNumber1, a.NoteNumber)
-                                UniNoteNumberY = b.GY_keyLED(b.keyLED_AC.C_NoteNumber1, a.NoteNumber)
+                            UniNoteNumberX = b.GX_keyLED(b.keyLED_AC.C_NoteNumber1, a.NoteNumber)
+                            UniNoteNumberY = b.GY_keyLED(b.keyLED_AC.C_NoteNumber1, a.NoteNumber)
                             str(i) = "f " & UniNoteNumberX & " " & UniNoteNumberY
 
                         End If
@@ -342,7 +339,7 @@ Public Class DeveloperMode_Project
                 Dim doc As New XmlDocument
                 Dim NewElementList As XmlNodeList
                 doc.Load(XMLPath)
-                Dim str As String
+                Dim str As String = String.Empty
 
                 NewElementList = doc.GetElementsByTagName("SlicePoints") 'KeyTracks XML 트랙
                 For i As Integer = 0 To NewElementList.Count - 1

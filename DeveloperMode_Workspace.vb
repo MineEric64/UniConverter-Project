@@ -2,6 +2,9 @@
 Imports System.Threading
 
 Public Class DeveloperMode_Workspace
+    'Developer Mode에서는 Exception 예외 처리 때 GreatEx가 필요 없습니다.
+    '어처피 Developer Mode는 불안정한 모드들을 Beta 기능으로 지원해주기 때문에 GreatEx가 필요 없습니다.
+
 #Region "Workspace Paths"
     Public Shared Workspace As String = Application.StartupPath & "\Workspace"
     Public Shared abl_proj As String = Application.StartupPath & "\Workspace\ableproj\abl_proj.xml"
@@ -65,10 +68,10 @@ Public Class DeveloperMode_Workspace
                         My.Computer.FileSystem.DeleteDirectory(asounds, FileIO.DeleteDirectoryOption.DeleteAllContents)
                     ElseIf My.Computer.FileSystem.DirectoryExists(usounds) Then
                         My.Computer.FileSystem.DeleteDirectory(asounds, FileIO.DeleteDirectoryOption.DeleteAllContents)
-                        Invoke(Sub() DebugText.Text = DebugText.Text & String.Format("{0} - Deleted sounds!", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine)
                     Else
                         Throw New Exception("The Directory 'sounds' (Ableton, UniPack sounds) doesn't exists.")
                     End If
+                    Invoke(Sub() DebugText.Text = DebugText.Text & String.Format("{0} - Deleted sounds!", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine)
 
                 Case "/del keySound"
                     Invoke(Sub() DebugText.Text = DebugText.Text & String.Format("{0} - Deleting keySound...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine)
@@ -150,83 +153,120 @@ Public Class DeveloperMode_Workspace
                            End Sub)
 
                 Case "/exists keySound"
-                              Invoke(Sub()
-                                         DebugText.Text = DebugText.Text & String.Format("{0} - 'keySound' File Exists: ", Date.Now.ToString("tt hh:mm:ss"))
-                                         DebugText.Text = DebugText.Text & Convert.ToString(File.Exists(keySound)) & vbNewLine
-                                     End Sub)
+                    Invoke(Sub()
+                               DebugText.Text = DebugText.Text & String.Format("{0} - 'keySound' File Exists: ", Date.Now.ToString("tt hh:mm:ss"))
+                               DebugText.Text = DebugText.Text & Convert.ToString(File.Exists(keySound)) & vbNewLine
+                           End Sub)
 
-                              Case "/exists CoLED"
-                              Invoke(Sub()
-                                         DebugText.Text = DebugText.Text & String.Format("{0} - 'CoLED' Directory Exists: ", Date.Now.ToString("tt hh:mm:ss"))
-                                         DebugText.Text = DebugText.Text & Convert.ToString(My.Computer.FileSystem.DirectoryExists(CoLED)) & vbNewLine
-                                     End Sub)
+                Case "/exists CoLED"
+                    Invoke(Sub()
+                               DebugText.Text = DebugText.Text & String.Format("{0} - 'CoLED' Directory Exists: ", Date.Now.ToString("tt hh:mm:ss"))
+                               DebugText.Text = DebugText.Text & Convert.ToString(My.Computer.FileSystem.DirectoryExists(CoLED)) & vbNewLine
+                           End Sub)
 
-                              Case "/exists keyLED"
-                              Invoke(Sub()
-                                         DebugText.Text = DebugText.Text & String.Format("{0} - 'keyLED' Directory Exists: ", Date.Now.ToString("tt hh:mm:ss"))
-                                         DebugText.Text = DebugText.Text & Convert.ToString(My.Computer.FileSystem.DirectoryExists(keyLED)) & vbNewLine
-                                     End Sub)
+                Case "/exists keyLED"
+                    Invoke(Sub()
+                               DebugText.Text = DebugText.Text & String.Format("{0} - 'keyLED' Directory Exists: ", Date.Now.ToString("tt hh:mm:ss"))
+                               DebugText.Text = DebugText.Text & Convert.ToString(My.Computer.FileSystem.DirectoryExists(keyLED)) & vbNewLine
+                           End Sub)
 
-                              Case "/exists info"
-                              Invoke(Sub()
-                                         DebugText.Text = DebugText.Text & String.Format("{0} - 'info' File Exists: ", Date.Now.ToString("tt hh:mm:ss"))
-                                         DebugText.Text = DebugText.Text & Convert.ToString(File.Exists(info)) & vbNewLine
-                                     End Sub)
+                Case "/exists info"
+                    Invoke(Sub()
+                               DebugText.Text = DebugText.Text & String.Format("{0} - 'info' File Exists: ", Date.Now.ToString("tt hh:mm:ss"))
+                               DebugText.Text = DebugText.Text & Convert.ToString(File.Exists(info)) & vbNewLine
+                           End Sub)
 
-                              Case "/exists ksTmp"
-                              Invoke(Sub()
-                                         DebugText.Text = DebugText.Text & String.Format("{0} - 'ksTmp.txt' File Exists: ", Date.Now.ToString("tt hh:mm:ss"))
-                                         DebugText.Text = DebugText.Text & Convert.ToString(File.Exists(ksTmp)) & vbNewLine
-                                     End Sub)
+                Case "/exists ksTmp"
+                    Invoke(Sub()
+                               DebugText.Text = DebugText.Text & String.Format("{0} - 'ksTmp.txt' File Exists: ", Date.Now.ToString("tt hh:mm:ss"))
+                               DebugText.Text = DebugText.Text & Convert.ToString(File.Exists(ksTmp)) & vbNewLine
+                           End Sub)
 
-                              Case "/exists KeyTracks"
-                              Invoke(Sub()
-                                         DebugText.Text = DebugText.Text & String.Format("{0} - 'KeyTracks.xml' File Exists: ", Date.Now.ToString("tt hh:mm:ss"))
-                                         DebugText.Text = DebugText.Text & Convert.ToString(File.Exists(KeyTracks)) & vbNewLine
-                                     End Sub)
+                Case "/exists KeyTracks"
+                    Invoke(Sub()
+                               DebugText.Text = DebugText.Text & String.Format("{0} - 'KeyTracks.xml' File Exists: ", Date.Now.ToString("tt hh:mm:ss"))
+                               DebugText.Text = DebugText.Text & Convert.ToString(File.Exists(KeyTracks)) & vbNewLine
+                           End Sub)
 #End Region
 
 #Region "/enable <Mode Name>"
-                              Case "/enable"
-                              Invoke(Sub() DebugText.Text = DebugText.Text & String.Format("{0} - Command Usage: '/enable <ModeName>'", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine)
+                Case "/enable"
+                    Invoke(Sub() DebugText.Text = DebugText.Text & String.Format("{0} - Command Usage: '/enable <ModeName>'", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine)
 
-                              Case "/enable DeveloperMode"
-                              If File.Exists(MainProject.LicenseFile) Then Throw New Exception("'Developer Mode' License already exists.")
+                Case "/enable DeveloperMode"
+                    If File.Exists(MainProject.LicenseFile(0)) Then Throw New Exception("'Developer Mode License already exists.")
 
-                              Invoke(Sub()
-                                         DebugText.Text = DebugText.Text & String.Format("{0} - Enabling Developer Mode...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
-                                         DebugText.Text = DebugText.Text & String.Format("{0} - Encoding Developer Mode's License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
-                                         DebugText.Text = DebugText.Text & String.Format("{0} - Writing Developer Mode's License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
-                                         DebugText.Text = DebugText.Text & String.Format("{0} - Encrypting Developer Mode's License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
-                                     End Sub)
-                              File.WriteAllText(MainProject.LicenseFile, My.Resources.LicenseText)
-                              Invoke(Sub() DebugText.Text = DebugText.Text & String.Format("{0} - Enabled Developer Mode!", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine)
+                    Invoke(Sub()
+                               DebugText.Text = DebugText.Text & String.Format("{0} - Enabling Developer Mode...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                               DebugText.Text = DebugText.Text & String.Format("{0} - Encoding Developer Mode License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                               DebugText.Text = DebugText.Text & String.Format("{0} - Writing Developer Mode License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                               DebugText.Text = DebugText.Text & String.Format("{0} - Encrypting Developer Mode License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                           End Sub)
+                    File.WriteAllText(MainProject.LicenseFile(0), My.Resources.License_DeveloperMode)
+                    Invoke(Sub()
+                               DebugText.Text = DebugText.Text & String.Format("{0} - Enabled Developer Mode!", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                               DebugText.Text = DebugText.Text & String.Format("{0} - UniConverter will reboot after 3 seconds to refresh codes...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                               RebootTimer.Start()
+                           End Sub)
+
+                Case "/enable GreatExMode"
+                    If File.Exists(MainProject.LicenseFile(1)) Then Throw New Exception("GreatEx Mode License already exists.")
+
+                    Invoke(Sub()
+                               DebugText.Text = DebugText.Text & String.Format("{0} - Enabling GreatEx Mode...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                               DebugText.Text = DebugText.Text & String.Format("{0} - Encoding GreatEx Mode License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                               DebugText.Text = DebugText.Text & String.Format("{0} - Writing GreatEx Mode License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                               DebugText.Text = DebugText.Text & String.Format("{0} - Encrypting GreatEx Mode License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                           End Sub)
+                    File.WriteAllText(MainProject.LicenseFile(0), My.Resources.License_GreatExMode)
+                    Invoke(Sub()
+                               DebugText.Text = DebugText.Text & String.Format("{0} - Enabled GreatEx Mode!", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                               DebugText.Text = DebugText.Text & String.Format("{0} - UniConverter will reboot after 3 seconds to refresh codes...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                               RebootTimer.Start()
+                           End Sub)
 #End Region
 
 #Region "/disable <Mode Name>"
-                              Case "/disable"
-                              Invoke(Sub() DebugText.Text = DebugText.Text & String.Format("{0} - Command Usage: '/disable <ModeName>'", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine)
+                Case "/disable"
+                    Invoke(Sub() DebugText.Text = DebugText.Text & String.Format("{0} - Command Usage: '/disable <ModeName>'", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine)
 
-                              Case "/disable DeveloperMode"
-                              If File.Exists(MainProject.LicenseFile) = False Then Throw New Exception("'Developer Mode' License doesn't exists.")
+                Case "/disable DeveloperMode"
+                    If File.Exists(MainProject.LicenseFile(0)) = False Then Throw New Exception("'Developer Mode License doesn't exists.")
 
-                              Invoke(Sub()
-                                         DebugText.Text = DebugText.Text & String.Format("{0} - Disabling Developer Mode...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
-                                         DebugText.Text = DebugText.Text & String.Format("{0} - Decrypting Developer Mode's License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
-                                         DebugText.Text = DebugText.Text & String.Format("{0} - Decoding Developer Mode's License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
-                                         DebugText.Text = DebugText.Text & String.Format("{0} - Reading Developer Mode's License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
-                                         DebugText.Text = DebugText.Text & String.Format("{0} - Deleting Developer Mode's License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
-                                     End Sub)
-                              File.Delete(MainProject.LicenseFile)
-                              Invoke(Sub()
-                                         DebugText.Text = DebugText.Text & String.Format("{0} - Disabled Developer Mode!", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
-                                         DebugText.Text = DebugText.Text & String.Format("{0} - UniConverter will reboot after 3 seconds for refresh Codes...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
-                                         RebootTimer.Start()
-                                     End Sub)
+                    Invoke(Sub()
+                               DebugText.Text = DebugText.Text & String.Format("{0} - Disabling Developer Mode...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                               DebugText.Text = DebugText.Text & String.Format("{0} - Decrypting Developer Mode License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                               DebugText.Text = DebugText.Text & String.Format("{0} - Decoding Developer Mode License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                               DebugText.Text = DebugText.Text & String.Format("{0} - Reading Developer Mode License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                               DebugText.Text = DebugText.Text & String.Format("{0} - Deleting Developer Mode License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                           End Sub)
+                    File.Delete(MainProject.LicenseFile(0))
+                    Invoke(Sub()
+                               DebugText.Text = DebugText.Text & String.Format("{0} - Disabled Developer Mode!", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                               DebugText.Text = DebugText.Text & String.Format("{0} - UniConverter will reboot after 3 seconds to refresh codes...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                               RebootTimer.Start()
+                           End Sub)
+
+                Case "/disable GreatExMode"
+                    If File.Exists(MainProject.LicenseFile(0)) = False Then Throw New Exception("'GreatEx Mode License doesn't exists.")
+
+                    Invoke(Sub()
+                               DebugText.Text = DebugText.Text & String.Format("{0} - Disabling GreatEx Mode...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                               DebugText.Text = DebugText.Text & String.Format("{0} - Decrypting GreatEx Mode License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                               DebugText.Text = DebugText.Text & String.Format("{0} - Decoding GreatEx Mode License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                               DebugText.Text = DebugText.Text & String.Format("{0} - Reading GreatEx Mode License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                               DebugText.Text = DebugText.Text & String.Format("{0} - Deleting GreatEx Mode License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                           End Sub)
+                    File.Delete(MainProject.LicenseFile(0))
+                    Invoke(Sub()
+                               DebugText.Text = DebugText.Text & String.Format("{0} - Disabled GreatEx Mode!", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                               DebugText.Text = DebugText.Text & String.Format("{0} - UniConverter will reboot after 3 seconds to refresh codes...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
+                               RebootTimer.Start()
+                           End Sub)
 #End Region
 
-                              Case Else
-                              Invoke(Sub() DebugText.Text = DebugText.Text & String.Format("{0} - Type '/?' or '/help' to help.", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine)
+                Case Else
+                    Invoke(Sub() DebugText.Text = DebugText.Text & String.Format("{0} - Type '/?' or '/help' to help.", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine)
             End Select
 
         Catch ex As Exception

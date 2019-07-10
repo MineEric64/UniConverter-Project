@@ -4,8 +4,15 @@
     <CheckUpdate>True</CheckUpdate>
     <LatestVer>False</LatestVer>
   </UCV-Settings>
+  <keyLED-Adv>
+	<TopMode>AbsoluteTime</TopMode>
+	<NoteLength>NL4Ticks/NL2M</NoteLength>
+	<DeltaTime>Non-Convert</DeltaTime>
+	<AbsoluteTime>TimeLine/NL2M</AbsoluteTime>
+  </keyLED-Adv>
   <UCV-PATH>
     <AbletonVersion>AnyAbleton</AbletonVersion>
     <ConvertUniPack>zip/uni</ConvertUniPack>
+	<CleanTheText>False</CleanTheText>
   </UCV-PATH>
 </Settings-XML>

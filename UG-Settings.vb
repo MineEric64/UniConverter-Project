@@ -63,10 +63,23 @@ Public Class UG_Settings
                     Throw New FormatException("<ConvertUniPack>'s Value is invaild.")
             End Select
 
+            Select Case setxml.<Settings-XML>.<UCV-PATH>.<CleanTheText>.Value
+                Case "True"
+                    CleanTheTexts.Checked = True
+                Case "False"
+                    CleanTheTexts.Checked = False
+                Case Else
+                    Throw New FormatException("<CleanTheText>'s Value is invaild.")
+            End Select
+
             IsSaved = True
 
         Catch ex As Exception
-            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If MainProject.IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         End Try
     End Sub
 
@@ -100,6 +113,9 @@ Public Class UG_Settings
                 UniPackSet.Text = "Zip / Uni File"
                 setaNode.ChildNodes(1).InnerText = "zip/uni"
 
+                CleanTheTexts.Checked = False
+                setaNode.ChildNodes(2).InnerText = "False"
+
             Else
                 Throw New FormatException("Settings XML File's Argument is invaild. <UCV-PATH>")
             End If
@@ -109,7 +125,11 @@ Public Class UG_Settings
             MessageBox.Show("Reseted Settings!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
 
         Catch ex As Exception
-            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If MainProject.IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         End Try
     End Sub
 
@@ -129,7 +149,11 @@ Public Class UG_Settings
             End If
 
         Catch ex As Exception
-            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If MainProject.IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         End Try
     End Sub
 
@@ -193,6 +217,15 @@ Public Class UG_Settings
                         Throw New FormatException("<ConvertUniPack>'s Value is invaild.")
                 End Select
 
+                Select Case CleanTheTexts.Checked
+                    Case True
+                        setaNode.ChildNodes(2).InnerText = "True"
+                    Case False
+                        setaNode.ChildNodes(2).InnerText = "False"
+                    Case Else
+                        Throw New FormatException("<CleanTheText>'s Value is invaild.")
+                End Select
+
                 setNode.Save(file_ex)
                 IsSaved = True
                 If ShowMessage = True Then MessageBox.Show("Saved Settings!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -201,7 +234,11 @@ Public Class UG_Settings
             End If
 
         Catch ex As Exception
-            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If MainProject.IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         End Try
     End Sub
 End Class

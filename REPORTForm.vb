@@ -26,7 +26,12 @@ Public Class REPORTForm
             MessageBox.Show("Sent! Thank you For reporting bug! :D", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
 
         Catch email_error As Exception
-            MessageBox.Show(email_error.ToString, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If MainProject.IsGreatExMode Then
+                MessageBox.Show("Error - " & email_error.Message & vbNewLine & "Error Message: " & email_error.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & email_error.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show("Failed to send email. Please send email to 'unirep1204@gmail.com' directly." & vbNewLine & "We are so sorry about that :(")
+            End If
         End Try
     End Sub
 

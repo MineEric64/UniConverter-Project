@@ -161,7 +161,7 @@ Public Class keySound_Edit
                     End If
                 End If
                 Else
-                If Not File.Exists(MainProject.LicenseFile) Then
+                If Not File.Exists(MainProject.LicenseFile(0)) Then
                     MessageBox.Show("keySound File doesn't exists! (File Path: " & Application.StartupPath + "Workspace\unipack\keySound",
                                     Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End If
@@ -170,8 +170,11 @@ Public Class keySound_Edit
             End If
 
         Catch ex As Exception
-            MessageBox.Show("Error! - " & ex.Message & vbNewLine & ex.StackTrace,
-        Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If MainProject.IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         End Try
     End Sub
 
@@ -180,8 +183,18 @@ Public Class keySound_Edit
     End Sub
 
     Private Sub SaveButton_Click(sender As Object, e As EventArgs) Handles SaveButton.Click
-        File.WriteAllText(Application.StartupPath + "\Workspace\unipack\keySound", keySoundTextBox.Text)
-        MessageBox.Show("Saved keySound!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Try
+
+            File.WriteAllText(Application.StartupPath + "\Workspace\unipack\keySound", keySoundTextBox.Text)
+            MessageBox.Show("Saved keySound!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+        Catch ex As Exception
+            If MainProject.IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+        End Try
     End Sub
 
     ''' <summary>
@@ -320,7 +333,8 @@ Public Class keySound_Edit
                     Next
                 End If
             Else
-                MessageBox.Show("Error! - keySound doesn't exists.", Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show("Error: keySound doesn't exists.", Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Exit Sub
             End If
 #End Region
 
@@ -569,19 +583,13 @@ Public Class keySound_Edit
 #End Region
 
         Catch ex As Exception
-            MessageBox.Show("Error! - " & ex.Message & vbNewLine & ex.StackTrace,
-        Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If MainProject.IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         End Try
     End Sub
-
-    Public Sub DeleteLine(ByRef FileName As String, ByRef Line As Integer)
-        Dim TheFileLines As New List(Of String)
-        TheFileLines.AddRange(File.ReadAllLines(FileName))
-        If Line >= TheFileLines.Count Then Exit Sub
-        TheFileLines.RemoveAt(Line)
-        File.WriteAllLines(FileName, TheFileLines.ToArray)
-    End Sub
-
 
     Private Sub keySound_ChainChanged(sender As Object, e As EventArgs) Handles btnPad_chain1.Click, btnPad_chain2.Click, btnPad_chain3.Click, btnPad_chain4.Click, btnPad_chain5.Click, btnPad_chain6.Click, btnPad_chain7.Click, btnPad_chain8.Click
         '선택한 체인 선언.
