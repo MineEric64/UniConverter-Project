@@ -86,7 +86,7 @@ Partial Class keyLED_Edit
         Me.UniLED.Name = "UniLED"
         Me.UniLED.Size = New System.Drawing.Size(126, 17)
         Me.UniLED.TabIndex = 22
-        Me.UniLED.Text = "Unipack LED Text"
+        Me.UniLED.Text = "UniPack LED Text"
         '
         'LED_ListView
         '
@@ -169,6 +169,7 @@ Partial Class keyLED_Edit
         Me.AllowDrop = True
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.ClientSize = New System.Drawing.Size(579, 464)
         Me.Controls.Add(Me.CleaningButton)
         Me.Controls.Add(Me.AdvChk)
@@ -180,6 +181,7 @@ Partial Class keyLED_Edit
         Me.Controls.Add(Me.AblLED)
         Me.Controls.Add(Me.CopyButton)
         Me.Controls.Add(Me.UniLED_Edit)
+        Me.MaximizeBox = False
         Me.Name = "keyLED_Edit"
         Me.Text = "keyLED Edit (Beta)"
         CType(Me.UniLED_Edit, System.ComponentModel.ISupportInitialize).EndInit()

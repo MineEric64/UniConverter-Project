@@ -176,11 +176,10 @@ UniConverter
  </summary>
  <param name="ShowMessage">Showing Message.</param>
 </member>
-<member name="M:UniConverter_Project.keyLED_Edit_Advanced.LoadSettings(System.Boolean)">
+<member name="M:UniConverter_Project.keyLED_Edit_Advanced.LoadSettings">
  <summary>
  Load Settings To XML.
  </summary>
- <param name="ShowMessage">Showing Message.</param>
 </member>
 <member name="F:UniConverter_Project.MainProject.LicenseFile">
  <summary>

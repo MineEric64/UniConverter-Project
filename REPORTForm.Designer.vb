@@ -95,6 +95,7 @@ Partial Class REPORTForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.ClientSize = New System.Drawing.Size(489, 322)
         Me.Controls.Add(Me.UplButton)
         Me.Controls.Add(Me.attLab)
@@ -102,6 +103,7 @@ Partial Class REPORTForm
         Me.Controls.Add(Me.DelButton)
         Me.Controls.Add(Me.SenButton)
         Me.Controls.Add(Me.DescBox)
+        Me.MaximizeBox = False
         Me.Name = "REPORTForm"
         Me.Text = "UniConverter: Report a bug"
         Me.ResumeLayout(False)

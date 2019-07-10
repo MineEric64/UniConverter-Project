@@ -37,7 +37,7 @@ Partial Class UG_Settings
         Me.ChkUpdate.Checked = True
         Me.ChkUpdate.CheckState = System.Windows.Forms.CheckState.Checked
         Me.ChkUpdate.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ChkUpdate.Location = New System.Drawing.Point(29, 12)
+        Me.ChkUpdate.Location = New System.Drawing.Point(17, 15)
         Me.ChkUpdate.Name = "ChkUpdate"
         Me.ChkUpdate.Size = New System.Drawing.Size(147, 18)
         Me.ChkUpdate.TabIndex = 0
@@ -48,7 +48,7 @@ Partial Class UG_Settings
         '
         Me.LatestVer.AutoSize = True
         Me.LatestVer.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LatestVer.Location = New System.Drawing.Point(29, 34)
+        Me.LatestVer.Location = New System.Drawing.Point(17, 37)
         Me.LatestVer.Name = "LatestVer"
         Me.LatestVer.Size = New System.Drawing.Size(254, 18)
         Me.LatestVer.TabIndex = 1
@@ -59,7 +59,7 @@ Partial Class UG_Settings
         '
         Me.AbletonSet.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.AbletonSet.FormattingEnabled = True
-        Me.AbletonSet.Location = New System.Drawing.Point(29, 87)
+        Me.AbletonSet.Location = New System.Drawing.Point(17, 90)
         Me.AbletonSet.Name = "AbletonSet"
         Me.AbletonSet.Size = New System.Drawing.Size(108, 22)
         Me.AbletonSet.TabIndex = 2
@@ -69,7 +69,7 @@ Partial Class UG_Settings
         '
         Me.UniPackSet.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.UniPackSet.FormattingEnabled = True
-        Me.UniPackSet.Location = New System.Drawing.Point(148, 87)
+        Me.UniPackSet.Location = New System.Drawing.Point(136, 90)
         Me.UniPackSet.Name = "UniPackSet"
         Me.UniPackSet.Size = New System.Drawing.Size(108, 22)
         Me.UniPackSet.TabIndex = 3
@@ -99,7 +99,7 @@ Partial Class UG_Settings
         '
         Me.CleanTheTexts.AutoSize = True
         Me.CleanTheTexts.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CleanTheTexts.Location = New System.Drawing.Point(29, 58)
+        Me.CleanTheTexts.Location = New System.Drawing.Point(17, 61)
         Me.CleanTheTexts.Name = "CleanTheTexts"
         Me.CleanTheTexts.Size = New System.Drawing.Size(179, 18)
         Me.CleanTheTexts.TabIndex = 6
@@ -110,6 +110,7 @@ Partial Class UG_Settings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.ClientSize = New System.Drawing.Size(284, 187)
         Me.Controls.Add(Me.CleanTheTexts)
         Me.Controls.Add(Me.ResetButton)
@@ -119,6 +120,7 @@ Partial Class UG_Settings
         Me.Controls.Add(Me.LatestVer)
         Me.Controls.Add(Me.ChkUpdate)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
+        Me.MaximizeBox = False
         Me.Name = "UG_Settings"
         Me.Text = "Settings"
         Me.ResumeLayout(False)

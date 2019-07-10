@@ -160,6 +160,7 @@ Partial Class Info
         Me.AcceptButton = Me.OKButton
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.ClientSize = New System.Drawing.Size(412, 331)
         Me.Controls.Add(Me.unipadc_link)
         Me.Controls.Add(Me.unipad_link)
@@ -173,6 +174,7 @@ Partial Class Info
         Me.Controls.Add(Me.InfoText)
         Me.Controls.Add(Me.UCV_Icon)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.MaximizeBox = False
         Me.Name = "Info"
         Me.Text = "Info"
         CType(Me.UCV_Alpha, System.ComponentModel.ISupportInitialize).EndInit()

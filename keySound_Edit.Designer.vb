@@ -125,7 +125,6 @@ Partial Class keySound_Edit
         Me.keySoundTextBox.CharWidth = 8
         Me.keySoundTextBox.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.keySoundTextBox.DisabledColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer))
-        Me.keySoundTextBox.Font = New System.Drawing.Font("Courier New", 9.75!)
         Me.keySoundTextBox.IsReplaceMode = False
         Me.keySoundTextBox.Location = New System.Drawing.Point(12, 0)
         Me.keySoundTextBox.Name = "keySoundTextBox"
@@ -1124,6 +1123,7 @@ Partial Class keySound_Edit
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.ClientSize = New System.Drawing.Size(979, 419)
         Me.Controls.Add(Me.btnPad_chain8)
         Me.Controls.Add(Me.btnPad_chain7)
@@ -1139,6 +1139,7 @@ Partial Class keySound_Edit
         Me.Controls.Add(Me.keySoundTextBox)
         Me.Controls.Add(Me.SaveButton)
         Me.KeyPreview = True
+        Me.MaximizeBox = False
         Me.Name = "keySound_Edit"
         Me.Text = "Editing keySound!"
         CType(Me.keySoundTextBox, System.ComponentModel.ISupportInitialize).EndInit()

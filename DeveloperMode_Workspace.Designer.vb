@@ -63,15 +63,20 @@ Partial Class DeveloperMode_Workspace
         '
         Me.RebootTimer.Interval = 3000
         '
+        'BGW_Workspace
+        '
+        '
         'DeveloperMode_Workspace
         '
         Me.AcceptButton = Me.DOE
         Me.AutoScaleDimensions = New System.Drawing.SizeF(96.0!, 96.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
+        Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.ClientSize = New System.Drawing.Size(547, 359)
         Me.Controls.Add(Me.DOE)
         Me.Controls.Add(Me.cmdText)
         Me.Controls.Add(Me.DebugText)
+        Me.MaximizeBox = False
         Me.Name = "DeveloperMode_Workspace"
         Me.Text = "Developer Mode: Workspace"
         Me.ResumeLayout(False)

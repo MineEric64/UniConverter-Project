@@ -63,7 +63,7 @@ Public Class keyLED_Edit
 
     Private Sub KeyLED_Edit_Closed(sender As Object, e As EventArgs) Handles MyBase.Closed
         keyLED_Edit_Advanced.Enabled = True
-        keyLED_Edit_Advanced.Hide()
+        keyLED_Edit_Advanced.Dispose()
     End Sub
 
     Private Sub GAZUA__DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles GAZUA_.DoWork
@@ -222,12 +222,12 @@ Public Class keyLED_Edit
 #End Region
 
                             delaycount = a.AbsoluteTime
-                            str(i) = vbNewLine & "o " & a.NoteNumber & " a " & a.Velocity
+                            str(i) = "o " & a.NoteNumber & " a " & a.Velocity
 
                         ElseIf mdEvent.CommandCode = MidiCommandCode.NoteOff Then
 
                             Dim a = DirectCast(mdEvent, NoteEvent)
-                            str(i) = vbNewLine & "f " & a.NoteNumber
+                            str(i) = "f " & a.NoteNumber
 
                         End If
 
@@ -266,23 +266,52 @@ Public Class keyLED_Edit
     End Sub
 
     Private Sub CleaningButton_Click(sender As Object, e As EventArgs) Handles CleaningButton.Click
-        UniLED_Edit.Text = UniLED_Edit.Text.Replace("d 0", "")
+        Try
 
-        Dim i As Integer = 0
-        For Each x As String In UniLED_Edit.Text.Split(Environment.NewLine)
-            i += 1
-        Next
+            UniLED_Edit.Text = UniLED_Edit.Text.Replace("d 0", "")
 
-        Dim CleanedText As String() = New String(i) {}
-        Dim loi As Boolean = True
-        For Each x As String In UniLED_Edit.Text.Split(Environment.NewLine)
-            If loi Then
+            Dim i As Integer = 0
+            For Each x As String In UniLED_Edit.Text.Split(Environment.NewLine)
+                i += 1
+            Next
 
-                If x = "" Then
+            Dim CleanedText As String() = New String(i) {}
+            Dim q As Integer = 0
+            Dim loi As Boolean = True
+            For Each x As String In UniLED_Edit.Text.Split(Environment.NewLine)
+                If loi Then
+
+                    If Not x = "" Then
+                        CleanedText(q) = x
+                    End If
+                    q += 1
+                    loi = False
+
+                Else
+
+                    If Not x = "" Then
+                        CleanedText(q) = x.Remove(0, 1)
+                    End If
+                    q += 1
 
                 End If
+            Next
 
-            End If
-        Next
+            Dim CleanedTextA As String = String.Empty
+            For Each xi As String In CleanedText
+                If Not xi = "" Then
+                    CleanedTextA = CleanedTextA & xi & vbNewLine
+                End If
+            Next
+
+            UniLED_Edit.Text = CleanedTextA
+
+        Catch ex As Exception
+            If MainProject.IsGreatExMode Then
+            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Else
+            MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
+        End Try
     End Sub
 End Class

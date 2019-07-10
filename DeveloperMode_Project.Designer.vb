@@ -78,6 +78,7 @@ Partial Class DeveloperMode_Project
         Me.Info_TextBox.CharWidth = 8
         Me.Info_TextBox.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.Info_TextBox.DisabledColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer))
+        Me.Info_TextBox.Font = New System.Drawing.Font("Courier New", 9.75!)
         Me.Info_TextBox.IsReplaceMode = False
         Me.Info_TextBox.Location = New System.Drawing.Point(288, 51)
         Me.Info_TextBox.Name = "Info_TextBox"
@@ -96,11 +97,13 @@ Partial Class DeveloperMode_Project
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.ClientSize = New System.Drawing.Size(565, 450)
         Me.Controls.Add(Me.Info_TextBox)
         Me.Controls.Add(Me.Project_OpenButton)
         Me.Controls.Add(Me.Project_FNTextBox)
         Me.Controls.Add(Me.Info_ListView)
+        Me.MaximizeBox = False
         Me.Name = "DeveloperMode_Project"
         Me.Text = "Developer Mode - Ableton Project Info"
         CType(Me.Info_TextBox, System.ComponentModel.ISupportInitialize).EndInit()

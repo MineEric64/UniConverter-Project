@@ -5,7 +5,7 @@ Public Class keyLED_Edit_Advanced
     Public Shared IsSaved = True
 
     Private Sub KeyLED_Edit_Advanced_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        LoadSettings(True)
+        LoadSettings()
     End Sub
 
     Private Sub Load_Timer_Tick(sender As Object, e As EventArgs) Handles Load_Timer.Tick
@@ -136,8 +136,7 @@ Public Class keyLED_Edit_Advanced
     ''' <summary>
     ''' Load Settings To XML.
     ''' </summary>
-    ''' <param name="ShowMessage">Showing Message.</param>
-    Public Sub LoadSettings(ShowMessage As Boolean)
+    Public Sub LoadSettings()
         '이 설정 불러오기 코드는 설정 코드가 수정될 때 마다 코드를 수정 해야 합니다.
         Try
             Dim file_ex = Application.StartupPath + "\settings.xml"
@@ -188,7 +187,6 @@ Public Class keyLED_Edit_Advanced
 
             setNode.Save(file_ex)
             IsSaved = True
-            If ShowMessage = True Then MessageBox.Show("Saved Settings!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
 
         Catch ex As Exception
             If MainProject.IsGreatExMode Then

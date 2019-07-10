@@ -27,6 +27,7 @@ Partial Class keyLED_Edit_Advanced
         Me.LED_SaveButton = New System.Windows.Forms.Button()
         Me.LED_ResetButton = New System.Windows.Forms.Button()
         Me.DelayMode4 = New System.Windows.Forms.GroupBox()
+        Me.DelayConvert3_3 = New System.Windows.Forms.RadioButton()
         Me.DelayConvert3_1 = New System.Windows.Forms.RadioButton()
         Me.DelayConvert3_2 = New System.Windows.Forms.RadioButton()
         Me.DelayMode2 = New System.Windows.Forms.GroupBox()
@@ -35,7 +36,6 @@ Partial Class keyLED_Edit_Advanced
         Me.DelayMode3 = New System.Windows.Forms.GroupBox()
         Me.DelayConvert2_1 = New System.Windows.Forms.RadioButton()
         Me.DelayMode1 = New System.Windows.Forms.ComboBox()
-        Me.DelayConvert3_3 = New System.Windows.Forms.RadioButton()
         Me.DelayMode4.SuspendLayout()
         Me.DelayMode2.SuspendLayout()
         Me.DelayMode3.SuspendLayout()
@@ -78,6 +78,18 @@ Partial Class keyLED_Edit_Advanced
         Me.DelayMode4.TabIndex = 4
         Me.DelayMode4.TabStop = False
         Me.DelayMode4.Text = "Absolute Time"
+        '
+        'DelayConvert3_3
+        '
+        Me.DelayConvert3_3.AutoSize = True
+        Me.DelayConvert3_3.Checked = True
+        Me.DelayConvert3_3.Location = New System.Drawing.Point(6, 103)
+        Me.DelayConvert3_3.Name = "DelayConvert3_3"
+        Me.DelayConvert3_3.Size = New System.Drawing.Size(138, 18)
+        Me.DelayConvert3_3.TabIndex = 3
+        Me.DelayConvert3_3.TabStop = True
+        Me.DelayConvert3_3.Text = "[2] TimeLine - NL2M"
+        Me.DelayConvert3_3.UseVisualStyleBackColor = True
         '
         'DelayConvert3_1
         '
@@ -168,22 +180,11 @@ Partial Class keyLED_Edit_Advanced
         Me.DelayMode1.TabIndex = 0
         Me.DelayMode1.Text = "Note Length"
         '
-        'DelayConvert3_3
-        '
-        Me.DelayConvert3_3.AutoSize = True
-        Me.DelayConvert3_3.Checked = True
-        Me.DelayConvert3_3.Location = New System.Drawing.Point(6, 103)
-        Me.DelayConvert3_3.Name = "DelayConvert3_3"
-        Me.DelayConvert3_3.Size = New System.Drawing.Size(138, 18)
-        Me.DelayConvert3_3.TabIndex = 3
-        Me.DelayConvert3_3.TabStop = True
-        Me.DelayConvert3_3.Text = "[2] TimeLine - NL2M"
-        Me.DelayConvert3_3.UseVisualStyleBackColor = True
-        '
         'keyLED_Edit_Advanced
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.ClientSize = New System.Drawing.Size(376, 373)
         Me.Controls.Add(Me.DelayMode1)
         Me.Controls.Add(Me.DelayMode3)
@@ -192,6 +193,7 @@ Partial Class keyLED_Edit_Advanced
         Me.Controls.Add(Me.LED_ResetButton)
         Me.Controls.Add(Me.LED_SaveButton)
         Me.Font = New System.Drawing.Font("Symbol", 8.25!)
+        Me.MaximizeBox = False
         Me.Name = "keyLED_Edit_Advanced"
         Me.Text = "keyLED Edit: Advanced Mode"
         Me.DelayMode4.ResumeLayout(False)
