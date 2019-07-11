@@ -160,6 +160,21 @@ UniConverter
  keySound Loop 여부.
  </summary>
 </member>
+<member name="F:UniConverter_Project.keySound_Edit.keySound_senderGAZUA">
+ <summary>
+ sender As Object.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.keySound_Edit.Erait">
+ <summary>
+ 너무 힘들다...
+ </summary>
+</member>
+<member name="F:UniConverter_Project.keySound_Edit.Erait2">
+ <summary>
+ 너무 힘들다... 2
+ </summary>
+</member>
 <member name="F:UniConverter_Project.keySound_Edit.ctrl">
  <summary>
  버튼 저장

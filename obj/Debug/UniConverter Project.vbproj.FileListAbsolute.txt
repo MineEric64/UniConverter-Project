@@ -54,3 +54,5 @@ C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniCon
 C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.Sound_Cutting.resources
 C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.keySound_Edit.resources
 C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.keyLED_Edit_Advanced.resources
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Debug\Interop.WMPLib.dll
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter Project.vbproj.ResolveComReference.cache

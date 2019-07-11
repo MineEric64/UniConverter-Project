@@ -1344,4 +1344,8 @@ fexLine:
     Private Sub SettingsToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SettingsToolStripMenuItem1.Click
         UG_Settings.Show()
     End Sub
+
+    Private Sub Sound_ListView_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles Sound_ListView.MouseDoubleClick
+
+    End Sub
 End Class
