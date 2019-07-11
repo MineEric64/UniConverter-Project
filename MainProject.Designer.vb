@@ -89,19 +89,19 @@ Partial Class MainProject
         Me.keyLED2 = New System.Windows.Forms.TabPage()
         Me.DevelopingLabel3 = New System.Windows.Forms.Label()
         Me.keyLEDBetaButton = New System.Windows.Forms.Button()
-        Me.BGW_keyLED = New System.ComponentModel.BackgroundWorker()
-        Me.BGW_ablproj = New System.ComponentModel.BackgroundWorker()
-        Me.BGW_sounds = New System.ComponentModel.BackgroundWorker()
         Me.MIDISET = New System.Windows.Forms.TabPage()
-        Me.InListView = New System.Windows.Forms.ListView()
-        Me.MIDIDevices = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.InComboBox = New System.Windows.Forms.ComboBox()
+        Me.MIDIStatusLabel = New System.Windows.Forms.Label()
+        Me.ConnectButton = New System.Windows.Forms.Button()
+        Me.LoadButton = New System.Windows.Forms.Button()
         Me.OutComboBox = New System.Windows.Forms.ComboBox()
         Me.OutListView = New System.Windows.Forms.ListView()
         Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.LoadButton = New System.Windows.Forms.Button()
-        Me.ConnectButton = New System.Windows.Forms.Button()
-        Me.MIDIStatusLabel = New System.Windows.Forms.Label()
+        Me.InComboBox = New System.Windows.Forms.ComboBox()
+        Me.InListView = New System.Windows.Forms.ListView()
+        Me.MIDIDevices = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.BGW_keyLED = New System.ComponentModel.BackgroundWorker()
+        Me.BGW_ablproj = New System.ComponentModel.BackgroundWorker()
+        Me.BGW_sounds = New System.ComponentModel.BackgroundWorker()
         Me.MenuStrip.SuspendLayout()
         Me.HomeEdit.SuspendLayout()
         Me.Info1.SuspendLayout()
@@ -680,15 +680,6 @@ Partial Class MainProject
         Me.keyLEDBetaButton.Text = "Edit keyLED! (MIDI Extension) (Advanced)"
         Me.keyLEDBetaButton.UseVisualStyleBackColor = True
         '
-        'BGW_keyLED
-        '
-        '
-        'BGW_ablproj
-        '
-        '
-        'BGW_sounds
-        '
-        '
         'MIDISET
         '
         Me.MIDISET.Controls.Add(Me.MIDIStatusLabel)
@@ -705,33 +696,34 @@ Partial Class MainProject
         Me.MIDISET.Text = "MIDI Devices"
         Me.MIDISET.UseVisualStyleBackColor = True
         '
-        'InListView
+        'MIDIStatusLabel
         '
-        Me.InListView.AllowDrop = True
-        Me.InListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.MIDIDevices})
-        Me.InListView.Font = New System.Drawing.Font("나눔스퀘어라운드 Regular", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.InListView.FullRowSelect = True
-        Me.InListView.Location = New System.Drawing.Point(27, 32)
-        Me.InListView.Name = "InListView"
-        Me.InListView.Size = New System.Drawing.Size(238, 269)
-        Me.InListView.TabIndex = 25
-        Me.InListView.UseCompatibleStateImageBehavior = False
-        Me.InListView.View = System.Windows.Forms.View.Details
+        Me.MIDIStatusLabel.AutoSize = True
+        Me.MIDIStatusLabel.Location = New System.Drawing.Point(558, 23)
+        Me.MIDIStatusLabel.Name = "MIDIStatusLabel"
+        Me.MIDIStatusLabel.Size = New System.Drawing.Size(179, 42)
+        Me.MIDIStatusLabel.TabIndex = 32
+        Me.MIDIStatusLabel.Text = "MIDI Status:" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "     MIDI Input: Not Connected" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "     MIDI Output: Not Connected"
         '
-        'MIDIDevices
+        'ConnectButton
         '
-        Me.MIDIDevices.Text = "MIDI Input Devices"
-        Me.MIDIDevices.Width = 233
+        Me.ConnectButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.ConnectButton.Location = New System.Drawing.Point(285, 354)
+        Me.ConnectButton.Name = "ConnectButton"
+        Me.ConnectButton.Size = New System.Drawing.Size(218, 88)
+        Me.ConnectButton.TabIndex = 31
+        Me.ConnectButton.Text = "Connect!"
+        Me.ConnectButton.UseVisualStyleBackColor = True
         '
-        'InComboBox
+        'LoadButton
         '
-        Me.InComboBox.FormattingEnabled = True
-        Me.InComboBox.Items.AddRange(New Object() {"Launchpad MK2", "Launchpad Pro"})
-        Me.InComboBox.Location = New System.Drawing.Point(27, 316)
-        Me.InComboBox.Name = "InComboBox"
-        Me.InComboBox.Size = New System.Drawing.Size(238, 22)
-        Me.InComboBox.TabIndex = 27
-        Me.InComboBox.Visible = False
+        Me.LoadButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.LoadButton.Location = New System.Drawing.Point(138, 354)
+        Me.LoadButton.Name = "LoadButton"
+        Me.LoadButton.Size = New System.Drawing.Size(127, 88)
+        Me.LoadButton.TabIndex = 30
+        Me.LoadButton.Text = "Load"
+        Me.LoadButton.UseVisualStyleBackColor = True
         '
         'OutComboBox
         '
@@ -761,34 +753,42 @@ Partial Class MainProject
         Me.ColumnHeader1.Text = "MIDI Output Devices"
         Me.ColumnHeader1.Width = 233
         '
-        'LoadButton
+        'InComboBox
         '
-        Me.LoadButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.LoadButton.Location = New System.Drawing.Point(149, 376)
-        Me.LoadButton.Name = "LoadButton"
-        Me.LoadButton.Size = New System.Drawing.Size(127, 88)
-        Me.LoadButton.TabIndex = 30
-        Me.LoadButton.Text = "Load"
-        Me.LoadButton.UseVisualStyleBackColor = True
+        Me.InComboBox.FormattingEnabled = True
+        Me.InComboBox.Items.AddRange(New Object() {"Launchpad MK2", "Launchpad Pro"})
+        Me.InComboBox.Location = New System.Drawing.Point(27, 316)
+        Me.InComboBox.Name = "InComboBox"
+        Me.InComboBox.Size = New System.Drawing.Size(238, 22)
+        Me.InComboBox.TabIndex = 27
+        Me.InComboBox.Visible = False
         '
-        'ConnectButton
+        'InListView
         '
-        Me.ConnectButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.ConnectButton.Location = New System.Drawing.Point(296, 376)
-        Me.ConnectButton.Name = "ConnectButton"
-        Me.ConnectButton.Size = New System.Drawing.Size(190, 88)
-        Me.ConnectButton.TabIndex = 31
-        Me.ConnectButton.Text = "Connect!"
-        Me.ConnectButton.UseVisualStyleBackColor = True
+        Me.InListView.AllowDrop = True
+        Me.InListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.MIDIDevices})
+        Me.InListView.Font = New System.Drawing.Font("나눔스퀘어라운드 Regular", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.InListView.FullRowSelect = True
+        Me.InListView.Location = New System.Drawing.Point(27, 32)
+        Me.InListView.Name = "InListView"
+        Me.InListView.Size = New System.Drawing.Size(238, 269)
+        Me.InListView.TabIndex = 25
+        Me.InListView.UseCompatibleStateImageBehavior = False
+        Me.InListView.View = System.Windows.Forms.View.Details
         '
-        'MIDIStatusLabel
+        'MIDIDevices
         '
-        Me.MIDIStatusLabel.AutoSize = True
-        Me.MIDIStatusLabel.Location = New System.Drawing.Point(558, 23)
-        Me.MIDIStatusLabel.Name = "MIDIStatusLabel"
-        Me.MIDIStatusLabel.Size = New System.Drawing.Size(179, 42)
-        Me.MIDIStatusLabel.TabIndex = 32
-        Me.MIDIStatusLabel.Text = "MIDI Status:" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "     MIDI Input: Not Connected" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "     MIDI Output: Not Connected"
+        Me.MIDIDevices.Text = "MIDI Input Devices"
+        Me.MIDIDevices.Width = 233
+        '
+        'BGW_keyLED
+        '
+        '
+        'BGW_ablproj
+        '
+        '
+        'BGW_sounds
+        '
         '
         'MainProject
         '

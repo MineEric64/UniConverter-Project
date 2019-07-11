@@ -1348,4 +1348,17 @@ fexLine:
     Private Sub Sound_ListView_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles Sound_ListView.MouseDoubleClick
 
     End Sub
+
+    Private Sub LoadButton_Click(sender As Object, e As EventArgs) Handles LoadButton.Click
+
+        InListView.Items.Clear()
+        For i = 0 To MidiIn.NumberOfDevices - 1
+            InListView.Items.Add(MidiIn.DeviceInfo(i).ProductName)
+        Next
+
+        OutListView.Items.Clear()
+        For i = 0 To MidiOut.NumberOfDevices - 1
+            OutListView.Items.Add(MidiOut.DeviceInfo(i).ProductName)
+        Next
+    End Sub
 End Class
