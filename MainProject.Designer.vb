@@ -90,18 +90,18 @@ Partial Class MainProject
         Me.DevelopingLabel3 = New System.Windows.Forms.Label()
         Me.keyLEDBetaButton = New System.Windows.Forms.Button()
         Me.MIDISET = New System.Windows.Forms.TabPage()
-        Me.MIDIStatusLabel = New System.Windows.Forms.Label()
+        Me.MIDIStatIn = New System.Windows.Forms.Label()
+        Me.MIDIStat = New System.Windows.Forms.Label()
+        Me.OutListBox = New System.Windows.Forms.ListBox()
+        Me.InListBox = New System.Windows.Forms.ListBox()
         Me.ConnectButton = New System.Windows.Forms.Button()
         Me.LoadButton = New System.Windows.Forms.Button()
         Me.OutComboBox = New System.Windows.Forms.ComboBox()
-        Me.OutListView = New System.Windows.Forms.ListView()
-        Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.InComboBox = New System.Windows.Forms.ComboBox()
-        Me.InListView = New System.Windows.Forms.ListView()
-        Me.MIDIDevices = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.BGW_keyLED = New System.ComponentModel.BackgroundWorker()
         Me.BGW_ablproj = New System.ComponentModel.BackgroundWorker()
         Me.BGW_sounds = New System.ComponentModel.BackgroundWorker()
+        Me.MIDIStatOut = New System.Windows.Forms.Label()
         Me.MenuStrip.SuspendLayout()
         Me.HomeEdit.SuspendLayout()
         Me.Info1.SuspendLayout()
@@ -682,13 +682,15 @@ Partial Class MainProject
         '
         'MIDISET
         '
-        Me.MIDISET.Controls.Add(Me.MIDIStatusLabel)
+        Me.MIDISET.Controls.Add(Me.MIDIStatOut)
+        Me.MIDISET.Controls.Add(Me.MIDIStatIn)
+        Me.MIDISET.Controls.Add(Me.MIDIStat)
+        Me.MIDISET.Controls.Add(Me.OutListBox)
+        Me.MIDISET.Controls.Add(Me.InListBox)
         Me.MIDISET.Controls.Add(Me.ConnectButton)
         Me.MIDISET.Controls.Add(Me.LoadButton)
         Me.MIDISET.Controls.Add(Me.OutComboBox)
-        Me.MIDISET.Controls.Add(Me.OutListView)
         Me.MIDISET.Controls.Add(Me.InComboBox)
-        Me.MIDISET.Controls.Add(Me.InListView)
         Me.MIDISET.Location = New System.Drawing.Point(4, 23)
         Me.MIDISET.Name = "MIDISET"
         Me.MIDISET.Size = New System.Drawing.Size(776, 495)
@@ -696,19 +698,48 @@ Partial Class MainProject
         Me.MIDISET.Text = "MIDI Devices"
         Me.MIDISET.UseVisualStyleBackColor = True
         '
-        'MIDIStatusLabel
+        'MIDIStatIn
         '
-        Me.MIDIStatusLabel.AutoSize = True
-        Me.MIDIStatusLabel.Location = New System.Drawing.Point(558, 23)
-        Me.MIDIStatusLabel.Name = "MIDIStatusLabel"
-        Me.MIDIStatusLabel.Size = New System.Drawing.Size(179, 42)
-        Me.MIDIStatusLabel.TabIndex = 32
-        Me.MIDIStatusLabel.Text = "MIDI Status:" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "     MIDI Input: Not Connected" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "     MIDI Output: Not Connected"
+        Me.MIDIStatIn.AutoSize = True
+        Me.MIDIStatIn.Location = New System.Drawing.Point(501, 35)
+        Me.MIDIStatIn.Name = "MIDIStatIn"
+        Me.MIDIStatIn.Size = New System.Drawing.Size(154, 14)
+        Me.MIDIStatIn.TabIndex = 36
+        Me.MIDIStatIn.Text = "MIDI Input: Not Connected"
+        '
+        'MIDIStat
+        '
+        Me.MIDIStat.AutoSize = True
+        Me.MIDIStat.Location = New System.Drawing.Point(489, 17)
+        Me.MIDIStat.Name = "MIDIStat"
+        Me.MIDIStat.Size = New System.Drawing.Size(75, 14)
+        Me.MIDIStat.TabIndex = 35
+        Me.MIDIStat.Text = "MIDI Status:"
+        '
+        'OutListBox
+        '
+        Me.OutListBox.Font = New System.Drawing.Font("나눔바른고딕", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.OutListBox.FormattingEnabled = True
+        Me.OutListBox.ItemHeight = 17
+        Me.OutListBox.Location = New System.Drawing.Point(265, 32)
+        Me.OutListBox.Name = "OutListBox"
+        Me.OutListBox.Size = New System.Drawing.Size(209, 259)
+        Me.OutListBox.TabIndex = 34
+        '
+        'InListBox
+        '
+        Me.InListBox.Font = New System.Drawing.Font("나눔바른고딕", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.InListBox.FormattingEnabled = True
+        Me.InListBox.ItemHeight = 17
+        Me.InListBox.Location = New System.Drawing.Point(27, 32)
+        Me.InListBox.Name = "InListBox"
+        Me.InListBox.Size = New System.Drawing.Size(206, 259)
+        Me.InListBox.TabIndex = 33
         '
         'ConnectButton
         '
         Me.ConnectButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.ConnectButton.Location = New System.Drawing.Point(285, 354)
+        Me.ConnectButton.Location = New System.Drawing.Point(218, 357)
         Me.ConnectButton.Name = "ConnectButton"
         Me.ConnectButton.Size = New System.Drawing.Size(218, 88)
         Me.ConnectButton.TabIndex = 31
@@ -718,7 +749,7 @@ Partial Class MainProject
         'LoadButton
         '
         Me.LoadButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.LoadButton.Location = New System.Drawing.Point(138, 354)
+        Me.LoadButton.Location = New System.Drawing.Point(58, 357)
         Me.LoadButton.Name = "LoadButton"
         Me.LoadButton.Size = New System.Drawing.Size(127, 88)
         Me.LoadButton.TabIndex = 30
@@ -729,29 +760,12 @@ Partial Class MainProject
         '
         Me.OutComboBox.FormattingEnabled = True
         Me.OutComboBox.Items.AddRange(New Object() {"Launchpad MK2", "Launchpad Pro"})
-        Me.OutComboBox.Location = New System.Drawing.Point(302, 316)
+        Me.OutComboBox.Location = New System.Drawing.Point(265, 316)
         Me.OutComboBox.Name = "OutComboBox"
-        Me.OutComboBox.Size = New System.Drawing.Size(238, 22)
+        Me.OutComboBox.Size = New System.Drawing.Size(209, 22)
         Me.OutComboBox.TabIndex = 29
+        Me.OutComboBox.Text = "Launchpad MK2"
         Me.OutComboBox.Visible = False
-        '
-        'OutListView
-        '
-        Me.OutListView.AllowDrop = True
-        Me.OutListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1})
-        Me.OutListView.Font = New System.Drawing.Font("나눔스퀘어라운드 Regular", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.OutListView.FullRowSelect = True
-        Me.OutListView.Location = New System.Drawing.Point(302, 32)
-        Me.OutListView.Name = "OutListView"
-        Me.OutListView.Size = New System.Drawing.Size(238, 269)
-        Me.OutListView.TabIndex = 28
-        Me.OutListView.UseCompatibleStateImageBehavior = False
-        Me.OutListView.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader1
-        '
-        Me.ColumnHeader1.Text = "MIDI Output Devices"
-        Me.ColumnHeader1.Width = 233
         '
         'InComboBox
         '
@@ -759,27 +773,10 @@ Partial Class MainProject
         Me.InComboBox.Items.AddRange(New Object() {"Launchpad MK2", "Launchpad Pro"})
         Me.InComboBox.Location = New System.Drawing.Point(27, 316)
         Me.InComboBox.Name = "InComboBox"
-        Me.InComboBox.Size = New System.Drawing.Size(238, 22)
+        Me.InComboBox.Size = New System.Drawing.Size(206, 22)
         Me.InComboBox.TabIndex = 27
+        Me.InComboBox.Text = "Launchpad MK2"
         Me.InComboBox.Visible = False
-        '
-        'InListView
-        '
-        Me.InListView.AllowDrop = True
-        Me.InListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.MIDIDevices})
-        Me.InListView.Font = New System.Drawing.Font("나눔스퀘어라운드 Regular", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.InListView.FullRowSelect = True
-        Me.InListView.Location = New System.Drawing.Point(27, 32)
-        Me.InListView.Name = "InListView"
-        Me.InListView.Size = New System.Drawing.Size(238, 269)
-        Me.InListView.TabIndex = 25
-        Me.InListView.UseCompatibleStateImageBehavior = False
-        Me.InListView.View = System.Windows.Forms.View.Details
-        '
-        'MIDIDevices
-        '
-        Me.MIDIDevices.Text = "MIDI Input Devices"
-        Me.MIDIDevices.Width = 233
         '
         'BGW_keyLED
         '
@@ -789,6 +786,15 @@ Partial Class MainProject
         '
         'BGW_sounds
         '
+        '
+        'MIDIStatOut
+        '
+        Me.MIDIStatOut.AutoSize = True
+        Me.MIDIStatOut.Location = New System.Drawing.Point(501, 51)
+        Me.MIDIStatOut.Name = "MIDIStatOut"
+        Me.MIDIStatOut.Size = New System.Drawing.Size(164, 14)
+        Me.MIDIStatOut.TabIndex = 37
+        Me.MIDIStatOut.Text = "MIDI Output: Not Connected"
         '
         'MainProject
         '
@@ -894,13 +900,13 @@ Partial Class MainProject
     Friend WithEvents BGW_ablproj As System.ComponentModel.BackgroundWorker
     Friend WithEvents BGW_sounds As System.ComponentModel.BackgroundWorker
     Friend WithEvents MIDISET As TabPage
-    Friend WithEvents MIDIStatusLabel As Label
     Friend WithEvents ConnectButton As Button
     Friend WithEvents LoadButton As Button
     Friend WithEvents OutComboBox As ComboBox
-    Friend WithEvents OutListView As ListView
-    Friend WithEvents ColumnHeader1 As ColumnHeader
     Friend WithEvents InComboBox As ComboBox
-    Friend WithEvents InListView As ListView
-    Friend WithEvents MIDIDevices As ColumnHeader
+    Friend WithEvents OutListBox As ListBox
+    Friend WithEvents InListBox As ListBox
+    Friend WithEvents MIDIStatIn As Label
+    Friend WithEvents MIDIStat As Label
+    Friend WithEvents MIDIStatOut As Label
 End Class

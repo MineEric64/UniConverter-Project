@@ -113,6 +113,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationEvents.vb" />
+    <Compile Include="keyLED_Test.Designer.vb">
+      <DependentUpon>keyLED_Test.vb</DependentUpon>
+    </Compile>
+    <Compile Include="keyLED_Test.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -165,7 +171,6 @@
     <Compile Include="REPORTForm.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FileSystemObject.vb" />
     <Compile Include="keyLED_Edit.Designer.vb">
       <DependentUpon>keyLED_Edit.vb</DependentUpon>
     </Compile>
@@ -221,6 +226,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="keyLED_Test.resx">
+      <DependentUpon>keyLED_Test.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Sound_Cutting.resx">
       <DependentUpon>Sound_Cutting.vb</DependentUpon>
     </EmbeddedResource>

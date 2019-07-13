@@ -115,6 +115,23 @@ Public Class MainProject
     Private trd_ListView As ListView
     Private trd_KeyEvent_e As KeyEventArgs
 
+#Region "MIDI Settings"
+    Public midioutput As MidiOut
+
+    ''' <summary>
+    ''' 0: Mini/S, 1: MK2, 2: Pro
+    ''' </summary>
+    Public midioutput_kind As Integer = 0
+    Public midioutput_avail As Boolean = False
+
+    Public midiinput As MidiIn
+    ''' <summary>
+    ''' 0: Mini/S, 1: MK2, 2: Pro (0~127 단계 소리 세기 조절 기능)
+    ''' </summary>
+    Public midiinput_kind As Integer = 0
+    Public midiinput_avail As Boolean = False
+#End Region
+
     ''' <summary>
     '''  LAME으로 소리 확장자 변환. 현재 MP3toWAV 변환 가능. FileName의 경우 반드시 Application.StartupPath로 File을 지정하기 바람.
     ''' </summary>
@@ -239,6 +256,25 @@ Public Class MainProject
             BGW_sounds.RunWorkerAsync()
         End If
     End Sub
+#Region "Smart Invoke Function"
+    Public Sub UI(ByVal uiUpdate As Action)
+        If InvokeRequired Then
+            Try
+                Invoke(DirectCast(Sub() uiUpdate(), MethodInvoker))
+            Catch ex As Exception
+                ' The try catch block here is here because the end user (you) may decide to close the form without closing the server first, 
+                ' and that may cause an ObjectDesposed access exception. I think we'd all rather not see that.
+            End Try
+        Else
+            Try
+                uiUpdate()
+            Catch ex As Exception
+                ' The try catch block here is here because the end user (you) may decide to close the form without closing the server first, 
+                ' and that may cause an ObjectDesposed access exception. I think we'd all rather not see that.
+            End Try
+        End If
+    End Sub
+#End Region
 
     Private Sub TutorialsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TutorialsToolStripMenuItem.Click
         'MessageBox.Show("We are developing the NEW Tutorial Function." & vbNewLine & "Coming Soon...!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -1351,14 +1387,509 @@ fexLine:
 
     Private Sub LoadButton_Click(sender As Object, e As EventArgs) Handles LoadButton.Click
 
-        InListView.Items.Clear()
+        InListBox.Items.Clear()
         For i = 0 To MidiIn.NumberOfDevices - 1
-            InListView.Items.Add(MidiIn.DeviceInfo(i).ProductName)
+            InListBox.Items.Add(MidiIn.DeviceInfo(i).ProductName)
         Next
 
-        OutListView.Items.Clear()
+        OutListBox.Items.Clear()
         For i = 0 To MidiOut.NumberOfDevices - 1
-            OutListView.Items.Add(MidiOut.DeviceInfo(i).ProductName)
+            OutListBox.Items.Add(MidiOut.DeviceInfo(i).ProductName)
         Next
     End Sub
+
+    Private Sub ConnectButton_Click(sender As Object, e As EventArgs) Handles ConnectButton.Click
+        DisconnectMidi()
+
+#Region "MIDI 1"
+        Try
+            midiinput = New MidiIn(InListBox.SelectedIndex)
+            midiinput.Start()
+            midiinput_avail = True
+            Dim wowk As String = InListBox.Items(InListBox.SelectedIndex).ToString
+            If wowk.Contains("Launchpad S") OrElse wowk.Contains("Launchpad Mini") Then
+                midiinput_kind = 0 'launchpad s
+            ElseIf wowk.Contains("Launchpad MK2") Then
+                midiinput_kind = 1 'launchpad mk2
+            ElseIf wowk.Contains("Launchpad Pro") Then
+                midiinput_kind = 2 'launchpad pro
+            ElseIf wowk.Contains("MidiFighter 64") OrElse wowk.Contains("MidiFighter64") Then
+                midiinput_kind = 3 '미파64
+            Else
+                MessageBox.Show("Wrong input Launchpad! Please select other thing!" & vbNewLine & String.Format("(Selected MIDI Device: {0})", wowk), "Wrong Launchpad", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                midioutput_kind = 0
+                MIDIStatIn.Text = "MIDI Input: Not Connected"
+            End If
+            MIDIStatIn.Text = String.Format("MIDI Input: Connected ({0})", MidiIn.DeviceInfo(InListBox.SelectedIndex).ProductName)
+        Catch ex As Exception
+            MessageBox.Show("Failed to connect input device. Please try again or restart UniConverter." & vbNewLine & "Also, You can report this in 'Report Tab'.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            midiinput_avail = False
+            If IsGreatExMode Then
+                MessageBox.Show("Error: " & ex.Message & vbNewLine & "Exception StackTrace: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            End If
+        End Try
+
+        Try
+            midioutput = New MidiOut(OutListBox.SelectedIndex)
+            midioutput.Reset()
+            midioutput_avail = True
+            Dim wowc As String = OutListBox.Items(OutListBox.SelectedIndex).ToString
+            If wowc.Contains("Launchpad S") OrElse wowc.Contains("Launchpad Mini") Then
+                midioutput_kind = 0 'launchpad s
+            ElseIf wowc.Contains("Launchpad MK2") Then
+                midioutput_kind = 1 'launchpad mk2
+            ElseIf wowc.Contains("Launchpad Pro") Then
+                midioutput_kind = 2 'launchpad pro
+            ElseIf wowc.Contains("MidiFighter 64") OrElse wowc.Contains("MidiFighter64") Then
+                midioutput_kind = 3 '미파64
+            Else
+                MessageBox.Show("Wrong output Launchpad! Please select other thing!" & vbNewLine & String.Format("(Selected MIDI Device: {0})", wowc), "Wrong Launchpad", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                midioutput_kind = 0
+            End If
+
+            MIDIStatOut.Text = String.Format("Midi Output: Connected ({0})", MidiOut.DeviceInfo(OutListBox.SelectedIndex).ProductName)
+            midioutput.SendBuffer({240, 0, 32, 41, 9, 60, 85, 110, 105, 116, 111, 114, 32, 118, Asc(My.Application.Info.Version.Major), 46, Asc(My.Application.Info.Version.Minor), 46, Asc(My.Application.Info.Version.Build), 46, Asc(My.Application.Info.Version.Revision), 247})
+        Catch ex As Exception
+            MessageBox.Show("Failed to connect output device. Please try again or restart UniConverter." & vbNewLine & "Also, You can report this in 'Report Tab'.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            If IsGreatExMode Then
+                MessageBox.Show("Error: " & ex.Message & vbNewLine & "Exception StackTrace: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            End If
+            midioutput_kind = False
+            MIDIStatOut.Text = "MIDI Output: Not Connected"
+        End Try
+
+#End Region
+    End Sub
+
+#Region "MIDI (Launchpad) Codes"
+    Sub DisconnectMidi()
+        If (midiinput_avail = True) Then
+
+            Try
+
+                midiinput.Stop()
+                midiinput.Reset()
+                midiinput.Dispose()
+
+
+            Catch ex As Exception
+            End Try
+            midiinput_avail = False
+        End If
+        If (midioutput_avail = True) Then
+            midioutput.Dispose()
+            midioutput_avail = False
+        End If
+
+
+        MIDIStatIn.Text = "MIDI Input: Not Connected"
+        MIDIStatOut.Text = "MIDI Output: Not Connected"
+    End Sub
+
+#Region "Pitch2XY"
+    Private Function MIDIFighter64_GetKey_(ByVal 피치 As Integer) As String
+        Select Case 피치
+            Case 52
+                Return "n;1;1"
+            Case 53
+                Return "n;1;2"
+            Case 54
+                Return "n;1;3"
+            Case 55
+                Return "n;1;4"
+            Case 84
+                Return "n;1;5"
+            Case 85
+                Return "n;1;6"
+            Case 86
+                Return "n;1;7"
+            Case 87
+                Return "n;1;8"
+
+            Case 48
+                Return "n;2;1"
+            Case 49
+                Return "n;2;2"
+            Case 50
+                Return "n;2;3"
+            Case 51
+                Return "n;2;4"
+            Case 80
+                Return "n;2;5"
+            Case 81
+                Return "n;2;6"
+            Case 82
+                Return "n;2;7"
+            Case 83
+                Return "n;2;8"
+
+            Case 44
+                Return "n;3;1"
+            Case 45
+                Return "n;3;2"
+            Case 46
+                Return "n;3;3"
+            Case 47
+                Return "n;3;4"
+            Case 76
+                Return "n;3;5"
+            Case 77
+                Return "n;3;6"
+            Case 78
+                Return "n;3;7"
+            Case 79
+                Return "n;3;8"
+
+            Case 40
+                Return "n;4;1"
+            Case 41
+                Return "n;4;2"
+            Case 42
+                Return "n;4;3"
+            Case 43
+                Return "n;4;4"
+            Case 72
+                Return "n;4;5"
+            Case 73
+                Return "n;4;6"
+            Case 74
+                Return "n;4;7"
+            Case 75
+                Return "n;4;8"
+
+            Case 36
+                Return "n;5;1"
+            Case 37
+                Return "n;5;2"
+            Case 38
+                Return "n;5;3"
+            Case 39
+                Return "n;5;4"
+            Case 68
+                Return "n;5;5"
+            Case 69
+                Return "n;5;6"
+            Case 70
+                Return "n;5;7"
+            Case 71
+                Return "n;5;8"
+
+            Case 32
+                Return "n;6;1"
+            Case 33
+                Return "n;6;2"
+            Case 34
+                Return "n;6;3"
+            Case 35
+                Return "n;6;4"
+            Case 64
+                Return "n;6;5"
+            Case 65
+                Return "n;6;6"
+            Case 66
+                Return "n;6;7"
+            Case 67
+                Return "n;6;8"
+
+            Case 28
+                Return "n;7;1"
+            Case 29
+                Return "n;7;2"
+            Case 30
+                Return "n;7;3"
+            Case 31
+                Return "n;7;4"
+            Case 60
+                Return "n;7;5"
+            Case 61
+                Return "n;7;6"
+            Case 62
+                Return "n;7;7"
+            Case 63
+                Return "n;7;8"
+
+            Case 24
+                Return "n;8;1"
+            Case 25
+                Return "n;8;2"
+            Case 26
+                Return "n;8;3"
+            Case 27
+                Return "n;8;4"
+            Case 56
+                Return "n;8;5"
+            Case 57
+                Return "n;8;6"
+            Case 58
+                Return "n;8;7"
+            Case 59
+                Return "n;8;8"
+
+        End Select
+        Return "c;1"
+    End Function
+
+    Private Function MIDIFighter64_GetKey(ByVal 피치 As Integer) As String
+        Select Case 피치
+            Case 64
+                Return "1;1"
+            Case 65
+                Return "1;2"
+            Case 66
+                Return "1;3"
+            Case 67
+                Return "1;4"
+            Case 96
+                Return "1;5"
+            Case 97
+                Return "1;6"
+            Case 98
+                Return "1;7"
+            Case 99
+                Return "1;8"
+
+            Case 60
+                Return "2;1"
+            Case 61
+                Return "2;2"
+            Case 62
+                Return "2;3"
+            Case 63
+                Return "2;4"
+            Case 64
+                Return "2;5"
+            Case 92
+                Return "2;6"
+            Case 93
+                Return "2;7"
+            Case 94
+                Return "2;8"
+
+            Case 56
+                Return "3;1"
+            Case 57
+                Return "3;2"
+            Case 58
+                Return "3;3"
+            Case 59
+                Return "3;4"
+            Case 88
+                Return "3;5"
+            Case 89
+                Return "3;6"
+            Case 90
+                Return "3;7"
+            Case 91
+                Return "3;8"
+
+            Case 52
+                Return "4;1"
+            Case 53
+                Return "4;2"
+            Case 54
+                Return "4;3"
+            Case 55
+                Return "4;4"
+            Case 84
+                Return "4;5"
+            Case 85
+                Return "4;6"
+            Case 86
+                Return "4;7"
+            Case 87
+                Return "4;8"
+
+            Case 48
+                Return "5;1"
+            Case 49
+                Return "5;2"
+            Case 50
+                Return "5;3"
+            Case 51
+                Return "5;4"
+            Case 84
+                Return "5;5"
+            Case 85
+                Return "5;6"
+            Case 86
+                Return "5;7"
+            Case 87
+                Return "5;8"
+
+            Case 44
+                Return "6;1"
+            Case 45
+                Return "6;2"
+            Case 46
+                Return "6;3"
+            Case 47
+                Return "6;4"
+            Case 80
+                Return "6;5"
+            Case 81
+                Return "6;6"
+            Case 82
+                Return "6;7"
+            Case 83
+                Return "6;8"
+
+            Case 40
+                Return "7;1"
+            Case 41
+                Return "7;2"
+            Case 42
+                Return "7;3"
+            Case 43
+                Return "7;4"
+            Case 72
+                Return "7;5"
+            Case 73
+                Return "7;6"
+            Case 74
+                Return "7;7"
+            Case 75
+                Return "7;8"
+
+            Case 36
+                Return "8;1"
+            Case 37
+                Return "8;2"
+            Case 38
+                Return "8;3"
+            Case 39
+                Return "8;4"
+            Case 68
+                Return "8;5"
+            Case 69
+                Return "8;6"
+            Case 70
+                Return "8;7"
+            Case 71
+                Return "8;8"
+
+        End Select
+        Return "1;9"
+    End Function
+
+
+    Private Function LaunchPadS_MC_GetKey(ByVal 피치 As Integer) As String
+        Select Case 피치
+            Case 104
+                Return 1
+            Case 105
+                Return 2
+            Case 106
+                Return 3
+            Case 107
+                Return 4
+            Case 108
+                Return 5
+            Case 109
+                Return 6
+            Case 110
+                Return 7
+            Case 111
+                Return 8
+        End Select
+        Return 1
+    End Function
+
+    Private Function LaunchPadMK2_MC_GetKey(ByVal 피치 As Integer) As String
+        Select Case 피치
+            Case 104
+                Return 1
+            Case 105
+                Return 2
+            Case 106
+                Return 3
+            Case 107
+                Return 4
+            Case 108
+                Return 5
+            Case 109
+                Return 6
+            Case 110
+                Return 7
+            Case 111
+                Return 8
+        End Select
+        Return 1
+    End Function
+
+    Private Function LaunchPadPro_MC_GetKey(ByVal 피치 As Integer) As String
+        Select Case 피치
+            Case 91
+                Return 1
+            Case 92
+                Return 2
+            Case 93
+                Return 3
+            Case 94
+                Return 4
+            Case 95
+                Return 5
+            Case 96
+                Return 6
+            Case 97
+                Return 7
+            Case 98
+                Return 8
+
+                '체인 영역
+            Case 89
+                Return 9
+            Case 79
+                Return 10
+            Case 69
+                Return 11
+            Case 59
+                Return 12
+            Case 49
+                Return 13
+            Case 39
+                Return 14
+            Case 29
+                Return 15
+            Case 19
+                Return 16
+
+
+            Case 8
+                Return 17
+            Case 7
+                Return 18
+            Case 6
+                Return 19
+            Case 5
+                Return 20
+            Case 4
+                Return 21
+            Case 3
+                Return 22
+            Case 2
+                Return 23
+            Case 1
+                Return 24
+
+            Case 10
+                Return 25
+            Case 20
+                Return 26
+            Case 30
+                Return 27
+            Case 40
+                Return 28
+            Case 50
+                Return 29
+            Case 60
+                Return 30
+            Case 70
+                Return 31
+            Case 80
+                Return 32
+        End Select
+        Return 1
+    End Function
+#End Region
+#End Region
 End Class

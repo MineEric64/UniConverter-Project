@@ -60,6 +60,11 @@ UniConverter
   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
 </summary>
 </member>
+<member name="F:UniConverter_Project.keyLED_Test.ctrl">
+ <summary>
+ 버튼 저장
+ </summary>
+</member>
 <member name="F:UniConverter_Project.DeveloperMode_Project.EachCode.keyLED_1">
  <summary>
  XML2keyLED Code.
@@ -264,6 +269,16 @@ UniConverter
 <member name="F:UniConverter_Project.MainProject.TVLV">
  <summary>
  Tempoary Virtual ListView. 사운드 로드시 임시로 저장하는 리스트뷰.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.midioutput_kind">
+ <summary>
+ 0: Mini/S, 1: MK2, 2: Pro
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.midiinput_kind">
+ <summary>
+ 0: Mini/S, 1: MK2, 2: Pro (0~127 단계 소리 세기 조절 기능)
  </summary>
 </member>
 <member name="M:UniConverter_Project.MainProject.Lame(System.String,System.String,System.String,System.String,System.String,System.Boolean,Microsoft.VisualBasic.AppWinStyle)">

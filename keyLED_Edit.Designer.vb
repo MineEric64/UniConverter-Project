@@ -35,6 +35,7 @@ Partial Class keyLED_Edit
         Me.AdvChk = New System.Windows.Forms.CheckBox()
         Me.GAZUA_ = New System.ComponentModel.BackgroundWorker()
         Me.CleaningButton = New System.Windows.Forms.Button()
+        Me.TestButton = New System.Windows.Forms.Button()
         CType(Me.UniLED_Edit, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -60,8 +61,9 @@ Partial Class keyLED_Edit
         '
         'CopyButton
         '
+        Me.CopyButton.Enabled = False
         Me.CopyButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CopyButton.Location = New System.Drawing.Point(430, 411)
+        Me.CopyButton.Location = New System.Drawing.Point(476, 407)
         Me.CopyButton.Name = "CopyButton"
         Me.CopyButton.Size = New System.Drawing.Size(75, 45)
         Me.CopyButton.TabIndex = 19
@@ -164,6 +166,17 @@ Partial Class keyLED_Edit
         Me.CleaningButton.Text = "Clean The Texts!"
         Me.CleaningButton.UseVisualStyleBackColor = True
         '
+        'TestButton
+        '
+        Me.TestButton.Enabled = False
+        Me.TestButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.TestButton.Location = New System.Drawing.Point(384, 407)
+        Me.TestButton.Name = "TestButton"
+        Me.TestButton.Size = New System.Drawing.Size(75, 45)
+        Me.TestButton.TabIndex = 31
+        Me.TestButton.Text = "Test"
+        Me.TestButton.UseVisualStyleBackColor = True
+        '
         'keyLED_Edit
         '
         Me.AllowDrop = True
@@ -171,6 +184,7 @@ Partial Class keyLED_Edit
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.ClientSize = New System.Drawing.Size(579, 464)
+        Me.Controls.Add(Me.TestButton)
         Me.Controls.Add(Me.CleaningButton)
         Me.Controls.Add(Me.AdvChk)
         Me.Controls.Add(Me.UniLED1)
@@ -183,7 +197,7 @@ Partial Class keyLED_Edit
         Me.Controls.Add(Me.UniLED_Edit)
         Me.MaximizeBox = False
         Me.Name = "keyLED_Edit"
-        Me.Text = "keyLED Edit (Beta)"
+        Me.Text = "keyLED (MIDI Extension) Edit (Beta)"
         CType(Me.UniLED_Edit, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -202,4 +216,5 @@ Partial Class keyLED_Edit
     Friend WithEvents AdvChk As CheckBox
     Friend WithEvents GAZUA_ As System.ComponentModel.BackgroundWorker
     Friend WithEvents CleaningButton As Button
+    Friend WithEvents TestButton As Button
 End Class

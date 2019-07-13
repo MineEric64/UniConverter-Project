@@ -218,7 +218,7 @@ Public Class DeveloperMode_Workspace
                                DebugText.Text = DebugText.Text & String.Format("{0} - Writing GreatEx Mode License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
                                DebugText.Text = DebugText.Text & String.Format("{0} - Encrypting GreatEx Mode License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
                            End Sub)
-                    File.WriteAllText(MainProject.LicenseFile(0), My.Resources.License_GreatExMode)
+                    File.WriteAllText(MainProject.LicenseFile(1), My.Resources.License_GreatExMode)
                     Invoke(Sub()
                                DebugText.Text = DebugText.Text & String.Format("{0} - Enabled GreatEx Mode!", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
                                DebugText.Text = DebugText.Text & String.Format("{0} - UniConverter will reboot after 3 seconds to refresh codes...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
@@ -248,7 +248,7 @@ Public Class DeveloperMode_Workspace
                            End Sub)
 
                 Case "/disable GreatExMode"
-                    If File.Exists(MainProject.LicenseFile(0)) = False Then Throw New Exception("'GreatEx Mode License doesn't exists.")
+                    If File.Exists(MainProject.LicenseFile(1)) = False Then Throw New Exception("'GreatEx Mode License doesn't exists.")
 
                     Invoke(Sub()
                                DebugText.Text = DebugText.Text & String.Format("{0} - Disabling GreatEx Mode...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
@@ -257,7 +257,7 @@ Public Class DeveloperMode_Workspace
                                DebugText.Text = DebugText.Text & String.Format("{0} - Reading GreatEx Mode License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
                                DebugText.Text = DebugText.Text & String.Format("{0} - Deleting GreatEx Mode License...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
                            End Sub)
-                    File.Delete(MainProject.LicenseFile(0))
+                    File.Delete(MainProject.LicenseFile(1))
                     Invoke(Sub()
                                DebugText.Text = DebugText.Text & String.Format("{0} - Disabled GreatEx Mode!", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine
                                DebugText.Text = DebugText.Text & String.Format("{0} - UniConverter will reboot after 3 seconds to refresh codes...", Date.Now.ToString("tt hh:mm:ss")) & vbNewLine

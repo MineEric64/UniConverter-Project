@@ -1,6 +1,5 @@
 ﻿Imports System.IO
 Imports System.Text.RegularExpressions
-Imports System.Media
 Imports WMPLib
 
 Public Class keySound_Edit
