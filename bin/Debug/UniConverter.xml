@@ -65,6 +65,14 @@ UniConverter
  버튼 저장
  </summary>
 </member>
+<member name="M:UniConverter_Project.keyLED_Test.mcSendNote(System.Int32,System.Int32,System.Drawing.Color,System.Boolean)">
+ <summary>
+ MC 버튼을 켭니다.
+ </summary>
+ <param name="num">MC 버튼의 코드를 뜻합니다. 1~32로 있습니다.</param>
+ <param name="velo">벨로시티를 말합니다.</param>
+ <param name="col">색을 말합니다.</param>
+</member>
 <member name="F:UniConverter_Project.DeveloperMode_Project.EachCode.keyLED_1">
  <summary>
  XML2keyLED Code.
