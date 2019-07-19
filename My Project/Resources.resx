@@ -133,4 +133,7 @@
   <data name="License_GreatExMode" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\License_GreatExMode.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;ks_c_5601-1987</value>
   </data>
+  <data name="pfTest" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pfTest.mid;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

@@ -267,12 +267,12 @@ Public Class DeveloperMode_Project
                             Dim b As New A2U
 
                             If Not delaycount = a.AbsoluteTime Then
-                                str(i) = "d " & b.GetNoteDelay(b.keyLED_AC.T_NoteLength1, 120, 192, delaycount - a.AbsoluteTime + Math.Round(a.DeltaTime * 2.604) + Math.Round(a.NoteLength * 2.604))
+                                str(i) = "d " & b.GetNoteDelay(A2U.keyLED_AC.T_NoteLength1, 120, 192, delaycount - a.AbsoluteTime + Math.Round(a.DeltaTime * 2.604) + Math.Round(a.NoteLength * 2.604))
                                 i += 1
                             End If
 
-                            UniNoteNumberX = b.GX_keyLED(b.keyLED_AC.C_NoteNumber1, a.NoteNumber)
-                            UniNoteNumberY = b.GY_keyLED(b.keyLED_AC.C_NoteNumber1, a.NoteNumber)
+                            UniNoteNumberX = b.GX_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
+                            UniNoteNumberY = b.GY_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
                             delaycount = a.AbsoluteTime
                             str(i) = "o " & UniNoteNumberX & " " & UniNoteNumberY & " a " & a.Velocity
 
@@ -280,8 +280,8 @@ Public Class DeveloperMode_Project
 
                             Dim a = DirectCast(mdEvent, NoteEvent)
                             Dim b As New A2U
-                            UniNoteNumberX = b.GX_keyLED(b.keyLED_AC.C_NoteNumber1, a.NoteNumber)
-                            UniNoteNumberY = b.GY_keyLED(b.keyLED_AC.C_NoteNumber1, a.NoteNumber)
+                            UniNoteNumberX = b.GX_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
+                            UniNoteNumberY = b.GY_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
                             str(i) = "f " & UniNoteNumberX & " " & UniNoteNumberY
 
                         End If

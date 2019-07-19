@@ -62,7 +62,7 @@ Public Class MainProject
     ''' <summary>
     ''' 특별 기호 (")
     ''' </summary>
-    Public Shared ast As String = """"
+    Public Shared ast As String = Chr(34)
     ''' <summary>
     ''' MainProject 저장 여부.
     ''' </summary>

@@ -61,14 +61,14 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  CMDCode-help V1.2.0.5 (2019-03-31 By MineEric64)
+        '''  CMDCode-help V1.2.0.6 (2019-07-10 By MineEric64)
         '''
         '''/help - Showing How To Use Command. It shows the Commands to you.
         '''/? - Same as &apos;/help&apos;
         '''/clear - Clear Text.
-        '''/del &lt;Name&gt; - Delete File/Directory named &lt;Name&gt;.
-        '''/exists &lt;WName&gt; - Exists File/Directory named &lt;Name&gt;. Showing As Boolean.
-        '''&lt;WName&gt; Lists: Workspace, abl_proj (Ableton Project File), sounds, keySound (Sound Mapping File), CoLED (LED Files), keyLED (UniPack LED Files), info (UniPack Information), ksTmp (Tempoary keySound), KeyTracks (LED KeyTrack[나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 문자열을 찾습니다.
+        '''/del &lt;WName&gt; - Delete File/Directory named &lt;WName&gt;.
+        '''/exists &lt;WName&gt; - Exists File/Directory named &lt;WName&gt;. Showing As Boolean.
+        '''&lt;WName&gt; Lists: Workspace, abl_proj (Ableton Project File), sounds, keySound (Sound Mapping File), CoLED (LED Files), keyLED (UniPack LED Files), info (UniPack Information), ksTmp (Tempoary keySound), KeyTracks (LED KeyTr[나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 문자열을 찾습니다.
         '''</summary>
         Friend ReadOnly Property CMDCode_help() As String
             Get
@@ -79,8 +79,8 @@ Namespace My.Resources
         '''<summary>
         '''  PExpY2Vuc2VOYW1lPSJEZXZlbG9wZXIgTW9kZSIgTGljZW5zZURldmVsb3Blcj0iTWluZUVyaWM2NCIgUHJvZ3JhbTJ1c2VMaWNlbnNlPSJVbmlDb252ZXJ0ZXIiIExpY2Vuc2VDcmVhdGVEYXRlPSIyMDE5LTA3LTEwLTEzLTQ2IiBFeHBpcmVkRGF0ZT0iMjAyNC0wNy0xMC0xMy00NiI+
         '''
-        '''//This UniConverter&apos;s Developer Mode license.
-        '''- UniConverter ⓒ 2018~2019 최에릭 All Rights Reserved.과(와) 유사한 지역화된 문자열을 찾습니다.
+        '''//This is UniConverter&apos;s Developer Mode License.
+        '''- UniConverter ⓒ 2018~2019 최에릭 (MineEric64) All Rights Reserved.과(와) 유사한 지역화된 문자열을 찾습니다.
         '''</summary>
         Friend ReadOnly Property License_DeveloperMode() As String
             Get
@@ -91,12 +91,22 @@ Namespace My.Resources
         '''<summary>
         '''  PExpY2Vuc2VOYW1lPSJHcmVhdEV4IE1vZGUiIExpY2Vuc2VEZXZlbG9wZXI9Ik1pbmVFcmljNjQiIFByb2dyYW0ydXNlTGljZW5zZT0iVW5pQ29udmVydGVyIiBMaWNlbnNlQ3JlYXRlRGF0ZT0iMjAxOS0wNy0xMC0xMy01MCIgRXhwaXJlZERhdGU9IjIwMjQtMDctMTAtMTMtNTAiPg==
         '''
-        '''//This UniConverter&apos;s GreatEx Mode License.
+        '''//This is UniConverter&apos;s GreatEx Mode License.
         '''- UniConverter ⓒ 2018~2019 최에릭 (MineEric64) All Rights Reserved.과(와) 유사한 지역화된 문자열을 찾습니다.
         '''</summary>
         Friend ReadOnly Property License_GreatExMode() As String
             Get
                 Return ResourceManager.GetString("License_GreatExMode", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  System.Byte[] 형식의 지역화된 리소스를 찾습니다.
+        '''</summary>
+        Friend ReadOnly Property pfTest() As Byte()
+            Get
+                Dim obj As Object = ResourceManager.GetObject("pfTest", resourceCulture)
+                Return CType(obj,Byte())
             End Get
         End Property
         

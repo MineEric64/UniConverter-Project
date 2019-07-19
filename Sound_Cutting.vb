@@ -130,7 +130,7 @@ Public Class Sound_Cutting
 
         Using reader = New Mp3FileReader(inputPath)
             Using writer = File.Create(outputPath)
-                Dim frame As Mp3Frame
+                Dim frame As Mp3Frame = Nothing
                 While InlineAssignHelper(frame, reader.ReadNextFrame()) IsNot Nothing
                     If reader.CurrentTime >= begin OrElse Not begin.HasValue Then
                         If reader.CurrentTime <= [end] OrElse Not [end].HasValue Then
@@ -152,7 +152,7 @@ Public Class Sound_Cutting
 
         Using reader = New Mp3FileReader(inputPath)
             Using writer = File.Create(outputPath)
-                Dim frame As Mp3Frame
+                Dim frame As Mp3Frame = Nothing
                 While (InlineAssignHelper(frame, reader.ReadNextFrame())) IsNot Nothing
                     If reader.CurrentTime >= begin OrElse Not begin.HasValue Then
                         If reader.CurrentTime <= [end] OrElse Not [end].HasValue Then

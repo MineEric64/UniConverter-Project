@@ -3,10 +3,16 @@ Imports System.Text.RegularExpressions
 Imports NAudio.Midi
 Imports A2UP
 Imports System.Xml
-Imports System.Threading
 
 Public Class keyLED_Edit
     Public CanEnable As Boolean = False
+    Public SoGood As String() = New String(1) {}
+
+#Region "pfTest-Debug"
+    Public pfTest As String = My.Computer.FileSystem.SpecialDirectories.Temp & "\pfTest.mid"
+    Public milus As Integer = 0
+    Public ILoveYa As MidiFile
+#End Region
 
     Private Sub KeyLED_Edit_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'FileName 표시.
@@ -17,6 +23,9 @@ Public Class keyLED_Edit
                    End Sub)
         Next
 
+        '성능 테스트. (Remaining Time ++)
+        pfTest_bgw.RunWorkerAsync()
+
         Dim file_ex = Application.StartupPath + "\settings.xml"
         Dim setNode As New XmlDocument
         setNode.Load(file_ex)
@@ -24,6 +33,22 @@ Public Class keyLED_Edit
 
         If setaNode IsNot Nothing Then
             CleaningButton.Enabled = Boolean.Parse(setaNode.ChildNodes(2).InnerText)
+        End If
+
+        If setaNode IsNot Nothing Then
+            If setaNode.ChildNodes(0).InnerText = "NoteLength" Then
+                SoGood(0) = "Note Length"
+                SoGood(1) = setaNode.ChildNodes(1).InnerText
+
+            ElseIf setaNode.ChildNodes(0).InnerText = "DeltaTime" Then
+                SoGood(0) = "Delta Time"
+                SoGood(1) = setaNode.ChildNodes(2).InnerText
+
+            ElseIf setaNode.ChildNodes(0).InnerText = "AbsoluteTime" Then
+                SoGood(0) = "Absolute Time"
+                SoGood(1) = setaNode.ChildNodes(3).InnerText
+
+            End If
         End If
     End Sub
 
@@ -114,34 +139,10 @@ Public Class keyLED_Edit
                     li += 1
                 Next
             Next
+
             Dim str As String() = New String(li + 100000) {}
-
-            Dim rt As Integer = 0
-            Select Case str.Count
-                'MIDI 파일 데이터를 수집하여 시간 복잡도의 정확도 향상. 
-                Case 100000 To 105000 - 1
-                    rt = 1
-                Case 105000 To 110000 - 1
-                    rt = 2
-                Case 110000 To 113000 - 1
-                    rt = 3
-                Case 113000 To 117000 - 1
-                    rt = 4
-                Case 117000 To 150000 - 1
-                    rt = Math.Round((str.Count - 93000) / 1000 * 167 / 1000)
-                Case 150000 To 200000 - 1
-                    rt = Math.Round((str.Count + 20000) / 1000 * 167 / 1000)
-                Case > 200000
-                    rt = Math.Round((str.Count + 50000) / 1000 * 167 / 1000)
-            End Select
-
-            Invoke(Sub() UniLED_Edit.Text = "Please Wait..." & vbNewLine & "Time complexity: " & rt & "s")
             Dim i As Integer = 0
             Dim delaycount As Integer = 0
-            Dim file_ex = Application.StartupPath + "\settings.xml"
-            Dim setNode As New XmlDocument
-            setNode.Load(file_ex)
-            Dim setaNode As XmlNode = setNode.SelectSingleNode("/Settings-XML/keyLED-Adv")
 
             Dim UniNoteNumberX As Integer 'X
             Dim UniNoteNumberY As Integer 'Y
@@ -153,34 +154,33 @@ Public Class keyLED_Edit
                     If SelconItem = "Ableton 9 ALG1" Then
 
                         If mdEvent.CommandCode = MidiCommandCode.NoteOn Then
-                            Dim a = DirectCast(mdEvent, NoteOnEvent)
+                            Dim a As NoteOnEvent = DirectCast(mdEvent, NoteOnEvent)
                             Dim b As New A2U
 
 #Region "keyLED - Delays 1"
-                            If setaNode IsNot Nothing Then
+                            '최적화. 이 코드들을 Load 코드 부분에 이동 하고 변수를 선언해 최대한 변환 시간을 줄임.
+                            If AdvChk.Checked Then
 
-                                If setaNode.ChildNodes(0).InnerText = "NoteLength" Then
+                                If SoGood(0) = "Note Length" Then
 
-                                    If setaNode.ChildNodes(1).InnerText = "Non-Convert" Then
+                                    If SoGood(1) = "Non-Convert" Then
                                         str(i) = "d " & a.NoteLength
-                                    ElseIf setaNode.ChildNodes(1).InnerText = "NL4Ticks/NL2M" Then
-                                        If Not a.DeltaTime = 0 Then
-                                            str(i) = "d " & b.GetNoteDelay(b.keyLED_AC.T_NoteLength1, 120, 192, a.NoteLength)
-                                        End If
+                                    ElseIf SoGood(1) = "NL4Ticks/NL2M" Then
+                                        str(i) = "d " & b.GetNoteDelay(A2U.keyLED_AC.T_NoteLength1, 120, 192, a.NoteLength)
                                     End If
 
-                                ElseIf setaNode.ChildNodes(0).InnerText = "DeltaTime" Then
+                                ElseIf SoGood(0) = "Delta Time" Then
 
-                                    If setaNode.ChildNodes(2).InnerText = "Non-Convert" Then
+                                    If SoGood(1) = "Non-Convert" Then
                                         str(i) = "d " & a.DeltaTime
                                     End If
 
-                                ElseIf setaNode.ChildNodes(0).InnerText = "AbsoluteTime" Then
+                                ElseIf SoGood(0) = "Absolute Time" Then
 
-                                    If setaNode.ChildNodes(3).InnerText = "Non-Convert" Then
+                                    If SoGood(1) = "Non-Convert" Then
                                         str(i) = "d " & a.AbsoluteTime
-                                    ElseIf setaNode.ChildNodes(3).InnerText = "AbTofMIDI" Then
 
+                                    ElseIf SoGood(1) = "AbTofMIDI" Then
                                         Dim bpm As Integer = 120
                                         Dim ppq = LEDFileC.DeltaTicksPerQuarterNote
                                         Dim r As Integer = ppq * bpm
@@ -188,28 +188,36 @@ Public Class keyLED_Edit
                                         'str(i) = "d " & Math.Truncate(a.AbsoluteTime / LEDFileC.DeltaTicksPerQuarterNote * 120)
                                         'str(i) = "d " & Math.Truncate(((a.AbsoluteTime - LastTempoEvent.AbsoluteTime) / LEDFileC.DeltaTicksPerQuarterNote) * 120 + LastTempoEvent.RealTime)
 
-                                    ElseIf setaNode.ChildNodes(3).InnerText = "TimeLine/NL2M" Then
+                                    ElseIf SoGood(1) = "TimeLine/NL2M" Then
                                         If Not delaycount = a.AbsoluteTime Then
-                                            str(i) = "d " & b.GetNoteDelay(b.keyLED_AC.T_NoteLength1, 120, 192, delaycount - a.AbsoluteTime + Math.Round(a.DeltaTime * 2.604) + Math.Round(a.NoteLength * 2.604))
+                                            str(i) = "d " & b.GetNoteDelay(A2U.keyLED_AC.T_NoteLength1, 120, 192, delaycount - a.AbsoluteTime + Math.Round(a.DeltaTime * 2.604) + Math.Round(a.NoteLength * 2.604))
                                         End If
                                     End If
+                                    i += 1
                                 End If
 
-                                i += 1
+                            Else
+
+                                '기본 알고리즘: Absolute Time, TimeLine / NL2M
+                                '이 delay 변환 코드는 변환 코드 알고리즘이 수정될 때마다 수정 해야 합니다!
+                                If Not delaycount = a.AbsoluteTime Then
+                                    str(i) = "d " & b.GetNoteDelay(A2U.keyLED_AC.T_NoteLength1, 120, 192, delaycount - a.AbsoluteTime + Math.Round(a.DeltaTime * 2.604) + Math.Round(a.NoteLength * 2.604))
+                                End If
+
                             End If
 #End Region
 
-                            UniNoteNumberX = b.GX_keyLED(b.keyLED_AC.C_NoteNumber1, a.NoteNumber)
-                            UniNoteNumberY = b.GY_keyLED(b.keyLED_AC.C_NoteNumber1, a.NoteNumber)
+                            UniNoteNumberX = b.GX_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
+                            UniNoteNumberY = b.GY_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
                             delaycount = a.AbsoluteTime
-                            str(i) = "o " & UniNoteNumberX & " " & UniNoteNumberY & " a " & a.Velocity
+                                str(i) = "o " & UniNoteNumberX & " " & UniNoteNumberY & " a " & a.Velocity
 
-                        ElseIf mdEvent.CommandCode = MidiCommandCode.NoteOff Then
+                            ElseIf mdEvent.CommandCode = MidiCommandCode.NoteOff Then
 
-                            Dim a = DirectCast(mdEvent, NoteEvent)
+                                Dim a = DirectCast(mdEvent, NoteEvent)
                             Dim b As New A2U
-                            UniNoteNumberX = b.GX_keyLED(b.keyLED_AC.C_NoteNumber1, a.NoteNumber)
-                            UniNoteNumberY = b.GY_keyLED(b.keyLED_AC.C_NoteNumber1, a.NoteNumber)
+                            UniNoteNumberX = b.GX_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
+                            UniNoteNumberY = b.GY_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
                             str(i) = "f " & UniNoteNumberX & " " & UniNoteNumberY
 
                         End If
@@ -221,28 +229,28 @@ Public Class keyLED_Edit
                             Dim b As New A2U
 
 #Region "keyLED - Delays 1"
-                            If setaNode IsNot Nothing Then
+                            If AdvChk.Checked Then
 
-                                If setaNode.ChildNodes(0).InnerText = "NoteLength" Then
+                                If SoGood(0) = "Note Length" Then
 
-                                    If setaNode.ChildNodes(1).InnerText = "Non-Convert" Then
+                                    If SoGood(1) = "Non-Convert" Then
                                         str(i) = "d " & a.NoteLength
-                                    ElseIf setaNode.ChildNodes(1).InnerText = "NL4Ticks/NL2M" Then
-                                        str(i) = "d " & b.GetNoteDelay(b.keyLED_AC.T_NoteLength1, 120, 192, a.NoteLength)
+                                    ElseIf SoGood(1) = "NL4Ticks/NL2M" Then
+                                        str(i) = "d " & b.GetNoteDelay(A2U.keyLED_AC.T_NoteLength1, 120, 192, a.NoteLength)
                                     End If
 
-                                ElseIf setaNode.ChildNodes(0).InnerText = "DeltaTime" Then
+                                ElseIf SoGood(0) = "Delta Time" Then
 
-                                    If setaNode.ChildNodes(2).InnerText = "Non-Convert" Then
+                                    If SoGood(1) = "Non-Convert" Then
                                         str(i) = "d " & a.DeltaTime
                                     End If
 
-                                ElseIf setaNode.ChildNodes(0).InnerText = "AbsoluteTime" Then
+                                ElseIf SoGood(0) = "Absolute Time" Then
 
-                                    If setaNode.ChildNodes(3).InnerText = "Non-Convert" Then
+                                    If SoGood(1) = "Non-Convert" Then
                                         str(i) = "d " & a.AbsoluteTime
-                                    ElseIf setaNode.ChildNodes(3).InnerText = "AbTofMIDI" Then
 
+                                    ElseIf SoGood(1) = "AbTofMIDI" Then
                                         Dim bpm As Integer = 120
                                         Dim ppq = LEDFileC.DeltaTicksPerQuarterNote
                                         Dim r As Integer = ppq * bpm
@@ -250,13 +258,22 @@ Public Class keyLED_Edit
                                         'str(i) = "d " & Math.Truncate(a.AbsoluteTime / LEDFileC.DeltaTicksPerQuarterNote * 120)
                                         'str(i) = "d " & Math.Truncate(((a.AbsoluteTime - LastTempoEvent.AbsoluteTime) / LEDFileC.DeltaTicksPerQuarterNote) * 120 + LastTempoEvent.RealTime)
 
-                                    ElseIf setaNode.ChildNodes(3).InnerText = "TimeLine/NL2M" Then
+                                    ElseIf SoGood(1) = "TimeLine/NL2M" Then
                                         If Not delaycount = a.AbsoluteTime Then
-                                            str(i) = "d " & b.GetNoteDelay(b.keyLED_AC.T_NoteLength1, 120, 192, delaycount - a.AbsoluteTime + Math.Round(a.DeltaTime * 2.604) + Math.Round(a.NoteLength * 2.604))
+                                            str(i) = "d " & b.GetNoteDelay(A2U.keyLED_AC.T_NoteLength1, 120, 192, delaycount - a.AbsoluteTime + Math.Round(a.DeltaTime * 2.604) + Math.Round(a.NoteLength * 2.604))
                                         End If
                                     End If
+                                    i += 1
                                 End If
-                                i += 1
+
+                            Else
+
+                                '이 delay 변환 코드는 변환 코드 알고리즘이 수정될 때마다 수정 해야 합니다!
+                                '기본 알고리즘: Absolute Time, TimeLine / NL2M
+                                If Not delaycount = a.AbsoluteTime Then
+                                    str(i) = "d " & b.GetNoteDelay(A2U.keyLED_AC.T_NoteLength1, 120, 192, delaycount - a.AbsoluteTime + Math.Round(a.DeltaTime * 2.604) + Math.Round(a.NoteLength * 2.604))
+                                End If
+
                             End If
 #End Region
 
@@ -272,6 +289,7 @@ Public Class keyLED_Edit
 
                     Else
                         MessageBox.Show("You have to select the 'Ableton ALG1' or 'Non-Convert (Developer Mode)'.'", Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                        e.Cancel = True
                         Exit Sub
                     End If
                     i += 1
@@ -285,22 +303,21 @@ Public Class keyLED_Edit
                 End If
             Next
 
-            Invoke(Sub() UniLED_Edit.Text = strn)
-
             '8192는 MC LED 번호.
             If Regex.IsMatch(strn, "-8192") Then '-8192 = Non-UniNoteNumber
                 Invoke(Sub()
-                           UniLED_Edit.Text = strn.Replace("o -8192 ", "o mc ").Trim() 'ON MC LED Convert.
-                           UniLED_Edit.Text = UniLED_Edit.Text.Replace("f -8192 ", "f mc ").Trim() 'OFF MC LED Convert.
+                           strn = strn.Replace("o -8192 ", "o mc ").Trim() 'ON MC LED Convert.
+                           strn = strn.Replace("f -8192 ", "f mc ").Trim() 'OFF MC LED Convert.
                        End Sub)
             End If
 
             Invoke(Sub()
-                       CanEnable = True 'Enabled to Test the LED.
+                       UniLED_Edit.Text = strn
                        TestButton.Enabled = True
                        keyLED_Test.Enabled = True
                        CopyButton.Enabled = True
                    End Sub)
+            CanEnable = True 'Enabled to Test the LED.
             keyLED_Test.LoadkeyLEDText(UniLED_Edit.Text)
 
             stopw.Stop()
@@ -381,5 +398,63 @@ Public Class keyLED_Edit
         Else
             MessageBox.Show("You have to convert the LED first!" & vbNewLine & "Please wait...", Me.Text & ": Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End If
+    End Sub
+
+    Private Sub PfTest_bgw_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles pfTest_bgw.DoWork
+        File.WriteAllBytes(pfTest, My.Resources.pfTest)
+        ILoveYa = New MidiFile(pfTest, False)
+        Tests_bgw.RunWorkerAsync()
+    End Sub
+
+    Public Sub GetkeyLED_MIDEX2(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles Tests_bgw.DoWork
+        'A2UP keyLED Code.
+        '- Test Code.
+
+        Dim sto As New Stopwatch
+        sto.Start()
+        Dim li As Integer = 0
+        For Each mdEvent_list In ILoveYa.Events
+            For Each mdEvent In mdEvent_list
+                li += 1
+            Next
+        Next
+        Dim str As String() = New String(li + 100000) {}
+
+        Dim i As Integer = 0
+        Dim delaycount As Integer = 0
+        Dim UniNoteNumberX As Integer 'X
+        Dim UniNoteNumberY As Integer 'Y
+        For Each mdEvent_list In ILoveYa.Events
+            For Each mdEvent In mdEvent_list
+                If mdEvent.CommandCode = MidiCommandCode.NoteOn Then
+                    Dim a = DirectCast(mdEvent, NoteOnEvent)
+                    Dim b As New A2U
+
+                    If Not delaycount = a.AbsoluteTime Then
+                        str(i) = "d " & b.GetNoteDelay(A2U.keyLED_AC.T_NoteLength1, 120, 192, delaycount - a.AbsoluteTime + Math.Round(a.DeltaTime * 2.604) + Math.Round(a.NoteLength * 2.604))
+                        i += 1
+                    End If
+
+                    UniNoteNumberX = b.GX_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
+                    UniNoteNumberY = b.GY_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
+                    delaycount = a.AbsoluteTime
+                    str(i) = "o " & UniNoteNumberX & " " & UniNoteNumberY & " a " & a.Velocity
+
+                ElseIf mdEvent.CommandCode = MidiCommandCode.NoteOff Then
+
+                    Dim a = DirectCast(mdEvent, NoteEvent)
+                    Dim b As New A2U
+                    UniNoteNumberX = b.GX_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
+                    UniNoteNumberY = b.GY_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
+                    str(i) = "f " & UniNoteNumberX & " " & UniNoteNumberY
+
+                End If
+                i += 1
+            Next
+        Next
+
+        sto.Stop()
+        Debug.WriteLine(sto.Elapsed.ToString)
+        milus = sto.Elapsed.Seconds
     End Sub
 End Class
