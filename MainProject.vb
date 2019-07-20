@@ -1326,7 +1326,7 @@ fexLine:
             If abl_openedled = True Then
                 keyLED_Edit.Show()
             Else
-                Throw New Exception("There is no LED Files! Please Try Open LED Files.")
+                Throw New FileNotFoundException("There is no LED Files! Please Try Open LED Files.")
             End If
         Catch ex As Exception
             If IsGreatExMode Then
@@ -1423,7 +1423,6 @@ fexLine:
                 MessageBox.Show("Wrong output Launchpad! Please select other thing!" & vbNewLine & String.Format("(Selected MIDI Device: {0})", wowc), "Wrong Launchpad", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 midioutput_kind = 0
             End If
-
             MIDIStatOut.Text = String.Format("Midi Output: Connected ({0})", MidiOut.DeviceInfo(OutListBox.SelectedIndex).ProductName)
             midioutput.SendBuffer({240, 0, 32, 41, 9, 60, 85, 110, 105, 116, 111, 114, 32, 118, Asc(My.Application.Info.Version.Major), 46, Asc(My.Application.Info.Version.Minor), 46, Asc(My.Application.Info.Version.Build), 46, Asc(My.Application.Info.Version.Revision), 247})
         Catch ex As Exception

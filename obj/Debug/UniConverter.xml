@@ -50,11 +50,6 @@ UniConverter
 - UniConverter ⓒ 2018~2019 최에릭 (MineEric64) All Rights Reserved.과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
-<member name="P:UniConverter_Project.My.Resources.Resources.pfTest">
-<summary>
-  System.Byte[] 형식의 지역화된 리소스를 찾습니다.
-</summary>
-</member>
 <member name="P:UniConverter_Project.My.Resources.Resources.UniConverterV2">
 <summary>
   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
@@ -70,6 +65,23 @@ UniConverter
  버튼 저장
  </summary>
 </member>
+<member name="M:UniConverter_Project.keyLED_Test.Handle_Launchpad(System.Int32,System.Int32,System.Int32)">
+ <summary>
+ 런치패드를 조작합니다. (LED ON!)
+ </summary>
+ <param name="x">LED X 좌표.</param>
+ <param name="y">LED Y 좌표.</param>
+ <param name="Velocity">LED 색깔.</param>
+</member>
+<member name="M:UniConverter_Project.keyLED_Test.Handle_Launchpad(System.Int32,System.Int32,System.Int32,System.Int32)">
+ <summary>
+ 런치패드를 조작합니다. (LED ON!)
+ </summary>
+ <param name="x">LED X 좌표.</param>
+ <param name="y">LED Y 좌표.</param>
+ <param name="Velocity">LED 색깔.</param>
+ <param name="Launchpad_Kind">런치패드 종류. (0: Mini/S, 1: MK2, 2: Pro)</param>
+</member>
 <member name="M:UniConverter_Project.keyLED_Test.mcSendNote(System.Int32,System.Int32,System.Drawing.Color,System.Boolean)">
  <summary>
  MC 버튼을 켭니다.
@@ -77,6 +89,15 @@ UniConverter
  <param name="num">MC 버튼의 코드를 뜻합니다. 1~32로 있습니다.</param>
  <param name="velo">벨로시티를 말합니다.</param>
  <param name="col">색을 말합니다.</param>
+</member>
+<member name="M:UniConverter_Project.keyLED_Test.mcSendNote(System.Int32,System.Int32,System.Drawing.Color,System.Int32,System.Boolean)">
+ <summary>
+ MC 버튼을 켭니다.
+ </summary>
+ <param name="num">MC 버튼의 코드를 뜻합니다. 1~32로 있습니다.</param>
+ <param name="velo">벨로시티를 말합니다.</param>
+ <param name="col">색을 말합니다.</param>
+ <param name="Launchpad_Kind">런치패드 종류. (0: Mini/S, 1: MK2, 2: Pro)</param>
 </member>
 <member name="F:UniConverter_Project.DeveloperMode_Project.EachCode.keyLED_1">
  <summary>

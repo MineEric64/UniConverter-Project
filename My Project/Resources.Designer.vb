@@ -101,16 +101,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  System.Byte[] 형식의 지역화된 리소스를 찾습니다.
-        '''</summary>
-        Friend ReadOnly Property pfTest() As Byte()
-            Get
-                Dim obj As Object = ResourceManager.GetObject("pfTest", resourceCulture)
-                Return CType(obj,Byte())
-            End Get
-        End Property
-        
-        '''<summary>
         '''  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         '''</summary>
         Friend ReadOnly Property UniConverterV2() As System.Drawing.Bitmap
