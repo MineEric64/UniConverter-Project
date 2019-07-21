@@ -8,6 +8,9 @@ Imports System.Text
 Imports System.Net
 Imports System.Threading
 Imports System.Xml
+Imports System.ComponentModel
+Imports System.Text.RegularExpressions
+Imports A2UP
 
 Public Class MainProject
     ''' <summary>
@@ -21,6 +24,7 @@ Public Class MainProject
     Public Shared abl_openedproj As Boolean
     Public Shared abl_openedsnd As Boolean
     Public Shared abl_openedled As Boolean
+    Public Shared abl_openedled2 As Boolean
 
     Public Shared loading_Sound_Open_msg As String = "Loading Sound Files... ({0} / {1})"
     Public Shared loading_LED_open_msg As String = "Loading LED Files... ({0} / {1})"
@@ -77,6 +81,10 @@ Public Class MainProject
     Dim IsUpdated As Boolean
     Dim OpenProjectOnce As Boolean
     ''' <summary>
+    ''' 지금 매우 중요한 작업 여부.
+    ''' </summary>
+    Dim IsWorking As Boolean
+    ''' <summary>
     ''' 사운드 검색시 원본 리스트뷰.
     ''' </summary>
     Dim LLV As New ListView
@@ -90,6 +98,7 @@ Public Class MainProject
     Private ofd_FileNames() As String
     Private trd_ListView As ListView
     Private trd_KeyEvent_e As KeyEventArgs
+    Private stopitnow As Boolean = False
 
 #Region "MIDI Settings"
     Public midioutput As MidiOut
@@ -149,6 +158,7 @@ Public Class MainProject
             abl_openedsnd = False
             abl_openedled = False
             IsUpdated = False
+            IsWorking = False
             OpenProjectOnce = False
 
             'License File of Developer Mode.
@@ -267,7 +277,7 @@ Public Class MainProject
         Save2Project(True)
     End Sub
 
-    Private Sub BGW_keyLED_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles BGW_keyLED.DoWork
+    Private Sub BGW_keyLED_DoWork(sender As Object, e As DoWorkEventArgs) Handles BGW_keyLED.DoWork
         Try
             Dim FileNames = ofd_FileNames
 
@@ -296,13 +306,14 @@ OpenLine:
                 Loading.DPr.Style = ProgressBarStyle.Marquee
                 Loading.DPr.Refresh()
                 Loading.DLb.Left = 40
-                Loading.DLb.Text = "Loaded Sound Files. Please Wait..."
+                Loading.DLb.Text = "Loaded LED Files. Please Wait..."
                 Loading.DLb.Refresh()
             Else
                 My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\CoLED")
                 GoTo OpenLine
             End If
 
+            abl_openedled = True
             Loading.Dispose()
         Catch ex As Exception
             If IsGreatExMode Then
@@ -314,7 +325,7 @@ OpenLine:
         End Try
     End Sub
 
-    Private Sub BGW_keyLED_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles BGW_keyLED.RunWorkerCompleted
+    Private Sub BGW_keyLED_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles BGW_keyLED.RunWorkerCompleted
         Try
             If e.Error IsNot Nothing Then
                 MessageBox.Show("Error - " & e.Error.Message & vbNewLine & "Error Message: " & e.Error.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -322,47 +333,158 @@ OpenLine:
             ElseIf e.Cancelled Then
                 Exit Sub
             Else
-                If abl_openedled = True Then
-                    abl_openedled = True
-                    If OpenProjectOnce = False Then
-                        MessageBox.Show("LED Files Loaded! You can edit LEDs in 'keyLED (MIDI Extension)' Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    Else
-                        OpenProjectOnce = False
-                        If abl_openedproj AndAlso abl_openedsnd AndAlso abl_openedled Then
-                            MessageBox.Show("Ableton Project, Sounds, LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        ElseIf abl_openedproj AndAlso abl_openedsnd AndAlso abl_openedled Then
-                            MessageBox.Show("Ableton Project, Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        ElseIf abl_openedproj Then
-                            MessageBox.Show("Ableton Project Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        ElseIf abl_openedsnd AndAlso abl_openedled Then
-                            MessageBox.Show("Sounds, LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        ElseIf abl_openedsnd Then
-                            MessageBox.Show("Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        ElseIf abl_openedled Then
-                            MessageBox.Show("LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        End If
+
+                Dim s As String = My.Computer.FileSystem.GetParentPath(ofd_FileNames(0))
+                Dim wowkac As String = String.Empty
+                For Each d As String In My.Computer.FileSystem.GetFiles(s, FileIO.SearchOption.SearchTopLevelOnly)
+                    If d.Contains("Save") OrElse d.Contains("save") AndAlso Path.HasExtension(d) = False Then
+                        wowkac = d
+                        Exit For
                     End If
+                Next
+
+                If Not wowkac = String.Empty Then
+                    File.Copy(wowkac, Application.StartupPath & "\Workspace\ableproj\LEDSave.uni", True)
+                    abl_openedled2 = True
+                    stopitnow = True
+                    BGW_keyLED2.RunWorkerAsync()
                 Else
-                    abl_openedled = True
-                    If OpenProjectOnce = False Then
-                        MessageBox.Show("LED Files Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    Else
-                        OpenProjectOnce = False
-                        If abl_openedproj AndAlso abl_openedsnd AndAlso abl_openedled Then
-                            MessageBox.Show("Ableton Project, Sounds, LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        ElseIf abl_openedproj AndAlso abl_openedsnd AndAlso abl_openedled Then
-                            MessageBox.Show("Ableton Project, Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        ElseIf abl_openedproj Then
-                            MessageBox.Show("Ableton Project Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        ElseIf abl_openedsnd AndAlso abl_openedled Then
-                            MessageBox.Show("Sounds, LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        ElseIf abl_openedsnd Then
-                            MessageBox.Show("Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        ElseIf abl_openedled Then
-                            MessageBox.Show("LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        End If
-                    End If
+                    OpenkeyLED2()
                 End If
+
+            End If
+        Catch ex As Exception
+            If IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+        End Try
+    End Sub
+
+    Private Sub BGW_keyLED2_DoWork(sender As Object, e As DoWorkEventArgs) Handles BGW_keyLED2.DoWork
+        Try
+            Dim FileName As String = ofd_FileName
+
+            If String.IsNullOrEmpty(FileName) OrElse stopitnow Then
+                e.Cancel = True
+            End If
+
+            If e.Cancel = False Then
+                Loading.Show()
+                Loading.Text = Me.Text & ": Loading LED Save File..."
+                FileName = ofd_FileName
+                Loading.DPr.Maximum = 1
+                Loading.DLb.Left = 40
+                Loading.DLb.Text = "Loading LED Save File..."
+                Loading.DLb.Refresh()
+
+                File.Copy(FileName, Application.StartupPath & "\Workspace\ableproj\LEDSave.uni", True)
+                Loading.DPr.Style = ProgressBarStyle.Continuous
+                Loading.DPr.Value = 1
+                Loading.DLb.Left = 40
+                Loading.DLb.Text = String.Format(loading_LED_open_msg, Loading.DPr.Value, 1)
+                Loading.DLb.Refresh()
+
+                Loading.DPr.Value = Loading.DPr.Maximum
+                Loading.DPr.Style = ProgressBarStyle.Marquee
+                Loading.DPr.Refresh()
+                Loading.DLb.Left = 40
+                Loading.DLb.Text = "Loaded keyLED Save File. Please Wait..."
+                Loading.DLb.Refresh()
+
+                If OpenProjectOnce = False Then MessageBox.Show("LED Files Loaded! You can edit LEDs in 'keyLED (MIDI Extension)' Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                abl_openedled2 = True
+                Loading.Dispose()
+            End If
+
+        Catch ex As Exception
+            If IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+            e.Cancel = True
+        End Try
+    End Sub
+
+    Private Sub BGW_keyLED2_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles BGW_keyLED2.RunWorkerCompleted
+        Try
+            If e.Error IsNot Nothing Then
+                MessageBox.Show("Error - " & e.Error.Message & vbNewLine & "Error Message: " & e.Error.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Exit Sub
+            ElseIf e.Cancelled Then
+                If OpenProjectOnce Then
+                    OpenProjectOnce = False
+                    If abl_openedproj AndAlso abl_openedsnd AndAlso abl_openedled Then
+                        MessageBox.Show("Ableton Project, Sounds, LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    ElseIf abl_openedproj AndAlso abl_openedsnd AndAlso abl_openedled Then
+                        MessageBox.Show("Ableton Project, Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    ElseIf abl_openedproj Then
+                        MessageBox.Show("Ableton Project Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    ElseIf abl_openedsnd AndAlso abl_openedled Then
+                        MessageBox.Show("Sounds, LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    ElseIf abl_openedsnd Then
+                        MessageBox.Show("Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    ElseIf abl_openedled Then
+                        MessageBox.Show("LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End If
+
+                    '이제 변환 작업 시작.
+                    'BGW_ablprojCvt.RunWorkerAsync()
+                    'BGW_soundsCvt.RunWorkerAsync()
+                    'BGW_keyLEDCvt.RunWorkerAsync()
+                Else
+                    MessageBox.Show("LED Files Loaded! You can edit LEDs in 'keyLED (MIDI Extension)' Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    BGW_keyLEDCvt.RunWorkerAsync()
+                End If
+                Exit Sub
+            Else
+                If OpenProjectOnce Then
+                    OpenProjectOnce = False
+                    If abl_openedproj AndAlso abl_openedsnd AndAlso abl_openedled Then
+                        MessageBox.Show("Ableton Project, Sounds, LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    ElseIf abl_openedproj AndAlso abl_openedsnd AndAlso abl_openedled Then
+                        MessageBox.Show("Ableton Project, Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    ElseIf abl_openedproj Then
+                        MessageBox.Show("Ableton Project Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    ElseIf abl_openedsnd AndAlso abl_openedled Then
+                        MessageBox.Show("Sounds, LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    ElseIf abl_openedsnd Then
+                        MessageBox.Show("Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    ElseIf abl_openedled Then
+                        MessageBox.Show("LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End If
+
+                    '이제 변환 작업 시작.
+                    'BGW_ablprojCvt.RunWorkerAsync()
+                    'BGW_soundsCvt.RunWorkerAsync()
+                    'BGW_keyLEDCvt.RunWorkerAsync()
+                Else
+                    BGW_keyLEDCvt.RunWorkerAsync()
+                End If
+            End If
+        Catch ex As Exception
+            If IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+        End Try
+    End Sub
+
+    Private Sub OpenkeyLED2()
+        Try
+            ofd.Multiselect = False
+            ofd.Title = "Open the keyLED Save File"
+            ofd.Filter = "keyLED Save File|*.*"
+
+            If ofd.ShowDialog() = DialogResult.OK Then
+                ofd_FileName = ofd.FileName
+                BGW_keyLED2.RunWorkerAsync()
+            Else
+                ofd_FileName = String.Empty
+                BGW_keyLED2.RunWorkerAsync()
             End If
         Catch ex As Exception
             If IsGreatExMode Then
@@ -393,7 +515,7 @@ OpenLine:
         End Using
     End Sub
 
-    Private Sub Ableton_OpenProject(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles BGW_ablproj.DoWork
+    Private Sub Ableton_OpenProject(sender As Object, e As DoWorkEventArgs) Handles BGW_ablproj.DoWork
         '---Beta Code: Converting Ableton Project Info To Unipack Info---
         '이 Beta Convert Code는 오류가 발생할 수 있습니다.
         '주의사항을 다 보셨다면, 당신은 Editor 권한을 가질 수 있습니다.
@@ -473,7 +595,7 @@ OpenProjectLine:
         End If
     End Sub
 
-    Private Sub BGW_ablproj_Completed(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles BGW_ablproj.RunWorkerCompleted
+    Private Sub BGW_ablproj_Completed(sender As Object, e As RunWorkerCompletedEventArgs) Handles BGW_ablproj.RunWorkerCompleted
         Try
             If e.Error IsNot Nothing Then
                 MessageBox.Show("Error - " & e.Error.Message & vbNewLine & "Error Message: " & e.Error.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -930,7 +1052,7 @@ SaveInfoLine:
         End Try
     End Sub
 
-    Public Sub OpenSounds(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles BGW_sounds.DoWork
+    Public Sub OpenSounds(sender As Object, e As DoWorkEventArgs) Handles BGW_sounds.DoWork
         Dim FileNames() As String
 
         Loading.Show()
@@ -1019,7 +1141,7 @@ fexLine:
                 '검색할 때 돌아오기 위해서는 필요한 리스트 뷰.
                 Invoke(Sub()
                            For Each itm As ListViewItem In Sound_ListView.Items
-                               Invoke(Sub() LLV.Items.Add(New ListViewItem({itm.SubItems(0).Text, itm.SubItems(1).Text, itm.SubItems(2).Text})))
+                               LLV.Items.Add(New ListViewItem({itm.SubItems(0).Text, itm.SubItems(1).Text, itm.SubItems(2).Text}))
                            Next
                        End Sub)
 
@@ -1027,7 +1149,7 @@ fexLine:
                     '에이블톤 프로젝트가 로드가 안돼어있을 때 임시로 저장하는 리스트 뷰. 
                     Invoke(Sub()
                                For Each FoundItem As ListViewItem In TVLV.Items
-                                   Invoke(Sub() keySound_ListView.Items.Add(New ListViewItem({FoundItem.SubItems(0).Text, FoundItem.SubItems(1).Text, FoundItem.SubItems(2).Text, FoundItem.SubItems(3).Text})))
+                                   keySound_ListView.Items.Add(New ListViewItem({FoundItem.SubItems(0).Text, FoundItem.SubItems(1).Text, FoundItem.SubItems(2).Text, FoundItem.SubItems(3).Text}))
                                Next
                            End Sub)
                 End If
@@ -1039,7 +1161,7 @@ fexLine:
         End If
     End Sub
 
-    Private Sub BGW_sounds_Completed(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles BGW_sounds.RunWorkerCompleted
+    Private Sub BGW_sounds_Completed(sender As Object, e As RunWorkerCompletedEventArgs) Handles BGW_sounds.RunWorkerCompleted
         Try
             If e.Error IsNot Nothing Then
                 MessageBox.Show("Error - " & e.Error.Message & vbNewLine & "Error Message: " & e.Error.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -1321,7 +1443,7 @@ fexLine:
         DeveloperMode_Main.Show()
     End Sub
 
-    Private Sub keyLEDBetaButton_Click(sender As Object, e As EventArgs) Handles keyLEDBetaButton.Click
+    Private Sub keyLEDBetaButton_Click(sender As Object, e As EventArgs) Handles keyLEDMIDEX_BetaButton.Click
         Try
             If abl_openedled = True Then
                 keyLED_Edit.Show()
@@ -1439,7 +1561,7 @@ fexLine:
 
 #Region "MIDI (Launchpad) Codes"
     Sub DisconnectMidi()
-        If (midiinput_avail = True) Then
+        If midiinput_avail = True Then
 
             Try
 
@@ -1452,7 +1574,7 @@ fexLine:
             End Try
             midiinput_avail = False
         End If
-        If (midioutput_avail = True) Then
+        If midioutput_avail = True Then
             midioutput.Dispose()
             midioutput_avail = False
         End If
@@ -1868,4 +1990,140 @@ fexLine:
     End Function
 #End Region
 #End Region
+
+    Private Sub keyLEDMIDEX_TestButton_Click(sender As Object, e As EventArgs) Handles keyLEDMIDEX_TestButton.Click
+        keyLED_Test.Show()
+        keyLED_Test.LoadkeyLEDText(keyLEDMIDEX_UniLED.Text)
+    End Sub
+
+    Private Sub KeyLEDMIDEX_ListBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles keyLEDMIDEX_ListBox.SelectedIndexChanged
+        Try
+
+            If abl_openedled AndAlso abl_openedled2 Then
+                If IsWorking = False Then
+
+                    If keyLEDMIDEX_ListBox.SelectedItems.Count > 0 Then '이것이 신의 한수... SelectedItem 코드 작성 시 꼭 필요. (invaildArgument 오류)
+                        Dim s As String = keyLEDMIDEX_ListBox.SelectedItem.ToString
+
+                        keyLEDMIDEX_UniLED.Enabled = True
+                        keyLEDMIDEX_UniLED.Clear()
+
+                        keyLEDMIDEX_UniLED.Text = File.ReadAllText(String.Format("{0}\Workspace\unipack\keyLED\{1}", Application.StartupPath, s))
+
+                        keyLEDMIDEX_TestButton.Enabled = True
+                        keyLED_Test.LoadkeyLEDText(keyLEDMIDEX_UniLED.Text)
+                    End If
+
+                Else
+                    Throw New TimeoutException("We are Converting the keyLED now." & vbNewLine & "Please Wait...")
+                End If
+            Else
+                Throw New FileNotFoundException("You must load the keyLED and keyLED Save File!")
+            End If
+
+        Catch ex As Exception
+            If IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+        End Try
+    End Sub
+
+    Private Sub BGW_keyLEDCvt_DoWork(sender As Object, e As DoWorkEventArgs) Handles BGW_keyLEDCvt.DoWork
+        Try
+
+            Dim s As String = Application.StartupPath & "\Workspace\ableproj\CoLED"
+            Dim c As String = Application.StartupPath & "\Workspace\unipack\keyLED"
+            IsWorking = True
+
+            For Each d As String In My.Computer.FileSystem.GetFiles(s, FileIO.SearchOption.SearchTopLevelOnly, "*.mid")
+
+                'Beta Code!
+                '이 Beta Convert Code는 오류가 발생할 수 있습니다.
+                '주의사항을 다 보셨다면, 당신은 Editor 권한을 가질 수 있습니다.
+
+                '이 코드는 Follow_JB님의 midi2keyLED를 참고하여 만든 코드. (Thanks to Follow_JB. :D)
+
+                Dim LEDFileC As New MidiFile(d, False)
+                Dim str As String = String.Empty
+                Dim delaycount As Integer = 0
+                Dim UniNoteNumberX As Integer 'X
+                Dim UniNoteNumberY As Integer 'Y
+
+                For Each mdEvent_list In LEDFileC.Events
+                    For Each mdEvent In mdEvent_list
+
+                        If mdEvent.CommandCode = MidiCommandCode.NoteOn Then
+                            Dim a As NoteOnEvent = DirectCast(mdEvent, NoteOnEvent)
+                            Dim b As New A2U
+
+                            If Not delaycount = a.AbsoluteTime Then
+                                str = str & vbNewLine & "d " & b.GetNoteDelay(A2U.keyLED_AC.T_NoteLength1, 120, 192, delaycount - a.AbsoluteTime + Math.Round(a.DeltaTime * 2.604) + Math.Round(a.NoteLength * 2.604))
+                            End If
+
+                            UniNoteNumberX = b.GX_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
+                            UniNoteNumberY = b.GY_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
+                            delaycount = a.AbsoluteTime
+                            str = str & vbNewLine & "o " & UniNoteNumberX & " " & UniNoteNumberY & " a " & a.Velocity
+
+                        ElseIf mdEvent.CommandCode = MidiCommandCode.NoteOff Then
+
+                            Dim a = DirectCast(mdEvent, NoteEvent)
+                            Dim b As New A2U
+                            UniNoteNumberX = b.GX_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
+                            UniNoteNumberY = b.GY_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
+                            str = str & vbNewLine & "f " & UniNoteNumberX & " " & UniNoteNumberY
+
+                        End If
+                    Next
+                Next
+
+                '8192는 MC LED 번호.
+                If Regex.IsMatch(str, "-8192") Then '-8192 = Non-UniNoteNumber
+                    str = str.Replace("o -8192 ", "o mc ").Trim() 'ON MC LED Convert.
+                    str = str.Replace("f -8192 ", "f mc ").Trim() 'OFF MC LED Convert.
+                End If
+
+                'File.WriteAllText(sFile, str)
+            Next
+
+            For Each d As String In My.Computer.FileSystem.GetFiles(c, FileIO.SearchOption.SearchTopLevelOnly)
+                Dim k As String = Path.GetFileName(d)
+                Invoke(Sub()
+                           keyLEDMIDEX_ListBox.Items.Add(k)
+                       End Sub)
+            Next
+
+        Catch ex As Exception
+            If IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+        End Try
+    End Sub
+
+    Private Sub BGW_keyLEDCvt_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles BGW_keyLEDCvt.RunWorkerCompleted
+        Try
+            If e.Error IsNot Nothing Then
+                MessageBox.Show("Error - " & e.Error.Message & vbNewLine & "Error Message: " & e.Error.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Exit Sub
+            ElseIf e.Cancelled Then
+                Exit Sub
+            Else
+
+                IsWorking = False
+                MessageBox.Show("LED File Converted!" & vbNewLine & "You can show the LEDs on 'keyLED (MIDI Extension)' Tab!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+            End If
+
+        Catch ex As Exception
+            If IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+        End Try
+    End Sub
 End Class

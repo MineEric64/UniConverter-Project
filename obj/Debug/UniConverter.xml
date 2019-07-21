@@ -295,6 +295,11 @@ UniConverter
  업데이트 여부.
  </summary>
 </member>
+<member name="F:UniConverter_Project.MainProject.IsWorking">
+ <summary>
+ 지금 매우 중요한 작업 여부.
+ </summary>
+</member>
 <member name="F:UniConverter_Project.MainProject.LLV">
  <summary>
  사운드 검색시 원본 리스트뷰.

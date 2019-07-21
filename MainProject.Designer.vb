@@ -22,6 +22,7 @@ Partial Class MainProject
     '코드 편집기에서는 수정하지 마세요.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainProject))
         Me.MenuStrip = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -88,7 +89,10 @@ Partial Class MainProject
         Me.DevelopingLabel2 = New System.Windows.Forms.Label()
         Me.keyLED2 = New System.Windows.Forms.TabPage()
         Me.DevelopingLabel3 = New System.Windows.Forms.Label()
-        Me.keyLEDBetaButton = New System.Windows.Forms.Button()
+        Me.keyLEDMIDEX_TestButton = New System.Windows.Forms.Button()
+        Me.keyLEDMIDEX_UniLED = New FastColoredTextBoxNS.FastColoredTextBox()
+        Me.keyLEDMIDEX_ListBox = New System.Windows.Forms.ListBox()
+        Me.keyLEDMIDEX_BetaButton = New System.Windows.Forms.Button()
         Me.MIDISET = New System.Windows.Forms.TabPage()
         Me.MIDIStatOut = New System.Windows.Forms.Label()
         Me.MIDIStatIn = New System.Windows.Forms.Label()
@@ -100,12 +104,15 @@ Partial Class MainProject
         Me.BGW_keyLED = New System.ComponentModel.BackgroundWorker()
         Me.BGW_ablproj = New System.ComponentModel.BackgroundWorker()
         Me.BGW_sounds = New System.ComponentModel.BackgroundWorker()
+        Me.BGW_keyLED2 = New System.ComponentModel.BackgroundWorker()
+        Me.BGW_keyLEDCvt = New System.ComponentModel.BackgroundWorker()
         Me.MenuStrip.SuspendLayout()
         Me.HomeEdit.SuspendLayout()
         Me.Info1.SuspendLayout()
         Me.KeySoundTab.SuspendLayout()
         Me.keyLED1.SuspendLayout()
         Me.keyLED2.SuspendLayout()
+        CType(Me.keyLEDMIDEX_UniLED, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MIDISET.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -649,7 +656,10 @@ Partial Class MainProject
         'keyLED2
         '
         Me.keyLED2.Controls.Add(Me.DevelopingLabel3)
-        Me.keyLED2.Controls.Add(Me.keyLEDBetaButton)
+        Me.keyLED2.Controls.Add(Me.keyLEDMIDEX_TestButton)
+        Me.keyLED2.Controls.Add(Me.keyLEDMIDEX_UniLED)
+        Me.keyLED2.Controls.Add(Me.keyLEDMIDEX_ListBox)
+        Me.keyLED2.Controls.Add(Me.keyLEDMIDEX_BetaButton)
         Me.keyLED2.Location = New System.Drawing.Point(4, 23)
         Me.keyLED2.Name = "keyLED2"
         Me.keyLED2.Size = New System.Drawing.Size(776, 495)
@@ -661,22 +671,63 @@ Partial Class MainProject
         '
         Me.DevelopingLabel3.AutoSize = True
         Me.DevelopingLabel3.Font = New System.Drawing.Font("나눔바른고딕OTF", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.DevelopingLabel3.Location = New System.Drawing.Point(28, 303)
+        Me.DevelopingLabel3.Location = New System.Drawing.Point(18, 188)
         Me.DevelopingLabel3.Name = "DevelopingLabel3"
         Me.DevelopingLabel3.Size = New System.Drawing.Size(725, 62)
-        Me.DevelopingLabel3.TabIndex = 39
+        Me.DevelopingLabel3.TabIndex = 44
         Me.DevelopingLabel3.Text = "We are developing ""Converting keyLED (MIDI Extension)""!" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "                        " &
     "                Coming Soon..."
         '
-        'keyLEDBetaButton
+        'keyLEDMIDEX_TestButton
         '
-        Me.keyLEDBetaButton.Font = New System.Drawing.Font("Ubuntu", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.keyLEDBetaButton.Location = New System.Drawing.Point(199, 117)
-        Me.keyLEDBetaButton.Name = "keyLEDBetaButton"
-        Me.keyLEDBetaButton.Size = New System.Drawing.Size(347, 149)
-        Me.keyLEDBetaButton.TabIndex = 38
-        Me.keyLEDBetaButton.Text = "Edit keyLED! (MIDI Extension) (Advanced)"
-        Me.keyLEDBetaButton.UseVisualStyleBackColor = True
+        Me.keyLEDMIDEX_TestButton.Enabled = False
+        Me.keyLEDMIDEX_TestButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.keyLEDMIDEX_TestButton.Location = New System.Drawing.Point(191, 423)
+        Me.keyLEDMIDEX_TestButton.Name = "keyLEDMIDEX_TestButton"
+        Me.keyLEDMIDEX_TestButton.Size = New System.Drawing.Size(156, 64)
+        Me.keyLEDMIDEX_TestButton.TabIndex = 43
+        Me.keyLEDMIDEX_TestButton.Text = "Test"
+        Me.keyLEDMIDEX_TestButton.UseVisualStyleBackColor = True
+        '
+        'keyLEDMIDEX_UniLED
+        '
+        Me.keyLEDMIDEX_UniLED.AutoCompleteBracketsList = New Char() {Global.Microsoft.VisualBasic.ChrW(40), Global.Microsoft.VisualBasic.ChrW(41), Global.Microsoft.VisualBasic.ChrW(123), Global.Microsoft.VisualBasic.ChrW(125), Global.Microsoft.VisualBasic.ChrW(91), Global.Microsoft.VisualBasic.ChrW(93), Global.Microsoft.VisualBasic.ChrW(34), Global.Microsoft.VisualBasic.ChrW(34), Global.Microsoft.VisualBasic.ChrW(39), Global.Microsoft.VisualBasic.ChrW(39)}
+        Me.keyLEDMIDEX_UniLED.AutoScrollMinSize = New System.Drawing.Size(27, 14)
+        Me.keyLEDMIDEX_UniLED.BackBrush = Nothing
+        Me.keyLEDMIDEX_UniLED.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.keyLEDMIDEX_UniLED.CharHeight = 14
+        Me.keyLEDMIDEX_UniLED.CharWidth = 8
+        Me.keyLEDMIDEX_UniLED.Cursor = System.Windows.Forms.Cursors.IBeam
+        Me.keyLEDMIDEX_UniLED.DisabledColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer))
+        Me.keyLEDMIDEX_UniLED.Enabled = False
+        Me.keyLEDMIDEX_UniLED.IsReplaceMode = False
+        Me.keyLEDMIDEX_UniLED.Location = New System.Drawing.Point(364, 14)
+        Me.keyLEDMIDEX_UniLED.Name = "keyLEDMIDEX_UniLED"
+        Me.keyLEDMIDEX_UniLED.Paddings = New System.Windows.Forms.Padding(0)
+        Me.keyLEDMIDEX_UniLED.SelectionColor = System.Drawing.Color.FromArgb(CType(CType(60, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.keyLEDMIDEX_UniLED.Size = New System.Drawing.Size(276, 400)
+        Me.keyLEDMIDEX_UniLED.TabIndex = 41
+        Me.keyLEDMIDEX_UniLED.Zoom = 100
+        '
+        'keyLEDMIDEX_ListBox
+        '
+        Me.keyLEDMIDEX_ListBox.Font = New System.Drawing.Font("나눔바른고딕", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.keyLEDMIDEX_ListBox.FormattingEnabled = True
+        Me.keyLEDMIDEX_ListBox.ItemHeight = 22
+        Me.keyLEDMIDEX_ListBox.Location = New System.Drawing.Point(97, 14)
+        Me.keyLEDMIDEX_ListBox.Name = "keyLEDMIDEX_ListBox"
+        Me.keyLEDMIDEX_ListBox.Size = New System.Drawing.Size(250, 400)
+        Me.keyLEDMIDEX_ListBox.TabIndex = 40
+        '
+        'keyLEDMIDEX_BetaButton
+        '
+        Me.keyLEDMIDEX_BetaButton.Font = New System.Drawing.Font("Ubuntu", 9.749999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.keyLEDMIDEX_BetaButton.Location = New System.Drawing.Point(364, 423)
+        Me.keyLEDMIDEX_BetaButton.Name = "keyLEDMIDEX_BetaButton"
+        Me.keyLEDMIDEX_BetaButton.Size = New System.Drawing.Size(202, 64)
+        Me.keyLEDMIDEX_BetaButton.TabIndex = 38
+        Me.keyLEDMIDEX_BetaButton.Text = "Edit keyLED! (MIDI Extension) (Advanced)"
+        Me.keyLEDMIDEX_BetaButton.UseVisualStyleBackColor = True
         '
         'MIDISET
         '
@@ -770,6 +821,12 @@ Partial Class MainProject
         'BGW_sounds
         '
         '
+        'BGW_keyLED2
+        '
+        '
+        'BGW_keyLEDCvt
+        '
+        '
         'MainProject
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
@@ -797,6 +854,7 @@ Partial Class MainProject
         Me.keyLED1.PerformLayout()
         Me.keyLED2.ResumeLayout(False)
         Me.keyLED2.PerformLayout()
+        CType(Me.keyLEDMIDEX_UniLED, System.ComponentModel.ISupportInitialize).EndInit()
         Me.MIDISET.ResumeLayout(False)
         Me.MIDISET.PerformLayout()
         Me.ResumeLayout(False)
@@ -869,8 +927,7 @@ Partial Class MainProject
     Friend WithEvents BGW_keyLED As System.ComponentModel.BackgroundWorker
     Friend WithEvents DeveloperModeToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents OpenKeyLEDToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents keyLEDBetaButton As Button
-    Friend WithEvents DevelopingLabel3 As Label
+    Friend WithEvents keyLEDMIDEX_BetaButton As Button
     Friend WithEvents BGW_ablproj As System.ComponentModel.BackgroundWorker
     Friend WithEvents BGW_sounds As System.ComponentModel.BackgroundWorker
     Friend WithEvents MIDISET As TabPage
@@ -881,4 +938,10 @@ Partial Class MainProject
     Friend WithEvents MIDIStatIn As Label
     Friend WithEvents MIDIStat As Label
     Friend WithEvents MIDIStatOut As Label
+    Friend WithEvents BGW_keyLED2 As System.ComponentModel.BackgroundWorker
+    Friend WithEvents keyLEDMIDEX_ListBox As ListBox
+    Friend WithEvents keyLEDMIDEX_UniLED As FastColoredTextBoxNS.FastColoredTextBox
+    Friend WithEvents DevelopingLabel3 As Label
+    Friend WithEvents keyLEDMIDEX_TestButton As Button
+    Friend WithEvents BGW_keyLEDCvt As System.ComponentModel.BackgroundWorker
 End Class
