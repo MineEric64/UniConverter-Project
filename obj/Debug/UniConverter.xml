@@ -114,6 +114,13 @@ UniConverter
  XML2Sounds Code.
  </summary>
 </member>
+<member name="M:UniConverter_Project.DeveloperMode_Project.GetChainN(System.String)">
+ <summary>
+ Get Ableton Project's Chain Number.
+ </summary>
+ <param name="XMLPath">XML's Path.</param>
+ <returns></returns>
+</member>
 <member name="M:UniConverter_Project.DeveloperMode_Project.GetkeyLED(UniConverter_Project.DeveloperMode_Project.EachCode,System.String,System.Boolean,System.Boolean)">
  <summary>
  Converting keyLED with XML2keyLED.
@@ -262,7 +269,7 @@ UniConverter
 </member>
 <member name="F:UniConverter_Project.MainProject.uni_confile">
  <summary>
- settings.ini 중 Convert Unipack 설정.
+ settings.xml 중 Convert Unipack 설정.
  </summary>
 </member>
 <member name="F:UniConverter_Project.MainProject.IsDeveloperMode">

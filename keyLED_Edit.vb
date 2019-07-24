@@ -288,7 +288,7 @@ Public Class keyLED_Edit
             End If
 
             Invoke(Sub()
-                       UniLED_Edit.Text = str.Remove(0, 0)
+                       UniLED_Edit.Text = str.Remove(0, 2)
                        TestButton.Enabled = True
                        keyLED_Test.Enabled = True
                        CopyButton.Enabled = True

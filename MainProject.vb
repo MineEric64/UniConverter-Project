@@ -21,20 +21,13 @@ Public Class MainProject
     Public Shared abl_ver As String
     Public Shared abl_FileName As String
     Public Shared abl_Name As String
+    Public Shared abl_Chain As Integer
     Public Shared abl_openedproj As Boolean
     Public Shared abl_openedsnd As Boolean
     Public Shared abl_openedled As Boolean
     Public Shared abl_openedled2 As Boolean
 
-    Public Shared loading_Sound_Open_msg As String = "Loading Sound Files... ({0} / {1})"
-    Public Shared loading_LED_open_msg As String = "Loading LED Files... ({0} / {1})"
-    Public Shared loading_LED_openList_msg As String = "Replacing LED Files... ({0} / {1})"
-    Public Shared loading_Project_Extract_msg As String = "Extracting The Project File..."
-    Public Shared loading_Project_Load_msg As String = "Loading The Project File..."
-    Public Shared loading_Project_DeleteTmp_msg As String = "Deleting The Tempoary Files..."
-    Public Shared loading_Project_ChangeExt_msg As String = "Applying to readable Infos..."
-    Public Shared loading_Project_FileName_msg As String = "Finding File Name..."
-
+#Region "About XML (Settings / Version)"
     ''' <summary>
     ''' UniConverter 최신 버전.
     ''' </summary>
@@ -46,15 +39,17 @@ Public Class MainProject
     ''' <summary>
     ''' Version.XML 파일 분석.
     ''' </summary>
-    Public vxml As XDocument
+    Public vxml As New XmlDocument
     ''' <summary>
     ''' Settings.XML 파일 분석.
     ''' </summary>
-    Public setxml As XDocument
+    Public setxml As New XmlDocument
     ''' <summary>
-    ''' settings.ini 중 Convert Unipack 설정.
+    ''' settings.xml 중 Convert Unipack 설정.
     ''' </summary>
     Dim uni_confile As String
+#End Region
+
     ''' <summary>
     ''' Developer Mode?
     ''' </summary>
@@ -144,22 +139,6 @@ Public Class MainProject
             If File.Exists(file_ex) = False Then
                 Throw New FileNotFoundException("Settings File doesn't exists.")
             End If
-            setxml = XDocument.Load(file_ex)
-            If Convert.ToBoolean(setxml.<Settings-XML>.<UCV-Settings>.<CheckUpdate>.Value) = True Then CheckUpdate()
-
-            vxml = XDocument.Load(TempDirectory & "\UniConverter-version.xml")
-            FileInfo = Version.Parse(vxml.<Update-XML>.<Update-Info>.<Version>.Value)
-            VerLog = vxml.<Update-XML>.<Update-Info>.<Update-Log>.Value.TrimStart
-            Me.KeyPreview = True
-            ks_SelChain.Text = String.Empty
-            ks_SelX.Text = String.Empty
-            ks_SelY.Text = String.Empty
-            abl_openedproj = False
-            abl_openedsnd = False
-            abl_openedled = False
-            IsUpdated = False
-            IsWorking = False
-            OpenProjectOnce = False
 
             'License File of Developer Mode.
             If File.Exists(LicenseFile(0)) AndAlso File.ReadAllText(LicenseFile(0)) = My.Resources.License_DeveloperMode Then
@@ -175,6 +154,31 @@ Public Class MainProject
                 IsGreatExMode = True
             End If
 
+            setxml.Load(file_ex)
+            Dim setNode As XmlNode
+            setNode = setxml.SelectSingleNode("/Settings-XML/UCV-Settings")
+
+            If Convert.ToBoolean(setNode.ChildNodes(0).InnerText) = True Then
+                BGW_CheckUpdate.RunWorkerAsync()
+            End If
+
+            vxml.Load(TempDirectory & "\UniConverter-version.xml")
+            Dim setaNode As XmlNode
+            setaNode = vxml.SelectSingleNode("/Update-XML/Update-Info")
+            FileInfo = Version.Parse(setaNode.ChildNodes(1).InnerText)
+            VerLog = setaNode.ChildNodes(2).InnerText.TrimStart
+
+            Me.KeyPreview = True
+            ks_SelChain.Text = String.Empty
+            ks_SelX.Text = String.Empty
+            ks_SelY.Text = String.Empty
+            abl_openedproj = False
+            abl_openedsnd = False
+            abl_openedled = False
+            IsUpdated = False
+            IsWorking = False
+            OpenProjectOnce = False
+
             'Text of Info TextBox
             infoTB1.Text = "My Amazing Launchpad Project!" 'Title
             infoTB2.Text = "UniConverter, MineEric64, More..." 'Producer Name
@@ -188,33 +192,28 @@ Public Class MainProject
             AbletonLive10ToolStripMenuItem.Checked = False
             'RESET!!!
 
-            If setxml.<Settings-XML>.<UCV-PATH>.<AbletonVersion>.Value = "AnyAbleton" Then
-                AnyAbletonToolStripMenuItem.Checked = True
-            End If
-
-            If setxml.<Settings-XML>.<UCV-PATH>.<AbletonVersion>.Value = "Ableton9_Lite" Then
-                AbletonLive9LiteToolStripMenuItem.Checked = True
-            End If
-
-            If setxml.<Settings-XML>.<UCV-PATH>.<AbletonVersion>.Value = "Ableton9_Trial" Then
-                AbletonLive9TrialToolStripMenuItem.Checked = True
-            End If
-
-            If setxml.<Settings-XML>.<UCV-PATH>.<AbletonVersion>.Value = "Ableton9_Suite" Then
-                AbletonLive9SuiteToolStripMenuItem.Checked = True
-            End If
-
-            If setxml.<Settings-XML>.<UCV-PATH>.<AbletonVersion>.Value = "Ableton10" Then
-                AbletonLive10ToolStripMenuItem.Checked = True
-            End If
+            setNode = setxml.SelectSingleNode("/Settings-XML/UCV-PATH")
+            Select Case setNode.ChildNodes(0).InnerText
+                Case "AnyAbleton"
+                    AnyAbletonToolStripMenuItem.Checked = True
+                Case "Ableton9_Lite"
+                    AbletonLive9LiteToolStripMenuItem.Checked = True
+                Case "Ableton9_Trial"
+                    AbletonLive9TrialToolStripMenuItem.Checked = True
+                Case "Ableton9_Suite"
+                    AbletonLive9SuiteToolStripMenuItem.Checked = True
+                Case "Ableton10"
+                    AbletonLive10ToolStripMenuItem.Checked = True
+            End Select
 
             'Edit>Unipack Option.
             ConvertToZipUniToolStripMenuItem.Checked = False
             'RESET!!!
 
-            If setxml.<Settings-XML>.<UCV-PATH>.<ConvertUniPack>.Value = "zip/uni" Then
-                ConvertToZipUniToolStripMenuItem.Checked = True
-            End If
+            Select Case setNode.ChildNodes(1).InnerText
+                Case "zip/uni"
+                    ConvertToZipUniToolStripMenuItem.Checked = True
+            End Select
 
             IsSaved = True
 
@@ -298,7 +297,7 @@ OpenLine:
                     Loading.DPr.Style = ProgressBarStyle.Continuous
                     Loading.DPr.Value += 1
                     Loading.DLb.Left = 40
-                    Loading.DLb.Text = String.Format(loading_LED_open_msg, Loading.DPr.Value, FileNames.Length)
+                    Loading.DLb.Text = String.Format(Loading.loading_LED_open_msg, Loading.DPr.Value, FileNames.Length)
                     Loading.DLb.Refresh()
                 Next
 
@@ -383,7 +382,7 @@ OpenLine:
                 Loading.DPr.Style = ProgressBarStyle.Continuous
                 Loading.DPr.Value = 1
                 Loading.DLb.Left = 40
-                Loading.DLb.Text = String.Format(loading_LED_open_msg, Loading.DPr.Value, 1)
+                Loading.DLb.Text = String.Format(Loading.loading_LED_open_msg, Loading.DPr.Value, 1)
                 Loading.DLb.Refresh()
 
                 Loading.DPr.Value = Loading.DPr.Maximum
@@ -521,51 +520,93 @@ OpenLine:
         '주의사항을 다 보셨다면, 당신은 Editor 권한을 가질 수 있습니다.
 
         'Convert Ableton Project to Unipack Informations. (BETA!!!)
+
         Dim FileName As String = ofd_FileName
-        If Dir("Workspace\ableproj", vbDirectory) <> "" Then
-OpenProjectLine:
+        If Not Dir("Workspace\ableproj", vbDirectory) <> "" Then
+            My.Computer.FileSystem.CreateDirectory("Workspace\ableproj")
+        End If
 
-            Loading.Show()
-            Loading.DLb.Left = 40
-            Loading.Text = Me.Text & ": Loading The Ableton Project File..."
-            Loading.DLb.Text = loading_Project_Load_msg
-            Loading.DPr.Refresh()
-            Loading.DLb.Refresh()
+        Loading.Show()
+        Loading.DPr.Style = ProgressBarStyle.Marquee
+        Loading.DPr.Refresh()
+        Loading.DLb.Left = 60
+        Loading.Text = Me.Text & ": Loading The Ableton Project File..."
+        Loading.DLb.Text = Loading.loading_Project_Load_msg
+        Loading.DLb.Refresh()
 
-            abl_FileName = FileName
-            File.Copy(FileName, "Workspace\ableproj\abl_proj.gz", True)
+        abl_FileName = FileName
+        File.Copy(FileName, "Workspace\ableproj\abl_proj.gz", True)
 
-            Loading.DLb.Text = loading_Project_Extract_msg
-            Loading.DLb.Refresh()
+        Loading.DLb.Text = Loading.loading_Project_Extract_msg
+        Loading.DLb.Refresh()
+        ExtractGZip("Workspace\ableproj\abl_proj.gz", "Workspace\ableproj")
 
-            ExtractGZip("Workspace\ableproj\abl_proj.gz", "Workspace\ableproj")
+        Loading.DLb.Text = Loading.loading_Project_DeleteTmp_msg
+        Loading.DLb.Refresh()
+        File.Delete("Workspace\ableproj\abl_proj.gz")
+        File.Delete("Workspace\ableproj\abl_proj.xml")
 
-            Loading.DLb.Text = loading_Project_DeleteTmp_msg
-            Loading.DLb.Refresh()
+        Loading.DLb.Text = Loading.loading_Project_ChangeExt_msg
+        Loading.DLb.Refresh()
+        File.Move("Workspace\ableproj\abl_proj", "Workspace\ableproj\abl_proj.xml")
 
-            File.Delete("Workspace\ableproj\abl_proj.gz")
-            File.Delete("Workspace\ableproj\abl_proj.xml")
+        Loading.DLb.Text = Loading.loading_Project_DeleteTmp_msg
+        Loading.DLb.Refresh()
+        File.Delete("Workspace\ableproj\abl_proj")
 
-            Loading.DLb.Text = loading_Project_ChangeExt_msg
-            Loading.DLb.Refresh()
 
-            File.Move("Workspace\ableproj\abl_proj", "Workspace\ableproj\abl_proj.xml")
 
-            Loading.DLb.Text = loading_Project_DeleteTmp_msg
-            Loading.DLb.Refresh()
+        'Reading Informations of Ableton Project.
 
-            File.Delete("Workspace\ableproj\abl_proj")
+        'Ableton Project's Name.
+        Loading.DLb.Text = Loading.loading_Project_FileName_msg
+        Loading.DLb.Refresh()
 
-            'Reading Informations of Ableton Project.
-            Loading.DLb.Text = loading_Project_FileName_msg
-            Loading.DLb.Refresh()
+        Dim FinalName As String = Path.GetFileNameWithoutExtension(FileName)
 
-            abl_Name = Path.GetFileNameWithoutExtension(FileName)
+        'Ableton Project's Chain.
+        Loading.DLb.Left = 130
+        Loading.DLb.Text = Loading.loading_Project_Chain_msg
+        Loading.DLb.Refresh()
 
-            Loading.DLb.Text = "Loading The Ableton Project File..."
-            Loading.DLb.Refresh()
+#Region "Loading Chain Numbers"
+        Dim ablprj As String = Application.StartupPath & "\Workspace\ableproj\abl_proj.xml"
+        Dim doc As New XmlDocument
+        Dim setNode As XmlNodeList
+        doc.Load(ablprj)
+        setNode = doc.GetElementsByTagName("BranchSelectorRange")
 
-            Loading.Dispose()
+        Dim li As Integer = setNode.Count
+        Dim chan_ As Integer() = New Integer(li) {}
+
+        Dim iy As Integer = 0
+        For Each x As XmlNode In setNode
+            'Chain + 1 해주는 이유는 항상 Chain의 기본값이 0이기 때문임. 유니팩에서는 Chain 1이여도 에이블톤에서는 Chain 0임.
+            chan_(iy) = Integer.Parse(x.Item("Max").GetAttribute("Value")) + 1
+            iy += 1
+        Next
+
+        Array.Sort(chan_)
+        Array.Reverse(chan_)
+
+        Dim FinalChain As Integer = 0
+            For i As Integer = 0 To chan_.Count - 1
+            If chan_(i) < 9 AndAlso chan_(i) > 0 Then
+                FinalChain = chan_(i)
+                Exit For
+            End If
+        Next
+#End Region
+
+        '정리.
+        abl_Name = FinalName
+        abl_Chain = FinalChain
+
+        Loading.DLb.Left = 40
+        Loading.DLb.Text = "Loading The Ableton Project File..."
+        Loading.DLb.Refresh()
+
+        Loading.Dispose()
 
             If Not abl_openedproj = True Then
                 If OpenProjectOnce = False Then MessageBox.Show("Ableton Project File Loaded!" & vbNewLine & "You can edit info in Information Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -575,7 +616,10 @@ OpenProjectLine:
             End If
 
             'XML File Load.
-            Invoke(Sub() infoTB1.Text = abl_Name)
+            Invoke(Sub()
+                       infoTB1.Text = abl_Name
+                       infoTB3.Text = abl_Chain
+                   End Sub)
 
             'Tempoary Virtual ListView Add Items. (keySound)
 
@@ -589,10 +633,6 @@ OpenProjectLine:
                            Next
                        End Sub)
             End If
-        Else
-            My.Computer.FileSystem.CreateDirectory("Workspace\ableproj")
-            GoTo OpenProjectLine
-        End If
     End Sub
 
     Private Sub BGW_ablproj_Completed(sender As Object, e As RunWorkerCompletedEventArgs) Handles BGW_ablproj.RunWorkerCompleted
@@ -1077,7 +1117,7 @@ SaveInfoLine:
                 Loading.DPr.Style = ProgressBarStyle.Continuous
                 Loading.DPr.Value += 1
                 Loading.DLb.Left = 40
-                Loading.DLb.Text = String.Format(loading_Sound_Open_msg, Loading.DPr.Value, FileNames.Length)
+                Loading.DLb.Text = String.Format(Loading.loading_Sound_Open_msg, Loading.DPr.Value, FileNames.Length)
                 Loading.DLb.Refresh()
             Next
 
@@ -1104,7 +1144,7 @@ fexLine:
                         Loading.DPr.Style = ProgressBarStyle.Continuous
                         Loading.DPr.Value += 1
                         Loading.DLb.Left = 40
-                        Loading.DLb.Text = String.Format(loading_Sound_Open_msg, Loading.DPr.Value, ofd.FileNames.Length)
+                        Loading.DLb.Text = String.Format(Loading.loading_Sound_Open_msg, Loading.DPr.Value, ofd.FileNames.Length)
                         Loading.DLb.Refresh()
                     End If
                 Next
@@ -1195,7 +1235,9 @@ fexLine:
     End Sub
 
     Private Sub CheckUpdateToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CheckUpdateToolStripMenuItem.Click
-        CheckUpdate()
+        If BGW_CheckUpdate.IsBusy = False Then
+            BGW_CheckUpdate.RunWorkerAsync()
+        End If
 
         If My.Computer.Network.IsAvailable = True Then
             If My.Application.Info.Version = FileInfo Then
@@ -1210,14 +1252,18 @@ fexLine:
         End If
     End Sub
 
-    Public Sub CheckUpdate()
+    Private Sub CheckUpdate(sender As Object, e As DoWorkEventArgs) Handles BGW_CheckUpdate.DoWork
         Dim Client As New WebClient
 
         If My.Computer.Network.IsAvailable = True Then
             Client.DownloadFile("http://dver.ucv.kro.kr", TempDirectory & "\UniConverter-version.xml")
-            vxml = XDocument.Load(TempDirectory & "\UniConverter-version.xml")
-            FileInfo = Version.Parse(vxml.<Update-XML>.<Update-Info>.<Version>.Value)
-            VerLog = vxml.<Update-XML>.<Update-Info>.<Update-Log>.Value.TrimStart
+            vxml.Load(TempDirectory & "\UniConverter-version.xml")
+            Dim setaNode As XmlNode
+            setaNode = vxml.SelectSingleNode("/Update-XML/Update-Info")
+
+            FileInfo = Version.Parse(setaNode.ChildNodes(1).InnerText)
+            VerLog = setaNode.ChildNodes(2).InnerText.TrimStart
+
             If My.Application.Info.Version < FileInfo Then
                 If MessageBox.Show("New Version " & FileInfo.ToString & " is Available!" & vbNewLine & "Current Version : " & My.Application.Info.Version.ToString & vbNewLine & "Latest Version : " & FileInfo.ToString & vbNewLine &
                                  vbNewLine & "Update Log:" & vbNewLine & VerLog, Me.Text & ": Update", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
@@ -1254,7 +1300,8 @@ fexLine:
                             If MessageBox.Show("Update Complete! UniConverter " & FileInfo.ToString & " is in 'UniConverter_v" & FileInfo.ToString & "' Folder.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information) = DialogResult.OK Then
                                 File.Delete(My.Computer.FileSystem.SpecialDirectories.Temp & "\UniConverter-Update.zip")
                                 .Dispose()
-                                If Convert.ToBoolean(setxml.<Settings-XML>.<UCV-Settings>.<LatestVer>.Value) = True Then
+                                Dim setNode As XmlNode = setxml.SelectSingleNode("/Settings-XML/UCV-Settings")
+                                If Convert.ToBoolean(setNode.ChildNodes(1).InnerText) = True Then
                                     Process.Start(String.Format("{0}\UniConverter_v{1}\UniConverter.exe", Application.StartupPath, FileInfo.ToString))
                                     Application.Exit()
                                 End If

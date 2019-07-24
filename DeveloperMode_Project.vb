@@ -71,20 +71,23 @@ Public Class DeveloperMode_Project
 
     Private Sub Info_ListView_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Info_ListView.SelectedIndexChanged
         If Info_ListView.SelectedItems.Count > 0 Then '이것이 신의 한수... SelectedItem 코드 작성 시 꼭 필요. (invaildArgument 오류)
+
             Dim SelectedItem As ListViewItem = Info_ListView.SelectedItems(0)
+            Dim ablprj As String = Application.StartupPath & "\Workspace\ableproj\abl_proj.xml"
+
             Select Case SelectedItem.Text
                 Case "File Name"
                     Info_TextBox.Text = Path.GetFileNameWithoutExtension(DeveloperMode_abl_FileName)
                 Case "Chains"
-                    Info_TextBox.Text = "No Way :("
+                    Info_TextBox.Text = GetChainN(ablprj)
                 Case "File Version"
                     Info_TextBox.Text = DeveloperMode_abl_FileVersion
                 Case "Sound Cutting"
-                    GetSoundCutting(EachCode.SlicePoints_1, Application.StartupPath & "\Workspace\ableproj\abl_proj.xml", Application.StartupPath & "Workspace\unipack\", True)
+                    GetSoundCutting(EachCode.SlicePoints_1, ablprj, Application.StartupPath & "Workspace\unipack\", True)
                 Case "KeyTracks (keyLED)"
-                    Info_TextBox.Text = GetkeyLED(EachCode.keyLED_1, Application.StartupPath & "\Workspace\ableproj\abl_proj.xml", True, True)
+                    Info_TextBox.Text = GetkeyLED(EachCode.keyLED_1, ablprj, True, True)
                 Case "keyLED (MIDI Extension)"
-                    Info_TextBox.Text = GetkeyLED(EachCode.keyLED_MIDEX_1, Application.StartupPath & "\Workspace\ableproj\abl_proj.xml", True, True)
+                    Info_TextBox.Text = GetkeyLED(EachCode.keyLED_MIDEX_1, ablprj, True, True)
             End Select
         End If
     End Sub
@@ -94,6 +97,42 @@ Public Class DeveloperMode_Project
         Return GetXpath(node.SelectSingleNode("..")) & "/" + If(node.NodeType = XmlNodeType.Attribute, "@", String.Empty) + node.Name
     End Function
 
+    ''' <summary>
+    ''' Get Ableton Project's Chain Number.
+    ''' </summary>
+    ''' <param name="XMLPath">XML's Path.</param>
+    ''' <returns></returns>
+    Public Shared Function GetChainN(ByVal XMLPath As String) As Integer
+
+        Dim ablprj As String = Application.StartupPath & "\Workspace\ableproj\abl_proj.xml"
+        Dim doc As New XmlDocument
+        Dim setNode As XmlNodeList
+        doc.Load(ablprj)
+        setNode = doc.GetElementsByTagName("BranchSelectorRange")
+
+        Dim li As Integer = setNode.Count
+        Dim chan_ As Integer() = New Integer(li) {}
+
+        Dim iy As Integer = 0
+        For Each x As XmlNode In setNode
+            'Chain + 1 해주는 이유는 항상 Chain의 기본값이 0이기 때문임. 유니팩에서는 Chain 1이여도 에이블톤에서는 Chain 0임.
+            chan_(iy) = Integer.Parse(x.Item("Max").GetAttribute("Value")) + 1
+            iy += 1
+        Next
+
+        Array.Sort(chan_)
+        Array.Reverse(chan_)
+
+        Dim FinalChain As Integer = 0
+        For i As Integer = 0 To chan_.Count - 1
+            If chan_(i) < 9 AndAlso chan_(i) > 0 Then
+                FinalChain = chan_(i)
+                Exit For
+            End If
+        Next
+
+        Return FinalChain
+    End Function
 
     ''' <summary>
     ''' Converting keyLED with XML2keyLED.
@@ -134,11 +173,7 @@ Public Class DeveloperMode_Project
                 Dim notes As XmlNodeList = doc.GetElementsByTagName("MidiNoteEvent") 'Note Event Value
                 Dim MidiKey As XmlNodeList = doc.GetElementsByTagName("MidiKey")
 
-                Dim Thow As Integer = 0
-                For Each xi As XmlElement In MidiKey
-                    Thow += 1
-                Next
-
+                Dim Thow As Integer = MidiKey.Count
                 Dim noteArr As Integer() = New Integer(Thow) {}
                 Dim Noo As Integer = 0
                 For Each xi As XmlElement In MidiKey

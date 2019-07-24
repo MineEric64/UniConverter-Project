@@ -106,6 +106,7 @@ Partial Class MainProject
         Me.BGW_sounds = New System.ComponentModel.BackgroundWorker()
         Me.BGW_keyLED2 = New System.ComponentModel.BackgroundWorker()
         Me.BGW_keyLEDCvt = New System.ComponentModel.BackgroundWorker()
+        Me.BGW_CheckUpdate = New System.ComponentModel.BackgroundWorker()
         Me.MenuStrip.SuspendLayout()
         Me.HomeEdit.SuspendLayout()
         Me.Info1.SuspendLayout()
@@ -170,7 +171,7 @@ Partial Class MainProject
         Me.ConvertALSToUnipackToolStripMenuItem.Enabled = False
         Me.ConvertALSToUnipackToolStripMenuItem.Name = "ConvertALSToUnipackToolStripMenuItem"
         Me.ConvertALSToUnipackToolStripMenuItem.Size = New System.Drawing.Size(284, 22)
-        Me.ConvertALSToUnipackToolStripMenuItem.Text = "Convert Ableton Project to Unipack!"
+        Me.ConvertALSToUnipackToolStripMenuItem.Text = "Convert Ableton Project to UniPack!"
         '
         'EditToolStripMenuItem
         '
@@ -183,7 +184,7 @@ Partial Class MainProject
         '
         Me.UnipackToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AnyAbletonToolStripMenuItem, Me.AbletonLive9LiteToolStripMenuItem, Me.AbletonLive9TrialToolStripMenuItem, Me.AbletonLive9SuiteToolStripMenuItem, Me.AbletonLive10ToolStripMenuItem})
         Me.UnipackToolStripMenuItem.Name = "UnipackToolStripMenuItem"
-        Me.UnipackToolStripMenuItem.Size = New System.Drawing.Size(129, 22)
+        Me.UnipackToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.UnipackToolStripMenuItem.Text = "Ableton"
         '
         'AnyAbletonToolStripMenuItem
@@ -225,7 +226,7 @@ Partial Class MainProject
         '
         Me.UnipackToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ConvertToZipUniToolStripMenuItem})
         Me.UnipackToolStripMenuItem1.Name = "UnipackToolStripMenuItem1"
-        Me.UnipackToolStripMenuItem1.Size = New System.Drawing.Size(129, 22)
+        Me.UnipackToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
         Me.UnipackToolStripMenuItem1.Text = "UniPack"
         '
         'ConvertToZipUniToolStripMenuItem
@@ -827,6 +828,9 @@ Partial Class MainProject
         'BGW_keyLEDCvt
         '
         '
+        'BGW_CheckUpdate
+        '
+        '
         'MainProject
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
@@ -944,4 +948,5 @@ Partial Class MainProject
     Friend WithEvents DevelopingLabel3 As Label
     Friend WithEvents keyLEDMIDEX_TestButton As Button
     Friend WithEvents BGW_keyLEDCvt As System.ComponentModel.BackgroundWorker
+    Friend WithEvents BGW_CheckUpdate As System.ComponentModel.BackgroundWorker
 End Class
