@@ -30,4 +30,4 @@ If you want to use UniConverter Test Version, You must get permission to me. or,
 Latest Version: V1.0.0.2   |   Test Version: V1.1.0.3
 
 ##### DEVELOPING PROJECTS make someone convenient.
-#### -By 최에릭 (MineEric64) on 07/27/19
+#### By MineEric64 (최에릭) on 07/27/19
