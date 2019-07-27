@@ -24,3 +24,36 @@ C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniC
 C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter.exe
 C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter.xml
 C:\Users\SAMSUNG\documents\visual studio 2017\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter.pdb
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\bin\Release\UniConverter.exe.config
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\bin\Release\UniConverter.exe
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\bin\Release\UniConverter.pdb
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\bin\Release\UniConverter.xml
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\bin\Release\A2UP.dll
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\bin\Release\FastColoredTextBox.dll
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\bin\Release\ICSharpCode.SharpZipLib.dll
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\bin\Release\NAudio.dll
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter Project.vbprojAssemblyReference.cache
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\Interop.WMPLib.dll
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter Project.vbproj.ResolveComReference.cache
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter_Project.keyLED_Test.resources
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter_Project.Sound_Cutting.resources
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter_Project.DeveloperMode_Main.resources
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter_Project.DeveloperMode_Project.resources
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter_Project.DeveloperMode_Workspace.resources
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter_Project.keySound_Edit.resources
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter_Project.Loading.resources
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter_Project.REPORTForm.resources
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter_Project.keyLED_Edit.resources
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter_Project.keyLED_Edit_Advanced.resources
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter_Project.MainProject.resources
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter_Project.Info.resources
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter_Project.MainScreen.resources
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter_Project.Resources.resources
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter_Project.UG_Settings.resources
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter_Project.z_Tutorial.resources
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter Project.vbproj.GenerateResource.cache
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter Project.vbproj.CoreCompileInputs.cache
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter Project.vbproj.CopyComplete
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter.exe
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter.xml
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter.pdb

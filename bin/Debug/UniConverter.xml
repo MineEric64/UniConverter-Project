@@ -307,6 +307,11 @@ UniConverter
  지금 매우 중요한 작업 여부.
  </summary>
 </member>
+<member name="F:UniConverter_Project.MainProject.w8t4abl">
+ <summary>
+ Waiting For Ableton Project. (LED Convert: "keyLED")
+ </summary>
+</member>
 <member name="F:UniConverter_Project.MainProject.LLV">
  <summary>
  사운드 검색시 원본 리스트뷰.

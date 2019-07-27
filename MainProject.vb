@@ -80,6 +80,10 @@ Public Class MainProject
     ''' </summary>
     Dim IsWorking As Boolean
     ''' <summary>
+    ''' Waiting For Ableton Project. (LED Convert: "keyLED")
+    ''' </summary>
+    Dim w8t4abl As String
+    ''' <summary>
     ''' 사운드 검색시 원본 리스트뷰.
     ''' </summary>
     Dim LLV As New ListView
@@ -162,12 +166,6 @@ Public Class MainProject
                 BGW_CheckUpdate.RunWorkerAsync()
             End If
 
-            vxml.Load(TempDirectory & "\UniConverter-version.xml")
-            Dim setaNode As XmlNode
-            setaNode = vxml.SelectSingleNode("/Update-XML/Update-Info")
-            FileInfo = Version.Parse(setaNode.ChildNodes(1).InnerText)
-            VerLog = setaNode.ChildNodes(2).InnerText.TrimStart
-
             Me.KeyPreview = True
             ks_SelChain.Text = String.Empty
             ks_SelX.Text = String.Empty
@@ -177,6 +175,7 @@ Public Class MainProject
             abl_openedled = False
             IsUpdated = False
             IsWorking = False
+            w8t4abl = String.Empty
             OpenProjectOnce = False
 
             'Text of Info TextBox
@@ -333,6 +332,7 @@ OpenLine:
                 Exit Sub
             Else
 
+                '흠... 한번 keyLED Save 파일이 무의미 할 경우 이 코드와 BackgroundWorker는 지우자.
                 Dim s As String = My.Computer.FileSystem.GetParentPath(ofd_FileNames(0))
                 Dim wowkac As String = String.Empty
                 For Each d As String In My.Computer.FileSystem.GetFiles(s, FileIO.SearchOption.SearchTopLevelOnly)
@@ -574,7 +574,7 @@ OpenLine:
         Dim doc As New XmlDocument
         Dim setNode As XmlNodeList
         doc.Load(ablprj)
-        setNode = doc.GetElementsByTagName("BranchSelectorRange")
+        setNode = doc.GetElementsByTagName("MidiEffectBranch")
 
         Dim li As Integer = setNode.Count
         Dim chan_ As Integer() = New Integer(li) {}
@@ -582,7 +582,7 @@ OpenLine:
         Dim iy As Integer = 0
         For Each x As XmlNode In setNode
             'Chain + 1 해주는 이유는 항상 Chain의 기본값이 0이기 때문임. 유니팩에서는 Chain 1이여도 에이블톤에서는 Chain 0임.
-            chan_(iy) = Integer.Parse(x.Item("Max").GetAttribute("Value")) + 1
+            chan_(iy) = x.Item("BranchSelectorRange").Item("Max").GetAttribute("Value") + 1
             iy += 1
         Next
 
@@ -644,6 +644,16 @@ OpenLine:
                 Exit Sub
             Else
                 If OpenProjectOnce Then OpenSoundsToolStripMenuItem_Click(Nothing, Nothing)
+
+                If String.IsNullOrEmpty(w8t4abl) = False Then
+                    Select Case w8t4abl
+
+                        Case "keyLED"
+                            BGW_keyLEDCvt.RunWorkerAsync()
+
+                    End Select
+                End If
+
             End If
         Catch ex As Exception
             If IsGreatExMode Then
@@ -2054,10 +2064,10 @@ fexLine:
 
                         keyLEDMIDEX_UniLED.Enabled = True
                         keyLEDMIDEX_UniLED.Clear()
-
                         keyLEDMIDEX_UniLED.Text = File.ReadAllText(String.Format("{0}\Workspace\unipack\keyLED\{1}", Application.StartupPath, s))
 
                         keyLEDMIDEX_TestButton.Enabled = True
+                        keyLEDMIDEX_CopyButton.Enabled = True
                         keyLED_Test.LoadkeyLEDText(keyLEDMIDEX_UniLED.Text)
                     End If
 
@@ -2080,67 +2090,182 @@ fexLine:
     Private Sub BGW_keyLEDCvt_DoWork(sender As Object, e As DoWorkEventArgs) Handles BGW_keyLEDCvt.DoWork
         Try
 
-            Dim s As String = Application.StartupPath & "\Workspace\ableproj\CoLED"
-            Dim c As String = Application.StartupPath & "\Workspace\unipack\keyLED"
-            IsWorking = True
+            If abl_openedproj AndAlso abl_openedled AndAlso Not e.Cancel Then
 
-            For Each d As String In My.Computer.FileSystem.GetFiles(s, FileIO.SearchOption.SearchTopLevelOnly, "*.mid")
+                Loading.Show()
+                Loading.Text = "Converting Ableton LED To UniPack LED ..."
+                Loading.Refresh()
+                Loading.DLb.Text = "Loading LED Infos..."
+                Loading.DLb.Refresh()
+                Loading.DPr.Style = ProgressBarStyle.Marquee
+                Loading.DPr.Refresh()
 
-                'Beta Code!
-                '이 Beta Convert Code는 오류가 발생할 수 있습니다.
-                '주의사항을 다 보셨다면, 당신은 Editor 권한을 가질 수 있습니다.
+                Dim s As String = Application.StartupPath & "\Workspace\ableproj\CoLED"
+                Dim c As String = Application.StartupPath & "\Workspace\unipack\keyLED"
 
-                '이 코드는 Follow_JB님의 midi2keyLED를 참고하여 만든 코드. (Thanks to Follow_JB. :D)
+                IsWorking = True
 
-                Dim LEDFileC As New MidiFile(d, False)
-                Dim str As String = String.Empty
-                Dim delaycount As Integer = 0
-                Dim UniNoteNumberX As Integer 'X
-                Dim UniNoteNumberY As Integer 'Y
-
-                For Each mdEvent_list In LEDFileC.Events
-                    For Each mdEvent In mdEvent_list
-
-                        If mdEvent.CommandCode = MidiCommandCode.NoteOn Then
-                            Dim a As NoteOnEvent = DirectCast(mdEvent, NoteOnEvent)
-                            Dim b As New A2U
-
-                            If Not delaycount = a.AbsoluteTime Then
-                                str = str & vbNewLine & "d " & b.GetNoteDelay(A2U.keyLED_AC.T_NoteLength1, 120, 192, delaycount - a.AbsoluteTime + Math.Round(a.DeltaTime * 2.604) + Math.Round(a.NoteLength * 2.604))
-                            End If
-
-                            UniNoteNumberX = b.GX_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
-                            UniNoteNumberY = b.GY_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
-                            delaycount = a.AbsoluteTime
-                            str = str & vbNewLine & "o " & UniNoteNumberX & " " & UniNoteNumberY & " a " & a.Velocity
-
-                        ElseIf mdEvent.CommandCode = MidiCommandCode.NoteOff Then
-
-                            Dim a = DirectCast(mdEvent, NoteEvent)
-                            Dim b As New A2U
-                            UniNoteNumberX = b.GX_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
-                            UniNoteNumberY = b.GY_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
-                            str = str & vbNewLine & "f " & UniNoteNumberX & " " & UniNoteNumberY
-
-                        End If
-                    Next
-                Next
-
-                '8192는 MC LED 번호.
-                If Regex.IsMatch(str, "-8192") Then '-8192 = Non-UniNoteNumber
-                    str = str.Replace("o -8192 ", "o mc ").Trim() 'ON MC LED Convert.
-                    str = str.Replace("f -8192 ", "f mc ").Trim() 'OFF MC LED Convert.
+                If Not Directory.Exists(c) Then
+                    Directory.CreateDirectory(c)
+                Else
+                    My.Computer.FileSystem.DeleteDirectory(c, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                    Directory.CreateDirectory(c)
                 End If
 
-                'File.WriteAllText(sFile, str)
-            Next
+                Loading.DLb.Text = "Converting LEDs..."
+                Loading.DLb.Refresh()
 
-            For Each d As String In My.Computer.FileSystem.GetFiles(c, FileIO.SearchOption.SearchTopLevelOnly)
-                Dim k As String = Path.GetFileName(d)
+                Dim il As Integer = 0
+                For Each d As String In My.Computer.FileSystem.GetFiles(s, FileIO.SearchOption.SearchTopLevelOnly, "*.mid")
+
+                    'Beta Code!
+                    '이 Beta Convert Code는 오류가 발생할 수 있습니다.
+                    '주의사항: 완전 꼬인 스파게티 코드라서, 눈에 보기 좋지 않고, 코드도 꼬여서 프로그램이 뻗어버릴 확률이 높습니다.
+                    '코드를 만질 때 주의해주세요!
+
+                    '주의사항을 다 보셨다면, 당신은 Editor 권한을 가질 수 있습니다.
+
+                    '이 코드는 Follow_JB님의 midi2keyLED를 참고하여 만든 코드. (Thanks to Follow_JB. :D)
+
+                    Dim LEDFileC As New MidiFile(d, False)
+                    Dim str As String = String.Empty
+                    Dim delaycount As Integer = 0
+                    Dim UniNoteNumberX As Integer 'X
+                    Dim UniNoteNumberY As Integer 'Y
+
+                    For Each mdEvent_list In LEDFileC.Events
+                        For Each mdEvent In mdEvent_list
+
+                            If mdEvent.CommandCode = MidiCommandCode.NoteOn Then
+                                Dim a As NoteOnEvent = DirectCast(mdEvent, NoteOnEvent)
+                                Dim b As New A2U
+
+                                If Not delaycount = a.AbsoluteTime Then
+                                    str = str & vbNewLine & "d " & b.GetNoteDelay(A2U.keyLED_AC.T_NoteLength1, 120, 192, delaycount - a.AbsoluteTime + Math.Round(a.DeltaTime * 2.604) + Math.Round(a.NoteLength * 2.604))
+                                End If
+
+                                UniNoteNumberX = b.GX_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
+                                UniNoteNumberY = b.GY_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
+                                delaycount = a.AbsoluteTime
+                                str = str & vbNewLine & "o " & UniNoteNumberX & " " & UniNoteNumberY & " a " & a.Velocity
+
+                            ElseIf mdEvent.CommandCode = MidiCommandCode.NoteOff Then
+
+                                Dim a = DirectCast(mdEvent, NoteEvent)
+                                Dim b As New A2U
+                                UniNoteNumberX = b.GX_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
+                                UniNoteNumberY = b.GY_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
+                                str = str & vbNewLine & "f " & UniNoteNumberX & " " & UniNoteNumberY
+
+                            End If
+                        Next
+                    Next
+
+                    '8192는 MC LED 번호.
+                    If Regex.IsMatch(str, "-8192") Then '-8192 = Non-UniNoteNumber
+                        str = str.Replace("o -8192 ", "o mc ").Trim() 'ON MC LED Convert.
+                        str = str.Replace("f -8192 ", "f mc ").Trim() 'OFF MC LED Convert.
+                    End If
+
+                    Dim ablprj As String = Application.StartupPath & "\Workspace\ableproj\abl_proj.xml"
+                    Dim doc As New XmlDocument
+                    Dim setNode As XmlNodeList
+                    Dim h As New A2U
+                    doc.Load(ablprj)
+                    setNode = doc.GetElementsByTagName("MidiEffectBranch")
+
+                    Dim fileN As String = String.Empty
+                    Dim cxyl As Integer() = New Integer(3) {}
+                    Dim x As XmlNode = setNode.Item(il)
+                    Dim sFile As String = String.Empty
+                    Loading.DLb.Text = "Extracting LED Infos..."
+                    Loading.DLb.Refresh()
+
+                    cxyl(0) = x.Item("BranchSelectorRange").Item("Max").GetAttribute("Value") + 1 'Get Chain.
+                    cxyl(1) = h.GX_keyLED(A2U.keyLED_AC.C_NoteNumber1, x.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value")) 'Get X Pos.
+                    cxyl(2) = h.GY_keyLED(A2U.keyLED_AC.C_NoteNumber1, x.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value")) 'Get Y Pos.
+                    cxyl(3) = 1
+
+                    Dim LoopNumber_1 As Integer() = New Integer(1) {}
+                    Dim LoopNumber_1bool As Boolean 'Chain Value = ?
+                    LoopNumber_1(0) = Integer.Parse(x.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1
+                    LoopNumber_1(1) = Integer.Parse(x.Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1
+                    LoopNumber_1bool = LoopNumber_1(0) = LoopNumber_1(1)
+
+                    Dim LoopNumber_2 As Integer() = New Integer(1) {}
+                    Dim LoopNumber_2bool As Boolean 'Key Value = ?
+                    LoopNumber_2(0) = Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))
+                    LoopNumber_2(1) = Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))
+                    LoopNumber_2bool = LoopNumber_2(0) = LoopNumber_2(1)
+
+                    If LoopNumber_1bool = False Then
+
+                        '시작 길이와 끝 길이가 다른 경우 (Loop 1 활성화 시)
+                        For i As Integer = LoopNumber_1(0) To LoopNumber_1(1)
+
+                            If LoopNumber_2bool Then
+
+                                For q As Integer = LoopNumber_2(0) To LoopNumber_2(1)
+                                    cxyl(0) = i
+                                    cxyl(1) = h.GX_keyLED(A2U.keyLED_AC.C_NoteNumber1, q)
+                                    cxyl(2) = h.GY_keyLED(A2U.keyLED_AC.C_NoteNumber1, q)
+                                    sFile = String.Format("{0}\Workspace\unipack\keyLED\{1} {2} {3} {4}", Application.StartupPath, cxyl(0), cxyl(1), cxyl(2), cxyl(3))
+                                    File.WriteAllText(sFile, str)
+                                Next
+
+                            ElseIf LoopNumber_2bool = False Then
+                                cxyl(0) = i
+                                sFile = String.Format("{0}\Workspace\unipack\keyLED\{1} {2} {3} {4}", Application.StartupPath, cxyl(0), cxyl(1), cxyl(2), cxyl(3))
+                                File.WriteAllText(sFile, str)
+                            End If
+
+                        Next
+
+                    ElseIf LoopNumber_1bool Then
+
+                        If LoopNumber_2bool Then
+
+                            For q As Integer = LoopNumber_2(0) To LoopNumber_2(1)
+                                cxyl(1) = h.GX_keyLED(A2U.keyLED_AC.C_NoteNumber1, q)
+                                cxyl(2) = h.GY_keyLED(A2U.keyLED_AC.C_NoteNumber1, q)
+                                sFile = String.Format("{0}\Workspace\unipack\keyLED\{1} {2} {3} {4}", Application.StartupPath, cxyl(0), cxyl(1), cxyl(2), cxyl(3))
+                                File.WriteAllText(sFile, str)
+                            Next
+
+                        ElseIf LoopNumber_2bool = False Then
+                            sFile = String.Format("{0}\Workspace\unipack\keyLED\{1} {2} {3} {4}", Application.StartupPath, cxyl(0), cxyl(1), cxyl(2), cxyl(3))
+                            File.WriteAllText(sFile, str)
+                        End If
+
+                    End If
+
+                    il += 1
+                Next
+
+                Loading.DLb.Text = "Loading UniPack LEDs..."
+                Loading.DLb.Refresh()
+                For Each d As String In My.Computer.FileSystem.GetFiles(c, FileIO.SearchOption.SearchTopLevelOnly)
+                    Dim k As String = Path.GetFileName(d)
+                    Invoke(Sub()
+                               keyLEDMIDEX_ListBox.Items.Add(k)
+                           End Sub)
+                Next
+
+                Loading.Dispose()
+
+                If w8t4abl = "keyLED" Then
+                    w8t4abl = String.Empty
+                End If
+
                 Invoke(Sub()
-                           keyLEDMIDEX_ListBox.Items.Add(k)
+                           keyLEDMIDEX_UniLED.Enabled = True
+                           keyLEDMIDEX_UniLED.Clear()
                        End Sub)
-            Next
+
+            Else
+                w8t4abl = "keyLED"
+                e.Cancel = True
+            End If
 
         Catch ex As Exception
             If IsGreatExMode Then
@@ -2171,6 +2296,25 @@ fexLine:
             Else
                 MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
+        End Try
+    End Sub
+
+    Private Sub KeyLEDMIDEX_CopyButton_Click(sender As Object, e As EventArgs) Handles keyLEDMIDEX_CopyButton.Click
+        Try
+
+            If keyLEDMIDEX_UniLED.Enabled = False Then
+                MessageBox.Show("First, You should convert LED!", "UniConverter", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Else
+                Clipboard.SetText(keyLEDMIDEX_UniLED.Text)
+                MessageBox.Show("UniPack LED Copied!", "UniConverter", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
+
+        Catch ex As Exception
+            If IsGreatExMode Then
+            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Else
+            MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
         End Try
     End Sub
 End Class

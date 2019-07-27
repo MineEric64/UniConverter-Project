@@ -1,40 +1,30 @@
-# UniConverter Project
+# UniConverter-Project
 
-         UniConverter Project v1.1.0.3
-         
-![UniConverter_tmpIcon](https://github.com/MineEric64/UniConverter-Project/blob/master/Resources/UniConverterV2.png)
-<!--
-UniConverter_tmpIcon은 RM_Icon이 만들어지기 전의 임시 아이콘입니다.
-RM_Icon이 만들어지면 tmp_Icon은 삭제해주시기 바랍니다.
-![UniConverter_Icon](https://github.com/MineEric64/UniConverter-Project/blob/master/Resources/uniconverter_icon.png)
--->
+         MineEric's LARGE-SCALE Projects. [UniConverter]
 
-### Made By 'MineEric64'. (최에릭)
-#### Helped By 'Follow_JB', 'EX867', 'Ph-r'.
+---About "UniConverter"---
 
-## About The 'UniConverter'
+using .NET Framework 4.6.2, Fast Colored TextBox, ICSharpCode.SharpZipLibrary, NAudio, LAME
 
-#### using .NET Framework 4.6.2, Fast Colored TextBox, ICSharpCode.SharpZipLibrary, NAudio, LAME, [A2UP](https://github.com/MineEric64/A2UP)
-
-UniConverter converts Ableton Projects to UniPack.
-###### Q. How? 
-###### A. Simple! UniConverter reads Ableton's various algorithms.
+UniConverter converts Ableton Projects to Unipack.
+How? Simple! UniConverter reads Ableton's various algorithms.
 
 For Example, UniConverter reads algorithms to Ableton Project's Information.
-##### (ex: Project's information, Sounds/LED's Position, More...)
+(ex: Project's information, Sounds/LED's Position, More...)
 
-UniConverter converts Ableton Project's Information to UniPack's Information.
-Last, UniConverter trims some Sounds, LEDs of UniPack.
+UniConverter converts Ableton Project's Information to Unipack's Information.
+Last, UniConverter trims some Sounds, LEDs of Unipack.
 
-Also, you can edit simple information of UniPack directly!
+Also, you can edit simple information of Unipack directly!
 
-But, you can edit detail information of UniPack on Unitor.
+But, you can edit detail information of Unipack on Unitor.
 You can download Unitor on "http://www.unitor.ga"! :D
 
 You can download UniConverter Latest Version on "http://ucv.kro.kr".
 If you want to use UniConverter Test Version, You must get permission to me. or, You can build the UniConverter directly!
-#### [Latest Version: V1.0.0.2   |   Test Version: V1.1.0.3]
 
+Latest Version: V1.0.0.2   |   Test Version: V1.1.0.3
 
-##### DEVELOPING PROJECTS make someone convenient.
-#### By MineEric64 (최에릭) on 07/27/19
+DEVELOPING PROJECTS make someone convenient. -MineEric64
+
+-By 최에릭 (MineEric64) on 02/06/19

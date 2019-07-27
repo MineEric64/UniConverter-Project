@@ -107,6 +107,7 @@ Partial Class MainProject
         Me.BGW_keyLED2 = New System.ComponentModel.BackgroundWorker()
         Me.BGW_keyLEDCvt = New System.ComponentModel.BackgroundWorker()
         Me.BGW_CheckUpdate = New System.ComponentModel.BackgroundWorker()
+        Me.keyLEDMIDEX_CopyButton = New System.Windows.Forms.Button()
         Me.MenuStrip.SuspendLayout()
         Me.HomeEdit.SuspendLayout()
         Me.Info1.SuspendLayout()
@@ -184,7 +185,7 @@ Partial Class MainProject
         '
         Me.UnipackToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AnyAbletonToolStripMenuItem, Me.AbletonLive9LiteToolStripMenuItem, Me.AbletonLive9TrialToolStripMenuItem, Me.AbletonLive9SuiteToolStripMenuItem, Me.AbletonLive10ToolStripMenuItem})
         Me.UnipackToolStripMenuItem.Name = "UnipackToolStripMenuItem"
-        Me.UnipackToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.UnipackToolStripMenuItem.Size = New System.Drawing.Size(129, 22)
         Me.UnipackToolStripMenuItem.Text = "Ableton"
         '
         'AnyAbletonToolStripMenuItem
@@ -226,7 +227,7 @@ Partial Class MainProject
         '
         Me.UnipackToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ConvertToZipUniToolStripMenuItem})
         Me.UnipackToolStripMenuItem1.Name = "UnipackToolStripMenuItem1"
-        Me.UnipackToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.UnipackToolStripMenuItem1.Size = New System.Drawing.Size(129, 22)
         Me.UnipackToolStripMenuItem1.Text = "UniPack"
         '
         'ConvertToZipUniToolStripMenuItem
@@ -253,32 +254,32 @@ Partial Class MainProject
         'CheckUpdateToolStripMenuItem
         '
         Me.CheckUpdateToolStripMenuItem.Name = "CheckUpdateToolStripMenuItem"
-        Me.CheckUpdateToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
+        Me.CheckUpdateToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.CheckUpdateToolStripMenuItem.Text = "Check Update"
         '
         'ReportBugsToolStripMenuItem
         '
         Me.ReportBugsToolStripMenuItem.Name = "ReportBugsToolStripMenuItem"
-        Me.ReportBugsToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
+        Me.ReportBugsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ReportBugsToolStripMenuItem.Text = "Report Bugs"
         '
         'DeveloperModeToolStripMenuItem
         '
         Me.DeveloperModeToolStripMenuItem.Name = "DeveloperModeToolStripMenuItem"
-        Me.DeveloperModeToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
+        Me.DeveloperModeToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.DeveloperModeToolStripMenuItem.Text = "Developer Mode"
         Me.DeveloperModeToolStripMenuItem.Visible = False
         '
         'SettingsToolStripMenuItem1
         '
         Me.SettingsToolStripMenuItem1.Name = "SettingsToolStripMenuItem1"
-        Me.SettingsToolStripMenuItem1.Size = New System.Drawing.Size(178, 22)
+        Me.SettingsToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
         Me.SettingsToolStripMenuItem1.Text = "Settings"
         '
         'InfoToolStripMenuItem
         '
         Me.InfoToolStripMenuItem.Name = "InfoToolStripMenuItem"
-        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
+        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.InfoToolStripMenuItem.Text = "Info"
         '
         'sfd
@@ -656,6 +657,7 @@ Partial Class MainProject
         '
         'keyLED2
         '
+        Me.keyLED2.Controls.Add(Me.keyLEDMIDEX_CopyButton)
         Me.keyLED2.Controls.Add(Me.DevelopingLabel3)
         Me.keyLED2.Controls.Add(Me.keyLEDMIDEX_TestButton)
         Me.keyLED2.Controls.Add(Me.keyLEDMIDEX_UniLED)
@@ -683,7 +685,7 @@ Partial Class MainProject
         '
         Me.keyLEDMIDEX_TestButton.Enabled = False
         Me.keyLEDMIDEX_TestButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.keyLEDMIDEX_TestButton.Location = New System.Drawing.Point(191, 423)
+        Me.keyLEDMIDEX_TestButton.Location = New System.Drawing.Point(313, 420)
         Me.keyLEDMIDEX_TestButton.Name = "keyLEDMIDEX_TestButton"
         Me.keyLEDMIDEX_TestButton.Size = New System.Drawing.Size(156, 64)
         Me.keyLEDMIDEX_TestButton.TabIndex = 43
@@ -701,6 +703,7 @@ Partial Class MainProject
         Me.keyLEDMIDEX_UniLED.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.keyLEDMIDEX_UniLED.DisabledColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer))
         Me.keyLEDMIDEX_UniLED.Enabled = False
+        Me.keyLEDMIDEX_UniLED.Font = New System.Drawing.Font("Courier New", 9.75!)
         Me.keyLEDMIDEX_UniLED.IsReplaceMode = False
         Me.keyLEDMIDEX_UniLED.Location = New System.Drawing.Point(364, 14)
         Me.keyLEDMIDEX_UniLED.Name = "keyLEDMIDEX_UniLED"
@@ -723,7 +726,7 @@ Partial Class MainProject
         'keyLEDMIDEX_BetaButton
         '
         Me.keyLEDMIDEX_BetaButton.Font = New System.Drawing.Font("Ubuntu", 9.749999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.keyLEDMIDEX_BetaButton.Location = New System.Drawing.Point(364, 423)
+        Me.keyLEDMIDEX_BetaButton.Location = New System.Drawing.Point(97, 422)
         Me.keyLEDMIDEX_BetaButton.Name = "keyLEDMIDEX_BetaButton"
         Me.keyLEDMIDEX_BetaButton.Size = New System.Drawing.Size(202, 64)
         Me.keyLEDMIDEX_BetaButton.TabIndex = 38
@@ -831,6 +834,17 @@ Partial Class MainProject
         'BGW_CheckUpdate
         '
         '
+        'keyLEDMIDEX_CopyButton
+        '
+        Me.keyLEDMIDEX_CopyButton.Enabled = False
+        Me.keyLEDMIDEX_CopyButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.keyLEDMIDEX_CopyButton.Location = New System.Drawing.Point(484, 418)
+        Me.keyLEDMIDEX_CopyButton.Name = "keyLEDMIDEX_CopyButton"
+        Me.keyLEDMIDEX_CopyButton.Size = New System.Drawing.Size(156, 64)
+        Me.keyLEDMIDEX_CopyButton.TabIndex = 45
+        Me.keyLEDMIDEX_CopyButton.Text = "Copy"
+        Me.keyLEDMIDEX_CopyButton.UseVisualStyleBackColor = True
+        '
         'MainProject
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
@@ -846,7 +860,7 @@ Partial Class MainProject
         Me.MainMenuStrip = Me.MenuStrip
         Me.MaximizeBox = False
         Me.Name = "MainProject"
-        Me.Text = "UniConverter Beta 4"
+        Me.Text = "UniConverter Beta 4 (Pre-Release 2)"
         Me.MenuStrip.ResumeLayout(False)
         Me.MenuStrip.PerformLayout()
         Me.HomeEdit.ResumeLayout(False)
@@ -949,4 +963,5 @@ Partial Class MainProject
     Friend WithEvents keyLEDMIDEX_TestButton As Button
     Friend WithEvents BGW_keyLEDCvt As System.ComponentModel.BackgroundWorker
     Friend WithEvents BGW_CheckUpdate As System.ComponentModel.BackgroundWorker
+    Friend WithEvents keyLEDMIDEX_CopyButton As Button
 End Class

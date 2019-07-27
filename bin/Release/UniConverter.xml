@@ -1,0 +1,349 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+UniConverter
+</name>
+</assembly>
+<members>
+<member name="T:UniConverter_Project.My.Resources.Resources">
+<summary>
+  지역화된 문자열 등을 찾기 위한 강력한 형식의 리소스 클래스입니다.
+</summary>
+</member>
+<member name="P:UniConverter_Project.My.Resources.Resources.ResourceManager">
+<summary>
+  이 클래스에서 사용하는 캐시된 ResourceManager 인스턴스를 반환합니다.
+</summary>
+</member>
+<member name="P:UniConverter_Project.My.Resources.Resources.Culture">
+<summary>
+  이 강력한 형식의 리소스 클래스를 사용하여 모든 리소스 조회에 대해 현재 스레드의 CurrentUICulture 속성을
+  재정의합니다.
+</summary>
+</member>
+<member name="P:UniConverter_Project.My.Resources.Resources.CMDCode_help">
+<summary>
+  CMDCode-help V1.2.0.6 (2019-07-10 By MineEric64)
+
+/help - Showing How To Use Command. It shows the Commands to you.
+/? - Same as &apos;/help&apos;
+/clear - Clear Text.
+/del &lt;WName&gt; - Delete File/Directory named &lt;WName&gt;.
+/exists &lt;WName&gt; - Exists File/Directory named &lt;WName&gt;. Showing As Boolean.
+&lt;WName&gt; Lists: Workspace, abl_proj (Ableton Project File), sounds, keySound (Sound Mapping File), CoLED (LED Files), keyLED (UniPack LED Files), info (UniPack Information), ksTmp (Tempoary keySound), KeyTracks (LED KeyTr[나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 문자열을 찾습니다.
+</summary>
+</member>
+<member name="P:UniConverter_Project.My.Resources.Resources.License_DeveloperMode">
+<summary>
+  PExpY2Vuc2VOYW1lPSJEZXZlbG9wZXIgTW9kZSIgTGljZW5zZURldmVsb3Blcj0iTWluZUVyaWM2NCIgUHJvZ3JhbTJ1c2VMaWNlbnNlPSJVbmlDb252ZXJ0ZXIiIExpY2Vuc2VDcmVhdGVEYXRlPSIyMDE5LTA3LTEwLTEzLTQ2IiBFeHBpcmVkRGF0ZT0iMjAyNC0wNy0xMC0xMy00NiI+
+
+//This is UniConverter&apos;s Developer Mode License.
+- UniConverter ⓒ 2018~2019 최에릭 (MineEric64) All Rights Reserved.과(와) 유사한 지역화된 문자열을 찾습니다.
+</summary>
+</member>
+<member name="P:UniConverter_Project.My.Resources.Resources.License_GreatExMode">
+<summary>
+  PExpY2Vuc2VOYW1lPSJHcmVhdEV4IE1vZGUiIExpY2Vuc2VEZXZlbG9wZXI9Ik1pbmVFcmljNjQiIFByb2dyYW0ydXNlTGljZW5zZT0iVW5pQ29udmVydGVyIiBMaWNlbnNlQ3JlYXRlRGF0ZT0iMjAxOS0wNy0xMC0xMy01MCIgRXhwaXJlZERhdGU9IjIwMjQtMDctMTAtMTMtNTAiPg==
+
+//This is UniConverter&apos;s GreatEx Mode License.
+- UniConverter ⓒ 2018~2019 최에릭 (MineEric64) All Rights Reserved.과(와) 유사한 지역화된 문자열을 찾습니다.
+</summary>
+</member>
+<member name="P:UniConverter_Project.My.Resources.Resources.UniConverterV2">
+<summary>
+  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+</summary>
+</member>
+<member name="P:UniConverter_Project.My.Resources.Resources.Unipad">
+<summary>
+  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+</summary>
+</member>
+<member name="F:UniConverter_Project.keyLED_Test.ctrl">
+ <summary>
+ 버튼 저장
+ </summary>
+</member>
+<member name="M:UniConverter_Project.keyLED_Test.Handle_Launchpad(System.Int32,System.Int32,System.Int32)">
+ <summary>
+ 런치패드를 조작합니다. (LED ON!)
+ </summary>
+ <param name="x">LED X 좌표.</param>
+ <param name="y">LED Y 좌표.</param>
+ <param name="Velocity">LED 색깔.</param>
+</member>
+<member name="M:UniConverter_Project.keyLED_Test.Handle_Launchpad(System.Int32,System.Int32,System.Int32,System.Int32)">
+ <summary>
+ 런치패드를 조작합니다. (LED ON!)
+ </summary>
+ <param name="x">LED X 좌표.</param>
+ <param name="y">LED Y 좌표.</param>
+ <param name="Velocity">LED 색깔.</param>
+ <param name="Launchpad_Kind">런치패드 종류. (0: Mini/S, 1: MK2, 2: Pro)</param>
+</member>
+<member name="M:UniConverter_Project.keyLED_Test.mcSendNote(System.Int32,System.Int32,System.Drawing.Color,System.Boolean)">
+ <summary>
+ MC 버튼을 켭니다.
+ </summary>
+ <param name="num">MC 버튼의 코드를 뜻합니다. 1~32로 있습니다.</param>
+ <param name="velo">벨로시티를 말합니다.</param>
+ <param name="col">색을 말합니다.</param>
+</member>
+<member name="M:UniConverter_Project.keyLED_Test.mcSendNote(System.Int32,System.Int32,System.Drawing.Color,System.Int32,System.Boolean)">
+ <summary>
+ MC 버튼을 켭니다.
+ </summary>
+ <param name="num">MC 버튼의 코드를 뜻합니다. 1~32로 있습니다.</param>
+ <param name="velo">벨로시티를 말합니다.</param>
+ <param name="col">색을 말합니다.</param>
+ <param name="Launchpad_Kind">런치패드 종류. (0: Mini/S, 1: MK2, 2: Pro)</param>
+</member>
+<member name="F:UniConverter_Project.DeveloperMode_Project.EachCode.keyLED_1">
+ <summary>
+ XML2keyLED Code.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.DeveloperMode_Project.EachCode.keyLED_MIDEX_1">
+ <summary>
+ MID2keyLED (MIDI Extension) Code.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.DeveloperMode_Project.EachCode.SlicePoints_1">
+ <summary>
+ XML2Sounds Code.
+ </summary>
+</member>
+<member name="M:UniConverter_Project.DeveloperMode_Project.GetChainN(System.String)">
+ <summary>
+ Get Ableton Project's Chain Number.
+ </summary>
+ <param name="XMLPath">XML's Path.</param>
+ <returns></returns>
+</member>
+<member name="M:UniConverter_Project.DeveloperMode_Project.GetkeyLED(UniConverter_Project.DeveloperMode_Project.EachCode,System.String,System.Boolean,System.Boolean)">
+ <summary>
+ Converting keyLED with XML2keyLED.
+ </summary>
+ <param name="XMLPath">XML Path.</param>
+ <param name="keyLEDFiles">(Create/Don't Create) keyLED Files.</param>
+ <param name="DebugFiles">(Create/Don't Create) Debug Files.</param>
+ <returns></returns>
+</member>
+<member name="M:UniConverter_Project.DeveloperMode_Project.GetIndex(System.Object,System.String,System.Object,System.Object,System.Boolean)">
+ <summary>
+ Get Index from Object.
+ </summary>
+ <param name="BSoo">1 Object To Get Object's Index.</param>
+ <param name="itemName">Object's Item Name.</param>
+ <param name="B2Soo">Compare with 1 Object.</param>
+ <param name="DefaultVal">Object's Default Value.</param>
+ <param name="B2SooAR">1 Object's Length = 2 Object's Length</param>
+ <returns></returns>
+</member>
+<member name="F:UniConverter_Project.keySound_Edit.UniPack_SelectedChain">
+ <summary>
+ 선택한 체인. (1~8)
+ </summary>
+</member>
+<member name="F:UniConverter_Project.keySound_Edit.UniPack_X">
+ <summary>
+ X 버튼 좌표. (1~8)
+ </summary>
+</member>
+<member name="F:UniConverter_Project.keySound_Edit.UniPack_Y">
+ <summary>
+ Y 버튼 좌표. (1~8)
+ </summary>
+</member>
+<member name="F:UniConverter_Project.keySound_Edit.keySound_Mapping">
+ <summary>
+ 키사운드 매핑.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.keySound_Edit.keySound_SameM">
+ <summary>
+ 최대 다중 매핑 지원. (1, 같은 사운드 다중 매핑 적용)
+ </summary>
+</member>
+<member name="F:UniConverter_Project.keySound_Edit.keySound_DifM">
+ <summary>
+ 최대 다중 매핑 지원. (2, 다른 사운드 다중 매핑 적용)
+ </summary>
+</member>
+<member name="F:UniConverter_Project.keySound_Edit.keySound_CChain">
+ <summary>
+ 현재 체인. (1~8)
+ </summary>
+</member>
+<member name="F:UniConverter_Project.keySound_Edit.keySound_MChain">
+ <summary>
+ 최대 체인. (1~8)
+ </summary>
+</member>
+<member name="F:UniConverter_Project.keySound_Edit.keySoundLayoutTrue">
+ <summary>
+ 키사운드 레이아웃 Boolean 여부.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.keySound_Edit.keySound_Line">
+ <summary>
+ 키사운드 텍스트 라인. Index: 0부터 시작
+ </summary>
+</member>
+<member name="F:UniConverter_Project.keySound_Edit.PrChain">
+ <summary>
+ 이전 체인.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.keySound_Edit.ResetChain">
+ <summary>
+ 체인을 리셋. (keySound Layout 버튼)
+ </summary>
+</member>
+<member name="F:UniConverter_Project.keySound_Edit.keySoundLoop">
+ <summary>
+ keySound Loop 여부.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.keySound_Edit.keySound_senderGAZUA">
+ <summary>
+ sender As Object.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.keySound_Edit.Erait">
+ <summary>
+ 너무 힘들다...
+ </summary>
+</member>
+<member name="F:UniConverter_Project.keySound_Edit.Erait2">
+ <summary>
+ 너무 힘들다... 2
+ </summary>
+</member>
+<member name="F:UniConverter_Project.keySound_Edit.ctrl">
+ <summary>
+ 버튼 저장
+ </summary>
+</member>
+<member name="M:UniConverter_Project.keySound_Edit.Cntstr(System.String,System.String)">
+ <summary>
+ String의 수를 세줍니다. 결과는 Integer.
+ </summary>
+</member>
+<member name="M:UniConverter_Project.keyLED_Edit_Advanced.Save2Settings(System.Boolean)">
+ <summary>
+ Save Settings To XML.
+ </summary>
+ <param name="ShowMessage">Showing Message.</param>
+</member>
+<member name="M:UniConverter_Project.keyLED_Edit_Advanced.LoadSettings">
+ <summary>
+ Load Settings To XML.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.LicenseFile">
+ <summary>
+  라이센스 파일. (0: Developer Mode, 1: GreatEx Mode)
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.FileInfo">
+ <summary>
+ UniConverter 최신 버전.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.VerLog">
+ <summary>
+ UniConverter 최신 버전 업데이트 로그.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.vxml">
+ <summary>
+ Version.XML 파일 분석.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.setxml">
+ <summary>
+ Settings.XML 파일 분석.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.uni_confile">
+ <summary>
+ settings.xml 중 Convert Unipack 설정.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.IsDeveloperMode">
+ <summary>
+ Developer Mode?
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.IsGreatExMode">
+ <summary>
+ Great Exception Mode!
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.ast">
+ <summary>
+ 특별 기호 (")
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.IsSaved">
+ <summary>
+ MainProject 저장 여부.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.SoundIsSaved">
+ <summary>
+ keySound 저장 여부.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.IsUpdated">
+ <summary>
+ 업데이트 여부.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.IsWorking">
+ <summary>
+ 지금 매우 중요한 작업 여부.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.LLV">
+ <summary>
+ 사운드 검색시 원본 리스트뷰.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.TVLV">
+ <summary>
+ Tempoary Virtual ListView. 사운드 로드시 임시로 저장하는 리스트뷰.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.midioutput_kind">
+ <summary>
+ 0: Mini/S, 1: MK2, 2: Pro
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.midiinput_kind">
+ <summary>
+ 0: Mini/S, 1: MK2, 2: Pro (0~127 단계 소리 세기 조절 기능)
+ </summary>
+</member>
+<member name="M:UniConverter_Project.MainProject.Lame(System.String,System.String,System.String,System.String,System.String,System.Boolean,Microsoft.VisualBasic.AppWinStyle)">
+ <summary>
+  LAME으로 소리 확장자 변환. 현재 MP3toWAV 변환 가능. FileName의 경우 반드시 Application.StartupPath로 File을 지정하기 바람.
+ </summary>
+ <param name="CMDpath">CMD Path. (ex: Application.StartupPath + "\lame\cmd.exe")</param>
+ <param name="LAMEpath">Lame Path. (ex: Application.StartupPath + "\lame\lame.exe")</param> 
+ <param name="resFile">Original File Path. (ex: Application.StartupPath + "\Workspace\Hello_World.mp3")</param> 
+ <param name="desFile">Destination File Path. (ex: Application.StartupPath + "\Workspace\Hello_World.wav")</param> 
+ <param name="LameOption">Lame's Option Argument. (ex: "--preset extreme")</param> 
+ <param name="HideCMD">Hiding CMD. (ex: True)</param>
+ <param name="AppStyle">CMD App Style. (ex: AppWinStyle.Hide)</param>
+</member>
+<member name="M:UniConverter_Project.UG_Settings.Save2Settings(System.Boolean)">
+ <summary>
+ Save Settings To XML.
+ </summary>
+ <param name="ShowMessage">Showing Message.</param>
+</member>
+</members>
+</doc>
