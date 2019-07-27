@@ -1,7 +1,14 @@
 # UniConverter Project
 
          UniConverter Project v1.1.0.3
+         
+![UniConverter_tmpIcon](https://github.com/MineEric64/UniConverter-Project/blob/master/Resources/UniConverterV2.png)
+<!--
+UniConverter_tmpIcon은 RM_Icon이 만들어지기 전의 임시 아이콘입니다.
+RM_Icon이 만들어지면 tmp_Icon은 삭제해주시기 바랍니다.
 ![UniConverter_Icon](https://github.com/MineEric64/UniConverter-Project/blob/master/Resources/uniconverter_icon.png)
+-->
+
 ### Made By 'MineEric64'. (최에릭)
 #### Helped By 'Follow_JB', 'EX867', 'Ph-r'.
 
