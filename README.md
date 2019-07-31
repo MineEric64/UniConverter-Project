@@ -1,30 +1,36 @@
-# UniConverter-Project
+# UniConverter Project
 
-         MineEric's LARGE-SCALE Projects. [UniConverter]
+         UniConverter Project v1.1.0.3
+         
+![UniConverter_tmpIcon](https://github.com/MineEric64/UniConverter-Project/blob/master/Resources/UniConverterV2.png)
+![UniConverter_Icon](https://github.com/MineEric64/UniConverter-Project/blob/master/Resources/UniConverter_icon.png)
 
----About "UniConverter"---
+### Made By 'MineEric64'. (최에릭)
+#### Helped By 'Follow_JB', 'EX867', 'Ph-r'.
 
-using .NET Framework 4.6.2, Fast Colored TextBox, ICSharpCode.SharpZipLibrary, NAudio, LAME
+## About The 'UniConverter'
 
-UniConverter converts Ableton Projects to Unipack.
-How? Simple! UniConverter reads Ableton's various algorithms.
+#### using .NET Framework 4.6.2, Fast Colored TextBox, ICSharpCode.SharpZipLibrary, NAudio, LAME, [A2UP](https://github.com/MineEric64/A2UP)
+
+UniConverter converts Ableton Projects to UniPack.
+###### Q. How? 
+###### A. Simple! UniConverter reads Ableton's various algorithms.
 
 For Example, UniConverter reads algorithms to Ableton Project's Information.
-(ex: Project's information, Sounds/LED's Position, More...)
+##### (ex: Project's information, Sounds/LED's Position, More...)
 
-UniConverter converts Ableton Project's Information to Unipack's Information.
-Last, UniConverter trims some Sounds, LEDs of Unipack.
+UniConverter converts Ableton Project's Information to UniPack's Information.
+Last, UniConverter trims some Sounds, LEDs of UniPack.
 
-Also, you can edit simple information of Unipack directly!
+Also, you can edit simple information of UniPack directly!
 
-But, you can edit detail information of Unipack on Unitor.
+But, you can edit detail information of UniPack on Unitor.
 You can download Unitor on "http://www.unitor.ga"! :D
 
 You can download UniConverter Latest Version on "http://ucv.kro.kr".
 If you want to use UniConverter Test Version, You must get permission to me. or, You can build the UniConverter directly!
+#### [Latest Version: V1.0.0.2   |   Test Version: V1.1.0.3]
 
-Latest Version: V1.0.0.2   |   Test Version: V1.1.0.3
 
-DEVELOPING PROJECTS make someone convenient. -MineEric64
-
--By 최에릭 (MineEric64) on 02/06/19
+##### DEVELOPING PROJECTS make someone convenient.
+#### By MineEric64 (최에릭) on 07/27/19
