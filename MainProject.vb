@@ -13,91 +13,74 @@ Imports System.Text.RegularExpressions
 Imports A2UP
 
 Public Class MainProject
+
+#Region "UniConverter-MainProject(s)"
     ''' <summary>
     '''  라이센스 파일. (0: Developer Mode, 1: GreatEx Mode)
     ''' </summary>
     Public Shared LicenseFile As String() = New String(1) {Application.StartupPath & "\MDSL\DeveloperMode.uni", Application.StartupPath & "\MDSL\GreatExMode.uni"}
-    Public Shared TempDirectory As String = My.Computer.FileSystem.SpecialDirectories.Temp
-    Public Shared abl_ver As String
-    Public Shared abl_FileName As String
-    Public Shared abl_Name As String
-    Public Shared abl_Chain As Integer
-    Public Shared abl_openedproj As Boolean
-    Public Shared abl_openedsnd As Boolean
-    Public Shared abl_openedled As Boolean
-    Public Shared abl_openedled2 As Boolean
-
-#Region "About XML (Settings / Version)"
-    ''' <summary>
-    ''' UniConverter 최신 버전.
-    ''' </summary>
-    Public FileInfo As Version
-    ''' <summary>
-    ''' UniConverter 최신 버전 업데이트 로그.
-    ''' </summary>
-    Public VerLog As String
-    ''' <summary>
-    ''' Version.XML 파일 분석.
-    ''' </summary>
-    Public vxml As New XmlDocument
-    ''' <summary>
-    ''' Settings.XML 파일 분석.
-    ''' </summary>
-    Public setxml As New XmlDocument
-    ''' <summary>
-    ''' settings.xml 중 Convert Unipack 설정.
-    ''' </summary>
-    Dim uni_confile As String
-#End Region
 
     ''' <summary>
     ''' Developer Mode?
     ''' </summary>
     Public Shared IsDeveloperMode As Boolean = False
+
     ''' <summary>
     ''' Great Exception Mode!
     ''' </summary>
     Public Shared IsGreatExMode As Boolean = False
-    ''' <summary>
-    ''' 특별 기호 (")
-    ''' </summary>
-    Public Shared ast As String = Chr(34)
+
     ''' <summary>
     ''' MainProject 저장 여부.
     ''' </summary>
-    Dim IsSaved As Boolean
-    ''' <summary>
-    ''' keySound 저장 여부.
-    ''' </summary>
-    Dim SoundIsSaved As Boolean
+    Public Shared IsSaved As Boolean
+
     ''' <summary>
     ''' 업데이트 여부.
     ''' </summary>
-    Dim IsUpdated As Boolean
-    Dim OpenProjectOnce As Boolean
+    Public Shared IsUpdated As Boolean
+
+    ''' <summary>
+    ''' 한 번에 Ableton Project를 열 것인가?
+    ''' </summary>
+    Public OpenProjectOnce As Boolean
+
     ''' <summary>
     ''' 지금 매우 중요한 작업 여부.
     ''' </summary>
-    Dim IsWorking As Boolean
+    Public Shared IsWorking As Boolean
+
     ''' <summary>
     ''' Waiting For Ableton Project. (LED Convert: "keyLED")
     ''' </summary>
-    Dim w8t4abl As String
+    Public Shared w8t4abl As String
+
+#Region "MainProject-keySound(s)"
+    ''' <summary>
+    ''' keySound 저장 여부.
+    ''' </summary>
+    Public Shared SoundIsSaved As Boolean
+
     ''' <summary>
     ''' 사운드 검색시 원본 리스트뷰.
     ''' </summary>
-    Dim LLV As New ListView
+    Public LLV As New ListView
+
     ''' <summary>
     ''' Tempoary Virtual ListView. 사운드 로드시 임시로 저장하는 리스트뷰.
     ''' </summary>
-    Dim TVLV As New ListView
-
+    Public TVLV As New ListView
+#End Region
+#Region "MainProject-keyLED(s)"
+    Private stopitnow As Boolean = False
+#End Region
+#Region "MainProject-Thread(s)"
     Private trd As Thread
     Public Shared ofd_FileName As String
     Private ofd_FileNames() As String
     Private trd_ListView As ListView
     Private trd_KeyEvent_e As KeyEventArgs
-    Private stopitnow As Boolean = False
+#End Region
 
 #Region "MIDI Settings"
     Public midioutput As MidiOut
@@ -115,6 +98,62 @@ Public Class MainProject
     Public midiinput_kind As Integer = 0
     Public midiinput_avail As Boolean = False
 #End Region
+#End Region
+
+#Region "MainProject-Ableton(s)"
+    Public Shared abl_ver As String
+    Public Shared abl_FileName As String
+    Public Shared abl_Name As String
+    Public Shared abl_Chain As Integer
+    Public Shared abl_openedproj As Boolean
+    Public Shared abl_openedsnd As Boolean
+    Public Shared abl_openedled As Boolean
+    Public Shared abl_openedled2 As Boolean
+#End Region
+
+#Region "About XML (Settings / Version)"
+    ''' <summary>
+    ''' UniConverter 최신 버전.
+    ''' </summary>
+    Public FileInfo As Version
+
+    ''' <summary>
+    ''' UniConverter 최신 버전 업데이트 로그.
+    ''' </summary>
+    Public VerLog As String
+
+    ''' <summary>
+    ''' Version.XML 파일 분석.
+    ''' </summary>
+    Public vxml As New XmlDocument
+
+    ''' <summary>
+    ''' Settings.XML 파일 분석.
+    ''' </summary>
+    Public setxml As New XmlDocument
+
+    ''' <summary>
+    ''' settings.xml 중 Convert Unipack 설정.
+    ''' </summary>
+    Private uni_confile As String
+#End Region
+
+#Region "UniPack(s)"
+    ''' <summary>
+    ''' LED 다중 매핑 순서. (a b c ...)
+    ''' </summary>
+    Public Shared LEDMapping_N As Char() = New Char(25) {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"}
+#End Region
+
+    ''' <summary>
+    ''' 특별 기호 (")
+    ''' </summary>
+    Public Shared ast As String = Chr(34)
+
+    ''' <summary>
+    ''' Temp 폴더.
+    ''' </summary>
+    Public Shared TempDirectory As String = My.Computer.FileSystem.SpecialDirectories.Temp
 
     ''' <summary>
     '''  LAME으로 소리 확장자 변환. 현재 MP3toWAV 변환 가능. FileName의 경우 반드시 Application.StartupPath로 File을 지정하기 바람.
@@ -127,8 +166,6 @@ Public Class MainProject
     ''' <param name="HideCMD">Hiding CMD. (ex: True)</param>
     ''' <param name="AppStyle">CMD App Style. (ex: AppWinStyle.Hide)</param>
     Public Shared Sub Lame(CMDpath As String, LAMEpath As String, resFile As String, desFile As String, LameOption As String, HideCMD As Boolean, AppStyle As AppWinStyle)
-        Dim ast As String = """" 'Special Letter (")
-
         If HideCMD = True Then
             Shell(CMDpath + " /k " & LAMEpath & " " & ast & resFile & ast & " " & desFile & " " & LameOption, AppStyle)
         ElseIf HideCMD = False Then
@@ -263,12 +300,12 @@ Public Class MainProject
 
     Private Sub TutorialsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TutorialsToolStripMenuItem.Click
         'MessageBox.Show("We are developing the NEW Tutorial Function." & vbNewLine & "Coming Soon...!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-        'z_Tutorial.Show()
 
         Dim README As String = "https://raw.githubusercontent.com/MineEric64/GUCCI-TEST/master/README.md"
         Dim client As WebClient = New WebClient()
         Dim reader As StreamReader = New StreamReader(client.OpenRead(README))
         Debug.WriteLine(reader.ReadToEnd)
+
     End Sub
 
     Private Sub SaveProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveProjectToolStripMenuItem.Click
@@ -287,29 +324,28 @@ Public Class MainProject
             Loading.DLb.Text = "Loading LED Files..."
             Loading.DLb.Refresh()
 
-            If Dir("Workspace\ableproj\CoLED", vbDirectory) <> "" Then
+            If Directory.Exists("Workspace\ableproj\CoLED") Then
                 My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\CoLED", FileIO.DeleteDirectoryOption.DeleteAllContents)
-                My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\CoLED")
-OpenLine:
-                For i = 0 To FileNames.Length - 1
-                    File.Copy(FileNames(i), "Workspace\ableproj\CoLED\" & FileNames(i).Split("\").Last, True)
-                    Loading.DPr.Style = ProgressBarStyle.Continuous
-                    Loading.DPr.Value += 1
-                    Loading.DLb.Left = 40
-                    Loading.DLb.Text = String.Format(Loading.loading_LED_open_msg, Loading.DPr.Value, FileNames.Length)
-                    Loading.DLb.Refresh()
-                Next
-
-                Loading.DPr.Value = Loading.DPr.Maximum
-                Loading.DPr.Style = ProgressBarStyle.Marquee
-                Loading.DPr.Refresh()
-                Loading.DLb.Left = 40
-                Loading.DLb.Text = "Loaded LED Files. Please Wait..."
-                Loading.DLb.Refresh()
+                Directory.CreateDirectory("Workspace\ableproj\CoLED")
             Else
-                My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\CoLED")
-                GoTo OpenLine
+                Directory.CreateDirectory("Workspace\ableproj\CoLED")
             End If
+
+            For i = 0 To FileNames.Length - 1
+                File.Copy(FileNames(i), "Workspace\ableproj\CoLED\" & FileNames(i).Split("\").Last, True)
+                Loading.DPr.Style = ProgressBarStyle.Continuous
+                Loading.DPr.Value += 1
+                Loading.DLb.Left = 40
+                Loading.DLb.Text = String.Format(Loading.loading_LED_open_msg, Loading.DPr.Value, FileNames.Length)
+                Loading.DLb.Refresh()
+            Next
+
+            Loading.DPr.Value = Loading.DPr.Maximum
+            Loading.DPr.Style = ProgressBarStyle.Marquee
+            Loading.DPr.Refresh()
+            Loading.DLb.Left = 40
+            Loading.DLb.Text = "Loaded LED Files. Please Wait..."
+            Loading.DLb.Refresh()
 
             abl_openedled = True
             Loading.Dispose()
@@ -332,7 +368,6 @@ OpenLine:
                 Exit Sub
             Else
 
-                '흠... 한번 keyLED Save 파일이 무의미 할 경우 이 코드와 BackgroundWorker는 지우자.
                 Dim s As String = My.Computer.FileSystem.GetParentPath(ofd_FileNames(0))
                 Dim wowkac As String = String.Empty
                 For Each d As String In My.Computer.FileSystem.GetFiles(s, FileIO.SearchOption.SearchTopLevelOnly)
@@ -590,7 +625,7 @@ OpenLine:
         Array.Reverse(chan_)
 
         Dim FinalChain As Integer = 0
-            For i As Integer = 0 To chan_.Count - 1
+        For i As Integer = 0 To chan_.Count - 1
             If chan_(i) < 9 AndAlso chan_(i) > 0 Then
                 FinalChain = chan_(i)
                 Exit For
@@ -608,31 +643,31 @@ OpenLine:
 
         Loading.Dispose()
 
-            If Not abl_openedproj = True Then
-                If OpenProjectOnce = False Then MessageBox.Show("Ableton Project File Loaded!" & vbNewLine & "You can edit info in Information Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                abl_openedproj = True
-            Else
-                If OpenProjectOnce = False Then MessageBox.Show("Ableton Project File Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-            End If
+        If Not abl_openedproj = True Then
+            If OpenProjectOnce = False Then MessageBox.Show("Ableton Project File Loaded!" & vbNewLine & "You can edit info in Information Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            abl_openedproj = True
+        Else
+            If OpenProjectOnce = False Then MessageBox.Show("Ableton Project File Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
 
-            'XML File Load.
+        'XML File Load.
+        Invoke(Sub()
+                   infoTB1.Text = abl_Name
+                   infoTB3.Text = abl_Chain
+               End Sub)
+
+        'Tempoary Virtual ListView Add Items. (keySound)
+
+        'keySound 코드.
+        If abl_openedsnd = True Then
+            TVLV.Items.Clear()
+
             Invoke(Sub()
-                       infoTB1.Text = abl_Name
-                       infoTB3.Text = abl_Chain
+                       For Each FoundItem As ListViewItem In TVLV.Items
+                           keySound_ListView.Items.Add(New ListViewItem({FoundItem.SubItems(0).Text, FoundItem.SubItems(1).Text, FoundItem.SubItems(2).Text, FoundItem.SubItems(3).Text}))
+                       Next
                    End Sub)
-
-            'Tempoary Virtual ListView Add Items. (keySound)
-
-            'keySound 코드.
-            If abl_openedsnd = True Then
-                TVLV.Items.Clear()
-
-                Invoke(Sub()
-                           For Each FoundItem As ListViewItem In TVLV.Items
-                               keySound_ListView.Items.Add(New ListViewItem({FoundItem.SubItems(0).Text, FoundItem.SubItems(1).Text, FoundItem.SubItems(2).Text, FoundItem.SubItems(3).Text}))
-                           Next
-                       End Sub)
-            End If
+        End If
     End Sub
 
     Private Sub BGW_ablproj_Completed(sender As Object, e As RunWorkerCompletedEventArgs) Handles BGW_ablproj.RunWorkerCompleted
@@ -2109,14 +2144,39 @@ fexLine:
                     Directory.CreateDirectory(c)
                 Else
                     My.Computer.FileSystem.DeleteDirectory(c, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                    Thread.Sleep(300)
                     Directory.CreateDirectory(c)
                 End If
+
+                Dim LEDSave As String = Application.StartupPath & "\Workspace\ableproj\LEDSave.uni"
+                Dim SaveCnt As Integer = Cntstr(File.ReadAllText(LEDSave), ".mid;")
+                Dim LEDs As String() = New String(SaveCnt - 1) {}
+
+                Dim ral As Integer() = ReadAllIndex(File.ReadAllLines(LEDSave), ".mid;")
+                Dim finstr As String = String.Empty
+                For i As Integer = 0 To ral.Count - 1
+                    Dim x As String() = File.ReadAllLines(LEDSave)
+                    finstr = finstr & vbNewLine & x(ral(i))
+                Next
+                Dim LEDMapping As String = Application.StartupPath & "\Workspace\ableproj\LEDMapping.uni"
+                File.WriteAllText(LEDMapping, finstr.Remove(0, 1))
+
+                For i As Integer = 0 To SaveCnt - 1
+                    Dim x As String() = File.ReadAllLines(LEDMapping)
+                    Dim foundx As String = String.Empty
+
+                    If x(i).Contains(".mid;") Then
+                        foundx = x(i).Split("/").Last().Replace(";", "")
+                        LEDs(i) = foundx
+                    End If
+
+                Next
 
                 Loading.DLb.Text = "Converting LEDs..."
                 Loading.DLb.Refresh()
 
                 Dim il As Integer = 0
-                For Each d As String In My.Computer.FileSystem.GetFiles(s, FileIO.SearchOption.SearchTopLevelOnly, "*.mid")
+                For Each d As String In LEDs
 
                     'Beta Code!
                     '이 Beta Convert Code는 오류가 발생할 수 있습니다.
@@ -2127,7 +2187,16 @@ fexLine:
 
                     '이 코드는 Follow_JB님의 midi2keyLED를 참고하여 만든 코드. (Thanks to Follow_JB. :D)
 
-                    Dim LEDFileC As New MidiFile(d, False)
+                    If String.IsNullOrWhiteSpace(d) Then
+                        Continue For
+                    End If
+
+                    Dim dPath As String = String.Format("{0}\Workspace\ableproj\CoLED\{1}", Application.StartupPath, d)
+                    If File.Exists(dPath) = False Then
+                        Throw New FileNotFoundException("MIDI File '" & d & "' doesn't exists. Try Again!")
+                    End If
+
+                    Dim LEDFileC As New MidiFile(dPath, False)
                     Dim str As String = String.Empty
                     Dim delaycount As Integer = 0
                     Dim UniNoteNumberX As Integer 'X
@@ -2201,9 +2270,23 @@ fexLine:
                     If LoopNumber_1bool = False Then
 
                         '시작 길이와 끝 길이가 다른 경우 (Loop 1 활성화 시)
+                        If cxyl(0) & cxyl(1) & cxyl(2) & cxyl(3) = "1451" Then
+                            Debug.WriteLine(d & ", 1451 HolyMoly! (1, 0)")
+                        End If
+
                         For i As Integer = LoopNumber_1(0) To LoopNumber_1(1)
 
                             If LoopNumber_2bool Then
+
+                                cxyl(0) = i
+                                sFile = String.Format("{0}\Workspace\unipack\keyLED\{1} {2} {3} {4}", Application.StartupPath, cxyl(0), cxyl(1), cxyl(2), cxyl(3))
+                                File.WriteAllText(sFile, str)
+
+                            ElseIf LoopNumber_2bool = False Then
+
+                                If cxyl(0) & cxyl(1) & cxyl(2) & cxyl(3) = "1451" Then
+                                    Debug.WriteLine(d & ", 1451 HolyMoly! (1, 1)")
+                                End If
 
                                 For q As Integer = LoopNumber_2(0) To LoopNumber_2(1)
                                     cxyl(0) = i
@@ -2212,11 +2295,6 @@ fexLine:
                                     sFile = String.Format("{0}\Workspace\unipack\keyLED\{1} {2} {3} {4}", Application.StartupPath, cxyl(0), cxyl(1), cxyl(2), cxyl(3))
                                     File.WriteAllText(sFile, str)
                                 Next
-
-                            ElseIf LoopNumber_2bool = False Then
-                                cxyl(0) = i
-                                sFile = String.Format("{0}\Workspace\unipack\keyLED\{1} {2} {3} {4}", Application.StartupPath, cxyl(0), cxyl(1), cxyl(2), cxyl(3))
-                                File.WriteAllText(sFile, str)
                             End If
 
                         Next
@@ -2225,6 +2303,19 @@ fexLine:
 
                         If LoopNumber_2bool Then
 
+                            '기본값.
+                            If cxyl(0) & cxyl(1) & cxyl(2) & cxyl(3) = "1451" Then
+                                Debug.WriteLine(d & ", 1451 HolyMoly! (0, 0)")
+                            End If
+
+                            sFile = String.Format("{0}\Workspace\unipack\keyLED\{1} {2} {3} {4}", Application.StartupPath, cxyl(0), cxyl(1), cxyl(2), cxyl(3))
+                            File.WriteAllText(sFile, str)
+
+                        ElseIf LoopNumber_2bool = False Then
+
+                            If cxyl(0) & cxyl(1) & cxyl(2) & cxyl(3) = "1451" Then
+                                Debug.WriteLine(d & ", 1451 HolyMoly! (0, 1)")
+                            End If
                             For q As Integer = LoopNumber_2(0) To LoopNumber_2(1)
                                 cxyl(1) = h.GX_keyLED(A2U.keyLED_AC.C_NoteNumber1, q)
                                 cxyl(2) = h.GY_keyLED(A2U.keyLED_AC.C_NoteNumber1, q)
@@ -2232,12 +2323,10 @@ fexLine:
                                 File.WriteAllText(sFile, str)
                             Next
 
-                        ElseIf LoopNumber_2bool = False Then
-                            sFile = String.Format("{0}\Workspace\unipack\keyLED\{1} {2} {3} {4}", Application.StartupPath, cxyl(0), cxyl(1), cxyl(2), cxyl(3))
-                            File.WriteAllText(sFile, str)
                         End If
 
                     End If
+                    Debug.WriteLine(d & ", x: " & cxyl(1) & " y:" & cxyl(2) & " NoteNumber: " & x.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))
 
                     il += 1
                 Next
@@ -2273,6 +2362,7 @@ fexLine:
             Else
                 MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
+            e.Cancel = True
         End Try
     End Sub
 
@@ -2299,6 +2389,64 @@ fexLine:
         End Try
     End Sub
 
+    ''' <summary>
+    ''' String의 수를 세줍니다. 결과는 Integer.
+    ''' </summary>
+    Public Function Cntstr(ByVal inputString As String, ByVal pattern As String) As Integer
+        Return Regex.Split(inputString, pattern).Length - 1
+    End Function
+
+    ''' <summary>
+    ''' inputString의 pattern을 찾아 Index를 찾아 줍니다.
+    ''' </summary>
+    ''' <param name="inputString"></param>
+    ''' <param name="pattern"></param>
+    ''' <param name="Skip"></param>
+    ''' <returns></returns>
+    Public Function ReadTextIndex(ByVal inputString() As String, ByVal pattern As String, Optional ByVal Skip As Integer = 0) As Integer
+        For i As Integer = 0 To inputString.Count - 1
+            If inputString(i).Contains(pattern) Then
+                If Not Skip = 0 Then
+                    Skip -= 1
+                    Continue For
+                End If
+
+                Return i
+            End If
+        Next
+        Return -1
+    End Function
+
+    ''' <summary>
+    ''' 모든 Index를 반환합니다.
+    ''' </summary>
+    ''' <param name="inputString"></param>
+    ''' <param name="pattern"></param>
+    ''' <returns></returns>
+    Public Function ReadAllIndex(ByVal inputString() As String, ByVal pattern As String) As Integer()
+        Dim ifoun As Integer = 0
+        Dim lq As Integer() = New Integer(inputString.Count - 1) {}
+
+        For i As Integer = 0 To lq.Count - 1
+            If inputString(i).Contains(pattern) Then
+                lq(ifoun) = i
+                ifoun += 1
+            End If
+        Next
+
+        If ifoun = 0 Then
+            Return {-1}
+        End If
+
+        Dim finlq As Integer() = New Integer(ifoun) {}
+        For q As Integer = 0 To ifoun - 1
+            finlq(q) = lq(q)
+        Next
+
+
+        Return finlq
+    End Function
+
     Private Sub KeyLEDMIDEX_CopyButton_Click(sender As Object, e As EventArgs) Handles keyLEDMIDEX_CopyButton.Click
         Try
 
@@ -2311,10 +2459,10 @@ fexLine:
 
         Catch ex As Exception
             If IsGreatExMode Then
-            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        Else
-            MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End If
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         End Try
     End Sub
 End Class

@@ -118,19 +118,22 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Unipad" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Unipad.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="UniConverterV2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UniConverterV2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="CMDCode-help" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CMDCode-help.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;ks_c_5601-1987</value>
+  </data>
+  <data name="License_GreatExMode" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\License_GreatExMode.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;ks_c_5601-1987</value>
+  </data>
+  <data name="Unipad" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Unipad.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="License_DeveloperMode" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\License_DeveloperMode.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;ks_c_5601-1987</value>
   </data>
-  <data name="License_GreatExMode" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\License_GreatExMode.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;ks_c_5601-1987</value>
+  <data name="UniConverterV2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UniConverterV2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UniConverter_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UniConverter_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

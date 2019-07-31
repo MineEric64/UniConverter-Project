@@ -88,6 +88,7 @@ Partial Class MainProject
         Me.keyLED1 = New System.Windows.Forms.TabPage()
         Me.DevelopingLabel2 = New System.Windows.Forms.Label()
         Me.keyLED2 = New System.Windows.Forms.TabPage()
+        Me.keyLEDMIDEX_CopyButton = New System.Windows.Forms.Button()
         Me.DevelopingLabel3 = New System.Windows.Forms.Label()
         Me.keyLEDMIDEX_TestButton = New System.Windows.Forms.Button()
         Me.keyLEDMIDEX_UniLED = New FastColoredTextBoxNS.FastColoredTextBox()
@@ -107,7 +108,6 @@ Partial Class MainProject
         Me.BGW_keyLED2 = New System.ComponentModel.BackgroundWorker()
         Me.BGW_keyLEDCvt = New System.ComponentModel.BackgroundWorker()
         Me.BGW_CheckUpdate = New System.ComponentModel.BackgroundWorker()
-        Me.keyLEDMIDEX_CopyButton = New System.Windows.Forms.Button()
         Me.MenuStrip.SuspendLayout()
         Me.HomeEdit.SuspendLayout()
         Me.Info1.SuspendLayout()
@@ -254,32 +254,32 @@ Partial Class MainProject
         'CheckUpdateToolStripMenuItem
         '
         Me.CheckUpdateToolStripMenuItem.Name = "CheckUpdateToolStripMenuItem"
-        Me.CheckUpdateToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CheckUpdateToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
         Me.CheckUpdateToolStripMenuItem.Text = "Check Update"
         '
         'ReportBugsToolStripMenuItem
         '
         Me.ReportBugsToolStripMenuItem.Name = "ReportBugsToolStripMenuItem"
-        Me.ReportBugsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ReportBugsToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
         Me.ReportBugsToolStripMenuItem.Text = "Report Bugs"
         '
         'DeveloperModeToolStripMenuItem
         '
         Me.DeveloperModeToolStripMenuItem.Name = "DeveloperModeToolStripMenuItem"
-        Me.DeveloperModeToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.DeveloperModeToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
         Me.DeveloperModeToolStripMenuItem.Text = "Developer Mode"
         Me.DeveloperModeToolStripMenuItem.Visible = False
         '
         'SettingsToolStripMenuItem1
         '
         Me.SettingsToolStripMenuItem1.Name = "SettingsToolStripMenuItem1"
-        Me.SettingsToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.SettingsToolStripMenuItem1.Size = New System.Drawing.Size(178, 22)
         Me.SettingsToolStripMenuItem1.Text = "Settings"
         '
         'InfoToolStripMenuItem
         '
         Me.InfoToolStripMenuItem.Name = "InfoToolStripMenuItem"
-        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
         Me.InfoToolStripMenuItem.Text = "Info"
         '
         'sfd
@@ -383,7 +383,7 @@ Partial Class MainProject
         Me.infoTB2.Name = "infoTB2"
         Me.infoTB2.Size = New System.Drawing.Size(329, 30)
         Me.infoTB2.TabIndex = 23
-        Me.infoTB2.Text = "UniConverter V1.1.0.3"
+        Me.infoTB2.Text = "UniConverter v1.1.0.3"
         '
         'infoTB1
         '
@@ -670,6 +670,17 @@ Partial Class MainProject
         Me.keyLED2.Text = "keyLED (MIDI Extension)"
         Me.keyLED2.UseVisualStyleBackColor = True
         '
+        'keyLEDMIDEX_CopyButton
+        '
+        Me.keyLEDMIDEX_CopyButton.Enabled = False
+        Me.keyLEDMIDEX_CopyButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.keyLEDMIDEX_CopyButton.Location = New System.Drawing.Point(484, 418)
+        Me.keyLEDMIDEX_CopyButton.Name = "keyLEDMIDEX_CopyButton"
+        Me.keyLEDMIDEX_CopyButton.Size = New System.Drawing.Size(156, 64)
+        Me.keyLEDMIDEX_CopyButton.TabIndex = 45
+        Me.keyLEDMIDEX_CopyButton.Text = "Copy"
+        Me.keyLEDMIDEX_CopyButton.UseVisualStyleBackColor = True
+        '
         'DevelopingLabel3
         '
         Me.DevelopingLabel3.AutoSize = True
@@ -695,7 +706,7 @@ Partial Class MainProject
         'keyLEDMIDEX_UniLED
         '
         Me.keyLEDMIDEX_UniLED.AutoCompleteBracketsList = New Char() {Global.Microsoft.VisualBasic.ChrW(40), Global.Microsoft.VisualBasic.ChrW(41), Global.Microsoft.VisualBasic.ChrW(123), Global.Microsoft.VisualBasic.ChrW(125), Global.Microsoft.VisualBasic.ChrW(91), Global.Microsoft.VisualBasic.ChrW(93), Global.Microsoft.VisualBasic.ChrW(34), Global.Microsoft.VisualBasic.ChrW(34), Global.Microsoft.VisualBasic.ChrW(39), Global.Microsoft.VisualBasic.ChrW(39)}
-        Me.keyLEDMIDEX_UniLED.AutoScrollMinSize = New System.Drawing.Size(27, 14)
+        Me.keyLEDMIDEX_UniLED.AutoScrollMinSize = New System.Drawing.Size(2, 14)
         Me.keyLEDMIDEX_UniLED.BackBrush = Nothing
         Me.keyLEDMIDEX_UniLED.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.keyLEDMIDEX_UniLED.CharHeight = 14
@@ -833,17 +844,6 @@ Partial Class MainProject
         '
         'BGW_CheckUpdate
         '
-        '
-        'keyLEDMIDEX_CopyButton
-        '
-        Me.keyLEDMIDEX_CopyButton.Enabled = False
-        Me.keyLEDMIDEX_CopyButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.keyLEDMIDEX_CopyButton.Location = New System.Drawing.Point(484, 418)
-        Me.keyLEDMIDEX_CopyButton.Name = "keyLEDMIDEX_CopyButton"
-        Me.keyLEDMIDEX_CopyButton.Size = New System.Drawing.Size(156, 64)
-        Me.keyLEDMIDEX_CopyButton.TabIndex = 45
-        Me.keyLEDMIDEX_CopyButton.Text = "Copy"
-        Me.keyLEDMIDEX_CopyButton.UseVisualStyleBackColor = True
         '
         'MainProject
         '

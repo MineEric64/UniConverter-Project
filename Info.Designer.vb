@@ -100,10 +100,11 @@ Partial Class Info
         '
         'UCV_Icon
         '
-        Me.UCV_Icon.Image = CType(resources.GetObject("UCV_Icon.Image"), System.Drawing.Image)
+        Me.UCV_Icon.Image = Global.UniConverter_Project.My.Resources.Resources.UniConverter_icon
         Me.UCV_Icon.Location = New System.Drawing.Point(134, 26)
         Me.UCV_Icon.Name = "UCV_Icon"
         Me.UCV_Icon.Size = New System.Drawing.Size(131, 130)
+        Me.UCV_Icon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
         Me.UCV_Icon.TabIndex = 0
         Me.UCV_Icon.TabStop = False
         '

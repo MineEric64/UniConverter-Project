@@ -22,6 +22,7 @@ Partial Class REPORTForm
     '코드 편집기에서는 수정하지 마세요.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(REPORTForm))
         Me.UplButton = New System.Windows.Forms.Button()
         Me.attLab = New System.Windows.Forms.Label()
         Me.MAIL_ATTACHMENT = New System.Windows.Forms.TextBox()
@@ -103,6 +104,7 @@ Partial Class REPORTForm
         Me.Controls.Add(Me.DelButton)
         Me.Controls.Add(Me.SenButton)
         Me.Controls.Add(Me.DescBox)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
         Me.Name = "REPORTForm"
         Me.Text = "UniConverter: Report a bug"

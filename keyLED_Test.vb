@@ -8,6 +8,7 @@ Public Class keyLED_Test
 
     Public Shared LEDTexts As String = String.Empty
     Public IsLoaded As Boolean = False
+    Public IsLaunchpaded As Boolean = False
     Public lkind As Integer = 0
     Public lmo As MidiOut
 
@@ -146,6 +147,7 @@ Public Class keyLED_Test
             lmo = MainProject.midioutput
             lmo.Reset()
             lmo.SendBuffer({240, 0, 32, 41, 9, 60, 85, 110, 105, 116, 111, 114, 32, 118, Asc(My.Application.Info.Version.Major), 46, Asc(My.Application.Info.Version.Minor), 46, Asc(My.Application.Info.Version.Build), 46, Asc(My.Application.Info.Version.Revision), 247})
+            IsLaunchpaded = True
         End If
     End Sub
 
@@ -153,22 +155,6 @@ Public Class keyLED_Test
         LEDTexts = LEDText
         IsLoaded = True
     End Sub
-
-    Structure Pad_VTouch_Parm
-        Public chain As Integer
-        Public x As String
-        Public y As Integer
-        Public touch_mode As Integer
-    End Structure
-
-    Private Function CreateNew_Pad_VTouch_Parm(chain As Integer, x As String, y As Integer, touch_mode As Integer) As Pad_VTouch_Parm
-        Dim return_v As New Pad_VTouch_Parm
-        return_v.chain = chain
-        return_v.x = x
-        return_v.y = y
-        return_v.touch_mode = touch_mode
-        Return return_v
-    End Function
 
     Private Sub TestByt_Click(sender As Object, e As EventArgs) Handles TestByt.Click
         For x As Integer = 1 To 8
@@ -181,8 +167,16 @@ Public Class keyLED_Test
         ThreadPool.QueueUserWorkItem(AddressOf LEDHandler)
 
         If MainProject.midioutput_avail Then
+            If IsLaunchpaded = False Then
+                lkind = MainProject.midioutput_kind
+                lmo = MainProject.midioutput
+                lmo.Reset()
+                lmo.SendBuffer({240, 0, 32, 41, 9, 60, 85, 110, 105, 116, 111, 114, 32, 118, Asc(My.Application.Info.Version.Major), 46, Asc(My.Application.Info.Version.Minor), 46, Asc(My.Application.Info.Version.Build), 46, Asc(My.Application.Info.Version.Revision), 247})
+                IsLaunchpaded = True
+            End If
+
             LEDHandler_Launchpad() 'Handle the LED to Launchpad.
-        End If
+            End If
     End Sub
 
     Private Sub LEDHandler()

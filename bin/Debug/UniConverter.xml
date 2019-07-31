@@ -50,6 +50,11 @@ UniConverter
 - UniConverter ⓒ 2018~2019 최에릭 (MineEric64) All Rights Reserved.과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
+<member name="P:UniConverter_Project.My.Resources.Resources.UniConverter_icon">
+<summary>
+  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+</summary>
+</member>
 <member name="P:UniConverter_Project.My.Resources.Resources.UniConverterV2">
 <summary>
   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
@@ -247,6 +252,66 @@ UniConverter
   라이센스 파일. (0: Developer Mode, 1: GreatEx Mode)
  </summary>
 </member>
+<member name="F:UniConverter_Project.MainProject.IsDeveloperMode">
+ <summary>
+ Developer Mode?
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.IsGreatExMode">
+ <summary>
+ Great Exception Mode!
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.IsSaved">
+ <summary>
+ MainProject 저장 여부.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.IsUpdated">
+ <summary>
+ 업데이트 여부.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.OpenProjectOnce">
+ <summary>
+ 한 번에 Ableton Project를 열 것인가?
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.IsWorking">
+ <summary>
+ 지금 매우 중요한 작업 여부.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.w8t4abl">
+ <summary>
+ Waiting For Ableton Project. (LED Convert: "keyLED")
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.SoundIsSaved">
+ <summary>
+ keySound 저장 여부.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.LLV">
+ <summary>
+ 사운드 검색시 원본 리스트뷰.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.TVLV">
+ <summary>
+ Tempoary Virtual ListView. 사운드 로드시 임시로 저장하는 리스트뷰.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.midioutput_kind">
+ <summary>
+ 0: Mini/S, 1: MK2, 2: Pro
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.midiinput_kind">
+ <summary>
+ 0: Mini/S, 1: MK2, 2: Pro (0~127 단계 소리 세기 조절 기능)
+ </summary>
+</member>
 <member name="F:UniConverter_Project.MainProject.FileInfo">
  <summary>
  UniConverter 최신 버전.
@@ -272,14 +337,9 @@ UniConverter
  settings.xml 중 Convert Unipack 설정.
  </summary>
 </member>
-<member name="F:UniConverter_Project.MainProject.IsDeveloperMode">
+<member name="F:UniConverter_Project.MainProject.LEDMapping_N">
  <summary>
- Developer Mode?
- </summary>
-</member>
-<member name="F:UniConverter_Project.MainProject.IsGreatExMode">
- <summary>
- Great Exception Mode!
+ LED 다중 매핑 순서. (a b c ...)
  </summary>
 </member>
 <member name="F:UniConverter_Project.MainProject.ast">
@@ -287,49 +347,9 @@ UniConverter
  특별 기호 (")
  </summary>
 </member>
-<member name="F:UniConverter_Project.MainProject.IsSaved">
+<member name="F:UniConverter_Project.MainProject.TempDirectory">
  <summary>
- MainProject 저장 여부.
- </summary>
-</member>
-<member name="F:UniConverter_Project.MainProject.SoundIsSaved">
- <summary>
- keySound 저장 여부.
- </summary>
-</member>
-<member name="F:UniConverter_Project.MainProject.IsUpdated">
- <summary>
- 업데이트 여부.
- </summary>
-</member>
-<member name="F:UniConverter_Project.MainProject.IsWorking">
- <summary>
- 지금 매우 중요한 작업 여부.
- </summary>
-</member>
-<member name="F:UniConverter_Project.MainProject.w8t4abl">
- <summary>
- Waiting For Ableton Project. (LED Convert: "keyLED")
- </summary>
-</member>
-<member name="F:UniConverter_Project.MainProject.LLV">
- <summary>
- 사운드 검색시 원본 리스트뷰.
- </summary>
-</member>
-<member name="F:UniConverter_Project.MainProject.TVLV">
- <summary>
- Tempoary Virtual ListView. 사운드 로드시 임시로 저장하는 리스트뷰.
- </summary>
-</member>
-<member name="F:UniConverter_Project.MainProject.midioutput_kind">
- <summary>
- 0: Mini/S, 1: MK2, 2: Pro
- </summary>
-</member>
-<member name="F:UniConverter_Project.MainProject.midiinput_kind">
- <summary>
- 0: Mini/S, 1: MK2, 2: Pro (0~127 단계 소리 세기 조절 기능)
+ Temp 폴더.
  </summary>
 </member>
 <member name="M:UniConverter_Project.MainProject.Lame(System.String,System.String,System.String,System.String,System.String,System.Boolean,Microsoft.VisualBasic.AppWinStyle)">
@@ -343,6 +363,28 @@ UniConverter
  <param name="LameOption">Lame's Option Argument. (ex: "--preset extreme")</param> 
  <param name="HideCMD">Hiding CMD. (ex: True)</param>
  <param name="AppStyle">CMD App Style. (ex: AppWinStyle.Hide)</param>
+</member>
+<member name="M:UniConverter_Project.MainProject.Cntstr(System.String,System.String)">
+ <summary>
+ String의 수를 세줍니다. 결과는 Integer.
+ </summary>
+</member>
+<member name="M:UniConverter_Project.MainProject.ReadTextIndex(System.String[],System.String,System.Int32)">
+ <summary>
+ inputString의 pattern을 찾아 Index를 찾아 줍니다.
+ </summary>
+ <param name="inputString"></param>
+ <param name="pattern"></param>
+ <param name="Skip"></param>
+ <returns></returns>
+</member>
+<member name="M:UniConverter_Project.MainProject.ReadAllIndex(System.String[],System.String)">
+ <summary>
+ 모든 Index를 반환합니다.
+ </summary>
+ <param name="inputString"></param>
+ <param name="pattern"></param>
+ <returns></returns>
 </member>
 <member name="M:UniConverter_Project.UG_Settings.Save2Settings(System.Boolean)">
  <summary>
