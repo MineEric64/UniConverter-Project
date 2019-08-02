@@ -299,18 +299,37 @@ Public Class MainProject
 #End Region
 
     Private Sub TutorialsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TutorialsToolStripMenuItem.Click
-        'MessageBox.Show("We are developing the NEW Tutorial Function." & vbNewLine & "Coming Soon...!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+        If IsDeveloperMode = False Then
+            MessageBox.Show("We are developing the NEW Tutorial Function." & vbNewLine & "Coming Soon...!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End If
 
-        Dim README As String = "https://raw.githubusercontent.com/MineEric64/GUCCI-TEST/master/README.md"
-        Dim client As WebClient = New WebClient()
-        Dim reader As StreamReader = New StreamReader(client.OpenRead(README))
-        Debug.WriteLine(reader.ReadToEnd)
-
+        Dim arg As String
+        arg = ReadURLString("https://raw.githubusercontent.com/MineEric64/GUCCI-TEST/master/README.md")
+        Debug.WriteLine(arg)
     End Sub
 
     Private Sub SaveProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveProjectToolStripMenuItem.Click
         Save2Project(True)
     End Sub
+
+    Public Function ReadURLString(URL As String) As String
+        Try
+
+            Dim client As WebClient = New WebClient()
+            Dim reader As StreamReader = New StreamReader(client.OpenRead(URL))
+            Dim returnstr As String = reader.ReadToEnd()
+            Return returnstr
+
+        Catch ex As Exception
+            If IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+            Return String.Empty
+        End Try
+    End Function
 
     Private Sub BGW_keyLED_DoWork(sender As Object, e As DoWorkEventArgs) Handles BGW_keyLED.DoWork
         Try
