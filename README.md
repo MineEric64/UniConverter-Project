@@ -10,7 +10,7 @@
 
 ## About The 'UniConverter'
 
-#### using .NET Framework 4.6.2, Fast Colored TextBox, ICSharpCode.SharpZipLibrary, NAudio, LAME, [A2UP](https://github.com/MineEric64/A2UP)
+#### using .NET Framework 4.6.2, [FastColoredTextBox](https://github.com/PavelTorgashov/FastColoredTextBox), [SharpZipLibrary](https://github.com/icsharpcode/SharpZipLib), [NAudio](https://github.com/naudio/NAudio), [LAME](http://lame.sourceforge.net/index.php), [A2UP](https://github.com/MineEric64/A2UP)
 
 UniConverter converts Ableton Projects to UniPack.
 ###### Q. How? 
@@ -21,15 +21,12 @@ For Example, UniConverter reads algorithms to Ableton Project's Information.
 
 UniConverter converts Ableton Project's Information to UniPack's Information.
 Last, UniConverter trims some Sounds, LEDs of UniPack.
-
 Also, you can edit simple information of UniPack directly!
-
 But, you can edit detail information of UniPack on Unitor.
-You can download Unitor on "http://www.unitor.ga"! :D
 
-You can download UniConverter Latest Version on "http://ucv.kro.kr".
+You can download UniConverter Latest Version on '[UniConverter Offical Site](http://ucv.kro.kr)'.
 If you want to use UniConverter Test Version, You must get permission to me. or, You can build the UniConverter directly!
-#### [Latest Version: V1.0.0.2   |   Test Version: V1.1.0.3]
+#### [ Latest Version: v1.1.0.3 Pre-Release 1   |   Test Version: v1.1.0.3 Pre-Release 2 ]
 
 
 ##### DEVELOPING PROJECTS make someone convenient.
