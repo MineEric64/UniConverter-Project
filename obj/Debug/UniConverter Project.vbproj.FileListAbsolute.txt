@@ -32,7 +32,6 @@ C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniCon
 C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\bin\Debug\UniConverter.xml
 C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\bin\Debug\FastColoredTextBox.dll
 C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\bin\Debug\NAudio.dll
-C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter Project.vbprojAssemblyReference.cache
 C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Debug\Interop.WMPLib.dll
 C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter Project.vbproj.ResolveComReference.cache
 C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.keyLED_Test.resources
@@ -49,8 +48,8 @@ C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniCon
 C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.Info.resources
 C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.MainScreen.resources
 C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.Resources.resources
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.Tutorials.resources
 C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.UG_Settings.resources
-C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter_Project.z_Tutorial.resources
 C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter Project.vbproj.GenerateResource.cache
 C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter Project.vbproj.CoreCompileInputs.cache
 C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter Project.vbproj.CopyComplete

@@ -1,4 +1,5 @@
-﻿Imports System.IO
+﻿Imports System.ComponentModel
+Imports System.IO
 Imports System.Text.RegularExpressions
 Imports WMPLib
 
@@ -172,7 +173,7 @@ Public Class keySound_Edit
                         keySoundTextBox.Text = keySoundTextBox.Text.Replace(".mp3", ".wav")
                     End If
                 End If
-                Else
+            Else
                 If Not File.Exists(MainProject.LicenseFile(0)) Then
                     MessageBox.Show("keySound File doesn't exists! (File Path: " & Application.StartupPath + "Workspace\unipack\keySound",
                                     Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -217,7 +218,19 @@ Public Class keySound_Edit
     End Function
 
     Private Sub keySoundLayoutButton_Click(sender As Object, e As EventArgs) Handles keySoundLayoutButton.Click
-        keySound_GAZUA.RunWorkerAsync()
+        If keySoundLayoutTrue = False Then
+            SREkeySoundLayout()
+        End If
+
+        For x As Integer = 1 To 8
+            For y As Integer = 1 To 8
+                ctrl(x & y).Text = Nothing
+                ctrl(x & y).BackColor = Color.Gray
+                ctrl(x & y).ForeColor = Color.Black
+            Next
+        Next
+
+        keySound_ShowLayout.RunWorkerAsync()
     End Sub
 
     Private Sub keySound_ChainChanged(sender As Object, e As EventArgs) Handles btnPad_chain1.Click, btnPad_chain2.Click, btnPad_chain3.Click, btnPad_chain4.Click, btnPad_chain5.Click, btnPad_chain6.Click, btnPad_chain7.Click, btnPad_chain8.Click
@@ -227,7 +240,17 @@ Public Class keySound_Edit
 
         '선택한 체인으로 레이아웃 새로고침.
         If keySoundLayoutTrue = True Then
-            keySoundLayoutButton_Click(Nothing, Nothing)
+
+            For x As Integer = 1 To 8
+                For y As Integer = 1 To 8
+                    ctrl(x & y).Text = Nothing
+                    ctrl(x & y).BackColor = Color.Gray
+                    ctrl(x & y).ForeColor = Color.Black
+                Next
+            Next
+
+            keySound_ShowLayout.RunWorkerAsync()
+
         End If
     End Sub
 
@@ -248,7 +271,7 @@ Public Class keySound_Edit
 
     Private Sub UniPadButtons_Click(sender As Object, e As EventArgs) Handles uni1_1.MouseDown, uni1_2.MouseDown, uni1_3.MouseDown, uni1_4.MouseDown, uni1_5.MouseDown, uni1_6.MouseDown, uni1_7.MouseDown, uni1_8.MouseDown, uni2_1.MouseDown, uni2_2.MouseDown, uni2_3.MouseDown, uni2_4.MouseDown, uni2_5.MouseDown, uni2_6.MouseDown, uni2_7.MouseDown, uni2_8.MouseDown, uni3_1.MouseDown, uni3_2.MouseDown, uni3_3.MouseDown, uni3_4.MouseDown, uni3_5.MouseDown, uni3_6.MouseDown, uni3_7.MouseDown, uni3_8.MouseDown, uni4_1.MouseDown, uni4_2.MouseDown, uni4_3.MouseDown, uni4_4.MouseDown, uni4_5.MouseDown, uni4_6.MouseDown, uni4_7.MouseDown, uni4_8.MouseDown, uni5_1.MouseDown, uni5_2.MouseDown, uni5_3.MouseDown, uni5_4.MouseDown, uni5_5.MouseDown, uni5_6.MouseDown, uni5_7.MouseDown, uni5_8.MouseDown, uni6_1.MouseDown, uni6_2.MouseDown, uni6_3.MouseDown, uni6_4.MouseDown, uni6_5.MouseDown, uni6_6.MouseDown, uni6_7.MouseDown, uni6_8.MouseDown, uni7_1.MouseDown, uni7_2.MouseDown, uni7_3.MouseDown, uni7_4.MouseDown, uni7_5.MouseDown, uni7_6.MouseDown, uni7_7.MouseDown, uni7_8.MouseDown, uni8_1.MouseDown, uni8_2.MouseDown, uni8_3.MouseDown, uni8_4.MouseDown, uni8_5.MouseDown, uni8_6.MouseDown, uni8_7.MouseDown, uni8_8.MouseDown
         keySound_senderGAZUA = sender
-        keySound_Layout.RunWorkerAsync()
+        keySound_Play.RunWorkerAsync()
     End Sub
 
     Private Sub UniPadButtons_Loop0(sender As Object, e As EventArgs) Handles uni1_1.MouseUp, uni1_2.MouseUp, uni1_3.MouseUp, uni1_4.MouseUp, uni1_5.MouseUp, uni1_6.MouseUp, uni1_7.MouseUp, uni1_8.MouseUp, uni2_1.MouseUp, uni2_2.MouseUp, uni2_3.MouseUp, uni2_4.MouseUp, uni2_5.MouseUp, uni2_6.MouseUp, uni2_7.MouseUp, uni2_8.MouseUp, uni3_1.MouseUp, uni3_2.MouseUp, uni3_3.MouseUp, uni3_4.MouseUp, uni3_5.MouseUp, uni3_6.MouseUp, uni3_7.MouseUp, uni3_8.MouseUp, uni4_1.MouseUp, uni4_2.MouseUp, uni4_3.MouseUp, uni4_4.MouseUp, uni4_5.MouseUp, uni4_6.MouseUp, uni4_7.MouseUp, uni4_8.MouseUp, uni5_1.MouseUp, uni5_2.MouseUp, uni5_3.MouseUp, uni5_4.MouseUp, uni5_5.MouseUp, uni5_6.MouseUp, uni5_7.MouseUp, uni5_8.MouseUp, uni6_1.MouseUp, uni6_2.MouseUp, uni6_3.MouseUp, uni6_4.MouseUp, uni6_5.MouseUp, uni6_6.MouseUp, uni6_7.MouseUp, uni6_8.MouseUp, uni7_1.MouseUp, uni7_2.MouseUp, uni7_3.MouseUp, uni7_4.MouseUp, uni7_5.MouseUp, uni7_6.MouseUp, uni7_7.MouseUp, uni7_8.MouseUp, uni8_1.MouseUp, uni8_2.MouseUp, uni8_3.MouseUp, uni8_4.MouseUp, uni8_5.MouseUp, uni8_6.MouseUp, uni8_7.MouseUp, uni8_8.MouseUp
@@ -263,8 +286,11 @@ Public Class keySound_Edit
         Erait2.controls.stop()
     End Sub
 
-    Private Sub KeySound_Layout_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles keySound_Layout.DoWork
+    Private Sub keySound_Play_DoWork(sender As Object, e As DoWorkEventArgs) Handles keySound_Play.DoWork
         Try
+
+            'keySound 테스트 할 때는 이 변수의 경로를 에이블톤 폴더로 바꿔주세요!
+            Dim sndFile As String = Application.StartupPath & "\Workspace\unipack\sounds"
 
             Dim ClickedBtn As Button = CType(keySound_senderGAZUA, Button)
             Dim x, y As Integer
@@ -273,6 +299,7 @@ Public Class keySound_Edit
                        y = ClickedBtn.Name.Substring(5, 1)
                    End Sub)
             Dim WavFile As String
+
             Dim ksTmpTXT As String = Application.StartupPath & "\Workspace\ksTmp.txt"
             Dim keySoundText As String = String.Empty
             Invoke(Sub()
@@ -289,27 +316,27 @@ Public Class keySound_Edit
 
                             If WavFileName.Contains(".wav") Then
                                 WavFile = WavFileName
-                                If File.Exists(Application.StartupPath & "\Workspace\unipack\sounds\" & WavFile) Then
+                                If File.Exists(sndFile & "\" & WavFile) Then
                                     If Strings.Right(strLine, 4) = ".wav" Then
                                         Dim a As New WindowsMediaPlayer
-                                        a.URL = Application.StartupPath & "\Workspace\unipack\sounds\" & WavFile
+                                        a.URL = sndFile & "\" & WavFile
                                         a.controls.play()
 
                                         If keySoundLoop = True Then keySoundLoop = False
                                     ElseIf Strings.Right(strLine, 1) = "1" Then
                                         Dim a As New WindowsMediaPlayer
-                                        a.URL = Application.StartupPath & "\Workspace\unipack\sounds\" & WavFile
+                                        a.URL = sndFile & "\" & WavFile
                                         a.controls.play()
 
                                         If keySoundLoop = True Then keySoundLoop = False
                                     ElseIf Strings.Right(strLine, 1) = "0" Then
-                                        Erait.URL = Application.StartupPath & "\Workspace\unipack\sounds\" & WavFile
+                                        Erait.URL = sndFile & "\" & WavFile
                                         Erait.controls.play()
                                         Erait.settings.playCount = Integer.MaxValue
                                         keySoundLoop = True
 
                                     Else
-                                        Erait2.URL = Application.StartupPath & "\Workspace\unipack\sounds\" & WavFile
+                                        Erait2.URL = sndFile & "\" & WavFile
                                         Erait2.controls.play()
                                         Erait2.settings.playCount = CInt(Strings.Right(strLine, 1))
                                         If keySoundLoop = True Then keySoundLoop = False
@@ -329,22 +356,22 @@ Public Class keySound_Edit
                                 If File.Exists(Application.StartupPath & "\Workspace\ableproj\sounds\" & WavFile) Then
                                     If Strings.Right(strLine.Remove(0, 1), 4) = ".wav" Then
                                         Dim a As New WindowsMediaPlayer
-                                        a.URL = Application.StartupPath & "\Workspace\unipack\sounds\" & WavFile
+                                        a.URL = sndFile & "\" & WavFile
                                         a.controls.play()
                                         If keySoundLoop = True Then keySoundLoop = False
                                     ElseIf Strings.Right(strLine.Remove(0, 1), 1) = "1" Then
                                         Dim a As New WindowsMediaPlayer
-                                        a.URL = Application.StartupPath & "\Workspace\unipack\sounds\" & WavFile
+                                        a.URL = sndFile & "\" & WavFile
                                         a.controls.play()
                                         If keySoundLoop = True Then keySoundLoop = False
                                     ElseIf Strings.Right(strLine.Remove(0, 1), 1) = "0" Then
-                                        Erait.URL = Application.StartupPath & "\Workspace\unipack\sounds\" & WavFile
+                                        Erait.URL = sndFile & "\" & WavFile
                                         Erait.controls.play()
                                         Erait.settings.playCount = Integer.MaxValue
                                         keySoundLoop = True
                                     Else
                                         Dim a As New WindowsMediaPlayer
-                                        Erait2.URL = Application.StartupPath & "\Workspace\unipack\sounds\" & WavFile
+                                        Erait2.URL = sndFile & "\" & WavFile
                                         Erait2.controls.play()
                                         Erait2.settings.playCount = CInt(Strings.Right(strLine, 1))
                                         If keySoundLoop = True Then keySoundLoop = False
@@ -365,138 +392,120 @@ Public Class keySound_Edit
         End Try
     End Sub
 
-    Private Sub KeySound_GAZUA_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles keySound_GAZUA.DoWork
+    Private Sub KeySound_ShowLayout_DoWork(sender As Object, e As DoWorkEventArgs) Handles keySound_ShowLayout.DoWork
         Try
-
-            If keySoundLayoutTrue = False Then SREkeySoundLayout()
-
-            For x As Integer = 1 To 8
-                For y As Integer = 1 To 8
-                    Invoke(Sub()
-                               ctrl(x & y).Text = Nothing
-                               ctrl(x & y).BackColor = Color.Gray
-                               ctrl(x & y).ForeColor = Color.Black
-                           End Sub)
-                Next
-            Next
 
             '---BETA CODE (Show keySound & Chain)---
             Dim loi As Integer = 1
             Dim btnText As String = ""
             Dim ksTmpTXT As String = Application.StartupPath & "\Workspace\ksTmp.txt"
-            If String.IsNullOrWhiteSpace(keySoundTextBox.Text) = False AndAlso String.IsNullOrEmpty(keySoundTextBox.Text) = False Then
-                If Not keySoundTextBox.Text = Environment.NewLine Then
+            If String.IsNullOrWhiteSpace(keySoundTextBox.Text) = False Then
 
-                    Dim keySoundText As String
-                    keySoundText = keySoundTextBox.Text.TrimStart
-                    keySoundText = keySoundTextBox.Text.TrimEnd
+                Dim keySoundText As String
+                keySoundText = keySoundTextBox.Text.TrimStart
+                keySoundText = keySoundTextBox.Text.TrimEnd
 
-                    If My.Computer.FileSystem.DirectoryExists(Application.StartupPath & "\Workspace") Then
-                        File.WriteAllText(ksTmpTXT, keySoundText)
-                    Else
-                        My.Computer.FileSystem.CreateDirectory(Application.StartupPath & "\Workspace")
-                        File.WriteAllText(ksTmpTXT, keySoundText)
-                    End If
+                If My.Computer.FileSystem.DirectoryExists(Application.StartupPath & "\Workspace") Then
+                    File.WriteAllText(ksTmpTXT, keySoundText)
+                Else
+                    My.Computer.FileSystem.CreateDirectory(Application.StartupPath & "\Workspace")
+                    File.WriteAllText(ksTmpTXT, keySoundText)
+                End If
 
-                    For Each strLine As String In File.ReadAllText(ksTmpTXT).Split(Environment.NewLine) 'String을 각 라인마다 자름.
-                        If loi = 1 Then
-                            If Not String.IsNullOrWhiteSpace(strLine) = False AndAlso String.IsNullOrEmpty(strLine) = False Then
-                                If strLine.Contains(Environment.NewLine) = False OrElse strLine = Environment.NewLine Then
-                                    Select Case CInt(Mid(strLine, 1, 1))
-                                        Case 1 To 8
-                                            'Continue.
-                                        Case Else
-                                            MessageBox.Show("Error! - Chain " & keySound_CChain.ToString & " doesn't exists in keySound. (Ex: Check Failed Chain " & Mid(strLine, 1, 1) & ", Full: " & strLine & ")", Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                                            Exit Sub
-                                    End Select
+                For Each strLine As String In File.ReadAllText(ksTmpTXT).Split(Environment.NewLine) 'String을 각 라인마다 자름.
+                    If loi = 1 Then
+                        If String.IsNullOrWhiteSpace(strLine) = False Then
+                            Select Case CInt(Mid(strLine, 1, 1))
+                                Case 1 To 8
+                                    'Continue.
+                                Case Else
+                                    MessageBox.Show("Error! - Chain " & keySound_CChain.ToString & " doesn't exists in keySound. (Ex: Check Failed Chain " & Mid(strLine, 1, 1) & ", Full: " & strLine & ")", Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                                    Exit Sub
+                            End Select
 
-                                    If CInt(Mid(strLine, 1, 1)) = keySound_CChain Then
+                            If CInt(Mid(strLine, 1, 1)) = keySound_CChain Then
 
-                                        UniPack_SelectedChain = keySound_CChain
-                                        UniPack_X = CInt(Mid(strLine, 3, 1))
-                                        UniPack_Y = CInt(Mid(strLine, 5, 1))
+                                UniPack_SelectedChain = keySound_CChain
+                                UniPack_X = CInt(Mid(strLine, 3, 1))
+                                UniPack_Y = CInt(Mid(strLine, 5, 1))
 
-                                        'ex: 1 1 1 001.wav 1 (같은 사운드 다중 매핑 적용)
-                                        If Strings.Right(strLine, 4) = ".mp3" Then '.mp3의 경우
-                                            keySound_Mapping = 1
-                                        ElseIf Strings.Right(strLine, 4) = ".wav" Then '.wav의 경우
-                                            keySound_Mapping = 1
-                                        Else
-                                            keySound_SameM = Strings.Right(strLine, 1) '반복문이 1 이상의 경우
-                                        End If
-
-                                        'ex: 1 1 1 001.wav, 1 1 1 002.wav (다른 사운드 다중 매핑 적용, 추천)
-                                        keySound_DifM = Cntstr(File.ReadAllText(ksTmpTXT), UniPack_SelectedChain & " " & UniPack_X & " " & UniPack_Y & " ")
-
-                                        loi = 0
-
-                                    Else
-                                        loi = 0
-                                        Continue For
-                                    End If
+                                'ex: 1 1 1 001.wav 1 (같은 사운드 다중 매핑 적용)
+                                If Strings.Right(strLine, 4) = ".mp3" Then '.mp3의 경우
+                                    keySound_Mapping = 1
+                                ElseIf Strings.Right(strLine, 4) = ".wav" Then '.wav의 경우
+                                    keySound_Mapping = 1
                                 Else
-                                    loi = 0
-                                    Continue For
+                                    keySound_SameM = Strings.Right(strLine, 1) '반복문이 1 이상의 경우
                                 End If
+
+                                'ex: 1 1 1 001.wav, 1 1 1 002.wav (다른 사운드 다중 매핑 적용, 추천)
+                                keySound_DifM = Cntstr(File.ReadAllText(ksTmpTXT), UniPack_SelectedChain & " " & UniPack_X & " " & UniPack_Y & " ")
+
+                                loi = 0
+
                             Else
                                 loi = 0
                                 Continue For
                             End If
                         Else
-                            If Not strLine.Remove(0, 1) = "" Then
-                                If Not strLine.Remove(0, 1).Contains(vbNewLine) Then
-                                    Select Case CInt(Mid(strLine.Remove(0, 1), 1, 1))
-                                        Case 1 To 8
-                                            'Continue.
-                                        Case Else
-                                            MessageBox.Show("Error! - Chain " & keySound_CChain.ToString & " doesn't exists in keySound. (Ex: Check Failed Chain " & Mid(strLine.Remove(0, 1), 1, 1) & ", Full: " & strLine.Remove(0, 1) & ")", Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                                            Exit Sub
-                                    End Select
+                            loi = 0
+                            Continue For
+                        End If
+                    Else
+                        If String.IsNullOrWhiteSpace(strLine.Remove(0, 1)) = False Then
+                            Select Case CInt(Mid(strLine.Remove(0, 1), 1, 1))
+                                Case 1 To 8
+                                    'Continue.
+                                Case Else
+                                    MessageBox.Show("Error! - Chain " & keySound_CChain.ToString & " doesn't exists in keySound. (Ex: Check Failed Chain " & Mid(strLine.Remove(0, 1), 1, 1) & ", Full: " & strLine.Remove(0, 1) & ")", Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                                    Exit Sub
+                            End Select
 
-                                    If CInt(Mid(strLine.Remove(0, 1), 1, 1)) = keySound_CChain Then
+                            If CInt(Mid(strLine.Remove(0, 1), 1, 1)) = keySound_CChain Then
 
-                                        UniPack_SelectedChain = keySound_CChain
-                                        UniPack_X = CInt(Mid(strLine.Remove(0, 1), 3, 1))
-                                        UniPack_Y = CInt(Mid(strLine.Remove(0, 1), 5, 1))
+                                UniPack_SelectedChain = keySound_CChain
+                                UniPack_X = CInt(Mid(strLine.Remove(0, 1), 3, 1))
+                                UniPack_Y = CInt(Mid(strLine.Remove(0, 1), 5, 1))
 
-                                        'ex: 1 1 1 001.wav 1 (같은 사운드 다중 매핑 적용)
-                                        If Strings.Right(strLine.Remove(0, 1), 4) = ".mp3" Then '.mp3의 경우
-                                            keySound_Mapping = 1
-                                        ElseIf Strings.Right(strLine.Remove(0, 1), 4) = ".wav" Then '.wav의 경우
-                                            keySound_Mapping = 1
-                                        Else
-                                            keySound_SameM = Strings.Right(strLine.Remove(0, 1), 1) '반복문이 1 이상의 경우
-                                        End If
+                                'ex: 1 1 1 001.wav 1 (같은 사운드 다중 매핑 적용)
+                                If Strings.Right(strLine.Remove(0, 1), 4) = ".mp3" Then '.mp3의 경우
+                                    keySound_Mapping = 1
+                                ElseIf Strings.Right(strLine.Remove(0, 1), 4) = ".wav" Then '.wav의 경우
+                                    keySound_Mapping = 1
+                                Else
+                                    keySound_SameM = Strings.Right(strLine.Remove(0, 1), 1) '반복문이 1 이상의 경우
+                                End If
 
-                                        'ex: 1 1 1 001.wav, 1 1 1 002.wav (다른 사운드 다중 매핑 적용, 추천)
-                                        keySound_DifM = Cntstr(File.ReadAllText(ksTmpTXT), UniPack_SelectedChain & " " & UniPack_X & " " & UniPack_Y & " ")
+                                'ex: 1 1 1 001.wav, 1 1 1 002.wav (다른 사운드 다중 매핑 적용, 추천)
+                                keySound_DifM = Cntstr(File.ReadAllText(ksTmpTXT), UniPack_SelectedChain & " " & UniPack_X & " " & UniPack_Y & " ")
+
+
+
+                                If keySound_Mapping > 0 Then '기본적인 사운드 매핑.
+                                    btnText = keySound_Mapping
+                                End If
+
+                                If keySound_SameM > 0 Then
+                                    btnText = keySound_SameM
+                                End If
+
+                                If keySound_DifM > 1 Then '사운드 다중 매핑.
+                                    If keySound_SameM > 0 Then
+                                        btnText = keySound_DifM + keySound_SameM
+                                    Else
+                                        btnText = keySound_DifM
                                     End If
                                 End If
+
+                                Invoke(Sub()
+                                           ctrl(UniPack_X & UniPack_Y).BackColor = Color.Green
+                                           ctrl(UniPack_X & UniPack_Y).Text = btnText
+                                       End Sub)
+
                             End If
                         End If
-
-                        If keySound_Mapping > 0 Then '기본적인 사운드 매핑.
-                            btnText = keySound_Mapping
-                        End If
-
-                        If keySound_SameM > 0 Then
-                            btnText = keySound_SameM
-                        End If
-
-                        If keySound_DifM > 1 Then '사운드 다중 매핑.
-                            If keySound_SameM > 0 Then
-                                btnText = keySound_DifM + keySound_SameM
-                            Else
-                                btnText = keySound_DifM
-                            End If
-                        End If
-
-                        Invoke(Sub()
-                                   ctrl(UniPack_X & UniPack_Y).BackColor = Color.Green
-                                   ctrl(UniPack_X & UniPack_Y).Text = btnText
-                               End Sub)
-                    Next
-                End If
+                    End If
+                Next
             Else
                 MessageBox.Show("Error: keySound doesn't exists.", Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub

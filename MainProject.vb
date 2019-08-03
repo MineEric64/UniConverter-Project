@@ -304,15 +304,18 @@ Public Class MainProject
             Exit Sub
         End If
 
-        Dim arg As String
-        arg = ReadURLString("https://raw.githubusercontent.com/MineEric64/GUCCI-TEST/master/README.md")
-        Debug.WriteLine(arg)
+        Tutorials.Show()
     End Sub
 
     Private Sub SaveProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveProjectToolStripMenuItem.Click
         Save2Project(True)
     End Sub
 
+    ''' <summary>
+    ''' URL 내용을 문자열로 나타냅니다.
+    ''' </summary>
+    ''' <param name="URL">사이트 url.</param>
+    ''' <returns></returns>
     Public Function ReadURLString(URL As String) As String
         Try
 
@@ -1339,7 +1342,7 @@ fexLine:
                         .DLb.Left = 20
                         .DLb.Refresh()
                     End With
-                    Client.DownloadFile("http://dprg0.ucv.kro.kr", My.Computer.FileSystem.SpecialDirectories.Temp & "\UniConverter-Update.zip")
+                    Client.DownloadFile("http://dpr.ucv.kro.kr", My.Computer.FileSystem.SpecialDirectories.Temp & "\UniConverter-Update.zip")
                     Loading.DPr.Style = ProgressBarStyle.Continuous
                     Loading.DPr.Value = 800
 
@@ -1395,7 +1398,11 @@ fexLine:
         End If
     End Sub
 
-    Private Sub Save2Project(Waiting As Boolean)
+    ''' <summary>
+    ''' MainProject에서 프로젝트를 저장합니다.
+    ''' </summary>
+    ''' <param name="Waiting">기다릴까?</param>
+    Public Sub Save2Project(Waiting As Boolean)
         Dim sfd As New SaveFileDialog()
         sfd.Filter = "Zip File|*.zip|UniPack File|*.uni"
         sfd.Title = "Select Save Unipack"

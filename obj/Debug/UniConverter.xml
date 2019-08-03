@@ -364,6 +364,19 @@ UniConverter
  <param name="HideCMD">Hiding CMD. (ex: True)</param>
  <param name="AppStyle">CMD App Style. (ex: AppWinStyle.Hide)</param>
 </member>
+<member name="M:UniConverter_Project.MainProject.ReadURLString(System.String)">
+ <summary>
+ URL 내용을 문자열로 나타냅니다.
+ </summary>
+ <param name="URL">사이트 url.</param>
+ <returns></returns>
+</member>
+<member name="M:UniConverter_Project.MainProject.Save2Project(System.Boolean)">
+ <summary>
+ MainProject에서 프로젝트를 저장합니다.
+ </summary>
+ <param name="Waiting">기다릴까?</param>
+</member>
 <member name="M:UniConverter_Project.MainProject.Cntstr(System.String,System.String)">
  <summary>
  String의 수를 세줍니다. 결과는 Integer.
@@ -385,6 +398,16 @@ UniConverter
  <param name="inputString"></param>
  <param name="pattern"></param>
  <returns></returns>
+</member>
+<member name="F:UniConverter_Project.Tutorials.lang">
+ <summary>
+ 언어 정보.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.Tutorials.Answers_">
+ <summary>
+ 답변 문자열().
+ </summary>
 </member>
 <member name="M:UniConverter_Project.UG_Settings.Save2Settings(System.Boolean)">
  <summary>
