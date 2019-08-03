@@ -1,5 +1,4 @@
 # Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
-[Bb]in/
 [Oo]bj/
 
 # mstest test results
@@ -14,8 +13,6 @@ TestResults
 *.sln.docstates
 
 # Build results
-[Dd]ebug/
-[Rr]elease/
 x64/
 *_i.c
 *_p.c
@@ -90,7 +87,6 @@ AppPackages/
 
 # Others
 [Bb]in
-[Oo]bj
 sql
 TestResults
 [Tt]est[Rr]esult*
@@ -100,6 +96,13 @@ ClientBin
 ~$*
 *.dbmdl
 Generated_Code #added for RIA/Silverlight projects
+
+# UniConverter Workspaces
+Workspace
+ableproj
+*.wav
+*.mp3
+*.mid
 
 # Backup & report files from converting an old project file to a newer
 # Visual Studio version. Backup files are not needed, because we have git ;-)
