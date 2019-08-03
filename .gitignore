@@ -98,8 +98,8 @@ ClientBin
 Generated_Code #added for RIA/Silverlight projects
 
 # UniConverter Workspaces
-Workspace
-ableproj
+Workspace/
+ableproj/
 *.wav
 *.mp3
 *.mid
