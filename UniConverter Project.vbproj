@@ -74,16 +74,15 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\FastColoredTextBox.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=1.1.0.145, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.1.1.0\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="NAudio, Version=1.8.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\NAudio.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -304,6 +303,7 @@
   <ItemGroup>
     <Content Include="FastColoredTextBox.dll" />
     <Content Include="NAudio.dll" />
+    <None Include="packages.config" />
     <None Include="Resources\Unipad.png" />
     <None Include="Resources\UniConverterV2.png" />
     <None Include="Resources\CMDCode-help.txt" />

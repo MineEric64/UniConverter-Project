@@ -56,3 +56,7 @@ C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniCon
 C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter.exe
 C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter.xml
 C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter.pdb
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Debug\UniConverter Project.vbprojAssemblyReference.cache
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\bin\Debug\ICSharpCode.SharpZipLib.dll
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\bin\Debug\ICSharpCode.SharpZipLib.pdb
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\bin\Debug\ICSharpCode.SharpZipLib.xml

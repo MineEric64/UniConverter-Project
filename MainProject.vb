@@ -4,7 +4,6 @@ Imports NAudio.Midi
 Imports NAudio.Wave
 Imports ICSharpCode.SharpZipLib.GZip
 Imports ICSharpCode.SharpZipLib.Core
-Imports System.Text
 Imports System.Net
 Imports System.Threading
 Imports System.Xml
@@ -31,9 +30,14 @@ Public Class MainProject
     Public Shared IsGreatExMode As Boolean = False
 
     ''' <summary>
-    ''' MainProject 저장 여부.
+    ''' MainProject 전체 저장 여부. (Save As Project)
     ''' </summary>
     Public Shared IsSaved As Boolean
+
+    ''' <summary>
+    ''' UniPack info 저장 여부.
+    ''' </summary>
+    Public Shared infoIsSaved As Boolean
 
     ''' <summary>
     ''' 업데이트 여부.
@@ -62,17 +66,22 @@ Public Class MainProject
     Public Shared SoundIsSaved As Boolean
 
     ''' <summary>
-    ''' 사운드 검색시 원본 리스트뷰.
+    ''' 사운드 검색시 원본 리스트뷰. (Searching Sound ListView)
     ''' </summary>
     Public LLV As New ListView
 
     ''' <summary>
-    ''' Tempoary Virtual ListView. 사운드 로드시 임시로 저장하는 리스트뷰.
+    ''' Tempoary Virtual ListView. 사운드 로드시 임시로 저장하는 리스트뷰. (Reading from Ableton Project)
     ''' </summary>
     Public TVLV As New ListView
 #End Region
 #Region "MainProject-keyLED(s)"
     Private stopitnow As Boolean = False
+
+    ''' <summary>
+    ''' MainProject keyLED 저장 여부. (keyLED / keyLED (MIDEX))
+    ''' </summary>
+    Public Shared keyLEDIsSaved As Boolean
 #End Region
 #Region "MainProject-Thread(s)"
     Private trd As Thread
@@ -203,17 +212,26 @@ Public Class MainProject
                 BGW_CheckUpdate.RunWorkerAsync()
             End If
 
+#Region "변수 기본값 설정"
             Me.KeyPreview = True
-            ks_SelChain.Text = String.Empty
-            ks_SelX.Text = String.Empty
-            ks_SelY.Text = String.Empty
+
+            ks_SelChainXY.Text = String.Empty
+
             abl_openedproj = False
             abl_openedsnd = False
             abl_openedled = False
+            abl_openedled2 = False
+
+            IsSaved = True
+            SoundIsSaved = False
+            keyLEDIsSaved = False
+            infoIsSaved = False
             IsUpdated = False
             IsWorking = False
+
             w8t4abl = String.Empty
             OpenProjectOnce = False
+#End Region
 
             'Text of Info TextBox
             infoTB1.Text = "My Amazing Launchpad Project!" 'Title
@@ -251,6 +269,7 @@ Public Class MainProject
                     ConvertToZipUniToolStripMenuItem.Checked = True
             End Select
 
+            '건드리면 IsSaved가 False로 진행되기 때문에 다시 기본값 설정을 해준다!
             IsSaved = True
 
         Catch ex As Exception
@@ -312,7 +331,7 @@ Public Class MainProject
     End Sub
 
     ''' <summary>
-    ''' URL 내용을 문자열로 나타냅니다.
+    ''' URL 내용을 문자열로 나타냅니다. (Get Text from site.)
     ''' </summary>
     ''' <param name="URL">사이트 url.</param>
     ''' <returns></returns>
@@ -665,30 +684,17 @@ Public Class MainProject
 
         Loading.Dispose()
 
-        If Not abl_openedproj = True Then
-            If OpenProjectOnce = False Then MessageBox.Show("Ableton Project File Loaded!" & vbNewLine & "You can edit info in Information Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-            abl_openedproj = True
-        Else
-            If OpenProjectOnce = False Then MessageBox.Show("Ableton Project File Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-        End If
-
         'XML File Load.
         Invoke(Sub()
                    infoTB1.Text = abl_Name
                    infoTB3.Text = abl_Chain
                End Sub)
 
-        'Tempoary Virtual ListView Add Items. (keySound)
+        abl_openedproj = True
+        UniPack_SaveInfo(False)
 
-        'keySound 코드.
-        If abl_openedsnd = True Then
-            TVLV.Items.Clear()
-
-            Invoke(Sub()
-                       For Each FoundItem As ListViewItem In TVLV.Items
-                           keySound_ListView.Items.Add(New ListViewItem({FoundItem.SubItems(0).Text, FoundItem.SubItems(1).Text, FoundItem.SubItems(2).Text, FoundItem.SubItems(3).Text}))
-                       Next
-                   End Sub)
+        If OpenProjectOnce = False Then
+            MessageBox.Show("Ableton Project File Loaded!" & vbNewLine & "You can edit info in Information Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
 
@@ -700,7 +706,9 @@ Public Class MainProject
             ElseIf e.Cancelled Then
                 Exit Sub
             Else
-                If OpenProjectOnce Then OpenSoundsToolStripMenuItem_Click(Nothing, Nothing)
+                If OpenProjectOnce Then
+                    OpenSoundsToolStripMenuItem_Click(Nothing, Nothing)
+                End If
 
                 If String.IsNullOrEmpty(w8t4abl) = False Then
                     Select Case w8t4abl
@@ -740,14 +748,14 @@ Public Class MainProject
         If ConvertToZipUniToolStripMenuItem.Checked = True Then
             Conv2.Filter = "Zip File|*.zip|UniPack File|*.uni"
         Else
-            'Anothoer Convert File Code,
+            'Another Convert File Code,
         End If
-        Conv2.Title = "Select Convert ALS to Unipack"
+        Conv2.Title = "Select Convert ALS to UniPack"
         Conv2.AddExtension = False
 
         Try
             If Conv2.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-                'CONVERT Ableton Project to Unipack & Save Unipack (BETA!!!)
+                'Convert Ableton Project to UniPack & Save UniPack (BETA!!!)
             End If
 
         Catch ex As Exception
@@ -761,20 +769,32 @@ Public Class MainProject
 
     Private Sub Info_SaveButton_Click(sender As Object, e As EventArgs) Handles Info_SaveButton.Click
         Try
-            If abl_openedproj = True Then
-                Dim fs As FileStream
-                Dim info As Byte()
+            UniPack_SaveInfo(True)
+        Catch ex As Exception
+            If IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+        End Try
+    End Sub
 
-                If Dir("Workspace\unipack", vbDirectory) <> "" Then
-SaveInfoLine:
-                    fs = File.Create("Workspace\unipack\info")
-                    info = New UTF8Encoding(True).GetBytes("title=" & infoTB1.Text & vbNewLine & "buttonX=8" & vbNewLine & "buttonY=8" & vbNewLine & "producerName=" & infoTB2.Text & vbNewLine & "chain=" & infoTB3.Text & vbNewLine & "squareButton=true")
-                    fs.Write(info, 0, info.Length)
-                    fs.Close()
+    ''' <summary>
+    ''' UniPack의 info 파일을 저장합니다.
+    ''' </summary>
+    ''' <param name="Message">메시지박스를 표시함.</param>
+    Public Sub UniPack_SaveInfo(Message As Boolean)
+        Try
+            If abl_openedproj = True Then
+
+                If Directory.Exists(Application.StartupPath & "\Workspace\unipack") = False Then
+                    My.Computer.FileSystem.CreateDirectory(Application.StartupPath & "\Workspace\unipack")
+                End If
+
+                File.WriteAllText(Application.StartupPath & "\Workspace\unipack\info", String.Format("title={0}{1}buttonX=8{1}buttonY=8{1}producerName={2}{1}chain={3}{1}squareButton=true", infoTB1.Text, vbNewLine, infoTB2.Text, infoTB3.Text))
+                infoIsSaved = True
+                If Message Then
                     MessageBox.Show("Saved info!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Else
-                    My.Computer.FileSystem.CreateDirectory("Workspace\unipack")
-                    GoTo SaveInfoLine
                 End If
             Else
                 MessageBox.Show("You didn't open Ableton Project!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -787,6 +807,34 @@ SaveInfoLine:
                 MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
         End Try
+    End Sub
+
+    Private Sub BGW_keySound_DoWork(sender As Object, e As DoWorkEventArgs) Handles BGW_keySound.DoWork
+        If e.Cancel = False AndAlso abl_openedproj AndAlso abl_openedsnd Then
+            'Tempoary Virtual ListView Add Items. (keySound)
+
+            'keySound 코드.
+            With TVLV
+                .Items.Clear()
+                .Columns.Clear()
+                .Columns.Add("File Name")
+                .Columns.Add("Length")
+                .Columns.Add("Assinged Buttons")
+            End With
+
+            'Reading Drum Rack from Ableton Project XML.
+
+            Invoke(Sub()
+                       For i As Integer = 0 To ks_SelChainXY.Items.Count - 1
+                           Dim ks_wks1 As String() = ks_SelChainXY.Items(i).ToString.Split(" ")
+                           Dim ks_key As Integer() = New Integer(2) {ks_wks1(1), ks_wks1(2), ks_wks1(3)}
+
+                           For Each FoundItem As ListViewItem In TVLV.Items
+                               Sound_ListView.Items.Add(New ListViewItem({FoundItem.SubItems(0).Text, FoundItem.SubItems(1).Text, FoundItem.SubItems(2).Text, FoundItem.SubItems(3).Text}))
+                           Next
+                       Next
+                   End Sub)
+        End If
     End Sub
 
     Private Sub AnyAbletonToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AnyAbletonToolStripMenuItem.Click
@@ -994,11 +1042,8 @@ SaveInfoLine:
                         "We are developing about Converting keySound!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
 
-                'SAVING CODE!!!
-                trd = New Thread(AddressOf SaveSounds)
-                trd.SetApartmentState(ApartmentState.MTA)
-                trd.IsBackground = True
-                trd.Start()
+                'Saving keySound Code.
+                ThreadPool.QueueUserWorkItem(AddressOf SaveSounds)
             Else
                 MessageBox.Show("You didn't import sounds!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
@@ -1014,102 +1059,97 @@ SaveInfoLine:
 
     Private Sub GoButton_Click(sender As Object, e As EventArgs) Handles GoButton.Click
         Try
-            trd = New Thread(AddressOf keySound_GoToSound)
-            trd.SetApartmentState(ApartmentState.MTA)
-            trd.IsBackground = True
-            trd.Start()
-        Catch ex As Exception
-            If IsGreatExMode Then
-                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Else
-                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End If
-        End Try
-    End Sub
 
-    Private Sub keySound_GoToSound()
-        Try
-            Invoke(Sub()
-                       Dim SelectedIndex As Integer = Sound_ListView.SelectedIndices.Count
-                       Dim ConSndFile As ListViewItem = Sound_ListView.SelectedItems.Item(0)
-                       Dim SndInfo As New WaveFileReader(Application.StartupPath & "\Workspace\ableproj\sounds\" & ConSndFile.Text)
-
-                       If abl_openedsnd = True Then
-                           IsSaved = False
-                           SoundIsSaved = False
-                           If SelectedIndex = 1 Then
-                               Dim loopNum = InputBox("Please input the loop number of the new sounds." & vbNewLine & "Default is 1.", "Setting Loop Number", 1)
-                               If IsNumeric(loopNum) = False Then
-                                   If loopNum.Length = 1 Then
-                                       MessageBox.Show("Please input number! Not character.", "Not Numeric", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
-                                       Exit Sub
-                                   ElseIf loopNum.Length > 1 Then
-                                       MessageBox.Show("Please input number! Not characters.", "Not Numeric", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
-                                       Exit Sub
-                                   ElseIf loopNum.Length = 0 Then
-                                       MessageBox.Show("Please input number! Not Null.", "Text is Null", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
-                                       Exit Sub
-                                   End If
-                               End If
-
-                               keySound_ListView.Items.Add(New ListViewItem({keySound_ListView.Items.Count + 1, ConSndFile.Text, SndInfo.TotalTime.Minutes & ":" & SndInfo.TotalTime.Seconds & "." & SndInfo.TotalTime.Milliseconds, loopNum}))
-
-                           ElseIf SelectedIndex > 1 Then
-                               Dim loopNum = InputBox("Please input the loop number of the new sounds." & vbNewLine & "Default is 1.", "Setting Loop Number", 1)
-                               If IsNumeric(loopNum) = False Then
-                                   If loopNum.Length = 1 Then
-                                       MessageBox.Show("Please input number! Not character.", "Not Numeric", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
-                                       Exit Sub
-                                   ElseIf loopNum.Length > 1 Then
-                                       MessageBox.Show("Please input number! Not characters.", "Not Numeric", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
-                                       Exit Sub
-                                   ElseIf loopNum.Length = 0 Then
-                                       MessageBox.Show("Please input number! Not Null.", "Text is Null", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
-                                       Exit Sub
-                                   End If
-                               End If
-
-                               For i As Integer = 0 To SelectedIndex - 1
-                                   ConSndFile = Sound_ListView.SelectedItems.Item(i)
-                                   SndInfo = New WaveFileReader(Application.StartupPath & "\Workspace\ableproj\sounds\" & ConSndFile.Text)
-                                   keySound_ListView.Items.Add(New ListViewItem({keySound_ListView.Items.Count + 1, ConSndFile.Text, SndInfo.TotalTime.Minutes & ":" & SndInfo.TotalTime.Seconds & "." & SndInfo.TotalTime.Milliseconds, loopNum}))
-                               Next
-                           End If
-                       Else
-                           MessageBox.Show("You didn't import sounds!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-                       End If
-                   End Sub)
-        Catch ex As Exception
-            If IsGreatExMode Then
-                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Else
-                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End If
-        End Try
-    End Sub
-
-    Private Sub BackButton_Click(sender As Object, e As EventArgs) Handles BackButton.Click
-        Try
-            Dim ConkeySnd As ListViewItem = keySound_ListView.SelectedItems(0)
             Dim SelectedIndex As Integer = Sound_ListView.SelectedIndices.Count
+            Dim ConSndFile As ListViewItem = Sound_ListView.SelectedItems.Item(0)
+            Dim SndInfo As New WaveFileReader(Application.StartupPath & "\Workspace\ableproj\sounds\" & ConSndFile.Text)
 
             If abl_openedsnd = True Then
-                If Not ConkeySnd Is Nothing Then
-                    IsSaved = False
-                    SoundIsSaved = False
-                    If SelectedIndex = 1 Then
-                        keySound_ListView.Items.Remove(ConkeySnd)
-                    ElseIf SelectedIndex > 1 Then
-                        Dim keySnd As ListViewItem
-                        For i As Integer = 0 To SelectedIndex - 1
-                            keySnd = keySound_ListView.SelectedItems(i)
-                            keySound_ListView.Items.Remove(keySnd)
-                        Next
-                    ElseIf SelectedIndex < 1 Then
-                        Throw New IndexOutOfRangeException("Index Out Of Range. (SelectedIndex < 1)")
+                IsSaved = False
+                SoundIsSaved = False
+                If SelectedIndex = 1 Then
+                    Dim loopNum As String = InputBox("Please input the loop number of the new sound named '" & ConSndFile.Text & "'." & vbNewLine & "Default is 1.", "Setting Loop Number", 1)
+
+                    'Failed!
+                    If IsNumeric(loopNum) = False Then
+                        Select Case loopNum.Length
+                            Case 1
+                                MessageBox.Show("Please input number! Not character.", "Not Numeric", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
+                                Exit Sub
+                            Case > 1
+                                MessageBox.Show("Please input number! Not characters.", "Not Numeric", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
+                                Exit Sub
+                            Case 0
+                                MessageBox.Show("Please input number! Not Null.", "Text is Null", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
+                                Exit Sub
+                        End Select
                     End If
-                Else
-                    MessageBox.Show("You didn't select anything!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+
+                    '똑같은 keySound를 중복할 시 예외 잡는 코드.
+                    Dim a As Boolean = False
+                    For Each x As ListViewItem In keySound_ListView.Items
+                        If x.SubItems(1).Text = ConSndFile.Text Then
+                            x.SubItems(3).Text = Integer.Parse(x.SubItems(3).Text) + loopNum
+                            a = True
+                            Exit For
+                        End If
+                    Next
+
+                    If a = False Then
+                        keySound_ListView.Items.Add(New ListViewItem({keySound_ListView.Items.Count + 1, ConSndFile.Text, SndInfo.TotalTime.Minutes & ":" & SndInfo.TotalTime.Seconds & "." & SndInfo.TotalTime.Milliseconds, loopNum}))
+                    End If
+
+                    If Regex.IsMatch(ConSndFile.SubItems(2).Text, String.Format("({0})", ks_SelChainXY.Text)) = False Then
+                        If String.IsNullOrWhiteSpace(ConSndFile.SubItems(2).Text) Then
+                            ConSndFile.SubItems(2).Text = String.Format("({0})", ks_SelChainXY.Text)
+                        Else
+                            ConSndFile.SubItems(2).Text = ConSndFile.SubItems(2).Text & String.Format(", ({0})", ks_SelChainXY.Text)
+                        End If
+                    End If
+
+                ElseIf SelectedIndex > 1 Then
+                    Dim loopNum As String = InputBox("Please input the loop number of the new sounds named '" & ConSndFile.Text & ", More...'." & vbNewLine & "Default is 1.", "Setting Loop Number", 1)
+
+                    'Failed!
+                    If IsNumeric(loopNum) = False Then
+                        Select Case loopNum.Length
+                            Case 1
+                                MessageBox.Show("Please input number! Not character.", "Not Numeric", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
+                                Exit Sub
+                            Case > 1
+                                MessageBox.Show("Please input number! Not characters.", "Not Numeric", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
+                                Exit Sub
+                            Case 0
+                                MessageBox.Show("Please input number! Not Null.", "Text is Null", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
+                                Exit Sub
+                        End Select
+                    End If
+
+                    For i As Integer = 0 To SelectedIndex - 1
+                        ConSndFile = Sound_ListView.SelectedItems.Item(i)
+                        SndInfo = New WaveFileReader(Application.StartupPath & "\Workspace\ableproj\sounds\" & ConSndFile.Text)
+
+                        Dim a As Boolean = False
+                        For Each x As ListViewItem In keySound_ListView.Items
+                            If x.SubItems(1).Text = ConSndFile.Text Then
+                                x.SubItems(3).Text = Integer.Parse(x.SubItems(3).Text) + loopNum
+                                a = True
+                                Exit For
+                            End If
+                        Next
+
+                        If a = False Then
+                            keySound_ListView.Items.Add(New ListViewItem({keySound_ListView.Items.Count + 1, ConSndFile.Text, SndInfo.TotalTime.Minutes & ":" & SndInfo.TotalTime.Seconds & "." & SndInfo.TotalTime.Milliseconds, loopNum}))
+                        End If
+
+                        If Regex.IsMatch(ConSndFile.SubItems(2).Text, String.Format("({0})", ks_SelChainXY.Text)) = False Then
+                            If String.IsNullOrWhiteSpace(ConSndFile.SubItems(2).Text) Then
+                                ConSndFile.SubItems(2).Text = String.Format("({0})", ks_SelChainXY.Text)
+                            Else
+                                ConSndFile.SubItems(2).Text = ConSndFile.SubItems(2).Text & String.Format(", ({0})", ks_SelChainXY.Text)
+                            End If
+                        End If
+                    Next
                 End If
             Else
                 MessageBox.Show("You didn't import sounds!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -1124,15 +1164,128 @@ SaveInfoLine:
         End Try
     End Sub
 
+    Private Sub BackButton_Click(sender As Object, e As EventArgs) Handles BackButton.Click
+        Try
+            Dim SelectedIndex As Integer = Sound_ListView.SelectedIndices.Count
+
+            If abl_openedsnd = True Then
+                IsSaved = False
+                SoundIsSaved = False
+                If SelectedIndex = 1 Then
+
+                    For Each x As ListViewItem In Sound_ListView.Items
+                        If keySound_ListView.SelectedItems(0).SubItems(1).Text = x.Text Then
+                            x.SubItems(2).Text = x.SubItems(2).Text.Replace(String.Format("({0})", ks_SelChainXY.Text), "")
+                            x.SubItems(2).Text = x.SubItems(2).Text.Replace(String.Format(", ({0})", ks_SelChainXY.Text), "")
+                            x.SubItems(2).Text = x.SubItems(2).Text.Replace(String.Format("({0}), ", ks_SelChainXY.Text), "")
+                            Exit For
+                        End If
+                    Next
+                    keySound_ListView.Items.Remove(keySound_ListView.SelectedItems(0))
+
+                ElseIf SelectedIndex > 1 Then
+                    For Each x As ListViewItem In keySound_ListView.SelectedItems
+                        For Each xz As ListViewItem In Sound_ListView.Items
+                            If x.SubItems(1).Text = xz.Text Then
+                                xz.SubItems(2).Text = xz.SubItems(2).Text.Replace(String.Format("({0})", ks_SelChainXY.Text), "")
+                                xz.SubItems(2).Text = xz.SubItems(2).Text.Replace(String.Format(", ({0})", ks_SelChainXY.Text), "")
+                                xz.SubItems(2).Text = xz.SubItems(2).Text.Replace(String.Format("({0}), ", ks_SelChainXY.Text), "")
+                                Exit For
+                            End If
+                        Next
+                        keySound_ListView.Items.Remove(x)
+                    Next
+                ElseIf SelectedIndex < 1 Then
+                    Throw New IndexOutOfRangeException("Index Out Of Range. (SelectedIndex < 1)")
+                End If
+            Else
+            MessageBox.Show("You didn't import sounds!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+
+        Catch ex As Exception
+            If IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+        End Try
+    End Sub
+
+    Private Sub EditButton_Click(sender As Object, e As EventArgs) Handles EditButton.Click
+        Try
+
+            If abl_openedsnd Then
+
+                Dim selitemCount As Integer = keySound_ListView.SelectedItems.Count
+                If selitemCount = 1 Then
+
+                    Dim SelSound As ListViewItem = keySound_ListView.SelectedItems(0)
+                    Dim loopNum As String = InputBox("Please input the loop number of the new sound named '" & SelSound.SubItems(1).Text & "'." & vbNewLine & "Default is 1.", "Editing Loop Number", 1)
+                    If IsNumeric(loopNum) = False Then
+                        Select Case loopNum.Length
+                            Case 1
+                                MessageBox.Show("Please input number! Not character.", "Not Numeric", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
+                                Exit Sub
+                            Case > 1
+                                MessageBox.Show("Please input number! Not characters.", "Not Numeric", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
+                                Exit Sub
+                            Case 0
+                                MessageBox.Show("Please input number! Not Null.", "Text is Null", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
+                                Exit Sub
+                        End Select
+                    End If
+
+                    SelSound.SubItems(3).Text = loopNum
+                    IsSaved = False
+                    SoundIsSaved = False
+
+                ElseIf selitemCount > 1 Then
+
+                    Dim loopNum As String = InputBox("Please input the loop number of the new sounds named '" & keySound_ListView.SelectedItems(0).SubItems(1).Text & ", More...'." & vbNewLine & "Default is 1.", "Editing Loop Number", 1)
+
+                    'Failed!
+                    If IsNumeric(loopNum) = False Then
+                        Select Case loopNum.Length
+                            Case 1
+                                MessageBox.Show("Please input number! Not character.", "Not Numeric", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
+                                Exit Sub
+                            Case > 1
+                                MessageBox.Show("Please input number! Not characters.", "Not Numeric", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
+                                Exit Sub
+                            Case 0
+                                MessageBox.Show("Please input number! Not Null.", "Text is Null", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
+                                Exit Sub
+                        End Select
+                    End If
+
+                    For Each x As ListViewItem In keySound_ListView.SelectedItems
+                        x.SubItems(3).Text = loopNum
+                    Next
+                    IsSaved = False
+                    SoundIsSaved = False
+
+                Else
+                    MessageBox.Show("You didn't select anything!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End If
+            Else
+                    MessageBox.Show("You didn't import sounds!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End If
+
+        Catch ex As Exception
+            If IsGreatExMode Then
+            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Else
+            MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
+        End Try
+    End Sub
+
     Private Sub EdKeysButton_Click(sender As Object, e As EventArgs) Handles EdKeysButton.Click
         If abl_openedsnd = True Then
             If IsSaved = False OrElse SoundIsSaved = False Then
                 Dim result As DialogResult = MessageBox.Show("You didn't save your UniPack's Sounds. Would you like to save your UniPack's Sounds?", Me.Text & ": Not Saved", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
                 If result = DialogResult.Yes Then
-                    trd = New Thread(AddressOf SaveSounds)
-                    trd.SetApartmentState(ApartmentState.MTA)
-                    trd.IsBackground = True
-                    trd.Start()
+                    ThreadPool.QueueUserWorkItem(AddressOf SaveSounds)
                 End If
             End If
             keySound_Edit.Show()
@@ -1149,6 +1302,9 @@ SaveInfoLine:
 
                 WavName = unipack_sounds.SubItems(1).Text
             Next
+
+            UI(Sub() SoundIsSaved = True)
+            MessageBox.Show("keySound Saved!", Me.Text & ": Saved", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
         Catch ex As Exception
             If IsGreatExMode Then
@@ -1246,20 +1402,12 @@ fexLine:
                 SoundIsSaved = True
 
                 '검색할 때 돌아오기 위해서는 필요한 리스트 뷰.
-                Invoke(Sub()
-                           For Each itm As ListViewItem In Sound_ListView.Items
-                               LLV.Items.Add(New ListViewItem({itm.SubItems(0).Text, itm.SubItems(1).Text, itm.SubItems(2).Text}))
-                           Next
-                       End Sub)
+                UI(Sub()
+                       For Each itm As ListViewItem In Sound_ListView.Items
+                           LLV.Items.Add(New ListViewItem({itm.SubItems(0).Text, itm.SubItems(1).Text, itm.SubItems(2).Text}))
+                       Next
+                   End Sub)
 
-                If abl_openedsnd = True Then
-                    '에이블톤 프로젝트가 로드가 안돼어있을 때 임시로 저장하는 리스트 뷰. 
-                    Invoke(Sub()
-                               For Each FoundItem As ListViewItem In TVLV.Items
-                                   keySound_ListView.Items.Add(New ListViewItem({FoundItem.SubItems(0).Text, FoundItem.SubItems(1).Text, FoundItem.SubItems(2).Text, FoundItem.SubItems(3).Text}))
-                               Next
-                           End Sub)
-                End If
             Else
                 MessageBox.Show("Error! - Code: MaxFileLength.Value = GetFiles.Length", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
@@ -1387,7 +1535,10 @@ fexLine:
     End Sub
 
     Private Sub MainProject_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
-        If IsUpdated = True Then Exit Sub
+        If IsUpdated = True Then
+            Exit Sub
+        End If
+
         If IsSaved = False Then
             Dim result As DialogResult = MessageBox.Show("You didn't save your UniPack. Would you like to save your UniPack?", Me.Text & ": Not Saved", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
             If result = DialogResult.Yes Then
@@ -1451,29 +1602,42 @@ fexLine:
     End Sub
 
     Private Sub ks_SearchSound_TextChanged(sender As Object, e As EventArgs) Handles ks_SearchSound.TextChanged
+        'keySound 검색 알고리즘 개선 버전.
+
         Dim LV As New ListView
-        If Not ks_SearchSound.Text = "" OrElse String.IsNullOrWhiteSpace(ks_SearchSound.Text) Then
-            Dim loi = 1
-            For i As Integer = 0 To Sound_ListView.Items.Count - 1
+        Dim FoundMe As Boolean = False
 
-                For Each itm As ListViewItem In LLV.Items
-                    LV.Items.Add(New ListViewItem({itm.SubItems(0).Text, itm.SubItems(1).Text, itm.SubItems(2).Text}))
-                Next
+        If String.IsNullOrWhiteSpace(ks_SearchSound.Text) = False AndAlso abl_openedsnd AndAlso LLV.Items.Count > 0 Then
 
-                Dim Find_Sounds As ListViewItem = LV.Items.Item(i)
+            For Each x As ListViewItem In LLV.Items
+                LV.Items.Add(New ListViewItem({x.SubItems(0).Text, x.SubItems(1).Text, x.SubItems(2).Text}))
+            Next
+
+            Dim loi As Integer = 1
+            For i As Integer = 0 To LLV.Items.Count - 1
+                Dim Find_Sounds As ListViewItem = LV.Items(i)
                 Dim FndSnd As String = Find_Sounds.SubItems(2).Text
-                If Find_Sounds.SubItems(0).Text.Contains(ks_SearchSound.Text) Then
+                If Regex.IsMatch(Find_Sounds.SubItems(0).Text, ks_SearchSound.Text, RegexOptions.IgnoreCase) Then
                     Dim SndInfo As New WaveFileReader(Application.StartupPath & "\Workspace\ableproj\sounds\" & Find_Sounds.SubItems(0).Text)
                     Dim AssingedButtons As String = FndSnd
+
                     If loi = 1 Then
                         Sound_ListView.Items.Clear()
-                        Sound_ListView.Items.Add(New ListViewItem({Find_Sounds.Text, SndInfo.TotalTime.Minutes & ":" & SndInfo.TotalTime.Seconds & "." & SndInfo.TotalTime.Milliseconds, AssingedButtons}))
+                    End If
+
+                    Sound_ListView.Items.Add(New ListViewItem({Find_Sounds.Text, SndInfo.TotalTime.Minutes & ":" & SndInfo.TotalTime.Seconds & "." & SndInfo.TotalTime.Milliseconds, AssingedButtons}))
+                    FoundMe = True
+
+                    If loi = 1 Then
                         loi = 0
-                    Else
-                        Sound_ListView.Items.Add(New ListViewItem({Find_Sounds.Text, SndInfo.TotalTime.Minutes & ":" & SndInfo.TotalTime.Seconds & "." & SndInfo.TotalTime.Milliseconds, AssingedButtons}))
                     End If
                 End If
             Next
+
+            If FoundMe = False Then
+                Sound_ListView.Items.Clear()
+            End If
+
         Else
             Sound_ListView.Items.Clear()
             For Each recover_sounds As ListViewItem In LLV.Items
@@ -2376,6 +2540,8 @@ fexLine:
                            keyLEDMIDEX_UniLED.Enabled = True
                            keyLEDMIDEX_UniLED.Clear()
                        End Sub)
+
+                keyLEDIsSaved = True
 
             Else
                 w8t4abl = "keyLED"

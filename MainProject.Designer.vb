@@ -62,13 +62,12 @@ Partial Class MainProject
         Me.infoTB1 = New System.Windows.Forms.TextBox()
         Me.infoT1 = New System.Windows.Forms.Label()
         Me.KeySoundTab = New System.Windows.Forms.TabPage()
+        Me.EditButton = New System.Windows.Forms.Button()
         Me.ks_SearchLabel = New System.Windows.Forms.Label()
         Me.ks_SearchSound = New System.Windows.Forms.TextBox()
         Me.ks_Sound2 = New System.Windows.Forms.Label()
         Me.ks_Sound1 = New System.Windows.Forms.Label()
-        Me.ks_SelY = New System.Windows.Forms.ComboBox()
-        Me.ks_SelX = New System.Windows.Forms.ComboBox()
-        Me.ks_SelChain = New System.Windows.Forms.ComboBox()
+        Me.ks_SelChainXY = New System.Windows.Forms.ComboBox()
         Me.EdKeysButton = New System.Windows.Forms.Button()
         Me.SaveButton = New System.Windows.Forms.Button()
         Me.CutSndButton = New System.Windows.Forms.Button()
@@ -108,6 +107,7 @@ Partial Class MainProject
         Me.BGW_keyLED2 = New System.ComponentModel.BackgroundWorker()
         Me.BGW_keyLEDCvt = New System.ComponentModel.BackgroundWorker()
         Me.BGW_CheckUpdate = New System.ComponentModel.BackgroundWorker()
+        Me.BGW_keySound = New System.ComponentModel.BackgroundWorker()
         Me.MenuStrip.SuspendLayout()
         Me.HomeEdit.SuspendLayout()
         Me.Info1.SuspendLayout()
@@ -407,13 +407,12 @@ Partial Class MainProject
         '
         'KeySoundTab
         '
+        Me.KeySoundTab.Controls.Add(Me.EditButton)
         Me.KeySoundTab.Controls.Add(Me.ks_SearchLabel)
         Me.KeySoundTab.Controls.Add(Me.ks_SearchSound)
         Me.KeySoundTab.Controls.Add(Me.ks_Sound2)
         Me.KeySoundTab.Controls.Add(Me.ks_Sound1)
-        Me.KeySoundTab.Controls.Add(Me.ks_SelY)
-        Me.KeySoundTab.Controls.Add(Me.ks_SelX)
-        Me.KeySoundTab.Controls.Add(Me.ks_SelChain)
+        Me.KeySoundTab.Controls.Add(Me.ks_SelChainXY)
         Me.KeySoundTab.Controls.Add(Me.EdKeysButton)
         Me.KeySoundTab.Controls.Add(Me.SaveButton)
         Me.KeySoundTab.Controls.Add(Me.CutSndButton)
@@ -430,6 +429,16 @@ Partial Class MainProject
         Me.KeySoundTab.TabIndex = 1
         Me.KeySoundTab.Text = "keySound"
         Me.KeySoundTab.UseVisualStyleBackColor = True
+        '
+        'EditButton
+        '
+        Me.EditButton.Font = New System.Drawing.Font("나눔스퀘어라운드 Regular", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.EditButton.Location = New System.Drawing.Point(366, 309)
+        Me.EditButton.Name = "EditButton"
+        Me.EditButton.Size = New System.Drawing.Size(75, 25)
+        Me.EditButton.TabIndex = 51
+        Me.EditButton.Text = "Edit!"
+        Me.EditButton.UseVisualStyleBackColor = True
         '
         'ks_SearchLabel
         '
@@ -469,35 +478,15 @@ Partial Class MainProject
         Me.ks_Sound1.TabIndex = 47
         Me.ks_Sound1.Text = "Sound Library"
         '
-        'ks_SelY
+        'ks_SelChainXY
         '
-        Me.ks_SelY.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.ks_SelY.FormattingEnabled = True
-        Me.ks_SelY.Location = New System.Drawing.Point(431, 9)
-        Me.ks_SelY.Name = "ks_SelY"
-        Me.ks_SelY.Size = New System.Drawing.Size(29, 22)
-        Me.ks_SelY.TabIndex = 46
-        Me.ks_SelY.Text = "y"
-        '
-        'ks_SelX
-        '
-        Me.ks_SelX.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.ks_SelX.FormattingEnabled = True
-        Me.ks_SelX.Location = New System.Drawing.Point(398, 9)
-        Me.ks_SelX.Name = "ks_SelX"
-        Me.ks_SelX.Size = New System.Drawing.Size(29, 22)
-        Me.ks_SelX.TabIndex = 45
-        Me.ks_SelX.Text = "x"
-        '
-        'ks_SelChain
-        '
-        Me.ks_SelChain.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.ks_SelChain.FormattingEnabled = True
-        Me.ks_SelChain.Location = New System.Drawing.Point(363, 9)
-        Me.ks_SelChain.Name = "ks_SelChain"
-        Me.ks_SelChain.Size = New System.Drawing.Size(29, 22)
-        Me.ks_SelChain.TabIndex = 44
-        Me.ks_SelChain.Text = "c"
+        Me.ks_SelChainXY.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.ks_SelChainXY.FormattingEnabled = True
+        Me.ks_SelChainXY.Location = New System.Drawing.Point(397, 9)
+        Me.ks_SelChainXY.Name = "ks_SelChainXY"
+        Me.ks_SelChainXY.Size = New System.Drawing.Size(56, 22)
+        Me.ks_SelChainXY.TabIndex = 44
+        Me.ks_SelChainXY.Text = "1 7 6"
         '
         'EdKeysButton
         '
@@ -706,7 +695,7 @@ Partial Class MainProject
         'keyLEDMIDEX_UniLED
         '
         Me.keyLEDMIDEX_UniLED.AutoCompleteBracketsList = New Char() {Global.Microsoft.VisualBasic.ChrW(40), Global.Microsoft.VisualBasic.ChrW(41), Global.Microsoft.VisualBasic.ChrW(123), Global.Microsoft.VisualBasic.ChrW(125), Global.Microsoft.VisualBasic.ChrW(91), Global.Microsoft.VisualBasic.ChrW(93), Global.Microsoft.VisualBasic.ChrW(34), Global.Microsoft.VisualBasic.ChrW(34), Global.Microsoft.VisualBasic.ChrW(39), Global.Microsoft.VisualBasic.ChrW(39)}
-        Me.keyLEDMIDEX_UniLED.AutoScrollMinSize = New System.Drawing.Size(2, 14)
+        Me.keyLEDMIDEX_UniLED.AutoScrollMinSize = New System.Drawing.Size(27, 14)
         Me.keyLEDMIDEX_UniLED.BackBrush = Nothing
         Me.keyLEDMIDEX_UniLED.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.keyLEDMIDEX_UniLED.CharHeight = 14
@@ -714,7 +703,6 @@ Partial Class MainProject
         Me.keyLEDMIDEX_UniLED.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.keyLEDMIDEX_UniLED.DisabledColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer))
         Me.keyLEDMIDEX_UniLED.Enabled = False
-        Me.keyLEDMIDEX_UniLED.Font = New System.Drawing.Font("Courier New", 9.75!)
         Me.keyLEDMIDEX_UniLED.IsReplaceMode = False
         Me.keyLEDMIDEX_UniLED.Location = New System.Drawing.Point(364, 14)
         Me.keyLEDMIDEX_UniLED.Name = "keyLEDMIDEX_UniLED"
@@ -845,6 +833,9 @@ Partial Class MainProject
         'BGW_CheckUpdate
         '
         '
+        'BGW_keySound
+        '
+        '
         'MainProject
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
@@ -928,9 +919,7 @@ Partial Class MainProject
     Friend WithEvents keyLED1 As TabPage
     Friend WithEvents keyLED2 As TabPage
     Friend WithEvents CheckUpdateToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ks_SelY As ComboBox
-    Friend WithEvents ks_SelX As ComboBox
-    Friend WithEvents ks_SelChain As ComboBox
+    Friend WithEvents ks_SelChainXY As ComboBox
     Friend WithEvents DevelopingLabel2 As Label
     Friend WithEvents infoTB3 As TextBox
     Friend WithEvents Length As ColumnHeader
@@ -964,4 +953,6 @@ Partial Class MainProject
     Friend WithEvents BGW_keyLEDCvt As System.ComponentModel.BackgroundWorker
     Friend WithEvents BGW_CheckUpdate As System.ComponentModel.BackgroundWorker
     Friend WithEvents keyLEDMIDEX_CopyButton As Button
+    Friend WithEvents BGW_keySound As System.ComponentModel.BackgroundWorker
+    Friend WithEvents EditButton As Button
 End Class

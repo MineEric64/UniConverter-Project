@@ -264,7 +264,12 @@ UniConverter
 </member>
 <member name="F:UniConverter_Project.MainProject.IsSaved">
  <summary>
- MainProject 저장 여부.
+ MainProject 전체 저장 여부. (Save As Project)
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.infoIsSaved">
+ <summary>
+ UniPack info 저장 여부.
  </summary>
 </member>
 <member name="F:UniConverter_Project.MainProject.IsUpdated">
@@ -294,12 +299,17 @@ UniConverter
 </member>
 <member name="F:UniConverter_Project.MainProject.LLV">
  <summary>
- 사운드 검색시 원본 리스트뷰.
+ 사운드 검색시 원본 리스트뷰. (Searching Sound ListView)
  </summary>
 </member>
 <member name="F:UniConverter_Project.MainProject.TVLV">
  <summary>
- Tempoary Virtual ListView. 사운드 로드시 임시로 저장하는 리스트뷰.
+ Tempoary Virtual ListView. 사운드 로드시 임시로 저장하는 리스트뷰. (Reading from Ableton Project)
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.keyLEDIsSaved">
+ <summary>
+ MainProject keyLED 저장 여부. (keyLED / keyLED (MIDEX))
  </summary>
 </member>
 <member name="F:UniConverter_Project.MainProject.midioutput_kind">
@@ -366,10 +376,16 @@ UniConverter
 </member>
 <member name="M:UniConverter_Project.MainProject.ReadURLString(System.String)">
  <summary>
- URL 내용을 문자열로 나타냅니다.
+ URL 내용을 문자열로 나타냅니다. (Get Text from site.)
  </summary>
  <param name="URL">사이트 url.</param>
  <returns></returns>
+</member>
+<member name="M:UniConverter_Project.MainProject.UniPack_SaveInfo(System.Boolean)">
+ <summary>
+ UniPack의 info 파일을 저장합니다.
+ </summary>
+ <param name="Message">메시지박스를 표시함.</param>
 </member>
 <member name="M:UniConverter_Project.MainProject.Save2Project(System.Boolean)">
  <summary>
