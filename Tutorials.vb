@@ -20,7 +20,6 @@ Public Class Tutorials
             If My.Computer.Network.IsAvailable Then
 
                 ThreadPool.QueueUserWorkItem(AddressOf Tutorial_DownloadFile)
-                Tutorial_ReadMark()
 
             Else
                 MessageBox.Show("Connecting Network Failed!" & vbNewLine & "Please check the computer's network.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -47,12 +46,15 @@ Public Class Tutorials
             .DLb.Refresh()
         End With
 
-        Invoke(Sub() Me.Enabled = False)
+        Invoke(Sub() Q_ListView.Enabled = False)
         Dim a As New WebClient
         a.DownloadFile("http://dtr.ucv.kro.kr", MainProject.TempDirectory & "\UniConverter-Tutorials.uni")
 
         Loading.Dispose()
-        Invoke(Sub() Me.Enabled = True)
+        Invoke(Sub()
+                   Q_ListView.Enabled = True
+                   Tutorial_ReadMark()
+               End Sub)
     End Sub
 
     Public Sub Tutorial_ReadMark()

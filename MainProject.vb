@@ -211,7 +211,6 @@ Public Class MainProject
             If Convert.ToBoolean(setNode.ChildNodes(0).InnerText) = True Then
                 BGW_CheckUpdate.RunWorkerAsync()
             End If
-
 #Region "변수 기본값 설정"
             Me.KeyPreview = True
 
@@ -827,7 +826,7 @@ Public Class MainProject
             Invoke(Sub()
                        For i As Integer = 0 To ks_SelChainXY.Items.Count - 1
                            Dim ks_wks1 As String() = ks_SelChainXY.Items(i).ToString.Split(" ")
-                           Dim ks_key As Integer() = New Integer(2) {ks_wks1(1), ks_wks1(2), ks_wks1(3)}
+                           Dim ks_key As Integer() = New Integer(2) {ks_wks1(1), ks_wks1(2), ks_wks1(3)} 'Chain(0), X(1), Y(2)
 
                            For Each FoundItem As ListViewItem In TVLV.Items
                                Sound_ListView.Items.Add(New ListViewItem({FoundItem.SubItems(0).Text, FoundItem.SubItems(1).Text, FoundItem.SubItems(2).Text, FoundItem.SubItems(3).Text}))

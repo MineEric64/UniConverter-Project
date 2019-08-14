@@ -119,12 +119,10 @@ UniConverter
  XML2Sounds Code.
  </summary>
 </member>
-<member name="M:UniConverter_Project.DeveloperMode_Project.GetChainN(System.String)">
+<member name="M:UniConverter_Project.DeveloperMode_Project.GetChainN">
  <summary>
  Get Ableton Project's Chain Number.
  </summary>
- <param name="XMLPath">XML's Path.</param>
- <returns></returns>
 </member>
 <member name="M:UniConverter_Project.DeveloperMode_Project.GetkeyLED(UniConverter_Project.DeveloperMode_Project.EachCode,System.String,System.Boolean,System.Boolean)">
  <summary>

@@ -2,6 +2,7 @@
 Imports System.Text.RegularExpressions
 Imports System.Xml
 Imports A2UP
+Imports A2UP.A2U
 Imports NAudio.Midi
 
 Public Class DeveloperMode_Project
@@ -79,7 +80,7 @@ Public Class DeveloperMode_Project
                 Case "File Name"
                     Info_TextBox.Text = Path.GetFileNameWithoutExtension(DeveloperMode_abl_FileName)
                 Case "Chains"
-                    Info_TextBox.Text = GetChainN(ablprj)
+                    Info_TextBox.Text = GetChainN()
                 Case "File Version"
                     Info_TextBox.Text = DeveloperMode_abl_FileVersion
                 Case "Sound Cutting"
@@ -100,9 +101,7 @@ Public Class DeveloperMode_Project
     ''' <summary>
     ''' Get Ableton Project's Chain Number.
     ''' </summary>
-    ''' <param name="XMLPath">XML's Path.</param>
-    ''' <returns></returns>
-    Public Shared Function GetChainN(ByVal XMLPath As String) As Integer
+    Public Shared Function GetChainN() As Integer
 
         Dim ablprj As String = Application.StartupPath & "\Workspace\ableproj\abl_proj.xml"
         Dim doc As New XmlDocument
@@ -173,7 +172,7 @@ Public Class DeveloperMode_Project
                 Dim notes As XmlNodeList = doc.GetElementsByTagName("MidiNoteEvent") 'Note Event Value
                 Dim MidiKey As XmlNodeList = doc.GetElementsByTagName("MidiKey")
 
-                Dim Thow As Integer = MidiKey.Count
+                Dim Thow As Integer = MidiKey.Count - 1
                 Dim noteArr As Integer() = New Integer(Thow) {}
                 Dim Noo As Integer = 0
                 For Each xi As XmlElement In MidiKey
@@ -182,10 +181,7 @@ Public Class DeveloperMode_Project
                     Noo += 1
                 Next
 
-                Dim lin As Integer = 0
-                For Each xi As XmlElement In notes
-                    lin += 1
-                Next
+                Dim lin As Integer = notes.Count - 1
                 Debug.WriteLine(String.Format("Array lin: {0}", lin))
 
                 Dim TimeArray As Double() = New Double(lin) {} 'Start Time Array.
@@ -247,14 +243,19 @@ Public Class DeveloperMode_Project
                     End If
                 Next
 
+                '수정 해야할 사항: XML에 있는 On 메시지와 딜레이 구문 추가 후 딜레이가 끝나면 Off 메시지 구문 추가.
                 For i As Integer = 0 To lin - 1
+                    Dim b As New A2U
+
+                    Dim MidiKey_X As Integer = b.GX_keyLED(keyLED_AC.C_NoteNumber1, LastNOTEArr(i))
+                    Dim MidiKey_Y As Integer = b.GX_keyLED(keyLED_AC.C_NoteNumber1, LastNOTEArr(i))
+                    RetStr = RetStr & vbNewLine & String.Format("o {0} {1} a {2}", MidiKey_X, MidiKey_Y, FinalVelocity(i))
+                    If Not FinalDurArr(i) = 0 Then
+                        RetStr = RetStr & vbNewLine & String.Format("d {0}", FinalDurArr(i))
+                    End If
+
                     Debug.WriteLine(String.Format("Start Time: {0}, Duration: {1}, MidiKey: {2}, Velocity: {3}", TimeArray(i), FinalDurArr(i), LastNOTEArr(i), FinalVelocity(i)))
                 Next
-
-                '수정 해야할 사항: XML에 있는 On 메시지와 딜레이 구문 추가 후 딜레이가 끝나면 Off 메시지 구문 추가.
-                Dim b As New A2U
-
-                'RetStr = RetStr & vbNewLine & String.Format("o {0} {1} a {2}")
 
                 sto.Stop()
                 Debug.WriteLine("Finish... (" & sto.Elapsed.ToString & ")")
