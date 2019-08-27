@@ -1,7 +1,7 @@
 ﻿Imports System.IO
 Imports System.Text.RegularExpressions
 Imports NAudio.Midi
-Imports A2UP
+Imports A2UP.A2U
 Imports System.Xml
 
 Public Class keyLED_Edit
@@ -139,7 +139,6 @@ Public Class keyLED_Edit
 
                         If mdEvent.CommandCode = MidiCommandCode.NoteOn Then
                             Dim a As NoteOnEvent = DirectCast(mdEvent, NoteOnEvent)
-                            Dim b As New A2U
 
 #Region "keyLED - Delays 1"
                             '최적화. 이 코드들을 Load 코드 부분에 이동 하고 변수를 선언해 최대한 변환 시간을 줄임.
@@ -152,7 +151,8 @@ Public Class keyLED_Edit
                                             Case "Non-Convert"
                                                 str = str & vbNewLine & "d " & a.NoteLength
                                             Case "NL4Ticks/NL2M"
-                                                str = str & vbNewLine & "d " & b.GetNoteDelay(A2U.keyLED_AC.T_NoteLength1, 120, 192, a.NoteLength)
+                                                'Default Settings. [UniConverter v1.1.0.3]
+                                                str = str & vbNewLine & "d " & GetNoteDelay(keyLED_MIDEX.NoteLength_1, 120, 192, a.NoteLength)
                                         End Select
 
                                     Case "Delta Time"
@@ -176,7 +176,7 @@ Public Class keyLED_Edit
                                                 'str = str & vbNewLine & "d " & Math.Truncate(((a.AbsoluteTime - LastTempoEvent.AbsoluteTime) / LEDFileC.DeltaTicksPerQuarterNote) * 120 + LastTempoEvent.RealTime)
                                             Case "TimeLine/NL2M"
                                                 If Not delaycount = a.AbsoluteTime Then
-                                                    str = str & vbNewLine & "d " & b.GetNoteDelay(A2U.keyLED_AC.T_NoteLength1, 120, 192, delaycount - a.AbsoluteTime + Math.Round(a.DeltaTime * 2.604) + Math.Round(a.NoteLength * 2.604))
+                                                    str = str & vbNewLine & "d " & GetNoteDelay(keyLED_MIDEX.NoteLength_1, 120, 192, delaycount - a.AbsoluteTime + Math.Round(a.DeltaTime * 2.604) + Math.Round(a.NoteLength * 2.604))
                                                 End If
                                         End Select
                                 End Select
@@ -186,23 +186,22 @@ Public Class keyLED_Edit
                                 '기본 알고리즘: Absolute Time, TimeLine / NL2M
                                 '이 delay 변환 코드는 변환 코드 알고리즘이 수정될 때마다 수정 해야 합니다!
                                 If Not delaycount = a.AbsoluteTime Then
-                                    str = str & vbNewLine & "d " & b.GetNoteDelay(A2U.keyLED_AC.T_NoteLength1, 120, 192, delaycount - a.AbsoluteTime + Math.Round(a.DeltaTime * 2.604) + Math.Round(a.NoteLength * 2.604))
+                                    str = str & vbNewLine & "d " & GetNoteDelay(keyLED_MIDEX.NoteLength_1, 120, 192, delaycount - a.AbsoluteTime + Math.Round(a.DeltaTime * 2.604) + Math.Round(a.NoteLength * 2.604))
                                 End If
 
                             End If
 #End Region
 
-                            UniNoteNumberX = b.GX_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
-                            UniNoteNumberY = b.GY_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
+                            UniNoteNumberX = GX_keyLED(keyLED_MIDEX.NoteNumber_1, a.NoteNumber)
+                            UniNoteNumberY = GY_keyLED(keyLED_MIDEX.NoteNumber_1, a.NoteNumber)
                             delaycount = a.AbsoluteTime
                             str = str & vbNewLine & "o " & UniNoteNumberX & " " & UniNoteNumberY & " a " & a.Velocity
 
                         ElseIf mdEvent.CommandCode = MidiCommandCode.NoteOff Then
 
                             Dim a = DirectCast(mdEvent, NoteEvent)
-                            Dim b As New A2U
-                            UniNoteNumberX = b.GX_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
-                            UniNoteNumberY = b.GY_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
+                            UniNoteNumberX = GX_keyLED(keyLED_MIDEX.NoteNumber_1, a.NoteNumber)
+                            UniNoteNumberY = GY_keyLED(keyLED_MIDEX.NoteNumber_1, a.NoteNumber)
                             str = str & vbNewLine & "f " & UniNoteNumberX & " " & UniNoteNumberY
 
                         End If
@@ -211,7 +210,6 @@ Public Class keyLED_Edit
 
                         If mdEvent.CommandCode = MidiCommandCode.NoteOn Then
                             Dim a = DirectCast(mdEvent, NoteOnEvent)
-                            Dim b As New A2U
 
 #Region "keyLED - Delays 1"
                             If AdvChk.Checked Then
@@ -223,7 +221,7 @@ Public Class keyLED_Edit
                                             Case "Non-Convert"
                                                 str = str & vbNewLine & "d " & a.NoteLength
                                             Case "NL4Ticks/NL2M"
-                                                str = str & vbNewLine & "d " & b.GetNoteDelay(A2U.keyLED_AC.T_NoteLength1, 120, 192, a.NoteLength)
+                                                str = str & vbNewLine & "d " & GetNoteDelay(keyLED_MIDEX.NoteLength_1, 120, 192, a.NoteLength)
                                         End Select
 
                                     Case "Delta Time"
@@ -247,7 +245,7 @@ Public Class keyLED_Edit
                                                 'str = str & vbNewLine & "d " & Math.Truncate(((a.AbsoluteTime - LastTempoEvent.AbsoluteTime) / LEDFileC.DeltaTicksPerQuarterNote) * 120 + LastTempoEvent.RealTime)
                                             Case "TimeLine/NL2M"
                                                 If Not delaycount = a.AbsoluteTime Then
-                                                    str = str & vbNewLine & "d " & b.GetNoteDelay(A2U.keyLED_AC.T_NoteLength1, 120, 192, delaycount - a.AbsoluteTime + Math.Round(a.DeltaTime * 2.604) + Math.Round(a.NoteLength * 2.604))
+                                                    str = str & vbNewLine & "d " & GetNoteDelay(keyLED_MIDEX.NoteLength_1, 120, 192, delaycount - a.AbsoluteTime + Math.Round(a.DeltaTime * 2.604) + Math.Round(a.NoteLength * 2.604))
                                                 End If
                                         End Select
                                 End Select
@@ -257,7 +255,7 @@ Public Class keyLED_Edit
                                 '기본 알고리즘: Absolute Time, TimeLine / NL2M
                                 '이 delay 변환 코드는 변환 코드 알고리즘이 수정될 때마다 수정 해야 합니다!
                                 If Not delaycount = a.AbsoluteTime Then
-                                    str = str & vbNewLine & "d " & b.GetNoteDelay(A2U.keyLED_AC.T_NoteLength1, 120, 192, delaycount - a.AbsoluteTime + Math.Round(a.DeltaTime * 2.604) + Math.Round(a.NoteLength * 2.604))
+                                    str = str & vbNewLine & "d " & GetNoteDelay(keyLED_MIDEX.NoteLength_1, 120, 192, delaycount - a.AbsoluteTime + Math.Round(a.DeltaTime * 2.604) + Math.Round(a.NoteLength * 2.604))
                                 End If
 
                             End If

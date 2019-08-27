@@ -1,7 +1,6 @@
 ﻿Imports System.IO
 Imports System.Text.RegularExpressions
 Imports System.Xml
-Imports A2UP
 Imports A2UP.A2U
 Imports NAudio.Midi
 
@@ -245,10 +244,9 @@ Public Class DeveloperMode_Project
 
                 '수정 해야할 사항: XML에 있는 On 메시지와 딜레이 구문 추가 후 딜레이가 끝나면 Off 메시지 구문 추가.
                 For i As Integer = 0 To lin - 1
-                    Dim b As New A2U
 
-                    Dim MidiKey_X As Integer = b.GX_keyLED(keyLED_AC.C_NoteNumber1, LastNOTEArr(i))
-                    Dim MidiKey_Y As Integer = b.GX_keyLED(keyLED_AC.C_NoteNumber1, LastNOTEArr(i))
+                    Dim MidiKey_X As Integer = GX_keyLED(keyLED_MIDEX.NoteNumber_1, LastNOTEArr(i))
+                    Dim MidiKey_Y As Integer = GX_keyLED(keyLED_MIDEX.NoteNumber_1, LastNOTEArr(i))
                     RetStr = RetStr & vbNewLine & String.Format("o {0} {1} a {2}", MidiKey_X, MidiKey_Y, FinalVelocity(i))
                     If Not FinalDurArr(i) = 0 Then
                         RetStr = RetStr & vbNewLine & String.Format("d {0}", FinalDurArr(i))
@@ -290,55 +288,43 @@ Public Class DeveloperMode_Project
                         li += 1
                     Next
                 Next
-                Dim str As String() = New String(li + 100000) {}
+                Dim str As String = String.Empty
 
-                Dim i As Integer = 0
-                Dim delaycount As Integer = 0
+                Dim delaycount As Long = 0
                 Dim UniNoteNumberX As Integer 'X
                 Dim UniNoteNumberY As Integer 'Y
                 For Each mdEvent_list In keyLEDFile.Events
                     For Each mdEvent In mdEvent_list
                         If mdEvent.CommandCode = MidiCommandCode.NoteOn Then
                             Dim a = DirectCast(mdEvent, NoteOnEvent)
-                            Dim b As New A2U
 
                             If Not delaycount = a.AbsoluteTime Then
-                                str(i) = "d " & b.GetNoteDelay(A2U.keyLED_AC.T_NoteLength1, 120, 192, delaycount - a.AbsoluteTime + Math.Round(a.DeltaTime * 2.604) + Math.Round(a.NoteLength * 2.604))
-                                i += 1
+                                Dim v1 As Integer = GetNoteDelay(keyLED_MIDEX.NoteLength_1, 120, 192, a.DeltaTime)
+                                str = str & vbNewLine & "d " & v1 + GetNoteDelay(keyLED_MIDEX.NoteLength_1, 120, 192, a.NoteLength)
                             End If
 
-                            UniNoteNumberX = b.GX_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
-                            UniNoteNumberY = b.GY_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
+                            UniNoteNumberX = GX_keyLED(keyLED_MIDEX.NoteNumber_1, a.NoteNumber)
+                            UniNoteNumberY = GY_keyLED(keyLED_MIDEX.NoteNumber_1, a.NoteNumber)
                             delaycount = a.AbsoluteTime
-                            str(i) = "o " & UniNoteNumberX & " " & UniNoteNumberY & " a " & a.Velocity
+                            str = str & vbNewLine & "o " & UniNoteNumberX & " " & UniNoteNumberY & " a " & a.Velocity
 
                         ElseIf mdEvent.CommandCode = MidiCommandCode.NoteOff Then
 
                             Dim a = DirectCast(mdEvent, NoteEvent)
-                            Dim b As New A2U
-                            UniNoteNumberX = b.GX_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
-                            UniNoteNumberY = b.GY_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
-                            str(i) = "f " & UniNoteNumberX & " " & UniNoteNumberY
+                            UniNoteNumberX = GX_keyLED(keyLED_MIDEX.NoteNumber_1, a.NoteNumber)
+                            UniNoteNumberY = GY_keyLED(keyLED_MIDEX.NoteNumber_1, a.NoteNumber)
+                            str = str & vbNewLine & "f " & UniNoteNumberX & " " & UniNoteNumberY
 
                         End If
-                        i += 1
                     Next
                 Next
 
-                Dim strn As String = String.Empty
-                For Each stnr As String In str
-                    If Not stnr = "" Then
-                        strn = strn & stnr & vbNewLine
-                    End If
-                Next
-
-                If Regex.IsMatch(strn, "8192") Then '8192 = Non-UniNoteNumber
-                    strn = strn.Replace(" 8192", "").Trim() 'MC LED Convert.
-                    strn = strn.Replace("o ", "o mc ").Trim() 'On MC LED Convert.
-                    strn = strn.Replace("f ", "f mc ").Trim() 'Off MC LED Convert.
+                If Regex.IsMatch(str, "-8192") Then '-8192 = Non-UniNoteNumber
+                    str = str.Replace("o -8192 ", "o mc ").Trim() 'ON MC LED Convert.
+                    str = str.Replace("f -8192 ", "f mc ").Trim() 'OFF MC LED Convert.
                 End If
 
-                Return strn
+                Return str
         End Select
 
         Return String.Empty

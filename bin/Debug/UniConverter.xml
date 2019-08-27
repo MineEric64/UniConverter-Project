@@ -285,6 +285,11 @@ UniConverter
  지금 매우 중요한 작업 여부.
  </summary>
 </member>
+<member name="F:UniConverter_Project.MainProject.IsMIDITest">
+ <summary>
+ 미디 Input과 Note On 테스트 여부.
+ </summary>
+</member>
 <member name="F:UniConverter_Project.MainProject.w8t4abl">
  <summary>
  Waiting For Ableton Project. (LED Convert: "keyLED")

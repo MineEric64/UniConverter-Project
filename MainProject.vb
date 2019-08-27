@@ -9,7 +9,7 @@ Imports System.Threading
 Imports System.Xml
 Imports System.ComponentModel
 Imports System.Text.RegularExpressions
-Imports A2UP
+Imports A2UP.A2U
 
 Public Class MainProject
 
@@ -53,6 +53,11 @@ Public Class MainProject
     ''' 지금 매우 중요한 작업 여부.
     ''' </summary>
     Public Shared IsWorking As Boolean
+
+    ''' <summary>
+    ''' 미디 Input과 Note On 테스트 여부.
+    ''' </summary>
+    Public Shared IsMIDITest As Boolean
 
     ''' <summary>
     ''' Waiting For Ableton Project. (LED Convert: "keyLED")
@@ -100,7 +105,7 @@ Public Class MainProject
     Public midioutput_kind As Integer = 0
     Public midioutput_avail As Boolean = False
 
-    Public midiinput As MidiIn
+    Public WithEvents midiinput As MidiIn
     ''' <summary>
     ''' 0: Mini/S, 1: MK2, 2: Pro (0~127 단계 소리 세기 조절 기능)
     ''' </summary>
@@ -230,11 +235,12 @@ Public Class MainProject
 
             w8t4abl = String.Empty
             OpenProjectOnce = False
+            IsMIDITest = False
 #End Region
 
             'Text of Info TextBox
-            infoTB1.Text = "My Amazing Launchpad Project!" 'Title
-            infoTB2.Text = "UniConverter, MineEric64, More..." 'Producer Name
+            infoTB1.Text = "My Amazing UniPack!" 'Title
+            infoTB2.Text = "UniConverter, " & My.Computer.Name 'Producer Name
             'Chain!
 
             'Edit>Ableton Option.
@@ -1059,11 +1065,12 @@ Public Class MainProject
     Private Sub GoButton_Click(sender As Object, e As EventArgs) Handles GoButton.Click
         Try
 
-            Dim SelectedIndex As Integer = Sound_ListView.SelectedIndices.Count
-            Dim ConSndFile As ListViewItem = Sound_ListView.SelectedItems.Item(0)
-            Dim SndInfo As New WaveFileReader(Application.StartupPath & "\Workspace\ableproj\sounds\" & ConSndFile.Text)
-
             If abl_openedsnd = True Then
+
+                Dim SelectedIndex As Integer = Sound_ListView.SelectedIndices.Count
+                Dim ConSndFile As ListViewItem = Sound_ListView.SelectedItems.Item(0)
+                Dim SndInfo As New WaveFileReader(Application.StartupPath & "\Workspace\ableproj\sounds\" & ConSndFile.Text)
+
                 IsSaved = False
                 SoundIsSaved = False
                 If SelectedIndex = 1 Then
@@ -2317,7 +2324,7 @@ fexLine:
             If abl_openedproj AndAlso abl_openedled AndAlso Not e.Cancel Then
 
                 Loading.Show()
-                Loading.Text = "Converting Ableton LED To UniPack LED ..."
+                Loading.Text = "Converting Ableton LED To UniPack LED..."
                 Loading.Refresh()
                 Loading.DLb.Text = "Loading LED Infos..."
                 Loading.DLb.Refresh()
@@ -2361,9 +2368,6 @@ fexLine:
 
                 Next
 
-                Loading.DLb.Text = "Converting LEDs..."
-                Loading.DLb.Refresh()
-
                 Dim il As Integer = 0
                 For Each d As String In LEDs
 
@@ -2375,6 +2379,10 @@ fexLine:
                     '주의사항을 다 보셨다면, 당신은 Editor 권한을 가질 수 있습니다.
 
                     '이 코드는 Follow_JB님의 midi2keyLED를 참고하여 만든 코드. (Thanks to Follow_JB. :D)
+
+                    Loading.DLb.Left -= 45
+                    Loading.DLb.Text = String.Format("Converting LED ({0}) to keyLED...", d)
+                    Loading.DLb.Refresh()
 
                     If String.IsNullOrWhiteSpace(d) Then
                         Continue For
@@ -2396,23 +2404,21 @@ fexLine:
 
                             If mdEvent.CommandCode = MidiCommandCode.NoteOn Then
                                 Dim a As NoteOnEvent = DirectCast(mdEvent, NoteOnEvent)
-                                Dim b As New A2U
 
                                 If Not delaycount = a.AbsoluteTime Then
-                                    str = str & vbNewLine & "d " & b.GetNoteDelay(A2U.keyLED_AC.T_NoteLength1, 120, 192, delaycount - a.AbsoluteTime + Math.Round(a.DeltaTime * 2.604) + Math.Round(a.NoteLength * 2.604))
+                                    str = str & vbNewLine & "d " & GetNoteDelay(keyLED_MIDEX.NoteLength_1, 120, 192, delaycount - a.AbsoluteTime + Math.Round(a.DeltaTime * 2.604) + Math.Round(a.NoteLength * 2.604))
                                 End If
 
-                                UniNoteNumberX = b.GX_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
-                                UniNoteNumberY = b.GY_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
+                                UniNoteNumberX = GX_keyLED(keyLED_MIDEX.NoteNumber_1, a.NoteNumber)
+                                UniNoteNumberY = GY_keyLED(keyLED_MIDEX.NoteNumber_1, a.NoteNumber)
                                 delaycount = a.AbsoluteTime
                                 str = str & vbNewLine & "o " & UniNoteNumberX & " " & UniNoteNumberY & " a " & a.Velocity
 
                             ElseIf mdEvent.CommandCode = MidiCommandCode.NoteOff Then
 
                                 Dim a = DirectCast(mdEvent, NoteEvent)
-                                Dim b As New A2U
-                                UniNoteNumberX = b.GX_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
-                                UniNoteNumberY = b.GY_keyLED(A2U.keyLED_AC.C_NoteNumber1, a.NoteNumber)
+                                UniNoteNumberX = GX_keyLED(keyLED_MIDEX.NoteNumber_1, a.NoteNumber)
+                                UniNoteNumberY = GY_keyLED(keyLED_MIDEX.NoteNumber_1, a.NoteNumber)
                                 str = str & vbNewLine & "f " & UniNoteNumberX & " " & UniNoteNumberY
 
                             End If
@@ -2428,7 +2434,6 @@ fexLine:
                     Dim ablprj As String = Application.StartupPath & "\Workspace\ableproj\abl_proj.xml"
                     Dim doc As New XmlDocument
                     Dim setNode As XmlNodeList
-                    Dim h As New A2U
                     doc.Load(ablprj)
                     setNode = doc.GetElementsByTagName("MidiEffectBranch")
 
@@ -2436,13 +2441,18 @@ fexLine:
                     Dim cxyl As Integer() = New Integer(3) {}
                     Dim x As XmlNode = setNode.Item(il)
                     Dim sFile As String = String.Empty
+                    Loading.DLb.Left += 45
                     Loading.DLb.Text = "Extracting LED Infos..."
                     Loading.DLb.Refresh()
 
                     cxyl(0) = x.Item("BranchSelectorRange").Item("Max").GetAttribute("Value") + 1 'Get Chain.
-                    cxyl(1) = h.GX_keyLED(A2U.keyLED_AC.C_NoteNumber1, x.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value")) 'Get X Pos.
-                    cxyl(2) = h.GY_keyLED(A2U.keyLED_AC.C_NoteNumber1, x.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value")) 'Get Y Pos.
+                    cxyl(1) = GX_keyLED(keyLED_MIDEX.NoteNumber_1, x.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value")) 'Get X Pos.
+                    cxyl(2) = GY_keyLED(keyLED_MIDEX.NoteNumber_1, x.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value")) 'Get Y Pos.
                     cxyl(3) = 1
+
+                    If cxyl(0) > 8 OrElse cxyl(1) = -8192 Then
+                        Continue For
+                    End If
 
                     Dim LoopNumber_1 As Integer() = New Integer(1) {}
                     Dim LoopNumber_1bool As Boolean 'Chain Value = ?
@@ -2460,7 +2470,7 @@ fexLine:
 
                         '시작 길이와 끝 길이가 다른 경우 (Loop 1 활성화 시)
                         If cxyl(0) & cxyl(1) & cxyl(2) & cxyl(3) = "1451" Then
-                            Debug.WriteLine(d & ", 1451 HolyMoly! (1, 0)")
+                            Debug.WriteLine(d & ", 1451 HolyMoly! : " & il)
                         End If
 
                         For i As Integer = LoopNumber_1(0) To LoopNumber_1(1)
@@ -2474,13 +2484,13 @@ fexLine:
                             ElseIf LoopNumber_2bool = False Then
 
                                 If cxyl(0) & cxyl(1) & cxyl(2) & cxyl(3) = "1451" Then
-                                    Debug.WriteLine(d & ", 1451 HolyMoly! (1, 1)")
+                                    Debug.WriteLine(d & ", 1451 HolyMoly! :" & il)
                                 End If
 
                                 For q As Integer = LoopNumber_2(0) To LoopNumber_2(1)
                                     cxyl(0) = i
-                                    cxyl(1) = h.GX_keyLED(A2U.keyLED_AC.C_NoteNumber1, q)
-                                    cxyl(2) = h.GY_keyLED(A2U.keyLED_AC.C_NoteNumber1, q)
+                                    cxyl(1) = GX_keyLED(keyLED_MIDEX.NoteNumber_1, q)
+                                    cxyl(2) = GY_keyLED(keyLED_MIDEX.NoteNumber_1, q)
                                     sFile = String.Format("{0}\Workspace\unipack\keyLED\{1} {2} {3} {4}", Application.StartupPath, cxyl(0), cxyl(1), cxyl(2), cxyl(3))
                                     File.WriteAllText(sFile, str)
                                 Next
@@ -2494,7 +2504,7 @@ fexLine:
 
                             '기본값.
                             If cxyl(0) & cxyl(1) & cxyl(2) & cxyl(3) = "1451" Then
-                                Debug.WriteLine(d & ", 1451 HolyMoly! (0, 0)")
+                                Debug.WriteLine(d & ", 1451 HolyMoly! :" & il)
                             End If
 
                             sFile = String.Format("{0}\Workspace\unipack\keyLED\{1} {2} {3} {4}", Application.StartupPath, cxyl(0), cxyl(1), cxyl(2), cxyl(3))
@@ -2503,11 +2513,11 @@ fexLine:
                         ElseIf LoopNumber_2bool = False Then
 
                             If cxyl(0) & cxyl(1) & cxyl(2) & cxyl(3) = "1451" Then
-                                Debug.WriteLine(d & ", 1451 HolyMoly! (0, 1)")
+                                Debug.WriteLine(d & ", 1451 HolyMoly! :" & il)
                             End If
                             For q As Integer = LoopNumber_2(0) To LoopNumber_2(1)
-                                cxyl(1) = h.GX_keyLED(A2U.keyLED_AC.C_NoteNumber1, q)
-                                cxyl(2) = h.GY_keyLED(A2U.keyLED_AC.C_NoteNumber1, q)
+                                cxyl(1) = GX_keyLED(keyLED_MIDEX.NoteNumber_1, q)
+                                cxyl(2) = GY_keyLED(keyLED_MIDEX.NoteNumber_1, q)
                                 sFile = String.Format("{0}\Workspace\unipack\keyLED\{1} {2} {3} {4}", Application.StartupPath, cxyl(0), cxyl(1), cxyl(2), cxyl(3))
                                 File.WriteAllText(sFile, str)
                             Next
@@ -2655,5 +2665,71 @@ fexLine:
                 MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
         End Try
+    End Sub
+
+    Private Sub NoteOn_Test(sender As Object, e As MidiInMessageEventArgs) Handles midiinput.MessageReceived
+        'NAudio랑 A2UP가 반드시 필요 합니다.
+
+        '현재 제가 짠 코드는 그저 텍스트만 쓰는거지만,
+        'Debug.WriteLine() 코드를 빼고 키보드 누르는 코드로 대체 하셔도 됩니다.
+
+        Try
+            Dim a As MidiEvent = e.MidiEvent '현재 미디 이벤트.
+
+            If MidiEvent.IsNoteOn(a) Then '만약 미디 이벤트가 Note On 일 경우
+                If IsMIDITest Then
+
+                    Dim b As NoteOnEvent = DirectCast(a, NoteOnEvent) '미디 이벤트를 Note On 이벤트로 변환
+                    Dim x As Integer = GX_keyLED(keyLED_MIDEX.NoteNumber_2, b.NoteNumber) 'Note On 번호를 유니팩의 x로 변환.
+                    Dim y As Integer = GY_keyLED(keyLED_MIDEX.NoteNumber_2, b.NoteNumber) 'Note On 번호를 유니팩의 y로 변환.
+
+                    'x: 4, y: 4 = UniPad
+                    'x: 4, y: 5 = Unitor
+                    'x: 5, y: 4 = Launchpad
+                    'x: 5, y: 5 = Unitor M3 by Gijuno
+
+                    Select Case x 'If랑 같은 코드 입니다.
+                        Case 4
+
+                            Select Case y
+                                Case 4
+                                    Debug.WriteLine("UniPad")
+                                Case 5
+                                    Debug.WriteLine("Unitor")
+                            End Select
+
+                        Case 5
+
+                            Select Case y
+                                Case 4
+                                    Debug.WriteLine("Launchpad")
+                                Case 5
+                                    Debug.WriteLine("Unitor M3 by Gijuno")
+                            End Select
+
+                    End Select
+
+                Else
+                    MessageBox.Show("You must activate the 'MIDI Input Test' Button before Test!", Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End If
+
+            End If
+        Catch ex As Exception
+            If IsGreatExMode Then
+            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Else
+            MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
+        End Try
+    End Sub
+
+    Private Sub MIDIn_Test_Click(sender As Object, e As EventArgs) Handles MIDIn_Test.Click
+        If IsMIDITest Then
+            IsMIDITest = False
+            MessageBox.Show("MIDI Input and Note On Test Disabled.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Else
+            IsMIDITest = True
+            MessageBox.Show("MIDI Input and Note On Test Enabled!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
     End Sub
 End Class

@@ -94,6 +94,7 @@ Partial Class MainProject
         Me.keyLEDMIDEX_ListBox = New System.Windows.Forms.ListBox()
         Me.keyLEDMIDEX_BetaButton = New System.Windows.Forms.Button()
         Me.MIDISET = New System.Windows.Forms.TabPage()
+        Me.MIDIn_Test = New System.Windows.Forms.Button()
         Me.MIDIStatOut = New System.Windows.Forms.Label()
         Me.MIDIStatIn = New System.Windows.Forms.Label()
         Me.MIDIStat = New System.Windows.Forms.Label()
@@ -695,7 +696,7 @@ Partial Class MainProject
         'keyLEDMIDEX_UniLED
         '
         Me.keyLEDMIDEX_UniLED.AutoCompleteBracketsList = New Char() {Global.Microsoft.VisualBasic.ChrW(40), Global.Microsoft.VisualBasic.ChrW(41), Global.Microsoft.VisualBasic.ChrW(123), Global.Microsoft.VisualBasic.ChrW(125), Global.Microsoft.VisualBasic.ChrW(91), Global.Microsoft.VisualBasic.ChrW(93), Global.Microsoft.VisualBasic.ChrW(34), Global.Microsoft.VisualBasic.ChrW(34), Global.Microsoft.VisualBasic.ChrW(39), Global.Microsoft.VisualBasic.ChrW(39)}
-        Me.keyLEDMIDEX_UniLED.AutoScrollMinSize = New System.Drawing.Size(27, 14)
+        Me.keyLEDMIDEX_UniLED.AutoScrollMinSize = New System.Drawing.Size(2, 14)
         Me.keyLEDMIDEX_UniLED.BackBrush = Nothing
         Me.keyLEDMIDEX_UniLED.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.keyLEDMIDEX_UniLED.CharHeight = 14
@@ -703,6 +704,7 @@ Partial Class MainProject
         Me.keyLEDMIDEX_UniLED.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.keyLEDMIDEX_UniLED.DisabledColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer))
         Me.keyLEDMIDEX_UniLED.Enabled = False
+        Me.keyLEDMIDEX_UniLED.Font = New System.Drawing.Font("Courier New", 9.75!)
         Me.keyLEDMIDEX_UniLED.IsReplaceMode = False
         Me.keyLEDMIDEX_UniLED.Location = New System.Drawing.Point(364, 14)
         Me.keyLEDMIDEX_UniLED.Name = "keyLEDMIDEX_UniLED"
@@ -734,6 +736,7 @@ Partial Class MainProject
         '
         'MIDISET
         '
+        Me.MIDISET.Controls.Add(Me.MIDIn_Test)
         Me.MIDISET.Controls.Add(Me.MIDIStatOut)
         Me.MIDISET.Controls.Add(Me.MIDIStatIn)
         Me.MIDISET.Controls.Add(Me.MIDIStat)
@@ -747,6 +750,16 @@ Partial Class MainProject
         Me.MIDISET.TabIndex = 4
         Me.MIDISET.Text = "MIDI Devices"
         Me.MIDISET.UseVisualStyleBackColor = True
+        '
+        'MIDIn_Test
+        '
+        Me.MIDIn_Test.Font = New System.Drawing.Font("나눔바른고딕OTF", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.MIDIn_Test.Location = New System.Drawing.Point(492, 271)
+        Me.MIDIn_Test.Name = "MIDIn_Test"
+        Me.MIDIn_Test.Size = New System.Drawing.Size(242, 88)
+        Me.MIDIn_Test.TabIndex = 38
+        Me.MIDIn_Test.Text = "MIDI Input Test"
+        Me.MIDIn_Test.UseVisualStyleBackColor = True
         '
         'MIDIStatOut
         '
@@ -798,9 +811,9 @@ Partial Class MainProject
         'ConnectButton
         '
         Me.ConnectButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.ConnectButton.Location = New System.Drawing.Point(222, 379)
+        Me.ConnectButton.Location = New System.Drawing.Point(294, 379)
         Me.ConnectButton.Name = "ConnectButton"
-        Me.ConnectButton.Size = New System.Drawing.Size(218, 88)
+        Me.ConnectButton.Size = New System.Drawing.Size(440, 88)
         Me.ConnectButton.TabIndex = 31
         Me.ConnectButton.Text = "Connect!"
         Me.ConnectButton.UseVisualStyleBackColor = True
@@ -810,7 +823,7 @@ Partial Class MainProject
         Me.LoadButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.LoadButton.Location = New System.Drawing.Point(62, 379)
         Me.LoadButton.Name = "LoadButton"
-        Me.LoadButton.Size = New System.Drawing.Size(127, 88)
+        Me.LoadButton.Size = New System.Drawing.Size(206, 88)
         Me.LoadButton.TabIndex = 30
         Me.LoadButton.Text = "Load"
         Me.LoadButton.UseVisualStyleBackColor = True
@@ -955,4 +968,5 @@ Partial Class MainProject
     Friend WithEvents keyLEDMIDEX_CopyButton As Button
     Friend WithEvents BGW_keySound As System.ComponentModel.BackgroundWorker
     Friend WithEvents EditButton As Button
+    Friend WithEvents MIDIn_Test As Button
 End Class

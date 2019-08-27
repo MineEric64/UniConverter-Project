@@ -10,7 +10,7 @@ Public Class Info
 
     Private Sub OKButton_Click(sender As Object, e As EventArgs) Handles OKButton.Click
         Try
-            Dim A2UP_File As String = Application.StartupPath & "\A2UP.dll"
+            Dim A2UPFile As String = Application.StartupPath & "\A2UP.dll"
             Dim fs As FileStream
             Dim info As Byte()
 
@@ -64,7 +64,7 @@ Public Class Info
                     MessageBox.Show(String.Format("Developer Mode {0}, GreatEx Mode {1}", DeveloperModebool, GreatExModebool), Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
 
                 Case "UniConverter-Project"
-                    MessageBox.Show(String.Format("UniConverter V{0} - MineEric64 (최에릭)" & vbNewLine & "A2UP V{1} - MineEric64 (최에릭)" & vbNewLine & vbNewLine & "Help By Follow_JB, EX867, Ph-r", My.Application.Info.Version.ToString, GetFileVerInfo(A2UP_File)), Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    MessageBox.Show(String.Format("UniConverter v{0} - MineEric64 (최에릭)" & vbNewLine & "A2UP V{1} - MineEric64 (최에릭)" & vbNewLine & vbNewLine & "Help By Follow_JB, EX867, Ph-r", My.Application.Info.Version.ToString, GetFileVerInfo(A2UPFile)), Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
 
                 Case Else
                     MessageBox.Show("Programming is so fun! XD", MainProject.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
