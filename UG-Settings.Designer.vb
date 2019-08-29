@@ -24,11 +24,10 @@ Partial Class UG_Settings
     Private Sub InitializeComponent()
         Me.ChkUpdate = New System.Windows.Forms.CheckBox()
         Me.LatestVer = New System.Windows.Forms.CheckBox()
-        Me.AbletonSet = New System.Windows.Forms.ComboBox()
-        Me.UniPackSet = New System.Windows.Forms.ComboBox()
         Me.SaveButton = New System.Windows.Forms.Button()
         Me.ResetButton = New System.Windows.Forms.Button()
         Me.CleanTheTexts = New System.Windows.Forms.CheckBox()
+        Me.SetUpLight = New System.Windows.Forms.CheckBox()
         Me.SuspendLayout()
         '
         'ChkUpdate
@@ -47,6 +46,8 @@ Partial Class UG_Settings
         'LatestVer
         '
         Me.LatestVer.AutoSize = True
+        Me.LatestVer.Checked = True
+        Me.LatestVer.CheckState = System.Windows.Forms.CheckState.Checked
         Me.LatestVer.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LatestVer.Location = New System.Drawing.Point(17, 37)
         Me.LatestVer.Name = "LatestVer"
@@ -54,26 +55,6 @@ Partial Class UG_Settings
         Me.LatestVer.TabIndex = 1
         Me.LatestVer.Text = "Execute Latest Version After Update"
         Me.LatestVer.UseVisualStyleBackColor = True
-        '
-        'AbletonSet
-        '
-        Me.AbletonSet.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.AbletonSet.FormattingEnabled = True
-        Me.AbletonSet.Location = New System.Drawing.Point(17, 90)
-        Me.AbletonSet.Name = "AbletonSet"
-        Me.AbletonSet.Size = New System.Drawing.Size(108, 22)
-        Me.AbletonSet.TabIndex = 2
-        Me.AbletonSet.Text = "Any Ableton"
-        '
-        'UniPackSet
-        '
-        Me.UniPackSet.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.UniPackSet.FormattingEnabled = True
-        Me.UniPackSet.Location = New System.Drawing.Point(136, 90)
-        Me.UniPackSet.Name = "UniPackSet"
-        Me.UniPackSet.Size = New System.Drawing.Size(108, 22)
-        Me.UniPackSet.TabIndex = 3
-        Me.UniPackSet.Text = "Zip / Uni File"
         '
         'SaveButton
         '
@@ -99,12 +80,25 @@ Partial Class UG_Settings
         '
         Me.CleanTheTexts.AutoSize = True
         Me.CleanTheTexts.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CleanTheTexts.Location = New System.Drawing.Point(17, 61)
+        Me.CleanTheTexts.Location = New System.Drawing.Point(17, 85)
         Me.CleanTheTexts.Name = "CleanTheTexts"
         Me.CleanTheTexts.Size = New System.Drawing.Size(179, 18)
         Me.CleanTheTexts.TabIndex = 6
         Me.CleanTheTexts.Text = "Enable 'Clean The Texts'"
         Me.CleanTheTexts.UseVisualStyleBackColor = True
+        '
+        'SetUpLight
+        '
+        Me.SetUpLight.AutoSize = True
+        Me.SetUpLight.Checked = True
+        Me.SetUpLight.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.SetUpLight.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SetUpLight.Location = New System.Drawing.Point(17, 61)
+        Me.SetUpLight.Name = "SetUpLight"
+        Me.SetUpLight.Size = New System.Drawing.Size(171, 18)
+        Me.SetUpLight.TabIndex = 7
+        Me.SetUpLight.Text = "Launchpad Setup Light"
+        Me.SetUpLight.UseVisualStyleBackColor = True
         '
         'UG_Settings
         '
@@ -112,11 +106,10 @@ Partial Class UG_Settings
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.ClientSize = New System.Drawing.Size(284, 187)
+        Me.Controls.Add(Me.SetUpLight)
         Me.Controls.Add(Me.CleanTheTexts)
         Me.Controls.Add(Me.ResetButton)
         Me.Controls.Add(Me.SaveButton)
-        Me.Controls.Add(Me.UniPackSet)
-        Me.Controls.Add(Me.AbletonSet)
         Me.Controls.Add(Me.LatestVer)
         Me.Controls.Add(Me.ChkUpdate)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
@@ -130,9 +123,8 @@ Partial Class UG_Settings
 
     Friend WithEvents ChkUpdate As CheckBox
     Friend WithEvents LatestVer As CheckBox
-    Friend WithEvents AbletonSet As ComboBox
-    Friend WithEvents UniPackSet As ComboBox
     Friend WithEvents SaveButton As Button
     Friend WithEvents ResetButton As Button
     Friend WithEvents CleanTheTexts As CheckBox
+    Friend WithEvents SetUpLight As CheckBox
 End Class

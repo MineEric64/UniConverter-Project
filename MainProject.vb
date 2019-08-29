@@ -147,9 +147,14 @@ Public Class MainProject
     Public setxml As New XmlDocument
 
     ''' <summary>
-    ''' settings.xml 중 Convert Unipack 설정.
+    ''' settings.xml 중 Convert UniPack 설정.
     ''' </summary>
     Private uni_confile As String
+
+    ''' <summary>
+    ''' Launchpad Setup Light. [When you connect the Launchpad]
+    ''' </summary>
+    Private SetUpLight_ As Boolean
 #End Region
 
 #Region "UniPack(s)"
@@ -189,7 +194,7 @@ Public Class MainProject
 
     Private Sub MainProject_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
-            Dim file_ex = Application.StartupPath + "\settings.xml"
+            Dim file_ex As String = Application.StartupPath + "\settings.xml"
 
             If File.Exists(file_ex) = False Then
                 Throw New FileNotFoundException("Settings File doesn't exists.")
@@ -207,14 +212,6 @@ Public Class MainProject
 
             If File.Exists(LicenseFile(1)) AndAlso File.ReadAllText(LicenseFile(1)) = My.Resources.License_GreatExMode Then
                 IsGreatExMode = True
-            End If
-
-            setxml.Load(file_ex)
-            Dim setNode As XmlNode
-            setNode = setxml.SelectSingleNode("/Settings-XML/UCV-Settings")
-
-            If Convert.ToBoolean(setNode.ChildNodes(0).InnerText) = True Then
-                BGW_CheckUpdate.RunWorkerAsync()
             End If
 #Region "변수 기본값 설정"
             Me.KeyPreview = True
@@ -237,6 +234,18 @@ Public Class MainProject
             OpenProjectOnce = False
             IsMIDITest = False
 #End Region
+
+            setxml.Load(file_ex)
+            Dim setNode As XmlNode
+            setNode = setxml.SelectSingleNode("/Settings-XML/UCV-Settings")
+
+            If setNode.ChildNodes(0).InnerText = "True" Then
+                BGW_CheckUpdate.RunWorkerAsync()
+            End If
+
+            If setNode.ChildNodes(2).InnerText = "True" Then
+                SetUpLight_ = True
+            End If
 
             'Text of Info TextBox
             infoTB1.Text = "My Amazing UniPack!" 'Title
@@ -282,6 +291,7 @@ Public Class MainProject
                 MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Else
                 MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Application.Exit()
             End If
         End Try
     End Sub
@@ -1768,10 +1778,6 @@ fexLine:
         UG_Settings.Show()
     End Sub
 
-    Private Sub Sound_ListView_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles Sound_ListView.MouseDoubleClick
-
-    End Sub
-
     Private Sub LoadButton_Click(sender As Object, e As EventArgs) Handles LoadButton.Click
 
         InListBox.Items.Clear()
@@ -1789,10 +1795,11 @@ fexLine:
         DisconnectMidi()
 
 #Region "MIDI 1"
-        Try
+        Try ' Connect the Launchpad to MIDI In
             midiinput = New MidiIn(InListBox.SelectedIndex)
             midiinput.Start()
             midiinput_avail = True
+
             Dim wowk As String = InListBox.Items(InListBox.SelectedIndex).ToString
             If wowk.Contains("Launchpad S") OrElse wowk.Contains("Launchpad Mini") Then
                 midiinput_kind = 0 'launchpad s
@@ -1807,7 +1814,9 @@ fexLine:
                 midioutput_kind = 0
                 MIDIStatIn.Text = "MIDI Input: Not Connected"
             End If
+
             MIDIStatIn.Text = String.Format("MIDI Input: Connected ({0})", MidiIn.DeviceInfo(InListBox.SelectedIndex).ProductName)
+
         Catch ex As Exception
             MessageBox.Show("Failed to connect input device. Please try again or restart UniConverter." & vbNewLine & "Also, You can report this in 'Report Tab'.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             midiinput_avail = False
@@ -1816,10 +1825,11 @@ fexLine:
             End If
         End Try
 
-        Try
+        Try 'Connect the Launchpad to MIDI Out
             midioutput = New MidiOut(OutListBox.SelectedIndex)
             midioutput.Reset()
             midioutput_avail = True
+
             Dim wowc As String = OutListBox.Items(OutListBox.SelectedIndex).ToString
             If wowc.Contains("Launchpad S") OrElse wowc.Contains("Launchpad Mini") Then
                 midioutput_kind = 0 'launchpad s
@@ -1833,8 +1843,26 @@ fexLine:
                 MessageBox.Show("Wrong output Launchpad! Please select other thing!" & vbNewLine & String.Format("(Selected MIDI Device: {0})", wowc), "Wrong Launchpad", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 midioutput_kind = 0
             End If
+
             MIDIStatOut.Text = String.Format("Midi Output: Connected ({0})", MidiOut.DeviceInfo(OutListBox.SelectedIndex).ProductName)
             midioutput.SendBuffer({240, 0, 32, 41, 9, 60, 85, 110, 105, 116, 111, 114, 32, 118, Asc(My.Application.Info.Version.Major), 46, Asc(My.Application.Info.Version.Minor), 46, Asc(My.Application.Info.Version.Build), 46, Asc(My.Application.Info.Version.Revision), 247})
+
+            If SetUpLight_ Then
+                'Launchpad Setup Light. [keyLED Version: v1.1.0.3]
+
+                File.WriteAllText(Application.StartupPath & "\Workspace\TmpLED.txt", My.Resources.SuperLightText)
+                With keyLED_Test
+                    .lkind = midioutput_kind
+                    .lmo = midioutput
+                    .lmo.Reset()
+                    .lmo.SendBuffer({240, 0, 32, 41, 9, 60, 85, 110, 105, 116, 111, 114, 32, 118, Asc(My.Application.Info.Version.Major), 46, Asc(My.Application.Info.Version.Minor), 46, Asc(My.Application.Info.Version.Build), 46, Asc(My.Application.Info.Version.Revision), 247})
+                    .IsLaunchpaded = True
+
+                    .LEDHandler_Launchpad()
+                End With
+
+            End If
+
         Catch ex As Exception
             MessageBox.Show("Failed to connect output device. Please try again or restart UniConverter." & vbNewLine & "Also, You can report this in 'Report Tab'.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             If IsGreatExMode Then
@@ -2709,8 +2737,6 @@ fexLine:
 
                     End Select
 
-                Else
-                    MessageBox.Show("You must activate the 'MIDI Input Test' Button before Test!", Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End If
 
             End If

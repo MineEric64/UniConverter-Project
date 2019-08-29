@@ -101,6 +101,58 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  o 3 4 a 78
+        '''o 4 4 a 78
+        '''o 4 5 a 78
+        '''o 4 6 a 78
+        '''o 5 3 a 78
+        '''o 5 4 a 78
+        '''o 5 5 a 78
+        '''o 6 5 a 78
+        '''d 30
+        '''o 3 3 a 78
+        '''o 3 4 a 78
+        '''o 3 5 a 78
+        '''o 3 6 a 78
+        '''o 4 3 a 78
+        '''o 4 4 a 78
+        '''o 4 5 a 78
+        '''o 4 6 a 78
+        '''o 5 3 a 78
+        '''o 5 4 a 78
+        '''o 5 5 a 78
+        '''o 5 6 a 78
+        '''o 6 3 a 78
+        '''o 6 4 a 78
+        '''o 6 5 a 78
+        '''o 6 6 a 78
+        '''d 30
+        '''o 2 5 a 78
+        '''o 2 6 a 78
+        '''o 3 2 a 78
+        '''o 3 3 a 78
+        '''o 3 4 a 79
+        '''o 3 5 a 78
+        '''o 3 6 a 78
+        '''o 4 2 a 78
+        '''o 4 3 a 78
+        '''o 4 4 a 79
+        '''o 4 5 a 79
+        '''o 4 6 a 79
+        '''o 5 3 a 79
+        '''o 5 4 a 79
+        '''o 5 5 a 79
+        '''o 5 6 a 78
+        '''o 5 7 a 78
+        '''o 6 3 a [나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 문자열을 찾습니다.
+        '''</summary>
+        Friend ReadOnly Property SuperLightText() As String
+            Get
+                Return ResourceManager.GetString("SuperLightText", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         '''</summary>
         Friend ReadOnly Property UniConverter_icon() As System.Drawing.Bitmap

@@ -310,6 +310,7 @@
     <None Include="Resources\License_DeveloperMode.txt" />
     <None Include="Resources\License_GreatExMode.txt" />
     <None Include="Resources\UniConverter_icon.png" />
+    <None Include="Resources\SuperLightText.txt" />
     <Content Include="UniConverter.ico" />
   </ItemGroup>
   <ItemGroup>

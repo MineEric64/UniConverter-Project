@@ -2,77 +2,60 @@
 
 Public Class UG_Settings
     Private IsSaved As Boolean
-    Public setxml As XDocument
+    Public setxml As New XmlDocument
     Private Sub UG_Settings_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         '이 설정 로딩 코드는 설정 코드가 수정될 때 마다 코드를 수정 해야 합니다.
         Try
-            Dim file_ex = Application.StartupPath + "\settings.xml"
-            setxml = XDocument.Load(file_ex)
+            Dim setaNode As XmlNode
+            Dim file_ex As String = Application.StartupPath + "\settings.xml"
+            setxml.Load(file_ex)
+
             Me.Text = String.Format("{0}: Settings", MainProject.Text)
-            AbletonSet.Enabled = False
-            UniPackSet.Enabled = False
 
-            Dim lst As New List(Of String) _
-            From {"Any Ableton", "Ableton 9 Lite", "Ableton 9 Trial", "Ableton 9 Suite", "Ableton 10"}
-            For Each item As String In lst
-                AbletonSet.Items.Add(item)
-            Next
+            setaNode = setxml.SelectSingleNode("/Settings-XML/UCV-Settings")
+            If setaNode IsNot Nothing Then
 
-            Dim lst2 As New List(Of String) _
-            From {"Zip / Uni File"}
-            For Each item As String In lst2
-                UniPackSet.Items.Add(item)
-            Next
+                'Reading Value of Settings.
+                Select Case setaNode.ChildNodes(0).InnerText
+                    Case "True"
+                        ChkUpdate.Checked = True
+                    Case "False"
+                        ChkUpdate.Checked = False
+                    Case Else
+                        Throw New FormatException("<CheckUpdate>'s Value is invaild.")
+                End Select
 
-            'Reading Value of Settings.
-            If Convert.ToBoolean(setxml.<Settings-XML>.<UCV-Settings>.<CheckUpdate>.Value) = True Then
-                ChkUpdate.Checked = True
-            ElseIf Convert.ToBoolean(setxml.<Settings-XML>.<UCV-Settings>.<LatestVer>.Value) = False Then
-                ChkUpdate.Checked = False
-            Else
-                Throw New FormatException("<CheckUpdate>'s Value must has True/False.")
+                Select Case setaNode.ChildNodes(1).InnerText
+                    Case "True"
+                        LatestVer.Checked = True
+                    Case "False"
+                        LatestVer.Checked = False
+                    Case Else
+                        Throw New FormatException("<LatestVer>'s Value is invaild.")
+                End Select
+
+                Select Case setaNode.ChildNodes(2).InnerText
+                    Case "True"
+                        SetUpLight.Checked = True
+                    Case "False"
+                        SetUpLight.Checked = False
+                    Case Else
+                        Throw New FormatException("<SetupLights>'s Value is invaild.")
+                End Select
+
+                setaNode = setxml.SelectSingleNode("/Settings-XML/UCV-PATH")
+
+                Select Case setaNode.ChildNodes(2).InnerText
+                    Case "True"
+                        CleanTheTexts.Checked = True
+                    Case "False"
+                        CleanTheTexts.Checked = False
+                    Case Else
+                        Throw New FormatException("<CleanTheText>'s Value is invaild.")
+                End Select
+
+                IsSaved = True
             End If
-
-            If Convert.ToBoolean(setxml.<Settings-XML>.<UCV-Settings>.<LatestVer>.Value) = True Then
-                LatestVer.Checked = True
-            ElseIf Convert.ToBoolean(setxml.<Settings-XML>.<UCV-Settings>.<LatestVer>.Value) = False Then
-                LatestVer.Checked = False
-            Else
-                Throw New FormatException("<LatestVer>'s Value must has True/False.")
-            End If
-
-            Select Case setxml.<Settings-XML>.<UCV-PATH>.<AbletonVersion>.Value
-                Case "AnyAbleton"
-                    AbletonSet.Text = "Any Ableton"
-                Case "Ableton9_Lite"
-                    AbletonSet.Text = "Ableton 9 Lite"
-                Case "Ableton9_Trial"
-                    AbletonSet.Text = "Ableton 9 Trial"
-                Case "Ableton9_Suite"
-                    AbletonSet.Text = "Ableton 9 Suite"
-                Case "Ableton10"
-                    AbletonSet.Text = "Ableton 10"
-                Case Else
-                    Throw New FormatException("<AbletonVersion>'s Value is invaild.")
-            End Select
-
-            Select Case setxml.<Settings-XML>.<UCV-PATH>.<ConvertUniPack>.Value
-                Case "zip/uni"
-                    UniPackSet.Text = "Zip / Uni File"
-                Case Else
-                    Throw New FormatException("<ConvertUniPack>'s Value is invaild.")
-            End Select
-
-            Select Case setxml.<Settings-XML>.<UCV-PATH>.<CleanTheText>.Value
-                Case "True"
-                    CleanTheTexts.Checked = True
-                Case "False"
-                    CleanTheTexts.Checked = False
-                Case Else
-                    Throw New FormatException("<CleanTheText>'s Value is invaild.")
-            End Select
-
-            IsSaved = True
 
         Catch ex As Exception
             If MainProject.IsGreatExMode Then
@@ -97,8 +80,11 @@ Public Class UG_Settings
                 ChkUpdate.Checked = True
                 setaNode.ChildNodes(0).InnerText = "True"
 
-                LatestVer.Checked = False
-                setaNode.ChildNodes(1).InnerText = "False"
+                LatestVer.Checked = True
+                setaNode.ChildNodes(1).InnerText = "True"
+
+                SetUpLight.Checked = True
+                setaNode.ChildNodes(2).InnerText = "True"
 
             Else
                 Throw New FormatException("Settings XML's Argument is invaild. <UCV-Settings>")
@@ -106,12 +92,6 @@ Public Class UG_Settings
 
             setaNode = setNode.SelectSingleNode("/Settings-XML/UCV-PATH")
             If setaNode IsNot Nothing Then
-
-                AbletonSet.Text = "Any Ableton"
-                setaNode.ChildNodes(0).InnerText = "AnyAbleton"
-
-                UniPackSet.Text = "Zip / Uni File"
-                setaNode.ChildNodes(1).InnerText = "zip/uni"
 
                 CleanTheTexts.Checked = False
                 setaNode.ChildNodes(2).InnerText = "False"
@@ -133,7 +113,8 @@ Public Class UG_Settings
         End Try
     End Sub
 
-    Private Sub UG_Setting_Values_CheckedChanged(sender As Object, e As EventArgs) Handles ChkUpdate.CheckedChanged, LatestVer.CheckedChanged, AbletonSet.SelectedIndexChanged, UniPackSet.SelectedIndexChanged
+    Private Sub UG_Setting_Values_CheckedChanged(sender As Object, e As EventArgs) Handles ChkUpdate.CheckedChanged, LatestVer.CheckedChanged, CleanTheTexts.CheckedChanged, SetUpLight.CheckedChanged
+        '이 코드는 기능이 추가되면 Handles 코드를 수정해야 합니다.
         IsSaved = False
     End Sub
 
@@ -176,46 +157,39 @@ Public Class UG_Settings
             setaNode = setNode.SelectSingleNode("/Settings-XML/UCV-Settings")
             If setaNode IsNot Nothing Then
 
-                If ChkUpdate.Checked = True Then
-                    setaNode.ChildNodes(0).InnerText = "True"
-                Else
-                    setaNode.ChildNodes(0).InnerText = "False"
-                End If
+                Select Case ChkUpdate.Checked
+                    Case True
+                        setaNode.ChildNodes(0).InnerText = "True"
+                    Case False
+                        setaNode.ChildNodes(0).InnerText = "False"
+                    Case Else
+                        Throw New FormatException("<ChkUpdate>'s Value is invaild.")
+                End Select
 
-                If LatestVer.Checked = True Then
-                    setaNode.ChildNodes(1).InnerText = "True"
-                Else
-                    setaNode.ChildNodes(1).InnerText = "False"
-                End If
+                Select Case LatestVer.Checked
+                    Case True
+                        setaNode.ChildNodes(1).InnerText = "True"
+                    Case False
+                        setaNode.ChildNodes(1).InnerText = "False"
+                    Case Else
+                        Throw New FormatException("<LatestVer>'s Value is invaild.")
+                End Select
+
+                Select Case SetUpLight.Checked
+                    Case True
+                        setaNode.ChildNodes(2).InnerText = "True"
+                    Case False
+                        setaNode.ChildNodes(2).InnerText = "False"
+                    Case Else
+                        Throw New FormatException("<SetUpLights>'s Value is invaild.")
+                End Select
 
             Else
-                Throw New FormatException("Settings XML's Argument is invaild. <UCV-Settings>")
+                    Throw New FormatException("Settings XML's Argument is invaild. <UCV-Settings>")
             End If
 
             setaNode = setNode.SelectSingleNode("/Settings-XML/UCV-PATH")
             If setaNode IsNot Nothing Then
-
-                Select Case AbletonSet.Text
-                    Case "Any Ableton"
-                        setaNode.ChildNodes(0).InnerText = "AnyAbleton"
-                    Case "Ableton 9 Lite"
-                        setaNode.ChildNodes(0).InnerText = "Ableton9_Lite"
-                    Case "Ableton 9 Trial"
-                        setaNode.ChildNodes(0).InnerText = "Ableton9_Trial"
-                    Case "Ableton 9 Suite"
-                        setaNode.ChildNodes(0).InnerText = "Ableton9_Suite"
-                    Case "Ableton 10"
-                        setaNode.ChildNodes(0).InnerText = "Ableton10"
-                    Case Else
-                        Throw New FormatException("<AbletonVersion>'s Value is invaild.")
-                End Select
-
-                Select Case UniPackSet.Text
-                    Case "Zip / Uni File"
-                        setaNode.ChildNodes(1).InnerText = "zip/uni"
-                    Case Else
-                        Throw New FormatException("<ConvertUniPack>'s Value is invaild.")
-                End Select
 
                 Select Case CleanTheTexts.Checked
                     Case True

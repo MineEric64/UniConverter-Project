@@ -3,6 +3,7 @@
   <UCV-Settings>
     <CheckUpdate>True</CheckUpdate>
     <LatestVer>False</LatestVer>
+    <SetupLights>True</SetupLights>
   </UCV-Settings>
   <keyLED-Adv>
     <TopMode>AbsoluteTime</TopMode>
