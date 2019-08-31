@@ -114,7 +114,7 @@ Public Class keyLED_Edit
             stopw.Start()
 
             Dim LEDFileName As String = "Workspace\ableproj\CoLED\" & ConLEDFile
-            Dim LEDFileC As New MidiFile(LEDFileName, False)
+            Dim keyLED As New MidiFile(LEDFileName, False)
 
             Invoke(Sub()
                        UniLED_Edit.Enabled = True
@@ -130,16 +130,16 @@ Public Class keyLED_Edit
             Dim UniNoteNumberX As Integer 'X
             Dim UniNoteNumberY As Integer 'Y
 
-            For Each mdEvent_list In LEDFileC.Events
+            For Each mdEvent_list In keyLED.Events
                 For Each mdEvent In mdEvent_list
 
-                    Dim SelconItem As String = String.Empty
-                    Invoke(Sub() SelconItem = SelCon1.SelectedItem.ToString())
-                    If SelconItem = "Ableton 9 ALG1" Then
+                    Dim AnItem As String = String.Empty
+                    Invoke(Sub() AnItem = SelCon1.SelectedItem.ToString())
+                    If AnItem = "Ableton 9 ALG1" Then
 
                         If mdEvent.CommandCode = MidiCommandCode.NoteOn Then
                             Dim a As NoteOnEvent = DirectCast(mdEvent, NoteOnEvent)
-
+                            Dim bpm As New TempoEvent(500000, a.AbsoluteTime)
 #Region "keyLED - Delays 1"
                             '최적화. 이 코드들을 Load 코드 부분에 이동 하고 변수를 선언해 최대한 변환 시간을 줄임.
                             If AdvChk.Checked Then
@@ -151,7 +151,6 @@ Public Class keyLED_Edit
                                             Case "Non-Convert"
                                                 str = str & vbNewLine & "d " & a.NoteLength
                                             Case "NL4Ticks/NL2M"
-                                                'Default Settings. [UniConverter v1.1.0.3]
                                                 str = str & vbNewLine & "d " & GetNoteDelay(keyLED_MIDEX.NoteLength_1, 120, 192, a.NoteLength)
                                         End Select
 
@@ -168,15 +167,13 @@ Public Class keyLED_Edit
                                             Case "Non-Convert"
                                                 str = str & vbNewLine & "d " & a.AbsoluteTime
                                             Case "AbTofMIDI"
-                                                Dim bpm As Integer = 120
-                                                Dim ppq = LEDFileC.DeltaTicksPerQuarterNote
-                                                Dim r As Integer = ppq * bpm
-                                                str = str & vbNewLine & "d " & Math.Truncate(a.AbsoluteTime * 60000 / r)
-                                                'str = str & vbNewLine & "d " & Math.Truncate(a.AbsoluteTime / LEDFileC.DeltaTicksPerQuarterNote * 120)
-                                                'str = str & vbNewLine & "d " & Math.Truncate(((a.AbsoluteTime - LastTempoEvent.AbsoluteTime) / LEDFileC.DeltaTicksPerQuarterNote) * 120 + LastTempoEvent.RealTime)
-                                            Case "TimeLine/NL2M"
                                                 If Not delaycount = a.AbsoluteTime Then
                                                     str = str & vbNewLine & "d " & GetNoteDelay(keyLED_MIDEX.NoteLength_1, 120, 192, delaycount - a.AbsoluteTime + Math.Round(a.DeltaTime * 2.604) + Math.Round(a.NoteLength * 2.604))
+                                                End If
+                                            Case "TimeLine/NL2M"
+                                                'Default Settings. [UniConverter v1.1.0.3]
+                                                If Not delaycount = a.AbsoluteTime Then
+                                                    str = str & vbNewLine & "d " & GetNoteDelay(keyLED_MIDEX.NoteLength_2, bpm.Tempo, keyLED.DeltaTicksPerQuarterNote, a.NoteLength)
                                                 End If
                                         End Select
                                 End Select
@@ -186,7 +183,7 @@ Public Class keyLED_Edit
                                 '기본 알고리즘: Absolute Time, TimeLine / NL2M
                                 '이 delay 변환 코드는 변환 코드 알고리즘이 수정될 때마다 수정 해야 합니다!
                                 If Not delaycount = a.AbsoluteTime Then
-                                    str = str & vbNewLine & "d " & GetNoteDelay(keyLED_MIDEX.NoteLength_1, 120, 192, delaycount - a.AbsoluteTime + Math.Round(a.DeltaTime * 2.604) + Math.Round(a.NoteLength * 2.604))
+                                    str = str & vbNewLine & "d " & GetNoteDelay(keyLED_MIDEX.NoteLength_2, bpm.Tempo, keyLED.DeltaTicksPerQuarterNote, a.NoteLength)
                                 End If
 
                             End If
@@ -199,77 +196,32 @@ Public Class keyLED_Edit
 
                         ElseIf mdEvent.CommandCode = MidiCommandCode.NoteOff Then
 
-                            Dim a = DirectCast(mdEvent, NoteEvent)
+                            Dim a As NoteEvent = DirectCast(mdEvent, NoteEvent)
                             UniNoteNumberX = GX_keyLED(keyLED_MIDEX.NoteNumber_1, a.NoteNumber)
                             UniNoteNumberY = GY_keyLED(keyLED_MIDEX.NoteNumber_1, a.NoteNumber)
                             str = str & vbNewLine & "f " & UniNoteNumberX & " " & UniNoteNumberY
 
                         End If
 
-                    ElseIf SelconItem = "Non-Convert (Developer Mode)" Then
-
+                    ElseIf AnItem = "Non-Convert (Developer Mode)" Then
+#Region "Non-Convert (Developer Mode)"
                         If mdEvent.CommandCode = MidiCommandCode.NoteOn Then
                             Dim a = DirectCast(mdEvent, NoteOnEvent)
 
-#Region "keyLED - Delays 1"
-                            If AdvChk.Checked Then
-
-                                Select Case SoGood(0)
-                                    Case "Note Length"
-
-                                        Select Case SoGood(1)
-                                            Case "Non-Convert"
-                                                str = str & vbNewLine & "d " & a.NoteLength
-                                            Case "NL4Ticks/NL2M"
-                                                str = str & vbNewLine & "d " & GetNoteDelay(keyLED_MIDEX.NoteLength_1, 120, 192, a.NoteLength)
-                                        End Select
-
-                                    Case "Delta Time"
-
-                                        Select Case SoGood(1)
-                                            Case "Non-Convert"
-                                                str = str & vbNewLine & "d " & a.DeltaTime
-                                        End Select
-
-                                    Case "Absolute Time"
-
-                                        Select Case SoGood(1)
-                                            Case "Non-Convert"
-                                                str = str & vbNewLine & "d " & a.AbsoluteTime
-                                            Case "AbTofMIDI"
-                                                Dim bpm As Integer = 120
-                                                Dim ppq = LEDFileC.DeltaTicksPerQuarterNote
-                                                Dim r As Integer = ppq * bpm
-                                                str = str & vbNewLine & "d " & Math.Truncate(a.AbsoluteTime * 60000 / r)
-                                                'str = str & vbNewLine & "d " & Math.Truncate(a.AbsoluteTime / LEDFileC.DeltaTicksPerQuarterNote * 120)
-                                                'str = str & vbNewLine & "d " & Math.Truncate(((a.AbsoluteTime - LastTempoEvent.AbsoluteTime) / LEDFileC.DeltaTicksPerQuarterNote) * 120 + LastTempoEvent.RealTime)
-                                            Case "TimeLine/NL2M"
-                                                If Not delaycount = a.AbsoluteTime Then
-                                                    str = str & vbNewLine & "d " & GetNoteDelay(keyLED_MIDEX.NoteLength_1, 120, 192, delaycount - a.AbsoluteTime + Math.Round(a.DeltaTime * 2.604) + Math.Round(a.NoteLength * 2.604))
-                                                End If
-                                        End Select
-                                End Select
-
-                            Else
-
-                                '기본 알고리즘: Absolute Time, TimeLine / NL2M
-                                '이 delay 변환 코드는 변환 코드 알고리즘이 수정될 때마다 수정 해야 합니다!
-                                If Not delaycount = a.AbsoluteTime Then
-                                    str = str & vbNewLine & "d " & GetNoteDelay(keyLED_MIDEX.NoteLength_1, 120, 192, delaycount - a.AbsoluteTime + Math.Round(a.DeltaTime * 2.604) + Math.Round(a.NoteLength * 2.604))
-                                End If
-
+                            If Not delaycount = a.AbsoluteTime Then
+                                str = str & vbNewLine & "d " & a.NoteLength
                             End If
-#End Region
 
                             delaycount = a.AbsoluteTime
                             str = str & vbNewLine & "o " & a.NoteNumber & " a " & a.Velocity
 
                         ElseIf mdEvent.CommandCode = MidiCommandCode.NoteOff Then
 
-                            Dim a = DirectCast(mdEvent, NoteEvent)
+                            Dim a As NoteEvent = DirectCast(mdEvent, NoteEvent)
                             str = str & vbNewLine & "f " & a.NoteNumber
 
                         End If
+#End Region
 
                     Else
                         MessageBox.Show("You have to select the 'Ableton ALG1' or 'Non-Convert (Developer Mode)'.'", Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)

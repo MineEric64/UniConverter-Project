@@ -2421,20 +2421,21 @@ fexLine:
                         Throw New FileNotFoundException("MIDI File '" & d & "' doesn't exists. Try Again!")
                     End If
 
-                    Dim LEDFileC As New MidiFile(dPath, False)
+                    Dim keyLED As New MidiFile(dPath, False)
                     Dim str As String = String.Empty
                     Dim delaycount As Integer = 0
                     Dim UniNoteNumberX As Integer 'X
                     Dim UniNoteNumberY As Integer 'Y
 
-                    For Each mdEvent_list In LEDFileC.Events
+                    For Each mdEvent_list In keyLED.Events
                         For Each mdEvent In mdEvent_list
 
                             If mdEvent.CommandCode = MidiCommandCode.NoteOn Then
                                 Dim a As NoteOnEvent = DirectCast(mdEvent, NoteOnEvent)
+                                Dim bpm As New TempoEvent(500000, a.AbsoluteTime)
 
                                 If Not delaycount = a.AbsoluteTime Then
-                                    str = str & vbNewLine & "d " & GetNoteDelay(keyLED_MIDEX.NoteLength_1, 120, 192, delaycount - a.AbsoluteTime + Math.Round(a.DeltaTime * 2.604) + Math.Round(a.NoteLength * 2.604))
+                                    str = str & vbNewLine & "d " & GetNoteDelay(keyLED_MIDEX.NoteLength_2, bpm.Tempo, keyLED.DeltaTicksPerQuarterNote, a.NoteLength)
                                 End If
 
                                 UniNoteNumberX = GX_keyLED(keyLED_MIDEX.NoteNumber_1, a.NoteNumber)
@@ -2444,7 +2445,7 @@ fexLine:
 
                             ElseIf mdEvent.CommandCode = MidiCommandCode.NoteOff Then
 
-                                Dim a = DirectCast(mdEvent, NoteEvent)
+                                Dim a As NoteEvent = DirectCast(mdEvent, NoteEvent)
                                 UniNoteNumberX = GX_keyLED(keyLED_MIDEX.NoteNumber_1, a.NoteNumber)
                                 UniNoteNumberY = GY_keyLED(keyLED_MIDEX.NoteNumber_1, a.NoteNumber)
                                 str = str & vbNewLine & "f " & UniNoteNumberX & " " & UniNoteNumberY
@@ -2698,12 +2699,9 @@ fexLine:
     Private Sub NoteOn_Test(sender As Object, e As MidiInMessageEventArgs) Handles midiinput.MessageReceived
         'NAudio랑 A2UP가 반드시 필요 합니다.
 
-        '현재 제가 짠 코드는 그저 텍스트만 쓰는거지만,
-        'Debug.WriteLine() 코드를 빼고 키보드 누르는 코드로 대체 하셔도 됩니다.
-
         Try
-            Dim a As MidiEvent = e.MidiEvent '현재 미디 이벤트.
 
+            Dim a As MidiEvent = e.MidiEvent '현재 미디 이벤트.
             If MidiEvent.IsNoteOn(a) Then '만약 미디 이벤트가 Note On 일 경우
                 If IsMIDITest Then
 
@@ -2711,35 +2709,15 @@ fexLine:
                     Dim x As Integer = GX_keyLED(keyLED_MIDEX.NoteNumber_2, b.NoteNumber) 'Note On 번호를 유니팩의 x로 변환.
                     Dim y As Integer = GY_keyLED(keyLED_MIDEX.NoteNumber_2, b.NoteNumber) 'Note On 번호를 유니팩의 y로 변환.
 
-                    'x: 4, y: 4 = UniPad
-                    'x: 4, y: 5 = Unitor
-                    'x: 5, y: 4 = Launchpad
-                    'x: 5, y: 5 = Unitor M3 by Gijuno
-
-                    Select Case x 'If랑 같은 코드 입니다.
-                        Case 4
-
-                            Select Case y
-                                Case 4
-                                    Debug.WriteLine("UniPad")
-                                Case 5
-                                    Debug.WriteLine("Unitor")
-                            End Select
-
-                        Case 5
-
-                            Select Case y
-                                Case 4
-                                    Debug.WriteLine("Launchpad")
-                                Case 5
-                                    Debug.WriteLine("Unitor M3 by Gijuno")
-                            End Select
-
-                    End Select
+                    If Not x = -8192 Then 'Chain이 아닌 경우
+                        MessageBox.Show("Note: " & x & ", " & y, "MIDI In Test", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Else
+                        MessageBox.Show("Note: (Chain) " & y, "MIDI In Test", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End If
+                End If
 
                 End If
 
-            End If
         Catch ex As Exception
             If IsGreatExMode Then
             MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)

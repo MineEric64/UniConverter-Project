@@ -266,8 +266,8 @@ Public Class DeveloperMode_Project
                     Dim result2 = InputBox("Please write the LED File Name." & vbNewLine & "", DeveloperMode_Project.Text, "bFINAL.mid")
 
                     Dim LEDFileName = "Workspace\ableproj\CoLED\" & result2
-                    Dim LEDFileC As New MidiFile(LEDFileName, False)
-                    Return GetkeyLED_MIDEX2(EachCode.keyLED_MIDEX_1, LEDFileC)
+                    Dim LEDFile As New MidiFile(LEDFileName, False)
+                    Return GetkeyLED_MIDEX2(EachCode.keyLED_MIDEX_1, LEDFile)
 
                 ElseIf result1 = DialogResult.No Then
                     Return String.Empty
@@ -277,30 +277,25 @@ Public Class DeveloperMode_Project
         Return String.Empty
     End Function
 
-    Public Shared Function GetkeyLED_MIDEX2(ByVal LEDArg As EachCode, ByVal keyLEDFile As MidiFile) As String
+    Public Shared Function GetkeyLED_MIDEX2(ByVal LEDArg As EachCode, ByVal keyLED As MidiFile) As String
         'A2UP keyLED Code.
         Select Case LEDArg
             Case EachCode.keyLED_MIDEX_1
 
-                Dim li As Integer = 0
-                For Each mdEvent_list In keyLEDFile.Events
-                    For Each mdEvent In mdEvent_list
-                        li += 1
-                    Next
-                Next
                 Dim str As String = String.Empty
-
                 Dim delaycount As Long = 0
+
                 Dim UniNoteNumberX As Integer 'X
                 Dim UniNoteNumberY As Integer 'Y
-                For Each mdEvent_list In keyLEDFile.Events
+                For Each mdEvent_list In keyLED.Events
                     For Each mdEvent In mdEvent_list
                         If mdEvent.CommandCode = MidiCommandCode.NoteOn Then
-                            Dim a = DirectCast(mdEvent, NoteOnEvent)
+                            Dim a As NoteOnEvent = DirectCast(mdEvent, NoteOnEvent)
+                            Dim bpm As New TempoEvent(500000, a.AbsoluteTime)
 
                             If Not delaycount = a.AbsoluteTime Then
-                                Dim v1 As Integer = GetNoteDelay(keyLED_MIDEX.NoteLength_1, 120, 192, a.DeltaTime)
-                                str = str & vbNewLine & "d " & v1 + GetNoteDelay(keyLED_MIDEX.NoteLength_1, 120, 192, a.NoteLength)
+                                'Dim v1 As Integer = GetNoteDelay(keyLED_MIDEX.NoteLength_2, 120, 192, a.DeltaTime)
+                                str = str & vbNewLine & "d " & GetNoteDelay(keyLED_MIDEX.NoteLength_2, bpm.Tempo, keyLED.DeltaTicksPerQuarterNote, a.NoteLength)
                             End If
 
                             UniNoteNumberX = GX_keyLED(keyLED_MIDEX.NoteNumber_1, a.NoteNumber)
