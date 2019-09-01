@@ -265,4 +265,6 @@ ableproj/
 *.mid
 
 # UniConverter Methods
-REPORTForm.vb
+Tpdby.vb
+Tpdby.Designer.vb
+Tpdby.resx
