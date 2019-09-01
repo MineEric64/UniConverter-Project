@@ -1542,7 +1542,7 @@ fexLine:
     End Sub
 
     Private Sub ReportBugsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReportBugsToolStripMenuItem.Click
-        REPORTForm.Show()
+        Tpdby.Show()
     End Sub
 
     Private Sub MainProject_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing

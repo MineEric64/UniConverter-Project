@@ -164,10 +164,10 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="REPORTForm.Designer.vb">
-      <DependentUpon>REPORTForm.vb</DependentUpon>
+    <Compile Include="Tpdby.Designer.vb">
+      <DependentUpon>Tpdby.vb</DependentUpon>
     </Compile>
-    <Compile Include="REPORTForm.vb">
+    <Compile Include="Tpdby.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="keyLED_Edit.Designer.vb">
@@ -246,8 +246,8 @@
     <EmbeddedResource Include="Loading.resx">
       <DependentUpon>Loading.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="REPORTForm.resx">
-      <DependentUpon>REPORTForm.vb</DependentUpon>
+    <EmbeddedResource Include="Tpdby.resx">
+      <DependentUpon>Tpdby.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="keyLED_Edit.resx">
       <DependentUpon>keyLED_Edit.vb</DependentUpon>
