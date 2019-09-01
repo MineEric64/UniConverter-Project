@@ -293,9 +293,8 @@ Public Class DeveloperMode_Project
                             Dim a As NoteOnEvent = DirectCast(mdEvent, NoteOnEvent)
                             Dim bpm As New TempoEvent(500000, a.AbsoluteTime)
 
-                            If Not delaycount = a.AbsoluteTime Then
-                                'Dim v1 As Integer = GetNoteDelay(keyLED_MIDEX.NoteLength_2, 120, 192, a.DeltaTime)
-                                str = str & vbNewLine & "d " & GetNoteDelay(keyLED_MIDEX.NoteLength_2, bpm.Tempo, keyLED.DeltaTicksPerQuarterNote, a.NoteLength)
+                            If Not delaycount = a.AbsoluteTime OrElse Not a.DeltaTime = 0 Then
+                                str = str & vbNewLine & "d " & GetNoteDelay(keyLED_MIDEX.NoteLength_2, bpm.Tempo, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delaycount)
                             End If
 
                             UniNoteNumberX = GX_keyLED(keyLED_MIDEX.NoteNumber_1, a.NoteNumber)

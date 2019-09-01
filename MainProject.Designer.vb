@@ -106,7 +106,7 @@ Partial Class MainProject
         Me.BGW_ablproj = New System.ComponentModel.BackgroundWorker()
         Me.BGW_sounds = New System.ComponentModel.BackgroundWorker()
         Me.BGW_keyLED2 = New System.ComponentModel.BackgroundWorker()
-        Me.BGW_keyLEDCvt = New System.ComponentModel.BackgroundWorker()
+        Me.BGW_keyLED_ = New System.ComponentModel.BackgroundWorker()
         Me.BGW_CheckUpdate = New System.ComponentModel.BackgroundWorker()
         Me.BGW_keySound = New System.ComponentModel.BackgroundWorker()
         Me.MenuStrip.SuspendLayout()
@@ -839,7 +839,7 @@ Partial Class MainProject
         'BGW_keyLED2
         '
         '
-        'BGW_keyLEDCvt
+        'BGW_keyLED_
         '
         '
         'BGW_CheckUpdate
@@ -863,7 +863,7 @@ Partial Class MainProject
         Me.MainMenuStrip = Me.MenuStrip
         Me.MaximizeBox = False
         Me.Name = "MainProject"
-        Me.Text = "UniConverter Beta 4 (Pre-Release 2)"
+        Me.Text = "UniConverter Beta 5"
         Me.MenuStrip.ResumeLayout(False)
         Me.MenuStrip.PerformLayout()
         Me.HomeEdit.ResumeLayout(False)
@@ -962,7 +962,7 @@ Partial Class MainProject
     Friend WithEvents keyLEDMIDEX_UniLED As FastColoredTextBoxNS.FastColoredTextBox
     Friend WithEvents DevelopingLabel3 As Label
     Friend WithEvents keyLEDMIDEX_TestButton As Button
-    Friend WithEvents BGW_keyLEDCvt As System.ComponentModel.BackgroundWorker
+    Friend WithEvents BGW_keyLED_ As System.ComponentModel.BackgroundWorker
     Friend WithEvents BGW_CheckUpdate As System.ComponentModel.BackgroundWorker
     Friend WithEvents keyLEDMIDEX_CopyButton As Button
     Friend WithEvents BGW_keySound As System.ComponentModel.BackgroundWorker

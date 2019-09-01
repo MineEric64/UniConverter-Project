@@ -30,7 +30,7 @@ Partial Class keyLED_Edit
         Me.LED_ListView = New System.Windows.Forms.ListView()
         Me.FileName = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.GazuaButton = New System.Windows.Forms.Button()
-        Me.SelCon1 = New System.Windows.Forms.ComboBox()
+        Me.ALGModeBox = New System.Windows.Forms.ComboBox()
         Me.UniLED1 = New System.Windows.Forms.Label()
         Me.AdvChk = New System.Windows.Forms.CheckBox()
         Me.GAZUA_ = New System.ComponentModel.BackgroundWorker()
@@ -122,16 +122,16 @@ Partial Class keyLED_Edit
         Me.GazuaButton.Text = "-->"
         Me.GazuaButton.UseVisualStyleBackColor = True
         '
-        'SelCon1
+        'ALGModeBox
         '
-        Me.SelCon1.Font = New System.Drawing.Font("나눔고딕", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.SelCon1.FormattingEnabled = True
-        Me.SelCon1.Items.AddRange(New Object() {"Ableton 9 ALG1", "Non-Convert (Developer Mode)"})
-        Me.SelCon1.Location = New System.Drawing.Point(10, 433)
-        Me.SelCon1.Name = "SelCon1"
-        Me.SelCon1.Size = New System.Drawing.Size(225, 22)
-        Me.SelCon1.TabIndex = 26
-        Me.SelCon1.Text = "Ableton 9 ALG1"
+        Me.ALGModeBox.Font = New System.Drawing.Font("나눔고딕", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.ALGModeBox.FormattingEnabled = True
+        Me.ALGModeBox.Items.AddRange(New Object() {"Ableton 9 ALG1", "Non-Convert (Developer Mode)"})
+        Me.ALGModeBox.Location = New System.Drawing.Point(10, 433)
+        Me.ALGModeBox.Name = "ALGModeBox"
+        Me.ALGModeBox.Size = New System.Drawing.Size(225, 22)
+        Me.ALGModeBox.TabIndex = 26
+        Me.ALGModeBox.Text = "Ableton 9 ALG1"
         '
         'UniLED1
         '
@@ -139,9 +139,9 @@ Partial Class keyLED_Edit
         Me.UniLED1.Font = New System.Drawing.Font("나눔바른고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.UniLED1.Location = New System.Drawing.Point(275, 13)
         Me.UniLED1.Name = "UniLED1"
-        Me.UniLED1.Size = New System.Drawing.Size(103, 15)
+        Me.UniLED1.Size = New System.Drawing.Size(94, 15)
         Me.UniLED1.TabIndex = 27
-        Me.UniLED1.Text = "File Name: None"
+        Me.UniLED1.Text = "File Name: N/A"
         '
         'AdvChk
         '
@@ -180,9 +180,6 @@ Partial Class keyLED_Edit
         Me.TestButton.Text = "Test"
         Me.TestButton.UseVisualStyleBackColor = True
         '
-        'pfTest_bgw
-        '
-        '
         'keyLED_Edit
         '
         Me.AllowDrop = True
@@ -194,7 +191,7 @@ Partial Class keyLED_Edit
         Me.Controls.Add(Me.CleaningButton)
         Me.Controls.Add(Me.AdvChk)
         Me.Controls.Add(Me.UniLED1)
-        Me.Controls.Add(Me.SelCon1)
+        Me.Controls.Add(Me.ALGModeBox)
         Me.Controls.Add(Me.GazuaButton)
         Me.Controls.Add(Me.LED_ListView)
         Me.Controls.Add(Me.UniLED)
@@ -217,7 +214,7 @@ Partial Class keyLED_Edit
     Friend WithEvents LED_ListView As ListView
     Friend WithEvents FileName As ColumnHeader
     Friend WithEvents GazuaButton As Button
-    Friend WithEvents SelCon1 As ComboBox
+    Friend WithEvents ALGModeBox As ComboBox
     Friend WithEvents UniLED1 As Label
     Friend WithEvents AdvChk As CheckBox
     Friend WithEvents GAZUA_ As System.ComponentModel.BackgroundWorker

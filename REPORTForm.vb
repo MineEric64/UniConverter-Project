@@ -1,49 +1,48 @@
-﻿Imports System.Net.Mail
+﻿Imports System.Net
+Imports System.Net.Mail
 
 Public Class REPORTForm
-    Private Sub SenButton_Click(sender As Object, e As EventArgs) Handles SenButton.Click
+    Private Sub q_() Handles r.Click
         Try
-            Dim Smtp As New SmtpClient
-            Dim e_mail As New MailMessage()
-            Smtp.UseDefaultCredentials = False
-            Smtp.Credentials = New Net.NetworkCredential("unirep1204@gmail.com", "Q$=rS')4*d<Y / Drrn8Zx9Tx9x")
-            Smtp.Port = 587
-            Smtp.EnableSsl = True
-            Smtp.Host = "smtp.gmail.com"
-            e_mail = New MailMessage()
-            e_mail.From = New MailAddress("unirep1204@gmail.com")
-            e_mail.To.Add("besteric40@gmail.com")
-            e_mail.Subject = "Report a Bug From UniConverter V" & MainProject.FileInfo.ToString & "."
-            e_mail.IsBodyHtml = False 'HTML USING.
-            e_mail.Body = DescBox.Text
-            If Replace(MAIL_ATTACHMENT.Text, " ", "") <> "" Then
-                Dim attachment As Attachment
-                'ATTACHMENT SEND
-                attachment = New Attachment(MAIL_ATTACHMENT.Text)
-                e_mail.Attachments.Add(attachment)
-            End If
-            Smtp.Send(e_mail)
-            MessageBox.Show("Sent! Thank you For reporting bug! :D", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
 
-        Catch email_error As Exception
+            Dim t As New SmtpClient
+            Dim u As New MailMessage()
+            t.UseDefaultCredentials = False
+            t.Credentials = New NetworkCredential("unirep1204@gmail.com", "Q$=rS')4*d<Y / Drrn8Zx9Tx9x")
+            t.Port = 587
+            t.EnableSsl = True
+            t.Host = "t.gmail.com"
+            u = New MailMessage()
+            u.From = New MailAddress("unirep1204@gmail.com")
+            u.To.Add("besteric40@gmail.com")
+            u.Subject = "유니컨버터 v" & MainProject.FileInfo.ToString & " 버전에서 버그 제보가 도착 했습니다."
+            u.IsBodyHtml = False
+            u.Body = q.Text
+            If o.Text.Replace(" ", "") <> "" Then
+                Dim m As New Attachment(o.Text)
+                u.Attachments.Add(m)
+            End If
+            t.Send(u)
+            MessageBox.Show("Sent! Thx for using it! :D", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+        Catch x As Exception
             If MainProject.IsGreatExMode Then
-                MessageBox.Show("Error - " & email_error.Message & vbNewLine & "Error Message: " & email_error.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show("Error - " & x.Message & vbNewLine & "Error Message: " & x.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Else
-                MessageBox.Show("Error: " & email_error.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                MessageBox.Show("Failed to send email. Please send email to 'unirep1204@gmail.com' directly." & vbNewLine & "We are so sorry about that :(")
+                MessageBox.Show("Error: " & x.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
         End Try
     End Sub
 
-    Private Sub DelButton_Click(sender As Object, e As EventArgs) Handles DelButton.Click
-        DescBox.Text = Nothing
+    Private Sub s_() Handles s.Click
+        q.Text = Nothing
     End Sub
 
-    Private Sub UplButton_Click(sender As Object, e As EventArgs) Handles UplButton.Click
-        If FileDlg.ShowDialog() = DialogResult.OK Then
-            MAIL_ATTACHMENT.Text = FileDlg.FileName
+    Private Sub p_() Handles p.Click
+        If v.ShowDialog() = DialogResult.OK Then
+            o.Text = v.FileName
         Else
-            MAIL_ATTACHMENT.Text = ""
+            o.Text = ""
             Exit Sub
         End If
     End Sub

@@ -49,7 +49,7 @@ Public Class keyLED_Edit
             MessageBox.Show("First, You should convert LED!", "UniConverter", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         Else
             Clipboard.SetText(UniLED_Edit.Text)
-            MessageBox.Show("Unipack LED Copied!", "UniConverter", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            MessageBox.Show("UniPack LED Copied!", "UniConverter", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
 
@@ -58,7 +58,7 @@ Public Class keyLED_Edit
             If GAZUA_.IsBusy = False Then
                 GAZUA_.RunWorkerAsync()
             ElseIf GAZUA_.IsBusy = True Then
-                MessageBox.Show("We are converting MIDI File now!" & vbNewLine & "Please Wait...", Me.Text & ": Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                MessageBox.Show("Please Wait...", Me.Text & ": Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End If
         Catch ex As Exception
             If MainProject.IsGreatExMode Then
@@ -120,7 +120,7 @@ Public Class keyLED_Edit
                        UniLED_Edit.Enabled = True
                        UniLED_Edit.Clear()
                        UniLED_Edit.Text = "Please Wait..."
-                       UniLED1.Text = "FileName: " & ConLEDFile
+                       UniLED1.Text = "File Name: " & ConLEDFile
                    End Sub)
 
             '이 코드는 Follow_JB님의 midi2keyLED를 참고하여 만든 코드. (Thanks to Follow_JB. :D)
@@ -133,9 +133,9 @@ Public Class keyLED_Edit
             For Each mdEvent_list In keyLED.Events
                 For Each mdEvent In mdEvent_list
 
-                    Dim AnItem As String = String.Empty
-                    Invoke(Sub() AnItem = SelCon1.SelectedItem.ToString())
-                    If AnItem = "Ableton 9 ALG1" Then
+                    Dim Item_a As String = String.Empty
+                    Invoke(Sub() Item_a = ALGModeBox.SelectedItem.ToString())
+                    If Item_a = "Ableton 9 ALG1" Then
 
                         If mdEvent.CommandCode = MidiCommandCode.NoteOn Then
                             Dim a As NoteOnEvent = DirectCast(mdEvent, NoteOnEvent)
@@ -179,15 +179,14 @@ Public Class keyLED_Edit
                                 End Select
 
                             Else
+#End Region
 
                                 '기본 알고리즘: Absolute Time, TimeLine / NL2M
                                 '이 delay 변환 코드는 변환 코드 알고리즘이 수정될 때마다 수정 해야 합니다!
-                                If Not delaycount = a.AbsoluteTime Then
-                                    str = str & vbNewLine & "d " & GetNoteDelay(keyLED_MIDEX.NoteLength_2, bpm.Tempo, keyLED.DeltaTicksPerQuarterNote, a.NoteLength)
+                                If Not delaycount = a.AbsoluteTime OrElse Not a.DeltaTime = 0 Then
+                                    str = str & vbNewLine & "d " & GetNoteDelay(keyLED_MIDEX.NoteLength_2, bpm.Tempo, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delaycount)
                                 End If
-
                             End If
-#End Region
 
                             UniNoteNumberX = GX_keyLED(keyLED_MIDEX.NoteNumber_1, a.NoteNumber)
                             UniNoteNumberY = GY_keyLED(keyLED_MIDEX.NoteNumber_1, a.NoteNumber)
@@ -203,7 +202,7 @@ Public Class keyLED_Edit
 
                         End If
 
-                    ElseIf AnItem = "Non-Convert (Developer Mode)" Then
+                    ElseIf Item_a = "Non-Convert (Developer Mode)" Then
 #Region "Non-Convert (Developer Mode)"
                         If mdEvent.CommandCode = MidiCommandCode.NoteOn Then
                             Dim a = DirectCast(mdEvent, NoteOnEvent)

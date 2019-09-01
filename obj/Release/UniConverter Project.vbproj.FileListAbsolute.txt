@@ -50,10 +50,12 @@ C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniCon
 C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter_Project.MainScreen.resources
 C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter_Project.Resources.resources
 C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter_Project.UG_Settings.resources
-C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter_Project.z_Tutorial.resources
 C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter Project.vbproj.GenerateResource.cache
 C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter Project.vbproj.CoreCompileInputs.cache
 C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter Project.vbproj.CopyComplete
 C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter.exe
 C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter.xml
 C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter.pdb
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\bin\Release\ICSharpCode.SharpZipLib.pdb
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\bin\Release\ICSharpCode.SharpZipLib.xml
+C:\Users\gobac\Documents\Visual Studio 2019\Projects\UniConverter Project\UniConverter Project\obj\Release\UniConverter_Project.Tutorials.resources

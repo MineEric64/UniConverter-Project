@@ -2,7 +2,7 @@
 <Settings-XML>
   <UCV-Settings>
     <CheckUpdate>True</CheckUpdate>
-    <LatestVer>False</LatestVer>
+    <LatestVer>True</LatestVer>
     <SetupLights>True</SetupLights>
   </UCV-Settings>
   <keyLED-Adv>

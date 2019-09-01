@@ -23,24 +23,24 @@ Partial Class REPORTForm
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(REPORTForm))
-        Me.UplButton = New System.Windows.Forms.Button()
+        Me.p = New System.Windows.Forms.Button()
         Me.attLab = New System.Windows.Forms.Label()
-        Me.MAIL_ATTACHMENT = New System.Windows.Forms.TextBox()
-        Me.DelButton = New System.Windows.Forms.Button()
-        Me.SenButton = New System.Windows.Forms.Button()
-        Me.DescBox = New System.Windows.Forms.TextBox()
-        Me.FileDlg = New System.Windows.Forms.OpenFileDialog()
+        Me.o = New System.Windows.Forms.TextBox()
+        Me.s = New System.Windows.Forms.Button()
+        Me.r = New System.Windows.Forms.Button()
+        Me.q = New System.Windows.Forms.TextBox()
+        Me.v = New System.Windows.Forms.OpenFileDialog()
         Me.SuspendLayout()
         '
-        'UplButton
+        'p
         '
-        Me.UplButton.Font = New System.Drawing.Font("Ubuntu", 9.749999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.UplButton.Location = New System.Drawing.Point(383, 222)
-        Me.UplButton.Name = "UplButton"
-        Me.UplButton.Size = New System.Drawing.Size(75, 25)
-        Me.UplButton.TabIndex = 15
-        Me.UplButton.Text = "Upload"
-        Me.UplButton.UseVisualStyleBackColor = True
+        Me.p.Font = New System.Drawing.Font("Ubuntu", 9.749999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.p.Location = New System.Drawing.Point(383, 222)
+        Me.p.Name = "p"
+        Me.p.Size = New System.Drawing.Size(75, 25)
+        Me.p.TabIndex = 15
+        Me.p.Text = "Upload"
+        Me.p.UseVisualStyleBackColor = True
         '
         'attLab
         '
@@ -52,45 +52,45 @@ Partial Class REPORTForm
         Me.attLab.TabIndex = 14
         Me.attLab.Text = "Attachment: "
         '
-        'MAIL_ATTACHMENT
+        'o
         '
-        Me.MAIL_ATTACHMENT.Font = New System.Drawing.Font("나눔고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MAIL_ATTACHMENT.Location = New System.Drawing.Point(126, 223)
-        Me.MAIL_ATTACHMENT.Name = "MAIL_ATTACHMENT"
-        Me.MAIL_ATTACHMENT.ReadOnly = True
-        Me.MAIL_ATTACHMENT.Size = New System.Drawing.Size(251, 22)
-        Me.MAIL_ATTACHMENT.TabIndex = 13
+        Me.o.Font = New System.Drawing.Font("나눔고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.o.Location = New System.Drawing.Point(126, 223)
+        Me.o.Name = "o"
+        Me.o.ReadOnly = True
+        Me.o.Size = New System.Drawing.Size(251, 22)
+        Me.o.TabIndex = 13
         '
-        'DelButton
+        's
         '
-        Me.DelButton.Font = New System.Drawing.Font("Ubuntu", 9.749999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.DelButton.Location = New System.Drawing.Point(303, 258)
-        Me.DelButton.Name = "DelButton"
-        Me.DelButton.Size = New System.Drawing.Size(74, 38)
-        Me.DelButton.TabIndex = 12
-        Me.DelButton.Text = "Delete"
-        Me.DelButton.UseVisualStyleBackColor = True
+        Me.s.Font = New System.Drawing.Font("Ubuntu", 9.749999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.s.Location = New System.Drawing.Point(303, 258)
+        Me.s.Name = "s"
+        Me.s.Size = New System.Drawing.Size(74, 38)
+        Me.s.TabIndex = 12
+        Me.s.Text = "Delete"
+        Me.s.UseVisualStyleBackColor = True
         '
-        'SenButton
+        'r
         '
-        Me.SenButton.Font = New System.Drawing.Font("Ubuntu", 9.749999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.SenButton.Location = New System.Drawing.Point(394, 258)
-        Me.SenButton.Name = "SenButton"
-        Me.SenButton.Size = New System.Drawing.Size(75, 38)
-        Me.SenButton.TabIndex = 11
-        Me.SenButton.Text = "Send!"
-        Me.SenButton.UseVisualStyleBackColor = True
+        Me.r.Font = New System.Drawing.Font("Ubuntu", 9.749999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.r.Location = New System.Drawing.Point(394, 258)
+        Me.r.Name = "r"
+        Me.r.Size = New System.Drawing.Size(75, 38)
+        Me.r.TabIndex = 11
+        Me.r.Text = "Send!"
+        Me.r.UseVisualStyleBackColor = True
         '
-        'DescBox
+        'q
         '
-        Me.DescBox.Font = New System.Drawing.Font("나눔고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.DescBox.Location = New System.Drawing.Point(23, 21)
-        Me.DescBox.Multiline = True
-        Me.DescBox.Name = "DescBox"
-        Me.DescBox.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.DescBox.Size = New System.Drawing.Size(446, 190)
-        Me.DescBox.TabIndex = 10
-        Me.DescBox.Text = "Please write your amazing opinion! :D"
+        Me.q.Font = New System.Drawing.Font("나눔고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.q.Location = New System.Drawing.Point(23, 21)
+        Me.q.Multiline = True
+        Me.q.Name = "q"
+        Me.q.ScrollBars = System.Windows.Forms.ScrollBars.Both
+        Me.q.Size = New System.Drawing.Size(446, 190)
+        Me.q.TabIndex = 10
+        Me.q.Text = "Please write your amazing opinion! :D"
         '
         'REPORTForm
         '
@@ -98,12 +98,12 @@ Partial Class REPORTForm
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.ClientSize = New System.Drawing.Size(489, 322)
-        Me.Controls.Add(Me.UplButton)
+        Me.Controls.Add(Me.p)
         Me.Controls.Add(Me.attLab)
-        Me.Controls.Add(Me.MAIL_ATTACHMENT)
-        Me.Controls.Add(Me.DelButton)
-        Me.Controls.Add(Me.SenButton)
-        Me.Controls.Add(Me.DescBox)
+        Me.Controls.Add(Me.o)
+        Me.Controls.Add(Me.s)
+        Me.Controls.Add(Me.r)
+        Me.Controls.Add(Me.q)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
         Me.Name = "REPORTForm"
@@ -113,11 +113,11 @@ Partial Class REPORTForm
 
     End Sub
 
-    Friend WithEvents UplButton As Button
+    Friend WithEvents p As Button
     Friend WithEvents attLab As Label
-    Friend WithEvents MAIL_ATTACHMENT As TextBox
-    Friend WithEvents DelButton As Button
-    Friend WithEvents SenButton As Button
-    Friend WithEvents DescBox As TextBox
-    Friend WithEvents FileDlg As OpenFileDialog
+    Friend WithEvents o As TextBox
+    Friend WithEvents s As Button
+    Friend WithEvents r As Button
+    Friend WithEvents q As TextBox
+    Friend WithEvents v As OpenFileDialog
 End Class

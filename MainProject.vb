@@ -333,11 +333,6 @@ Public Class MainProject
 #End Region
 
     Private Sub TutorialsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TutorialsToolStripMenuItem.Click
-        If IsDeveloperMode = False Then
-            MessageBox.Show("We are developing the NEW Tutorial Function." & vbNewLine & "Coming Soon...!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Exit Sub
-        End If
-
         Tutorials.Show()
     End Sub
 
@@ -526,7 +521,7 @@ Public Class MainProject
                     'BGW_keyLEDCvt.RunWorkerAsync()
                 Else
                     MessageBox.Show("LED Files Loaded! You can edit LEDs in 'keyLED (MIDI Extension)' Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    BGW_keyLEDCvt.RunWorkerAsync()
+                    BGW_keyLED_.RunWorkerAsync()
                 End If
                 Exit Sub
             Else
@@ -551,7 +546,7 @@ Public Class MainProject
                     'BGW_soundsCvt.RunWorkerAsync()
                     'BGW_keyLEDCvt.RunWorkerAsync()
                 Else
-                    BGW_keyLEDCvt.RunWorkerAsync()
+                    BGW_keyLED_.RunWorkerAsync()
                 End If
             End If
         Catch ex As Exception
@@ -729,7 +724,7 @@ Public Class MainProject
                     Select Case w8t4abl
 
                         Case "keyLED"
-                            BGW_keyLEDCvt.RunWorkerAsync()
+                            BGW_keyLED_.RunWorkerAsync()
 
                     End Select
                 End If
@@ -1215,7 +1210,7 @@ Public Class MainProject
                     Throw New IndexOutOfRangeException("Index Out Of Range. (SelectedIndex < 1)")
                 End If
             Else
-            MessageBox.Show("You didn't import sounds!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show("You didn't import sounds!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
 
         Catch ex As Exception
@@ -1284,15 +1279,15 @@ Public Class MainProject
                     MessageBox.Show("You didn't select anything!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End If
             Else
-                    MessageBox.Show("You didn't import sounds!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-                End If
+                MessageBox.Show("You didn't import sounds!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
 
         Catch ex As Exception
             If IsGreatExMode Then
-            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        Else
-            MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End If
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         End Try
     End Sub
 
@@ -1874,7 +1869,6 @@ fexLine:
 
 #End Region
     End Sub
-
 #Region "MIDI (Launchpad) Codes"
     Sub DisconnectMidi()
         If midiinput_avail = True Then
@@ -2331,10 +2325,10 @@ fexLine:
                     End If
 
                 Else
-                    Throw New TimeoutException("We are Converting the keyLED now." & vbNewLine & "Please Wait...")
+                    Throw New TimeoutException("Please Wait...")
                 End If
             Else
-                Throw New FileNotFoundException("You must load the keyLED and keyLED Save File!")
+                Throw New FileNotFoundException("You must load the keyLED and save the file!")
             End If
 
         Catch ex As Exception
@@ -2346,7 +2340,7 @@ fexLine:
         End Try
     End Sub
 
-    Private Sub BGW_keyLEDCvt_DoWork(sender As Object, e As DoWorkEventArgs) Handles BGW_keyLEDCvt.DoWork
+    Private Sub BGW_keyLED__DoWork(sender As Object, e As DoWorkEventArgs) Handles BGW_keyLED_.DoWork
         Try
 
             If abl_openedproj AndAlso abl_openedled AndAlso Not e.Cancel Then
@@ -2434,8 +2428,8 @@ fexLine:
                                 Dim a As NoteOnEvent = DirectCast(mdEvent, NoteOnEvent)
                                 Dim bpm As New TempoEvent(500000, a.AbsoluteTime)
 
-                                If Not delaycount = a.AbsoluteTime Then
-                                    str = str & vbNewLine & "d " & GetNoteDelay(keyLED_MIDEX.NoteLength_2, bpm.Tempo, keyLED.DeltaTicksPerQuarterNote, a.NoteLength)
+                                If Not delaycount = a.AbsoluteTime OrElse Not a.DeltaTime = 0 Then
+                                    str = str & vbNewLine & "d " & GetNoteDelay(keyLED_MIDEX.NoteLength_2, bpm.Tempo, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delaycount)
                                 End If
 
                                 UniNoteNumberX = GX_keyLED(keyLED_MIDEX.NoteNumber_1, a.NoteNumber)
@@ -2596,7 +2590,7 @@ fexLine:
         End Try
     End Sub
 
-    Private Sub BGW_keyLEDCvt_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles BGW_keyLEDCvt.RunWorkerCompleted
+    Private Sub BGW_keyLED__RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles BGW_keyLED_.RunWorkerCompleted
         Try
             If e.Error IsNot Nothing Then
                 MessageBox.Show("Error - " & e.Error.Message & vbNewLine & "Error Message: " & e.Error.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
