@@ -255,32 +255,32 @@ Partial Class MainProject
         'CheckUpdateToolStripMenuItem
         '
         Me.CheckUpdateToolStripMenuItem.Name = "CheckUpdateToolStripMenuItem"
-        Me.CheckUpdateToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CheckUpdateToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
         Me.CheckUpdateToolStripMenuItem.Text = "Check Update"
         '
         'ReportBugsToolStripMenuItem
         '
         Me.ReportBugsToolStripMenuItem.Name = "ReportBugsToolStripMenuItem"
-        Me.ReportBugsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ReportBugsToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
         Me.ReportBugsToolStripMenuItem.Text = "Report Bugs"
         '
         'DeveloperModeToolStripMenuItem
         '
         Me.DeveloperModeToolStripMenuItem.Name = "DeveloperModeToolStripMenuItem"
-        Me.DeveloperModeToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.DeveloperModeToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
         Me.DeveloperModeToolStripMenuItem.Text = "Developer Mode"
         Me.DeveloperModeToolStripMenuItem.Visible = False
         '
         'SettingsToolStripMenuItem1
         '
         Me.SettingsToolStripMenuItem1.Name = "SettingsToolStripMenuItem1"
-        Me.SettingsToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.SettingsToolStripMenuItem1.Size = New System.Drawing.Size(178, 22)
         Me.SettingsToolStripMenuItem1.Text = "Settings"
         '
         'InfoToolStripMenuItem
         '
         Me.InfoToolStripMenuItem.Name = "InfoToolStripMenuItem"
-        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
         Me.InfoToolStripMenuItem.Text = "Info"
         '
         'sfd
@@ -704,6 +704,7 @@ Partial Class MainProject
         Me.keyLEDMIDEX_UniLED.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.keyLEDMIDEX_UniLED.DisabledColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer))
         Me.keyLEDMIDEX_UniLED.Enabled = False
+        Me.keyLEDMIDEX_UniLED.Font = New System.Drawing.Font("Courier New", 9.75!)
         Me.keyLEDMIDEX_UniLED.IsReplaceMode = False
         Me.keyLEDMIDEX_UniLED.Location = New System.Drawing.Point(364, 14)
         Me.keyLEDMIDEX_UniLED.Name = "keyLEDMIDEX_UniLED"
@@ -863,7 +864,7 @@ Partial Class MainProject
         Me.MainMenuStrip = Me.MenuStrip
         Me.MaximizeBox = False
         Me.Name = "MainProject"
-        Me.Text = "UniConverter Beta 5"
+        Me.Text = "UniConverter Beta 4"
         Me.MenuStrip.ResumeLayout(False)
         Me.MenuStrip.PerformLayout()
         Me.HomeEdit.ResumeLayout(False)

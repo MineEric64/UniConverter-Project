@@ -1,7 +1,7 @@
 ﻿Imports System.IO
 Imports System.Text.RegularExpressions
 Imports System.Xml
-Imports A2UP.A2U
+Imports A2UP.A2U.keyLED_MIDEX
 Imports NAudio.Midi
 
 Public Class DeveloperMode_Project
@@ -245,8 +245,8 @@ Public Class DeveloperMode_Project
                 '수정 해야할 사항: XML에 있는 On 메시지와 딜레이 구문 추가 후 딜레이가 끝나면 Off 메시지 구문 추가.
                 For i As Integer = 0 To lin - 1
 
-                    Dim MidiKey_X As Integer = GX_keyLED(keyLED_MIDEX.NoteNumber_1, LastNOTEArr(i))
-                    Dim MidiKey_Y As Integer = GX_keyLED(keyLED_MIDEX.NoteNumber_1, LastNOTEArr(i))
+                    Dim MidiKey_X As Integer = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, LastNOTEArr(i))
+                    Dim MidiKey_Y As Integer = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, LastNOTEArr(i))
                     RetStr = RetStr & vbNewLine & String.Format("o {0} {1} a {2}", MidiKey_X, MidiKey_Y, FinalVelocity(i))
                     If Not FinalDurArr(i) = 0 Then
                         RetStr = RetStr & vbNewLine & String.Format("d {0}", FinalDurArr(i))
@@ -294,19 +294,26 @@ Public Class DeveloperMode_Project
                             Dim bpm As New TempoEvent(500000, a.AbsoluteTime)
 
                             If Not delaycount = a.AbsoluteTime OrElse Not a.DeltaTime = 0 Then
-                                str = str & vbNewLine & "d " & GetNoteDelay(keyLED_MIDEX.NoteLength_2, bpm.Tempo, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delaycount)
+                                str = str & vbNewLine & "d " & GetNoteDelay(keyLED_NoteEvents.NoteLength_2, bpm.Tempo, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delaycount)
                             End If
 
-                            UniNoteNumberX = GX_keyLED(keyLED_MIDEX.NoteNumber_1, a.NoteNumber)
-                            UniNoteNumberY = GY_keyLED(keyLED_MIDEX.NoteNumber_1, a.NoteNumber)
+                            UniNoteNumberX = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
+                            UniNoteNumberY = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
                             delaycount = a.AbsoluteTime
                             str = str & vbNewLine & "o " & UniNoteNumberX & " " & UniNoteNumberY & " a " & a.Velocity
 
                         ElseIf mdEvent.CommandCode = MidiCommandCode.NoteOff Then
 
-                            Dim a = DirectCast(mdEvent, NoteEvent)
-                            UniNoteNumberX = GX_keyLED(keyLED_MIDEX.NoteNumber_1, a.NoteNumber)
-                            UniNoteNumberY = GY_keyLED(keyLED_MIDEX.NoteNumber_1, a.NoteNumber)
+                            Dim a As NoteEvent = DirectCast(mdEvent, NoteEvent)
+                            Dim bpm As New TempoEvent(500000, a.AbsoluteTime)
+
+                            If Not delaycount = a.AbsoluteTime OrElse Not a.DeltaTime = 0 Then
+                                str = str & vbNewLine & "d " & GetNoteDelay(keyLED_NoteEvents.NoteLength_2, bpm.Tempo, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delaycount)
+                            End If
+
+                            UniNoteNumberX = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
+                            UniNoteNumberY = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
+                            delaycount = a.AbsoluteTime
                             str = str & vbNewLine & "f " & UniNoteNumberX & " " & UniNoteNumberY
 
                         End If

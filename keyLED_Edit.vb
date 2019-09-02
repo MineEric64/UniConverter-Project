@@ -1,7 +1,7 @@
 ﻿Imports System.IO
 Imports System.Text.RegularExpressions
 Imports NAudio.Midi
-Imports A2UP.A2U
+Imports A2UP.A2U.keyLED_MIDEX
 Imports System.Xml
 
 Public Class keyLED_Edit
@@ -83,7 +83,7 @@ Public Class keyLED_Edit
         End If
     End Sub
 
-    Private Sub KeyLED_Edit_Closed(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+    Private Sub KeyLED_Edit_Closing() Handles MyBase.FormClosing, MyBase.Disposed
         keyLED_Edit_Advanced.Enabled = True
         keyLED_Edit_Advanced.Dispose()
         keyLED_Test.Enabled = True
@@ -151,7 +151,7 @@ Public Class keyLED_Edit
                                             Case "Non-Convert"
                                                 str = str & vbNewLine & "d " & a.NoteLength
                                             Case "NL4Ticks/NL2M"
-                                                str = str & vbNewLine & "d " & GetNoteDelay(keyLED_MIDEX.NoteLength_1, 120, 192, a.NoteLength)
+                                                str = str & vbNewLine & "d " & GetNoteDelay(keyLED_NoteEvents.NoteLength_1, 120, 192, a.NoteLength)
                                         End Select
 
                                     Case "Delta Time"
@@ -168,12 +168,12 @@ Public Class keyLED_Edit
                                                 str = str & vbNewLine & "d " & a.AbsoluteTime
                                             Case "AbTofMIDI"
                                                 If Not delaycount = a.AbsoluteTime Then
-                                                    str = str & vbNewLine & "d " & GetNoteDelay(keyLED_MIDEX.NoteLength_1, 120, 192, delaycount - a.AbsoluteTime + Math.Round(a.DeltaTime * 2.604) + Math.Round(a.NoteLength * 2.604))
+                                                    str = str & vbNewLine & "d " & GetNoteDelay(keyLED_NoteEvents.NoteLength_1, 120, 192, delaycount - a.AbsoluteTime + Math.Round(a.DeltaTime * 2.604) + Math.Round(a.NoteLength * 2.604))
                                                 End If
                                             Case "TimeLine/NL2M"
                                                 'Default Settings. [UniConverter v1.1.0.3]
                                                 If Not delaycount = a.AbsoluteTime Then
-                                                    str = str & vbNewLine & "d " & GetNoteDelay(keyLED_MIDEX.NoteLength_2, bpm.Tempo, keyLED.DeltaTicksPerQuarterNote, a.NoteLength)
+                                                    str = str & vbNewLine & "d " & GetNoteDelay(keyLED_NoteEvents.NoteLength_2, bpm.Tempo, keyLED.DeltaTicksPerQuarterNote, a.NoteLength)
                                                 End If
                                         End Select
                                 End Select
@@ -184,20 +184,27 @@ Public Class keyLED_Edit
                                 '기본 알고리즘: Absolute Time, TimeLine / NL2M
                                 '이 delay 변환 코드는 변환 코드 알고리즘이 수정될 때마다 수정 해야 합니다!
                                 If Not delaycount = a.AbsoluteTime OrElse Not a.DeltaTime = 0 Then
-                                    str = str & vbNewLine & "d " & GetNoteDelay(keyLED_MIDEX.NoteLength_2, bpm.Tempo, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delaycount)
+                                    str = str & vbNewLine & "d " & GetNoteDelay(keyLED_NoteEvents.NoteLength_2, bpm.Tempo, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delaycount)
                                 End If
                             End If
 
-                            UniNoteNumberX = GX_keyLED(keyLED_MIDEX.NoteNumber_1, a.NoteNumber)
-                            UniNoteNumberY = GY_keyLED(keyLED_MIDEX.NoteNumber_1, a.NoteNumber)
+                            UniNoteNumberX = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
+                            UniNoteNumberY = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
                             delaycount = a.AbsoluteTime
                             str = str & vbNewLine & "o " & UniNoteNumberX & " " & UniNoteNumberY & " a " & a.Velocity
 
                         ElseIf mdEvent.CommandCode = MidiCommandCode.NoteOff Then
 
                             Dim a As NoteEvent = DirectCast(mdEvent, NoteEvent)
-                            UniNoteNumberX = GX_keyLED(keyLED_MIDEX.NoteNumber_1, a.NoteNumber)
-                            UniNoteNumberY = GY_keyLED(keyLED_MIDEX.NoteNumber_1, a.NoteNumber)
+                            Dim bpm As New TempoEvent(500000, a.AbsoluteTime)
+
+                            If Not delaycount = a.AbsoluteTime OrElse Not a.DeltaTime = 0 Then
+                                str = str & vbNewLine & "d " & GetNoteDelay(keyLED_NoteEvents.NoteLength_2, bpm.Tempo, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delaycount)
+                            End If
+
+                            UniNoteNumberX = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
+                            UniNoteNumberY = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
+                            delaycount = a.AbsoluteTime
                             str = str & vbNewLine & "f " & UniNoteNumberX & " " & UniNoteNumberY
 
                         End If
@@ -205,7 +212,7 @@ Public Class keyLED_Edit
                     ElseIf Item_a = "Non-Convert (Developer Mode)" Then
 #Region "Non-Convert (Developer Mode)"
                         If mdEvent.CommandCode = MidiCommandCode.NoteOn Then
-                            Dim a = DirectCast(mdEvent, NoteOnEvent)
+                            Dim a As NoteOnEvent = DirectCast(mdEvent, NoteOnEvent)
 
                             If Not delaycount = a.AbsoluteTime Then
                                 str = str & vbNewLine & "d " & a.NoteLength
@@ -217,6 +224,11 @@ Public Class keyLED_Edit
                         ElseIf mdEvent.CommandCode = MidiCommandCode.NoteOff Then
 
                             Dim a As NoteEvent = DirectCast(mdEvent, NoteEvent)
+
+                            If Not delaycount = a.AbsoluteTime Then
+                                str = str & vbNewLine & "d " & a.AbsoluteTime - delaycount
+                            End If
+
                             str = str & vbNewLine & "f " & a.NoteNumber
 
                         End If

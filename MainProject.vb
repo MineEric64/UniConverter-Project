@@ -9,7 +9,7 @@ Imports System.Threading
 Imports System.Xml
 Imports System.ComponentModel
 Imports System.Text.RegularExpressions
-Imports A2UP.A2U
+Imports A2UP.A2U.keyLED_MIDEX
 
 Public Class MainProject
 
@@ -1754,6 +1754,10 @@ fexLine:
 
     Private Sub OpenKeyLEDToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenKeyLEDToolStripMenuItem.Click
         Try
+            If keyLED_Edit.Visible Then
+                keyLED_Edit.Dispose()
+            End If
+
             ofd.Multiselect = True
             ofd.Filter = "LED Files|*.mid"
             If ofd.ShowDialog() = DialogResult.OK Then
@@ -2429,19 +2433,26 @@ fexLine:
                                 Dim bpm As New TempoEvent(500000, a.AbsoluteTime)
 
                                 If Not delaycount = a.AbsoluteTime OrElse Not a.DeltaTime = 0 Then
-                                    str = str & vbNewLine & "d " & GetNoteDelay(keyLED_MIDEX.NoteLength_2, bpm.Tempo, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delaycount)
+                                    str = str & vbNewLine & "d " & GetNoteDelay(keyLED_NoteEvents.NoteLength_2, bpm.Tempo, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delaycount)
                                 End If
 
-                                UniNoteNumberX = GX_keyLED(keyLED_MIDEX.NoteNumber_1, a.NoteNumber)
-                                UniNoteNumberY = GY_keyLED(keyLED_MIDEX.NoteNumber_1, a.NoteNumber)
+                                UniNoteNumberX = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
+                                UniNoteNumberY = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
                                 delaycount = a.AbsoluteTime
                                 str = str & vbNewLine & "o " & UniNoteNumberX & " " & UniNoteNumberY & " a " & a.Velocity
 
                             ElseIf mdEvent.CommandCode = MidiCommandCode.NoteOff Then
 
                                 Dim a As NoteEvent = DirectCast(mdEvent, NoteEvent)
-                                UniNoteNumberX = GX_keyLED(keyLED_MIDEX.NoteNumber_1, a.NoteNumber)
-                                UniNoteNumberY = GY_keyLED(keyLED_MIDEX.NoteNumber_1, a.NoteNumber)
+                                Dim bpm As New TempoEvent(500000, a.AbsoluteTime)
+
+                                If Not delaycount = a.AbsoluteTime OrElse Not a.DeltaTime = 0 Then
+                                    str = str & vbNewLine & "d " & GetNoteDelay(keyLED_NoteEvents.NoteLength_2, bpm.Tempo, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delaycount)
+                                End If
+
+                                UniNoteNumberX = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
+                                UniNoteNumberY = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
+                                delaycount = a.AbsoluteTime
                                 str = str & vbNewLine & "f " & UniNoteNumberX & " " & UniNoteNumberY
 
                             End If
@@ -2469,8 +2480,8 @@ fexLine:
                     Loading.DLb.Refresh()
 
                     cxyl(0) = x.Item("BranchSelectorRange").Item("Max").GetAttribute("Value") + 1 'Get Chain.
-                    cxyl(1) = GX_keyLED(keyLED_MIDEX.NoteNumber_1, x.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value")) 'Get X Pos.
-                    cxyl(2) = GY_keyLED(keyLED_MIDEX.NoteNumber_1, x.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value")) 'Get Y Pos.
+                    cxyl(1) = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, x.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value")) 'Get X Pos.
+                    cxyl(2) = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, x.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value")) 'Get Y Pos.
                     cxyl(3) = 1
 
                     If cxyl(0) > 8 OrElse cxyl(1) = -8192 Then
@@ -2512,8 +2523,8 @@ fexLine:
 
                                 For q As Integer = LoopNumber_2(0) To LoopNumber_2(1)
                                     cxyl(0) = i
-                                    cxyl(1) = GX_keyLED(keyLED_MIDEX.NoteNumber_1, q)
-                                    cxyl(2) = GY_keyLED(keyLED_MIDEX.NoteNumber_1, q)
+                                    cxyl(1) = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
+                                    cxyl(2) = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
                                     sFile = String.Format("{0}\Workspace\unipack\keyLED\{1} {2} {3} {4}", Application.StartupPath, cxyl(0), cxyl(1), cxyl(2), cxyl(3))
                                     File.WriteAllText(sFile, str)
                                 Next
@@ -2539,8 +2550,8 @@ fexLine:
                                 Debug.WriteLine(d & ", 1451 HolyMoly! :" & il)
                             End If
                             For q As Integer = LoopNumber_2(0) To LoopNumber_2(1)
-                                cxyl(1) = GX_keyLED(keyLED_MIDEX.NoteNumber_1, q)
-                                cxyl(2) = GY_keyLED(keyLED_MIDEX.NoteNumber_1, q)
+                                cxyl(1) = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
+                                cxyl(2) = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
                                 sFile = String.Format("{0}\Workspace\unipack\keyLED\{1} {2} {3} {4}", Application.StartupPath, cxyl(0), cxyl(1), cxyl(2), cxyl(3))
                                 File.WriteAllText(sFile, str)
                             Next
@@ -2700,8 +2711,8 @@ fexLine:
                 If IsMIDITest Then
 
                     Dim b As NoteOnEvent = DirectCast(a, NoteOnEvent) '미디 이벤트를 Note On 이벤트로 변환
-                    Dim x As Integer = GX_keyLED(keyLED_MIDEX.NoteNumber_2, b.NoteNumber) 'Note On 번호를 유니팩의 x로 변환.
-                    Dim y As Integer = GY_keyLED(keyLED_MIDEX.NoteNumber_2, b.NoteNumber) 'Note On 번호를 유니팩의 y로 변환.
+                    Dim x As Integer = GX_keyLED(keyLED_NoteEvents.NoteNumber_2, b.NoteNumber) 'Note On 번호를 유니팩의 x로 변환.
+                    Dim y As Integer = GY_keyLED(keyLED_NoteEvents.NoteNumber_2, b.NoteNumber) 'Note On 번호를 유니팩의 y로 변환.
 
                     If Not x = -8192 Then 'Chain이 아닌 경우
                         MessageBox.Show("Note: " & x & ", " & y, "MIDI In Test", MessageBoxButtons.OK, MessageBoxIcon.Information)
