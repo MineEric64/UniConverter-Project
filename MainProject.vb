@@ -2349,13 +2349,15 @@ fexLine:
 
             If abl_openedproj AndAlso abl_openedled AndAlso Not e.Cancel Then
 
-                Loading.Show()
-                Loading.Text = "Converting Ableton LED To UniPack LED..."
-                Loading.Refresh()
-                Loading.DLb.Text = "Loading LED Infos..."
-                Loading.DLb.Refresh()
-                Loading.DPr.Style = ProgressBarStyle.Marquee
-                Loading.DPr.Refresh()
+                With Loading
+                    .Show()
+                    .Text = "Converting Ableton LED to UniPack LED..."
+                    .Refresh()
+                    .DLb.Text = "Loading LED Infos..."
+                    .DPr.Style = ProgressBarStyle.Marquee
+                    .DPr.MarqueeAnimationSpeed = 1
+                    .SetTimer_()
+                End With
 
                 Dim s As String = Application.StartupPath & "\Workspace\ableproj\CoLED"
                 Dim c As String = Application.StartupPath & "\Workspace\unipack\keyLED"
@@ -2395,6 +2397,7 @@ fexLine:
                 Next
 
                 Dim il As Integer = 0
+                Dim IsRandom As Integer = 0
                 For Each d As String In LEDs
 
                     'Beta Code!
@@ -2408,7 +2411,7 @@ fexLine:
 
                     Loading.DLb.Left -= 45
                     Loading.DLb.Text = String.Format("Converting LED ({0}) to keyLED...", d)
-                    Loading.DLb.Refresh()
+                    Loading.Refresh()
 
                     If String.IsNullOrWhiteSpace(d) Then
                         Continue For
@@ -2439,7 +2442,17 @@ fexLine:
                                 UniNoteNumberX = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
                                 UniNoteNumberY = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
                                 delaycount = a.AbsoluteTime
-                                str = str & vbNewLine & "o " & UniNoteNumberX & " " & UniNoteNumberY & " a " & a.Velocity
+
+                                If UniNoteNumberX = 0 AndAlso UniNoteNumberY = 0 Then
+                                    Debug.WriteLine("Unknown Note Number. [ Note: " & a.NoteNumber & " ]")
+                                    Continue For
+                                End If
+
+                                If Not UniNoteNumberX = -8192 Then
+                                    str = str & vbNewLine & "o " & UniNoteNumberX & " " & UniNoteNumberY & " a " & a.Velocity
+                                Else
+                                    str = str & vbNewLine & "o mc " & UniNoteNumberY & " a " & a.Velocity
+                                End If
 
                             ElseIf mdEvent.CommandCode = MidiCommandCode.NoteOff Then
 
@@ -2453,18 +2466,23 @@ fexLine:
                                 UniNoteNumberX = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
                                 UniNoteNumberY = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
                                 delaycount = a.AbsoluteTime
-                                str = str & vbNewLine & "f " & UniNoteNumberX & " " & UniNoteNumberY
+
+                                If UniNoteNumberX = 0 AndAlso UniNoteNumberY = 0 Then
+                                    Debug.WriteLine("Unknown Note Number. [ Note: " & a.NoteNumber & " ]")
+                                    Continue For
+                                End If
+
+                                If Not UniNoteNumberX = -8192 Then
+                                    str = str & vbNewLine & "f " & UniNoteNumberX & " " & UniNoteNumberY
+                                Else
+                                    str = str & vbNewLine & "f mc " & UniNoteNumberY
+                                End If
 
                             End If
                         Next
                     Next
 
-                    '8192는 MC LED 번호.
-                    If Regex.IsMatch(str, "-8192") Then '-8192 = Non-UniNoteNumber
-                        str = str.Replace("o -8192 ", "o mc ").Trim() 'ON MC LED Convert.
-                        str = str.Replace("f -8192 ", "f mc ").Trim() 'OFF MC LED Convert.
-                    End If
-
+                    '이제 Get Chain & X, Y from XML!!!
                     Dim ablprj As String = Application.StartupPath & "\Workspace\ableproj\abl_proj.xml"
                     Dim doc As New XmlDocument
                     Dim setNode As XmlNodeList
@@ -2477,7 +2495,7 @@ fexLine:
                     Dim sFile As String = String.Empty
                     Loading.DLb.Left += 45
                     Loading.DLb.Text = "Extracting LED Infos..."
-                    Loading.DLb.Refresh()
+                    Loading.Refresh()
 
                     cxyl(0) = x.Item("BranchSelectorRange").Item("Max").GetAttribute("Value") + 1 'Get Chain.
                     cxyl(1) = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, x.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value")) 'Get X Pos.
@@ -2488,30 +2506,68 @@ fexLine:
                         Continue For
                     End If
 
+                    If IsRandom = 0 Then
+                        IsRandom = cxyl(0)
+                    End If
+
+                    If x.InnerXml.Contains("MidiRandom") AndAlso x.InnerXml.Contains("MidiEffectGroupDevice") AndAlso x.InnerXml.Contains("Branches") AndAlso x.InnerXml.Contains("MidiEffectBranch") Then
+                        cxyl(0) = IsRandom
+                        Debug.WriteLine(d)
+                    End If
+
                     Dim LoopNumber_1 As Integer() = New Integer(1) {}
-                    Dim LoopNumber_1bool As Boolean 'Chain Value = ?
-                    LoopNumber_1(0) = Integer.Parse(x.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1
-                    LoopNumber_1(1) = Integer.Parse(x.Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1
-                    LoopNumber_1bool = LoopNumber_1(0) = LoopNumber_1(1)
+                        Dim LoopNumber_1bool As Boolean 'Chain Value = ?
+                        LoopNumber_1(0) = Integer.Parse(x.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1
+                        LoopNumber_1(1) = Integer.Parse(x.Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1
+                        LoopNumber_1bool = LoopNumber_1(0) = LoopNumber_1(1)
 
-                    Dim LoopNumber_2 As Integer() = New Integer(1) {}
-                    Dim LoopNumber_2bool As Boolean 'Key Value = ?
-                    LoopNumber_2(0) = Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))
-                    LoopNumber_2(1) = Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))
-                    LoopNumber_2bool = LoopNumber_2(0) = LoopNumber_2(1)
+                        Dim LoopNumber_2 As Integer() = New Integer(1) {}
+                        Dim LoopNumber_2bool As Boolean 'Key Value = ?
+                        LoopNumber_2(0) = Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))
+                        LoopNumber_2(1) = Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))
+                        LoopNumber_2bool = LoopNumber_2(0) = LoopNumber_2(1)
 
-                    If LoopNumber_1bool = False Then
+                        If LoopNumber_1bool = False Then
 
-                        '시작 길이와 끝 길이가 다른 경우 (Loop 1 활성화 시)
-                        If cxyl(0) & cxyl(1) & cxyl(2) & cxyl(3) = "1451" Then
-                            Debug.WriteLine(d & ", 1451 HolyMoly! : " & il)
-                        End If
+                            '시작 길이와 끝 길이가 다른 경우 (Loop 1 활성화 시)
+                            If cxyl(0) & cxyl(1) & cxyl(2) & cxyl(3) = "1451" Then
+                                Debug.WriteLine(d & ", 1451 HolyMoly! : " & il)
+                            End If
 
-                        For i As Integer = LoopNumber_1(0) To LoopNumber_1(1)
+                            For i As Integer = LoopNumber_1(0) To LoopNumber_1(1)
+
+                                If LoopNumber_2bool Then
+
+                                    cxyl(0) = i
+                                    sFile = String.Format("{0}\Workspace\unipack\keyLED\{1} {2} {3} {4}", Application.StartupPath, cxyl(0), cxyl(1), cxyl(2), cxyl(3))
+                                    File.WriteAllText(sFile, str)
+
+                                ElseIf LoopNumber_2bool = False Then
+
+                                    If cxyl(0) & cxyl(1) & cxyl(2) & cxyl(3) = "1451" Then
+                                        Debug.WriteLine(d & ", 1451 HolyMoly! :" & il)
+                                    End If
+
+                                    For q As Integer = LoopNumber_2(0) To LoopNumber_2(1)
+                                        cxyl(0) = i
+                                        cxyl(1) = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
+                                        cxyl(2) = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
+                                        sFile = String.Format("{0}\Workspace\unipack\keyLED\{1} {2} {3} {4}", Application.StartupPath, cxyl(0), cxyl(1), cxyl(2), cxyl(3))
+                                        File.WriteAllText(sFile, str)
+                                    Next
+                                End If
+
+                            Next
+
+                        ElseIf LoopNumber_1bool Then
 
                             If LoopNumber_2bool Then
 
-                                cxyl(0) = i
+                                '기본값.
+                                If cxyl(0) & cxyl(1) & cxyl(2) & cxyl(3) = "1451" Then
+                                    Debug.WriteLine(d & ", 1451 HolyMoly! :" & il)
+                                End If
+
                                 sFile = String.Format("{0}\Workspace\unipack\keyLED\{1} {2} {3} {4}", Application.StartupPath, cxyl(0), cxyl(1), cxyl(2), cxyl(3))
                                 File.WriteAllText(sFile, str)
 
@@ -2520,51 +2576,23 @@ fexLine:
                                 If cxyl(0) & cxyl(1) & cxyl(2) & cxyl(3) = "1451" Then
                                     Debug.WriteLine(d & ", 1451 HolyMoly! :" & il)
                                 End If
-
                                 For q As Integer = LoopNumber_2(0) To LoopNumber_2(1)
-                                    cxyl(0) = i
                                     cxyl(1) = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
                                     cxyl(2) = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
                                     sFile = String.Format("{0}\Workspace\unipack\keyLED\{1} {2} {3} {4}", Application.StartupPath, cxyl(0), cxyl(1), cxyl(2), cxyl(3))
                                     File.WriteAllText(sFile, str)
                                 Next
+
                             End If
-
-                        Next
-
-                    ElseIf LoopNumber_1bool Then
-
-                        If LoopNumber_2bool Then
-
-                            '기본값.
-                            If cxyl(0) & cxyl(1) & cxyl(2) & cxyl(3) = "1451" Then
-                                Debug.WriteLine(d & ", 1451 HolyMoly! :" & il)
-                            End If
-
-                            sFile = String.Format("{0}\Workspace\unipack\keyLED\{1} {2} {3} {4}", Application.StartupPath, cxyl(0), cxyl(1), cxyl(2), cxyl(3))
-                            File.WriteAllText(sFile, str)
-
-                        ElseIf LoopNumber_2bool = False Then
-
-                            If cxyl(0) & cxyl(1) & cxyl(2) & cxyl(3) = "1451" Then
-                                Debug.WriteLine(d & ", 1451 HolyMoly! :" & il)
-                            End If
-                            For q As Integer = LoopNumber_2(0) To LoopNumber_2(1)
-                                cxyl(1) = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
-                                cxyl(2) = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
-                                sFile = String.Format("{0}\Workspace\unipack\keyLED\{1} {2} {3} {4}", Application.StartupPath, cxyl(0), cxyl(1), cxyl(2), cxyl(3))
-                                File.WriteAllText(sFile, str)
-                            Next
 
                         End If
-
-                    End If
-                    Debug.WriteLine(d & ", x: " & cxyl(1) & " y:" & cxyl(2) & " NoteNumber: " & x.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))
+                    Debug.WriteLine(d & ", x: " & cxyl(1) & " y:" & cxyl(2))
+                    IsRandom = cxyl(0)
 
                     il += 1
-                Next
+                    Next
 
-                Loading.DLb.Text = "Loading UniPack LEDs..."
+                    Loading.DLb.Text = "Loading UniPack LEDs..."
                 Loading.DLb.Refresh()
                 For Each d As String In My.Computer.FileSystem.GetFiles(c, FileIO.SearchOption.SearchTopLevelOnly)
                     Dim k As String = Path.GetFileName(d)

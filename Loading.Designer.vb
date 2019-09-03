@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class Loading
     Inherits System.Windows.Forms.Form
 
     'Form은 Dispose를 재정의하여 구성 요소 목록을 정리합니다.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class Loading
     '참고: 다음 프로시저는 Windows Form 디자이너에 필요합니다.
     '수정하려면 Windows Form 디자이너를 사용하십시오.  
     '코드 편집기에서는 수정하지 마세요.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Loading))
         Me.DPr = New System.Windows.Forms.ProgressBar()
@@ -59,7 +59,7 @@ Partial Class Loading
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MinimizeBox = False
         Me.Name = "Loading"
-        Me.Text = "LOADING..."
+        Me.Text = "Loading Contents..."
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

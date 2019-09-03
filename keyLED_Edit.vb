@@ -191,7 +191,12 @@ Public Class keyLED_Edit
                             UniNoteNumberX = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
                             UniNoteNumberY = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
                             delaycount = a.AbsoluteTime
-                            str = str & vbNewLine & "o " & UniNoteNumberX & " " & UniNoteNumberY & " a " & a.Velocity
+
+                            If Not UniNoteNumberX = -8192 Then
+                                str = str & vbNewLine & "o " & UniNoteNumberX & " " & UniNoteNumberY & " a " & a.Velocity
+                            Else
+                                str = str & vbNewLine & "o mc " & UniNoteNumberY & " a " & a.Velocity
+                            End If
 
                         ElseIf mdEvent.CommandCode = MidiCommandCode.NoteOff Then
 
@@ -205,7 +210,17 @@ Public Class keyLED_Edit
                             UniNoteNumberX = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
                             UniNoteNumberY = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
                             delaycount = a.AbsoluteTime
-                            str = str & vbNewLine & "f " & UniNoteNumberX & " " & UniNoteNumberY
+
+                            If UniNoteNumberX = 0 AndAlso UniNoteNumberY = 0 Then
+                                Debug.WriteLine("Unknown Note Number. [ Note: " & a.NoteNumber & " ]")
+                                Continue For
+                            End If
+
+                            If Not UniNoteNumberX = -8192 Then
+                                str = str & vbNewLine & "f " & UniNoteNumberX & " " & UniNoteNumberY
+                            Else
+                                str = str & vbNewLine & "f mc " & UniNoteNumberY
+                            End If
 
                         End If
 
@@ -241,12 +256,6 @@ Public Class keyLED_Edit
                     End If
                 Next
             Next
-
-            '8192는 MC LED 번호.
-            If Regex.IsMatch(str, "-8192") Then '-8192 = Non-UniNoteNumber
-                str = str.Replace("o -8192 ", "o mc ").Trim() 'ON MC LED Convert.
-                str = str.Replace("f -8192 ", "f mc ").Trim() 'OFF MC LED Convert.
-            End If
 
             Invoke(Sub()
                        UniLED_Edit.Text = str.Remove(0, 0)
