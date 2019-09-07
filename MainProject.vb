@@ -2401,8 +2401,8 @@ fexLine:
 
                 Next
 
-                Dim yi As Integer = 0
-                For i As Integer = 0 To LEDs.Count - 1
+                Dim il As Integer = 0
+                For Each d As String In LEDs
 
                     'Beta Code!
                     '이 Beta Convert Code는 오류가 발생할 수 있습니다.
@@ -2416,25 +2416,8 @@ fexLine:
                     'yi = 컨버팅 keyLED 변수.
                     'i = XML keyLED 변수.
 
-                    If LEDs.Count < yi - 1 Then
-                        Throw New KeyNotFoundException("Something went wrong... [SaveArgument < WhiteSpace]")
-                    End If
-
-                    Dim d As String = LEDs(yi)
                     If String.IsNullOrWhiteSpace(d) Then
-
-                        Dim silhwa As Boolean = False
-                        For yq As Integer = 0 To LEDs.Count - 1
-                            yi += 1
-                            If Not String.IsNullOrWhiteSpace(LEDs(yi)) Then
-                                d = LEDs(yi)
-                                silhwa = True
-                                Exit For
-                            End If
-                        Next
-                        If silhwa = False Then
-                            Throw New KeyNotFoundException("Something went wrong... [SaveArgument < WhiteSpace]")
-                        End If
+                        Continue For
                     End If
 
                     Loading.DLb.Left -= 70
@@ -2519,7 +2502,7 @@ fexLine:
                     Dim UniPack_L As Integer = 0
 
                     Dim fileN As String = String.Empty
-                    Dim x As XmlNode = setNode.Item(i)
+                    Dim x As XmlNode = setNode.Item(il)
                     Dim sFile As String = String.Empty
                     Loading.DLb.Left += 70
                     Loading.DLb.Text = "Extracting LED Infos..."
@@ -2557,7 +2540,7 @@ fexLine:
                             UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value")))
                             UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value")))
                             For iy As Integer = 0 To MidiEffectGroup.Count - 1
-                                d = LEDs(yi)
+                                d = LEDs(il)
                                 Dim dPathr As String = String.Format("{0}\Workspace\ableproj\CoLED\{1}", Application.StartupPath, d)
                                 If File.Exists(dPathr) = False Then
                                     Throw New FileNotFoundException("MIDI File '" & d & "' doesn't exists. Try Again!")
@@ -2588,8 +2571,7 @@ fexLine:
 
                                 End If
 
-                                yi += 1
-                                i += 1
+                                il += 1
                             Next
 
                         End If
@@ -2658,7 +2640,7 @@ fexLine:
                     Debug.WriteLine(d & ", x: " & UniPack_X & " y:" & UniPack_Y)
 
                     nMidiEffectBrn = False
-                    yi += 1
+                    il += 1
                 Next
 
                 Loading.DLb.Text = "Loading UniPack LEDs..."
