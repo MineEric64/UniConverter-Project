@@ -1578,13 +1578,14 @@ fexLine:
                                    Loading.Show()
                                    Loading.Text = Me.Text & ": Saving Ableton Project File to UniPack..."
                                    Loading.DLb.Left = 40
+                                   Loading.Refresh()
                                    Dim result As String = Path.GetExtension(sfd.FileName)
                                    If result = ".zip" Then
                                        Loading.DLb.Text = "Creating UniPack to zip File..."
                                    ElseIf result = ".uni" Then
                                        Loading.DLb.Text = "Creating UniPack to uni File..."
                                    End If
-                                   Loading.DLb.Refresh()
+                                   Loading.Refresh()
                                End Sub)
                     End If
                     If File.Exists(sfd.FileName) Then
@@ -2402,6 +2403,7 @@ fexLine:
                 Next
 
                 Dim il As Integer = 0
+                Dim Alrt As String = String.Empty
                 For Each d As String In LEDs
 
                     'Beta Code!
@@ -2418,6 +2420,21 @@ fexLine:
 
                     If String.IsNullOrWhiteSpace(d) Then
                         Continue For
+                    End If
+
+                    If String.IsNullOrWhiteSpace(Alrt) = False Then
+                        Dim skip_r As Boolean = False
+                        For Each ri As String In Alrt.Split(";")
+                            If d = ri Then
+                                skip_r = True
+                                Exit For
+                            End If
+                        Next
+
+                        If skip_r Then
+                            Alrt = Alrt.Replace(d & ";", "")
+                            Continue For
+                        End If
                     End If
 
                     Loading.DLb.Left -= 70
@@ -2508,9 +2525,9 @@ fexLine:
                     Loading.DLb.Text = "Extracting LED Infos..."
                     Loading.Refresh()
 
-                    UniPack_Chain = x.Item("BranchSelectorRange").Item("Max").GetAttribute("Value") + 1 'Get Chain.
-                    UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, x.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value")) 'Get X Pos.
-                    UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, x.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value")) 'Get Y Pos.
+                    UniPack_Chain = Integer.Parse(x.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1 'Get Chain.
+                    UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))) 'Get X Pos.
+                    UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))) 'Get Y Pos.
                     UniPack_L = 1
 
                     If UniPack_Chain > 8 OrElse UniPack_Chain = 0 OrElse UniPack_X = -8192 Then
@@ -2533,18 +2550,23 @@ fexLine:
                         If nMidiEffectBrn Then
                             MidiEffectGroup = x.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiEffectGroupDevice").Item("Branches").ChildNodes
                             MidiRandomList = x.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiRandom")
-
                             Dim chs As Integer = Integer.Parse(MidiRandomList.Item("Choices").Item("Manual").GetAttribute("Value")) 'MidiRandom > Choices > Manual Value
+
                             '현재 미디랜덤의 Chain.
                             UniPack_Chain = Integer.Parse(x.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1
                             UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value")))
                             UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value")))
+
                             For iy As Integer = 0 To MidiEffectGroup.Count - 1
-                                d = LEDs(il)
-                                Dim dPathr As String = String.Format("{0}\Workspace\ableproj\CoLED\{1}", Application.StartupPath, d)
+                                Dim dPathr As String = String.Format("{0}\Workspace\ableproj\CoLED\{1}", Application.StartupPath, LEDs(il))
                                 If File.Exists(dPathr) = False Then
-                                    Throw New FileNotFoundException("MIDI File '" & d & "' doesn't exists. Try Again!")
+                                    Throw New FileNotFoundException("MIDI File '" & LEDs(il) & "' doesn't exists. Try Again!")
                                 End If
+
+                                If Not iy = 0 OrElse Not d = LEDs(il) Then
+                                    Alrt = Alrt & LEDs(il) & ";"
+                                End If
+
                                 Dim keyLEDr As New MidiFile(dPathr, False)
                                 str = DeveloperMode_Project.GetkeyLED_MIDEX2(DeveloperMode_Project.EachCode.keyLED_MIDEX_1, keyLEDr)
 
@@ -2571,7 +2593,9 @@ fexLine:
 
                                 End If
 
-                                il += 1
+                                If Not iy = MidiEffectGroup.Count - 1 Then
+                                    il += 1
+                                End If
                             Next
 
                         End If
@@ -2637,6 +2661,7 @@ fexLine:
 
                         End If
                     End If
+                    Debug.WriteLine(Alrt)
                     Debug.WriteLine(d & ", x: " & UniPack_X & " y:" & UniPack_Y)
 
                     nMidiEffectBrn = False
