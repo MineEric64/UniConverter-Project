@@ -26,7 +26,6 @@ Partial Class UG_Settings
         Me.LatestVer = New System.Windows.Forms.CheckBox()
         Me.SaveButton = New System.Windows.Forms.Button()
         Me.ResetButton = New System.Windows.Forms.Button()
-        Me.CleanTheTexts = New System.Windows.Forms.CheckBox()
         Me.SetUpLight = New System.Windows.Forms.CheckBox()
         Me.SuspendLayout()
         '
@@ -59,7 +58,7 @@ Partial Class UG_Settings
         'SaveButton
         '
         Me.SaveButton.Font = New System.Drawing.Font("Ubuntu", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.SaveButton.Location = New System.Drawing.Point(200, 131)
+        Me.SaveButton.Location = New System.Drawing.Point(200, 85)
         Me.SaveButton.Name = "SaveButton"
         Me.SaveButton.Size = New System.Drawing.Size(75, 47)
         Me.SaveButton.TabIndex = 4
@@ -69,23 +68,12 @@ Partial Class UG_Settings
         'ResetButton
         '
         Me.ResetButton.Font = New System.Drawing.Font("Ubuntu", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ResetButton.Location = New System.Drawing.Point(119, 131)
+        Me.ResetButton.Location = New System.Drawing.Point(119, 85)
         Me.ResetButton.Name = "ResetButton"
         Me.ResetButton.Size = New System.Drawing.Size(75, 47)
         Me.ResetButton.TabIndex = 5
         Me.ResetButton.Text = "Reset"
         Me.ResetButton.UseVisualStyleBackColor = True
-        '
-        'CleanTheTexts
-        '
-        Me.CleanTheTexts.AutoSize = True
-        Me.CleanTheTexts.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CleanTheTexts.Location = New System.Drawing.Point(17, 85)
-        Me.CleanTheTexts.Name = "CleanTheTexts"
-        Me.CleanTheTexts.Size = New System.Drawing.Size(179, 18)
-        Me.CleanTheTexts.TabIndex = 6
-        Me.CleanTheTexts.Text = "Enable 'Clean The Texts'"
-        Me.CleanTheTexts.UseVisualStyleBackColor = True
         '
         'SetUpLight
         '
@@ -105,9 +93,8 @@ Partial Class UG_Settings
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.ClientSize = New System.Drawing.Size(284, 187)
+        Me.ClientSize = New System.Drawing.Size(284, 144)
         Me.Controls.Add(Me.SetUpLight)
-        Me.Controls.Add(Me.CleanTheTexts)
         Me.Controls.Add(Me.ResetButton)
         Me.Controls.Add(Me.SaveButton)
         Me.Controls.Add(Me.LatestVer)
@@ -125,6 +112,5 @@ Partial Class UG_Settings
     Friend WithEvents LatestVer As CheckBox
     Friend WithEvents SaveButton As Button
     Friend WithEvents ResetButton As Button
-    Friend WithEvents CleanTheTexts As CheckBox
     Friend WithEvents SetUpLight As CheckBox
 End Class

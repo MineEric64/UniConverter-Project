@@ -1,12 +1,9 @@
 ﻿Imports System.IO
-Imports System.Text.RegularExpressions
 Imports NAudio.Midi
 Imports A2UP.A2U.keyLED_MIDEX
-Imports System.Xml
 
 Public Class keyLED_Edit
     Public CanEnable As Boolean = False
-    Public SoGood As String() = New String(1) {}
 
     Private Sub KeyLED_Edit_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'FileName 표시.
@@ -16,31 +13,6 @@ Public Class keyLED_Edit
                        LED_ListView.Items.Add(itm)  '파일 이름 추가
                    End Sub)
         Next
-
-        Dim file_ex = Application.StartupPath + "\settings.xml"
-        Dim setNode As New XmlDocument
-        setNode.Load(file_ex)
-        Dim setaNode As XmlNode = setNode.SelectSingleNode("/Settings-XML/keyLED-Adv")
-
-        If setaNode IsNot Nothing Then
-            Select Case setaNode.ChildNodes(0).InnerText
-                Case "NoteLength"
-                    SoGood(0) = "Note Length"
-                    SoGood(1) = setaNode.ChildNodes(1).InnerText
-
-                Case "DeltaTime"
-                    SoGood(0) = "Delta Time"
-                    SoGood(1) = setaNode.ChildNodes(2).InnerText
-
-                Case "AbsoluteTime"
-                    SoGood(0) = "Absolute Time"
-                    SoGood(1) = setaNode.ChildNodes(3).InnerText
-            End Select
-
-            setaNode = setNode.SelectSingleNode("/Settings-XML/UCV-PATH")
-            CleaningButton.Enabled = Boolean.Parse(setaNode.ChildNodes(2).InnerText)
-        End If
-
     End Sub
 
     Private Sub CopyButton_Click(sender As Object, e As EventArgs) Handles CopyButton.Click
@@ -69,23 +41,7 @@ Public Class keyLED_Edit
         End Try
     End Sub
 
-    Private Sub AdvChk_CheckedChanged(sender As Object, e As EventArgs) Handles AdvChk.CheckedChanged
-        If AdvChk.Checked = True Then
-            If keyLED_Edit_Advanced.Enabled = True Then
-                If MessageBox.Show("This mode changes the LED algorithm in detail." & vbNewLine &
-                        "Developers don't recommend this mode. Would you like to continue?",
-                        Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-                    keyLED_Edit_Advanced.Show()
-                Else
-                    AdvChk.Checked = False
-                End If
-            End If
-        End If
-    End Sub
-
     Private Sub KeyLED_Edit_Closing() Handles MyBase.FormClosing, MyBase.Disposed
-        keyLED_Edit_Advanced.Enabled = True
-        keyLED_Edit_Advanced.Dispose()
         keyLED_Test.Enabled = True
         keyLED_Test.Dispose()
     End Sub
@@ -140,52 +96,9 @@ Public Class keyLED_Edit
                         If mdEvent.CommandCode = MidiCommandCode.NoteOn Then
                             Dim a As NoteOnEvent = DirectCast(mdEvent, NoteOnEvent)
                             Dim bpm As New TempoEvent(500000, a.AbsoluteTime)
-#Region "keyLED - Delays 1"
-                            '최적화. 이 코드들을 Load 코드 부분에 이동 하고 변수를 선언해 최대한 변환 시간을 줄임.
-                            If AdvChk.Checked Then
 
-                                Select Case SoGood(0)
-                                    Case "Note Length"
-
-                                        Select Case SoGood(1)
-                                            Case "Non-Convert"
-                                                str = str & vbNewLine & "d " & a.NoteLength
-                                            Case "NL4Ticks/NL2M"
-                                                str = str & vbNewLine & "d " & GetNoteDelay(keyLED_NoteEvents.NoteLength_1, 120, 192, a.NoteLength)
-                                        End Select
-
-                                    Case "Delta Time"
-
-                                        Select Case SoGood(1)
-                                            Case "Non-Convert"
-                                                str = str & vbNewLine & "d " & a.DeltaTime
-                                        End Select
-
-                                    Case "Absolute Time"
-
-                                        Select Case SoGood(1)
-                                            Case "Non-Convert"
-                                                str = str & vbNewLine & "d " & a.AbsoluteTime
-                                            Case "AbTofMIDI"
-                                                If Not delaycount = a.AbsoluteTime Then
-                                                    str = str & vbNewLine & "d " & GetNoteDelay(keyLED_NoteEvents.NoteLength_1, 120, 192, delaycount - a.AbsoluteTime + Math.Round(a.DeltaTime * 2.604) + Math.Round(a.NoteLength * 2.604))
-                                                End If
-                                            Case "TimeLine/NL2M"
-                                                'Default Settings. [UniConverter v1.1.0.3]
-                                                If Not delaycount = a.AbsoluteTime Then
-                                                    str = str & vbNewLine & "d " & GetNoteDelay(keyLED_NoteEvents.NoteLength_2, bpm.Tempo, keyLED.DeltaTicksPerQuarterNote, a.NoteLength)
-                                                End If
-                                        End Select
-                                End Select
-
-                            Else
-#End Region
-
-                                '기본 알고리즘: Absolute Time, TimeLine / NL2M
-                                '이 delay 변환 코드는 변환 코드 알고리즘이 수정될 때마다 수정 해야 합니다!
-                                If Not delaycount = a.AbsoluteTime OrElse Not a.DeltaTime = 0 Then
-                                    str = str & vbNewLine & "d " & GetNoteDelay(keyLED_NoteEvents.NoteLength_2, bpm.Tempo, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delaycount)
-                                End If
+                            If Not delaycount = a.AbsoluteTime OrElse Not a.DeltaTime = 0 Then
+                                str = str & vbNewLine & "d " & GetNoteDelay(keyLED_NoteEvents.NoteLength_2, bpm.Tempo, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delaycount)
                             End If
 
                             UniNoteNumberX = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
@@ -230,7 +143,7 @@ Public Class keyLED_Edit
                             Dim a As NoteOnEvent = DirectCast(mdEvent, NoteOnEvent)
 
                             If Not delaycount = a.AbsoluteTime Then
-                                str = str & vbNewLine & "d " & a.NoteLength
+                                str = str & vbNewLine & "d " & a.AbsoluteTime - delaycount
                             End If
 
                             delaycount = a.AbsoluteTime
@@ -268,65 +181,6 @@ Public Class keyLED_Edit
 
             stopw.Stop()
             Debug.WriteLine(String.Format("'{0}' Elapsed Time: {1}ms", ConLEDFile, stopw.ElapsedMilliseconds))
-
-        Catch ex As Exception
-            If MainProject.IsGreatExMode Then
-                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Else
-                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End If
-        End Try
-    End Sub
-
-    Private Sub CleaningButton_Click(sender As Object, e As EventArgs) Handles CleaningButton.Click
-        Try
-            CanEnable = False
-            TestButton.Enabled = False
-            keyLED_Test.Enabled = False
-            CopyButton.Enabled = False
-
-            UniLED_Edit.Text = UniLED_Edit.Text.Replace("d 0", "")
-
-            Dim i As Integer = 0
-            For Each x As String In UniLED_Edit.Text.Split(Environment.NewLine)
-                i += 1
-            Next
-
-            Dim CleanedText As String() = New String(i) {}
-            Dim q As Integer = 0
-            Dim loi As Boolean = True
-            For Each x As String In UniLED_Edit.Text.Split(Environment.NewLine)
-                If loi Then
-
-                    If Not x = "" Then
-                        CleanedText(q) = x
-                    End If
-                    q += 1
-                    loi = False
-
-                Else
-
-                    If Not x = "" Then
-                        CleanedText(q) = x.Remove(0, 1)
-                    End If
-                    q += 1
-
-                End If
-            Next
-
-            Dim CleanedTextA As String = String.Empty
-            For Each xi As String In CleanedText
-                If Not xi = "" Then
-                    CleanedTextA = CleanedTextA & xi & vbNewLine
-                End If
-            Next
-
-            UniLED_Edit.Text = CleanedTextA
-
-            CanEnable = True
-            TestButton.Enabled = True
-            keyLED_Test.Enabled = True
-            CopyButton.Enabled = True
 
         Catch ex As Exception
             If MainProject.IsGreatExMode Then

@@ -176,12 +176,6 @@
     <Compile Include="keyLED_Edit.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="keyLED_Edit_Advanced.Designer.vb">
-      <DependentUpon>keyLED_Edit_Advanced.vb</DependentUpon>
-    </Compile>
-    <Compile Include="keyLED_Edit_Advanced.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="MainProject.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -251,9 +245,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="keyLED_Edit.resx">
       <DependentUpon>keyLED_Edit.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="keyLED_Edit_Advanced.resx">
-      <DependentUpon>keyLED_Edit_Advanced.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainProject.resx">
       <DependentUpon>MainProject.vb</DependentUpon>

@@ -32,9 +32,7 @@ Partial Class keyLED_Edit
         Me.GazuaButton = New System.Windows.Forms.Button()
         Me.ALGModeBox = New System.Windows.Forms.ComboBox()
         Me.UniLED1 = New System.Windows.Forms.Label()
-        Me.AdvChk = New System.Windows.Forms.CheckBox()
         Me.GAZUA_ = New System.ComponentModel.BackgroundWorker()
-        Me.CleaningButton = New System.Windows.Forms.Button()
         Me.TestButton = New System.Windows.Forms.Button()
         Me.pfTest_bgw = New System.ComponentModel.BackgroundWorker()
         Me.Tests_bgw = New System.ComponentModel.BackgroundWorker()
@@ -52,6 +50,7 @@ Partial Class keyLED_Edit
         Me.UniLED_Edit.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.UniLED_Edit.DisabledColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer))
         Me.UniLED_Edit.Enabled = False
+        Me.UniLED_Edit.Font = New System.Drawing.Font("Courier New", 9.75!)
         Me.UniLED_Edit.IsReplaceMode = False
         Me.UniLED_Edit.Location = New System.Drawing.Point(360, 63)
         Me.UniLED_Edit.Name = "UniLED_Edit"
@@ -65,9 +64,9 @@ Partial Class keyLED_Edit
         '
         Me.CopyButton.Enabled = False
         Me.CopyButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CopyButton.Location = New System.Drawing.Point(474, 427)
+        Me.CopyButton.Location = New System.Drawing.Point(463, 427)
         Me.CopyButton.Name = "CopyButton"
-        Me.CopyButton.Size = New System.Drawing.Size(75, 45)
+        Me.CopyButton.Size = New System.Drawing.Size(102, 45)
         Me.CopyButton.TabIndex = 19
         Me.CopyButton.Text = "Copy"
         Me.CopyButton.UseVisualStyleBackColor = True
@@ -115,23 +114,23 @@ Partial Class keyLED_Edit
         'GazuaButton
         '
         Me.GazuaButton.Font = New System.Drawing.Font("Ubuntu", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GazuaButton.Location = New System.Drawing.Point(263, 198)
+        Me.GazuaButton.Location = New System.Drawing.Point(263, 210)
         Me.GazuaButton.Name = "GazuaButton"
-        Me.GazuaButton.Size = New System.Drawing.Size(75, 66)
+        Me.GazuaButton.Size = New System.Drawing.Size(75, 68)
         Me.GazuaButton.TabIndex = 24
         Me.GazuaButton.Text = "-->"
         Me.GazuaButton.UseVisualStyleBackColor = True
         '
         'ALGModeBox
         '
-        Me.ALGModeBox.Font = New System.Drawing.Font("나눔고딕", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.ALGModeBox.Font = New System.Drawing.Font("나눔고딕 ExtraBold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.ALGModeBox.FormattingEnabled = True
-        Me.ALGModeBox.Items.AddRange(New Object() {"Ableton 9 ALG1", "Non-Convert (Developer Mode)"})
-        Me.ALGModeBox.Location = New System.Drawing.Point(10, 433)
+        Me.ALGModeBox.Items.AddRange(New Object() {"Ableton Live MIDI ALG1", "Non-Convert (Developer Mode)"})
+        Me.ALGModeBox.Location = New System.Drawing.Point(10, 449)
         Me.ALGModeBox.Name = "ALGModeBox"
-        Me.ALGModeBox.Size = New System.Drawing.Size(225, 22)
+        Me.ALGModeBox.Size = New System.Drawing.Size(234, 23)
         Me.ALGModeBox.TabIndex = 26
-        Me.ALGModeBox.Text = "Ableton 9 ALG1"
+        Me.ALGModeBox.Text = "Ableton Live MIDI ALG1"
         '
         'UniLED1
         '
@@ -143,39 +142,17 @@ Partial Class keyLED_Edit
         Me.UniLED1.TabIndex = 27
         Me.UniLED1.Text = "File Name: N/A"
         '
-        'AdvChk
-        '
-        Me.AdvChk.AutoSize = True
-        Me.AdvChk.Font = New System.Drawing.Font("나눔고딕", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.AdvChk.Location = New System.Drawing.Point(10, 461)
-        Me.AdvChk.Name = "AdvChk"
-        Me.AdvChk.Size = New System.Drawing.Size(118, 18)
-        Me.AdvChk.TabIndex = 29
-        Me.AdvChk.Text = "Advanced Mode"
-        Me.AdvChk.UseVisualStyleBackColor = True
-        '
         'GAZUA_
         '
         Me.GAZUA_.WorkerSupportsCancellation = True
-        '
-        'CleaningButton
-        '
-        Me.CleaningButton.Enabled = False
-        Me.CleaningButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.CleaningButton.Location = New System.Drawing.Point(263, 270)
-        Me.CleaningButton.Name = "CleaningButton"
-        Me.CleaningButton.Size = New System.Drawing.Size(75, 46)
-        Me.CleaningButton.TabIndex = 30
-        Me.CleaningButton.Text = "Clean The Texts!"
-        Me.CleaningButton.UseVisualStyleBackColor = True
         '
         'TestButton
         '
         Me.TestButton.Enabled = False
         Me.TestButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.TestButton.Location = New System.Drawing.Point(382, 427)
+        Me.TestButton.Location = New System.Drawing.Point(360, 427)
         Me.TestButton.Name = "TestButton"
-        Me.TestButton.Size = New System.Drawing.Size(75, 45)
+        Me.TestButton.Size = New System.Drawing.Size(97, 45)
         Me.TestButton.TabIndex = 31
         Me.TestButton.Text = "Test"
         Me.TestButton.UseVisualStyleBackColor = True
@@ -188,8 +165,6 @@ Partial Class keyLED_Edit
         Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.ClientSize = New System.Drawing.Size(579, 484)
         Me.Controls.Add(Me.TestButton)
-        Me.Controls.Add(Me.CleaningButton)
-        Me.Controls.Add(Me.AdvChk)
         Me.Controls.Add(Me.UniLED1)
         Me.Controls.Add(Me.ALGModeBox)
         Me.Controls.Add(Me.GazuaButton)
@@ -216,9 +191,7 @@ Partial Class keyLED_Edit
     Friend WithEvents GazuaButton As Button
     Friend WithEvents ALGModeBox As ComboBox
     Friend WithEvents UniLED1 As Label
-    Friend WithEvents AdvChk As CheckBox
     Friend WithEvents GAZUA_ As System.ComponentModel.BackgroundWorker
-    Friend WithEvents CleaningButton As Button
     Friend WithEvents TestButton As Button
     Friend WithEvents pfTest_bgw As System.ComponentModel.BackgroundWorker
     Friend WithEvents Tests_bgw As System.ComponentModel.BackgroundWorker

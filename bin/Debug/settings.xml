@@ -1,19 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Settings-XML>
-  <UCV-Settings>
-    <CheckUpdate>True</CheckUpdate>
-    <LatestVer>True</LatestVer>
-    <SetupLights>True</SetupLights>
-  </UCV-Settings>
-  <keyLED-Adv>
-    <TopMode>AbsoluteTime</TopMode>
-    <NoteLength>NL4Ticks/NL2M</NoteLength>
-    <DeltaTime>Non-Convert</DeltaTime>
-    <AbsoluteTime>TimeLine/NL2M</AbsoluteTime>
-  </keyLED-Adv>
-  <UCV-PATH>
-    <AbletonVersion>AnyAbleton</AbletonVersion>
-    <ConvertUniPack>zip/uni</ConvertUniPack>
-    <CleanTheText>False</CleanTheText>
-  </UCV-PATH>
-</Settings-XML>
+<UniConverter-XML>
+	<UG-Settings>
+		<CheckUpdate>True</CheckUpdate>
+		<LatestVer>True</LatestVer>
+		<SetupLights>True</SetupLights>
+	</UG-Settings>
+	<LiveSet>
+		<AbletonVersion>AnyAbleton</AbletonVersion>
+		<ConvertUniPack>zip/uni</ConvertUniPack>
+	</LiveSet>
+</UniConverter-XML>

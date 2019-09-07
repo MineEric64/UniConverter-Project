@@ -282,17 +282,6 @@ o 6 3 a [나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 �
  String의 수를 세줍니다. 결과는 Integer.
  </summary>
 </member>
-<member name="M:UniConverter_Project.keyLED_Edit_Advanced.Save2Settings(System.Boolean)">
- <summary>
- Save Settings To XML.
- </summary>
- <param name="ShowMessage">Showing Message.</param>
-</member>
-<member name="M:UniConverter_Project.keyLED_Edit_Advanced.LoadSettings">
- <summary>
- Load Settings To XML.
- </summary>
-</member>
 <member name="F:UniConverter_Project.MainProject.LicenseFile">
  <summary>
   라이센스 파일. (0: Developer Mode, 1: GreatEx Mode)

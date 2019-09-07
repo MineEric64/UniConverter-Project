@@ -12,7 +12,7 @@ Public Class UG_Settings
 
             Me.Text = String.Format("{0}: Settings", MainProject.Text)
 
-            setaNode = setxml.SelectSingleNode("/Settings-XML/UCV-Settings")
+            setaNode = setxml.SelectSingleNode("/UniConverter-XML/UG-Settings")
             If setaNode IsNot Nothing Then
 
                 'Reading Value of Settings.
@@ -43,17 +43,6 @@ Public Class UG_Settings
                         Throw New FormatException("<SetupLights>'s Value is invaild.")
                 End Select
 
-                setaNode = setxml.SelectSingleNode("/Settings-XML/UCV-PATH")
-
-                Select Case setaNode.ChildNodes(2).InnerText
-                    Case "True"
-                        CleanTheTexts.Checked = True
-                    Case "False"
-                        CleanTheTexts.Checked = False
-                    Case Else
-                        Throw New FormatException("<CleanTheText>'s Value is invaild.")
-                End Select
-
                 IsSaved = True
             End If
 
@@ -74,7 +63,7 @@ Public Class UG_Settings
             Dim setaNode As XmlNode
             setNode.Load(file_ex)
 
-            setaNode = setNode.SelectSingleNode("/Settings-XML/UCV-Settings")
+            setaNode = setNode.SelectSingleNode("/UniConverter-XML/UG-Settings")
             If setaNode IsNot Nothing Then
 
                 ChkUpdate.Checked = True
@@ -87,17 +76,7 @@ Public Class UG_Settings
                 setaNode.ChildNodes(2).InnerText = "True"
 
             Else
-                Throw New FormatException("Settings XML's Argument is invaild. <UCV-Settings>")
-            End If
-
-            setaNode = setNode.SelectSingleNode("/Settings-XML/UCV-PATH")
-            If setaNode IsNot Nothing Then
-
-                CleanTheTexts.Checked = False
-                setaNode.ChildNodes(2).InnerText = "False"
-
-            Else
-                Throw New FormatException("Settings XML File's Argument is invaild. <UCV-PATH>")
+                Throw New FormatException("Settings XML's Argument is invaild. <UG-Settings>")
             End If
 
             setNode.Save(file_ex)
@@ -113,7 +92,7 @@ Public Class UG_Settings
         End Try
     End Sub
 
-    Private Sub UG_Setting_Values_CheckedChanged(sender As Object, e As EventArgs) Handles ChkUpdate.CheckedChanged, LatestVer.CheckedChanged, CleanTheTexts.CheckedChanged, SetUpLight.CheckedChanged
+    Private Sub UG_Setting_Values_CheckedChanged(sender As Object, e As EventArgs) Handles ChkUpdate.CheckedChanged, LatestVer.CheckedChanged, SetUpLight.CheckedChanged
         '이 코드는 기능이 추가되면 Handles 코드를 수정해야 합니다.
         IsSaved = False
     End Sub
@@ -154,7 +133,7 @@ Public Class UG_Settings
             Dim setaNode As XmlNode
             setNode.Load(file_ex)
 
-            setaNode = setNode.SelectSingleNode("/Settings-XML/UCV-Settings")
+            setaNode = setNode.SelectSingleNode("/UniConverter-XML/UG-Settings")
             If setaNode IsNot Nothing Then
 
                 Select Case ChkUpdate.Checked
@@ -185,27 +164,12 @@ Public Class UG_Settings
                 End Select
 
             Else
-                    Throw New FormatException("Settings XML's Argument is invaild. <UCV-Settings>")
+                Throw New FormatException("Settings XML's Argument is invaild. <UG-Settings>")
             End If
 
-            setaNode = setNode.SelectSingleNode("/Settings-XML/UCV-PATH")
-            If setaNode IsNot Nothing Then
-
-                Select Case CleanTheTexts.Checked
-                    Case True
-                        setaNode.ChildNodes(2).InnerText = "True"
-                    Case False
-                        setaNode.ChildNodes(2).InnerText = "False"
-                    Case Else
-                        Throw New FormatException("<CleanTheText>'s Value is invaild.")
-                End Select
-
-                setNode.Save(file_ex)
-                IsSaved = True
-                If ShowMessage = True Then MessageBox.Show("Saved Settings!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Else
-                Throw New FormatException("Settings XML's Argument is invaild. <UCV-PATH>")
-            End If
+            setNode.Save(file_ex)
+            IsSaved = True
+            If ShowMessage = True Then MessageBox.Show("Saved Settings!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
 
         Catch ex As Exception
             If MainProject.IsGreatExMode Then
