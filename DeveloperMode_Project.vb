@@ -8,6 +8,8 @@ Public Class DeveloperMode_Project
     'Developer Mode에서는 Exception 예외 처리 때 GreatEx가 필요 없습니다.
     '어처피 Developer Mode는 불안정한 모드들을 Beta 기능으로 지원해주기 때문에 GreatEx가 필요 없습니다.
 
+    Public Shared AbletonProjectXML As String = Application.StartupPath & "\Workspace\ableproj\abl_proj.xml"
+
     Dim DeveloperMode_abl_openedproj As Boolean
     Dim DeveloperMode_abl_FileName As String
     Dim DeveloperMode_abl_TmpFileName As String
@@ -48,7 +50,7 @@ Public Class DeveloperMode_Project
 
     Private Sub OpenProject()
         DeveloperMode_abl_openedproj = True
-        DeveloperMode_abl_TmpFileName = Application.StartupPath & "\Workspace\ableproj\abl_proj.xml"
+        DeveloperMode_abl_TmpFileName = AbletonProjectXML
 
         'Developer Mode Project Infos
         DeveloperMode_abl_FileName = Project_FNTextBox.Text
@@ -57,7 +59,7 @@ Public Class DeveloperMode_Project
         'Reading Project Infos
         Dim doc As New XmlDocument
         Dim NewElementList As XmlElement
-        doc.Load(Application.StartupPath & "\Workspace\ableproj\abl_proj.xml")
+        doc.Load(AbletonProjectXML)
         NewElementList = doc.GetElementsByTagName("Ableton")(0)
         DeveloperMode_abl_FileVersion = NewElementList.GetAttribute("Creator")
 
@@ -73,7 +75,6 @@ Public Class DeveloperMode_Project
         If Info_ListView.SelectedItems.Count > 0 Then '이것이 신의 한수... SelectedItem 코드 작성 시 꼭 필요. (invaildArgument 오류)
 
             Dim SelectedItem As ListViewItem = Info_ListView.SelectedItems(0)
-            Dim ablprj As String = Application.StartupPath & "\Workspace\ableproj\abl_proj.xml"
 
             Select Case SelectedItem.Text
                 Case "File Name"
@@ -83,11 +84,11 @@ Public Class DeveloperMode_Project
                 Case "File Version"
                     Info_TextBox.Text = DeveloperMode_abl_FileVersion
                 Case "Sound Cutting"
-                    GetSoundCutting(EachCode.SlicePoints_1, ablprj, Application.StartupPath & "Workspace\unipack\", True)
+                    GetSoundCutting(EachCode.SlicePoints_1)
                 Case "KeyTracks (keyLED)"
-                    Info_TextBox.Text = GetkeyLED(EachCode.keyLED_1, ablprj, True, True)
+                    Info_TextBox.Text = GetkeyLED(EachCode.keyLED_1)
                 Case "keyLED (MIDI Extension)"
-                    Info_TextBox.Text = GetkeyLED(EachCode.keyLED_MIDEX_1, ablprj, True, True)
+                    Info_TextBox.Text = GetkeyLED(EachCode.keyLED_MIDEX_1)
             End Select
         End If
     End Sub
@@ -102,7 +103,7 @@ Public Class DeveloperMode_Project
     ''' </summary>
     Public Shared Function GetChainN() As Integer
 
-        Dim ablprj As String = Application.StartupPath & "\Workspace\ableproj\abl_proj.xml"
+        Dim ablprj As String = AbletonProjectXML
         Dim doc As New XmlDocument
         Dim setNode As XmlNodeList
         doc.Load(ablprj)
@@ -135,11 +136,8 @@ Public Class DeveloperMode_Project
     ''' <summary>
     ''' Converting keyLED with XML2keyLED.
     ''' </summary>
-    ''' <param name="XMLPath">XML Path.</param>
-    ''' <param name="keyLEDFiles">(Create/Don't Create) keyLED Files.</param>
-    ''' <param name="DebugFiles">(Create/Don't Create) Debug Files.</param>
     ''' <returns></returns>
-    Public Shared Function GetkeyLED(ByVal LEDArg As EachCode, ByVal XMLPath As String, ByVal keyLEDFiles As Boolean, ByVal DebugFiles As Boolean) As String
+    Public Shared Function GetkeyLED(ByVal LEDArg As EachCode) As String
 
         Select Case LEDArg
             Case EachCode.keyLED_1
@@ -149,7 +147,7 @@ Public Class DeveloperMode_Project
                 'Dim Xpath As String = "/Ableton/LiveSet"
                 Dim doc As New XmlDocument
                 Dim NewElementList As XmlNodeList
-                doc.Load(XMLPath)
+                doc.Load(AbletonProjectXML)
                 Dim str As String = String.Empty
 
                 '와... 진짜 LED 구현하느라 완전 힘들었다........ ㅠㅠ
@@ -164,10 +162,9 @@ Public Class DeveloperMode_Project
                     Throw New Exception("There is no KeyTracks. Please use keyLED (MIDI Extension).")
                 End If
 
-                If DebugFiles Then
-                    File.WriteAllText(Application.StartupPath & "\Workspace\ableproj\KeyTracks.xml", str)
+                File.WriteAllText(Application.StartupPath & "\Workspace\ableproj\KeyTracks.xml", str)
                     Debug.WriteLine("Added KeyTracks.xml")
-                End If
+
                 Dim notes As XmlNodeList = doc.GetElementsByTagName("MidiNoteEvent") 'Note Event Value
                 Dim MidiKey As XmlNodeList = doc.GetElementsByTagName("MidiKey")
 
@@ -376,29 +373,25 @@ Public Class DeveloperMode_Project
         Return -1
     End Function
 
-    Public Shared Function GetSoundCutting(ByVal CodeArg As EachCode, ByVal XMLPath As String, ByVal SoundsDir As String, ByVal DebugFiles As Boolean) As String
+    Public Shared Function GetSoundCutting(ByVal CodeArg As EachCode) As String
         Select Case CodeArg
             Case EachCode.SlicePoints_1
                 Dim doc As New XmlDocument
                 Dim NewElementList As XmlNodeList
-                doc.Load(XMLPath)
+                doc.Load(AbletonProjectXML)
                 Dim str As String = String.Empty
 
                 NewElementList = doc.GetElementsByTagName("SlicePoints") 'KeyTracks XML 트랙
-                For i As Integer = 0 To NewElementList.Count - 1
-                    For q As Integer = 0 To NewElementList(i).ChildNodes.Count - 1 'XML 트랙 아이 추출
-                        If NewElementList(i).HasChildNodes Then str = str & NewElementList(i).ChildNodes(q).InnerXml & vbNewLine
-                    Next
+                For i As Integer = 0 To NewElementList.Count - 1 'XML 트랙 아이 추출
+                    str = str & NewElementList(i).InnerXml & vbNewLine
                 Next
 
                 If String.IsNullOrWhiteSpace(str) Then 'SlicePoints가 없으면 예외 발생
                     Throw New Exception("There is no SlicePoints.")
                 End If
 
-                If DebugFiles Then
-                    File.WriteAllText(Application.StartupPath & "\Workspace\ableproj\SlicePoints.xml", str)
-                    Debug.WriteLine("Added SlicePoints.xml")
-                End If
+                File.WriteAllText(Application.StartupPath & "\Workspace\ableproj\SlicePoints.xml", str)
+                Debug.WriteLine("Added SlicePoints.xml")
         End Select
 
         Return String.Empty

@@ -172,13 +172,10 @@ o 6 3 a [나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 �
  Get Ableton Project's Chain Number.
  </summary>
 </member>
-<member name="M:UniConverter_Project.DeveloperMode_Project.GetkeyLED(UniConverter_Project.DeveloperMode_Project.EachCode,System.String,System.Boolean,System.Boolean)">
+<member name="M:UniConverter_Project.DeveloperMode_Project.GetkeyLED(UniConverter_Project.DeveloperMode_Project.EachCode)">
  <summary>
  Converting keyLED with XML2keyLED.
  </summary>
- <param name="XMLPath">XML Path.</param>
- <param name="keyLEDFiles">(Create/Don't Create) keyLED Files.</param>
- <param name="DebugFiles">(Create/Don't Create) Debug Files.</param>
  <returns></returns>
 </member>
 <member name="M:UniConverter_Project.DeveloperMode_Project.GetIndex(System.Object,System.String,System.Object,System.Object,System.Boolean)">
@@ -458,6 +455,13 @@ o 6 3 a [나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 �
  </summary>
  <param name="inputString"></param>
  <param name="pattern"></param>
+ <returns></returns>
+</member>
+<member name="M:UniConverter_Project.MainProject.StringsToString(System.String[])">
+ <summary>
+ String() 형식을 String으로 변환 합니다.
+ </summary>
+ <param name="inputstr">문자열</param>
  <returns></returns>
 </member>
 <member name="F:UniConverter_Project.Tutorials.lang">
