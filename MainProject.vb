@@ -2449,7 +2449,8 @@ fexLine:
                             Dim dFile As String = d.Split("/")(2)
                             Dim dIndex As Integer() = ReadAllIndex(LEDs, "MIDI Extension")
                             Dim dix As Integer = 0
-                            If String.IsNullOrWhiteSpace(Alrt) = False Then
+#Region "Set the Tempo"
+                            If Alrt = "adsfjkh" Then 'String.IsNullOrWhiteSpace(Alrt) = False
                                 Dim skip_r As Boolean = False
                                 For Each ri As String In Alrt.Split(";")
                                     If dFile = ri Then
@@ -2463,6 +2464,7 @@ fexLine:
                                     Continue For
                                 End If
                             End If
+#End Region '나중에 BPM 재조정 코드로 Alrt 변수를 재활용 할거임.
 
                             Loading.DLb.Left -= 70
                             Loading.DLb.Text = String.Format("Converting LED ({0}) to keyLED...", dFile)
@@ -2573,78 +2575,7 @@ fexLine:
                                 Continue For
                             End If
 
-#Region "Get keyLED Mapping from MidiRandom"
-                            Dim nMidiEffectBrn As Boolean = False
-                            If x.InnerXml.Contains("<MidiRandom Id=") AndAlso x.InnerXml.Contains("<MidiEffectGroupDevice Id=") AndAlso x.InnerXml.Contains("<Branches>") AndAlso x.InnerXml.Contains("<MidiEffectBranch Id=") Then
-                                Dim MidiEffectGroup As XmlNodeList
-                                Dim MidiRandomList As XmlNode
-                                Try
-                                    MidiEffectGroup = x.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiEffectGroupDevice").Item("Branches").ChildNodes
-                                    MidiRandomList = x.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiRandom")
-                                    nMidiEffectBrn = True
-                                Catch exN As NullReferenceException
-                                    nMidiEffectBrn = False
-                                End Try
-
-                                If nMidiEffectBrn Then
-                                    MidiEffectGroup = x.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiEffectGroupDevice").Item("Branches").ChildNodes
-                                    MidiRandomList = x.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiRandom")
-                                    Dim chs As Integer = Integer.Parse(MidiRandomList.Item("Choices").Item("Manual").GetAttribute("Value")) 'MidiRandom > Choices > Manual Value
-                                    Dim ilFile As String = LEDs(il).Split("/")(2)
-
-                                    '현재 미디랜덤의 Chain.
-                                    UniPack_Chain = Integer.Parse(x.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1
-                                    UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value")))
-                                    UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value")))
-
-                                    For iy As Integer = 0 To MidiEffectGroup.Count - 1
-                                        Dim dPathr As String = String.Format("{0}\Workspace\ableproj\CoLED\{1}", Application.StartupPath, ilFile)
-                                        If File.Exists(dPathr) = False Then
-                                            Throw New FileNotFoundException("MIDI File '" & ilFile & "' doesn't exists. Try Again!")
-                                        End If
-
-                                        If Not dFile = ilFile Then
-                                            Alrt = Alrt & ilFile & ";"
-                                        End If
-
-                                        Dim keyLEDr As New MidiFile(dPathr, False)
-                                        str = DeveloperMode_Project.GetkeyLED_MIDEX2(DeveloperMode_Project.EachCode.keyLED_MIDEX_1, keyLEDr)
-
-                                        If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) OrElse File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
-
-                                            If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
-                                                My.Computer.FileSystem.RenameFile(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), String.Format("{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L))
-                                            End If
-
-                                            For Each lpn As Char In LEDMapping_N
-                                                If Not File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn)) Then
-                                                    File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn), str)
-                                                    Exit For
-                                                End If
-                                            Next
-
-                                        Else
-
-                                            If Not MidiEffectGroup.Count = 1 Then
-                                                File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), str)
-                                            ElseIf MidiEffectGroup.Count = 1 Then
-                                                File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), str)
-                                            End If
-
-                                        End If
-
-                                        If Not iy = MidiEffectGroup.Count - 1 Then
-                                            il = dIndex(dix)
-                                            dix += 1
-                                        End If
-                                    Next
-
-                                End If
-                            End If
-#End Region
-
-                            If nMidiEffectBrn = False Then
-                                Dim LoopNumber_1 As Integer() = New Integer(1) {}
+                            Dim LoopNumber_1 As Integer() = New Integer(1) {}
                                 Dim LoopNumber_1bool As Boolean 'Chain Value = ?
                                 LoopNumber_1(0) = Integer.Parse(x.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1
                                 LoopNumber_1(1) = Integer.Parse(x.Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1
@@ -2663,19 +2594,47 @@ fexLine:
 
                                         If LoopNumber_2bool Then
 
-                                            UniPack_Chain = p
-                                            sFile = String.Format("{0}\Workspace\unipack\keyLED\{1} {2} {3} {4}", Application.StartupPath, UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)
-                                            File.WriteAllText(sFile, str)
+                                        UniPack_Chain = p
+#Region "Save the keyLED with Overwrite Protection!"
+                                        If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) OrElse File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
+                                            If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
+                                                My.Computer.FileSystem.RenameFile(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), String.Format("{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L))
+                                            End If
+                                            For Each lpn As Char In LEDMapping_N
+                                                If Not File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn)) Then
+                                                    File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn), str)
+                                                    Exit For
+                                                End If
+                                            Next
 
-                                        ElseIf LoopNumber_2bool = False Then
+                                        Else
+                                            File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), str)
+                                        End If
+#End Region
+
+                                    ElseIf LoopNumber_2bool = False Then
 
                                             For q As Integer = LoopNumber_2(0) To LoopNumber_2(1)
                                                 UniPack_Chain = p
                                                 UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
-                                                UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
-                                                sFile = String.Format("{0}\Workspace\unipack\keyLED\{1} {2} {3} {4}", Application.StartupPath, UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)
-                                                File.WriteAllText(sFile, str)
-                                            Next
+                                            UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
+#Region "Save the keyLED with Overwrite Protection!"
+                                            If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) OrElse File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
+                                                If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
+                                                    My.Computer.FileSystem.RenameFile(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), String.Format("{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L))
+                                                End If
+                                                For Each lpn As Char In LEDMapping_N
+                                                    If Not File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn)) Then
+                                                        File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn), str)
+                                                        Exit For
+                                                    End If
+                                                Next
+
+                                            Else
+                                                File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), str)
+                                            End If
+#End Region
+                                        Next
 
                                         End If
 
@@ -2683,29 +2642,53 @@ fexLine:
 
                                 ElseIf LoopNumber_1bool Then
 
-                                    If LoopNumber_2bool Then
+                                If LoopNumber_2bool Then
+                                    '기본값.
+#Region "Save the keyLED with Overwrite Protection!"
+                                    If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) OrElse File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
+                                        If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
+                                            My.Computer.FileSystem.RenameFile(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), String.Format("{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L))
+                                        End If
+                                        For Each lpn As Char In LEDMapping_N
+                                            If Not File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn)) Then
+                                                File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn), str)
+                                                Exit For
+                                            End If
+                                        Next
 
-                                        '기본값.
-                                        sFile = String.Format("{0}\Workspace\unipack\keyLED\{1} {2} {3} {4}", Application.StartupPath, UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)
-                                        File.WriteAllText(sFile, str)
+                                    Else
+                                        File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), str)
+                                    End If
+#End Region
 
-                                    ElseIf LoopNumber_2bool = False Then
+                                ElseIf LoopNumber_2bool = False Then
 
-                                        For q As Integer = LoopNumber_2(0) To LoopNumber_2(1)
+                                    For q As Integer = LoopNumber_2(0) To LoopNumber_2(1)
                                             UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
                                             UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
-                                            sFile = String.Format("{0}\Workspace\unipack\keyLED\{1} {2} {3} {4}", Application.StartupPath, UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)
-                                            File.WriteAllText(sFile, str)
-                                        Next
+#Region "Save the keyLED with Overwrite Protection!"
+                                        If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) OrElse File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
+                                            If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
+                                                My.Computer.FileSystem.RenameFile(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), String.Format("{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L))
+                                            End If
+                                            For Each lpn As Char In LEDMapping_N
+                                                If Not File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn)) Then
+                                                    File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn), str)
+                                                    Exit For
+                                                End If
+                                            Next
+
+                                        Else
+                                            File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), str)
+                                        End If
+#End Region
+                                    Next
 
                                     End If
 
-                                End If
                             End If
                             Debug.WriteLine(Alrt)
                             Debug.WriteLine(d & ", x: " & UniPack_X & " y:" & UniPack_Y)
-
-                            nMidiEffectBrn = False
                             il = dIndex(dix)
                             dix += 1
 
