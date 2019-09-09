@@ -2441,10 +2441,10 @@ fexLine:
                     End If
 
                     Dim d_arg As String = d.Split("/")(0)
-                    Dim d_id As Integer = d.Split("/")(1)
                     Select Case d_arg
 
                         Case "MIDI Extension" '미디 파일.
+                            Dim d_id As Integer = d.Split("/")(1)
 
                             Dim dFile As String = d.Split("/")(2)
                             Dim dIndex As Integer() = ReadAllIndex(LEDs, "MIDI Extension")
@@ -2587,12 +2587,12 @@ fexLine:
                                 LoopNumber_2(1) = Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))
                                 LoopNumber_2bool = LoopNumber_2(0) = LoopNumber_2(1)
 
-                                If LoopNumber_1bool = False Then
+                            If LoopNumber_1bool = False Then
 
-                                    '시작 길이와 끝 길이가 다른 경우 (Loop 1 활성화 시)
-                                    For p As Integer = LoopNumber_1(0) To LoopNumber_1(1)
+                                '시작 길이와 끝 길이가 다른 경우 (Loop 1 활성화 시)
+                                For p As Integer = LoopNumber_1(0) To LoopNumber_1(1)
 
-                                        If LoopNumber_2bool Then
+                                    If LoopNumber_2bool Then
 
                                         UniPack_Chain = p
 #Region "Save the keyLED with Overwrite Protection!"
@@ -2614,9 +2614,9 @@ fexLine:
 
                                     ElseIf LoopNumber_2bool = False Then
 
-                                            For q As Integer = LoopNumber_2(0) To LoopNumber_2(1)
-                                                UniPack_Chain = p
-                                                UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
+                                        For q As Integer = LoopNumber_2(0) To LoopNumber_2(1)
+                                            UniPack_Chain = p
+                                            UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
                                             UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
 #Region "Save the keyLED with Overwrite Protection!"
                                             If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) OrElse File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
@@ -2636,11 +2636,11 @@ fexLine:
 #End Region
                                         Next
 
-                                        End If
+                                    End If
 
-                                    Next
+                                Next
 
-                                ElseIf LoopNumber_1bool Then
+                            ElseIf LoopNumber_1bool Then
 
                                 If LoopNumber_2bool Then
                                     '기본값.
@@ -2664,8 +2664,8 @@ fexLine:
                                 ElseIf LoopNumber_2bool = False Then
 
                                     For q As Integer = LoopNumber_2(0) To LoopNumber_2(1)
-                                            UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
-                                            UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
+                                        UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
+                                        UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
 #Region "Save the keyLED with Overwrite Protection!"
                                         If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) OrElse File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
                                             If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
@@ -2684,17 +2684,18 @@ fexLine:
 #End Region
                                     Next
 
-                                    End If
+                                End If
 
                             End If
-                            Debug.WriteLine(Alrt)
-                            Debug.WriteLine(d & ", x: " & UniPack_X & " y:" & UniPack_Y)
+                            Debug.WriteLine(dFile & ", x: " & UniPack_X & " y:" & UniPack_Y)
                             il = dIndex(dix)
                             dix += 1
 
                         Case "Clip Tempo"
+                            Dim d_id As Integer = d.Split("/")(1)
 
                         Case "New Tempo"
+                            Dim d_id As Integer = d.Split("/")(1)
 
                     End Select
 

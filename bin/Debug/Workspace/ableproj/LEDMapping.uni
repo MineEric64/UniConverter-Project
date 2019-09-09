@@ -1,1738 +1,461 @@
-New Tempo/1/110
-Clip Tempo/1/120
-id1poly, id1poly 0
-MIDI Extension/1/a1.mid
-New Tempo/4/110
-Clip Tempo/4/120
-id4poly, id4poly 0
-MIDI Extension/4/a2.mid
-New Tempo/5/110
-Clip Tempo/5/120
-id5poly, id5poly 0
-MIDI Extension/5/a3.mid
-New Tempo/6/110
-Clip Tempo/6/120
-id6poly, id6poly 0
-MIDI Extension/6/a4.mid
-New Tempo/7/110
-Clip Tempo/7/120
-id7poly, id7poly 0
-MIDI Extension/7/a5.mid
-New Tempo/8/110
-Clip Tempo/8/120
-id8poly, id8poly 0
-New Tempo/9/110
-Clip Tempo/9/120
-id9poly, id9poly 0
-MIDI Extension/8/a6.mid
-MIDI Extension/9/a7.mid
-New Tempo/10/110
-Clip Tempo/10/125
-id10poly, id10poly 0
-MIDI Extension/10/a8.mid
-New Tempo/11/110
-Clip Tempo/11/125
-id11poly, id11poly 0
-MIDI Extension/11/a9.mid
-New Tempo/12/110
-Clip Tempo/12/125
-id12poly, id12poly 0
-MIDI Extension/12/a10.mid
-New Tempo/13/110
-Clip Tempo/13/120
-id13poly, id13poly 0
-MIDI Extension/13/a11.mid
-New Tempo/14/110
-Clip Tempo/14/120
-id14poly, id14poly 0
-MIDI Extension/14/a12.mid
-Clip Tempo/15/120
-New Tempo/15/110
-id15poly, id15poly 0
-Clip Tempo/16/120
-New Tempo/16/110
-id16poly, id16poly 0
-New Tempo/17/110
-Clip Tempo/17/120
-id17poly, id17poly 0
-Clip Tempo/18/120
-New Tempo/18/110
-id18poly, id18poly 0
-Clip Tempo/19/120
-New Tempo/19/110
-id19poly, id19poly 0
-Clip Tempo/20/120
-New Tempo/20/110
-id20poly, id20poly 0
-New Tempo/21/110
-Clip Tempo/21/120
-id21poly, id21poly 0
-New Tempo/22/110
-Clip Tempo/22/120
-id22poly, id22poly 0
-MIDI Extension/16/a13.mid
-MIDI Extension/15/a14.mid
-MIDI Extension/17/a15.mid
-MIDI Extension/18/a16.mid
-MIDI Extension/19/a8.mid
-MIDI Extension/20/a9.mid
-MIDI Extension/21/a17.mid
-MIDI Extension/22/a18.mid
-New Tempo/25/110
-Clip Tempo/25/120
-id25poly, id25poly 0
-MIDI Extension/25/b1.mid
-New Tempo/26/110
-Clip Tempo/26/120
-id26poly, id26poly 0
-New Tempo/27/110
-Clip Tempo/27/120
-id27poly, id27poly 0
-Clip Tempo/28/120
-New Tempo/28/110
-id28poly, id28poly 0
-Clip Tempo/29/120
-New Tempo/29/110
-id29poly, id29poly 0
-MIDI Extension/26/b2.mid
-MIDI Extension/27/b3.mid
-MIDI Extension/29/b4.mid
-MIDI Extension/28/b5.mid
-New Tempo/31/110
-Clip Tempo/31/120
-id31poly, id31poly 0
-New Tempo/32/110
-Clip Tempo/32/120
-id32poly, id32poly 0
-New Tempo/34/110
-Clip Tempo/34/120
-id34poly, id34poly 0
-Clip Tempo/35/120
-New Tempo/35/110
-id35poly, id35poly 0
-New Tempo/37/110
-Clip Tempo/37/120
-id37poly, id37poly 0
-Clip Tempo/38/120
-New Tempo/38/110
-id38poly, id38poly 0
-New Tempo/39/110
-Clip Tempo/39/120
-id39poly, id39poly 0
-MIDI Extension/39/b36.mid
-MIDI Extension/31/b7.mid
-MIDI Extension/34/b8.mid
-MIDI Extension/37/b9.mid
-MIDI Extension/32/b11.mid
-MIDI Extension/35/b12.mid
-MIDI Extension/38/b13.mid
-New Tempo/44/110
-Clip Tempo/44/120
-id44poly, id44poly 0
-Clip Tempo/45/120
-New Tempo/45/110
-id45poly, id45poly 0
-New Tempo/46/110
-Clip Tempo/46/120
-id46poly, id46poly 0
-MIDI Extension/46/b37.mid
-New Tempo/47/110
-Clip Tempo/47/120
-id47poly, id47poly 0
-MIDI Extension/47/b14.mid
-New Tempo/49/110
-Clip Tempo/49/120
-id49poly, id49poly 0
-New Tempo/50/110
-Clip Tempo/50/120
-id50poly, id50poly 0
-MIDI Extension/50/dKick.mid
-New Tempo/51/110
-Clip Tempo/51/120
-id51poly, id51poly 0
-New Tempo/52/110
-Clip Tempo/52/120
-id52poly, id52poly 0
-New Tempo/53/110
-Clip Tempo/53/120
-id53poly, id53poly 0
-Clip Tempo/54/120
-New Tempo/54/110
-id54poly, id54poly 0
-MIDI Extension/52/dHat.mid
-MIDI Extension/53/dSnare.mid
-MIDI Extension/54/dHat.mid
-New Tempo/55/110
-Clip Tempo/55/120
-id55poly, id55poly 0
-MIDI Extension/55/dSnare.mid
-New Tempo/56/110
 Clip Tempo/56/120
+New Tempo/56/120
 id56poly, id56poly 0
-MIDI Extension/56/dHat.mid
-New Tempo/57/110
-Clip Tempo/57/120
-id57poly, id57poly 0
-MIDI Extension/57/dKick.mid
-New Tempo/58/110
-Clip Tempo/58/120
-id58poly, id58poly 0
-New Tempo/59/110
+New Tempo/59/120
 Clip Tempo/59/120
 id59poly, id59poly 0
-New Tempo/60/110
 Clip Tempo/60/120
+New Tempo/60/120
 id60poly, id60poly 0
-New Tempo/61/110
 Clip Tempo/61/120
+New Tempo/61/120
 id61poly, id61poly 0
 Clip Tempo/62/120
-New Tempo/62/110
+New Tempo/62/120
 id62poly, id62poly 0
-MIDI Extension/59/b20.mid
-MIDI Extension/61/b22.mid
-MIDI Extension/60/b21.mid
-MIDI Extension/62/b23.mid
-New Tempo/63/110
 Clip Tempo/63/120
+New Tempo/63/120
 id63poly, id63poly 0
-New Tempo/64/110
 Clip Tempo/64/120
+New Tempo/64/120
 id64poly, id64poly 0
-MIDI Extension/63/b24.mid
-MIDI Extension/64/b25.mid
-New Tempo/65/110
 Clip Tempo/65/120
+New Tempo/65/120
 id65poly, id65poly 0
-New Tempo/66/110
 Clip Tempo/66/120
+New Tempo/66/120
 id66poly, id66poly 0
-New Tempo/68/110
+New Tempo/67/120
+Clip Tempo/67/120
+id67poly, id67poly 0
 Clip Tempo/68/120
+New Tempo/68/120
 id68poly, id68poly 0
 Clip Tempo/69/120
-New Tempo/69/110
+New Tempo/69/120
 id69poly, id69poly 0
-New Tempo/70/110
 Clip Tempo/70/120
+New Tempo/70/120
 id70poly, id70poly 0
 Clip Tempo/71/120
-New Tempo/71/110
+New Tempo/71/120
 id71poly, id71poly 0
 Clip Tempo/72/120
-New Tempo/72/110
+New Tempo/72/120
 id72poly, id72poly 0
 Clip Tempo/73/120
-New Tempo/73/110
+New Tempo/73/120
 id73poly, id73poly 0
-Clip Tempo/75/120
-New Tempo/75/110
-id75poly, id75poly 0
+MIDI Extension/73/a1.mid
+MIDI Extension/72/a2.mid
+MIDI Extension/71/kick1.mid
+MIDI Extension/70/a3.mid
+MIDI Extension/69/a5.mid
+MIDI Extension/68/a4.mid
+MIDI Extension/67/a4.mid
+MIDI Extension/66/a5.mid
+MIDI Extension/65/a4.mid
+MIDI Extension/64/a5.mid
+MIDI Extension/63/a4.mid
+MIDI Extension/62/a5.mid
+MIDI Extension/61/a4.mid
+MIDI Extension/60/a5.mid
+MIDI Extension/59/a4.mid
+New Tempo/76/120
 Clip Tempo/76/120
-New Tempo/76/110
 id76poly, id76poly 0
-MIDI Extension/76/b6.mid
-MIDI Extension/75/b10.mid
-MIDI Extension/68/b7.mid
-MIDI Extension/69/b8.mid
-MIDI Extension/70/b9.mid
-MIDI Extension/71/b11.mid
-MIDI Extension/72/b12.mid
-MIDI Extension/73/b13.mid
-New Tempo/77/110
 Clip Tempo/77/120
+New Tempo/77/120
 id77poly, id77poly 0
-New Tempo/78/110
 Clip Tempo/78/120
+New Tempo/78/120
 id78poly, id78poly 0
 Clip Tempo/79/120
-New Tempo/79/110
+New Tempo/79/120
 id79poly, id79poly 0
-MIDI Extension/66/b26.mid
-MIDI Extension/77/b27.mid
-MIDI Extension/78/b28.mid
-MIDI Extension/79/b29.mid
-New Tempo/80/110
 Clip Tempo/80/120
+New Tempo/80/120
 id80poly, id80poly 0
-New Tempo/81/110
 Clip Tempo/81/120
+New Tempo/81/120
 id81poly, id81poly 0
 Clip Tempo/82/120
-New Tempo/82/110
+New Tempo/82/120
 id82poly, id82poly 0
 Clip Tempo/83/120
-New Tempo/83/110
+New Tempo/83/120
 id83poly, id83poly 0
 Clip Tempo/84/120
-New Tempo/84/110
+New Tempo/84/120
 id84poly, id84poly 0
-MIDI Extension/81/b30.mid
-MIDI Extension/82/b31.mid
-MIDI Extension/83/b32.mid
-MIDI Extension/84/b33.mid
-New Tempo/85/110
 Clip Tempo/85/120
+New Tempo/85/120
 id85poly, id85poly 0
-New Tempo/86/110
 Clip Tempo/86/120
+New Tempo/86/120
 id86poly, id86poly 0
-MIDI Extension/85/b34.mid
-MIDI Extension/86/b35.mid
-New Tempo/88/110
+Clip Tempo/87/120
+New Tempo/87/120
+id87poly, id87poly 0
 Clip Tempo/88/120
+New Tempo/88/120
 id88poly, id88poly 0
 Clip Tempo/89/120
-New Tempo/89/110
+New Tempo/89/120
 id89poly, id89poly 0
 Clip Tempo/90/120
-New Tempo/90/110
+New Tempo/90/120
 id90poly, id90poly 0
 Clip Tempo/91/120
-New Tempo/91/110
+New Tempo/91/120
 id91poly, id91poly 0
 Clip Tempo/92/120
-New Tempo/92/110
+New Tempo/92/120
 id92poly, id92poly 0
 Clip Tempo/93/120
-New Tempo/93/110
+New Tempo/93/120
 id93poly, id93poly 0
-New Tempo/96/110
+Clip Tempo/94/120
+New Tempo/94/120
+id94poly, id94poly 0
+Clip Tempo/95/120
+New Tempo/95/120
+id95poly, id95poly 0
 Clip Tempo/96/120
+New Tempo/96/120
 id96poly, id96poly 0
+MIDI Extension/96/a5.mid
+MIDI Extension/95/a4.mid
+MIDI Extension/94/a5.mid
+MIDI Extension/93/a4.mid
+MIDI Extension/92/a6.mid
+MIDI Extension/91/a7.mid
+MIDI Extension/90/a6.mid
+MIDI Extension/89/a7.mid
+MIDI Extension/88/a6.mid
+MIDI Extension/87/a7.mid
+MIDI Extension/86/a6.mid
+MIDI Extension/85/a7.mid
+MIDI Extension/84/RainbowExpMed.mid
+MIDI Extension/83/RainbowIMPMed.mid
+MIDI Extension/82/RainbowExpMed.mid
+MIDI Extension/81/RainbowIMPMed.mid
+MIDI Extension/80/a8.mid
+MIDI Extension/79/a9.mid
+MIDI Extension/78/a10.mid
+MIDI Extension/77/GO!.mid
+MIDI Extension/76/aFINAL.mid
+New Tempo/97/120
 Clip Tempo/97/120
-New Tempo/97/110
 id97poly, id97poly 0
+New Tempo/98/120
 Clip Tempo/98/120
-New Tempo/98/110
 id98poly, id98poly 0
-New Tempo/99/110
 Clip Tempo/99/120
+New Tempo/99/120
 id99poly, id99poly 0
-New Tempo/100/110
 Clip Tempo/100/120
+New Tempo/100/120
 id100poly, id100poly 0
-New Tempo/101/110
 Clip Tempo/101/120
+New Tempo/101/120
 id101poly, id101poly 0
-New Tempo/102/110
 Clip Tempo/102/120
+New Tempo/102/120
 id102poly, id102poly 0
-MIDI Extension/99/b38.mid
-MIDI Extension/100/b39.mid
-MIDI Extension/88/b40.mid
-MIDI Extension/101/b41.mid
-MIDI Extension/89/b6.mid
-MIDI Extension/90/b7.mid
-MIDI Extension/91/b8.mid
-MIDI Extension/92/b9.mid
-MIDI Extension/102/b10.mid
-MIDI Extension/93/b11.mid
-MIDI Extension/96/b12.mid
-MIDI Extension/97/b13.mid
-MIDI Extension/98/b57.mid
-New Tempo/103/110
 Clip Tempo/103/120
+New Tempo/103/120
 id103poly, id103poly 0
 Clip Tempo/104/120
-New Tempo/104/110
+New Tempo/104/120
 id104poly, id104poly 0
 Clip Tempo/105/120
-New Tempo/105/110
+New Tempo/105/120
 id105poly, id105poly 0
 Clip Tempo/106/120
-New Tempo/106/110
+New Tempo/106/120
 id106poly, id106poly 0
 Clip Tempo/107/120
-New Tempo/107/110
+New Tempo/107/120
 id107poly, id107poly 0
 Clip Tempo/108/120
-New Tempo/108/110
+New Tempo/108/120
 id108poly, id108poly 0
 Clip Tempo/109/120
-New Tempo/109/110
+New Tempo/109/120
 id109poly, id109poly 0
 Clip Tempo/110/120
-New Tempo/110/110
+New Tempo/110/120
 id110poly, id110poly 0
 Clip Tempo/111/120
-New Tempo/111/110
+New Tempo/111/120
 id111poly, id111poly 0
 Clip Tempo/112/120
-New Tempo/112/110
+New Tempo/112/120
 id112poly, id112poly 0
 Clip Tempo/113/120
-New Tempo/113/110
+New Tempo/113/120
 id113poly, id113poly 0
 Clip Tempo/114/120
-New Tempo/114/110
+New Tempo/114/120
 id114poly, id114poly 0
 Clip Tempo/115/120
-New Tempo/115/110
+New Tempo/115/120
 id115poly, id115poly 0
-MIDI Extension/103/b43.mid
-MIDI Extension/104/b44.mid
-MIDI Extension/105/c20.mid
-MIDI Extension/114/b46.mid
-MIDI Extension/106/c3.mid
-MIDI Extension/107/c20.mid
-MIDI Extension/108/c20.mid
-MIDI Extension/109/c3.mid
-MIDI Extension/110/c20.mid
-MIDI Extension/115/b51.mid
-MIDI Extension/111/c20.mid
-MIDI Extension/112/c3.mid
-MIDI Extension/113/c20.mid
-New Tempo/117/110
+Clip Tempo/116/120
+New Tempo/116/120
+id116poly, id116poly 0
 Clip Tempo/117/120
+New Tempo/117/120
 id117poly, id117poly 0
 Clip Tempo/118/120
-New Tempo/118/110
+New Tempo/118/120
 id118poly, id118poly 0
 Clip Tempo/119/120
-New Tempo/119/110
+New Tempo/119/120
 id119poly, id119poly 0
 Clip Tempo/120/120
-New Tempo/120/110
+New Tempo/120/120
 id120poly, id120poly 0
 Clip Tempo/121/120
-New Tempo/121/110
+New Tempo/121/120
 id121poly, id121poly 0
 Clip Tempo/122/120
-New Tempo/122/110
+New Tempo/122/120
 id122poly, id122poly 0
 Clip Tempo/123/120
-New Tempo/123/110
+New Tempo/123/120
 id123poly, id123poly 0
 Clip Tempo/124/120
-New Tempo/124/110
+New Tempo/124/120
 id124poly, id124poly 0
 Clip Tempo/125/120
-New Tempo/125/110
+New Tempo/125/120
 id125poly, id125poly 0
 Clip Tempo/126/120
-New Tempo/126/110
+New Tempo/126/120
 id126poly, id126poly 0
 Clip Tempo/127/120
-New Tempo/127/110
+New Tempo/127/120
 id127poly, id127poly 0
 Clip Tempo/128/120
-New Tempo/128/110
+New Tempo/128/120
 id128poly, id128poly 0
 Clip Tempo/129/120
-New Tempo/129/110
+New Tempo/129/120
 id129poly, id129poly 0
-MIDI Extension/117/b38.mid
-MIDI Extension/119/b39.mid
-MIDI Extension/118/b40.mid
-MIDI Extension/128/b41.mid
-MIDI Extension/120/b6.mid
-MIDI Extension/121/b7.mid
-MIDI Extension/122/b8.mid
-MIDI Extension/123/b9.mid
-MIDI Extension/129/b10.mid
-MIDI Extension/124/b11.mid
-MIDI Extension/125/b12.mid
-MIDI Extension/126/b13.mid
-MIDI Extension/127/b57.mid
-New Tempo/131/110
+Clip Tempo/130/120
+New Tempo/130/120
+id130poly, id130poly 0
 Clip Tempo/131/120
+New Tempo/131/120
 id131poly, id131poly 0
-MIDI Extension/131/b43.mid
-New Tempo/132/110
 Clip Tempo/132/120
+New Tempo/132/120
 id132poly, id132poly 0
 Clip Tempo/133/120
-New Tempo/133/110
+New Tempo/133/120
 id133poly, id133poly 0
 Clip Tempo/134/120
-New Tempo/134/110
+New Tempo/134/120
 id134poly, id134poly 0
-MIDI Extension/134/b45.mid
-MIDI Extension/133/b46.mid
-MIDI Extension/132/b44.mid
-New Tempo/135/110
 Clip Tempo/135/120
+New Tempo/135/120
 id135poly, id135poly 0
-MIDI Extension/135/b56.mid
-MIDI Extension/49/c1.mid
-New Tempo/136/110
-Clip Tempo/136/120
-id136poly, id136poly 0
-MIDI Extension/136/c2.mid
-New Tempo/137/110
-Clip Tempo/137/120
-id137poly, id137poly 0
-New Tempo/138/110
-Clip Tempo/138/120
-id138poly, id138poly 0
-New Tempo/139/110
+MIDI Extension/135/b1.mid
+MIDI Extension/134/b2.mid
+MIDI Extension/133/b3.mid
+MIDI Extension/132/b4.mid
+MIDI Extension/131/b5.mid
+MIDI Extension/130/b6.mid
+MIDI Extension/129/b7.mid
+MIDI Extension/128/b8.mid
+MIDI Extension/127/b9.mid
+MIDI Extension/126/b10.mid
+MIDI Extension/125/b11.mid
+MIDI Extension/124/b12.mid
+MIDI Extension/123/b13.mid
+MIDI Extension/122/b14.mid
+MIDI Extension/121/b15.mid
+MIDI Extension/120/b16.mid
+MIDI Extension/119/b17.mid
+MIDI Extension/118/b18.mid
+MIDI Extension/117/b19.mid
+MIDI Extension/116/b20.mid
+MIDI Extension/115/b21.mid
+MIDI Extension/114/b22.mid
+MIDI Extension/113/b23.mid
+MIDI Extension/112/b24.mid
+MIDI Extension/111/b25.mid
+MIDI Extension/110/b26.mid
+MIDI Extension/109/b27.mid
+MIDI Extension/108/b28.mid
+MIDI Extension/107/b29.mid
+MIDI Extension/106/b30.mid
+MIDI Extension/105/b31.mid
+MIDI Extension/104/b32.mid
+MIDI Extension/103/b33.mid
+New Tempo/139/120
 Clip Tempo/139/120
 id139poly, id139poly 0
-MIDI Extension/137/c20.mid
-MIDI Extension/138/c3.mid
-MIDI Extension/139/c4.mid
-New Tempo/140/110
 Clip Tempo/140/120
+New Tempo/140/120
 id140poly, id140poly 0
-MIDI Extension/140/c5.mid
-New Tempo/141/110
 Clip Tempo/141/120
+New Tempo/141/120
 id141poly, id141poly 0
-New Tempo/142/110
 Clip Tempo/142/120
+New Tempo/142/120
 id142poly, id142poly 0
 Clip Tempo/143/120
-New Tempo/143/110
+New Tempo/143/120
 id143poly, id143poly 0
-MIDI Extension/141/c6.mid
-MIDI Extension/142/c7.mid
-MIDI Extension/143/c8.mid
-New Tempo/144/110
 Clip Tempo/144/120
+New Tempo/144/120
 id144poly, id144poly 0
-MIDI Extension/144/c9.mid
-New Tempo/146/110
+Clip Tempo/145/120
+New Tempo/145/120
+id145poly, id145poly 0
 Clip Tempo/146/120
+New Tempo/146/120
 id146poly, id146poly 0
 Clip Tempo/147/120
-New Tempo/147/110
+New Tempo/147/120
 id147poly, id147poly 0
 Clip Tempo/148/120
-New Tempo/148/110
+New Tempo/148/120
 id148poly, id148poly 0
 Clip Tempo/149/120
-New Tempo/149/110
+New Tempo/149/120
 id149poly, id149poly 0
 Clip Tempo/150/120
-New Tempo/150/110
+New Tempo/150/120
 id150poly, id150poly 0
 Clip Tempo/151/120
-New Tempo/151/110
+New Tempo/151/120
 id151poly, id151poly 0
 Clip Tempo/152/120
-New Tempo/152/110
+New Tempo/152/120
 id152poly, id152poly 0
 Clip Tempo/153/120
-New Tempo/153/110
+New Tempo/153/120
 id153poly, id153poly 0
 Clip Tempo/154/120
-New Tempo/154/110
+New Tempo/154/120
 id154poly, id154poly 0
-MIDI Extension/146/b45.mid
-MIDI Extension/147/b47.mid
-MIDI Extension/148/b48.mid
-MIDI Extension/149/b49.mid
-MIDI Extension/150/b50.mid
-MIDI Extension/151/b52.mid
-MIDI Extension/152/b53.mid
-MIDI Extension/153/b54.mid
-MIDI Extension/154/b55.mid
-New Tempo/155/110
 Clip Tempo/155/120
+New Tempo/155/120
 id155poly, id155poly 0
-MIDI Extension/155/c18.mid
-New Tempo/156/110
 Clip Tempo/156/120
+New Tempo/156/120
 id156poly, id156poly 0
-New Tempo/157/110
 Clip Tempo/157/120
+New Tempo/157/120
 id157poly, id157poly 0
-MIDI Extension/157/c4.mid
-New Tempo/158/110
 Clip Tempo/158/120
+New Tempo/158/120
 id158poly, id158poly 0
-MIDI Extension/158/c18.mid
-MIDI Extension/156/c4.mid
-New Tempo/159/110
 Clip Tempo/159/120
+New Tempo/159/120
 id159poly, id159poly 0
-MIDI Extension/159/c18.mid
-New Tempo/160/110
 Clip Tempo/160/120
+New Tempo/160/120
 id160poly, id160poly 0
-MIDI Extension/160/c4.mid
+Clip Tempo/161/120
+New Tempo/161/120
+id161poly, id161poly 0
 Clip Tempo/162/120
-New Tempo/162/110
+New Tempo/162/120
 id162poly, id162poly 0
 Clip Tempo/163/120
-New Tempo/163/110
+New Tempo/163/120
 id163poly, id163poly 0
 Clip Tempo/164/120
-New Tempo/164/110
+New Tempo/164/120
 id164poly, id164poly 0
 Clip Tempo/165/120
-New Tempo/165/110
+New Tempo/165/120
 id165poly, id165poly 0
 Clip Tempo/166/120
-New Tempo/166/110
+New Tempo/166/120
 id166poly, id166poly 0
 Clip Tempo/167/120
-New Tempo/167/110
+New Tempo/167/120
 id167poly, id167poly 0
 Clip Tempo/168/120
-New Tempo/168/110
+New Tempo/168/120
 id168poly, id168poly 0
 Clip Tempo/169/120
-New Tempo/169/110
+New Tempo/169/120
 id169poly, id169poly 0
 Clip Tempo/170/120
-New Tempo/170/110
+New Tempo/170/120
 id170poly, id170poly 0
 Clip Tempo/171/120
-New Tempo/171/110
+New Tempo/171/120
 id171poly, id171poly 0
-MIDI Extension/171/c20.mid
-MIDI Extension/162/c3.mid
-MIDI Extension/163/c20.mid
-MIDI Extension/164/c20.mid
-MIDI Extension/165/c3.mid
-MIDI Extension/166/c20.mid
-MIDI Extension/167/c20.mid
-MIDI Extension/168/c3.mid
-MIDI Extension/169/c20.mid
-MIDI Extension/170/c4.mid
-New Tempo/172/110
 Clip Tempo/172/120
+New Tempo/172/120
 id172poly, id172poly 0
-MIDI Extension/172/c18.mid
-New Tempo/173/110
 Clip Tempo/173/120
+New Tempo/173/120
 id173poly, id173poly 0
-MIDI Extension/173/c5.mid
-New Tempo/174/110
 Clip Tempo/174/120
+New Tempo/174/120
 id174poly, id174poly 0
-MIDI Extension/174/c6.mid
-New Tempo/175/110
 Clip Tempo/175/120
+New Tempo/175/120
 id175poly, id175poly 0
-MIDI Extension/175/c7.mid
-New Tempo/176/110
 Clip Tempo/176/120
+New Tempo/176/120
 id176poly, id176poly 0
-MIDI Extension/176/c8.mid
-New Tempo/177/110
 Clip Tempo/177/120
+New Tempo/177/120
 id177poly, id177poly 0
-MIDI Extension/177/c9.mid
-New Tempo/178/110
 Clip Tempo/178/120
+New Tempo/178/120
 id178poly, id178poly 0
-MIDI Extension/178/c10.mid
-New Tempo/179/110
 Clip Tempo/179/120
+New Tempo/179/120
 id179poly, id179poly 0
-MIDI Extension/179/c11.mid
-Clip Tempo/180/120
-New Tempo/180/110
-id180poly, id180poly 0
-Clip Tempo/181/120
-New Tempo/181/110
-id181poly, id181poly 0
-MIDI Extension/181/c12.mid
-MIDI Extension/180/c13.mid
-New Tempo/182/110
-Clip Tempo/182/120
-id182poly, id182poly 0
-MIDI Extension/182/c14.mid
-New Tempo/183/110
-Clip Tempo/183/120
-id183poly, id183poly 0
-MIDI Extension/183/c15.mid
-New Tempo/184/110
-Clip Tempo/184/120
-id184poly, id184poly 0
-MIDI Extension/184/c16.mid
-New Tempo/185/110
-Clip Tempo/185/120
-id185poly, id185poly 0
-MIDI Extension/185/c17.mid
-New Tempo/186/110
-Clip Tempo/186/120
-id186poly, id186poly 0
-MIDI Extension/186/c19.mid
-New Tempo/189/110
-Clip Tempo/189/120
-id189poly, id189poly 0
-Clip Tempo/190/120
-New Tempo/190/110
-id190poly, id190poly 0
-Clip Tempo/191/120
-New Tempo/191/110
-id191poly, id191poly 0
-Clip Tempo/192/120
-New Tempo/192/110
-id192poly, id192poly 0
-Clip Tempo/193/120
-New Tempo/193/110
-id193poly, id193poly 0
-Clip Tempo/194/120
-New Tempo/194/110
-id194poly, id194poly 0
-Clip Tempo/195/120
-New Tempo/195/110
-id195poly, id195poly 0
-Clip Tempo/196/120
-New Tempo/196/110
-id196poly, id196poly 0
-Clip Tempo/197/120
-New Tempo/197/110
-id197poly, id197poly 0
-Clip Tempo/198/120
-New Tempo/198/110
-id198poly, id198poly 0
-MIDI Extension/192/c25.mid
-MIDI Extension/189/c22.mid
-MIDI Extension/190/c23.mid
-MIDI Extension/191/c24.mid
-New Tempo/199/110
-Clip Tempo/199/120
-id199poly, id199poly 0
-MIDI Extension/199/c26.mid
-New Tempo/200/110
-Clip Tempo/200/120
-id200poly, id200poly 0
-MIDI Extension/200/c22.mid
-New Tempo/201/110
-Clip Tempo/201/120
-id201poly, id201poly 0
-MIDI Extension/201/c24.mid
-New Tempo/202/110
-Clip Tempo/202/120
-id202poly, id202poly 0
-MIDI Extension/202/c28.mid
-New Tempo/204/110
-Clip Tempo/204/120
-id204poly, id204poly 0
-Clip Tempo/205/120
-New Tempo/205/110
-id205poly, id205poly 0
-Clip Tempo/206/120
-New Tempo/206/110
-id206poly, id206poly 0
-Clip Tempo/207/120
-New Tempo/207/110
-id207poly, id207poly 0
-MIDI Extension/204/c22.mid
-MIDI Extension/205/c23.mid
-MIDI Extension/206/c24.mid
-MIDI Extension/207/c28.mid
-New Tempo/208/110
-Clip Tempo/208/120
-id208poly, id208poly 0
-MIDI Extension/208/c28.mid
-New Tempo/209/110
-Clip Tempo/209/120
-id209poly, id209poly 0
-MIDI Extension/209/c22.mid
-New Tempo/210/110
-Clip Tempo/210/120
-id210poly, id210poly 0
-MIDI Extension/210/c23.mid
-New Tempo/211/110
-Clip Tempo/211/120
-id211poly, id211poly 0
-MIDI Extension/211/c24.mid
-New Tempo/212/110
-Clip Tempo/212/120
-id212poly, id212poly 0
-MIDI Extension/212/c29.mid
-New Tempo/213/110
-Clip Tempo/213/120
-id213poly, id213poly 0
-MIDI Extension/213/d1.mid
-New Tempo/214/110
-Clip Tempo/214/120
-id214poly, id214poly 0
-MIDI Extension/214/d2.mid
-New Tempo/215/110
-Clip Tempo/215/120
-id215poly, id215poly 0
-New Tempo/216/110
-Clip Tempo/216/120
-id216poly, id216poly 0
-New Tempo/217/110
-Clip Tempo/217/120
-id217poly, id217poly 0
-Clip Tempo/218/120
-New Tempo/218/110
-id218poly, id218poly 0
-New Tempo/219/110
-Clip Tempo/219/120
-id219poly, id219poly 0
-MIDI Extension/215/d3.mid
-MIDI Extension/216/d4.mid
-MIDI Extension/217/d5.mid
-MIDI Extension/219/d7.mid
-MIDI Extension/218/d6.mid
-New Tempo/220/110
-Clip Tempo/220/120
-id220poly, id220poly 0
-New Tempo/221/110
-Clip Tempo/221/120
-id221poly, id221poly 0
-New Tempo/222/110
-Clip Tempo/222/120
-id222poly, id222poly 0
-New Tempo/223/110
-Clip Tempo/223/120
-id223poly, id223poly 0
-New Tempo/224/110
-Clip Tempo/224/120
-id224poly, id224poly 0
-New Tempo/225/110
-Clip Tempo/225/120
-id225poly, id225poly 0
-Clip Tempo/226/120
-New Tempo/226/110
-id226poly, id226poly 0
-MIDI Extension/220/d8.mid
-MIDI Extension/221/d9.mid
-MIDI Extension/222/d10.mid
-MIDI Extension/223/d11.mid
-MIDI Extension/224/d12.mid
-MIDI Extension/225/d13.mid
-MIDI Extension/226/d14.mid
-New Tempo/227/110
-Clip Tempo/227/120
-id227poly, id227poly 0
-MIDI Extension/227/d15.mid
-New Tempo/228/110
-Clip Tempo/228/120
-id228poly, id228poly 0
-New Tempo/229/110
-Clip Tempo/229/120
-id229poly, id229poly 0
-Clip Tempo/230/120
-New Tempo/230/110
-id230poly, id230poly 0
-Clip Tempo/231/120
-New Tempo/231/110
-id231poly, id231poly 0
-MIDI Extension/228/d16.mid
-MIDI Extension/229/d17.mid
-MIDI Extension/230/d18.mid
-MIDI Extension/231/d19.mid
-New Tempo/232/110
-Clip Tempo/232/120
-id232poly, id232poly 0
-Clip Tempo/233/120
-New Tempo/233/110
-id233poly, id233poly 0
-Clip Tempo/234/120
-New Tempo/234/110
-id234poly, id234poly 0
-Clip Tempo/235/120
-New Tempo/235/110
-id235poly, id235poly 0
-MIDI Extension/232/d16.mid
-MIDI Extension/233/d17.mid
-MIDI Extension/234/d18.mid
-MIDI Extension/235/d19.mid
-New Tempo/236/110
-Clip Tempo/236/120
-id236poly, id236poly 0
-New Tempo/237/110
-Clip Tempo/237/120
-id237poly, id237poly 0
-MIDI Extension/236/f1.mid
-New Tempo/238/110
-Clip Tempo/238/120
-id238poly, id238poly 0
-MIDI Extension/238/f2.mid
-New Tempo/239/110
-Clip Tempo/239/120
-id239poly, id239poly 0
-MIDI Extension/239/f3.mid
-New Tempo/240/110
-Clip Tempo/240/120
-id240poly, id240poly 0
-MIDI Extension/240/f4.mid
-New Tempo/242/110
-Clip Tempo/242/120
-id242poly, id242poly 0
-Clip Tempo/243/120
-New Tempo/243/110
-id243poly, id243poly 0
-Clip Tempo/244/120
-New Tempo/244/110
-id244poly, id244poly 0
-Clip Tempo/245/120
-New Tempo/245/110
-id245poly, id245poly 0
-MIDI Extension/242/f5.mid
-MIDI Extension/243/f6.mid
-MIDI Extension/244/f7.mid
-New Tempo/246/110
-Clip Tempo/246/120
-id246poly, id246poly 0
-MIDI Extension/246/f8.mid
-New Tempo/247/110
-Clip Tempo/247/120
-id247poly, id247poly 0
-New Tempo/248/110
-Clip Tempo/248/120
-id248poly, id248poly 0
-MIDI Extension/247/f9.mid
-MIDI Extension/248/f10.mid
-Clip Tempo/250/120
-New Tempo/250/110
-id250poly, id250poly 0
-Clip Tempo/251/120
-New Tempo/251/110
-id251poly, id251poly 0
-Clip Tempo/252/120
-New Tempo/252/110
-id252poly, id252poly 0
-New Tempo/253/110
-Clip Tempo/253/120
-id253poly, id253poly 0
-New Tempo/254/110
-Clip Tempo/254/120
-id254poly, id254poly 0
-New Tempo/255/110
-Clip Tempo/255/120
-id255poly, id255poly 0
-Clip Tempo/256/120
-New Tempo/256/110
-id256poly, id256poly 0
-MIDI Extension/253/f11.mid
-MIDI Extension/252/f12.mid
-MIDI Extension/254/f13.mid
-MIDI Extension/255/f14.mid
-MIDI Extension/251/f15.mid
-MIDI Extension/256/f16.mid
-Clip Tempo/258/120
-New Tempo/258/110
-id258poly, id258poly 0
-Clip Tempo/259/120
-New Tempo/259/110
-id259poly, id259poly 0
-New Tempo/260/110
-Clip Tempo/260/120
-id260poly, id260poly 0
-MIDI Extension/260/f11.mid
-New Tempo/261/110
-Clip Tempo/261/120
-id261poly, id261poly 0
-MIDI Extension/261/f12.mid
-New Tempo/262/110
-Clip Tempo/262/120
-id262poly, id262poly 0
-MIDI Extension/262/f17.mid
-New Tempo/263/110
-Clip Tempo/263/120
-id263poly, id263poly 0
-MIDI Extension/263/f15.mid
-Clip Tempo/265/120
-New Tempo/265/110
-id265poly, id265poly 0
-Clip Tempo/266/120
-New Tempo/266/110
-id266poly, id266poly 0
-Clip Tempo/267/120
-New Tempo/267/110
-id267poly, id267poly 0
-MIDI Extension/267/f2.mid
-MIDI Extension/265/f18.mid
-Clip Tempo/269/120
-New Tempo/269/110
-id269poly, id269poly 0
-Clip Tempo/270/120
-New Tempo/270/110
-id270poly, id270poly 0
-MIDI Extension/270/f3.mid
-MIDI Extension/269/f19.mid
-New Tempo/272/110
-Clip Tempo/272/120
-id272poly, id272poly 0
-Clip Tempo/273/120
-New Tempo/273/110
-id273poly, id273poly 0
-MIDI Extension/272/f4.mid
-MIDI Extension/273/f20.mid
-New Tempo/274/110
-Clip Tempo/274/120
-id274poly, id274poly 0
-MIDI Extension/274/f1.mid
-New Tempo/275/110
-Clip Tempo/275/120
-id275poly, id275poly 0
-MIDI Extension/275/f11.mid
-New Tempo/276/110
-Clip Tempo/276/120
-id276poly, id276poly 0
-MIDI Extension/276/f12.mid
-New Tempo/277/110
-Clip Tempo/277/120
-id277poly, id277poly 0
-MIDI Extension/277/f13.mid
-New Tempo/278/110
-Clip Tempo/278/120
-id278poly, id278poly 0
-New Tempo/279/110
-Clip Tempo/279/120
-id279poly, id279poly 0
-MIDI Extension/278/f14.mid
-MIDI Extension/279/f15.mid
-New Tempo/280/110
-Clip Tempo/280/120
-id280poly, id280poly 0
-MIDI Extension/280/f16.mid
-New Tempo/281/110
-Clip Tempo/281/120
-id281poly, id281poly 0
-New Tempo/282/110
-Clip Tempo/282/120
-id282poly, id282poly 0
-New Tempo/283/110
-Clip Tempo/283/120
-id283poly, id283poly 0
-Clip Tempo/284/120
-New Tempo/284/110
-id284poly, id284poly 0
-New Tempo/285/110
-Clip Tempo/285/120
-id285poly, id285poly 0
-MIDI Extension/281/f11.mid
-MIDI Extension/282/f12.mid
-MIDI Extension/283/f13.mid
-MIDI Extension/284/f12.mid
-MIDI Extension/285/f14.mid
-New Tempo/286/110
-Clip Tempo/286/120
-id286poly, id286poly 0
-MIDI Extension/286/f21.mid
-New Tempo/287/110
-Clip Tempo/287/120
-id287poly, id287poly 0
-MIDI Extension/287/f22.mid
-Clip Tempo/289/120
-New Tempo/289/110
-id289poly, id289poly 0
-Clip Tempo/290/120
-New Tempo/290/110
-id290poly, id290poly 0
-MIDI Extension/289/f15.mid
-MIDI Extension/290/f12.mid
-New Tempo/291/110
-Clip Tempo/291/120
-id291poly, id291poly 0
-MIDI Extension/291/f11.mid
-New Tempo/292/110
-Clip Tempo/292/120
-id292poly, id292poly 0
-MIDI Extension/292/f13.mid
-New Tempo/293/110
-Clip Tempo/293/120
-id293poly, id293poly 0
-MIDI Extension/293/f14.mid
-New Tempo/294/110
-Clip Tempo/294/120
-id294poly, id294poly 0
-MIDI Extension/294/f16.mid
-New Tempo/295/110
-Clip Tempo/295/120
-id295poly, id295poly 0
-New Tempo/296/110
-Clip Tempo/296/120
-id296poly, id296poly 0
-MIDI Extension/295/f11.mid
-MIDI Extension/296/f12.mid
-New Tempo/297/110
-Clip Tempo/297/120
-id297poly, id297poly 0
-MIDI Extension/297/f17.mid
-New Tempo/298/110
-Clip Tempo/298/120
-id298poly, id298poly 0
-MIDI Extension/298/f15.mid
-New Tempo/299/110
-Clip Tempo/299/120
-id299poly, id299poly 0
-Clip Tempo/300/120
-New Tempo/300/110
-id300poly, id300poly 0
-Clip Tempo/301/120
-New Tempo/301/110
-id301poly, id301poly 0
-Clip Tempo/302/120
-New Tempo/302/110
-id302poly, id302poly 0
-Clip Tempo/303/120
-New Tempo/303/110
-id303poly, id303poly 0
-Clip Tempo/304/120
-New Tempo/304/110
-id304poly, id304poly 0
-Clip Tempo/305/120
-New Tempo/305/110
-id305poly, id305poly 0
-Clip Tempo/306/120
-New Tempo/306/110
-id306poly, id306poly 0
-Clip Tempo/307/120
-New Tempo/307/110
-id307poly, id307poly 0
-Clip Tempo/308/120
-New Tempo/308/110
-id308poly, id308poly 0
-Clip Tempo/309/120
-New Tempo/309/110
-id309poly, id309poly 0
-MIDI Extension/299/f11.mid
-MIDI Extension/300/f12.mid
-MIDI Extension/301/f13.mid
-MIDI Extension/302/f14.mid
-MIDI Extension/303/f15.mid
-MIDI Extension/304/f16.mid
-MIDI Extension/305/f11.mid
-MIDI Extension/306/f12.mid
-MIDI Extension/307/f13.mid
-MIDI Extension/308/f12.mid
-MIDI Extension/309/f14.mid
-New Tempo/311/110
-Clip Tempo/311/120
-id311poly, id311poly 0
-MIDI Extension/311/f23.mid
-New Tempo/312/110
-Clip Tempo/312/120
-id312poly, id312poly 0
-MIDI Extension/312/f24.mid
-New Tempo/313/110
-Clip Tempo/313/120
-id313poly, id313poly 0
-MIDI Extension/313/dHat.mid
-New Tempo/314/110
-Clip Tempo/314/120
-id314poly, id314poly 0
-MIDI Extension/314/g1.mid
-New Tempo/315/110
-Clip Tempo/315/120
-id315poly, id315poly 0
-MIDI Extension/315/g2.mid
-New Tempo/316/110
-Clip Tempo/316/120
-id316poly, id316poly 0
-MIDI Extension/316/g3.mid
-New Tempo/317/110
-Clip Tempo/317/120
-id317poly, id317poly 0
-Clip Tempo/318/120
-New Tempo/318/110
-id318poly, id318poly 0
-Clip Tempo/319/120
-New Tempo/319/110
-id319poly, id319poly 0
-Clip Tempo/320/120
-New Tempo/320/110
-id320poly, id320poly 0
-Clip Tempo/321/120
-New Tempo/321/110
-id321poly, id321poly 0
-MIDI Extension/317/g4.mid
-MIDI Extension/321/g5.mid
-MIDI Extension/318/g6.mid
-New Tempo/322/110
-Clip Tempo/322/120
-id322poly, id322poly 0
-MIDI Extension/319/g8.mid
-MIDI Extension/322/g7.mid
-MIDI Extension/320/g9.mid
-New Tempo/323/110
-Clip Tempo/323/120
-id323poly, id323poly 0
-New Tempo/325/120
-Clip Tempo/325/120
-id325poly, id325poly 0
-New Tempo/326/120
-Clip Tempo/326/120
-id326poly, id326poly 0
-Clip Tempo/327/120
-New Tempo/327/120
-id327poly, id327poly 0
-Clip Tempo/328/120
-New Tempo/328/120
-id328poly, id328poly 0
-Clip Tempo/329/120
-New Tempo/329/120
-id329poly, id329poly 0
-Clip Tempo/330/120
-New Tempo/330/120
-id330poly, id330poly 0
-Clip Tempo/331/120
-New Tempo/331/120
-id331poly, id331poly 0
-New Tempo/332/110
-Clip Tempo/332/120
-id332poly, id332poly 0
-MIDI Extension/332/h1.mid
-New Tempo/333/110
-Clip Tempo/333/120
-id333poly, id333poly 0
-New Tempo/334/110
-Clip Tempo/334/120
-id334poly, id334poly 0
-New Tempo/335/110
-Clip Tempo/335/120
-id335poly, id335poly 0
-Clip Tempo/336/120
-New Tempo/336/110
-id336poly, id336poly 0
-New Tempo/337/110
-Clip Tempo/337/120
-id337poly, id337poly 0
-Clip Tempo/338/120
-New Tempo/338/110
-id338poly, id338poly 0
-MIDI Extension/333/h2.mid
-MIDI Extension/334/h3.mid
-MIDI Extension/335/h4.mid
-MIDI Extension/336/h5.mid
-MIDI Extension/337/h6.mid
-MIDI Extension/338/h7.mid
-New Tempo/339/110
-Clip Tempo/339/120
-id339poly, id339poly 0
-MIDI Extension/339/h8.mid
-New Tempo/340/110
-Clip Tempo/340/120
-id340poly, id340poly 0
-New Tempo/341/110
-Clip Tempo/341/120
-id341poly, id341poly 0
-New Tempo/342/110
-Clip Tempo/342/120
-id342poly, id342poly 0
-Clip Tempo/343/120
-New Tempo/343/110
-id343poly, id343poly 0
-Clip Tempo/344/120
-New Tempo/344/110
-id344poly, id344poly 0
-Clip Tempo/345/120
-New Tempo/345/110
-id345poly, id345poly 0
-Clip Tempo/346/120
-New Tempo/346/110
-id346poly, id346poly 0
-Clip Tempo/347/120
-New Tempo/347/110
-id347poly, id347poly 0
-Clip Tempo/348/120
-New Tempo/348/110
-id348poly, id348poly 0
-MIDI Extension/340/h9.mid
-MIDI Extension/341/h10.mid
-MIDI Extension/342/h11.mid
-MIDI Extension/345/h12.mid
-MIDI Extension/343/h13.mid
-MIDI Extension/344/h14.mid
-MIDI Extension/348/h15.mid
-MIDI Extension/346/h16.mid
-MIDI Extension/347/h18.mid
-New Tempo/349/110
-Clip Tempo/349/120
-id349poly, id349poly 0
-Clip Tempo/350/120
-New Tempo/350/110
-id350poly, id350poly 0
-Clip Tempo/351/120
-New Tempo/351/110
-id351poly, id351poly 0
-New Tempo/352/110
-Clip Tempo/352/120
-id352poly, id352poly 0
-Clip Tempo/353/120
-New Tempo/353/110
-id353poly, id353poly 0
-Clip Tempo/354/120
-New Tempo/354/110
-id354poly, id354poly 0
-New Tempo/355/110
-Clip Tempo/355/120
-id355poly, id355poly 0
-Clip Tempo/356/120
-New Tempo/356/110
-id356poly, id356poly 0
-Clip Tempo/357/120
-New Tempo/357/110
-id357poly, id357poly 0
-MIDI Extension/349/h19.mid
-MIDI Extension/350/h20.mid
-MIDI Extension/351/h21.mid
-MIDI Extension/352/h22.mid
-MIDI Extension/353/h23.mid
-MIDI Extension/354/h24.mid
-MIDI Extension/355/h25.mid
-New Tempo/358/110
-Clip Tempo/358/120
-id358poly, id358poly 0
-Clip Tempo/359/120
-New Tempo/359/110
-id359poly, id359poly 0
-Clip Tempo/360/120
-New Tempo/360/110
-id360poly, id360poly 0
-New Tempo/361/110
-Clip Tempo/361/120
-id361poly, id361poly 0
-Clip Tempo/362/120
-New Tempo/362/110
-id362poly, id362poly 0
-Clip Tempo/363/120
-New Tempo/363/110
-id363poly, id363poly 0
-MIDI Extension/356/h28.mid
-MIDI Extension/358/h29.mid
-MIDI Extension/360/h30.mid
-MIDI Extension/357/h18.mid
-MIDI Extension/359/h26.mid
-MIDI Extension/361/h31.mid
-MIDI Extension/363/h31.mid
-MIDI Extension/362/h32.mid
-New Tempo/364/110
-Clip Tempo/364/120
-id364poly, id364poly 0
-MIDI Extension/364/h32.mid
-New Tempo/365/110
-Clip Tempo/365/120
-id365poly, id365poly 0
-MIDI Extension/365/h33.mid
-New Tempo/366/110
-Clip Tempo/366/120
-id366poly, id366poly 0
-Clip Tempo/367/120
-New Tempo/367/110
-id367poly, id367poly 0
-New Tempo/368/110
-Clip Tempo/368/120
-id368poly, id368poly 0
-New Tempo/369/110
-Clip Tempo/369/120
-id369poly, id369poly 0
-MIDI Extension/366/h34.mid
-MIDI Extension/367/h35.mid
-MIDI Extension/368/h36.mid
-MIDI Extension/369/h37.mid
-New Tempo/370/110
-Clip Tempo/370/120
-id370poly, id370poly 0
-MIDI Extension/370/h38.mid
-New Tempo/371/110
-Clip Tempo/371/120
-id371poly, id371poly 0
-MIDI Extension/371/h39.mid
-New Tempo/372/110
-Clip Tempo/372/120
-id372poly, id372poly 0
-Clip Tempo/373/120
-New Tempo/373/110
-id373poly, id373poly 0
-New Tempo/374/110
-Clip Tempo/374/120
-id374poly, id374poly 0
-Clip Tempo/375/120
-New Tempo/375/110
-id375poly, id375poly 0
-MIDI Extension/372/h40.mid
-MIDI Extension/373/h41.mid
-MIDI Extension/374/h42.mid
-MIDI Extension/375/h43.mid
-New Tempo/376/110
-Clip Tempo/376/120
-id376poly, id376poly 0
-Clip Tempo/377/120
-New Tempo/377/110
-id377poly, id377poly 0
-Clip Tempo/378/120
-New Tempo/378/110
-id378poly, id378poly 0
-Clip Tempo/379/120
-New Tempo/379/110
-id379poly, id379poly 0
-Clip Tempo/380/120
-New Tempo/380/110
-id380poly, id380poly 0
-Clip Tempo/381/120
-New Tempo/381/110
-id381poly, id381poly 0
-Clip Tempo/382/120
-New Tempo/382/110
-id382poly, id382poly 0
-Clip Tempo/383/120
-New Tempo/383/110
-id383poly, id383poly 0
-New Tempo/384/110
-Clip Tempo/384/120
-id384poly, id384poly 0
-New Tempo/385/110
-Clip Tempo/385/120
-id385poly, id385poly 0
-New Tempo/386/110
-Clip Tempo/386/120
-id386poly, id386poly 0
-Clip Tempo/387/120
-New Tempo/387/110
-id387poly, id387poly 0
-MIDI Extension/384/h44.mid
-MIDI Extension/385/h45.mid
-MIDI Extension/376/h46.mid
-MIDI Extension/377/h47.mid
-MIDI Extension/378/h48.mid
-MIDI Extension/379/h49.mid
-MIDI Extension/386/h50.mid
-MIDI Extension/387/h51.mid
-MIDI Extension/383/h52.mid
-MIDI Extension/380/h53.mid
-MIDI Extension/381/h54.mid
-MIDI Extension/382/h55.mid
-New Tempo/388/110
-Clip Tempo/388/120
-id388poly, id388poly 0
-MIDI Extension/388/h56.mid
-Clip Tempo/389/120
-New Tempo/389/110
-id389poly, id389poly 0
-Clip Tempo/390/120
-New Tempo/390/110
-id390poly, id390poly 0
-Clip Tempo/391/120
-New Tempo/391/110
-id391poly, id391poly 0
-Clip Tempo/392/120
-New Tempo/392/110
-id392poly, id392poly 0
-Clip Tempo/393/120
-New Tempo/393/110
-id393poly, id393poly 0
-Clip Tempo/394/120
-New Tempo/394/110
-id394poly, id394poly 0
-Clip Tempo/395/120
-New Tempo/395/110
-id395poly, id395poly 0
-Clip Tempo/396/120
-New Tempo/396/110
-id396poly, id396poly 0
-MIDI Extension/396/d16.mid
-MIDI Extension/389/d17.mid
-MIDI Extension/390/d18.mid
-MIDI Extension/391/d19.mid
-MIDI Extension/392/d16.mid
-MIDI Extension/393/d17.mid
-MIDI Extension/394/d18.mid
-MIDI Extension/395/d19.mid
-New Tempo/397/110
-Clip Tempo/397/120
-id397poly, id397poly 0
-Clip Tempo/398/120
-New Tempo/398/110
-id398poly, id398poly 0
-Clip Tempo/399/120
-New Tempo/399/110
-id399poly, id399poly 0
-Clip Tempo/400/120
-New Tempo/400/110
-id400poly, id400poly 0
-Clip Tempo/401/120
-New Tempo/401/110
-id401poly, id401poly 0
-Clip Tempo/402/120
-New Tempo/402/110
-id402poly, id402poly 0
-Clip Tempo/403/120
-New Tempo/403/110
-id403poly, id403poly 0
-Clip Tempo/404/120
-New Tempo/404/110
-id404poly, id404poly 0
-Clip Tempo/405/120
-New Tempo/405/110
-id405poly, id405poly 0
-Clip Tempo/406/120
-New Tempo/406/110
-id406poly, id406poly 0
-Clip Tempo/407/120
-New Tempo/407/110
-id407poly, id407poly 0
-Clip Tempo/408/120
-New Tempo/408/110
-id408poly, id408poly 0
-Clip Tempo/409/120
-New Tempo/409/110
-id409poly, id409poly 0
-Clip Tempo/410/120
-New Tempo/410/110
-id410poly, id410poly 0
-Clip Tempo/411/120
-New Tempo/411/110
-id411poly, id411poly 0
-Clip Tempo/412/120
-New Tempo/412/110
-id412poly, id412poly 0
-Clip Tempo/413/120
-New Tempo/413/110
-id413poly, id413poly 0
-Clip Tempo/414/120
-New Tempo/414/110
-id414poly, id414poly 0
-Clip Tempo/415/120
-New Tempo/415/110
-id415poly, id415poly 0
-Clip Tempo/416/120
-New Tempo/416/110
-id416poly, id416poly 0
-Clip Tempo/417/120
-New Tempo/417/110
-id417poly, id417poly 0
-Clip Tempo/418/120
-New Tempo/418/110
-id418poly, id418poly 0
-Clip Tempo/419/120
-New Tempo/419/110
-id419poly, id419poly 0
-Clip Tempo/420/120
-New Tempo/420/110
-id420poly, id420poly 0
-Clip Tempo/421/120
-New Tempo/421/110
-id421poly, id421poly 0
-Clip Tempo/422/120
-New Tempo/422/110
-id422poly, id422poly 0
-Clip Tempo/423/120
-New Tempo/423/110
-id423poly, id423poly 0
-Clip Tempo/424/120
-New Tempo/424/110
-id424poly, id424poly 0
-Clip Tempo/425/120
-New Tempo/425/110
-id425poly, id425poly 0
-Clip Tempo/426/120
-New Tempo/426/110
-id426poly, id426poly 0
-Clip Tempo/427/120
-New Tempo/427/110
-id427poly, id427poly 0
-Clip Tempo/428/120
-New Tempo/428/110
-id428poly, id428poly 0
-Clip Tempo/429/120
-New Tempo/429/110
-id429poly, id429poly 0
-Clip Tempo/430/120
-New Tempo/430/110
-id430poly, id430poly 0
-Clip Tempo/431/120
-New Tempo/431/110
-id431poly, id431poly 0
-Clip Tempo/432/120
-New Tempo/432/110
-id432poly, id432poly 0
-Clip Tempo/433/120
-New Tempo/433/110
-id433poly, id433poly 0
-Clip Tempo/434/120
-New Tempo/434/110
-id434poly, id434poly 0
-Clip Tempo/435/120
-New Tempo/435/110
-id435poly, id435poly 0
-Clip Tempo/436/120
-New Tempo/436/110
-id436poly, id436poly 0
-Clip Tempo/437/120
-New Tempo/437/110
-id437poly, id437poly 0
-Clip Tempo/438/120
-New Tempo/438/110
-id438poly, id438poly 0
-Clip Tempo/439/120
-New Tempo/439/110
-id439poly, id439poly 0
-Clip Tempo/440/120
-New Tempo/440/110
-id440poly, id440poly 0
-Clip Tempo/441/120
-New Tempo/441/110
-id441poly, id441poly 0
-Clip Tempo/442/120
-New Tempo/442/110
-id442poly, id442poly 0
-Clip Tempo/443/120
-New Tempo/443/110
-id443poly, id443poly 0
-Clip Tempo/444/120
-New Tempo/444/110
-id444poly, id444poly 0
-Clip Tempo/445/120
-New Tempo/445/110
-id445poly, id445poly 0
-Clip Tempo/446/120
-New Tempo/446/110
-id446poly, id446poly 0
-Clip Tempo/447/120
-New Tempo/447/110
-id447poly, id447poly 0
-Clip Tempo/448/120
-New Tempo/448/110
-id448poly, id448poly 0
-Clip Tempo/449/120
-New Tempo/449/110
-id449poly, id449poly 0
-Clip Tempo/450/120
-New Tempo/450/110
-id450poly, id450poly 0
-Clip Tempo/451/120
-New Tempo/451/110
-id451poly, id451poly 0
-Clip Tempo/452/120
-New Tempo/452/110
-id452poly, id452poly 0
-Clip Tempo/453/120
-New Tempo/453/110
-id453poly, id453poly 0
-Clip Tempo/454/120
-New Tempo/454/110
-id454poly, id454poly 0
-Clip Tempo/455/120
-New Tempo/455/110
-id455poly, id455poly 0
-Clip Tempo/456/120
-New Tempo/456/110
-id456poly, id456poly 0
-Clip Tempo/457/120
-New Tempo/457/110
-id457poly, id457poly 0
-Clip Tempo/458/120
-New Tempo/458/110
-id458poly, id458poly 0
-Clip Tempo/459/120
-New Tempo/459/110
-id459poly, id459poly 0
-Clip Tempo/460/120
-New Tempo/460/110
-id460poly, id460poly 0
-Clip Tempo/461/120
-New Tempo/461/110
-id461poly, id461poly 0
-Clip Tempo/462/120
-New Tempo/462/110
-id462poly, id462poly 0
-Clip Tempo/463/120
-New Tempo/463/110
-id463poly, id463poly 0
-Clip Tempo/464/120
-New Tempo/464/110
-id464poly, id464poly 0
-Clip Tempo/465/120
-New Tempo/465/110
-id465poly, id465poly 0
-Clip Tempo/466/120
-New Tempo/466/110
-id466poly, id466poly 0
-Clip Tempo/467/120
-New Tempo/467/110
-id467poly, id467poly 0
-Clip Tempo/468/120
-New Tempo/468/110
-id468poly, id468poly 0
-Clip Tempo/469/120
-New Tempo/469/110
-id469poly, id469poly 0
-Clip Tempo/470/120
-New Tempo/470/110
-id470poly, id470poly 0
-Clip Tempo/471/120
-New Tempo/471/110
-id471poly, id471poly 0
-Clip Tempo/472/120
-New Tempo/472/110
-id472poly, id472poly 0
-MIDI Extension/397/b1.mid
-MIDI Extension/398/b2.mid
-MIDI Extension/399/b3.mid
-MIDI Extension/400/b4.mid
-MIDI Extension/401/b5.mid
-MIDI Extension/402/b36.mid
-MIDI Extension/403/b37.mid
-MIDI Extension/412/b14.mid
-MIDI Extension/413/b20.mid
-MIDI Extension/414/b21.mid
-MIDI Extension/415/b22.mid
-MIDI Extension/416/b23.mid
-MIDI Extension/417/b24.mid
-MIDI Extension/418/b25.mid
-MIDI Extension/419/b26.mid
-MIDI Extension/420/b27.mid
-MIDI Extension/421/b28.mid
-MIDI Extension/422/b29.mid
-MIDI Extension/404/b6.mid
-MIDI Extension/406/b7.mid
-MIDI Extension/407/b8.mid
-MIDI Extension/408/b9.mid
-MIDI Extension/405/b10.mid
-MIDI Extension/409/b11.mid
-MIDI Extension/410/b12.mid
-MIDI Extension/411/b13.mid
-MIDI Extension/429/b38.mid
-MIDI Extension/430/b39.mid
-MIDI Extension/431/b40.mid
-MIDI Extension/449/b41.mid
-MIDI Extension/432/b6.mid
-MIDI Extension/433/b7.mid
-MIDI Extension/434/b8.mid
-MIDI Extension/435/b9.mid
-MIDI Extension/450/b10.mid
-MIDI Extension/436/b11.mid
-MIDI Extension/437/b12.mid
-MIDI Extension/438/b13.mid
-MIDI Extension/439/b57.mid
-MIDI Extension/451/b43.mid
-MIDI Extension/452/b44.mid
-MIDI Extension/453/b46.mid
-MIDI Extension/440/b45.mid
-MIDI Extension/441/b47.mid
-MIDI Extension/442/b48.mid
-MIDI Extension/443/b49.mid
-MIDI Extension/444/b50.mid
-MIDI Extension/445/b52.mid
-MIDI Extension/446/b53.mid
-MIDI Extension/454/b51.mid
-MIDI Extension/447/b54.mid
-MIDI Extension/448/b55.mid
-MIDI Extension/455/b38.mid
-MIDI Extension/456/b39.mid
-MIDI Extension/465/b40.mid
-MIDI Extension/466/b41.mid
-MIDI Extension/457/b6.mid
-MIDI Extension/458/b7.mid
-MIDI Extension/459/b8.mid
-MIDI Extension/460/b9.mid
-MIDI Extension/467/b10.mid
-MIDI Extension/461/b11.mid
-MIDI Extension/462/b12.mid
-MIDI Extension/463/b13.mid
-MIDI Extension/464/b57.mid
-MIDI Extension/468/b43.mid
-MIDI Extension/469/b44.mid
-MIDI Extension/470/b45.mid
-MIDI Extension/471/b46.mid
-MIDI Extension/472/b56.mid
-MIDI Extension/423/b30.mid
-MIDI Extension/424/b31.mid
-MIDI Extension/425/b32.mid
-MIDI Extension/426/b33.mid
-MIDI Extension/427/b34.mid
-MIDI Extension/428/b35.mid
-New Tempo/481/110
-Clip Tempo/481/120
-id481poly, id481poly 0
-New Tempo/482/110
-Clip Tempo/482/120
-id482poly, id482poly 0
-MIDI Extension/482/dSnare.mid
-MIDI Extension/481/dKick.mid
+MIDI Extension/102/b34.mid
+MIDI Extension/101/b35.mid
+MIDI Extension/100/b36.mid
+MIDI Extension/99/b37.mid
+MIDI Extension/98/b38.mid
+MIDI Extension/179/b39.mid
+MIDI Extension/178/b39.mid
+MIDI Extension/177/bFINAL.mid
+MIDI Extension/176/kick1.mid
+MIDI Extension/175/snare1.mid
+MIDI Extension/174/d1.mid
+MIDI Extension/173/d2.mid
+MIDI Extension/172/d3.mid
+MIDI Extension/171/d4.mid
+MIDI Extension/170/d5.mid
+MIDI Extension/169/d6.mid
+MIDI Extension/168/d7.mid
+MIDI Extension/167/d8.mid
+MIDI Extension/166/d9.mid
+MIDI Extension/165/d10.mid
+MIDI Extension/164/d11.mid
+MIDI Extension/163/d12.mid
+MIDI Extension/162/d13.mid
+MIDI Extension/161/d14.mid
+MIDI Extension/160/d15.mid
+MIDI Extension/159/d16.mid
+MIDI Extension/158/d17.mid
+MIDI Extension/157/d18.mid
+MIDI Extension/156/d19.mid
+MIDI Extension/155/d9.mid
+MIDI Extension/154/d20.mid
+MIDI Extension/153/d21.mid
+MIDI Extension/147/d22.mid
+MIDI Extension/146/d23.mid
+MIDI Extension/145/d24.mid
+MIDI Extension/144/d25.mid
+MIDI Extension/143/d26.mid
+MIDI Extension/142/d27.mid
+MIDI Extension/141/dFINAL1.mid
+MIDI Extension/140/dFINAL2.mid
+MIDI Extension/181/kick1.mid
