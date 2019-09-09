@@ -151,6 +151,7 @@ Public Class DeveloperMode_Project
                 Dim str As String = String.Empty
 
                 '와... 진짜 LED 구현하느라 완전 힘들었다........ ㅠㅠ
+                'KeyTrack도 있음.
                 NewElementList = doc.GetElementsByTagName("KeyTracks") 'KeyTracks XML 트랙
                 For i As Integer = 0 To NewElementList.Count - 1
                     For q As Integer = 0 To NewElementList(i).ChildNodes.Count - 1 'XML 트랙 아이 추출

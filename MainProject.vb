@@ -2558,10 +2558,24 @@ fexLine:
                             'LED Save 파일의 id는 MxDeviceMidiEffect의 LomId Value랑 같음.
                             Dim id_index As Integer = 0
                             For ndx As Integer = 0 To setNode.Count - 1
-                                Dim currentid As Integer = Integer.Parse(setNode(ndx).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("LomId").GetAttribute("Value"))
-                                If d_id = currentid Then
-                                    id_index = ndx
-                                    Exit For
+                                Dim fndError As Boolean = False
+                                Dim currentid As Integer = 0
+                                Dim MidiName As String = String.Empty
+                                Try
+                                    currentid = Integer.Parse(setNode(ndx).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("LomId").GetAttribute("Value"))
+                                    MidiName = setNode(ndx).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("PatchSlot").Item("Value").Item("MxDPatchRef").Item("FileRef").Item("Name").GetAttribute("Value")
+                                    fndError = False
+                                Catch exN As NullReferenceException
+                                    fndError = True
+                                End Try
+
+                                If fndError = False Then
+                                    currentid = Integer.Parse(setNode(ndx).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("LomId").GetAttribute("Value"))
+                                    MidiName = setNode(ndx).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("PatchSlot").Item("Value").Item("MxDPatchRef").Item("FileRef").Item("Name").GetAttribute("Value")
+                                    If d_id = currentid AndAlso MidiName = "Midi Extension.amxd" Then
+                                        id_index = ndx
+                                        Exit For
+                                    End If
                                 End If
                             Next
                             x = setNode(id_index)
@@ -2573,6 +2587,29 @@ fexLine:
 
                             If UniPack_Chain > 8 OrElse UniPack_Chain = 0 OrElse UniPack_X = -8192 Then
                                 Continue For
+                            End If
+
+                            If UniPack_Chain > 2 Then
+                                Exit For
+                            End If
+
+                            Dim nMidiEffectBrn As Boolean = False
+                            If x.InnerXml.Contains("<MidiRandom Id=") AndAlso x.InnerXml.Contains("<MidiEffectGroupDevice Id=") AndAlso x.InnerXml.Contains("<Branches>") AndAlso x.InnerXml.Contains("<MidiEffectBranch Id=") Then
+                                Dim MidiEffectGroup As XmlNodeList
+                                Dim MidiRandomList As XmlNode
+                                Try
+                                    MidiEffectGroup = x.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiEffectGroupDevice").Item("Branches").ChildNodes
+                                    MidiRandomList = x.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiRandom")
+                                    nMidiEffectBrn = True
+                                Catch exN As NullReferenceException
+                                    nMidiEffectBrn = False
+                                End Try
+
+                                If nMidiEffectBrn Then
+                                    MidiEffectGroup = x.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiEffectGroupDevice").Item("Branches").ChildNodes
+                                    MidiRandomList = x.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiRandom")
+                                    Dim chs As Integer = Integer.Parse(MidiRandomList.Item("Choices").Item("Manual").GetAttribute("Value")) 'MidiRandom > Choices > Manual Value
+                                End If
                             End If
 
                             Dim LoopNumber_1 As Integer() = New Integer(1) {}
@@ -2701,6 +2738,7 @@ fexLine:
 
                 Next
 
+                Debug.WriteLine("Finish...")
                 Loading.DLb.Text = "Loading UniPack LEDs..."
                 Loading.DLb.Refresh()
                 For Each d As String In My.Computer.FileSystem.GetFiles(c, FileIO.SearchOption.SearchTopLevelOnly)
