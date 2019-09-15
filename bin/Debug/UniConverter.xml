@@ -334,14 +334,64 @@ o 6 3 a [나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 �
  keySound 저장 여부.
  </summary>
 </member>
-<member name="F:UniConverter_Project.MainProject.LLV">
+<member name="F:UniConverter_Project.MainProject.ks_ctrl">
  <summary>
- 사운드 검색시 원본 리스트뷰. (Searching Sound ListView)
+ keySound 버튼 저장
  </summary>
 </member>
-<member name="F:UniConverter_Project.MainProject.TVLV">
+<member name="F:UniConverter_Project.MainProject.keySoundLayout">
  <summary>
- Tempoary Virtual ListView. 사운드 로드시 임시로 저장하는 리스트뷰. (Reading from Ableton Project)
+ keySound 레이아웃 여부.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.ksUniPack_X">
+ <summary>
+ X 버튼 좌표. (1~8)
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.ksUniPack_Y">
+ <summary>
+ Y 버튼 좌표. (1~8)
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.keySound_Mapping">
+ <summary>
+ 키사운드 매핑.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.keySound_SameM">
+ <summary>
+ 최대 다중 매핑 지원. (1, 같은 사운드 다중 매핑 적용)
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.keySound_DifM">
+ <summary>
+ 최대 다중 매핑 지원. (2, 다른 사운드 다중 매핑 적용)
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.keySound_CChain">
+ <summary>
+ 현재 체인. (1~8)
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.ksUniPack_SelectedChain">
+ <summary>
+ 선택한 체인. (1~8)
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.keySoundLoop">
+ <summary>
+ keySound Loop 여부.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.ks_PlayLoop1">
+ <summary>
+ keySound Play Loop 1.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.ks_PlayLoop2">
+ <summary>
+ keySound Play Loop 2.
  </summary>
 </member>
 <member name="F:UniConverter_Project.MainProject.keyLEDIsSaved">

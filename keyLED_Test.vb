@@ -156,6 +156,12 @@ Public Class keyLED_Test
         IsLoaded = True
     End Sub
 
+    Private Sub Me_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+        If e.Control AndAlso e.KeyCode = Keys.T Then 'Test Mode [Ctrl + T]
+            TestByt.PerformClick()
+        End If
+    End Sub
+
     Private Sub TestByt_Click(sender As Object, e As EventArgs) Handles TestByt.Click
         For x As Integer = 1 To 8
             For y As Integer = 1 To 8

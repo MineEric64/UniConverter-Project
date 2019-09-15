@@ -91,7 +91,7 @@ Public Class keyLED_Edit
 
                     Dim Item_a As String = String.Empty
                     Invoke(Sub() Item_a = ALGModeBox.SelectedItem.ToString())
-                    If Item_a = "Ableton 9 ALG1" Then
+                    If Item_a = "Ableton Live MIDI ALG1" Then
 
                         If mdEvent.CommandCode = MidiCommandCode.NoteOn Then
                             Dim a As NoteOnEvent = DirectCast(mdEvent, NoteOnEvent)

@@ -80,14 +80,10 @@ Public Class Sound_Cutting
                 End If
 
                 My.Computer.FileSystem.CreateDirectory("Workspace\unipack\sounds")
-
-                MainProject.Sound_ListView.Items.Clear()
-                MainProject.keySound_ListView.Items.Clear()
                 For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\unipack\sounds\", FileIO.SearchOption.SearchTopLevelOnly, "*.wav")
                     File.Copy(foundFile, Application.StartupPath + "Workspace\unipack\sounds\" & foundFile.Split("\").Last, True)
 
                     Dim itm As New ListViewItem(New String() {Path.GetFileName(foundFile), foundFile})
-                    MainProject.Sound_ListView.Items.Add(itm)
                 Next
                 If MainProject.abl_openedsnd = False Then MainProject.abl_openedsnd = True
             End If

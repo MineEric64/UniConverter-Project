@@ -62,28 +62,82 @@ Partial Class MainProject
         Me.infoTB1 = New System.Windows.Forms.TextBox()
         Me.infoT1 = New System.Windows.Forms.Label()
         Me.KeySoundTab = New System.Windows.Forms.TabPage()
-        Me.EditButton = New System.Windows.Forms.Button()
-        Me.ks_SearchLabel = New System.Windows.Forms.Label()
-        Me.ks_SearchSound = New System.Windows.Forms.TextBox()
-        Me.ks_Sound2 = New System.Windows.Forms.Label()
-        Me.ks_Sound1 = New System.Windows.Forms.Label()
-        Me.ks_SelChainXY = New System.Windows.Forms.ComboBox()
-        Me.EdKeysButton = New System.Windows.Forms.Button()
-        Me.SaveButton = New System.Windows.Forms.Button()
+        Me.DevelopingLabel1 = New System.Windows.Forms.Label()
+        Me.btnPad_chain8 = New System.Windows.Forms.Button()
+        Me.btnPad_chain7 = New System.Windows.Forms.Button()
+        Me.btnPad_chain6 = New System.Windows.Forms.Button()
+        Me.btnPad_chain5 = New System.Windows.Forms.Button()
+        Me.btnPad_chain4 = New System.Windows.Forms.Button()
+        Me.btnPad_chain3 = New System.Windows.Forms.Button()
+        Me.btnPad_chain2 = New System.Windows.Forms.Button()
+        Me.btnPad_chain1 = New System.Windows.Forms.Button()
+        Me.PadLayoutPanel = New System.Windows.Forms.TableLayoutPanel()
+        Me.uni1_1 = New System.Windows.Forms.Button()
+        Me.uni1_2 = New System.Windows.Forms.Button()
+        Me.uni1_3 = New System.Windows.Forms.Button()
+        Me.uni1_4 = New System.Windows.Forms.Button()
+        Me.uni1_5 = New System.Windows.Forms.Button()
+        Me.uni1_6 = New System.Windows.Forms.Button()
+        Me.uni1_7 = New System.Windows.Forms.Button()
+        Me.uni1_8 = New System.Windows.Forms.Button()
+        Me.uni2_1 = New System.Windows.Forms.Button()
+        Me.uni2_2 = New System.Windows.Forms.Button()
+        Me.uni2_3 = New System.Windows.Forms.Button()
+        Me.uni2_4 = New System.Windows.Forms.Button()
+        Me.uni2_5 = New System.Windows.Forms.Button()
+        Me.uni2_6 = New System.Windows.Forms.Button()
+        Me.uni2_7 = New System.Windows.Forms.Button()
+        Me.uni2_8 = New System.Windows.Forms.Button()
+        Me.uni3_1 = New System.Windows.Forms.Button()
+        Me.uni3_2 = New System.Windows.Forms.Button()
+        Me.uni3_3 = New System.Windows.Forms.Button()
+        Me.uni3_4 = New System.Windows.Forms.Button()
+        Me.uni3_5 = New System.Windows.Forms.Button()
+        Me.uni3_6 = New System.Windows.Forms.Button()
+        Me.uni3_7 = New System.Windows.Forms.Button()
+        Me.uni3_8 = New System.Windows.Forms.Button()
+        Me.uni4_1 = New System.Windows.Forms.Button()
+        Me.uni4_2 = New System.Windows.Forms.Button()
+        Me.uni4_3 = New System.Windows.Forms.Button()
+        Me.uni4_4 = New System.Windows.Forms.Button()
+        Me.uni4_5 = New System.Windows.Forms.Button()
+        Me.uni4_6 = New System.Windows.Forms.Button()
+        Me.uni4_7 = New System.Windows.Forms.Button()
+        Me.uni4_8 = New System.Windows.Forms.Button()
+        Me.uni5_1 = New System.Windows.Forms.Button()
+        Me.uni5_2 = New System.Windows.Forms.Button()
+        Me.uni5_3 = New System.Windows.Forms.Button()
+        Me.uni5_4 = New System.Windows.Forms.Button()
+        Me.uni5_5 = New System.Windows.Forms.Button()
+        Me.uni5_6 = New System.Windows.Forms.Button()
+        Me.uni5_7 = New System.Windows.Forms.Button()
+        Me.uni5_8 = New System.Windows.Forms.Button()
+        Me.uni6_1 = New System.Windows.Forms.Button()
+        Me.uni6_2 = New System.Windows.Forms.Button()
+        Me.uni6_3 = New System.Windows.Forms.Button()
+        Me.uni6_4 = New System.Windows.Forms.Button()
+        Me.uni6_5 = New System.Windows.Forms.Button()
+        Me.uni6_6 = New System.Windows.Forms.Button()
+        Me.uni6_7 = New System.Windows.Forms.Button()
+        Me.uni6_8 = New System.Windows.Forms.Button()
+        Me.uni7_1 = New System.Windows.Forms.Button()
+        Me.uni7_2 = New System.Windows.Forms.Button()
+        Me.uni7_3 = New System.Windows.Forms.Button()
+        Me.uni7_4 = New System.Windows.Forms.Button()
+        Me.uni7_5 = New System.Windows.Forms.Button()
+        Me.uni7_6 = New System.Windows.Forms.Button()
+        Me.uni7_7 = New System.Windows.Forms.Button()
+        Me.uni7_8 = New System.Windows.Forms.Button()
+        Me.uni8_1 = New System.Windows.Forms.Button()
+        Me.uni8_2 = New System.Windows.Forms.Button()
+        Me.uni8_3 = New System.Windows.Forms.Button()
+        Me.uni8_4 = New System.Windows.Forms.Button()
+        Me.uni8_5 = New System.Windows.Forms.Button()
+        Me.uni8_6 = New System.Windows.Forms.Button()
+        Me.uni8_7 = New System.Windows.Forms.Button()
+        Me.uni8_8 = New System.Windows.Forms.Button()
         Me.CutSndButton = New System.Windows.Forms.Button()
         Me.Tip3 = New System.Windows.Forms.Label()
-        Me.DevelopingLabel1 = New System.Windows.Forms.Label()
-        Me.BackButton = New System.Windows.Forms.Button()
-        Me.GoButton = New System.Windows.Forms.Button()
-        Me.keySound_ListView = New System.Windows.Forms.ListView()
-        Me.SortingNumber = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.FileName2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.Length2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.Loop2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.Sound_ListView = New System.Windows.Forms.ListView()
-        Me.FileName = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.Length = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.AssingedButtons = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.keyLED1 = New System.Windows.Forms.TabPage()
         Me.DevelopingLabel2 = New System.Windows.Forms.Label()
         Me.keyLED2 = New System.Windows.Forms.TabPage()
@@ -109,10 +163,13 @@ Partial Class MainProject
         Me.BGW_keyLED_ = New System.ComponentModel.BackgroundWorker()
         Me.BGW_CheckUpdate = New System.ComponentModel.BackgroundWorker()
         Me.BGW_keySound = New System.ComponentModel.BackgroundWorker()
+        Me.BGW_keySoundLayout = New System.ComponentModel.BackgroundWorker()
+        Me.BGW_keySoundPlay = New System.ComponentModel.BackgroundWorker()
         Me.MenuStrip.SuspendLayout()
         Me.HomeEdit.SuspendLayout()
         Me.Info1.SuspendLayout()
         Me.KeySoundTab.SuspendLayout()
+        Me.PadLayoutPanel.SuspendLayout()
         Me.keyLED1.SuspendLayout()
         Me.keyLED2.SuspendLayout()
         CType(Me.keyLEDMIDEX_UniLED, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -408,21 +465,18 @@ Partial Class MainProject
         '
         'KeySoundTab
         '
-        Me.KeySoundTab.Controls.Add(Me.EditButton)
-        Me.KeySoundTab.Controls.Add(Me.ks_SearchLabel)
-        Me.KeySoundTab.Controls.Add(Me.ks_SearchSound)
-        Me.KeySoundTab.Controls.Add(Me.ks_Sound2)
-        Me.KeySoundTab.Controls.Add(Me.ks_Sound1)
-        Me.KeySoundTab.Controls.Add(Me.ks_SelChainXY)
-        Me.KeySoundTab.Controls.Add(Me.EdKeysButton)
-        Me.KeySoundTab.Controls.Add(Me.SaveButton)
+        Me.KeySoundTab.Controls.Add(Me.DevelopingLabel1)
+        Me.KeySoundTab.Controls.Add(Me.btnPad_chain8)
+        Me.KeySoundTab.Controls.Add(Me.btnPad_chain7)
+        Me.KeySoundTab.Controls.Add(Me.btnPad_chain6)
+        Me.KeySoundTab.Controls.Add(Me.btnPad_chain5)
+        Me.KeySoundTab.Controls.Add(Me.btnPad_chain4)
+        Me.KeySoundTab.Controls.Add(Me.btnPad_chain3)
+        Me.KeySoundTab.Controls.Add(Me.btnPad_chain2)
+        Me.KeySoundTab.Controls.Add(Me.btnPad_chain1)
+        Me.KeySoundTab.Controls.Add(Me.PadLayoutPanel)
         Me.KeySoundTab.Controls.Add(Me.CutSndButton)
         Me.KeySoundTab.Controls.Add(Me.Tip3)
-        Me.KeySoundTab.Controls.Add(Me.DevelopingLabel1)
-        Me.KeySoundTab.Controls.Add(Me.BackButton)
-        Me.KeySoundTab.Controls.Add(Me.GoButton)
-        Me.KeySoundTab.Controls.Add(Me.keySound_ListView)
-        Me.KeySoundTab.Controls.Add(Me.Sound_ListView)
         Me.KeySoundTab.Location = New System.Drawing.Point(4, 23)
         Me.KeySoundTab.Name = "KeySoundTab"
         Me.KeySoundTab.Padding = New System.Windows.Forms.Padding(3)
@@ -431,90 +485,979 @@ Partial Class MainProject
         Me.KeySoundTab.Text = "keySound"
         Me.KeySoundTab.UseVisualStyleBackColor = True
         '
-        'EditButton
+        'DevelopingLabel1
         '
-        Me.EditButton.Font = New System.Drawing.Font("나눔스퀘어라운드 Regular", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.EditButton.Location = New System.Drawing.Point(366, 309)
-        Me.EditButton.Name = "EditButton"
-        Me.EditButton.Size = New System.Drawing.Size(75, 25)
-        Me.EditButton.TabIndex = 51
-        Me.EditButton.Text = "Edit!"
-        Me.EditButton.UseVisualStyleBackColor = True
+        Me.DevelopingLabel1.AutoSize = True
+        Me.DevelopingLabel1.Font = New System.Drawing.Font("나눔바른고딕OTF", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.DevelopingLabel1.Location = New System.Drawing.Point(132, 202)
+        Me.DevelopingLabel1.Name = "DevelopingLabel1"
+        Me.DevelopingLabel1.Size = New System.Drawing.Size(540, 62)
+        Me.DevelopingLabel1.TabIndex = 64
+        Me.DevelopingLabel1.Text = "We are developing ""Converting keySound""!" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "                           Coming Soon." &
+    ".."
         '
-        'ks_SearchLabel
+        'btnPad_chain8
         '
-        Me.ks_SearchLabel.AutoSize = True
-        Me.ks_SearchLabel.Font = New System.Drawing.Font("나눔스퀘어라운드 Regular", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.ks_SearchLabel.Location = New System.Drawing.Point(14, 14)
-        Me.ks_SearchLabel.Name = "ks_SearchLabel"
-        Me.ks_SearchLabel.Size = New System.Drawing.Size(88, 13)
-        Me.ks_SearchLabel.TabIndex = 50
-        Me.ks_SearchLabel.Text = "Search Sound:"
+        Me.btnPad_chain8.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.btnPad_chain8.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.btnPad_chain8.Location = New System.Drawing.Point(477, 396)
+        Me.btnPad_chain8.MinimumSize = New System.Drawing.Size(10, 10)
+        Me.btnPad_chain8.Name = "btnPad_chain8"
+        Me.btnPad_chain8.Size = New System.Drawing.Size(53, 52)
+        Me.btnPad_chain8.TabIndex = 63
+        Me.btnPad_chain8.Text = "8"
+        Me.btnPad_chain8.UseVisualStyleBackColor = True
         '
-        'ks_SearchSound
+        'btnPad_chain7
         '
-        Me.ks_SearchSound.Font = New System.Drawing.Font("나눔스퀘어라운드 Regular", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.ks_SearchSound.Location = New System.Drawing.Point(108, 9)
-        Me.ks_SearchSound.Name = "ks_SearchSound"
-        Me.ks_SearchSound.Size = New System.Drawing.Size(141, 21)
-        Me.ks_SearchSound.TabIndex = 49
+        Me.btnPad_chain7.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.btnPad_chain7.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.btnPad_chain7.Location = New System.Drawing.Point(477, 343)
+        Me.btnPad_chain7.MinimumSize = New System.Drawing.Size(10, 10)
+        Me.btnPad_chain7.Name = "btnPad_chain7"
+        Me.btnPad_chain7.Size = New System.Drawing.Size(53, 48)
+        Me.btnPad_chain7.TabIndex = 62
+        Me.btnPad_chain7.Text = "7"
+        Me.btnPad_chain7.UseVisualStyleBackColor = True
         '
-        'ks_Sound2
+        'btnPad_chain6
         '
-        Me.ks_Sound2.AutoSize = True
-        Me.ks_Sound2.Font = New System.Drawing.Font("Ubuntu", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ks_Sound2.Location = New System.Drawing.Point(469, 10)
-        Me.ks_Sound2.Name = "ks_Sound2"
-        Me.ks_Sound2.Size = New System.Drawing.Size(127, 19)
-        Me.ks_Sound2.TabIndex = 48
-        Me.ks_Sound2.Text = "Sounds In Button"
+        Me.btnPad_chain6.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.btnPad_chain6.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.btnPad_chain6.Location = New System.Drawing.Point(477, 289)
+        Me.btnPad_chain6.MinimumSize = New System.Drawing.Size(10, 10)
+        Me.btnPad_chain6.Name = "btnPad_chain6"
+        Me.btnPad_chain6.Size = New System.Drawing.Size(53, 48)
+        Me.btnPad_chain6.TabIndex = 61
+        Me.btnPad_chain6.Text = "6"
+        Me.btnPad_chain6.UseVisualStyleBackColor = True
         '
-        'ks_Sound1
+        'btnPad_chain5
         '
-        Me.ks_Sound1.AutoSize = True
-        Me.ks_Sound1.Font = New System.Drawing.Font("Ubuntu", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ks_Sound1.Location = New System.Drawing.Point(13, 39)
-        Me.ks_Sound1.Name = "ks_Sound1"
-        Me.ks_Sound1.Size = New System.Drawing.Size(103, 19)
-        Me.ks_Sound1.TabIndex = 47
-        Me.ks_Sound1.Text = "Sound Library"
+        Me.btnPad_chain5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.btnPad_chain5.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.btnPad_chain5.Location = New System.Drawing.Point(477, 235)
+        Me.btnPad_chain5.MinimumSize = New System.Drawing.Size(10, 10)
+        Me.btnPad_chain5.Name = "btnPad_chain5"
+        Me.btnPad_chain5.Size = New System.Drawing.Size(53, 48)
+        Me.btnPad_chain5.TabIndex = 60
+        Me.btnPad_chain5.Text = "5"
+        Me.btnPad_chain5.UseVisualStyleBackColor = True
         '
-        'ks_SelChainXY
+        'btnPad_chain4
         '
-        Me.ks_SelChainXY.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.ks_SelChainXY.FormattingEnabled = True
-        Me.ks_SelChainXY.Location = New System.Drawing.Point(397, 9)
-        Me.ks_SelChainXY.Name = "ks_SelChainXY"
-        Me.ks_SelChainXY.Size = New System.Drawing.Size(56, 22)
-        Me.ks_SelChainXY.TabIndex = 44
-        Me.ks_SelChainXY.Text = "1 7 6"
+        Me.btnPad_chain4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.btnPad_chain4.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.btnPad_chain4.Location = New System.Drawing.Point(477, 181)
+        Me.btnPad_chain4.MinimumSize = New System.Drawing.Size(10, 10)
+        Me.btnPad_chain4.Name = "btnPad_chain4"
+        Me.btnPad_chain4.Size = New System.Drawing.Size(53, 48)
+        Me.btnPad_chain4.TabIndex = 59
+        Me.btnPad_chain4.Text = "4"
+        Me.btnPad_chain4.UseVisualStyleBackColor = True
         '
-        'EdKeysButton
+        'btnPad_chain3
         '
-        Me.EdKeysButton.Font = New System.Drawing.Font("Ubuntu", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.EdKeysButton.Location = New System.Drawing.Point(473, 408)
-        Me.EdKeysButton.Name = "EdKeysButton"
-        Me.EdKeysButton.Size = New System.Drawing.Size(152, 38)
-        Me.EdKeysButton.TabIndex = 43
-        Me.EdKeysButton.Text = "Edit keySound!"
-        Me.EdKeysButton.UseVisualStyleBackColor = True
+        Me.btnPad_chain3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.btnPad_chain3.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.btnPad_chain3.Location = New System.Drawing.Point(477, 127)
+        Me.btnPad_chain3.MinimumSize = New System.Drawing.Size(10, 10)
+        Me.btnPad_chain3.Name = "btnPad_chain3"
+        Me.btnPad_chain3.Size = New System.Drawing.Size(53, 48)
+        Me.btnPad_chain3.TabIndex = 58
+        Me.btnPad_chain3.Text = "3"
+        Me.btnPad_chain3.UseVisualStyleBackColor = True
         '
-        'SaveButton
+        'btnPad_chain2
         '
-        Me.SaveButton.Font = New System.Drawing.Font("Ubuntu", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.SaveButton.Location = New System.Drawing.Point(631, 408)
-        Me.SaveButton.Name = "SaveButton"
-        Me.SaveButton.Size = New System.Drawing.Size(125, 78)
-        Me.SaveButton.TabIndex = 42
-        Me.SaveButton.Text = "Save"
-        Me.SaveButton.UseVisualStyleBackColor = True
+        Me.btnPad_chain2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.btnPad_chain2.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.btnPad_chain2.Location = New System.Drawing.Point(477, 73)
+        Me.btnPad_chain2.MinimumSize = New System.Drawing.Size(10, 10)
+        Me.btnPad_chain2.Name = "btnPad_chain2"
+        Me.btnPad_chain2.Size = New System.Drawing.Size(53, 48)
+        Me.btnPad_chain2.TabIndex = 57
+        Me.btnPad_chain2.Text = "2"
+        Me.btnPad_chain2.UseVisualStyleBackColor = True
+        '
+        'btnPad_chain1
+        '
+        Me.btnPad_chain1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.btnPad_chain1.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.btnPad_chain1.Location = New System.Drawing.Point(477, 16)
+        Me.btnPad_chain1.MinimumSize = New System.Drawing.Size(10, 10)
+        Me.btnPad_chain1.Name = "btnPad_chain1"
+        Me.btnPad_chain1.Size = New System.Drawing.Size(53, 51)
+        Me.btnPad_chain1.TabIndex = 56
+        Me.btnPad_chain1.Text = "1"
+        Me.btnPad_chain1.UseVisualStyleBackColor = True
+        '
+        'PadLayoutPanel
+        '
+        Me.PadLayoutPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.PadLayoutPanel.BackColor = System.Drawing.Color.LightGray
+        Me.PadLayoutPanel.ColumnCount = 8
+        Me.PadLayoutPanel.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5!))
+        Me.PadLayoutPanel.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5!))
+        Me.PadLayoutPanel.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5!))
+        Me.PadLayoutPanel.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5!))
+        Me.PadLayoutPanel.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5!))
+        Me.PadLayoutPanel.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5!))
+        Me.PadLayoutPanel.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5!))
+        Me.PadLayoutPanel.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5!))
+        Me.PadLayoutPanel.Controls.Add(Me.uni1_1, 0, 0)
+        Me.PadLayoutPanel.Controls.Add(Me.uni1_2, 1, 0)
+        Me.PadLayoutPanel.Controls.Add(Me.uni1_3, 2, 0)
+        Me.PadLayoutPanel.Controls.Add(Me.uni1_4, 3, 0)
+        Me.PadLayoutPanel.Controls.Add(Me.uni1_5, 4, 0)
+        Me.PadLayoutPanel.Controls.Add(Me.uni1_6, 5, 0)
+        Me.PadLayoutPanel.Controls.Add(Me.uni1_7, 6, 0)
+        Me.PadLayoutPanel.Controls.Add(Me.uni1_8, 7, 0)
+        Me.PadLayoutPanel.Controls.Add(Me.uni2_1, 0, 1)
+        Me.PadLayoutPanel.Controls.Add(Me.uni2_2, 1, 1)
+        Me.PadLayoutPanel.Controls.Add(Me.uni2_3, 2, 1)
+        Me.PadLayoutPanel.Controls.Add(Me.uni2_4, 3, 1)
+        Me.PadLayoutPanel.Controls.Add(Me.uni2_5, 4, 1)
+        Me.PadLayoutPanel.Controls.Add(Me.uni2_6, 5, 1)
+        Me.PadLayoutPanel.Controls.Add(Me.uni2_7, 6, 1)
+        Me.PadLayoutPanel.Controls.Add(Me.uni2_8, 7, 1)
+        Me.PadLayoutPanel.Controls.Add(Me.uni3_1, 0, 2)
+        Me.PadLayoutPanel.Controls.Add(Me.uni3_2, 1, 2)
+        Me.PadLayoutPanel.Controls.Add(Me.uni3_3, 2, 2)
+        Me.PadLayoutPanel.Controls.Add(Me.uni3_4, 3, 2)
+        Me.PadLayoutPanel.Controls.Add(Me.uni3_5, 4, 2)
+        Me.PadLayoutPanel.Controls.Add(Me.uni3_6, 5, 2)
+        Me.PadLayoutPanel.Controls.Add(Me.uni3_7, 6, 2)
+        Me.PadLayoutPanel.Controls.Add(Me.uni3_8, 7, 2)
+        Me.PadLayoutPanel.Controls.Add(Me.uni4_1, 0, 3)
+        Me.PadLayoutPanel.Controls.Add(Me.uni4_2, 1, 3)
+        Me.PadLayoutPanel.Controls.Add(Me.uni4_3, 2, 3)
+        Me.PadLayoutPanel.Controls.Add(Me.uni4_4, 3, 3)
+        Me.PadLayoutPanel.Controls.Add(Me.uni4_5, 4, 3)
+        Me.PadLayoutPanel.Controls.Add(Me.uni4_6, 5, 3)
+        Me.PadLayoutPanel.Controls.Add(Me.uni4_7, 6, 3)
+        Me.PadLayoutPanel.Controls.Add(Me.uni4_8, 7, 3)
+        Me.PadLayoutPanel.Controls.Add(Me.uni5_1, 0, 4)
+        Me.PadLayoutPanel.Controls.Add(Me.uni5_2, 1, 4)
+        Me.PadLayoutPanel.Controls.Add(Me.uni5_3, 2, 4)
+        Me.PadLayoutPanel.Controls.Add(Me.uni5_4, 3, 4)
+        Me.PadLayoutPanel.Controls.Add(Me.uni5_5, 4, 4)
+        Me.PadLayoutPanel.Controls.Add(Me.uni5_6, 5, 4)
+        Me.PadLayoutPanel.Controls.Add(Me.uni5_7, 6, 4)
+        Me.PadLayoutPanel.Controls.Add(Me.uni5_8, 7, 4)
+        Me.PadLayoutPanel.Controls.Add(Me.uni6_1, 0, 5)
+        Me.PadLayoutPanel.Controls.Add(Me.uni6_2, 1, 5)
+        Me.PadLayoutPanel.Controls.Add(Me.uni6_3, 2, 5)
+        Me.PadLayoutPanel.Controls.Add(Me.uni6_4, 3, 5)
+        Me.PadLayoutPanel.Controls.Add(Me.uni6_5, 4, 5)
+        Me.PadLayoutPanel.Controls.Add(Me.uni6_6, 5, 5)
+        Me.PadLayoutPanel.Controls.Add(Me.uni6_7, 6, 5)
+        Me.PadLayoutPanel.Controls.Add(Me.uni6_8, 7, 5)
+        Me.PadLayoutPanel.Controls.Add(Me.uni7_1, 0, 6)
+        Me.PadLayoutPanel.Controls.Add(Me.uni7_2, 1, 6)
+        Me.PadLayoutPanel.Controls.Add(Me.uni7_3, 2, 6)
+        Me.PadLayoutPanel.Controls.Add(Me.uni7_4, 3, 6)
+        Me.PadLayoutPanel.Controls.Add(Me.uni7_5, 4, 6)
+        Me.PadLayoutPanel.Controls.Add(Me.uni7_6, 5, 6)
+        Me.PadLayoutPanel.Controls.Add(Me.uni7_7, 6, 6)
+        Me.PadLayoutPanel.Controls.Add(Me.uni7_8, 7, 6)
+        Me.PadLayoutPanel.Controls.Add(Me.uni8_1, 0, 7)
+        Me.PadLayoutPanel.Controls.Add(Me.uni8_2, 1, 7)
+        Me.PadLayoutPanel.Controls.Add(Me.uni8_3, 2, 7)
+        Me.PadLayoutPanel.Controls.Add(Me.uni8_4, 3, 7)
+        Me.PadLayoutPanel.Controls.Add(Me.uni8_5, 4, 7)
+        Me.PadLayoutPanel.Controls.Add(Me.uni8_6, 5, 7)
+        Me.PadLayoutPanel.Controls.Add(Me.uni8_7, 6, 7)
+        Me.PadLayoutPanel.Controls.Add(Me.uni8_8, 7, 7)
+        Me.PadLayoutPanel.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.PadLayoutPanel.Location = New System.Drawing.Point(25, 16)
+        Me.PadLayoutPanel.Name = "PadLayoutPanel"
+        Me.PadLayoutPanel.RowCount = 8
+        Me.PadLayoutPanel.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5!))
+        Me.PadLayoutPanel.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5!))
+        Me.PadLayoutPanel.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5!))
+        Me.PadLayoutPanel.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5!))
+        Me.PadLayoutPanel.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5!))
+        Me.PadLayoutPanel.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5!))
+        Me.PadLayoutPanel.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5!))
+        Me.PadLayoutPanel.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5!))
+        Me.PadLayoutPanel.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
+        Me.PadLayoutPanel.Size = New System.Drawing.Size(446, 432)
+        Me.PadLayoutPanel.TabIndex = 55
+        '
+        'uni1_1
+        '
+        Me.uni1_1.BackColor = System.Drawing.Color.Gray
+        Me.uni1_1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni1_1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni1_1.Location = New System.Drawing.Point(3, 3)
+        Me.uni1_1.Name = "uni1_1"
+        Me.uni1_1.Size = New System.Drawing.Size(49, 48)
+        Me.uni1_1.TabIndex = 0
+        Me.uni1_1.UseVisualStyleBackColor = False
+        '
+        'uni1_2
+        '
+        Me.uni1_2.BackColor = System.Drawing.Color.Gray
+        Me.uni1_2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni1_2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni1_2.ForeColor = System.Drawing.Color.Black
+        Me.uni1_2.Location = New System.Drawing.Point(58, 3)
+        Me.uni1_2.Name = "uni1_2"
+        Me.uni1_2.Size = New System.Drawing.Size(49, 48)
+        Me.uni1_2.TabIndex = 1
+        Me.uni1_2.UseVisualStyleBackColor = False
+        '
+        'uni1_3
+        '
+        Me.uni1_3.BackColor = System.Drawing.Color.Gray
+        Me.uni1_3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni1_3.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni1_3.ForeColor = System.Drawing.Color.Black
+        Me.uni1_3.Location = New System.Drawing.Point(113, 3)
+        Me.uni1_3.Name = "uni1_3"
+        Me.uni1_3.Size = New System.Drawing.Size(49, 48)
+        Me.uni1_3.TabIndex = 1
+        Me.uni1_3.UseVisualStyleBackColor = False
+        '
+        'uni1_4
+        '
+        Me.uni1_4.BackColor = System.Drawing.Color.Gray
+        Me.uni1_4.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni1_4.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni1_4.ForeColor = System.Drawing.Color.Black
+        Me.uni1_4.Location = New System.Drawing.Point(168, 3)
+        Me.uni1_4.Name = "uni1_4"
+        Me.uni1_4.Size = New System.Drawing.Size(49, 48)
+        Me.uni1_4.TabIndex = 1
+        Me.uni1_4.UseVisualStyleBackColor = False
+        '
+        'uni1_5
+        '
+        Me.uni1_5.BackColor = System.Drawing.Color.Gray
+        Me.uni1_5.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni1_5.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni1_5.ForeColor = System.Drawing.Color.Black
+        Me.uni1_5.Location = New System.Drawing.Point(223, 3)
+        Me.uni1_5.Name = "uni1_5"
+        Me.uni1_5.Size = New System.Drawing.Size(49, 48)
+        Me.uni1_5.TabIndex = 1
+        Me.uni1_5.UseVisualStyleBackColor = False
+        '
+        'uni1_6
+        '
+        Me.uni1_6.BackColor = System.Drawing.Color.Gray
+        Me.uni1_6.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni1_6.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni1_6.ForeColor = System.Drawing.Color.Black
+        Me.uni1_6.Location = New System.Drawing.Point(278, 3)
+        Me.uni1_6.Name = "uni1_6"
+        Me.uni1_6.Size = New System.Drawing.Size(49, 48)
+        Me.uni1_6.TabIndex = 1
+        Me.uni1_6.UseVisualStyleBackColor = False
+        '
+        'uni1_7
+        '
+        Me.uni1_7.BackColor = System.Drawing.Color.Gray
+        Me.uni1_7.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni1_7.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni1_7.ForeColor = System.Drawing.Color.Black
+        Me.uni1_7.Location = New System.Drawing.Point(333, 3)
+        Me.uni1_7.Name = "uni1_7"
+        Me.uni1_7.Size = New System.Drawing.Size(49, 48)
+        Me.uni1_7.TabIndex = 1
+        Me.uni1_7.UseVisualStyleBackColor = False
+        '
+        'uni1_8
+        '
+        Me.uni1_8.BackColor = System.Drawing.Color.Gray
+        Me.uni1_8.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni1_8.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni1_8.ForeColor = System.Drawing.Color.Black
+        Me.uni1_8.Location = New System.Drawing.Point(388, 3)
+        Me.uni1_8.Name = "uni1_8"
+        Me.uni1_8.Size = New System.Drawing.Size(55, 48)
+        Me.uni1_8.TabIndex = 1
+        Me.uni1_8.UseVisualStyleBackColor = False
+        '
+        'uni2_1
+        '
+        Me.uni2_1.BackColor = System.Drawing.Color.Gray
+        Me.uni2_1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni2_1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni2_1.ForeColor = System.Drawing.Color.Black
+        Me.uni2_1.Location = New System.Drawing.Point(3, 57)
+        Me.uni2_1.Name = "uni2_1"
+        Me.uni2_1.Size = New System.Drawing.Size(49, 48)
+        Me.uni2_1.TabIndex = 1
+        Me.uni2_1.UseVisualStyleBackColor = False
+        '
+        'uni2_2
+        '
+        Me.uni2_2.BackColor = System.Drawing.Color.Gray
+        Me.uni2_2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni2_2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni2_2.ForeColor = System.Drawing.Color.Black
+        Me.uni2_2.Location = New System.Drawing.Point(58, 57)
+        Me.uni2_2.Name = "uni2_2"
+        Me.uni2_2.Size = New System.Drawing.Size(49, 48)
+        Me.uni2_2.TabIndex = 1
+        Me.uni2_2.UseVisualStyleBackColor = False
+        '
+        'uni2_3
+        '
+        Me.uni2_3.BackColor = System.Drawing.Color.Gray
+        Me.uni2_3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni2_3.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni2_3.ForeColor = System.Drawing.Color.Black
+        Me.uni2_3.Location = New System.Drawing.Point(113, 57)
+        Me.uni2_3.Name = "uni2_3"
+        Me.uni2_3.Size = New System.Drawing.Size(49, 48)
+        Me.uni2_3.TabIndex = 1
+        Me.uni2_3.UseVisualStyleBackColor = False
+        '
+        'uni2_4
+        '
+        Me.uni2_4.BackColor = System.Drawing.Color.Gray
+        Me.uni2_4.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni2_4.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni2_4.ForeColor = System.Drawing.Color.Black
+        Me.uni2_4.Location = New System.Drawing.Point(168, 57)
+        Me.uni2_4.Name = "uni2_4"
+        Me.uni2_4.Size = New System.Drawing.Size(49, 48)
+        Me.uni2_4.TabIndex = 1
+        Me.uni2_4.UseVisualStyleBackColor = False
+        '
+        'uni2_5
+        '
+        Me.uni2_5.BackColor = System.Drawing.Color.Gray
+        Me.uni2_5.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni2_5.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni2_5.ForeColor = System.Drawing.Color.Black
+        Me.uni2_5.Location = New System.Drawing.Point(223, 57)
+        Me.uni2_5.Name = "uni2_5"
+        Me.uni2_5.Size = New System.Drawing.Size(49, 48)
+        Me.uni2_5.TabIndex = 1
+        Me.uni2_5.UseVisualStyleBackColor = False
+        '
+        'uni2_6
+        '
+        Me.uni2_6.BackColor = System.Drawing.Color.Gray
+        Me.uni2_6.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni2_6.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni2_6.ForeColor = System.Drawing.Color.Black
+        Me.uni2_6.Location = New System.Drawing.Point(278, 57)
+        Me.uni2_6.Name = "uni2_6"
+        Me.uni2_6.Size = New System.Drawing.Size(49, 48)
+        Me.uni2_6.TabIndex = 1
+        Me.uni2_6.UseVisualStyleBackColor = False
+        '
+        'uni2_7
+        '
+        Me.uni2_7.BackColor = System.Drawing.Color.Gray
+        Me.uni2_7.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni2_7.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni2_7.ForeColor = System.Drawing.Color.Black
+        Me.uni2_7.Location = New System.Drawing.Point(333, 57)
+        Me.uni2_7.Name = "uni2_7"
+        Me.uni2_7.Size = New System.Drawing.Size(49, 48)
+        Me.uni2_7.TabIndex = 1
+        Me.uni2_7.UseVisualStyleBackColor = False
+        '
+        'uni2_8
+        '
+        Me.uni2_8.BackColor = System.Drawing.Color.Gray
+        Me.uni2_8.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni2_8.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni2_8.ForeColor = System.Drawing.Color.Black
+        Me.uni2_8.Location = New System.Drawing.Point(388, 57)
+        Me.uni2_8.Name = "uni2_8"
+        Me.uni2_8.Size = New System.Drawing.Size(55, 48)
+        Me.uni2_8.TabIndex = 1
+        Me.uni2_8.UseVisualStyleBackColor = False
+        '
+        'uni3_1
+        '
+        Me.uni3_1.BackColor = System.Drawing.Color.Gray
+        Me.uni3_1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni3_1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni3_1.ForeColor = System.Drawing.Color.Black
+        Me.uni3_1.Location = New System.Drawing.Point(3, 111)
+        Me.uni3_1.Name = "uni3_1"
+        Me.uni3_1.Size = New System.Drawing.Size(49, 48)
+        Me.uni3_1.TabIndex = 1
+        Me.uni3_1.UseVisualStyleBackColor = False
+        '
+        'uni3_2
+        '
+        Me.uni3_2.BackColor = System.Drawing.Color.Gray
+        Me.uni3_2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni3_2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni3_2.ForeColor = System.Drawing.Color.Black
+        Me.uni3_2.Location = New System.Drawing.Point(58, 111)
+        Me.uni3_2.Name = "uni3_2"
+        Me.uni3_2.Size = New System.Drawing.Size(49, 48)
+        Me.uni3_2.TabIndex = 1
+        Me.uni3_2.UseVisualStyleBackColor = False
+        '
+        'uni3_3
+        '
+        Me.uni3_3.BackColor = System.Drawing.Color.Gray
+        Me.uni3_3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni3_3.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni3_3.ForeColor = System.Drawing.Color.Black
+        Me.uni3_3.Location = New System.Drawing.Point(113, 111)
+        Me.uni3_3.Name = "uni3_3"
+        Me.uni3_3.Size = New System.Drawing.Size(49, 48)
+        Me.uni3_3.TabIndex = 1
+        Me.uni3_3.UseVisualStyleBackColor = False
+        '
+        'uni3_4
+        '
+        Me.uni3_4.BackColor = System.Drawing.Color.Gray
+        Me.uni3_4.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni3_4.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni3_4.ForeColor = System.Drawing.Color.Black
+        Me.uni3_4.Location = New System.Drawing.Point(168, 111)
+        Me.uni3_4.Name = "uni3_4"
+        Me.uni3_4.Size = New System.Drawing.Size(49, 48)
+        Me.uni3_4.TabIndex = 1
+        Me.uni3_4.UseVisualStyleBackColor = False
+        '
+        'uni3_5
+        '
+        Me.uni3_5.BackColor = System.Drawing.Color.Gray
+        Me.uni3_5.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni3_5.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni3_5.ForeColor = System.Drawing.Color.Black
+        Me.uni3_5.Location = New System.Drawing.Point(223, 111)
+        Me.uni3_5.Name = "uni3_5"
+        Me.uni3_5.Size = New System.Drawing.Size(49, 48)
+        Me.uni3_5.TabIndex = 1
+        Me.uni3_5.UseVisualStyleBackColor = False
+        '
+        'uni3_6
+        '
+        Me.uni3_6.BackColor = System.Drawing.Color.Gray
+        Me.uni3_6.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni3_6.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni3_6.ForeColor = System.Drawing.Color.Black
+        Me.uni3_6.Location = New System.Drawing.Point(278, 111)
+        Me.uni3_6.Name = "uni3_6"
+        Me.uni3_6.Size = New System.Drawing.Size(49, 48)
+        Me.uni3_6.TabIndex = 1
+        Me.uni3_6.UseVisualStyleBackColor = False
+        '
+        'uni3_7
+        '
+        Me.uni3_7.BackColor = System.Drawing.Color.Gray
+        Me.uni3_7.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni3_7.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni3_7.ForeColor = System.Drawing.Color.Black
+        Me.uni3_7.Location = New System.Drawing.Point(333, 111)
+        Me.uni3_7.Name = "uni3_7"
+        Me.uni3_7.Size = New System.Drawing.Size(49, 48)
+        Me.uni3_7.TabIndex = 1
+        Me.uni3_7.UseVisualStyleBackColor = False
+        '
+        'uni3_8
+        '
+        Me.uni3_8.BackColor = System.Drawing.Color.Gray
+        Me.uni3_8.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni3_8.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni3_8.ForeColor = System.Drawing.Color.Black
+        Me.uni3_8.Location = New System.Drawing.Point(388, 111)
+        Me.uni3_8.Name = "uni3_8"
+        Me.uni3_8.Size = New System.Drawing.Size(55, 48)
+        Me.uni3_8.TabIndex = 1
+        Me.uni3_8.UseVisualStyleBackColor = False
+        '
+        'uni4_1
+        '
+        Me.uni4_1.BackColor = System.Drawing.Color.Gray
+        Me.uni4_1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni4_1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni4_1.ForeColor = System.Drawing.Color.Black
+        Me.uni4_1.Location = New System.Drawing.Point(3, 165)
+        Me.uni4_1.Name = "uni4_1"
+        Me.uni4_1.Size = New System.Drawing.Size(49, 48)
+        Me.uni4_1.TabIndex = 1
+        Me.uni4_1.UseVisualStyleBackColor = False
+        '
+        'uni4_2
+        '
+        Me.uni4_2.BackColor = System.Drawing.Color.Gray
+        Me.uni4_2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni4_2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni4_2.ForeColor = System.Drawing.Color.Black
+        Me.uni4_2.Location = New System.Drawing.Point(58, 165)
+        Me.uni4_2.Name = "uni4_2"
+        Me.uni4_2.Size = New System.Drawing.Size(49, 48)
+        Me.uni4_2.TabIndex = 1
+        Me.uni4_2.UseVisualStyleBackColor = False
+        '
+        'uni4_3
+        '
+        Me.uni4_3.BackColor = System.Drawing.Color.Gray
+        Me.uni4_3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni4_3.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni4_3.ForeColor = System.Drawing.Color.Black
+        Me.uni4_3.Location = New System.Drawing.Point(113, 165)
+        Me.uni4_3.Name = "uni4_3"
+        Me.uni4_3.Size = New System.Drawing.Size(49, 48)
+        Me.uni4_3.TabIndex = 1
+        Me.uni4_3.UseVisualStyleBackColor = False
+        '
+        'uni4_4
+        '
+        Me.uni4_4.BackColor = System.Drawing.Color.Gray
+        Me.uni4_4.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni4_4.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni4_4.ForeColor = System.Drawing.Color.Black
+        Me.uni4_4.Location = New System.Drawing.Point(168, 165)
+        Me.uni4_4.Name = "uni4_4"
+        Me.uni4_4.Size = New System.Drawing.Size(49, 48)
+        Me.uni4_4.TabIndex = 1
+        Me.uni4_4.UseVisualStyleBackColor = False
+        '
+        'uni4_5
+        '
+        Me.uni4_5.BackColor = System.Drawing.Color.Gray
+        Me.uni4_5.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni4_5.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni4_5.ForeColor = System.Drawing.Color.Black
+        Me.uni4_5.Location = New System.Drawing.Point(223, 165)
+        Me.uni4_5.Name = "uni4_5"
+        Me.uni4_5.Size = New System.Drawing.Size(49, 48)
+        Me.uni4_5.TabIndex = 1
+        Me.uni4_5.UseVisualStyleBackColor = False
+        '
+        'uni4_6
+        '
+        Me.uni4_6.BackColor = System.Drawing.Color.Gray
+        Me.uni4_6.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni4_6.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni4_6.ForeColor = System.Drawing.Color.Black
+        Me.uni4_6.Location = New System.Drawing.Point(278, 165)
+        Me.uni4_6.Name = "uni4_6"
+        Me.uni4_6.Size = New System.Drawing.Size(49, 48)
+        Me.uni4_6.TabIndex = 1
+        Me.uni4_6.UseVisualStyleBackColor = False
+        '
+        'uni4_7
+        '
+        Me.uni4_7.BackColor = System.Drawing.Color.Gray
+        Me.uni4_7.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni4_7.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni4_7.ForeColor = System.Drawing.Color.Black
+        Me.uni4_7.Location = New System.Drawing.Point(333, 165)
+        Me.uni4_7.Name = "uni4_7"
+        Me.uni4_7.Size = New System.Drawing.Size(49, 48)
+        Me.uni4_7.TabIndex = 1
+        Me.uni4_7.UseVisualStyleBackColor = False
+        '
+        'uni4_8
+        '
+        Me.uni4_8.BackColor = System.Drawing.Color.Gray
+        Me.uni4_8.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni4_8.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni4_8.ForeColor = System.Drawing.Color.Black
+        Me.uni4_8.Location = New System.Drawing.Point(388, 165)
+        Me.uni4_8.Name = "uni4_8"
+        Me.uni4_8.Size = New System.Drawing.Size(55, 48)
+        Me.uni4_8.TabIndex = 1
+        Me.uni4_8.UseVisualStyleBackColor = False
+        '
+        'uni5_1
+        '
+        Me.uni5_1.BackColor = System.Drawing.Color.Gray
+        Me.uni5_1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni5_1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni5_1.ForeColor = System.Drawing.Color.Black
+        Me.uni5_1.Location = New System.Drawing.Point(3, 219)
+        Me.uni5_1.Name = "uni5_1"
+        Me.uni5_1.Size = New System.Drawing.Size(49, 48)
+        Me.uni5_1.TabIndex = 1
+        Me.uni5_1.UseVisualStyleBackColor = False
+        '
+        'uni5_2
+        '
+        Me.uni5_2.BackColor = System.Drawing.Color.Gray
+        Me.uni5_2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni5_2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni5_2.ForeColor = System.Drawing.Color.Black
+        Me.uni5_2.Location = New System.Drawing.Point(58, 219)
+        Me.uni5_2.Name = "uni5_2"
+        Me.uni5_2.Size = New System.Drawing.Size(49, 48)
+        Me.uni5_2.TabIndex = 1
+        Me.uni5_2.UseVisualStyleBackColor = False
+        '
+        'uni5_3
+        '
+        Me.uni5_3.BackColor = System.Drawing.Color.Gray
+        Me.uni5_3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni5_3.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni5_3.ForeColor = System.Drawing.Color.Black
+        Me.uni5_3.Location = New System.Drawing.Point(113, 219)
+        Me.uni5_3.Name = "uni5_3"
+        Me.uni5_3.Size = New System.Drawing.Size(49, 48)
+        Me.uni5_3.TabIndex = 1
+        Me.uni5_3.UseVisualStyleBackColor = False
+        '
+        'uni5_4
+        '
+        Me.uni5_4.BackColor = System.Drawing.Color.Gray
+        Me.uni5_4.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni5_4.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni5_4.ForeColor = System.Drawing.Color.Black
+        Me.uni5_4.Location = New System.Drawing.Point(168, 219)
+        Me.uni5_4.Name = "uni5_4"
+        Me.uni5_4.Size = New System.Drawing.Size(49, 48)
+        Me.uni5_4.TabIndex = 1
+        Me.uni5_4.UseVisualStyleBackColor = False
+        '
+        'uni5_5
+        '
+        Me.uni5_5.BackColor = System.Drawing.Color.Gray
+        Me.uni5_5.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni5_5.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni5_5.ForeColor = System.Drawing.Color.Black
+        Me.uni5_5.Location = New System.Drawing.Point(223, 219)
+        Me.uni5_5.Name = "uni5_5"
+        Me.uni5_5.Size = New System.Drawing.Size(49, 48)
+        Me.uni5_5.TabIndex = 1
+        Me.uni5_5.UseVisualStyleBackColor = False
+        '
+        'uni5_6
+        '
+        Me.uni5_6.BackColor = System.Drawing.Color.Gray
+        Me.uni5_6.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni5_6.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni5_6.ForeColor = System.Drawing.Color.Black
+        Me.uni5_6.Location = New System.Drawing.Point(278, 219)
+        Me.uni5_6.Name = "uni5_6"
+        Me.uni5_6.Size = New System.Drawing.Size(49, 48)
+        Me.uni5_6.TabIndex = 1
+        Me.uni5_6.UseVisualStyleBackColor = False
+        '
+        'uni5_7
+        '
+        Me.uni5_7.BackColor = System.Drawing.Color.Gray
+        Me.uni5_7.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni5_7.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni5_7.ForeColor = System.Drawing.Color.Black
+        Me.uni5_7.Location = New System.Drawing.Point(333, 219)
+        Me.uni5_7.Name = "uni5_7"
+        Me.uni5_7.Size = New System.Drawing.Size(49, 48)
+        Me.uni5_7.TabIndex = 1
+        Me.uni5_7.UseVisualStyleBackColor = False
+        '
+        'uni5_8
+        '
+        Me.uni5_8.BackColor = System.Drawing.Color.Gray
+        Me.uni5_8.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni5_8.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni5_8.ForeColor = System.Drawing.Color.Black
+        Me.uni5_8.Location = New System.Drawing.Point(388, 219)
+        Me.uni5_8.Name = "uni5_8"
+        Me.uni5_8.Size = New System.Drawing.Size(55, 48)
+        Me.uni5_8.TabIndex = 1
+        Me.uni5_8.UseVisualStyleBackColor = False
+        '
+        'uni6_1
+        '
+        Me.uni6_1.BackColor = System.Drawing.Color.Gray
+        Me.uni6_1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni6_1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni6_1.ForeColor = System.Drawing.Color.Black
+        Me.uni6_1.Location = New System.Drawing.Point(3, 273)
+        Me.uni6_1.Name = "uni6_1"
+        Me.uni6_1.Size = New System.Drawing.Size(49, 48)
+        Me.uni6_1.TabIndex = 1
+        Me.uni6_1.UseVisualStyleBackColor = False
+        '
+        'uni6_2
+        '
+        Me.uni6_2.BackColor = System.Drawing.Color.Gray
+        Me.uni6_2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni6_2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni6_2.ForeColor = System.Drawing.Color.Black
+        Me.uni6_2.Location = New System.Drawing.Point(58, 273)
+        Me.uni6_2.Name = "uni6_2"
+        Me.uni6_2.Size = New System.Drawing.Size(49, 48)
+        Me.uni6_2.TabIndex = 1
+        Me.uni6_2.UseVisualStyleBackColor = False
+        '
+        'uni6_3
+        '
+        Me.uni6_3.BackColor = System.Drawing.Color.Gray
+        Me.uni6_3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni6_3.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni6_3.ForeColor = System.Drawing.Color.Black
+        Me.uni6_3.Location = New System.Drawing.Point(113, 273)
+        Me.uni6_3.Name = "uni6_3"
+        Me.uni6_3.Size = New System.Drawing.Size(49, 48)
+        Me.uni6_3.TabIndex = 1
+        Me.uni6_3.UseVisualStyleBackColor = False
+        '
+        'uni6_4
+        '
+        Me.uni6_4.BackColor = System.Drawing.Color.Gray
+        Me.uni6_4.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni6_4.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni6_4.ForeColor = System.Drawing.Color.Black
+        Me.uni6_4.Location = New System.Drawing.Point(168, 273)
+        Me.uni6_4.Name = "uni6_4"
+        Me.uni6_4.Size = New System.Drawing.Size(49, 48)
+        Me.uni6_4.TabIndex = 1
+        Me.uni6_4.UseVisualStyleBackColor = False
+        '
+        'uni6_5
+        '
+        Me.uni6_5.BackColor = System.Drawing.Color.Gray
+        Me.uni6_5.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni6_5.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni6_5.ForeColor = System.Drawing.Color.Black
+        Me.uni6_5.Location = New System.Drawing.Point(223, 273)
+        Me.uni6_5.Name = "uni6_5"
+        Me.uni6_5.Size = New System.Drawing.Size(49, 48)
+        Me.uni6_5.TabIndex = 1
+        Me.uni6_5.UseVisualStyleBackColor = False
+        '
+        'uni6_6
+        '
+        Me.uni6_6.BackColor = System.Drawing.Color.Gray
+        Me.uni6_6.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni6_6.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni6_6.ForeColor = System.Drawing.Color.Black
+        Me.uni6_6.Location = New System.Drawing.Point(278, 273)
+        Me.uni6_6.Name = "uni6_6"
+        Me.uni6_6.Size = New System.Drawing.Size(49, 48)
+        Me.uni6_6.TabIndex = 1
+        Me.uni6_6.UseVisualStyleBackColor = False
+        '
+        'uni6_7
+        '
+        Me.uni6_7.BackColor = System.Drawing.Color.Gray
+        Me.uni6_7.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni6_7.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni6_7.ForeColor = System.Drawing.Color.Black
+        Me.uni6_7.Location = New System.Drawing.Point(333, 273)
+        Me.uni6_7.Name = "uni6_7"
+        Me.uni6_7.Size = New System.Drawing.Size(49, 48)
+        Me.uni6_7.TabIndex = 1
+        Me.uni6_7.UseVisualStyleBackColor = False
+        '
+        'uni6_8
+        '
+        Me.uni6_8.BackColor = System.Drawing.Color.Gray
+        Me.uni6_8.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni6_8.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni6_8.ForeColor = System.Drawing.Color.Black
+        Me.uni6_8.Location = New System.Drawing.Point(388, 273)
+        Me.uni6_8.Name = "uni6_8"
+        Me.uni6_8.Size = New System.Drawing.Size(55, 48)
+        Me.uni6_8.TabIndex = 1
+        Me.uni6_8.UseVisualStyleBackColor = False
+        '
+        'uni7_1
+        '
+        Me.uni7_1.BackColor = System.Drawing.Color.Gray
+        Me.uni7_1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni7_1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni7_1.ForeColor = System.Drawing.Color.Black
+        Me.uni7_1.Location = New System.Drawing.Point(3, 327)
+        Me.uni7_1.Name = "uni7_1"
+        Me.uni7_1.Size = New System.Drawing.Size(49, 48)
+        Me.uni7_1.TabIndex = 1
+        Me.uni7_1.UseVisualStyleBackColor = False
+        '
+        'uni7_2
+        '
+        Me.uni7_2.BackColor = System.Drawing.Color.Gray
+        Me.uni7_2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni7_2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni7_2.ForeColor = System.Drawing.Color.Black
+        Me.uni7_2.Location = New System.Drawing.Point(58, 327)
+        Me.uni7_2.Name = "uni7_2"
+        Me.uni7_2.Size = New System.Drawing.Size(49, 48)
+        Me.uni7_2.TabIndex = 1
+        Me.uni7_2.UseVisualStyleBackColor = False
+        '
+        'uni7_3
+        '
+        Me.uni7_3.BackColor = System.Drawing.Color.Gray
+        Me.uni7_3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni7_3.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni7_3.ForeColor = System.Drawing.Color.Black
+        Me.uni7_3.Location = New System.Drawing.Point(113, 327)
+        Me.uni7_3.Name = "uni7_3"
+        Me.uni7_3.Size = New System.Drawing.Size(49, 48)
+        Me.uni7_3.TabIndex = 1
+        Me.uni7_3.UseVisualStyleBackColor = False
+        '
+        'uni7_4
+        '
+        Me.uni7_4.BackColor = System.Drawing.Color.Gray
+        Me.uni7_4.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni7_4.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni7_4.ForeColor = System.Drawing.Color.Black
+        Me.uni7_4.Location = New System.Drawing.Point(168, 327)
+        Me.uni7_4.Name = "uni7_4"
+        Me.uni7_4.Size = New System.Drawing.Size(49, 48)
+        Me.uni7_4.TabIndex = 1
+        Me.uni7_4.UseVisualStyleBackColor = False
+        '
+        'uni7_5
+        '
+        Me.uni7_5.BackColor = System.Drawing.Color.Gray
+        Me.uni7_5.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni7_5.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni7_5.ForeColor = System.Drawing.Color.Black
+        Me.uni7_5.Location = New System.Drawing.Point(223, 327)
+        Me.uni7_5.Name = "uni7_5"
+        Me.uni7_5.Size = New System.Drawing.Size(49, 48)
+        Me.uni7_5.TabIndex = 1
+        Me.uni7_5.UseVisualStyleBackColor = False
+        '
+        'uni7_6
+        '
+        Me.uni7_6.BackColor = System.Drawing.Color.Gray
+        Me.uni7_6.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni7_6.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni7_6.ForeColor = System.Drawing.Color.Black
+        Me.uni7_6.Location = New System.Drawing.Point(278, 327)
+        Me.uni7_6.Name = "uni7_6"
+        Me.uni7_6.Size = New System.Drawing.Size(49, 48)
+        Me.uni7_6.TabIndex = 1
+        Me.uni7_6.UseVisualStyleBackColor = False
+        '
+        'uni7_7
+        '
+        Me.uni7_7.BackColor = System.Drawing.Color.Gray
+        Me.uni7_7.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni7_7.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni7_7.ForeColor = System.Drawing.Color.Black
+        Me.uni7_7.Location = New System.Drawing.Point(333, 327)
+        Me.uni7_7.Name = "uni7_7"
+        Me.uni7_7.Size = New System.Drawing.Size(49, 48)
+        Me.uni7_7.TabIndex = 1
+        Me.uni7_7.UseVisualStyleBackColor = False
+        '
+        'uni7_8
+        '
+        Me.uni7_8.BackColor = System.Drawing.Color.Gray
+        Me.uni7_8.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni7_8.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni7_8.ForeColor = System.Drawing.Color.Black
+        Me.uni7_8.Location = New System.Drawing.Point(388, 327)
+        Me.uni7_8.Name = "uni7_8"
+        Me.uni7_8.Size = New System.Drawing.Size(55, 48)
+        Me.uni7_8.TabIndex = 1
+        Me.uni7_8.UseVisualStyleBackColor = False
+        '
+        'uni8_1
+        '
+        Me.uni8_1.BackColor = System.Drawing.Color.Gray
+        Me.uni8_1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni8_1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni8_1.ForeColor = System.Drawing.Color.Black
+        Me.uni8_1.Location = New System.Drawing.Point(3, 381)
+        Me.uni8_1.Name = "uni8_1"
+        Me.uni8_1.Size = New System.Drawing.Size(49, 48)
+        Me.uni8_1.TabIndex = 1
+        Me.uni8_1.UseVisualStyleBackColor = False
+        '
+        'uni8_2
+        '
+        Me.uni8_2.BackColor = System.Drawing.Color.Gray
+        Me.uni8_2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni8_2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni8_2.ForeColor = System.Drawing.Color.Black
+        Me.uni8_2.Location = New System.Drawing.Point(58, 381)
+        Me.uni8_2.Name = "uni8_2"
+        Me.uni8_2.Size = New System.Drawing.Size(49, 48)
+        Me.uni8_2.TabIndex = 1
+        Me.uni8_2.UseVisualStyleBackColor = False
+        '
+        'uni8_3
+        '
+        Me.uni8_3.BackColor = System.Drawing.Color.Gray
+        Me.uni8_3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni8_3.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni8_3.ForeColor = System.Drawing.Color.Black
+        Me.uni8_3.Location = New System.Drawing.Point(113, 381)
+        Me.uni8_3.Name = "uni8_3"
+        Me.uni8_3.Size = New System.Drawing.Size(49, 48)
+        Me.uni8_3.TabIndex = 1
+        Me.uni8_3.UseVisualStyleBackColor = False
+        '
+        'uni8_4
+        '
+        Me.uni8_4.BackColor = System.Drawing.Color.Gray
+        Me.uni8_4.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni8_4.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni8_4.ForeColor = System.Drawing.Color.Black
+        Me.uni8_4.Location = New System.Drawing.Point(168, 381)
+        Me.uni8_4.Name = "uni8_4"
+        Me.uni8_4.Size = New System.Drawing.Size(49, 48)
+        Me.uni8_4.TabIndex = 1
+        Me.uni8_4.UseVisualStyleBackColor = False
+        '
+        'uni8_5
+        '
+        Me.uni8_5.BackColor = System.Drawing.Color.Gray
+        Me.uni8_5.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni8_5.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni8_5.ForeColor = System.Drawing.Color.Black
+        Me.uni8_5.Location = New System.Drawing.Point(223, 381)
+        Me.uni8_5.Name = "uni8_5"
+        Me.uni8_5.Size = New System.Drawing.Size(49, 48)
+        Me.uni8_5.TabIndex = 1
+        Me.uni8_5.UseVisualStyleBackColor = False
+        '
+        'uni8_6
+        '
+        Me.uni8_6.BackColor = System.Drawing.Color.Gray
+        Me.uni8_6.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni8_6.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni8_6.ForeColor = System.Drawing.Color.Black
+        Me.uni8_6.Location = New System.Drawing.Point(278, 381)
+        Me.uni8_6.Name = "uni8_6"
+        Me.uni8_6.Size = New System.Drawing.Size(49, 48)
+        Me.uni8_6.TabIndex = 1
+        Me.uni8_6.UseVisualStyleBackColor = False
+        '
+        'uni8_7
+        '
+        Me.uni8_7.BackColor = System.Drawing.Color.Gray
+        Me.uni8_7.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni8_7.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni8_7.ForeColor = System.Drawing.Color.Black
+        Me.uni8_7.Location = New System.Drawing.Point(333, 381)
+        Me.uni8_7.Name = "uni8_7"
+        Me.uni8_7.Size = New System.Drawing.Size(49, 48)
+        Me.uni8_7.TabIndex = 1
+        Me.uni8_7.UseVisualStyleBackColor = False
+        '
+        'uni8_8
+        '
+        Me.uni8_8.BackColor = System.Drawing.Color.Gray
+        Me.uni8_8.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uni8_8.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uni8_8.ForeColor = System.Drawing.Color.Black
+        Me.uni8_8.Location = New System.Drawing.Point(388, 381)
+        Me.uni8_8.Name = "uni8_8"
+        Me.uni8_8.Size = New System.Drawing.Size(55, 48)
+        Me.uni8_8.TabIndex = 1
+        Me.uni8_8.UseVisualStyleBackColor = False
         '
         'CutSndButton
         '
         Me.CutSndButton.Font = New System.Drawing.Font("Ubuntu", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CutSndButton.Location = New System.Drawing.Point(473, 452)
+        Me.CutSndButton.Location = New System.Drawing.Point(549, 16)
         Me.CutSndButton.Name = "CutSndButton"
-        Me.CutSndButton.Size = New System.Drawing.Size(152, 34)
+        Me.CutSndButton.Size = New System.Drawing.Size(203, 105)
         Me.CutSndButton.TabIndex = 41
         Me.CutSndButton.Text = "Cut Sound "
         Me.CutSndButton.UseVisualStyleBackColor = True
@@ -530,99 +1473,6 @@ Partial Class MainProject
         Me.Tip3.TabIndex = 36
         Me.Tip3.Text = "Tip: If sound file didn't split, don't put it here." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Instead, you can cut sound o" &
     "n Cut Sound Form."
-        '
-        'DevelopingLabel1
-        '
-        Me.DevelopingLabel1.AutoSize = True
-        Me.DevelopingLabel1.Font = New System.Drawing.Font("나눔바른고딕OTF", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.DevelopingLabel1.Location = New System.Drawing.Point(115, 190)
-        Me.DevelopingLabel1.Name = "DevelopingLabel1"
-        Me.DevelopingLabel1.Size = New System.Drawing.Size(540, 62)
-        Me.DevelopingLabel1.TabIndex = 35
-        Me.DevelopingLabel1.Text = "We are developing ""Converting keySound""!" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "                           Coming Soon." &
-    ".."
-        '
-        'BackButton
-        '
-        Me.BackButton.Font = New System.Drawing.Font("Ubuntu", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BackButton.Location = New System.Drawing.Point(335, 237)
-        Me.BackButton.Name = "BackButton"
-        Me.BackButton.Size = New System.Drawing.Size(106, 66)
-        Me.BackButton.TabIndex = 34
-        Me.BackButton.Text = "<--"
-        Me.BackButton.UseVisualStyleBackColor = True
-        '
-        'GoButton
-        '
-        Me.GoButton.Font = New System.Drawing.Font("Ubuntu", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GoButton.Location = New System.Drawing.Point(335, 141)
-        Me.GoButton.Name = "GoButton"
-        Me.GoButton.Size = New System.Drawing.Size(106, 69)
-        Me.GoButton.TabIndex = 33
-        Me.GoButton.Text = "-->"
-        Me.GoButton.UseVisualStyleBackColor = True
-        '
-        'keySound_ListView
-        '
-        Me.keySound_ListView.AllowDrop = True
-        Me.keySound_ListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.SortingNumber, Me.FileName2, Me.Length2, Me.Loop2})
-        Me.keySound_ListView.Font = New System.Drawing.Font("나눔스퀘어라운드 Regular", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.keySound_ListView.FullRowSelect = True
-        Me.keySound_ListView.Location = New System.Drawing.Point(473, 32)
-        Me.keySound_ListView.Name = "keySound_ListView"
-        Me.keySound_ListView.Size = New System.Drawing.Size(283, 370)
-        Me.keySound_ListView.TabIndex = 31
-        Me.keySound_ListView.UseCompatibleStateImageBehavior = False
-        Me.keySound_ListView.View = System.Windows.Forms.View.Details
-        '
-        'SortingNumber
-        '
-        Me.SortingNumber.Text = "#"
-        Me.SortingNumber.Width = 26
-        '
-        'FileName2
-        '
-        Me.FileName2.Text = "Loaded Sound Files"
-        Me.FileName2.Width = 121
-        '
-        'Length2
-        '
-        Me.Length2.Text = "Length"
-        Me.Length2.Width = 86
-        '
-        'Loop2
-        '
-        Me.Loop2.Text = "Loop"
-        Me.Loop2.Width = 46
-        '
-        'Sound_ListView
-        '
-        Me.Sound_ListView.AllowDrop = True
-        Me.Sound_ListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.FileName, Me.Length, Me.AssingedButtons})
-        Me.Sound_ListView.Font = New System.Drawing.Font("나눔스퀘어라운드 Regular", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.Sound_ListView.FullRowSelect = True
-        Me.Sound_ListView.Location = New System.Drawing.Point(17, 61)
-        Me.Sound_ListView.Name = "Sound_ListView"
-        Me.Sound_ListView.Size = New System.Drawing.Size(294, 390)
-        Me.Sound_ListView.Sorting = System.Windows.Forms.SortOrder.Ascending
-        Me.Sound_ListView.TabIndex = 24
-        Me.Sound_ListView.UseCompatibleStateImageBehavior = False
-        Me.Sound_ListView.View = System.Windows.Forms.View.Details
-        '
-        'FileName
-        '
-        Me.FileName.Text = "File Name"
-        Me.FileName.Width = 82
-        '
-        'Length
-        '
-        Me.Length.Text = "Length"
-        Me.Length.Width = 91
-        '
-        'AssingedButtons
-        '
-        Me.AssingedButtons.Text = "Assinged Buttons"
-        Me.AssingedButtons.Width = 116
         '
         'keyLED1
         '
@@ -704,7 +1554,6 @@ Partial Class MainProject
         Me.keyLEDMIDEX_UniLED.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.keyLEDMIDEX_UniLED.DisabledColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer))
         Me.keyLEDMIDEX_UniLED.Enabled = False
-        Me.keyLEDMIDEX_UniLED.Font = New System.Drawing.Font("Courier New", 9.75!)
         Me.keyLEDMIDEX_UniLED.IsReplaceMode = False
         Me.keyLEDMIDEX_UniLED.Location = New System.Drawing.Point(364, 14)
         Me.keyLEDMIDEX_UniLED.Name = "keyLEDMIDEX_UniLED"
@@ -849,6 +1698,9 @@ Partial Class MainProject
         'BGW_keySound
         '
         '
+        'BGW_keySoundLayout
+        '
+        '
         'MainProject
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
@@ -872,6 +1724,7 @@ Partial Class MainProject
         Me.Info1.PerformLayout()
         Me.KeySoundTab.ResumeLayout(False)
         Me.KeySoundTab.PerformLayout()
+        Me.PadLayoutPanel.ResumeLayout(False)
         Me.keyLED1.ResumeLayout(False)
         Me.keyLED1.PerformLayout()
         Me.keyLED2.ResumeLayout(False)
@@ -901,7 +1754,6 @@ Partial Class MainProject
     Friend WithEvents ReportBugsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents HomeEdit As TabControl
     Friend WithEvents Info1 As TabPage
-    Friend WithEvents KeySoundTab As TabPage
     Friend WithEvents AbletonLive9LiteToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents AbletonLive9TrialToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents AbletonLive9SuiteToolStripMenuItem As ToolStripMenuItem
@@ -916,34 +1768,13 @@ Partial Class MainProject
     Friend WithEvents infoTB1 As TextBox
     Friend WithEvents infoT1 As Label
     Friend WithEvents Info_SaveButton As Button
-    Friend WithEvents Sound_ListView As ListView
-    Friend WithEvents FileName As ColumnHeader
     Friend WithEvents Tip1 As Label
     Friend WithEvents AnyAbletonToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents BackButton As Button
-    Friend WithEvents GoButton As Button
-    Friend WithEvents Tip3 As Label
-    Friend WithEvents EdKeysButton As Button
-    Friend WithEvents SaveButton As Button
-    Friend WithEvents CutSndButton As Button
-    Friend WithEvents DevelopingLabel1 As Label
-    Friend WithEvents keySound_ListView As ListView
-    Friend WithEvents FileName2 As ColumnHeader
     Friend WithEvents keyLED1 As TabPage
     Friend WithEvents keyLED2 As TabPage
     Friend WithEvents CheckUpdateToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ks_SelChainXY As ComboBox
     Friend WithEvents DevelopingLabel2 As Label
     Friend WithEvents infoTB3 As TextBox
-    Friend WithEvents Length As ColumnHeader
-    Friend WithEvents AssingedButtons As ColumnHeader
-    Friend WithEvents ks_Sound1 As Label
-    Friend WithEvents SortingNumber As ColumnHeader
-    Friend WithEvents Length2 As ColumnHeader
-    Friend WithEvents Loop2 As ColumnHeader
-    Friend WithEvents ks_Sound2 As Label
-    Friend WithEvents ks_SearchLabel As Label
-    Friend WithEvents ks_SearchSound As TextBox
     Friend WithEvents BGW_keyLED As System.ComponentModel.BackgroundWorker
     Friend WithEvents DeveloperModeToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents OpenKeyLEDToolStripMenuItem As ToolStripMenuItem
@@ -967,6 +1798,84 @@ Partial Class MainProject
     Friend WithEvents BGW_CheckUpdate As System.ComponentModel.BackgroundWorker
     Friend WithEvents keyLEDMIDEX_CopyButton As Button
     Friend WithEvents BGW_keySound As System.ComponentModel.BackgroundWorker
-    Friend WithEvents EditButton As Button
     Friend WithEvents MIDIn_Test As Button
+    Friend WithEvents KeySoundTab As TabPage
+    Friend WithEvents CutSndButton As Button
+    Friend WithEvents Tip3 As Label
+    Friend WithEvents DevelopingLabel1 As Label
+    Friend WithEvents btnPad_chain8 As Button
+    Friend WithEvents btnPad_chain7 As Button
+    Friend WithEvents btnPad_chain6 As Button
+    Friend WithEvents btnPad_chain5 As Button
+    Friend WithEvents btnPad_chain4 As Button
+    Friend WithEvents btnPad_chain3 As Button
+    Friend WithEvents btnPad_chain2 As Button
+    Friend WithEvents btnPad_chain1 As Button
+    Friend WithEvents PadLayoutPanel As TableLayoutPanel
+    Friend WithEvents uni1_1 As Button
+    Friend WithEvents uni1_2 As Button
+    Friend WithEvents uni1_3 As Button
+    Friend WithEvents uni1_4 As Button
+    Friend WithEvents uni1_5 As Button
+    Friend WithEvents uni1_6 As Button
+    Friend WithEvents uni1_7 As Button
+    Friend WithEvents uni1_8 As Button
+    Friend WithEvents uni2_1 As Button
+    Friend WithEvents uni2_2 As Button
+    Friend WithEvents uni2_3 As Button
+    Friend WithEvents uni2_4 As Button
+    Friend WithEvents uni2_5 As Button
+    Friend WithEvents uni2_6 As Button
+    Friend WithEvents uni2_7 As Button
+    Friend WithEvents uni2_8 As Button
+    Friend WithEvents uni3_1 As Button
+    Friend WithEvents uni3_2 As Button
+    Friend WithEvents uni3_3 As Button
+    Friend WithEvents uni3_4 As Button
+    Friend WithEvents uni3_5 As Button
+    Friend WithEvents uni3_6 As Button
+    Friend WithEvents uni3_7 As Button
+    Friend WithEvents uni3_8 As Button
+    Friend WithEvents uni4_1 As Button
+    Friend WithEvents uni4_2 As Button
+    Friend WithEvents uni4_3 As Button
+    Friend WithEvents uni4_4 As Button
+    Friend WithEvents uni4_5 As Button
+    Friend WithEvents uni4_6 As Button
+    Friend WithEvents uni4_7 As Button
+    Friend WithEvents uni4_8 As Button
+    Friend WithEvents uni5_1 As Button
+    Friend WithEvents uni5_2 As Button
+    Friend WithEvents uni5_3 As Button
+    Friend WithEvents uni5_4 As Button
+    Friend WithEvents uni5_5 As Button
+    Friend WithEvents uni5_6 As Button
+    Friend WithEvents uni5_7 As Button
+    Friend WithEvents uni5_8 As Button
+    Friend WithEvents uni6_1 As Button
+    Friend WithEvents uni6_2 As Button
+    Friend WithEvents uni6_3 As Button
+    Friend WithEvents uni6_4 As Button
+    Friend WithEvents uni6_5 As Button
+    Friend WithEvents uni6_6 As Button
+    Friend WithEvents uni6_7 As Button
+    Friend WithEvents uni6_8 As Button
+    Friend WithEvents uni7_1 As Button
+    Friend WithEvents uni7_2 As Button
+    Friend WithEvents uni7_3 As Button
+    Friend WithEvents uni7_4 As Button
+    Friend WithEvents uni7_5 As Button
+    Friend WithEvents uni7_6 As Button
+    Friend WithEvents uni7_7 As Button
+    Friend WithEvents uni7_8 As Button
+    Friend WithEvents uni8_1 As Button
+    Friend WithEvents uni8_2 As Button
+    Friend WithEvents uni8_3 As Button
+    Friend WithEvents uni8_4 As Button
+    Friend WithEvents uni8_5 As Button
+    Friend WithEvents uni8_6 As Button
+    Friend WithEvents uni8_7 As Button
+    Friend WithEvents uni8_8 As Button
+    Friend WithEvents BGW_keySoundLayout As System.ComponentModel.BackgroundWorker
+    Friend WithEvents BGW_keySoundPlay As System.ComponentModel.BackgroundWorker
 End Class

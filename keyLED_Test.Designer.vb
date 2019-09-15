@@ -1414,6 +1414,7 @@ Partial Class keyLED_Test
         Me.Controls.Add(Me.tableLayout_Pad64)
         Me.Controls.Add(Me.TimeLabel)
         Me.Controls.Add(Me.TestByt)
+        Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.Name = "keyLED_Test"
         Me.Text = "keyLED Test (Beta)"
