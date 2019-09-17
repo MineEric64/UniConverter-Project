@@ -101,7 +101,6 @@ Partial Class keySound_Edit
         Me.btnPad_chain7 = New System.Windows.Forms.Button()
         Me.btnPad_chain8 = New System.Windows.Forms.Button()
         Me.CancelButton3 = New System.Windows.Forms.Button()
-        Me.keySound_Play = New System.ComponentModel.BackgroundWorker()
         Me.keySound_ShowLayout = New System.ComponentModel.BackgroundWorker()
         CType(Me.keySoundTextBox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PadLayoutPanel.SuspendLayout()
@@ -127,7 +126,6 @@ Partial Class keySound_Edit
         Me.keySoundTextBox.CharWidth = 8
         Me.keySoundTextBox.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.keySoundTextBox.DisabledColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer))
-        Me.keySoundTextBox.Font = New System.Drawing.Font("Courier New", 9.75!)
         Me.keySoundTextBox.IsReplaceMode = False
         Me.keySoundTextBox.Location = New System.Drawing.Point(12, 0)
         Me.keySoundTextBox.Name = "keySoundTextBox"
@@ -1122,10 +1120,6 @@ Partial Class keySound_Edit
         Me.CancelButton3.Text = "Cancel"
         Me.CancelButton3.UseVisualStyleBackColor = True
         '
-        'keySound_Play
-        '
-        Me.keySound_Play.WorkerSupportsCancellation = True
-        '
         'keySound_ShowLayout
         '
         '
@@ -1235,6 +1229,5 @@ Partial Class keySound_Edit
     Friend WithEvents btnPad_chain7 As Button
     Friend WithEvents btnPad_chain8 As Button
     Friend WithEvents CancelButton3 As Button
-    Friend WithEvents keySound_Play As System.ComponentModel.BackgroundWorker
     Friend WithEvents keySound_ShowLayout As System.ComponentModel.BackgroundWorker
 End Class
