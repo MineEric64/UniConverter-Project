@@ -224,39 +224,14 @@ o 6 3 a [나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 �
  현재 체인. (1~8)
  </summary>
 </member>
-<member name="F:UniConverter_Project.keySound_Edit.keySound_MChain">
- <summary>
- 최대 체인. (1~8)
- </summary>
-</member>
 <member name="F:UniConverter_Project.keySound_Edit.keySoundLayoutTrue">
  <summary>
  키사운드 레이아웃 Boolean 여부.
  </summary>
 </member>
-<member name="F:UniConverter_Project.keySound_Edit.keySound_Line">
- <summary>
- 키사운드 텍스트 라인. Index: 0부터 시작
- </summary>
-</member>
-<member name="F:UniConverter_Project.keySound_Edit.PrChain">
- <summary>
- 이전 체인.
- </summary>
-</member>
-<member name="F:UniConverter_Project.keySound_Edit.ResetChain">
- <summary>
- 체인을 리셋. (keySound Layout 버튼)
- </summary>
-</member>
 <member name="F:UniConverter_Project.keySound_Edit.keySoundLoop">
  <summary>
  keySound Loop 여부.
- </summary>
-</member>
-<member name="F:UniConverter_Project.keySound_Edit.keySound_senderGAZUA">
- <summary>
- sender As Object.
  </summary>
 </member>
 <member name="F:UniConverter_Project.keySound_Edit.Erait">
@@ -478,6 +453,13 @@ o 6 3 a [나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 �
  UniPack의 info 파일을 저장합니다.
  </summary>
  <param name="Message">메시지박스를 표시함.</param>
+</member>
+<member name="M:UniConverter_Project.MainProject.SplitbyLine(System.String)">
+ <summary>
+ Line by Line으로 문자열을 자릅니다.
+ </summary>
+ <param name="inputstr">문자열.</param>
+ <returns></returns>
 </member>
 <member name="M:UniConverter_Project.MainProject.Save2Project(System.Boolean)">
  <summary>

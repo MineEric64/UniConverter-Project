@@ -946,22 +946,57 @@ Public Class MainProject
     End Sub
 
     Private Sub BGW_keySound_DoWork(sender As Object, e As DoWorkEventArgs) Handles BGW_keySound.DoWork
-        If e.Cancel = False AndAlso IsWorking = False AndAlso abl_openedproj AndAlso abl_openedsnd Then
-            IsWorking = True
+        Try
+            If e.Cancel = False AndAlso IsWorking = False AndAlso abl_openedproj AndAlso abl_openedsnd Then
+                IsWorking = True
 
-            'Reading DrumBranch from Ableton Project XML.
+                With Loading
+                    .Show()
+                    .Text = "Converting Ableton Sound Mapping to keySound..."
+                    .Refresh()
+                    .DLb.Text = "Loading Mapping Infos..."
+                    .DPr.Style = ProgressBarStyle.Marquee
+                    .DPr.MarqueeAnimationSpeed = 1
+                End With
 
-            'InstrumentGroupDevice
-            'ChainSelector
-            Invoke(Sub()
+                'InstrumentGroupDevice
+                'ChainSelector
+                Dim ablprj As String = Application.StartupPath & "\Workspace\ableproj\abl_proj.xml"
+                Dim doc As New XmlDocument
+                Dim setNode As XmlNodeList
+                doc.Load(ablprj)
+                setNode = doc.GetElementsByTagName("InstrumentBranch")
 
-                   End Sub)
-            ShowkeySoundLayout()
+                'Get Sound Name from Drum Rack.
+                For Each x As XmlNode In setNode
+                    Try
+                        Dim Try4sndName As String = x.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("OriginalSimpler").Item("Player").Item("MultiSampleMap").Item("SampleParts").Item("MultiSamplePart").Item("SampleRef").Item("FileRef").Item("Name").GetAttribute("Value")
+                    Catch exN As NullReferenceException
+                        Continue For
+                    End Try
 
-            IsWorking = False
-            MessageBox.Show("keySound Converted!" & vbNewLine & "You can show the keySound on 'keySound' Tab!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Dim sndName As String = x.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("OriginalSimpler").Item("Player").Item("MultiSampleMap").Item("SampleParts").Item("MultiSamplePart").Item("SampleRef").Item("FileRef").Item("Name").GetAttribute("Value")
+                    Debug.WriteLine(sndName)
+                Next
 
+                Invoke(Sub()
+
+                       End Sub)
+                ShowkeySoundLayout()
+
+                IsWorking = False
+                Loading.Dispose()
+                MessageBox.Show("keySound Converted!" & vbNewLine & "You can show the keySound on 'keySound' Tab!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+            End If
+
+        Catch ex As Exception
+            If IsGreatExMode Then
+            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Else
+            MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
+        End Try
     End Sub
 
     Private Sub ShowkeySoundLayout()
@@ -1469,6 +1504,10 @@ fexLine:
             ElseIf e.Cancelled Then
                 Exit Sub
             Else
+                If abl_openedproj AndAlso abl_openedsnd Then
+                    BGW_keySound.RunWorkerAsync()
+                End If
+
                 If OpenProjectOnce Then OpenKeyLEDToolStripMenuItem_Click(Nothing, Nothing)
             End If
         Catch ex As Exception
