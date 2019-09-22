@@ -254,6 +254,22 @@ o 6 3 a [나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 �
  String의 수를 세줍니다. 결과는 Integer.
  </summary>
 </member>
+<member name="F:UniConverter_Project.Tutorials.lang">
+ <summary>
+ 언어 정보.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.Tutorials.Answers_">
+ <summary>
+ 답변 문자열().
+ </summary>
+</member>
+<member name="M:UniConverter_Project.UG_Settings.Save2Settings(System.Boolean)">
+ <summary>
+ Save Settings To XML.
+ </summary>
+ <param name="ShowMessage">Showing Message.</param>
+</member>
 <member name="F:UniConverter_Project.MainProject.LicenseFile">
  <summary>
   라이센스 파일. (0: Developer Mode, 1: GreatEx Mode)
@@ -452,7 +468,7 @@ o 6 3 a [나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 �
  <summary>
  UniPack의 info 파일을 저장합니다.
  </summary>
- <param name="Message">메시지박스를 표시함.</param>
+ <param name="Message">메시지 박스를 표시함.</param>
 </member>
 <member name="M:UniConverter_Project.MainProject.SplitbyLine(System.String)">
  <summary>
@@ -495,22 +511,6 @@ o 6 3 a [나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 �
  </summary>
  <param name="inputstr">문자열</param>
  <returns></returns>
-</member>
-<member name="F:UniConverter_Project.Tutorials.lang">
- <summary>
- 언어 정보.
- </summary>
-</member>
-<member name="F:UniConverter_Project.Tutorials.Answers_">
- <summary>
- 답변 문자열().
- </summary>
-</member>
-<member name="M:UniConverter_Project.UG_Settings.Save2Settings(System.Boolean)">
- <summary>
- Save Settings To XML.
- </summary>
- <param name="ShowMessage">Showing Message.</param>
 </member>
 </members>
 </doc>

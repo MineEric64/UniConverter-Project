@@ -1,6 +1,7 @@
 ﻿Imports System.IO
 Imports System.IO.Compression
 Imports NAudio.Midi
+Imports NAudio.Wave
 Imports ICSharpCode.SharpZipLib.GZip
 Imports ICSharpCode.SharpZipLib.Core
 Imports System.Net
@@ -9,7 +10,6 @@ Imports System.Xml
 Imports System.ComponentModel
 Imports System.Text.RegularExpressions
 Imports A2UP.A2U.keyLED_MIDEX
-Imports A2UP.A2U.keySound
 Imports WMPLib
 
 Public Class MainProject
@@ -953,58 +953,31 @@ Public Class MainProject
                 With Loading
                     .Show()
                     .Text = "Converting Ableton Sound Mapping to keySound..."
+                    .Refresh()
                     .DLb.Text = "Loading Mapping Infos..."
                     .DPr.Style = ProgressBarStyle.Marquee
                     .DPr.MarqueeAnimationSpeed = 1
-                    .Refresh()
                 End With
-
-                If Directory.Exists(Application.StartupPath & "\Workspace\unipack\sounds") Then
-                    Loading.DLb.Text = "Deleting Tempoary Files..."
-                    Loading.Refresh()
-
-                    My.Computer.FileSystem.DeleteDirectory(Application.StartupPath & "\Workspace\unipack\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
-                    Thread.Sleep(300)
-                    Directory.CreateDirectory(Application.StartupPath & "\Workspace\unipack\sounds")
-                Else
-                    Directory.CreateDirectory(Application.StartupPath & "\Workspace\unipack\sounds")
-                End If
-
-                Loading.DLb.Text = "Loading Mapping Infos..."
-                Loading.Refresh()
 
                 'InstrumentGroupDevice
                 'ChainSelector
                 Dim ablprj As String = Application.StartupPath & "\Workspace\ableproj\abl_proj.xml"
                 Dim doc As New XmlDocument
                 Dim setNode As XmlNodeList
-                Dim setaNode As XmlNodeList
-
                 doc.Load(ablprj)
                 setNode = doc.GetElementsByTagName("InstrumentBranch")
-                setaNode = doc.GetElementsByTagName("DrumBranch")
 
                 'Get Sound Name from Drum Rack.
-                Dim rNote As Integer = 0
-                Dim idr As Integer = 0
-                Dim curid As Integer = 1
-                Dim nx As Integer = 0
-
                 Dim PrChain As Integer = 0
-                Dim PrChainM As Integer = 0
                 Dim IsRandom As Boolean = False
                 Dim rnd As Integer = 0
                 Dim currentRnd As Integer = 1
-
-                Dim str As String = String.Empty
-                Dim err As String = String.Empty
                 For Each x As XmlNode In setNode
                     Try
                         Dim Try4sndName As String = x.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("OriginalSimpler").Item("Player").Item("MultiSampleMap").Item("SampleParts").Item("MultiSamplePart").Item("SampleRef").Item("FileRef").Item("Name").GetAttribute("Value")
                     Catch exN As NullReferenceException
 
                         PrChain = Integer.Parse(x.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1
-                        PrChainM = Integer.Parse(x.Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1
                         If Cntstr(x.OuterXml, "</InstrumentBranch>") > 1 Then
                             rnd = Cntstr(x.OuterXml, "</InstrumentBranch>")
                             IsRandom = True
@@ -1018,30 +991,6 @@ Public Class MainProject
                     Dim sndName As String = x.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("OriginalSimpler").Item("Player").Item("MultiSampleMap").Item("SampleParts").Item("MultiSamplePart").Item("SampleRef").Item("FileRef").Item("Name").GetAttribute("Value")
                     Dim Chain As Integer = Integer.Parse(x.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1
 
-                    If Not File.Exists(Application.StartupPath & "\Workspace\ableproj\sounds\" & sndName) Then
-                        Debug.WriteLine(String.Format("'{0}' File doesn't exists.", sndName))
-                        err &= String.Format("'{0}' File doesn't exists.", sndName) & vbNewLine
-                        Continue For
-                    End If
-
-                    If idr + 1 = curid Then
-                        nx += 1
-                        curid = 1
-                        rNote = Integer.Parse(setaNode(nx).Item("BranchInfo").Item("ReceivingNote").GetAttribute("Value"))
-                        idr = Cntstr(setaNode(nx).InnerXml, "</InstrumentBranch>")
-                    ElseIf idr = 0 Then
-                        rNote = Integer.Parse(setaNode(nx).Item("BranchInfo").Item("ReceivingNote").GetAttribute("Value"))
-                        idr = Cntstr(setaNode(nx).InnerXml, "</InstrumentBranch>")
-                    End If
-
-                    Dim lpn As Boolean = False
-                    Dim MaxChain As Integer = Integer.Parse(x.Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1
-                    If Not Chain = MaxChain Then
-                        lpn = True
-                    Else
-                        lpn = False
-                    End If
-
                     If Not PrChain = 0 AndAlso IsRandom Then
                         Chain = PrChain
                         currentRnd += 1
@@ -1052,44 +1001,25 @@ Public Class MainProject
                             rnd = 0
                             currentRnd = 0
                         End If
-
-                        MaxChain = PrChainM
-                        If Not Chain = MaxChain Then
-                            lpn = True
-                        Else
-                            lpn = False
-                        End If
                     Else
                         PrChain = 0
                     End If
 
-                    Dim ks As ksX = GetkeySound(ks_NoteEvents.NoteNumber_1, rNote)
-                    If lpn = False Then
-                        Debug.WriteLine(String.Format("{0}: {1} {2} {3}", sndName, Chain, ks.x, ks.y))
-                    Else
-                        Debug.WriteLine(String.Format("{0}: {1} ~ {2} {3} {4}", sndName, Chain, MaxChain, ks.x, ks.y))
+                    If Not Chain = Integer.Parse(x.Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1 Then
+
                     End If
 
-                    File.Copy(Application.StartupPath & "\Workspace\ableproj\sounds\" & sndName, Application.StartupPath & "\Workspace\unipack\sounds\" & sndName, True)
-                    If String.IsNullOrWhiteSpace(str) Then
-                        str &= String.Format("{0} {1} {2} {3}", Chain, ks.x, ks.y, sndName)
-                    Else
-                        str &= vbNewLine & String.Format("{0} {1} {2} {3}", Chain, ks.x, ks.y, sndName)
-                    End If
-
-                    curid += 1
+                    Debug.WriteLine(sndName & ": " & Chain)
                 Next
 
-                File.WriteAllText(Application.StartupPath & "\Workspace\unipack\keySound", str)
+                Invoke(Sub()
+
+                       End Sub)
                 ShowkeySoundLayout()
 
                 IsWorking = False
                 Loading.Dispose()
                 MessageBox.Show("keySound Converted!" & vbNewLine & "You can show the keySound on 'keySound' Tab!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-
-                If Not String.IsNullOrWhiteSpace(err) Then
-                    MessageBox.Show("[ Warning ]" & vbNewLine & "keySound: [] format is invaild." & vbNewLine & vbNewLine & err, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                End If
 
             End If
 
@@ -2496,7 +2426,6 @@ fexLine:
 
                 Dim il As Integer = 0
                 Dim Alrt As String = String.Empty
-                Dim err As String = String.Empty
                 For Each d As String In LEDs
 
                     'Beta Code!
@@ -2547,9 +2476,7 @@ fexLine:
 
                             Dim dPath As String = String.Format("{0}\Workspace\ableproj\CoLED\{1}", Application.StartupPath, dFile)
                             If File.Exists(dPath) = False Then
-                                Debug.WriteLine(String.Format("'{0}' File doesn't exists.", dFile))
-                                err &= String.Format("'{0}' MIDI File doesn't exists.", dFile) & vbNewLine
-                                Continue For
+                                Throw New FileNotFoundException("MIDI File '" & dFile & "' doesn't exists. Try Again!")
                             End If
 
                             Dim keyLED As New MidiFile(dPath, False)
@@ -2838,9 +2765,6 @@ fexLine:
                        End Sub)
 
                 keyLEDIsSaved = True
-                If Not String.IsNullOrWhiteSpace(err) Then
-                    MessageBox.Show("[ Warning ]" & vbNewLine & "keyLED (MIDI Extension): [] format is invaild." & vbNewLine & vbNewLine & err, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                End If
 
             Else
                 w8t4abl = "keyLED"
