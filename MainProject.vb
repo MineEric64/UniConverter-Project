@@ -131,6 +131,16 @@ Public Class MainProject
     ''' </summary>
     Dim ks_PlayLoop2 As New WindowsMediaPlayer
 
+    ''' <summary>
+    ''' 다른 매핑할 때 소리를 재생함.
+    ''' </summary>
+    Dim ks_lpn As Integer = 0
+
+    ''' <summary>
+    ''' 현재 소리를 재생.
+    ''' </summary>
+    Dim ks_lpu As Integer = 1
+
 #End Region
 #Region "MainProject-keyLED(s)"
     Private stopitnow As Boolean = False
@@ -371,6 +381,14 @@ Public Class MainProject
 
             If setNode.ChildNodes(2).InnerText = "True" Then
                 SetUpLight_ = True
+            End If
+
+            If Directory.Exists(Application.StartupPath & "\Workspace\unipack") Then
+                My.Computer.FileSystem.DeleteDirectory(Application.StartupPath & "\Workspace\unipack", FileIO.DeleteDirectoryOption.DeleteAllContents)
+                Thread.Sleep(300)
+                Directory.CreateDirectory(Application.StartupPath & "\Workspace\unipack")
+            Else
+                Directory.CreateDirectory(Application.StartupPath & "\Workspace\unipack")
             End If
 
             'Text of Info TextBox
@@ -985,27 +1003,28 @@ Public Class MainProject
                 setaNode = doc.GetElementsByTagName("DrumBranch")
 
                 'Get Sound Name from Drum Rack.
-                Dim rNote As Integer = 0
-                Dim idr As Integer = 0
-                Dim curid As Integer = 1
-                Dim nx As Integer = 0
+                Dim rNote As Integer = 0 'Receiving Note.
+                Dim idr As Integer = 0 '무엇?
+                Dim curid As Integer = 1 '현재의 랜덤 Xml.
+                Dim nx As Integer = 0 'setNode (InstrumentBranch)와 setaNode (DrumBranch)를 동기화 시켜주는 i.
 
-                Dim PrChain As Integer = 0
-                Dim PrChainM As Integer = 0
-                Dim IsRandom As Boolean = False
-                Dim rnd As Integer = 0
-                Dim currentRnd As Integer = 1
+                Dim PrChain As Integer = 0 '랜덤의 체인.
+                Dim PrChainM As Integer = 0 '랜덤의 최대 체인.
+                Dim IsRandom As Boolean = False '현재 접근하고 있는 XML Branch가 랜덤인가?
+                Dim rnd As Integer = 0 '랜덤의 수
+                Dim currentRnd As Integer = 1 '현재 접근하고 있는 랜덤의 XML.
 
-                Dim str As String = String.Empty
-                Dim err As String = String.Empty
+                Dim str As String = String.Empty 'keySound 그 자체.
+                Dim err As String = String.Empty 'keySound 변환 할 때의 오류를 저장하는 곳.
                 For Each x As XmlNode In setNode
+#Region "keySound / IsRandom"
                     Try
                         Dim Try4sndName As String = x.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("OriginalSimpler").Item("Player").Item("MultiSampleMap").Item("SampleParts").Item("MultiSamplePart").Item("SampleRef").Item("FileRef").Item("Name").GetAttribute("Value")
                     Catch exN As NullReferenceException
 
-                        PrChain = Integer.Parse(x.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1
-                        PrChainM = Integer.Parse(x.Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1
-                        If Cntstr(x.OuterXml, "</InstrumentBranch>") > 1 Then
+                        PrChain = Integer.Parse(x.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1 '최소 체인.
+                        PrChainM = Integer.Parse(x.Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1 '최대 체인.
+                        If Cntstr(x.OuterXml, "</InstrumentBranch>") > 1 Then '랜덤인 경우.
                             rnd = Cntstr(x.OuterXml, "</InstrumentBranch>")
                             IsRandom = True
                         Else
@@ -1014,16 +1033,19 @@ Public Class MainProject
 
                         Continue For
                     End Try
+#End Region
 
                     Dim sndName As String = x.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("OriginalSimpler").Item("Player").Item("MultiSampleMap").Item("SampleParts").Item("MultiSamplePart").Item("SampleRef").Item("FileRef").Item("Name").GetAttribute("Value")
                     Dim Chain As Integer = Integer.Parse(x.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1
 
+#Region "Error Lists"
                     If Not File.Exists(Application.StartupPath & "\Workspace\ableproj\sounds\" & sndName) Then
                         Debug.WriteLine(String.Format("'{0}' File doesn't exists.", sndName))
                         err &= String.Format("'{0}' File doesn't exists.", sndName) & vbNewLine
                         Continue For
                     End If
-
+#End Region
+#Region "IsRandom Codes"
                     If idr + 1 = curid Then
                         nx += 1
                         curid = 1
@@ -1042,6 +1064,7 @@ Public Class MainProject
                         lpn = False
                     End If
 
+                    '랜덤이니깐 체인 동기화를 해줌.
                     If Not PrChain = 0 AndAlso IsRandom Then
                         Chain = PrChain
                         currentRnd += 1
@@ -1062,22 +1085,41 @@ Public Class MainProject
                     Else
                         PrChain = 0
                     End If
+#End Region
 
                     Dim ks As ksX = GetkeySound(ks_NoteEvents.NoteNumber_1, rNote)
+#Region "keySound Debugging"
                     If lpn = False Then
                         Debug.WriteLine(String.Format("{0}: {1} {2} {3}", sndName, Chain, ks.x, ks.y))
                     Else
                         Debug.WriteLine(String.Format("{0}: {1} ~ {2} {3} {4}", sndName, Chain, MaxChain, ks.x, ks.y))
                     End If
+#End Region
 
                     File.Copy(Application.StartupPath & "\Workspace\ableproj\sounds\" & sndName, Application.StartupPath & "\Workspace\unipack\sounds\" & sndName, True)
                     If String.IsNullOrWhiteSpace(str) Then
-                        str &= String.Format("{0} {1} {2} {3}", Chain, ks.x, ks.y, sndName)
+                        If lpn = False Then
+                            str &= String.Format("{0} {1} {2} {3}", Chain, ks.x, ks.y, sndName)
+                        Else
+#Region "체인 ~ 최대 체인 변환"
+                            For Ci As Integer = 1 To MaxChain
+                                str &= String.Format("{0} {1} {2} {3}", Ci, ks.x, ks.y, sndName)
+                            Next
+#End Region
+                        End If
                     Else
-                        str &= vbNewLine & String.Format("{0} {1} {2} {3}", Chain, ks.x, ks.y, sndName)
+                        If lpn = False Then
+                            str &= vbNewLine & String.Format("{0} {1} {2} {3}", Chain, ks.x, ks.y, sndName)
+                        Else
+#Region "체인 ~ 최대 체인 변환"
+                            For Ci As Integer = 1 To MaxChain
+                                str &= vbNewLine & String.Format("{0} {1} {2} {3}", Ci, ks.x, ks.y, sndName)
+                            Next
+#End Region
+                        End If
                     End If
 
-                    curid += 1
+                        curid += 1
                 Next
 
                 File.WriteAllText(Application.StartupPath & "\Workspace\unipack\keySound", str)
@@ -1260,9 +1302,24 @@ Public Class MainProject
 
             Dim ksnd As String = Application.StartupPath & "\Workspace\unipack\keySound"
             Dim ksTmpTXT As String = File.ReadAllText(ksnd)
+            If Not ks_lpn = Cntstr(ksTmpTXT, keySound_CChain & " " & x & " " & y & " ") Then
+                ks_lpu = 1
+            End If
+            ks_lpn = Cntstr(ksTmpTXT, keySound_CChain & " " & x & " " & y & " ")
+
+            If ks_lpn = ks_lpu - 1 Then
+                ks_lpu = 1
+            End If
 
             For Each strLine As String In SplitbyLine(ksTmpTXT)
                 If strLine.Contains(keySound_CChain & " " & x & " " & y & " ") Then
+
+                    If Not ks_lpu = 1 Then
+                        For i As Integer = 1 To ks_lpu - 1
+                            Continue For
+                        Next
+                    End If
+
                     For Each WavFileName As String In strLine.Split(" ")
 
                         If WavFileName.Contains(".wav") Then
@@ -1295,6 +1352,8 @@ Public Class MainProject
                             End If
                         End If
                     Next
+
+                    ks_lpu += 1
                 End If
             Next
 
@@ -2672,8 +2731,16 @@ fexLine:
                             UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))) 'Get Y Pos.
                             UniPack_L = 1
 
-                            If UniPack_Chain > 8 OrElse UniPack_Chain = 0 OrElse UniPack_X = -8192 Then
+                            If UniPack_Chain > 8 OrElse UniPack_Chain = 0 OrElse UniPack_X = -8192 OrElse UniPack_X = 0 Then
                                 Continue For
+                            End If
+
+                            Dim lpn2 As Boolean = False
+                            Dim MaxChain As Integer = Integer.Parse(x.Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1
+                            If Not UniPack_Chain = MaxChain Then
+                                lpn2 = True
+                            Else
+                                lpn2 = False
                             End If
 
                             If Not PrChain = 0 AndAlso isRandom Then
@@ -2692,11 +2759,16 @@ fexLine:
 
                             Dim LoopNumber_1 As Integer() = New Integer(1) {}
                             Dim LoopNumber_1bool As Boolean 'Chain Value = ?
-                            LoopNumber_1(0) = Integer.Parse(x.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1
-                            LoopNumber_1(1) = Integer.Parse(x.Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1
+                            If lpn2 = False Then
+                                LoopNumber_1(0) = Integer.Parse(x.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1
+                                LoopNumber_1(1) = Integer.Parse(x.Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1
+                            Else
+                                LoopNumber_1(0) = UniPack_Chain
+                                LoopNumber_1(1) = MaxChain
+                            End If
                             LoopNumber_1bool = LoopNumber_1(0) = LoopNumber_1(1)
 
-                            Dim LoopNumber_2 As Integer() = New Integer(1) {}
+                                Dim LoopNumber_2 As Integer() = New Integer(1) {}
                             Dim LoopNumber_2bool As Boolean 'Key Value = ?
                             LoopNumber_2(0) = Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))
                             LoopNumber_2(1) = Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))

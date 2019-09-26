@@ -164,7 +164,6 @@ Partial Class MainProject
         Me.BGW_CheckUpdate = New System.ComponentModel.BackgroundWorker()
         Me.BGW_keySound = New System.ComponentModel.BackgroundWorker()
         Me.BGW_keySoundLayout = New System.ComponentModel.BackgroundWorker()
-        Me.BGW_keySoundPlay = New System.ComponentModel.BackgroundWorker()
         Me.MenuStrip.SuspendLayout()
         Me.HomeEdit.SuspendLayout()
         Me.Info1.SuspendLayout()
@@ -1554,6 +1553,7 @@ Partial Class MainProject
         Me.keyLEDMIDEX_UniLED.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.keyLEDMIDEX_UniLED.DisabledColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer))
         Me.keyLEDMIDEX_UniLED.Enabled = False
+        Me.keyLEDMIDEX_UniLED.Font = New System.Drawing.Font("Courier New", 9.75!)
         Me.keyLEDMIDEX_UniLED.IsReplaceMode = False
         Me.keyLEDMIDEX_UniLED.Location = New System.Drawing.Point(364, 14)
         Me.keyLEDMIDEX_UniLED.Name = "keyLEDMIDEX_UniLED"
@@ -1877,5 +1877,4 @@ Partial Class MainProject
     Friend WithEvents uni8_7 As Button
     Friend WithEvents uni8_8 As Button
     Friend WithEvents BGW_keySoundLayout As System.ComponentModel.BackgroundWorker
-    Friend WithEvents BGW_keySoundPlay As System.ComponentModel.BackgroundWorker
 End Class

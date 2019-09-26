@@ -385,6 +385,16 @@ o 6 3 a [나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 �
  keySound Play Loop 2.
  </summary>
 </member>
+<member name="F:UniConverter_Project.MainProject.ks_lpn">
+ <summary>
+ 다른 매핑할 때 소리를 재생함.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.ks_lpu">
+ <summary>
+ 현재 소리를 재생.
+ </summary>
+</member>
 <member name="F:UniConverter_Project.MainProject.keyLEDIsSaved">
  <summary>
  MainProject keyLED 저장 여부. (keyLED / keyLED (MIDEX))
