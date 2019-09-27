@@ -383,13 +383,7 @@ Public Class MainProject
                 SetUpLight_ = True
             End If
 
-            If Directory.Exists(Application.StartupPath & "\Workspace\unipack") Then
-                My.Computer.FileSystem.DeleteDirectory(Application.StartupPath & "\Workspace\unipack", FileIO.DeleteDirectoryOption.DeleteAllContents)
-                Thread.Sleep(300)
-                Directory.CreateDirectory(Application.StartupPath & "\Workspace\unipack")
-            Else
-                Directory.CreateDirectory(Application.StartupPath & "\Workspace\unipack")
-            End If
+            DeleteWorkspaceDir()
 
             'Text of Info TextBox
             infoTB1.Text = "My Amazing UniPack!" 'Title
@@ -442,6 +436,16 @@ Public Class MainProject
 
     Private Sub InfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InfoToolStripMenuItem.Click
         Info.Show()
+    End Sub
+
+    Public Sub DeleteWorkspaceDir()
+        If Directory.Exists(Application.StartupPath & "\Workspace\unipack") Then
+            My.Computer.FileSystem.DeleteDirectory(Application.StartupPath & "\Workspace\unipack", FileIO.DeleteDirectoryOption.DeleteAllContents)
+            Thread.Sleep(300)
+            Directory.CreateDirectory(Application.StartupPath & "\Workspace\unipack")
+        Else
+            Directory.CreateDirectory(Application.StartupPath & "\Workspace\unipack")
+        End If
     End Sub
 
     Private Sub OpenSoundsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SoundsToolStripMenuItem.Click
@@ -770,6 +774,7 @@ Public Class MainProject
         Loading.DLb.Text = Loading.loading_Project_Extract_msg
         Loading.DLb.Refresh()
         ExtractGZip("Workspace\ableproj\abl_proj.gz", "Workspace\ableproj")
+        Thread.Sleep(300)
 
         Loading.DLb.Text = Loading.loading_Project_DeleteTmp_msg
         Loading.DLb.Refresh()
@@ -873,6 +878,10 @@ Public Class MainProject
                     End Select
                 End If
 
+                If abl_openedproj AndAlso abl_openedsnd Then
+                    BGW_keySound.RunWorkerAsync()
+                End If
+
             End If
         Catch ex As Exception
             If IsGreatExMode Then
@@ -972,8 +981,9 @@ Public Class MainProject
                     .Show()
                     .Text = "Converting Ableton Sound Mapping to keySound..."
                     .DLb.Text = "Loading Mapping Infos..."
+                    .DLb.Left -= 20
                     .DPr.Style = ProgressBarStyle.Marquee
-                    .DPr.MarqueeAnimationSpeed = 1
+                    .DPr.MarqueeAnimationSpeed = 1000
                     .Refresh()
                 End With
 
@@ -1004,30 +1014,58 @@ Public Class MainProject
 
                 'Get Sound Name from Drum Rack.
                 Dim rNote As Integer = 0 'Receiving Note.
-                Dim idr As Integer = 0 '무엇?
-                Dim curid As Integer = 1 '현재의 랜덤 Xml.
                 Dim nx As Integer = 0 'setNode (InstrumentBranch)와 setaNode (DrumBranch)를 동기화 시켜주는 i.
 
                 Dim PrChain As Integer = 0 '랜덤의 체인.
                 Dim PrChainM As Integer = 0 '랜덤의 최대 체인.
                 Dim IsRandom As Boolean = False '현재 접근하고 있는 XML Branch가 랜덤인가?
-                Dim rnd As Integer = 0 '랜덤의 수
-                Dim currentRnd As Integer = 1 '현재 접근하고 있는 랜덤의 XML.
+                Dim rnd As Integer = 1 '랜덤의 수
+                Dim Choices As Integer = 0 '매우 정확한 랜덤의 수. (from MidiRandom)
+                Dim curid As Integer = 1 '현재의 랜덤 Xml.
+                Dim realCh As Integer = 0 '랜덤을 선언할 때 정말 정확한 수.
 
                 Dim str As String = String.Empty 'keySound 그 자체.
                 Dim err As String = String.Empty 'keySound 변환 할 때의 오류를 저장하는 곳.
                 For Each x As XmlNode In setNode
+                    Loading.Refresh()
+
 #Region "keySound / IsRandom"
                     Try
                         Dim Try4sndName As String = x.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("OriginalSimpler").Item("Player").Item("MultiSampleMap").Item("SampleParts").Item("MultiSamplePart").Item("SampleRef").Item("FileRef").Item("Name").GetAttribute("Value")
+                        If curid = 1 Then
+                            rNote = Integer.Parse(setaNode(nx).Item("BranchInfo").Item("ReceivingNote").GetAttribute("Value"))
+
+                            Dim branches As Integer = Cntstr(setaNode(nx).InnerXml, "</MidiRandom>")
+                            If branches > 0 Then
+                                Debug.WriteLine("brn: " & branches)
+                                rnd = Cntstr(setaNode(nx).InnerXml, "</InstrumentBranch>") - branches
+                            Else
+                                rnd = Cntstr(setaNode(nx).InnerXml, "</InstrumentBranch>")
+                            End If
+
+                            Debug.WriteLine(rnd) '디버깅 전용.
+                            nx += 1
+                        End If
+
                     Catch exN As NullReferenceException
+                        If setaNode.Count < nx + 1 Then '심각한데?
+                            Throw New NullReferenceException("DrumRack < nx")
+                        End If
 
                         PrChain = Integer.Parse(x.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1 '최소 체인.
                         PrChainM = Integer.Parse(x.Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1 '최대 체인.
-                        If Cntstr(x.OuterXml, "</InstrumentBranch>") > 1 Then '랜덤인 경우.
-                            rnd = Cntstr(x.OuterXml, "</InstrumentBranch>")
+
+                        Try
+                            Choices = Integer.Parse(x.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("MidiRandom").Item("Choices").Item("Manual").GetAttribute("Value")) 'MidiRandom > Choices > Manual Value
+                        Catch exNN As NullReferenceException
+                            Choices = 0
+                        End Try
+
+                        If Choices > 0 Then '랜덤인 경우.
                             IsRandom = True
+                            realCh = curid - 1 + Choices
                         Else
+                            Choices = 0
                             IsRandom = False
                         End If
 
@@ -1042,20 +1080,17 @@ Public Class MainProject
                     If Not File.Exists(Application.StartupPath & "\Workspace\ableproj\sounds\" & sndName) Then
                         Debug.WriteLine(String.Format("'{0}' File doesn't exists.", sndName))
                         err &= String.Format("'{0}' File doesn't exists.", sndName) & vbNewLine
+
+                        If Not rnd = curid Then
+                            curid += 1 'id를 + 1 안해주면 key가 하나씩 계속 밀리게 됨.
+                        Else
+                            curid = 1
+                        End If
+
                         Continue For
                     End If
 #End Region
 #Region "IsRandom Codes"
-                    If idr + 1 = curid Then
-                        nx += 1
-                        curid = 1
-                        rNote = Integer.Parse(setaNode(nx).Item("BranchInfo").Item("ReceivingNote").GetAttribute("Value"))
-                        idr = Cntstr(setaNode(nx).InnerXml, "</InstrumentBranch>")
-                    ElseIf idr = 0 Then
-                        rNote = Integer.Parse(setaNode(nx).Item("BranchInfo").Item("ReceivingNote").GetAttribute("Value"))
-                        idr = Cntstr(setaNode(nx).InnerXml, "</InstrumentBranch>")
-                    End If
-
                     Dim lpn As Boolean = False
                     Dim MaxChain As Integer = Integer.Parse(x.Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1
                     If Not Chain = MaxChain Then
@@ -1066,22 +1101,15 @@ Public Class MainProject
 
                     '랜덤이니깐 체인 동기화를 해줌.
                     If Not PrChain = 0 AndAlso IsRandom Then
+
                         Chain = PrChain
-                        currentRnd += 1
-
-                        If rnd = currentRnd Then
-                            PrChain = 0
-                            IsRandom = False
-                            rnd = 0
-                            currentRnd = 0
-                        End If
-
                         MaxChain = PrChainM
                         If Not Chain = MaxChain Then
                             lpn = True
                         Else
                             lpn = False
                         End If
+
                     Else
                         PrChain = 0
                     End If
@@ -1102,7 +1130,7 @@ Public Class MainProject
                             str &= String.Format("{0} {1} {2} {3}", Chain, ks.x, ks.y, sndName)
                         Else
 #Region "체인 ~ 최대 체인 변환"
-                            For Ci As Integer = 1 To MaxChain
+                            For Ci As Integer = Chain To MaxChain
                                 str &= String.Format("{0} {1} {2} {3}", Ci, ks.x, ks.y, sndName)
                             Next
 #End Region
@@ -1112,18 +1140,31 @@ Public Class MainProject
                             str &= vbNewLine & String.Format("{0} {1} {2} {3}", Chain, ks.x, ks.y, sndName)
                         Else
 #Region "체인 ~ 최대 체인 변환"
-                            For Ci As Integer = 1 To MaxChain
+                            For Ci As Integer = Chain To MaxChain
                                 str &= vbNewLine & String.Format("{0} {1} {2} {3}", Ci, ks.x, ks.y, sndName)
                             Next
 #End Region
                         End If
                     End If
 
-                        curid += 1
-                Next
+                    If IsRandom AndAlso curid = realCh Then
+                        IsRandom = False
+                        Choices = 0
+                    End If
 
+                    If rnd = curid Then
+                        IsRandom = False
+                        rnd = 1
+                        curid = 0
+                    End If
+
+                    Loading.Refresh()
+                    curid += 1
+                Next
                 File.WriteAllText(Application.StartupPath & "\Workspace\unipack\keySound", str)
-                ShowkeySoundLayout()
+                UI(Sub()
+                       ShowkeySoundLayout()
+                   End Sub)
 
                 IsWorking = False
                 Loading.Dispose()
