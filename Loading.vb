@@ -1,6 +1,4 @@
 ﻿Public Class Loading
-    Public WithEvents Timer As New Timer
-
     Public Shared loading_Sound_Open_msg As String = "Loading Sound Files... ({0} / {1})"
     Public Shared loading_LED_open_msg As String = "Loading LED Files... ({0} / {1})"
     Public Shared loading_LED_openList_msg As String = "Replacing LED Files... ({0} / {1})"

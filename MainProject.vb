@@ -261,17 +261,18 @@ Public Class MainProject
             End If
 
             'License File of Developer Mode.
-            If File.Exists(LicenseFile(0)) AndAlso File.ReadAllText(LicenseFile(0)) = My.Resources.License_DeveloperMode Then
+            If File.Exists(LicenseFile(0)) AndAlso File.ReadAllText(LicenseFile(0)).GetHashCode = My.Resources.License_DeveloperMode.GetHashCode Then
                 IsDeveloperMode = True
+            End If
+
+            'License File of Great Exception Mode.
+            If File.Exists(LicenseFile(1)) AndAlso File.ReadAllText(LicenseFile(1)).GetHashCode = My.Resources.License_GreatExMode.GetHashCode Then
+                IsGreatExMode = True
             End If
 
             If IsDeveloperMode Then
                 Me.Text = Me.Text & " (Enabled Developer Mode)"
                 DeveloperModeToolStripMenuItem.Visible = True
-            End If
-
-            If File.Exists(LicenseFile(1)) AndAlso File.ReadAllText(LicenseFile(1)) = My.Resources.License_GreatExMode Then
-                IsGreatExMode = True
             End If
 #Region "변수 기본값 설정"
             Me.KeyPreview = True
@@ -513,41 +514,42 @@ Public Class MainProject
 
     Private Sub BGW_keyLED_DoWork(sender As Object, e As DoWorkEventArgs) Handles BGW_keyLED.DoWork
         Try
-            Dim FileNames = ofd_FileNames
+            Dim FileNames As String() = ofd_FileNames
 
-            Loading.Show()
-            Loading.Text = Me.Text & ": Loading LED Files..."
-            FileNames = ofd_FileNames
-            Loading.DPr.Maximum = FileNames.Length
-            Loading.DLb.Left = 40
-            Loading.DLb.Text = "Loading LED Files..."
-            Loading.DLb.Refresh()
+            UI(Sub()
+                   Loading.Show()
+                   Loading.Text = Me.Text & ": Loading LED Files..."
+                   Loading.DPr.Maximum = FileNames.Length
+                   Loading.DLb.Left = 40
+                   Loading.DLb.Text = "Loading LED Files..."
+               End Sub)
 
             If Directory.Exists("Workspace\ableproj\CoLED") Then
-                My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\CoLED", FileIO.DeleteDirectoryOption.DeleteAllContents)
-                Directory.CreateDirectory("Workspace\ableproj\CoLED")
-            Else
-                Directory.CreateDirectory("Workspace\ableproj\CoLED")
-            End If
+                       My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\CoLED", FileIO.DeleteDirectoryOption.DeleteAllContents)
+                       Directory.CreateDirectory("Workspace\ableproj\CoLED")
+                   Else
+                       Directory.CreateDirectory("Workspace\ableproj\CoLED")
+                   End If
 
-            For i = 0 To FileNames.Length - 1
-                File.Copy(FileNames(i), "Workspace\ableproj\CoLED\" & FileNames(i).Split("\").Last, True)
-                Loading.DPr.Style = ProgressBarStyle.Continuous
-                Loading.DPr.Value += 1
-                Loading.DLb.Left = 40
-                Loading.DLb.Text = String.Format(Loading.loading_LED_open_msg, Loading.DPr.Value, FileNames.Length)
-                Loading.DLb.Refresh()
+                   For i = 0 To FileNames.Length - 1
+                       File.Copy(FileNames(i), "Workspace\ableproj\CoLED\" & FileNames(i).Split("\").Last, True)
+                UI(Sub()
+                       Loading.DPr.Style = ProgressBarStyle.Continuous
+                       Loading.DPr.Value += 1
+                       Loading.DLb.Left = 40
+                       Loading.DLb.Text = String.Format(Loading.loading_LED_open_msg, Loading.DPr.Value, FileNames.Length)
+                   End Sub)
             Next
 
-            Loading.DPr.Value = Loading.DPr.Maximum
-            Loading.DPr.Style = ProgressBarStyle.Marquee
-            Loading.DPr.Refresh()
-            Loading.DLb.Left = 40
-            Loading.DLb.Text = "Loaded LED Files. Please Wait..."
-            Loading.DLb.Refresh()
+            UI(Sub()
+                   Loading.DPr.Value = Loading.DPr.Maximum
+                   Loading.DPr.Style = ProgressBarStyle.Marquee
+                   Loading.DLb.Left = 40
+                   Loading.DLb.Text = "Loaded LED Files. Please Wait..."
+               End Sub)
 
             abl_openedled = True
-            Loading.Dispose()
+            UI(Sub() Loading.Dispose())
         Catch ex As Exception
             If IsGreatExMode Then
                 MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -595,6 +597,7 @@ Public Class MainProject
         End Try
     End Sub
 
+    'LED Save 파일 (0save 파일, 미디 익스텐션용)
     Private Sub BGW_keyLED2_DoWork(sender As Object, e As DoWorkEventArgs) Handles BGW_keyLED2.DoWork
         Try
             Dim FileName As String = ofd_FileName
@@ -760,33 +763,30 @@ Public Class MainProject
             My.Computer.FileSystem.CreateDirectory("Workspace\ableproj")
         End If
 
-        Loading.Show()
-        Loading.DPr.Style = ProgressBarStyle.Marquee
-        Loading.DPr.Refresh()
-        Loading.DLb.Left = 60
-        Loading.Text = Me.Text & ": Loading The Ableton Project File..."
-        Loading.DLb.Text = Loading.loading_Project_Load_msg
-        Loading.DLb.Refresh()
+        UI(Sub()
+               Loading.Show()
+               Loading.DPr.Style = ProgressBarStyle.Marquee
+               Loading.DPr.MarqueeAnimationSpeed = 10
+               Loading.DLb.Left = 60
+               Loading.Text = Me.Text & ": Loading The Ableton Project File..."
+               Loading.DLb.Text = Loading.loading_Project_Load_msg
+           End Sub)
 
         abl_FileName = FileName
-        File.Copy(FileName, "Workspace\ableproj\abl_proj.gz", True)
+               File.Copy(FileName, "Workspace\ableproj\abl_proj.gz", True)
 
-        Loading.DLb.Text = Loading.loading_Project_Extract_msg
-        Loading.DLb.Refresh()
+        UI(Sub() Loading.DLb.Text = Loading.loading_Project_Extract_msg)
         ExtractGZip("Workspace\ableproj\abl_proj.gz", "Workspace\ableproj")
-        Thread.Sleep(300)
+               Thread.Sleep(300)
 
-        Loading.DLb.Text = Loading.loading_Project_DeleteTmp_msg
-        Loading.DLb.Refresh()
+        UI(Sub() Loading.DLb.Text = Loading.loading_Project_DeleteTmp_msg)
         File.Delete("Workspace\ableproj\abl_proj.gz")
-        File.Delete("Workspace\ableproj\abl_proj.xml")
+               File.Delete("Workspace\ableproj\abl_proj.xml")
 
-        Loading.DLb.Text = Loading.loading_Project_ChangeExt_msg
-        Loading.DLb.Refresh()
+        UI(Sub() Loading.DLb.Text = Loading.loading_Project_ChangeExt_msg)
         File.Move("Workspace\ableproj\abl_proj", "Workspace\ableproj\abl_proj.xml")
 
-        Loading.DLb.Text = Loading.loading_Project_DeleteTmp_msg
-        Loading.DLb.Refresh()
+        UI(Sub() Loading.DLb.Text = Loading.loading_Project_DeleteTmp_msg)
         File.Delete("Workspace\ableproj\abl_proj")
 
 
@@ -794,68 +794,67 @@ Public Class MainProject
         'Reading Informations of Ableton Project.
 
         'Ableton Project's Name.
-        Loading.DLb.Text = Loading.loading_Project_FileName_msg
-        Loading.DLb.Refresh()
+        UI(Sub() Loading.DLb.Text = Loading.loading_Project_FileName_msg)
 
         Dim FinalName As String = Path.GetFileNameWithoutExtension(FileName)
 
         'Ableton Project's Chain.
-        Loading.DLb.Left = 130
-        Loading.DLb.Text = Loading.loading_Project_Chain_msg
-        Loading.DLb.Refresh()
-
+        UI(Sub()
+               Loading.DLb.Left = 130
+               Loading.DLb.Text = Loading.loading_Project_Chain_msg
+           End Sub)
 #Region "Loading Chain Numbers"
         Dim ablprj As String = Application.StartupPath & "\Workspace\ableproj\abl_proj.xml"
-        Dim doc As New XmlDocument
-        Dim setNode As XmlNodeList
-        doc.Load(ablprj)
-        setNode = doc.GetElementsByTagName("MidiEffectBranch")
+               Dim doc As New XmlDocument
+               Dim setNode As XmlNodeList
+               doc.Load(ablprj)
+               setNode = doc.GetElementsByTagName("MidiEffectBranch")
 
-        Dim li As Integer = setNode.Count
-        Dim chan_ As Integer() = New Integer(li) {}
+               Dim li As Integer = setNode.Count
+               Dim chan_ As Integer() = New Integer(li) {}
 
-        Dim iy As Integer = 0
-        For Each x As XmlNode In setNode
-            'Chain + 1 해주는 이유는 항상 Chain의 기본값이 0이기 때문임. 유니팩에서는 Chain 1이여도 에이블톤에서는 Chain 0임.
-            chan_(iy) = x.Item("BranchSelectorRange").Item("Max").GetAttribute("Value") + 1
-            iy += 1
-        Next
+               Dim iy As Integer = 0
+               For Each x As XmlNode In setNode
+                   'Chain + 1 해주는 이유는 항상 Chain의 기본값이 0이기 때문임. 유니팩에서는 Chain 1이여도 에이블톤에서는 Chain 0임.
+                   chan_(iy) = x.Item("BranchSelectorRange").Item("Max").GetAttribute("Value") + 1
+                   iy += 1
+               Next
 
-        Array.Sort(chan_)
-        Array.Reverse(chan_)
+               Array.Sort(chan_)
+               Array.Reverse(chan_)
 
-        Dim FinalChain As Integer = 0
-        For i As Integer = 0 To chan_.Count - 1
-            If chan_(i) < 9 AndAlso chan_(i) > 0 Then
-                FinalChain = chan_(i)
-                Exit For
-            End If
-        Next
+               Dim FinalChain As Integer = 0
+               For i As Integer = 0 To chan_.Count - 1
+                   If chan_(i) < 9 AndAlso chan_(i) > 0 Then
+                       FinalChain = chan_(i)
+                       Exit For
+                   End If
+               Next
 #End Region
 
-        '정리.
-        abl_Name = FinalName
-        abl_Chain = FinalChain
+               '정리.
+               abl_Name = FinalName
+               abl_Chain = FinalChain
 
-        Loading.DLb.Left = 40
-        Loading.DLb.Text = "Loading The Ableton Project File..."
-        Loading.DLb.Refresh()
-
-        Loading.Dispose()
+        UI(Sub()
+               Loading.DLb.Left = 40
+               Loading.DLb.Text = "Loading The Ableton Project File..."
+           End Sub)
 
         'XML File Load.
         Invoke(Sub()
-                   infoTB1.Text = abl_Name
-                   infoTB3.Text = abl_Chain
-               End Sub)
+                          infoTB1.Text = abl_Name
+                          infoTB3.Text = abl_Chain
+                      End Sub)
 
-        abl_openedproj = True
+               abl_openedproj = True
         UniPack_SaveInfo(False)
+        UI(Sub() Loading.Dispose())
 
         If OpenProjectOnce = False Then
-            MessageBox.Show("Ableton Project File Loaded!" & vbNewLine & "You can edit info in Information Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-        End If
-    End Sub
+                   MessageBox.Show("Ableton Project File Loaded!" & vbNewLine & "You can edit info in Information Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+               End If
+           End Sub
 
     Private Sub BGW_ablproj_Completed(sender As Object, e As RunWorkerCompletedEventArgs) Handles BGW_ablproj.RunWorkerCompleted
         Try
@@ -977,57 +976,62 @@ Public Class MainProject
             If e.Cancel = False AndAlso IsWorking = False AndAlso abl_openedproj AndAlso abl_openedsnd Then
                 IsWorking = True
 
-                With Loading
-                    .Show()
-                    .Text = "Converting Ableton Sound Mapping to keySound..."
-                    .DLb.Text = "Loading Mapping Infos..."
-                    .DLb.Left -= 20
-                    .DPr.Style = ProgressBarStyle.Marquee
-                    .DPr.MarqueeAnimationSpeed = 1000
-                    .Refresh()
-                End With
+                UI(Sub()
+                       With Loading
+                           .Show()
+                           .Text = "Converting Ableton Sound Mapping to keySound..."
+                           .DLb.Text = "Loading Mapping Infos..."
+                           .DLb.Left -= 20
+                           .DPr.Style = ProgressBarStyle.Marquee
+                           .DPr.MarqueeAnimationSpeed = 10
+                           .Refresh()
+                       End With
+                   End Sub)
 
                 If Directory.Exists(Application.StartupPath & "\Workspace\unipack\sounds") Then
-                    Loading.DLb.Text = "Deleting Tempoary Files..."
-                    Loading.Refresh()
+                    UI(Sub()
+                           Loading.DLb.Text = "Deleting Tempoary Files..."
+                           Loading.Refresh()
+                       End Sub)
 
                     My.Computer.FileSystem.DeleteDirectory(Application.StartupPath & "\Workspace\unipack\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
-                    Thread.Sleep(300)
-                    Directory.CreateDirectory(Application.StartupPath & "\Workspace\unipack\sounds")
-                Else
+                           Thread.Sleep(300)
+                           Directory.CreateDirectory(Application.StartupPath & "\Workspace\unipack\sounds")
+                       Else
                     Directory.CreateDirectory(Application.StartupPath & "\Workspace\unipack\sounds")
                 End If
 
-                Loading.DLb.Text = "Loading Mapping Infos..."
-                Loading.Refresh()
+                UI(Sub()
+                       Loading.DLb.Text = "Loading Mapping Infos..."
+                       Loading.Refresh()
+                   End Sub)
 
                 'InstrumentGroupDevice
                 'ChainSelector
                 Dim ablprj As String = Application.StartupPath & "\Workspace\ableproj\abl_proj.xml"
-                Dim doc As New XmlDocument
-                Dim setNode As XmlNodeList
-                Dim setaNode As XmlNodeList
+                       Dim doc As New XmlDocument
+                       Dim setNode As XmlNodeList
+                       Dim setaNode As XmlNodeList
 
-                doc.Load(ablprj)
-                setNode = doc.GetElementsByTagName("InstrumentBranch")
-                setaNode = doc.GetElementsByTagName("DrumBranch")
+                       doc.Load(ablprj)
+                       setNode = doc.GetElementsByTagName("InstrumentBranch")
+                       setaNode = doc.GetElementsByTagName("DrumBranch")
 
-                'Get Sound Name from Drum Rack.
-                Dim rNote As Integer = 0 'Receiving Note.
-                Dim nx As Integer = 0 'setNode (InstrumentBranch)와 setaNode (DrumBranch)를 동기화 시켜주는 i.
+                       'Get Sound Name from Drum Rack.
+                       Dim rNote As Integer = 0 'Receiving Note.
+                       Dim nx As Integer = 0 'setNode (InstrumentBranch)와 setaNode (DrumBranch)를 동기화 시켜주는 i.
 
-                Dim PrChain As Integer = 0 '랜덤의 체인.
-                Dim PrChainM As Integer = 0 '랜덤의 최대 체인.
-                Dim IsRandom As Boolean = False '현재 접근하고 있는 XML Branch가 랜덤인가?
-                Dim rnd As Integer = 1 '랜덤의 수
-                Dim Choices As Integer = 0 '매우 정확한 랜덤의 수. (from MidiRandom)
-                Dim curid As Integer = 1 '현재의 랜덤 Xml.
-                Dim realCh As Integer = 0 '랜덤을 선언할 때 정말 정확한 수.
+                       Dim PrChain As Integer = 0 '랜덤의 체인.
+                       Dim PrChainM As Integer = 0 '랜덤의 최대 체인.
+                       Dim IsRandom As Boolean = False '현재 접근하고 있는 XML Branch가 랜덤인가?
+                       Dim rnd As Integer = 1 '랜덤의 수
+                       Dim Choices As Integer = 0 '매우 정확한 랜덤의 수. (from MidiRandom)
+                       Dim curid As Integer = 1 '현재의 랜덤 Xml.
+                       Dim realCh As Integer = 0 '랜덤을 선언할 때 정말 정확한 수.
 
-                Dim str As String = String.Empty 'keySound 그 자체.
-                Dim err As String = String.Empty 'keySound 변환 할 때의 오류를 저장하는 곳.
+                       Dim str As String = String.Empty 'keySound 그 자체.
+                       Dim err As String = String.Empty 'keySound 변환 할 때의 오류를 저장하는 곳.
                 For Each x As XmlNode In setNode
-                    Loading.Refresh()
 
 #Region "keySound / IsRandom"
                     Try
@@ -1049,7 +1053,12 @@ Public Class MainProject
 
                     Catch exN As NullReferenceException
                         If setaNode.Count < nx + 1 Then '심각한데?
-                            Throw New NullReferenceException("DrumRack < nx")
+                            If IsGreatExMode Then
+                                Throw New NullReferenceException("DrumRack < nx")
+                            Else
+                                err &= vbNewLine & String.Format("NullReferenceException: Drum Rack's Length </>")
+                                Exit For
+                            End If
                         End If
 
                         PrChain = Integer.Parse(x.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1 '최소 체인.
@@ -1079,7 +1088,7 @@ Public Class MainProject
 #Region "Error Lists"
                     If Not File.Exists(Application.StartupPath & "\Workspace\ableproj\sounds\" & sndName) Then
                         Debug.WriteLine(String.Format("'{0}' File doesn't exists.", sndName))
-                        err &= String.Format("'{0}' File doesn't exists.", sndName) & vbNewLine
+                        err &= vbNewLine & String.Format("'{0}' File doesn't exists.", sndName)
 
                         If Not rnd = curid Then
                             curid += 1 'id를 + 1 안해주면 key가 하나씩 계속 밀리게 됨.
@@ -1158,21 +1167,20 @@ Public Class MainProject
                         curid = 0
                     End If
 
-                    Loading.Refresh()
                     curid += 1
                 Next
                 File.WriteAllText(Application.StartupPath & "\Workspace\unipack\keySound", str)
-                UI(Sub()
-                       ShowkeySoundLayout()
-                   End Sub)
+                       UI(Sub()
+                              ShowkeySoundLayout()
+                          End Sub)
 
-                IsWorking = False
-                Loading.Dispose()
+                       IsWorking = False
+                UI(Sub() Loading.Dispose())
                 MessageBox.Show("keySound Converted!" & vbNewLine & "You can show the keySound on 'keySound' Tab!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
 
-                If Not String.IsNullOrWhiteSpace(err) Then
-                    MessageBox.Show("[ Warning ]" & vbNewLine & "keySound: [] format is invaild." & vbNewLine & vbNewLine & err, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                End If
+                       If Not String.IsNullOrWhiteSpace(err) Then
+                           MessageBox.Show("[ Warning ]" & vbNewLine & "keySound: [] format is invaild." & vbNewLine & err, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                       End If
 
             End If
 
@@ -1616,87 +1624,92 @@ Public Class MainProject
 
     Public Sub OpenSounds(sender As Object, e As DoWorkEventArgs) Handles BGW_sounds.DoWork
         Dim FileNames() As String
-
-        Loading.Show()
-        Loading.Text = Me.Text & ": Loading Sound Files..."
         FileNames = ofd_FileNames
-        Loading.DPr.Maximum = FileNames.Length
-        Loading.DLb.Left = 40
-        Loading.DLb.Text = "Loading Sound Files..."
-        Loading.DLb.Refresh()
+
+        UI(Sub()
+               Loading.Show()
+               Loading.Text = Me.Text & ": Loading Sound Files..."
+               Loading.DPr.Maximum = FileNames.Length
+               Loading.DLb.Left = 40
+               Loading.DLb.Text = "Loading Sound Files..."
+           End Sub)
 
         If Path.GetExtension(FileNames(FileNames.Length - 1)) = ".wav" Then
 
-            If My.Computer.FileSystem.DirectoryExists("Workspace\ableproj\sounds") = True Then
-                My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
-            End If
+                   If My.Computer.FileSystem.DirectoryExists("Workspace\ableproj\sounds") = True Then
+                       My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
+                   End If
 
-            My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\sounds")
+                   My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\sounds")
 
 
-            For i = 0 To FileNames.Length - 1
-                File.Copy(FileNames(i), "Workspace\ableproj\sounds\" & FileNames(i).Split("\").Last, True)
-                Loading.DPr.Style = ProgressBarStyle.Continuous
-                Loading.DPr.Value += 1
-                Loading.DLb.Left = 40
-                Loading.DLb.Text = String.Format(Loading.loading_Sound_Open_msg, Loading.DPr.Value, FileNames.Length)
-                Loading.DLb.Refresh()
+                   For i = 0 To FileNames.Length - 1
+                       File.Copy(FileNames(i), "Workspace\ableproj\sounds\" & FileNames(i).Split("\").Last, True)
+                UI(Sub()
+                       Loading.DPr.Style = ProgressBarStyle.Continuous
+                       Loading.DPr.Value += 1
+                       Loading.DLb.Left = 40
+                       Loading.DLb.Text = String.Format(Loading.loading_Sound_Open_msg, Loading.DPr.Value, FileNames.Length)
+                   End Sub)
             Next
 
         ElseIf Path.GetExtension(FileNames(FileNames.Length - 1)) = ".mp3" Then
-            If My.Computer.FileSystem.DirectoryExists("Workspace\ableproj\sounds") = True Then
-                My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
-            End If
-            My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\sounds")
+                   If My.Computer.FileSystem.DirectoryExists("Workspace\ableproj\sounds") = True Then
+                       My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
+                   End If
+                   My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\sounds")
 
-            For i = 0 To FileNames.Length - 1
-                File.Copy(FileNames(i), "Workspace\" & FileNames(i).Split("\").Last.Replace(" ", "").Trim(), True)
-            Next
+                   For i = 0 To FileNames.Length - 1
+                       File.Copy(FileNames(i), "Workspace\" & FileNames(i).Split("\").Last.Replace(" ", "").Trim(), True)
+                   Next
 
-            For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\", FileIO.SearchOption.SearchTopLevelOnly, "*.mp3")
-                Lame("lame\cmd.exe", "lame\lame.exe", foundFile.Replace(Application.StartupPath + "\", ""), foundFile.Replace(".mp3", ".wav").Replace(Application.StartupPath + "\", ""), "--preset extreme", False, AppWinStyle.Hide)
-            Next
+                   For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\", FileIO.SearchOption.SearchTopLevelOnly, "*.mp3")
+                       Lame("lame\cmd.exe", "lame\lame.exe", foundFile.Replace(Application.StartupPath + "\", ""), foundFile.Replace(".mp3", ".wav").Replace(Application.StartupPath + "\", ""), "--preset extreme", False, AppWinStyle.Hide)
+                   Next
 
-            Try
+                   Try
 fexLine:
-                For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\", FileIO.SearchOption.SearchTopLevelOnly, "*.mp3")
-                    If File.Exists(foundFile.Replace(".mp3", ".wav")) Then
-                        File.Move(foundFile.Replace(".mp3", ".wav"), "Workspace\ableproj\sounds\" & Path.GetFileName(foundFile.Replace(".mp3", ".wav")))
-                        File.Delete(foundFile)
-                        Loading.DPr.Style = ProgressBarStyle.Continuous
-                        Loading.DPr.Value += 1
-                        Loading.DLb.Left = 40
-                        Loading.DLb.Text = String.Format(Loading.loading_Sound_Open_msg, Loading.DPr.Value, ofd.FileNames.Length)
-                        Loading.DLb.Refresh()
+                       For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\", FileIO.SearchOption.SearchTopLevelOnly, "*.mp3")
+                           If File.Exists(foundFile.Replace(".mp3", ".wav")) Then
+                               File.Move(foundFile.Replace(".mp3", ".wav"), "Workspace\ableproj\sounds\" & Path.GetFileName(foundFile.Replace(".mp3", ".wav")))
+                               File.Delete(foundFile)
+                        UI(Sub()
+                               Loading.DPr.Style = ProgressBarStyle.Continuous
+                               Loading.DPr.Value += 1
+                               Loading.DLb.Left = 40
+                               Loading.DLb.Text = String.Format(Loading.loading_Sound_Open_msg, Loading.DPr.Value, ofd.FileNames.Length)
+                           End Sub)
                     End If
                 Next
-            Catch fex As IOException 'I/O 오류 해결 코드.
-                Thread.Sleep(100)
-                GoTo fexLine
-            End Try
-        End If
+                   Catch fex As IOException 'I/O 오류 해결 코드.
+                       Thread.Sleep(100)
+                       GoTo fexLine
+                   End Try
+               End If
 
         '-After Loading WAV/MP3!
-        Loading.DPr.Value = Loading.DPr.Maximum
-        If Loading.DPr.Value = FileNames.Length Then
-            If FileNames.Length = Directory.GetFiles(Application.StartupPath & "\Workspace\ableproj\sounds\", "*.wav").Length Then
-                Loading.DPr.Style = ProgressBarStyle.Marquee
-                Loading.DPr.Refresh()
-                Loading.DLb.Left = 40
-                Loading.DLb.Text = "Loaded Sound Files. Please Wait..."
-                Loading.DLb.Refresh()
+        UI(Sub()
+               Loading.DPr.Value = Loading.DPr.Maximum
+               If Loading.DPr.Value = FileNames.Length Then
+                   If FileNames.Length = Directory.GetFiles(Application.StartupPath & "\Workspace\ableproj\sounds\", "*.wav").Length Then
+                       UI(Sub()
+                              Loading.DPr.Style = ProgressBarStyle.Marquee
+                              Loading.DLb.Left = 40
+                              Loading.DLb.Text = "Loaded Sound Files. Please Wait..."
 
-                Loading.Dispose()
-                If OpenProjectOnce = False Then MessageBox.Show("Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                abl_openedsnd = True
-                SoundIsSaved = True
+                              Loading.Dispose()
+                          End Sub)
+                       If OpenProjectOnce = False Then MessageBox.Show("Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                       abl_openedsnd = True
+                       SoundIsSaved = True
 
-            Else
-                MessageBox.Show("Error! - Code: MaxFileLength.Value = GetFiles.Length", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End If
-        Else
-            MessageBox.Show("Error! - Code: LoadedFiles.Value = MaxFileLength.Value", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End If
+                   Else
+                       MessageBox.Show("Error! - Code: MaxFileLength.Value = GetFiles.Length", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                   End If
+               Else
+                   MessageBox.Show("Error! - Code: LoadedFiles.Value = MaxFileLength.Value", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+               End If
+           End Sub)
     End Sub
 
     Private Sub BGW_sounds_Completed(sender As Object, e As RunWorkerCompletedEventArgs) Handles BGW_sounds.RunWorkerCompleted
@@ -1858,7 +1871,6 @@ fexLine:
                                    Loading.Show()
                                    Loading.Text = Me.Text & ": Saving Ableton Project File to UniPack..."
                                    Loading.DLb.Left = 40
-                                   Loading.Refresh()
                                    Dim result As String = Path.GetExtension(sfd.FileName)
                                    If result = ".zip" Then
                                        Loading.DLb.Text = "Creating UniPack to zip File..."
@@ -2529,19 +2541,22 @@ fexLine:
         End Try
     End Sub
 
+    '에이블톤 Instrument Rack을 keyLED로 바꿔주는 코드.
     Private Sub BGW_keyLED__DoWork(sender As Object, e As DoWorkEventArgs) Handles BGW_keyLED_.DoWork
         Try
 
             If abl_openedproj AndAlso abl_openedled AndAlso Not e.Cancel Then
 
-                With Loading
-                    .Show()
-                    .Text = "Converting Ableton LED to UniPack LED..."
-                    .Refresh()
-                    .DLb.Text = "Loading LED Infos..."
-                    .DPr.Style = ProgressBarStyle.Marquee
-                    .DPr.MarqueeAnimationSpeed = 1
-                End With
+                Invoke(Sub()
+                           With Loading
+                               .Show()
+                               .Text = "Converting Ableton LED to UniPack LED..."
+                               .Refresh()
+                               .DLb.Text = "Loading LED Infos..."
+                               .DPr.Style = ProgressBarStyle.Marquee
+                               .DPr.MarqueeAnimationSpeed = 10
+                           End With
+                       End Sub)
 
                 Dim s As String = Application.StartupPath & "\Workspace\ableproj\CoLED"
                 Dim c As String = Application.StartupPath & "\Workspace\unipack\keyLED"
@@ -2595,7 +2610,7 @@ fexLine:
                 'New Tempo는 빠르기다. [New Tempo = temp1]
 
                 Dim il As Integer = 0
-                Dim Alrt As String = String.Empty
+                Dim ChN As String = String.Empty
                 Dim err As String = String.Empty
                 For Each d As String In LEDs
 
@@ -2625,9 +2640,9 @@ fexLine:
                             Dim dIndex As Integer() = ReadAllIndex(LEDs, "MIDI Extension")
                             Dim dix As Integer = 0
 #Region "Set the Tempo"
-                            If Alrt = "adsfjkh" Then 'String.IsNullOrWhiteSpace(Alrt) = False
+                            If ChN = "adsfjkh" Then 'String.IsNullOrWhiteSpace(Alrt) = False
                                 Dim skip_r As Boolean = False
-                                For Each ri As String In Alrt.Split(";")
+                                For Each ri As String In ChN.Split(";")
                                     If dFile = ri Then
                                         skip_r = True
                                         Exit For
@@ -2635,20 +2650,21 @@ fexLine:
                                 Next
 
                                 If skip_r Then
-                                    Alrt = Alrt.Replace(dFile & ";", "")
+                                    ChN = ChN.Replace(dFile & ";", "")
                                     Continue For
                                 End If
                             End If
-#End Region '나중에 BPM 재조정 코드로 Alrt 변수를 재활용 할거임.
+#End Region '나중에 BPM 재조정 코드로 ChN 변수를 재활용 할거임.
 
-                            Loading.DLb.Left -= 70
-                            Loading.DLb.Text = String.Format("Converting LED ({0}) to keyLED...", dFile)
-                            Loading.Refresh()
+                            UI(Sub()
+                                   Loading.DLb.Left -= 70
+                                   Loading.DLb.Text = String.Format("Converting LED ({0}) to keyLED...", dFile)
+                               End Sub)
 
                             Dim dPath As String = String.Format("{0}\Workspace\ableproj\CoLED\{1}", Application.StartupPath, dFile)
                             If File.Exists(dPath) = False Then
                                 Debug.WriteLine(String.Format("'{0}' File doesn't exists.", dFile))
-                                err &= String.Format("'{0}' MIDI File doesn't exists.", dFile) & vbNewLine
+                                err &= vbNewLine & String.Format("'{0}' MIDI File doesn't exists.", dFile)
                                 Continue For
                             End If
 
@@ -2727,33 +2743,70 @@ fexLine:
                             Dim fileN As String = String.Empty
                             Dim x As XmlNode
                             Dim sFile As String = String.Empty
-                            Loading.DLb.Left += 70
-                            Loading.DLb.Text = "Extracting LED Infos..."
-                            Loading.Refresh()
+
+                            UI(Sub()
+                                   Loading.DLb.Left += 70
+                                   Loading.DLb.Text = "Extracting LED Infos..."
+                               End Sub)
 
                             'PatchSlot > Value > MxDPatchRef > FileRef > Name > Value 'Midi Extension.amxd'
                             'LED Save 파일의 id는 MxDeviceMidiEffect의 LomId Value랑 같음.
-                            Dim id_index As Integer = 0
-                            Dim rnd As Integer = 0
-                            Dim currentRnd As Integer = 1
-                            Dim PrChain As Integer = 0
-                            Dim isRandom As Boolean = False
+
+                            '또한 keySound에서는 Random 선언이 MidiToAudioDeviceChain,
+                            'keyLED에서는 MidiToMidiDeviceChain임. (ㄹㅇ 에이블톤 프로그램 제작자들은 알고리즘을 왜 이따구로 만들었냐..)
+                            Dim id_index As Integer = 0 'LomId (MIDI Extension id)
+                            Dim fndError As Boolean = False 'Key / Random Key
+                            Dim currentid As Integer = 0 '현재 id.
+                            Dim MidiName As String = String.Empty
+
+                            Dim PrChain As Integer = 0 '랜덤의 체인.
+                            Dim PrChainM As Integer = 0 '랜덤의 최대 체인.
+                            Dim PrKey As Integer = 0 '랜덤의 ksX.
+                            Dim PrKeyM As Integer = 0 '랜덤의 최대 ksX.
+
+                            Dim IsRandom As Boolean = False '현재 접근하고 있는 XML Branch가 랜덤인가?
+                            Dim Choices As Integer = 0 '매우 정확한 랜덤의 수. (from MidiRandom)
+                            Dim curid As Integer = 1 '현재의 랜덤. (from Choices / MidiRandom)
                             For ndx As Integer = 0 To setNode.Count - 1
-                                Dim fndError As Boolean = False
-                                Dim currentid As Integer = 0
-                                Dim MidiName As String = String.Empty
                                 Try
                                     currentid = Integer.Parse(setNode(ndx).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("LomId").GetAttribute("Value"))
                                     MidiName = setNode(ndx).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("PatchSlot").Item("Value").Item("MxDPatchRef").Item("FileRef").Item("Name").GetAttribute("Value")
-                                    fndError = False
-                                Catch exN As NullReferenceException
-                                    fndError = True
-                                    If Cntstr(setNode(ndx).OuterXml, "</MidiEffectBranch>") > 1 Then
-                                        rnd = Cntstr(setNode(ndx).OuterXml, "</MidiEffectBranch>")
-                                        isRandom = True
+
+                                    If Choices >= curid AndAlso IsRandom Then '랜덤인 경우.
+                                        IsRandom = True
+                                        If Choices = curid Then
+                                            Choices = 0
+                                            curid = 0
+                                        End If
+
+                                        curid += 1
                                     Else
-                                        isRandom = False
+                                        IsRandom = False
                                     End If
+
+                                    fndError = False
+
+                                Catch exN As NullReferenceException
+
+                                    PrChain = Integer.Parse(setNode(ndx).Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1 '최소 체인.
+                                    PrChainM = Integer.Parse(setNode(ndx).Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1 '최대 체인.
+
+                                    PrKey = Integer.Parse(setNode(ndx).Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value")) '최소 Key (ksX).
+                                    PrKeyM = Integer.Parse(setNode(ndx).Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value")) '최대 Key (ksX).
+
+                                    Try
+                                        Choices = Integer.Parse(setNode(ndx).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiRandom").Item("Choices").Item("Manual").GetAttribute("Value")) 'MidiRandom > Choices > Manual Value
+                                    Catch exNN As NullReferenceException
+                                        Choices = 0
+                                    End Try
+
+                                    If Choices > 0 Then '랜덤인 경우.
+                                        IsRandom = True
+                                    Else
+                                        Choices = 0
+                                        IsRandom = False
+                                    End If
+                                    fndError = True
                                 End Try
 
                                 If fndError = False Then
@@ -2764,6 +2817,11 @@ fexLine:
                                         Exit For
                                     End If
                                 End If
+
+                                If ndx = setNode.Count - 1 Then
+                                    err &= vbNewLine & String.Format("Can't find id {0} on '{1}'.", d_id, dFile)
+                                    Choices = 8192 'Same As Continue For
+                                End If
                             Next
                             x = setNode(id_index)
 
@@ -2772,50 +2830,38 @@ fexLine:
                             UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))) 'Get Y Pos.
                             UniPack_L = 1
 
-                            If UniPack_Chain > 8 OrElse UniPack_Chain = 0 OrElse UniPack_X = -8192 OrElse UniPack_X = 0 Then
-                                Continue For
-                            End If
-
-                            Dim lpn2 As Boolean = False
                             Dim MaxChain As Integer = Integer.Parse(x.Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1
-                            If Not UniPack_Chain = MaxChain Then
-                                lpn2 = True
-                            Else
-                                lpn2 = False
-                            End If
-
-                            If Not PrChain = 0 AndAlso isRandom Then
+                            If Not PrChain = 0 AndAlso IsRandom Then 'Random Chain.
                                 UniPack_Chain = PrChain
-                                currentRnd += 1
-
-                                If rnd = currentRnd Then
-                                    PrChain = 0
-                                    isRandom = False
-                                    rnd = 0
-                                    currentRnd = 0
-                                End If
+                                MaxChain = PrChainM
                             Else
                                 PrChain = 0
                             End If
 
+                            Dim MaxX As Integer = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))) 'Get X Pos.
+                            Dim MaxY As Integer = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))) 'Get Y Pos.
+                            If Not PrKey = 0 AndAlso IsRandom Then 'Random Key.
+                                UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, PrKey)
+                                UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, PrKey)
+                            End If
+
+                            If UniPack_Chain > 8 OrElse UniPack_Chain = 0 OrElse UniPack_X = -8192 OrElse UniPack_X = 0 OrElse Choices = 8192 Then
+                                Continue For
+                            End If
+
                             Dim LoopNumber_1 As Integer() = New Integer(1) {}
                             Dim LoopNumber_1bool As Boolean 'Chain Value = ?
-                            If lpn2 = False Then
-                                LoopNumber_1(0) = Integer.Parse(x.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1
-                                LoopNumber_1(1) = Integer.Parse(x.Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1
-                            Else
-                                LoopNumber_1(0) = UniPack_Chain
-                                LoopNumber_1(1) = MaxChain
-                            End If
+                            LoopNumber_1(0) = UniPack_Chain
+                            LoopNumber_1(1) = MaxChain
                             LoopNumber_1bool = LoopNumber_1(0) = LoopNumber_1(1)
 
-                                Dim LoopNumber_2 As Integer() = New Integer(1) {}
+                            Dim LoopNumber_2 As Integer() = New Integer(1) {}
                             Dim LoopNumber_2bool As Boolean 'Key Value = ?
                             LoopNumber_2(0) = Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))
                             LoopNumber_2(1) = Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))
                             LoopNumber_2bool = LoopNumber_2(0) = LoopNumber_2(1)
 
-                            If LoopNumber_1bool = False Then
+                                If LoopNumber_1bool = False Then
 
                                 '시작 길이와 끝 길이가 다른 경우 (Loop 1 활성화 시)
                                 For p As Integer = LoopNumber_1(0) To LoopNumber_1(1)
@@ -2930,8 +2976,10 @@ fexLine:
                 Next
 
                 Debug.WriteLine("Finish...")
-                Loading.DLb.Text = "Loading UniPack LEDs..."
-                Loading.DLb.Refresh()
+                UI(Sub()
+                       Loading.DLb.Text = "Loading UniPack LEDs..."
+                       Loading.DLb.Refresh()
+                   End Sub)
                 For Each d As String In My.Computer.FileSystem.GetFiles(c, FileIO.SearchOption.SearchTopLevelOnly)
                     Dim k As String = Path.GetFileName(d)
                     Invoke(Sub()
@@ -2939,7 +2987,7 @@ fexLine:
                            End Sub)
                 Next
 
-                Loading.Dispose()
+                UI(Sub() Loading.Dispose())
 
                 If w8t4abl = "keyLED" Then
                     w8t4abl = String.Empty
@@ -2952,7 +3000,7 @@ fexLine:
 
                 keyLEDIsSaved = True
                 If Not String.IsNullOrWhiteSpace(err) Then
-                    MessageBox.Show("[ Warning ]" & vbNewLine & "keyLED (MIDI Extension): [] format is invaild." & vbNewLine & vbNewLine & err, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    MessageBox.Show("[ Warning ]" & vbNewLine & "keyLED (MIDI Extension): [] format is invaild." & vbNewLine & err, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 End If
 
             Else
@@ -2961,7 +3009,7 @@ fexLine:
             End If
 
         Catch ex As Exception
-            Loading.Dispose()
+            UI(Sub() Loading.Dispose())
             If IsGreatExMode Then
                 MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Else

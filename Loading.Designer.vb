@@ -53,12 +53,15 @@ Partial Class Loading
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.ClientSize = New System.Drawing.Size(440, 140)
+        Me.ControlBox = False
         Me.Controls.Add(Me.DLb)
         Me.Controls.Add(Me.DPr)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "Loading"
+        Me.ShowInTaskbar = False
         Me.Text = "Loading Contents..."
         Me.ResumeLayout(False)
         Me.PerformLayout()
