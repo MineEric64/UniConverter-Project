@@ -415,6 +415,11 @@ o 6 3 a [나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 �
  Waiting For Ableton Project. (LED Convert: "keyLED")
  </summary>
 </member>
+<member name="F:UniConverter_Project.MainProject.lang">
+ <summary>
+ 유니컨버터 언어.
+ </summary>
+</member>
 <member name="F:UniConverter_Project.MainProject.midioutput_kind">
  <summary>
  0: Mini/S, 1: MK2, 2: Pro

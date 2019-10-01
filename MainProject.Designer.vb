@@ -32,14 +32,7 @@ Partial Class MainProject
         Me.SaveProjectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ConvertALSToUnipackToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.UnipackToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.AnyAbletonToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.AbletonLive9LiteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.AbletonLive9TrialToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.AbletonLive9SuiteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.AbletonLive10ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.UnipackToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ConvertToZipUniToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ResetTheProjectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TutorialsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CheckUpdateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -140,6 +133,9 @@ Partial Class MainProject
         Me.keyLED1 = New System.Windows.Forms.TabPage()
         Me.DevelopingLabel2 = New System.Windows.Forms.Label()
         Me.keyLED2 = New System.Windows.Forms.TabPage()
+        Me.keyLEDMIDEX_Md = New System.Windows.Forms.GroupBox()
+        Me.keyLEDMIDEX_LEDViewMode = New System.Windows.Forms.RadioButton()
+        Me.keyLEDMIDEX_prMode = New System.Windows.Forms.RadioButton()
         Me.btn_Chain3 = New System.Windows.Forms.Button()
         Me.btn_Chain2 = New System.Windows.Forms.Button()
         Me.btn_Chain1 = New System.Windows.Forms.Button()
@@ -266,10 +262,6 @@ Partial Class MainProject
         Me.BGW_keySound = New System.ComponentModel.BackgroundWorker()
         Me.BGW_keySoundLayout = New System.ComponentModel.BackgroundWorker()
         Me.BGW_keyLEDLayout = New System.ComponentModel.BackgroundWorker()
-        Me.keyLEDMIDEX_Md = New System.Windows.Forms.GroupBox()
-        Me.keyLEDMIDEX_prMode = New System.Windows.Forms.RadioButton()
-        Me.keyLEDMIDEX_LEDViewMode = New System.Windows.Forms.RadioButton()
-        Me.ResetTheProjectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip.SuspendLayout()
         Me.HomeEdit.SuspendLayout()
         Me.Info1.SuspendLayout()
@@ -277,10 +269,10 @@ Partial Class MainProject
         Me.PadLayoutPanel.SuspendLayout()
         Me.keyLED1.SuspendLayout()
         Me.keyLED2.SuspendLayout()
+        Me.keyLEDMIDEX_Md.SuspendLayout()
         Me.keyLED_Pad64.SuspendLayout()
         CType(Me.ucvLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MIDISET.SuspendLayout()
-        Me.keyLEDMIDEX_Md.SuspendLayout()
         Me.SuspendLayout()
         '
         'MenuStrip
@@ -342,67 +334,16 @@ Partial Class MainProject
         '
         'EditToolStripMenuItem
         '
-        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UnipackToolStripMenuItem, Me.UnipackToolStripMenuItem1, Me.ResetTheProjectToolStripMenuItem})
+        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ResetTheProjectToolStripMenuItem})
         Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
         Me.EditToolStripMenuItem.Size = New System.Drawing.Size(40, 20)
         Me.EditToolStripMenuItem.Text = "Edit"
         '
-        'UnipackToolStripMenuItem
+        'ResetTheProjectToolStripMenuItem
         '
-        Me.UnipackToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AnyAbletonToolStripMenuItem, Me.AbletonLive9LiteToolStripMenuItem, Me.AbletonLive9TrialToolStripMenuItem, Me.AbletonLive9SuiteToolStripMenuItem, Me.AbletonLive10ToolStripMenuItem})
-        Me.UnipackToolStripMenuItem.Name = "UnipackToolStripMenuItem"
-        Me.UnipackToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.UnipackToolStripMenuItem.Text = "Ableton"
-        '
-        'AnyAbletonToolStripMenuItem
-        '
-        Me.AnyAbletonToolStripMenuItem.Checked = True
-        Me.AnyAbletonToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.AnyAbletonToolStripMenuItem.Name = "AnyAbletonToolStripMenuItem"
-        Me.AnyAbletonToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
-        Me.AnyAbletonToolStripMenuItem.Text = "Any Ableton Version"
-        '
-        'AbletonLive9LiteToolStripMenuItem
-        '
-        Me.AbletonLive9LiteToolStripMenuItem.Name = "AbletonLive9LiteToolStripMenuItem"
-        Me.AbletonLive9LiteToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
-        Me.AbletonLive9LiteToolStripMenuItem.Text = "Ableton Live 9 Lite"
-        '
-        'AbletonLive9TrialToolStripMenuItem
-        '
-        Me.AbletonLive9TrialToolStripMenuItem.Enabled = False
-        Me.AbletonLive9TrialToolStripMenuItem.Name = "AbletonLive9TrialToolStripMenuItem"
-        Me.AbletonLive9TrialToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
-        Me.AbletonLive9TrialToolStripMenuItem.Text = "Ableton Live 9 Trial"
-        '
-        'AbletonLive9SuiteToolStripMenuItem
-        '
-        Me.AbletonLive9SuiteToolStripMenuItem.Enabled = False
-        Me.AbletonLive9SuiteToolStripMenuItem.Name = "AbletonLive9SuiteToolStripMenuItem"
-        Me.AbletonLive9SuiteToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
-        Me.AbletonLive9SuiteToolStripMenuItem.Text = "Ableton Live 9 Suite"
-        '
-        'AbletonLive10ToolStripMenuItem
-        '
-        Me.AbletonLive10ToolStripMenuItem.Enabled = False
-        Me.AbletonLive10ToolStripMenuItem.Name = "AbletonLive10ToolStripMenuItem"
-        Me.AbletonLive10ToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
-        Me.AbletonLive10ToolStripMenuItem.Text = "Ableton Live 10"
-        '
-        'UnipackToolStripMenuItem1
-        '
-        Me.UnipackToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ConvertToZipUniToolStripMenuItem})
-        Me.UnipackToolStripMenuItem1.Name = "UnipackToolStripMenuItem1"
-        Me.UnipackToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
-        Me.UnipackToolStripMenuItem1.Text = "UniPack"
-        '
-        'ConvertToZipUniToolStripMenuItem
-        '
-        Me.ConvertToZipUniToolStripMenuItem.Checked = True
-        Me.ConvertToZipUniToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.ConvertToZipUniToolStripMenuItem.Name = "ConvertToZipUniToolStripMenuItem"
-        Me.ConvertToZipUniToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
-        Me.ConvertToZipUniToolStripMenuItem.Text = "Convert to zip, uni"
+        Me.ResetTheProjectToolStripMenuItem.Name = "ResetTheProjectToolStripMenuItem"
+        Me.ResetTheProjectToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ResetTheProjectToolStripMenuItem.Text = "Reset the Project"
         '
         'TutorialsToolStripMenuItem
         '
@@ -512,7 +453,7 @@ Partial Class MainProject
         '
         'Info_SaveButton
         '
-        Me.Info_SaveButton.Font = New System.Drawing.Font("Ubuntu", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Info_SaveButton.Font = New System.Drawing.Font("나눔스퀘어라운드 Bold", 24.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.Info_SaveButton.Location = New System.Drawing.Point(557, 360)
         Me.Info_SaveButton.Name = "Info_SaveButton"
         Me.Info_SaveButton.Size = New System.Drawing.Size(196, 116)
@@ -1562,7 +1503,7 @@ Partial Class MainProject
         '
         'CutSndButton
         '
-        Me.CutSndButton.Font = New System.Drawing.Font("Ubuntu", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CutSndButton.Font = New System.Drawing.Font("나눔스퀘어라운드 Bold", 24.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.CutSndButton.Location = New System.Drawing.Point(549, 16)
         Me.CutSndButton.Name = "CutSndButton"
         Me.CutSndButton.Size = New System.Drawing.Size(203, 105)
@@ -1577,10 +1518,10 @@ Partial Class MainProject
         Me.Tip3.ForeColor = System.Drawing.Color.LightCoral
         Me.Tip3.Location = New System.Drawing.Point(6, 463)
         Me.Tip3.Name = "Tip3"
-        Me.Tip3.Size = New System.Drawing.Size(268, 28)
+        Me.Tip3.Size = New System.Drawing.Size(378, 28)
         Me.Tip3.TabIndex = 36
         Me.Tip3.Text = "Tip: If sound file didn't split, don't put it here." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Instead, you can cut sound o" &
-    "n Cut Sound Form."
+    "n Cut Sound Form. (Not-Recommend)"
         '
         'keyLED1
         '
@@ -1623,6 +1564,37 @@ Partial Class MainProject
         Me.keyLED2.TabIndex = 3
         Me.keyLED2.Text = "keyLED (MIDI Extension)"
         Me.keyLED2.UseVisualStyleBackColor = True
+        '
+        'keyLEDMIDEX_Md
+        '
+        Me.keyLEDMIDEX_Md.Controls.Add(Me.keyLEDMIDEX_LEDViewMode)
+        Me.keyLEDMIDEX_Md.Controls.Add(Me.keyLEDMIDEX_prMode)
+        Me.keyLEDMIDEX_Md.Location = New System.Drawing.Point(576, 406)
+        Me.keyLEDMIDEX_Md.Name = "keyLEDMIDEX_Md"
+        Me.keyLEDMIDEX_Md.Size = New System.Drawing.Size(186, 70)
+        Me.keyLEDMIDEX_Md.TabIndex = 76
+        Me.keyLEDMIDEX_Md.TabStop = False
+        Me.keyLEDMIDEX_Md.Text = "keyLED Modes"
+        '
+        'keyLEDMIDEX_LEDViewMode
+        '
+        Me.keyLEDMIDEX_LEDViewMode.AutoSize = True
+        Me.keyLEDMIDEX_LEDViewMode.Location = New System.Drawing.Point(6, 44)
+        Me.keyLEDMIDEX_LEDViewMode.Name = "keyLEDMIDEX_LEDViewMode"
+        Me.keyLEDMIDEX_LEDViewMode.Size = New System.Drawing.Size(112, 18)
+        Me.keyLEDMIDEX_LEDViewMode.TabIndex = 1
+        Me.keyLEDMIDEX_LEDViewMode.Text = "LED View Mode"
+        Me.keyLEDMIDEX_LEDViewMode.UseVisualStyleBackColor = True
+        '
+        'keyLEDMIDEX_prMode
+        '
+        Me.keyLEDMIDEX_prMode.AutoSize = True
+        Me.keyLEDMIDEX_prMode.Location = New System.Drawing.Point(6, 20)
+        Me.keyLEDMIDEX_prMode.Name = "keyLEDMIDEX_prMode"
+        Me.keyLEDMIDEX_prMode.Size = New System.Drawing.Size(132, 18)
+        Me.keyLEDMIDEX_prMode.TabIndex = 0
+        Me.keyLEDMIDEX_prMode.Text = "Performance Mode"
+        Me.keyLEDMIDEX_prMode.UseVisualStyleBackColor = True
         '
         'btn_Chain3
         '
@@ -1732,7 +1704,7 @@ Partial Class MainProject
         '
         'keyLEDMIDEX_BetaButton
         '
-        Me.keyLEDMIDEX_BetaButton.Font = New System.Drawing.Font("Ubuntu", 9.749999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.keyLEDMIDEX_BetaButton.Font = New System.Drawing.Font("나눔바른고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.keyLEDMIDEX_BetaButton.Location = New System.Drawing.Point(576, 293)
         Me.keyLEDMIDEX_BetaButton.Name = "keyLEDMIDEX_BetaButton"
         Me.keyLEDMIDEX_BetaButton.Size = New System.Drawing.Size(186, 86)
@@ -3120,43 +3092,6 @@ Partial Class MainProject
         'BGW_keyLEDLayout
         '
         '
-        'keyLEDMIDEX_Md
-        '
-        Me.keyLEDMIDEX_Md.Controls.Add(Me.keyLEDMIDEX_LEDViewMode)
-        Me.keyLEDMIDEX_Md.Controls.Add(Me.keyLEDMIDEX_prMode)
-        Me.keyLEDMIDEX_Md.Location = New System.Drawing.Point(576, 406)
-        Me.keyLEDMIDEX_Md.Name = "keyLEDMIDEX_Md"
-        Me.keyLEDMIDEX_Md.Size = New System.Drawing.Size(186, 70)
-        Me.keyLEDMIDEX_Md.TabIndex = 76
-        Me.keyLEDMIDEX_Md.TabStop = False
-        Me.keyLEDMIDEX_Md.Text = "keyLED Modes"
-        '
-        'keyLEDMIDEX_prMode
-        '
-        Me.keyLEDMIDEX_prMode.AutoSize = True
-        Me.keyLEDMIDEX_prMode.Location = New System.Drawing.Point(6, 20)
-        Me.keyLEDMIDEX_prMode.Name = "keyLEDMIDEX_prMode"
-        Me.keyLEDMIDEX_prMode.Size = New System.Drawing.Size(132, 18)
-        Me.keyLEDMIDEX_prMode.TabIndex = 0
-        Me.keyLEDMIDEX_prMode.Text = "Performance Mode"
-        Me.keyLEDMIDEX_prMode.UseVisualStyleBackColor = True
-        '
-        'keyLEDMIDEX_LEDViewMode
-        '
-        Me.keyLEDMIDEX_LEDViewMode.AutoSize = True
-        Me.keyLEDMIDEX_LEDViewMode.Location = New System.Drawing.Point(6, 44)
-        Me.keyLEDMIDEX_LEDViewMode.Name = "keyLEDMIDEX_LEDViewMode"
-        Me.keyLEDMIDEX_LEDViewMode.Size = New System.Drawing.Size(112, 18)
-        Me.keyLEDMIDEX_LEDViewMode.TabIndex = 1
-        Me.keyLEDMIDEX_LEDViewMode.Text = "LED View Mode"
-        Me.keyLEDMIDEX_LEDViewMode.UseVisualStyleBackColor = True
-        '
-        'ResetTheProjectToolStripMenuItem
-        '
-        Me.ResetTheProjectToolStripMenuItem.Name = "ResetTheProjectToolStripMenuItem"
-        Me.ResetTheProjectToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.ResetTheProjectToolStripMenuItem.Text = "Reset the Project"
-        '
         'MainProject
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
@@ -3184,12 +3119,12 @@ Partial Class MainProject
         Me.keyLED1.ResumeLayout(False)
         Me.keyLED1.PerformLayout()
         Me.keyLED2.ResumeLayout(False)
+        Me.keyLEDMIDEX_Md.ResumeLayout(False)
+        Me.keyLEDMIDEX_Md.PerformLayout()
         Me.keyLED_Pad64.ResumeLayout(False)
         CType(Me.ucvLogo, System.ComponentModel.ISupportInitialize).EndInit()
         Me.MIDISET.ResumeLayout(False)
         Me.MIDISET.PerformLayout()
-        Me.keyLEDMIDEX_Md.ResumeLayout(False)
-        Me.keyLEDMIDEX_Md.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -3205,20 +3140,13 @@ Partial Class MainProject
     Friend WithEvents ofd As OpenFileDialog
     Friend WithEvents TutorialsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents SettingsToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents UnipackToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents sfd As SaveFileDialog
     Friend WithEvents SoundsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents LEDOpen1 As OpenFileDialog
     Friend WithEvents ReportBugsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents HomeEdit As TabControl
     Friend WithEvents Info1 As TabPage
-    Friend WithEvents AbletonLive9LiteToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents AbletonLive9TrialToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents AbletonLive9SuiteToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents AbletonLive10ToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents UnipackToolStripMenuItem1 As ToolStripMenuItem
     Friend WithEvents OpenAbletonProjectToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ConvertToZipUniToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ConvertALSToUnipackToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents infoT3 As Label
     Friend WithEvents infoT2 As Label
@@ -3227,7 +3155,6 @@ Partial Class MainProject
     Friend WithEvents infoT1 As Label
     Friend WithEvents Info_SaveButton As Button
     Friend WithEvents Tip1 As Label
-    Friend WithEvents AnyAbletonToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents keyLED1 As TabPage
     Friend WithEvents keyLED2 As TabPage
     Friend WithEvents CheckUpdateToolStripMenuItem As ToolStripMenuItem

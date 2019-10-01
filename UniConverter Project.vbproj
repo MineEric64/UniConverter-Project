@@ -112,10 +112,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationEvents.vb" />
-    <Compile Include="keyLED_Test.Designer.vb">
+    <Compile Include="keyLED\keyLED_Test.Designer.vb">
       <DependentUpon>keyLED_Test.vb</DependentUpon>
     </Compile>
-    <Compile Include="keyLED_Test.vb">
+    <Compile Include="keyLED\keyLED_Test.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\Resources.Designer.vb">
@@ -123,40 +123,40 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Sound_Cutting.Designer.vb">
+    <Compile Include="Other Resources\Sound_Cutting.Designer.vb">
       <DependentUpon>Sound_Cutting.vb</DependentUpon>
     </Compile>
-    <Compile Include="Sound_Cutting.vb">
+    <Compile Include="Other Resources\Sound_Cutting.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DeveloperMode_Main.Designer.vb">
+    <Compile Include="Developer Mode\DeveloperMode_Main.Designer.vb">
       <DependentUpon>DeveloperMode_Main.vb</DependentUpon>
     </Compile>
-    <Compile Include="DeveloperMode_Main.vb">
+    <Compile Include="Developer Mode\DeveloperMode_Main.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DeveloperMode_Project.Designer.vb">
+    <Compile Include="Developer Mode\DeveloperMode_Project.Designer.vb">
       <DependentUpon>DeveloperMode_Project.vb</DependentUpon>
     </Compile>
-    <Compile Include="DeveloperMode_Project.vb">
+    <Compile Include="Developer Mode\DeveloperMode_Project.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DeveloperMode_Workspace.Designer.vb">
+    <Compile Include="Developer Mode\DeveloperMode_Workspace.Designer.vb">
       <DependentUpon>DeveloperMode_Workspace.vb</DependentUpon>
     </Compile>
-    <Compile Include="DeveloperMode_Workspace.vb">
+    <Compile Include="Developer Mode\DeveloperMode_Workspace.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="keySound_Edit.Designer.vb">
+    <Compile Include="keySound\keySound_Edit.Designer.vb">
       <DependentUpon>keySound_Edit.vb</DependentUpon>
     </Compile>
-    <Compile Include="keySound_Edit.vb">
+    <Compile Include="keySound\keySound_Edit.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Loading.Designer.vb">
+    <Compile Include="Other Resources\Loading.Designer.vb">
       <DependentUpon>Loading.vb</DependentUpon>
     </Compile>
-    <Compile Include="Loading.vb">
+    <Compile Include="Other Resources\Loading.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\Settings1.Designer.vb">
@@ -164,28 +164,28 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Tpdby.Designer.vb">
+    <Compile Include="Other Resources\Tpdby.Designer.vb">
       <DependentUpon>Tpdby.vb</DependentUpon>
     </Compile>
-    <Compile Include="Tpdby.vb">
+    <Compile Include="Other Resources\Tpdby.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="keyLED_Edit.Designer.vb">
+    <Compile Include="keyLED\keyLED_Edit.Designer.vb">
       <DependentUpon>keyLED_Edit.vb</DependentUpon>
     </Compile>
-    <Compile Include="keyLED_Edit.vb">
+    <Compile Include="keyLED\keyLED_Edit.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Info.Designer.vb">
+    <Compile Include="Other Resources\Info.Designer.vb">
       <DependentUpon>Info.vb</DependentUpon>
     </Compile>
-    <Compile Include="Info.vb">
+    <Compile Include="Other Resources\Info.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainScreen.Designer.vb">
+    <Compile Include="Other Resources\MainScreen.Designer.vb">
       <DependentUpon>MainScreen.vb</DependentUpon>
     </Compile>
-    <Compile Include="MainScreen.vb">
+    <Compile Include="Other Resources\MainScreen.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -198,6 +198,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Other Resources\Translator.vb" />
     <Compile Include="Tutorials.Designer.vb">
       <DependentUpon>Tutorials.vb</DependentUpon>
     </Compile>
@@ -218,37 +219,37 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="keyLED_Test.resx">
+    <EmbeddedResource Include="keyLED\keyLED_Test.resx">
       <DependentUpon>keyLED_Test.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Sound_Cutting.resx">
+    <EmbeddedResource Include="Other Resources\Sound_Cutting.resx">
       <DependentUpon>Sound_Cutting.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DeveloperMode_Main.resx">
+    <EmbeddedResource Include="Developer Mode\DeveloperMode_Main.resx">
       <DependentUpon>DeveloperMode_Main.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DeveloperMode_Project.resx">
+    <EmbeddedResource Include="Developer Mode\DeveloperMode_Project.resx">
       <DependentUpon>DeveloperMode_Project.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DeveloperMode_Workspace.resx">
+    <EmbeddedResource Include="Developer Mode\DeveloperMode_Workspace.resx">
       <DependentUpon>DeveloperMode_Workspace.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="keySound_Edit.resx">
+    <EmbeddedResource Include="keySound\keySound_Edit.resx">
       <DependentUpon>keySound_Edit.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Loading.resx">
+    <EmbeddedResource Include="Other Resources\Loading.resx">
       <DependentUpon>Loading.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tpdby.resx">
+    <EmbeddedResource Include="Other Resources\Tpdby.resx">
       <DependentUpon>Tpdby.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="keyLED_Edit.resx">
+    <EmbeddedResource Include="keyLED\keyLED_Edit.resx">
       <DependentUpon>keyLED_Edit.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Info.resx">
+    <EmbeddedResource Include="Other Resources\Info.resx">
       <DependentUpon>Info.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainScreen.resx">
+    <EmbeddedResource Include="Other Resources\MainScreen.resx">
       <DependentUpon>MainScreen.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">

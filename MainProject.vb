@@ -13,6 +13,7 @@ Imports A2UP.A2U.keyLED_MIDEX
 Imports A2UP.A2U.keySound
 Imports WMPLib
 Imports System.Drawing.Drawing2D
+Imports System.Globalization
 
 Public Class MainProject
 
@@ -173,6 +174,11 @@ Public Class MainProject
     ''' </summary>
     Public Shared w8t4abl As String
 
+    ''' <summary>
+    ''' 유니컨버터 언어.
+    ''' </summary>
+    Public Shared lang As CultureInfo
+
 #Region "MIDI Settings"
     Public midioutput As MidiOut
 
@@ -289,7 +295,7 @@ Public Class MainProject
             End If
 
             If IsDeveloperMode Then
-                Me.Text = Me.Text & " (Enabled Developer Mode)"
+                Me.Text &= " (Enabled Developer Mode)"
                 DeveloperModeToolStripMenuItem.Visible = True
             End If
 
@@ -511,7 +517,7 @@ Public Class MainProject
 
             setxml.Load(file_ex)
             Dim setNode As XmlNode
-            setNode = setxml.SelectSingleNode("/UniConverter-XML/UG-Settings")
+            setNode = setxml.SelectSingleNode("/UniConverter-XML/UniConverter-Settings")
 
             If setNode.ChildNodes(0).InnerText = "True" Then
                 BGW_CheckUpdate.RunWorkerAsync()
@@ -521,41 +527,13 @@ Public Class MainProject
                 SetUpLight_ = True
             End If
 
+            Dim trn As New Translator(setNode.ChildNodes(3).InnerText, IsDeveloperMode)
+            trn.TranslateMain()
+
             'Text of Info TextBox
             infoTB1.Text = "My Amazing UniPack!" 'Title
             infoTB2.Text = "UniConverter, " & My.Computer.Name 'Producer Name
             'Chain!
-
-            'Edit>Ableton Option.
-            AnyAbletonToolStripMenuItem.Checked = False
-            AbletonLive9LiteToolStripMenuItem.Checked = False
-            AbletonLive9TrialToolStripMenuItem.Checked = False
-            AbletonLive9SuiteToolStripMenuItem.Checked = False
-            AbletonLive10ToolStripMenuItem.Checked = False
-            'RESET!!!
-
-            setNode = setxml.SelectSingleNode("/UniConverter-XML/LiveSet")
-            Select Case setNode.ChildNodes(0).InnerText
-                Case "AnyAbleton"
-                    AnyAbletonToolStripMenuItem.Checked = True
-                Case "Ableton9_Lite"
-                    AbletonLive9LiteToolStripMenuItem.Checked = True
-                Case "Ableton9_Trial"
-                    AbletonLive9TrialToolStripMenuItem.Checked = True
-                Case "Ableton9_Suite"
-                    AbletonLive9SuiteToolStripMenuItem.Checked = True
-                Case "Ableton10"
-                    AbletonLive10ToolStripMenuItem.Checked = True
-            End Select
-
-            'Edit>Unipack Option.
-            ConvertToZipUniToolStripMenuItem.Checked = False
-            'RESET!!!
-
-            Select Case setNode.ChildNodes(1).InnerText
-                Case "zip/uni"
-                    ConvertToZipUniToolStripMenuItem.Checked = True
-            End Select
 
             '건드리면 IsSaved가 False로 진행되기 때문에 다시 기본값 설정을 해준다!
             IsSaved = True
@@ -1044,12 +1022,8 @@ Public Class MainProject
     Private Sub ConvertALSToUnipackToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ConvertALSToUnipackToolStripMenuItem.Click
 
         Dim sfd As New SaveFileDialog()
-        If ConvertToZipUniToolStripMenuItem.Checked = True Then
-            sfd.Filter = "Zip File|*.zip|UniPack File|*.uni"
-        Else
-            'Another Convert File Code,
-        End If
-        sfd.Title = "Select Convert ALS to UniPack"
+        sfd.Filter = "Zip File|*.zip|UniPack File|*.uni"
+        sfd.Title = "Select Convert Ableton Project to UniPack"
         sfd.AddExtension = False
 
         Try
@@ -1561,188 +1535,6 @@ Public Class MainProject
         Return inputstr.Replace(vbCr, "").Split(vbLf)
     End Function
 
-    Private Sub AnyAbletonToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AnyAbletonToolStripMenuItem.Click
-        Try
-            Dim file_ex = Application.StartupPath + "\settings.xml"
-            Dim setNode As New XmlDocument
-
-            AnyAbletonToolStripMenuItem.Checked = False
-            AbletonLive9LiteToolStripMenuItem.Checked = False
-            AbletonLive9TrialToolStripMenuItem.Checked = False
-            AbletonLive9SuiteToolStripMenuItem.Checked = False
-            AbletonLive10ToolStripMenuItem.Checked = False
-
-            abl_ver = "AnyAbleton"
-            setNode.Load(file_ex)
-            Dim setaNode As XmlNode = setNode.SelectSingleNode("/UniConverter-XML/LiveSet")
-
-            If setaNode IsNot Nothing Then
-                setaNode.ChildNodes(0).InnerText = abl_ver
-            Else
-                Throw New Exception("Settings XML File's Argument is invaild.")
-            End If
-            setNode.Save(file_ex)
-            AnyAbletonToolStripMenuItem.Checked = True
-        Catch ex As Exception
-            If IsGreatExMode Then
-                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Else
-                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End If
-        End Try
-    End Sub
-
-    Private Sub AbletonLive9LiteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AbletonLive9LiteToolStripMenuItem.Click
-        Try
-            Dim file_ex = Application.StartupPath + "\settings.xml"
-            Dim setNode As New XmlDocument
-
-            AnyAbletonToolStripMenuItem.Checked = False
-            AbletonLive9LiteToolStripMenuItem.Checked = False
-            AbletonLive9TrialToolStripMenuItem.Checked = False
-            AbletonLive9SuiteToolStripMenuItem.Checked = False
-            AbletonLive10ToolStripMenuItem.Checked = False
-
-            abl_ver = "Ableton9_Lite"
-            setNode.Load(file_ex)
-            Dim setaNode As XmlNode = setNode.SelectSingleNode("/UniConverter-XML/LiveSet")
-
-            If setaNode IsNot Nothing Then
-                setaNode.ChildNodes(0).InnerText = abl_ver
-            Else
-                Throw New Exception("Settings XML File's Argument is invaild.")
-            End If
-            setNode.Save(file_ex)
-            AbletonLive9LiteToolStripMenuItem.Checked = True
-        Catch ex As Exception
-            If IsGreatExMode Then
-                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Else
-                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End If
-        End Try
-    End Sub
-
-    Private Sub AbletonLive9TrialToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AbletonLive9TrialToolStripMenuItem.Click
-        Try
-            Dim file_ex = Application.StartupPath + "\settings.xml"
-            Dim setNode As New XmlDocument
-
-            AnyAbletonToolStripMenuItem.Checked = False
-            AbletonLive9LiteToolStripMenuItem.Checked = False
-            AbletonLive9TrialToolStripMenuItem.Checked = False
-            AbletonLive9SuiteToolStripMenuItem.Checked = False
-            AbletonLive10ToolStripMenuItem.Checked = False
-
-            abl_ver = "Ableton9_Trial"
-            setNode.Load(file_ex)
-            Dim setaNode As XmlNode = setNode.SelectSingleNode("/UniConverter-XML/LiveSet")
-
-            If setaNode IsNot Nothing Then
-                setaNode.ChildNodes(0).InnerText = abl_ver
-            Else
-                Throw New Exception("Settings XML File's Argument is invaild.")
-            End If
-            setNode.Save(file_ex)
-            AbletonLive9TrialToolStripMenuItem.Checked = True
-        Catch ex As Exception
-            If IsGreatExMode Then
-                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Else
-                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End If
-        End Try
-    End Sub
-
-    Private Sub AbletonLive9SuiteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AbletonLive9SuiteToolStripMenuItem.Click
-        Try
-            Dim file_ex = Application.StartupPath + "\settings.xml"
-            Dim setNode As New XmlDocument
-
-            AnyAbletonToolStripMenuItem.Checked = False
-            AbletonLive9LiteToolStripMenuItem.Checked = False
-            AbletonLive9TrialToolStripMenuItem.Checked = False
-            AbletonLive9SuiteToolStripMenuItem.Checked = False
-            AbletonLive10ToolStripMenuItem.Checked = False
-
-            abl_ver = "Ableton9_Suite"
-            setNode.Load(file_ex)
-            Dim setaNode As XmlNode = setNode.SelectSingleNode("/UniConverter-XML/LiveSet")
-
-            If setaNode IsNot Nothing Then
-                setaNode.ChildNodes(0).InnerText = abl_ver
-            Else
-                Throw New Exception("Settings XML File's Argument is invaild.")
-            End If
-            setNode.Save(file_ex)
-            AbletonLive9SuiteToolStripMenuItem.Checked = True
-        Catch ex As Exception
-            If IsGreatExMode Then
-                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Else
-                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End If
-        End Try
-    End Sub
-
-    Private Sub AbletonLive10ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AbletonLive10ToolStripMenuItem.Click
-        Try
-            Dim file_ex = Application.StartupPath + "\settings.xml"
-            Dim setNode As New XmlDocument
-
-            AnyAbletonToolStripMenuItem.Checked = False
-            AbletonLive9LiteToolStripMenuItem.Checked = False
-            AbletonLive9TrialToolStripMenuItem.Checked = False
-            AbletonLive9SuiteToolStripMenuItem.Checked = False
-            AbletonLive10ToolStripMenuItem.Checked = False
-
-            abl_ver = "Ableton10"
-            setNode.Load(file_ex)
-            Dim setaNode As XmlNode = setNode.SelectSingleNode("/UniConverter-XML/LiveSet")
-
-            If setaNode IsNot Nothing Then
-                setaNode.ChildNodes(0).InnerText = abl_ver
-            Else
-                Throw New Exception("Settings XML File's Argument is invaild.")
-            End If
-            setNode.Save(file_ex)
-            AbletonLive10ToolStripMenuItem.Checked = True
-        Catch ex As Exception
-            If IsGreatExMode Then
-                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Else
-                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End If
-        End Try
-    End Sub
-
-    Private Sub ConvertToZipUniToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ConvertToZipUniToolStripMenuItem.Click
-        Try
-            Dim file_ex = Application.StartupPath + "\settings.xml"
-            Dim setNode As New XmlDocument
-
-            ConvertToZipUniToolStripMenuItem.Checked = False
-
-            uni_confile = "zip/uni"
-            setNode.Load(file_ex)
-            Dim setaNode As XmlNode = setNode.SelectSingleNode("/UniConverter-XML/LiveSet")
-
-            If setaNode IsNot Nothing Then
-                setaNode.ChildNodes(1).InnerText = uni_confile
-            Else
-                Throw New Exception("Settings XML File's Argument is invaild.")
-            End If
-            setNode.Save(file_ex)
-            ConvertToZipUniToolStripMenuItem.Checked = True
-        Catch ex As Exception
-            If IsGreatExMode Then
-                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Else
-                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End If
-        End Try
-    End Sub
-
     Private Sub CutSndButton_Click(sender As Object, e As EventArgs) Handles CutSndButton.Click
         Try
             ofd.Filter = "MP3 File|*.mp3|WAV File|*.wav"
@@ -1957,7 +1749,7 @@ fexLine:
                             If MessageBox.Show("Update Complete! UniConverter " & FileInfo.ToString & " is in 'UniConverter_v" & FileInfo.ToString & "' Folder.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information) = DialogResult.OK Then
                                 File.Delete(My.Computer.FileSystem.SpecialDirectories.Temp & "\UniConverter-Update.zip")
                                 .Dispose()
-                                Dim setNode As XmlNode = setxml.SelectSingleNode("/UniConverter-XML/UG-Settings")
+                                Dim setNode As XmlNode = setxml.SelectSingleNode("/UniConverter-XML/UniConverter-Settings")
                                 If Convert.ToBoolean(setNode.ChildNodes(1).InnerText) = True Then
                                     Process.Start(String.Format("{0}\UniConverter_v{1}\UniConverter.exe", Application.StartupPath, FileInfo.ToString))
                                     Application.Exit()

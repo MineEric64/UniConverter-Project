@@ -12,7 +12,7 @@ Public Class UG_Settings
 
             Me.Text = String.Format("{0}: Settings", MainProject.Text)
 
-            setaNode = setxml.SelectSingleNode("/UniConverter-XML/UG-Settings")
+            setaNode = setxml.SelectSingleNode("/UniConverter-XML/UniConverter-Settings")
             If setaNode IsNot Nothing Then
 
                 'Reading Value of Settings.
@@ -43,6 +43,13 @@ Public Class UG_Settings
                         Throw New FormatException("<SetupLights>'s Value is invaild.")
                 End Select
 
+                Select Case setaNode.ChildNodes(3).InnerText
+                    Case "English", "Korean"
+                        langs.Text = setaNode.ChildNodes(3).InnerText
+                    Case Else
+                        Throw New FormatException("<Language>'s Value is invaild.")
+                End Select
+
                 IsSaved = True
             End If
 
@@ -63,7 +70,7 @@ Public Class UG_Settings
             Dim setaNode As XmlNode
             setNode.Load(file_ex)
 
-            setaNode = setNode.SelectSingleNode("/UniConverter-XML/UG-Settings")
+            setaNode = setNode.SelectSingleNode("/UniConverter-XML/UniConverter-Settings")
             If setaNode IsNot Nothing Then
 
                 ChkUpdate.Checked = True
@@ -75,8 +82,11 @@ Public Class UG_Settings
                 SetUpLight.Checked = True
                 setaNode.ChildNodes(2).InnerText = "True"
 
+                langs.Text = "English"
+                setaNode.ChildNodes(3).InnerText = "English"
+
             Else
-                Throw New FormatException("Settings XML's Argument is invaild. <UG-Settings>")
+                Throw New FormatException("Settings XML's Argument is invaild. <UniConverter-Settings>")
             End If
 
             setNode.Save(file_ex)
@@ -133,7 +143,7 @@ Public Class UG_Settings
             Dim setaNode As XmlNode
             setNode.Load(file_ex)
 
-            setaNode = setNode.SelectSingleNode("/UniConverter-XML/UG-Settings")
+            setaNode = setNode.SelectSingleNode("/UniConverter-XML/UniConverter-Settings")
             If setaNode IsNot Nothing Then
 
                 Select Case ChkUpdate.Checked
@@ -163,8 +173,15 @@ Public Class UG_Settings
                         Throw New FormatException("<SetUpLights>'s Value is invaild.")
                 End Select
 
+                Select Case langs.Text
+                    Case "English", "Korean"
+                        setaNode.ChildNodes(3).InnerText = langs.Text
+                    Case Else
+                        Throw New FormatException("<Language>'s Value is invaild.")
+                End Select
+
             Else
-                Throw New FormatException("Settings XML's Argument is invaild. <UG-Settings>")
+                Throw New FormatException("Settings XML's Argument is invaild. <UniConverter-Settings>")
             End If
 
             setNode.Save(file_ex)

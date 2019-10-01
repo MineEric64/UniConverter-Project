@@ -27,6 +27,8 @@ Partial Class UG_Settings
         Me.SaveButton = New System.Windows.Forms.Button()
         Me.ResetButton = New System.Windows.Forms.Button()
         Me.SetUpLight = New System.Windows.Forms.CheckBox()
+        Me.langs = New System.Windows.Forms.ComboBox()
+        Me.Label1 = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
         'ChkUpdate
@@ -57,18 +59,18 @@ Partial Class UG_Settings
         '
         'SaveButton
         '
-        Me.SaveButton.Font = New System.Drawing.Font("Ubuntu", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.SaveButton.Location = New System.Drawing.Point(200, 85)
+        Me.SaveButton.Font = New System.Drawing.Font("나눔스퀘어라운드 Bold", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SaveButton.Location = New System.Drawing.Point(187, 140)
         Me.SaveButton.Name = "SaveButton"
-        Me.SaveButton.Size = New System.Drawing.Size(75, 47)
+        Me.SaveButton.Size = New System.Drawing.Size(82, 47)
         Me.SaveButton.TabIndex = 4
         Me.SaveButton.Text = "Save"
         Me.SaveButton.UseVisualStyleBackColor = True
         '
         'ResetButton
         '
-        Me.ResetButton.Font = New System.Drawing.Font("Ubuntu", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ResetButton.Location = New System.Drawing.Point(119, 85)
+        Me.ResetButton.Font = New System.Drawing.Font("나눔스퀘어라운드 Bold", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.ResetButton.Location = New System.Drawing.Point(106, 140)
         Me.ResetButton.Name = "ResetButton"
         Me.ResetButton.Size = New System.Drawing.Size(75, 47)
         Me.ResetButton.TabIndex = 5
@@ -88,12 +90,34 @@ Partial Class UG_Settings
         Me.SetUpLight.Text = "Launchpad Setup Light"
         Me.SetUpLight.UseVisualStyleBackColor = True
         '
+        'langs
+        '
+        Me.langs.Font = New System.Drawing.Font("나눔바른고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.langs.FormattingEnabled = True
+        Me.langs.Items.AddRange(New Object() {"English", "Korean"})
+        Me.langs.Location = New System.Drawing.Point(98, 91)
+        Me.langs.Name = "langs"
+        Me.langs.Size = New System.Drawing.Size(171, 23)
+        Me.langs.TabIndex = 8
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Font = New System.Drawing.Font("나눔바른고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.Label1.Location = New System.Drawing.Point(16, 94)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(76, 15)
+        Me.Label1.TabIndex = 9
+        Me.Label1.Text = "Languages:"
+        '
         'UG_Settings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.ClientSize = New System.Drawing.Size(284, 144)
+        Me.ClientSize = New System.Drawing.Size(284, 199)
+        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.langs)
         Me.Controls.Add(Me.SetUpLight)
         Me.Controls.Add(Me.ResetButton)
         Me.Controls.Add(Me.SaveButton)
@@ -113,4 +137,6 @@ Partial Class UG_Settings
     Friend WithEvents SaveButton As Button
     Friend WithEvents ResetButton As Button
     Friend WithEvents SetUpLight As CheckBox
+    Friend WithEvents langs As ComboBox
+    Friend WithEvents Label1 As Label
 End Class

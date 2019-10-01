@@ -1,12 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <UniConverter-XML>
-	<UG-Settings>
+	<UniConverter-Settings>
 		<CheckUpdate>True</CheckUpdate>
 		<LatestVer>True</LatestVer>
 		<SetupLights>True</SetupLights>
-	</UG-Settings>
-	<LiveSet>
-		<AbletonVersion>AnyAbleton</AbletonVersion>
-		<ConvertUniPack>zip/uni</ConvertUniPack>
-	</LiveSet>
+		<Language>English</Language>
+	</UniConverter-Settings>
 </UniConverter-XML>
