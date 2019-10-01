@@ -8,63 +8,15 @@ Imports System.Threading
 Imports System.Xml
 Imports System.ComponentModel
 Imports System.Text.RegularExpressions
+Imports A2UP
 Imports A2UP.A2U.keyLED_MIDEX
 Imports A2UP.A2U.keySound
 Imports WMPLib
+Imports System.Drawing.Drawing2D
 
 Public Class MainProject
 
 #Region "UniConverter-MainProject(s)"
-    ''' <summary>
-    '''  라이센스 파일. (0: Developer Mode, 1: GreatEx Mode)
-    ''' </summary>
-    Public Shared LicenseFile As String() = New String(1) {Application.StartupPath & "\MDSL\DeveloperMode.uni", Application.StartupPath & "\MDSL\GreatExMode.uni"}
-
-    ''' <summary>
-    ''' Developer Mode?
-    ''' </summary>
-    Public Shared IsDeveloperMode As Boolean = False
-
-    ''' <summary>
-    ''' Great Exception Mode!
-    ''' </summary>
-    Public Shared IsGreatExMode As Boolean = False
-
-    ''' <summary>
-    ''' MainProject 전체 저장 여부. (Save As Project)
-    ''' </summary>
-    Public Shared IsSaved As Boolean
-
-    ''' <summary>
-    ''' UniPack info 저장 여부.
-    ''' </summary>
-    Public Shared infoIsSaved As Boolean
-
-    ''' <summary>
-    ''' 업데이트 여부.
-    ''' </summary>
-    Public Shared IsUpdated As Boolean
-
-    ''' <summary>
-    ''' 한 번에 Ableton Project를 열 것인가?
-    ''' </summary>
-    Public OpenProjectOnce As Boolean
-
-    ''' <summary>
-    ''' 지금 매우 중요한 작업 여부.
-    ''' </summary>
-    Public Shared IsWorking As Boolean
-
-    ''' <summary>
-    ''' 미디 Input과 Note On 테스트 여부.
-    ''' </summary>
-    Public Shared IsMIDITest As Boolean
-
-    ''' <summary>
-    ''' Waiting For Ableton Project. (LED Convert: "keyLED")
-    ''' </summary>
-    Public Shared w8t4abl As String
-
 #Region "MainProject-keySound(s)"
     ''' <summary>
     ''' keySound 저장 여부.
@@ -149,12 +101,77 @@ Public Class MainProject
     ''' MainProject keyLED 저장 여부. (keyLED / keyLED (MIDEX))
     ''' </summary>
     Public Shared keyLEDIsSaved As Boolean
+
+    ''' <summary>
+    ''' keyLED 버튼 저장
+    ''' </summary>
+    Public Shared kl_ctrl As New Dictionary(Of String, Button)
+
+    ''' <summary>
+    ''' 현재 선택한 체인. (1~8)
+    ''' </summary>
+    Public Shared klUniPack_SelectedChain As Integer = 1
+
+    ''' <summary>
+    ''' HTML to LED Velocity.
+    ''' </summary>
+    Public led As New ledReturn
 #End Region
 #Region "MainProject-Thread(s)"
     Public Shared ofd_FileName As String
     Private ofd_FileNames() As String
     Private trd_ListView As ListView
 #End Region
+
+    ''' <summary>
+    '''  라이센스 파일. (0: Developer Mode, 1: GreatEx Mode)
+    ''' </summary>
+    Public Shared LicenseFile As String() = New String(1) {Application.StartupPath & "\MDSL\DeveloperMode.uni", Application.StartupPath & "\MDSL\GreatExMode.uni"}
+
+    ''' <summary>
+    ''' Developer Mode?
+    ''' </summary>
+    Public Shared IsDeveloperMode As Boolean = False
+
+    ''' <summary>
+    ''' Great Exception Mode!
+    ''' </summary>
+    Public Shared IsGreatExMode As Boolean = False
+
+    ''' <summary>
+    ''' MainProject 전체 저장 여부. (Save As Project)
+    ''' </summary>
+    Public Shared IsSaved As Boolean
+
+    ''' <summary>
+    ''' UniPack info 저장 여부.
+    ''' </summary>
+    Public Shared infoIsSaved As Boolean
+
+    ''' <summary>
+    ''' 업데이트 여부.
+    ''' </summary>
+    Public Shared IsUpdated As Boolean
+
+    ''' <summary>
+    ''' 한 번에 Ableton Project를 열 것인가?
+    ''' </summary>
+    Public OpenProjectOnce As Boolean
+
+    ''' <summary>
+    ''' 지금 매우 중요한 작업 여부.
+    ''' </summary>
+    Public Shared IsWorking As Boolean
+
+    ''' <summary>
+    ''' 미디 Input과 Note On 테스트 여부.
+    ''' </summary>
+    Public Shared IsMIDITest As Boolean
+
+    ''' <summary>
+    ''' Waiting For Ableton Project. (LED Convert: "keyLED")
+    ''' </summary>
+    Public Shared w8t4abl As String
 
 #Region "MIDI Settings"
     Public midioutput As MidiOut
@@ -254,6 +271,7 @@ Public Class MainProject
 
     Private Sub MainProject_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
+
             Dim file_ex As String = Application.StartupPath + "\settings.xml"
 
             If File.Exists(file_ex) = False Then
@@ -274,26 +292,12 @@ Public Class MainProject
                 Me.Text = Me.Text & " (Enabled Developer Mode)"
                 DeveloperModeToolStripMenuItem.Visible = True
             End If
-#Region "변수 기본값 설정"
-            Me.KeyPreview = True
 
-            abl_openedproj = False
-            abl_openedsnd = False
-            abl_openedled = False
-            abl_openedled2 = False
+            DeleteWorkspaceDir() 'Workspace의 UniPack 폴더 정리.
+            Thread.Sleep(500)
 
-            IsSaved = True
-            SoundIsSaved = False
-            keyLEDIsSaved = False
-            infoIsSaved = False
-            IsUpdated = False
-            IsWorking = False
-
-            w8t4abl = String.Empty
-            OpenProjectOnce = False
-            IsMIDITest = False
-#End Region
 #Region "Dictionary 버튼 추가"
+            'keySound 8x8 유니패드 버튼
             ks_ctrl.Add(11, uni1_1)
             ks_ctrl.Add(12, uni1_2)
             ks_ctrl.Add(13, uni1_3)
@@ -370,7 +374,140 @@ Public Class MainProject
             btnPad_chain7.Enabled = False
             btnPad_chain8.Enabled = False
             keySoundLayout = False
+
+            'keyLED 8x8 + Top Lights 유니패드 버튼
+            kl_ctrl.Add(11, u11)
+            kl_ctrl.Add(12, u12)
+            kl_ctrl.Add(13, u13)
+            kl_ctrl.Add(14, u14)
+            kl_ctrl.Add(15, u15)
+            kl_ctrl.Add(16, u16)
+            kl_ctrl.Add(17, u17)
+            kl_ctrl.Add(18, u18)
+            kl_ctrl.Add(21, u21)
+            kl_ctrl.Add(22, u22)
+            kl_ctrl.Add(23, u23)
+            kl_ctrl.Add(24, u24)
+            kl_ctrl.Add(25, u25)
+            kl_ctrl.Add(26, u26)
+            kl_ctrl.Add(27, u27)
+            kl_ctrl.Add(28, u28)
+            kl_ctrl.Add(31, u31)
+            kl_ctrl.Add(32, u32)
+            kl_ctrl.Add(33, u33)
+            kl_ctrl.Add(34, u34)
+            kl_ctrl.Add(35, u35)
+            kl_ctrl.Add(36, u36)
+            kl_ctrl.Add(37, u37)
+            kl_ctrl.Add(38, u38)
+            kl_ctrl.Add(41, u41)
+            kl_ctrl.Add(42, u42)
+            kl_ctrl.Add(43, u43)
+            kl_ctrl.Add(44, u44)
+            kl_ctrl.Add(45, u45)
+            kl_ctrl.Add(46, u46)
+            kl_ctrl.Add(47, u47)
+            kl_ctrl.Add(48, u48)
+            kl_ctrl.Add(51, u51)
+            kl_ctrl.Add(52, u52)
+            kl_ctrl.Add(53, u53)
+            kl_ctrl.Add(54, u54)
+            kl_ctrl.Add(55, u55)
+            kl_ctrl.Add(56, u56)
+            kl_ctrl.Add(57, u57)
+            kl_ctrl.Add(58, u58)
+            kl_ctrl.Add(61, u61)
+            kl_ctrl.Add(62, u62)
+            kl_ctrl.Add(63, u63)
+            kl_ctrl.Add(64, u64)
+            kl_ctrl.Add(65, u65)
+            kl_ctrl.Add(66, u66)
+            kl_ctrl.Add(67, u67)
+            kl_ctrl.Add(68, u68)
+            kl_ctrl.Add(71, u71)
+            kl_ctrl.Add(72, u72)
+            kl_ctrl.Add(73, u73)
+            kl_ctrl.Add(74, u74)
+            kl_ctrl.Add(75, u75)
+            kl_ctrl.Add(76, u76)
+            kl_ctrl.Add(77, u77)
+            kl_ctrl.Add(78, u78)
+            kl_ctrl.Add(81, u81)
+            kl_ctrl.Add(82, u82)
+            kl_ctrl.Add(83, u83)
+            kl_ctrl.Add(84, u84)
+            kl_ctrl.Add(85, u85)
+            kl_ctrl.Add(86, u86)
+            kl_ctrl.Add(87, u87)
+            kl_ctrl.Add(88, u88)
+
+            'UniPad MC Buttons
+            kl_ctrl.Add("mc1", mc1)
+            kl_ctrl.Add("mc2", mc2)
+            kl_ctrl.Add("mc3", mc3)
+            kl_ctrl.Add("mc4", mc4)
+            kl_ctrl.Add("mc5", mc5)
+            kl_ctrl.Add("mc6", mc6)
+            kl_ctrl.Add("mc7", mc7)
+            kl_ctrl.Add("mc8", mc8)
+            kl_ctrl.Add("mc9", mc9)
+            kl_ctrl.Add("mc10", mc10)
+            kl_ctrl.Add("mc11", mc11)
+            kl_ctrl.Add("mc12", mc12)
+            kl_ctrl.Add("mc13", mc13)
+            kl_ctrl.Add("mc14", mc14)
+            kl_ctrl.Add("mc15", mc15)
+            kl_ctrl.Add("mc16", mc16)
+            kl_ctrl.Add("mc17", mc17)
+            kl_ctrl.Add("mc18", mc18)
+            kl_ctrl.Add("mc19", mc19)
+            kl_ctrl.Add("mc20", mc20)
+            kl_ctrl.Add("mc21", mc21)
+            kl_ctrl.Add("mc22", mc22)
+            kl_ctrl.Add("mc23", mc23)
+            kl_ctrl.Add("mc24", mc24)
+            kl_ctrl.Add("mc25", mc25)
+            kl_ctrl.Add("mc26", mc26)
+            kl_ctrl.Add("mc27", mc27)
+            kl_ctrl.Add("mc28", mc28)
+            kl_ctrl.Add("mc29", mc29)
+            kl_ctrl.Add("mc30", mc30)
+            kl_ctrl.Add("mc31", mc31)
+            kl_ctrl.Add("mc32", mc32)
 #End Region
+#Region "패드 설정"
+            'keyLED Pad64.
+            For i = 1 To 32 'Width - 2, Height - 1 빼주는 이유는 빼주지 않으면 LED가 어긋나게 실행이 되기 때문이다.
+                Dim circle As New GraphicsPath
+                circle.AddEllipse(New Rectangle(0, 0, kl_ctrl("mc" & i).Size.Width - 2, kl_ctrl("mc" & i).Size.Height - 1))
+                kl_ctrl("mc" & i).Region = New Region(circle)
+                kl_ctrl("mc" & i).ForeColor = Color.Gray
+            Next
+#End Region
+#Region "변수 기본값 설정"
+            Me.KeyPreview = True
+
+            abl_openedproj = False
+            abl_openedsnd = False
+            abl_openedled = False
+            abl_openedled2 = False
+
+            IsSaved = True
+            SoundIsSaved = False
+            keyLEDIsSaved = False
+            infoIsSaved = False
+            IsUpdated = False
+            IsWorking = False
+
+            w8t4abl = String.Empty
+            OpenProjectOnce = False
+            IsMIDITest = False
+
+            keyLEDMIDEX_LEDViewMode.Checked = True
+            keyLEDPad_Flush(False)
+            keyLEDMIDEX_BetaButton.Enabled = False
+#End Region
+
 
             setxml.Load(file_ex)
             Dim setNode As XmlNode
@@ -383,8 +520,6 @@ Public Class MainProject
             If setNode.ChildNodes(2).InnerText = "True" Then
                 SetUpLight_ = True
             End If
-
-            DeleteWorkspaceDir()
 
             'Text of Info TextBox
             infoTB1.Text = "My Amazing UniPack!" 'Title
@@ -441,7 +576,7 @@ Public Class MainProject
 
     Public Sub DeleteWorkspaceDir()
         If Directory.Exists(Application.StartupPath & "\Workspace\unipack") Then
-            My.Computer.FileSystem.DeleteDirectory(Application.StartupPath & "\Workspace\unipack", FileIO.DeleteDirectoryOption.DeleteAllContents)
+            Directory.Delete(Application.StartupPath & "\Workspace\unipack", True)
             Thread.Sleep(300)
             Directory.CreateDirectory(Application.StartupPath & "\Workspace\unipack")
         Else
@@ -486,7 +621,7 @@ Public Class MainProject
     End Sub
 
     Private Sub SaveProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveProjectToolStripMenuItem.Click
-        Save2Project(True)
+        ThreadPool.QueueUserWorkItem(AddressOf Save2Project, True)
     End Sub
 
     ''' <summary>
@@ -525,14 +660,14 @@ Public Class MainProject
                End Sub)
 
             If Directory.Exists("Workspace\ableproj\CoLED") Then
-                       My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\CoLED", FileIO.DeleteDirectoryOption.DeleteAllContents)
-                       Directory.CreateDirectory("Workspace\ableproj\CoLED")
-                   Else
-                       Directory.CreateDirectory("Workspace\ableproj\CoLED")
-                   End If
+                My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\CoLED", FileIO.DeleteDirectoryOption.DeleteAllContents)
+                Directory.CreateDirectory("Workspace\ableproj\CoLED")
+            Else
+                Directory.CreateDirectory("Workspace\ableproj\CoLED")
+            End If
 
-                   For i = 0 To FileNames.Length - 1
-                       File.Copy(FileNames(i), "Workspace\ableproj\CoLED\" & FileNames(i).Split("\").Last, True)
+            For i = 0 To FileNames.Length - 1
+                File.Copy(FileNames(i), "Workspace\ableproj\CoLED\" & FileNames(i).Split("\").Last, True)
                 UI(Sub()
                        Loading.DPr.Style = ProgressBarStyle.Continuous
                        Loading.DPr.Value += 1
@@ -568,6 +703,8 @@ Public Class MainProject
             ElseIf e.Cancelled Then
                 Exit Sub
             Else
+
+                keyLEDMIDEX_BetaButton.Enabled = True
 
                 Dim s As String = My.Computer.FileSystem.GetParentPath(ofd_FileNames(0))
                 Dim wowkac As String = String.Empty
@@ -773,15 +910,15 @@ Public Class MainProject
            End Sub)
 
         abl_FileName = FileName
-               File.Copy(FileName, "Workspace\ableproj\abl_proj.gz", True)
+        File.Copy(FileName, "Workspace\ableproj\abl_proj.gz", True)
 
         UI(Sub() Loading.DLb.Text = Loading.loading_Project_Extract_msg)
         ExtractGZip("Workspace\ableproj\abl_proj.gz", "Workspace\ableproj")
-               Thread.Sleep(300)
+        Thread.Sleep(300)
 
         UI(Sub() Loading.DLb.Text = Loading.loading_Project_DeleteTmp_msg)
         File.Delete("Workspace\ableproj\abl_proj.gz")
-               File.Delete("Workspace\ableproj\abl_proj.xml")
+        File.Delete("Workspace\ableproj\abl_proj.xml")
 
         UI(Sub() Loading.DLb.Text = Loading.loading_Project_ChangeExt_msg)
         File.Move("Workspace\ableproj\abl_proj", "Workspace\ableproj\abl_proj.xml")
@@ -805,36 +942,36 @@ Public Class MainProject
            End Sub)
 #Region "Loading Chain Numbers"
         Dim ablprj As String = Application.StartupPath & "\Workspace\ableproj\abl_proj.xml"
-               Dim doc As New XmlDocument
-               Dim setNode As XmlNodeList
-               doc.Load(ablprj)
-               setNode = doc.GetElementsByTagName("MidiEffectBranch")
+        Dim doc As New XmlDocument
+        Dim setNode As XmlNodeList
+        doc.Load(ablprj)
+        setNode = doc.GetElementsByTagName("MidiEffectBranch")
 
-               Dim li As Integer = setNode.Count
-               Dim chan_ As Integer() = New Integer(li) {}
+        Dim li As Integer = setNode.Count
+        Dim chan_ As Integer() = New Integer(li) {}
 
-               Dim iy As Integer = 0
-               For Each x As XmlNode In setNode
-                   'Chain + 1 해주는 이유는 항상 Chain의 기본값이 0이기 때문임. 유니팩에서는 Chain 1이여도 에이블톤에서는 Chain 0임.
-                   chan_(iy) = x.Item("BranchSelectorRange").Item("Max").GetAttribute("Value") + 1
-                   iy += 1
-               Next
+        Dim iy As Integer = 0
+        For Each x As XmlNode In setNode
+            'Chain + 1 해주는 이유는 항상 Chain의 기본값이 0이기 때문임. 유니팩에서는 Chain 1이여도 에이블톤에서는 Chain 0임.
+            chan_(iy) = x.Item("BranchSelectorRange").Item("Max").GetAttribute("Value") + 1
+            iy += 1
+        Next
 
-               Array.Sort(chan_)
-               Array.Reverse(chan_)
+        Array.Sort(chan_)
+        Array.Reverse(chan_)
 
-               Dim FinalChain As Integer = 0
-               For i As Integer = 0 To chan_.Count - 1
-                   If chan_(i) < 9 AndAlso chan_(i) > 0 Then
-                       FinalChain = chan_(i)
-                       Exit For
-                   End If
-               Next
+        Dim FinalChain As Integer = 0
+        For i As Integer = 0 To chan_.Count - 1
+            If chan_(i) < 9 AndAlso chan_(i) > 0 Then
+                FinalChain = chan_(i)
+                Exit For
+            End If
+        Next
 #End Region
 
-               '정리.
-               abl_Name = FinalName
-               abl_Chain = FinalChain
+        '정리.
+        abl_Name = FinalName
+        abl_Chain = FinalChain
 
         UI(Sub()
                Loading.DLb.Left = 40
@@ -843,18 +980,18 @@ Public Class MainProject
 
         'XML File Load.
         Invoke(Sub()
-                          infoTB1.Text = abl_Name
-                          infoTB3.Text = abl_Chain
-                      End Sub)
+                   infoTB1.Text = abl_Name
+                   infoTB3.Text = abl_Chain
+               End Sub)
 
-               abl_openedproj = True
+        abl_openedproj = True
         UniPack_SaveInfo(False)
         UI(Sub() Loading.Dispose())
 
         If OpenProjectOnce = False Then
-                   MessageBox.Show("Ableton Project File Loaded!" & vbNewLine & "You can edit info in Information Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-               End If
-           End Sub
+            MessageBox.Show("Ableton Project File Loaded!" & vbNewLine & "You can edit info in Information Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
+    End Sub
 
     Private Sub BGW_ablproj_Completed(sender As Object, e As RunWorkerCompletedEventArgs) Handles BGW_ablproj.RunWorkerCompleted
         Try
@@ -995,9 +1132,9 @@ Public Class MainProject
                        End Sub)
 
                     My.Computer.FileSystem.DeleteDirectory(Application.StartupPath & "\Workspace\unipack\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
-                           Thread.Sleep(300)
-                           Directory.CreateDirectory(Application.StartupPath & "\Workspace\unipack\sounds")
-                       Else
+                    Thread.Sleep(300)
+                    Directory.CreateDirectory(Application.StartupPath & "\Workspace\unipack\sounds")
+                Else
                     Directory.CreateDirectory(Application.StartupPath & "\Workspace\unipack\sounds")
                 End If
 
@@ -1009,28 +1146,28 @@ Public Class MainProject
                 'InstrumentGroupDevice
                 'ChainSelector
                 Dim ablprj As String = Application.StartupPath & "\Workspace\ableproj\abl_proj.xml"
-                       Dim doc As New XmlDocument
-                       Dim setNode As XmlNodeList
-                       Dim setaNode As XmlNodeList
+                Dim doc As New XmlDocument
+                Dim setNode As XmlNodeList
+                Dim setaNode As XmlNodeList
 
-                       doc.Load(ablprj)
-                       setNode = doc.GetElementsByTagName("InstrumentBranch")
-                       setaNode = doc.GetElementsByTagName("DrumBranch")
+                doc.Load(ablprj)
+                setNode = doc.GetElementsByTagName("InstrumentBranch")
+                setaNode = doc.GetElementsByTagName("DrumBranch")
 
-                       'Get Sound Name from Drum Rack.
-                       Dim rNote As Integer = 0 'Receiving Note.
-                       Dim nx As Integer = 0 'setNode (InstrumentBranch)와 setaNode (DrumBranch)를 동기화 시켜주는 i.
+                'Get Sound Name from Drum Rack.
+                Dim rNote As Integer = 0 'Receiving Note.
+                Dim nx As Integer = 0 'setNode (InstrumentBranch)와 setaNode (DrumBranch)를 동기화 시켜주는 i.
 
-                       Dim PrChain As Integer = 0 '랜덤의 체인.
-                       Dim PrChainM As Integer = 0 '랜덤의 최대 체인.
-                       Dim IsRandom As Boolean = False '현재 접근하고 있는 XML Branch가 랜덤인가?
-                       Dim rnd As Integer = 1 '랜덤의 수
-                       Dim Choices As Integer = 0 '매우 정확한 랜덤의 수. (from MidiRandom)
-                       Dim curid As Integer = 1 '현재의 랜덤 Xml.
-                       Dim realCh As Integer = 0 '랜덤을 선언할 때 정말 정확한 수.
+                Dim PrChain As Integer = 0 '랜덤의 체인.
+                Dim PrChainM As Integer = 0 '랜덤의 최대 체인.
+                Dim IsRandom As Boolean = False '현재 접근하고 있는 XML Branch가 랜덤인가?
+                Dim rnd As Integer = 1 '랜덤의 수
+                Dim Choices As Integer = 0 '매우 정확한 랜덤의 수. (from MidiRandom)
+                Dim curid As Integer = 1 '현재의 랜덤 Xml.
+                Dim realCh As Integer = 0 '랜덤을 선언할 때 정말 정확한 수.
 
-                       Dim str As String = String.Empty 'keySound 그 자체.
-                       Dim err As String = String.Empty 'keySound 변환 할 때의 오류를 저장하는 곳.
+                Dim str As String = String.Empty 'keySound 그 자체.
+                Dim err As String = String.Empty 'keySound 변환 할 때의 오류를 저장하는 곳.
                 For Each x As XmlNode In setNode
 
 #Region "keySound / IsRandom"
@@ -1170,26 +1307,26 @@ Public Class MainProject
                     curid += 1
                 Next
                 File.WriteAllText(Application.StartupPath & "\Workspace\unipack\keySound", str)
-                       UI(Sub()
-                              ShowkeySoundLayout()
-                          End Sub)
+                UI(Sub()
+                       ShowkeySoundLayout()
+                   End Sub)
 
-                       IsWorking = False
+                IsWorking = False
                 UI(Sub() Loading.Dispose())
                 MessageBox.Show("keySound Converted!" & vbNewLine & "You can show the keySound on 'keySound' Tab!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
 
-                       If Not String.IsNullOrWhiteSpace(err) Then
-                           MessageBox.Show("[ Warning ]" & vbNewLine & "keySound: [] format is invaild." & vbNewLine & err, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                       End If
+                If Not String.IsNullOrWhiteSpace(err) Then
+                    MessageBox.Show("[ Warning ]" & vbNewLine & "keySound: [] format is invaild." & vbNewLine & err, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                End If
 
             End If
 
         Catch ex As Exception
             If IsGreatExMode Then
-            MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        Else
-            MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End If
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         End Try
     End Sub
 
@@ -1636,15 +1773,15 @@ Public Class MainProject
 
         If Path.GetExtension(FileNames(FileNames.Length - 1)) = ".wav" Then
 
-                   If My.Computer.FileSystem.DirectoryExists("Workspace\ableproj\sounds") = True Then
-                       My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
-                   End If
+            If My.Computer.FileSystem.DirectoryExists("Workspace\ableproj\sounds") = True Then
+                My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
+            End If
 
-                   My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\sounds")
+            My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\sounds")
 
 
-                   For i = 0 To FileNames.Length - 1
-                       File.Copy(FileNames(i), "Workspace\ableproj\sounds\" & FileNames(i).Split("\").Last, True)
+            For i = 0 To FileNames.Length - 1
+                File.Copy(FileNames(i), "Workspace\ableproj\sounds\" & FileNames(i).Split("\").Last, True)
                 UI(Sub()
                        Loading.DPr.Style = ProgressBarStyle.Continuous
                        Loading.DPr.Value += 1
@@ -1654,25 +1791,25 @@ Public Class MainProject
             Next
 
         ElseIf Path.GetExtension(FileNames(FileNames.Length - 1)) = ".mp3" Then
-                   If My.Computer.FileSystem.DirectoryExists("Workspace\ableproj\sounds") = True Then
-                       My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
-                   End If
-                   My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\sounds")
+            If My.Computer.FileSystem.DirectoryExists("Workspace\ableproj\sounds") = True Then
+                My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
+            End If
+            My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\sounds")
 
-                   For i = 0 To FileNames.Length - 1
-                       File.Copy(FileNames(i), "Workspace\" & FileNames(i).Split("\").Last.Replace(" ", "").Trim(), True)
-                   Next
+            For i = 0 To FileNames.Length - 1
+                File.Copy(FileNames(i), "Workspace\" & FileNames(i).Split("\").Last.Replace(" ", "").Trim(), True)
+            Next
 
-                   For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\", FileIO.SearchOption.SearchTopLevelOnly, "*.mp3")
-                       Lame("lame\cmd.exe", "lame\lame.exe", foundFile.Replace(Application.StartupPath + "\", ""), foundFile.Replace(".mp3", ".wav").Replace(Application.StartupPath + "\", ""), "--preset extreme", False, AppWinStyle.Hide)
-                   Next
+            For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\", FileIO.SearchOption.SearchTopLevelOnly, "*.mp3")
+                Lame("lame\cmd.exe", "lame\lame.exe", foundFile.Replace(Application.StartupPath + "\", ""), foundFile.Replace(".mp3", ".wav").Replace(Application.StartupPath + "\", ""), "--preset extreme", False, AppWinStyle.Hide)
+            Next
 
-                   Try
+            Try
 fexLine:
-                       For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\", FileIO.SearchOption.SearchTopLevelOnly, "*.mp3")
-                           If File.Exists(foundFile.Replace(".mp3", ".wav")) Then
-                               File.Move(foundFile.Replace(".mp3", ".wav"), "Workspace\ableproj\sounds\" & Path.GetFileName(foundFile.Replace(".mp3", ".wav")))
-                               File.Delete(foundFile)
+                For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\", FileIO.SearchOption.SearchTopLevelOnly, "*.mp3")
+                    If File.Exists(foundFile.Replace(".mp3", ".wav")) Then
+                        File.Move(foundFile.Replace(".mp3", ".wav"), "Workspace\ableproj\sounds\" & Path.GetFileName(foundFile.Replace(".mp3", ".wav")))
+                        File.Delete(foundFile)
                         UI(Sub()
                                Loading.DPr.Style = ProgressBarStyle.Continuous
                                Loading.DPr.Value += 1
@@ -1681,11 +1818,11 @@ fexLine:
                            End Sub)
                     End If
                 Next
-                   Catch fex As IOException 'I/O 오류 해결 코드.
-                       Thread.Sleep(100)
-                       GoTo fexLine
-                   End Try
-               End If
+            Catch fex As IOException 'I/O 오류 해결 코드.
+                Thread.Sleep(100)
+                GoTo fexLine
+            End Try
+        End If
 
         '-After Loading WAV/MP3!
         UI(Sub()
@@ -1755,13 +1892,18 @@ fexLine:
         End If
 
         If My.Computer.Network.IsAvailable = True Then
-            If My.Application.Info.Version = FileInfo Then
-                MessageBox.Show("You are using a Latest Version." & vbNewLine & vbNewLine &
+            Try
+                If My.Application.Info.Version = FileInfo Then
+                    MessageBox.Show("You are using a Latest Version." & vbNewLine & vbNewLine &
                        "Current Version : " & My.Application.Info.Version.ToString & vbNewLine & "Latest Version : " & FileInfo.ToString, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-            ElseIf My.Application.Info.Version > FileInfo Then
-                MessageBox.Show("You are using a Test Version!" & vbNewLine & vbNewLine & "Current Version : " & FileInfo.ToString & vbNewLine &
+                ElseIf My.Application.Info.Version > FileInfo Then
+                    MessageBox.Show("You are using a Test Version!" & vbNewLine & vbNewLine & "Current Version : " & FileInfo.ToString & vbNewLine &
                        "Your Test Version : " & My.Application.Info.Version.ToString, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-            End If
+                End If
+            Catch exN As ArgumentNullException
+                MessageBox.Show("Network Connect Failed! Can't Check Update.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Exit Sub
+            End Try
         Else
             MessageBox.Show("Network Connect Failed! Can't Check Update.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -1842,7 +1984,7 @@ fexLine:
         If IsSaved = False Then
             Dim result As DialogResult = MessageBox.Show("You didn't save your UniPack. Would you like to save your UniPack?", Me.Text & ": Not Saved", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
             If result = DialogResult.Yes Then
-                Save2Project(False)
+                ThreadPool.QueueUserWorkItem(AddressOf Save2Project, False)
             ElseIf result = DialogResult.Cancel Then
                 e.Cancel = True
             End If
@@ -1855,43 +1997,67 @@ fexLine:
     ''' <param name="Waiting">기다릴까?</param>
     Public Sub Save2Project(Waiting As Boolean)
         Try
-            Dim infoTitle As String = String.Empty
-            infoTitle = File.ReadAllLines(Application.StartupPath & "\Workspace\unipack\info")(0).Replace("title=", "")
+            Dim IsHaveProject As Boolean = False
+            Dim IsHaveSound As Boolean = False
+            Dim IsHaveLED As Boolean = False
+            UI(Sub()
+                   IsHaveProject = abl_openedproj
+                   IsHaveSound = abl_openedsnd
+                   IsHaveLED = abl_openedled
+               End Sub)
 
-            Dim sfd As New SaveFileDialog()
-            sfd.Filter = "Zip File|*.zip|UniPack File|*.uni"
-            sfd.Title = "Save the UniPack"
-            sfd.FileName = infoTitle
-            sfd.AddExtension = False
+            If IsHaveProject AndAlso IsHaveSound Or IsHaveProject AndAlso IsHaveLED Then
+                Dim infoTitle As String = String.Empty
+                infoTitle = File.ReadAllLines(Application.StartupPath & "\Workspace\unipack\info")(0).Replace("title=", "")
 
-            If sfd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-                If My.Computer.FileSystem.DirectoryExists(Application.StartupPath & "\Workspace\unipack") Then
-                    If Waiting = True Then
-                        Invoke(Sub()
-                                   Loading.Show()
-                                   Loading.Text = Me.Text & ": Saving Ableton Project File to UniPack..."
-                                   Loading.DLb.Left = 40
-                                   Dim result As String = Path.GetExtension(sfd.FileName)
-                                   If result = ".zip" Then
-                                       Loading.DLb.Text = "Creating UniPack to zip File..."
-                                   ElseIf result = ".uni" Then
-                                       Loading.DLb.Text = "Creating UniPack to uni File..."
-                                   End If
-                                   Loading.Refresh()
+                Dim sfd As New SaveFileDialog()
+                Dim aN As DialogResult
+
+                sfd.Filter = "Zip File|*.zip|UniPack File|*.uni"
+                sfd.Title = "Save the UniPack"
+                sfd.FileName = infoTitle
+                sfd.AddExtension = False
+                UI(Sub()
+                       aN = sfd.ShowDialog()
+                   End Sub)
+
+                If aN = DialogResult.OK Then
+                    If My.Computer.FileSystem.DirectoryExists(Application.StartupPath & "\Workspace\unipack") Then
+                        If Waiting = True Then
+
+                            UI(Sub()
+                                   With Loading
+                                       .Show()
+                                       .DPr.Style = ProgressBarStyle.Marquee
+                                       .DPr.MarqueeAnimationSpeed = 10
+                                       .Text = Me.Text & ": Saving Ableton Project File to UniPack..."
+                                       .DLb.Left = 45
+                                   End With
                                End Sub)
-                    End If
-                    If File.Exists(sfd.FileName) Then
-                        File.Delete(sfd.FileName)
-                        Thread.Sleep(300)
-                    End If
 
-                    ZipFile.CreateFromDirectory(Application.StartupPath & "\Workspace\unipack", sfd.FileName)
-                    Loading.Dispose()
-                    If Waiting = True Then
-                        IsSaved = True
-                        MessageBox.Show("Saved UniPack!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            Dim result As String = Path.GetExtension(sfd.FileName)
+                            If result = ".zip" Then
+                                UI(Sub() Loading.DLb.Text = "Creating UniPack to zip File...")
+                            ElseIf result = ".uni" Then
+                                UI(Sub() Loading.DLb.Text = "Creating UniPack to uni File...")
+                            End If
+
+                        End If
+                        If File.Exists(sfd.FileName) Then
+                            File.Delete(sfd.FileName)
+                            Thread.Sleep(300)
+                        End If
+
+                        ZipFile.CreateFromDirectory(Application.StartupPath & "\Workspace\unipack", sfd.FileName)
+                        UI(Sub() Loading.Dispose())
+                        If Waiting = True Then
+                            IsSaved = True
+                            MessageBox.Show("Saved UniPack!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        End If
                     End If
                 End If
+            Else
+                MessageBox.Show("Please convert the Ableton Project to UniPack first!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End If
 
         Catch ex As Exception
@@ -1933,7 +2099,7 @@ fexLine:
         DeveloperMode_Main.Show()
     End Sub
 
-    Private Sub keyLEDBetaButton_Click(sender As Object, e As EventArgs) Handles keyLEDMIDEX_BetaButton.Click
+    Private Sub keyLEDBetaButton_Click(sender As Object, e As EventArgs)
         Try
             If abl_openedled = True Then
                 keyLED_Edit.Show()
@@ -2502,43 +2668,9 @@ fexLine:
 #End Region
 #End Region
 
-    Private Sub keyLEDMIDEX_TestButton_Click(sender As Object, e As EventArgs) Handles keyLEDMIDEX_TestButton.Click
+    Private Sub keyLEDMIDEX_TestButton_Click(sender As Object, e As EventArgs)
         keyLED_Test.Show()
-        keyLED_Test.LoadkeyLEDText(keyLEDMIDEX_UniLED.Text)
-    End Sub
-
-    Private Sub KeyLEDMIDEX_ListBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles keyLEDMIDEX_ListBox.SelectedIndexChanged
-        Try
-
-            If abl_openedled AndAlso abl_openedled2 Then
-                If IsWorking = False Then
-
-                    If keyLEDMIDEX_ListBox.SelectedItems.Count > 0 Then '이것이 신의 한수... SelectedItem 코드 작성 시 꼭 필요. (invaildArgument 오류)
-                        Dim s As String = keyLEDMIDEX_ListBox.SelectedItem.ToString
-
-                        keyLEDMIDEX_UniLED.Enabled = True
-                        keyLEDMIDEX_UniLED.Clear()
-                        keyLEDMIDEX_UniLED.Text = File.ReadAllText(String.Format("{0}\Workspace\unipack\keyLED\{1}", Application.StartupPath, s))
-
-                        keyLEDMIDEX_TestButton.Enabled = True
-                        keyLEDMIDEX_CopyButton.Enabled = True
-                        keyLED_Test.LoadkeyLEDText(keyLEDMIDEX_UniLED.Text)
-                    End If
-
-                Else
-                    Throw New TimeoutException("Please Wait...")
-                End If
-            Else
-                Throw New FileNotFoundException("You must load the keyLED and save the file!")
-            End If
-
-        Catch ex As Exception
-            If IsGreatExMode Then
-                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Else
-                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End If
-        End Try
+        'keyLED_Test.LoadkeyLEDText(keyLEDMIDEX_UniLED.Text)
     End Sub
 
     '에이블톤 Instrument Rack을 keyLED로 바꿔주는 코드.
@@ -2610,7 +2742,8 @@ fexLine:
                 'New Tempo는 빠르기다. [New Tempo = temp1]
 
                 Dim il As Integer = 0
-                Dim ChN As String = String.Empty
+                Dim ChN As String = String.Empty 'New Tempo [Speed]
+                Dim ChN2 As String = String.Empty 'Clip Tempo [BPM]
                 Dim err As String = String.Empty
                 For Each d As String In LEDs
 
@@ -2639,22 +2772,42 @@ fexLine:
                             Dim dFile As String = d.Split("/")(2)
                             Dim dIndex As Integer() = ReadAllIndex(LEDs, "MIDI Extension")
                             Dim dix As Integer = 0
+
+                            Dim dSpeed As Integer = 0
+                            Dim dBPM As Integer = 0
 #Region "Set the Tempo"
-                            If ChN = "adsfjkh" Then 'String.IsNullOrWhiteSpace(Alrt) = False
-                                Dim skip_r As Boolean = False
+                            If String.IsNullOrWhiteSpace(ChN) = False Then 'Set Speed.
+
                                 For Each ri As String In ChN.Split(";")
-                                    If dFile = ri Then
-                                        skip_r = True
+                                    If String.IsNullOrWhiteSpace(ri) Then
+                                        Continue For
+                                    End If
+
+                                    If d_id = ri.Split("/")(0) Then
+                                        ChN = ChN.Replace(ri & ";", "")
+                                        dSpeed = ri.Split("/")(1)
                                         Exit For
                                     End If
                                 Next
 
-                                If skip_r Then
-                                    ChN = ChN.Replace(dFile & ";", "")
-                                    Continue For
-                                End If
                             End If
-#End Region '나중에 BPM 재조정 코드로 ChN 변수를 재활용 할거임.
+
+                            If String.IsNullOrWhiteSpace(ChN2) = False Then 'Set BPM.
+
+                                For Each ri As String In ChN2.Split(";")
+                                    If String.IsNullOrWhiteSpace(ri) Then
+                                        Continue For
+                                    End If
+
+                                    If d_id = ri.Split("/")(0) Then
+                                        ChN2 = ChN2.Replace(ri & ";", "")
+                                        dBPM = ri.Split("/")(1)
+                                        Exit For
+                                    End If
+                                Next
+
+                            End If
+#End Region
 
                             UI(Sub()
                                    Loading.DLb.Left -= 70
@@ -2679,10 +2832,13 @@ fexLine:
 
                                     If mdEvent.CommandCode = MidiCommandCode.NoteOn Then
                                         Dim a As NoteOnEvent = DirectCast(mdEvent, NoteOnEvent)
-                                        Dim bpm As New TempoEvent(500000, a.AbsoluteTime)
 
                                         If Not delaycount = a.AbsoluteTime OrElse Not a.DeltaTime = 0 Then
-                                            str = str & vbNewLine & "d " & GetNoteDelay(keyLED_NoteEvents.NoteLength_2, bpm.Tempo, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delaycount)
+                                            If dSpeed = 0 Then
+                                                str = str & vbNewLine & "d " & GetNoteDelay(keyLED_NoteEvents.NoteLength_2, dBPM, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delaycount)
+                                            Else
+                                                str = str & vbNewLine & "d " & Math.Round(GetNoteDelay(keyLED_NoteEvents.NoteLength_2, dBPM, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delaycount) * (dSpeed / 100))
+                                            End If
                                         End If
 
                                         UniNoteNumberX = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
@@ -2703,10 +2859,13 @@ fexLine:
                                     ElseIf mdEvent.CommandCode = MidiCommandCode.NoteOff Then
 
                                         Dim a As NoteEvent = DirectCast(mdEvent, NoteEvent)
-                                        Dim bpm As New TempoEvent(500000, a.AbsoluteTime)
 
                                         If Not delaycount = a.AbsoluteTime OrElse Not a.DeltaTime = 0 Then
-                                            str = str & vbNewLine & "d " & GetNoteDelay(keyLED_NoteEvents.NoteLength_2, bpm.Tempo, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delaycount)
+                                            If dSpeed = 0 Then
+                                                str = str & vbNewLine & "d " & GetNoteDelay(keyLED_NoteEvents.NoteLength_2, dBPM, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delaycount)
+                                            Else
+                                                str = str & vbNewLine & "d " & Math.Round(GetNoteDelay(keyLED_NoteEvents.NoteLength_2, dBPM, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delaycount) * (dSpeed / 100))
+                                            End If
                                         End If
 
                                         UniNoteNumberX = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
@@ -2727,6 +2886,8 @@ fexLine:
                                     End If
                                 Next
                             Next
+
+                            dSpeed = 0
 
                             '이제 Get Chain & X, Y from XML!!!
                             Dim ablprj As String = Application.StartupPath & "\Workspace\ableproj\abl_proj.xml"
@@ -2861,7 +3022,7 @@ fexLine:
                             LoopNumber_2(1) = Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))
                             LoopNumber_2bool = LoopNumber_2(0) = LoopNumber_2(1)
 
-                                If LoopNumber_1bool = False Then
+                            If LoopNumber_1bool = False Then
 
                                 '시작 길이와 끝 길이가 다른 경우 (Loop 1 활성화 시)
                                 For p As Integer = LoopNumber_1(0) To LoopNumber_1(1)
@@ -2965,11 +3126,15 @@ fexLine:
                             il = dIndex(dix)
                             dix += 1
 
-                        Case "Clip Tempo"
+                        Case "Clip Tempo" 'MIDI Clip's BPM.
                             Dim d_id As Integer = d.Split("/")(1)
+                            Dim dBPM As Integer = d.Split("/")(2)
+                            ChN2 &= String.Format("{0}/{1};", d_id, dBPM)
 
-                        Case "New Tempo"
+                        Case "New Tempo" 'MIDI Clip's Speed.
                             Dim d_id As Integer = d.Split("/")(1)
+                            Dim dSpeed As Integer = d.Split("/")(2)
+                            ChN &= String.Format("{0}/{1};", d_id, dSpeed)
 
                     End Select
 
@@ -2980,12 +3145,6 @@ fexLine:
                        Loading.DLb.Text = "Loading UniPack LEDs..."
                        Loading.DLb.Refresh()
                    End Sub)
-                For Each d As String In My.Computer.FileSystem.GetFiles(c, FileIO.SearchOption.SearchTopLevelOnly)
-                    Dim k As String = Path.GetFileName(d)
-                    Invoke(Sub()
-                               keyLEDMIDEX_ListBox.Items.Add(k)
-                           End Sub)
-                Next
 
                 UI(Sub() Loading.Dispose())
 
@@ -2993,12 +3152,13 @@ fexLine:
                     w8t4abl = String.Empty
                 End If
 
-                Invoke(Sub()
-                           keyLEDMIDEX_UniLED.Enabled = True
-                           keyLEDMIDEX_UniLED.Clear()
-                       End Sub)
-
                 keyLEDIsSaved = True
+                UI(Sub()
+                       keyLEDPad_Flush(True)
+                       Thread.Sleep(300)
+                       BGW_keyLEDLayout.RunWorkerAsync()
+                   End Sub)
+
                 If Not String.IsNullOrWhiteSpace(err) Then
                     MessageBox.Show("[ Warning ]" & vbNewLine & "keyLED (MIDI Extension): [] format is invaild." & vbNewLine & err, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 End If
@@ -3117,25 +3277,6 @@ fexLine:
         Return str
     End Function
 
-    Private Sub KeyLEDMIDEX_CopyButton_Click(sender As Object, e As EventArgs) Handles keyLEDMIDEX_CopyButton.Click
-        Try
-
-            If keyLEDMIDEX_UniLED.Enabled = False Then
-                MessageBox.Show("First, You should convert LED!", "UniConverter", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Else
-                Clipboard.SetText(keyLEDMIDEX_UniLED.Text)
-                MessageBox.Show("UniPack LED Copied!", "UniConverter", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            End If
-
-        Catch ex As Exception
-            If IsGreatExMode Then
-                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Else
-                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End If
-        End Try
-    End Sub
-
     Private Sub NoteOn_Test(sender As Object, e As MidiInMessageEventArgs) Handles midiinput.MessageReceived
         'NAudio랑 A2UP가 반드시 필요 합니다.
 
@@ -3175,5 +3316,240 @@ fexLine:
             IsMIDITest = True
             MessageBox.Show("MIDI Input and Note On Test Enabled!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
+    End Sub
+
+    'keyLED
+    Private Sub BGW_keyLEDLayout_DoWork(sender As Object, e As DoWorkEventArgs) Handles BGW_keyLEDLayout.DoWork
+        For Each LEDFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Workspace\unipack\keyLED\", FileIO.SearchOption.SearchTopLevelOnly)
+
+            Dim LEDName As String = Path.GetFileName(LEDFile)
+            Dim LEDSyntax As String() = LEDName.Split(" ")
+
+            Dim Chain As Integer = LEDSyntax(0)
+            Dim x As Integer = LEDSyntax(1)
+            Dim y As Integer = LEDSyntax(2)
+            Dim l As Integer = LEDSyntax(3)
+
+            If klUniPack_SelectedChain = Chain Then
+
+                UI(Sub()
+                       kl_ctrl(x & y).BackColor = Color.SkyBlue
+                       If String.IsNullOrWhiteSpace(kl_ctrl(x & y).Text) Then
+                           kl_ctrl(x & y).Text = "1"
+                       Else
+                           kl_ctrl(x & y).Text = Integer.Parse(kl_ctrl(x & y).Text) + 1
+                       End If
+                   End Sub)
+
+            Else
+                Continue For
+            End If
+
+        Next
+    End Sub
+
+    Private Sub keyLED_Chains_Click(sender As Object, e As EventArgs) Handles btn_Chain1.Click, btn_Chain2.Click, btn_Chain3.Click, btn_Chain4.Click, btn_Chain5.Click, btn_Chain6.Click, btn_Chain7.Click, btn_Chain8.Click
+        Dim SelectedChain As Integer = CType(sender, Button).Name.Substring(9, 1)
+        klUniPack_SelectedChain = SelectedChain
+
+        If keyLEDMIDEX_LEDViewMode.Checked Then
+            kl_LEDFlush()
+            BGW_keyLEDLayout.RunWorkerAsync()
+        End If
+    End Sub
+
+    Private Sub keyLED_ButtonsClick(sender As Object, e As EventArgs) Handles u11.MouseDown, u12.MouseDown, u13.MouseDown, u14.MouseDown, u15.MouseDown, u16.MouseDown, u17.MouseDown, u18.MouseDown, u21.MouseDown, u22.MouseDown, u23.MouseDown, u24.MouseDown, u25.MouseDown, u26.MouseDown, u27.MouseDown, u28.MouseDown, u31.MouseDown, u32.MouseDown, u33.MouseDown, u34.MouseDown, u35.MouseDown, u36.MouseDown, u37.MouseDown, u38.MouseDown, u41.MouseDown, u42.MouseDown, u43.MouseDown, u44.MouseDown, u45.MouseDown, u46.MouseDown, u47.MouseDown, u48.MouseDown, u51.MouseDown, u52.MouseDown, u53.MouseDown, u54.MouseDown, u55.MouseDown, u56.MouseDown, u57.MouseDown, u58.MouseDown, u61.MouseDown, u62.MouseDown, u63.MouseDown, u64.MouseDown, u65.MouseDown, u66.MouseDown, u67.MouseDown, u68.MouseDown, u71.MouseDown, u72.MouseDown, u73.MouseDown, u74.MouseDown, u75.MouseDown, u76.MouseDown, u77.MouseDown, u78.MouseDown, u81.MouseDown, u82.MouseDown, u83.MouseDown, u84.MouseDown, u85.MouseDown, u86.MouseDown, u87.MouseDown, u88.MouseDown
+        Dim klX As Button = CType(sender, Button)
+        Dim x As Integer = klX.Name.Substring(1, 1)
+        Dim y As Integer = klX.Name.Substring(2, 1)
+        Dim l As Integer = 1 '유니컨버터 v1.1.0.3 Loop 변수.
+
+        If Not File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", klUniPack_SelectedChain, x, y, l)) Then
+            Exit Sub
+        End If
+
+        File.WriteAllText(Application.StartupPath & "\Workspace\TmpLED.txt", File.ReadAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", klUniPack_SelectedChain, x, y, l)))
+
+        If keyLEDMIDEX_prMode.Checked Then
+            ThreadPool.QueueUserWorkItem(AddressOf kl_LEDHandler)
+        End If
+    End Sub
+#Region "LED 테스트 코드"
+    Private Sub kl_LEDHandler()
+        Try
+            Dim linesInfo As New List(Of String)(File.ReadAllLines(Application.StartupPath & "\Workspace\TmpLED.txt"))
+            linesInfo.RemoveAll(Function(s) s.Trim = "")
+            Dim Lines() As String = linesInfo.ToArray
+            Dim linescounter As Integer = Lines.Length
+
+            Dim sp() As String
+            For i = 0 To linescounter - 1
+
+                sp = Lines(i).Split(" ")
+                If sp(0) = "o" OrElse sp(0) = "on" Then
+
+                    'Velocity Code.
+                    If sp(3) = "a" OrElse sp(3) = "auto" Then
+                        sp(3) = sp(4)
+                        If IsNumeric(sp(3)) = False Then
+                            MessageBox.Show("Wrong UniPad button code on line " & i + 1 & "!", "Wrong on command", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                            Exit For
+                        End If
+                        sp(3) = led.returnLED(sp(3))
+                    End If
+
+                    'On Code.
+                    If sp(1) = "mc" Then
+                        Try
+                            kl_ctrl("mc" & sp(2)).BackColor = ColorTranslator.FromHtml("#" & sp(3))
+                        Catch ex As Exception
+                            MessageBox.Show("Wrong UniPad button code mc line " & i + 1 & "! Or maybe you didn't pointed the button code!", "Wrong on command", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                            Exit For
+                        End Try
+                    Else
+
+                        Try
+                            kl_ctrl(sp(1) & sp(2)).BackColor = ColorTranslator.FromHtml("#" & sp(3))
+                        Catch
+                            MessageBox.Show("Wrong UniPad button code on line " & i + 1 & "! Or maybe you didn't pointed the button code!", "Wrong on command", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                            Exit For
+                        End Try
+                    End If
+
+                ElseIf sp(0) = "f" OrElse sp(0) = "off" Then
+
+                    'Off Code.
+                    If sp(1) = "mc" Then
+                        Try
+                            kl_ctrl("mc" & sp(2)).BackColor = Color.Gray
+                        Catch ex As Exception
+                            MessageBox.Show("Wrong UniPad button code mc line " & i + 1 & "! Or maybe you didn't pointed the button code!", "Wrong on command", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                            Exit For
+                        End Try
+                    Else
+
+                        Try
+                            kl_ctrl(sp(1) & sp(2)).BackColor = Color.Gray
+                        Catch
+                            MessageBox.Show("Wrong UniPad button code on line" & i + 1 & "! Or maybe you didn't pointed the button code!", "Wrong off command", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                            Exit For
+                        End Try
+                    End If
+
+                ElseIf sp(0) = "d" OrElse sp(0) = "delay" Then
+                    'Delay Code.
+                    If IsNumeric(sp(1)) = False Then
+                        MessageBox.Show("Wrong millisecond code on line " & i + 1 & "!", "Wrong delay command", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                        Exit For
+                    End If
+                    Thread.Sleep(sp(1))
+
+                Else
+                    MessageBox.Show("Wrong LED command " & Lines(i) & " on line" & i, "Wrong Data", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    Exit For
+                End If
+            Next
+        Catch
+
+        End Try
+    End Sub
+
+    Public Sub kl_LEDFlush()
+        For x As Integer = 1 To 8
+            For y As Integer = 1 To 8
+                kl_ctrl(x & y).BackColor = Color.Gray
+                kl_ctrl(x & y).Text = String.Empty
+            Next
+        Next
+
+        For mc As Integer = 1 To 32
+            kl_ctrl("mc" & mc).BackColor = Color.Gray
+        Next
+    End Sub
+#End Region
+
+    Private Sub KeyLEDMIDEX_LEDViewMode_CheckedChanged(sender As Object, e As EventArgs) Handles keyLEDMIDEX_LEDViewMode.CheckedChanged
+        If keyLEDMIDEX_LEDViewMode.Checked Then
+            kl_LEDFlush()
+            BGW_keyLEDLayout.RunWorkerAsync()
+        End If
+    End Sub
+
+    Private Sub KeyLEDMIDEX_prMode_CheckedChanged(sender As Object, e As EventArgs) Handles keyLEDMIDEX_prMode.CheckedChanged
+        If keyLEDMIDEX_prMode.Checked Then
+            kl_LEDFlush()
+        End If
+    End Sub
+
+    Public Sub keyLEDPad_Flush(ByVal Enabled As Boolean)
+        keyLED_Pad64.Enabled = Enabled
+        btn_Chain1.Enabled = Enabled
+        btn_Chain2.Enabled = Enabled
+        btn_Chain3.Enabled = Enabled
+        btn_Chain4.Enabled = Enabled
+        btn_Chain5.Enabled = Enabled
+        btn_Chain6.Enabled = Enabled
+        btn_Chain7.Enabled = Enabled
+        btn_Chain8.Enabled = Enabled
+
+        keyLEDMIDEX_Md.Enabled = Enabled
+    End Sub
+
+    Private Sub ResetTheProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ResetTheProjectToolStripMenuItem.Click
+        '이 코드는 MainProject.Load 코드를 따와서 만들었습니다.
+        '만약 MainProject.Load 코드가 업데이트를 했다면, 이 코드도 업데이트를 해주시기 바랍니다.
+
+        If Directory.Exists(Application.StartupPath & "\Workspace") Then
+            Directory.Delete(Application.StartupPath & "\Workspace", True)
+            Thread.Sleep(300)
+            Directory.CreateDirectory(Application.StartupPath & "\Workspace")
+        Else
+            Directory.CreateDirectory(Application.StartupPath & "\Workspace")
+        End If
+
+        abl_openedproj = False
+        abl_openedsnd = False
+        abl_openedled = False
+        abl_openedled2 = False
+
+        infoTB1.Text = "My Amazing UniPack!" 'Title
+        infoTB2.Text = "UniConverter, " & My.Computer.Name 'Producer Name
+        infoTB3.Text = "1"
+
+        '키사운드 레이아웃 비활성화
+        PadLayoutPanel.Enabled = False
+        btnPad_chain1.Enabled = False
+        btnPad_chain2.Enabled = False
+        btnPad_chain3.Enabled = False
+        btnPad_chain4.Enabled = False
+        btnPad_chain5.Enabled = False
+        btnPad_chain6.Enabled = False
+        btnPad_chain7.Enabled = False
+        btnPad_chain8.Enabled = False
+        keySoundLayout = False
+
+        For x As Integer = 1 To 8
+            For y As Integer = 1 To 8
+                ks_ctrl(x & y).Text = String.Empty
+                ks_ctrl(x & y).BackColor = Color.Gray
+                ks_ctrl(x & y).ForeColor = Color.Black
+            Next
+        Next
+
+        SoundIsSaved = False
+        keyLEDIsSaved = False
+        infoIsSaved = False
+        IsWorking = False
+
+        w8t4abl = String.Empty
+        OpenProjectOnce = False
+
+        keyLEDMIDEX_LEDViewMode.Checked = True
+        keyLEDPad_Flush(False)
+        keyLEDMIDEX_BetaButton.Enabled = False
+        kl_LEDFlush()
+
+        IsSaved = True
+        MessageBox.Show("The Project reseted!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
 End Class

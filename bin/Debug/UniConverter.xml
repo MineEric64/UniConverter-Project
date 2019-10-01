@@ -270,56 +270,6 @@ o 6 3 a [나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 �
  </summary>
  <param name="ShowMessage">Showing Message.</param>
 </member>
-<member name="F:UniConverter_Project.MainProject.LicenseFile">
- <summary>
-  라이센스 파일. (0: Developer Mode, 1: GreatEx Mode)
- </summary>
-</member>
-<member name="F:UniConverter_Project.MainProject.IsDeveloperMode">
- <summary>
- Developer Mode?
- </summary>
-</member>
-<member name="F:UniConverter_Project.MainProject.IsGreatExMode">
- <summary>
- Great Exception Mode!
- </summary>
-</member>
-<member name="F:UniConverter_Project.MainProject.IsSaved">
- <summary>
- MainProject 전체 저장 여부. (Save As Project)
- </summary>
-</member>
-<member name="F:UniConverter_Project.MainProject.infoIsSaved">
- <summary>
- UniPack info 저장 여부.
- </summary>
-</member>
-<member name="F:UniConverter_Project.MainProject.IsUpdated">
- <summary>
- 업데이트 여부.
- </summary>
-</member>
-<member name="F:UniConverter_Project.MainProject.OpenProjectOnce">
- <summary>
- 한 번에 Ableton Project를 열 것인가?
- </summary>
-</member>
-<member name="F:UniConverter_Project.MainProject.IsWorking">
- <summary>
- 지금 매우 중요한 작업 여부.
- </summary>
-</member>
-<member name="F:UniConverter_Project.MainProject.IsMIDITest">
- <summary>
- 미디 Input과 Note On 테스트 여부.
- </summary>
-</member>
-<member name="F:UniConverter_Project.MainProject.w8t4abl">
- <summary>
- Waiting For Ableton Project. (LED Convert: "keyLED")
- </summary>
-</member>
 <member name="F:UniConverter_Project.MainProject.SoundIsSaved">
  <summary>
  keySound 저장 여부.
@@ -398,6 +348,71 @@ o 6 3 a [나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 �
 <member name="F:UniConverter_Project.MainProject.keyLEDIsSaved">
  <summary>
  MainProject keyLED 저장 여부. (keyLED / keyLED (MIDEX))
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.kl_ctrl">
+ <summary>
+ keyLED 버튼 저장
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.klUniPack_SelectedChain">
+ <summary>
+ 현재 선택한 체인. (1~8)
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.led">
+ <summary>
+ HTML to LED Velocity.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.LicenseFile">
+ <summary>
+  라이센스 파일. (0: Developer Mode, 1: GreatEx Mode)
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.IsDeveloperMode">
+ <summary>
+ Developer Mode?
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.IsGreatExMode">
+ <summary>
+ Great Exception Mode!
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.IsSaved">
+ <summary>
+ MainProject 전체 저장 여부. (Save As Project)
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.infoIsSaved">
+ <summary>
+ UniPack info 저장 여부.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.IsUpdated">
+ <summary>
+ 업데이트 여부.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.OpenProjectOnce">
+ <summary>
+ 한 번에 Ableton Project를 열 것인가?
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.IsWorking">
+ <summary>
+ 지금 매우 중요한 작업 여부.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.IsMIDITest">
+ <summary>
+ 미디 Input과 Note On 테스트 여부.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.w8t4abl">
+ <summary>
+ Waiting For Ableton Project. (LED Convert: "keyLED")
  </summary>
 </member>
 <member name="F:UniConverter_Project.MainProject.midioutput_kind">

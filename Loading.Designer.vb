@@ -61,8 +61,8 @@ Partial Class Loading
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "Loading"
-        Me.ShowInTaskbar = False
         Me.Text = "Loading Contents..."
+        Me.TopMost = True
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

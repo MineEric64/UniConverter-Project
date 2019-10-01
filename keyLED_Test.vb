@@ -169,7 +169,11 @@ Public Class keyLED_Test
             Next
         Next
 
-        File.WriteAllText(Application.StartupPath & "\Workspace\TmpLED.txt", LEDTexts)
+        Try
+            File.WriteAllText(Application.StartupPath & "\Workspace\TmpLED.txt", LEDTexts)
+        Catch exN As IOException
+            Thread.Sleep(300)
+        End Try
         ThreadPool.QueueUserWorkItem(AddressOf LEDHandler)
 
         If MainProject.midioutput_avail Then

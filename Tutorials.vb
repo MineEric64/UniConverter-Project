@@ -36,26 +36,34 @@ Public Class Tutorials
     End Sub
 
     Public Sub Tutorial_DownloadFile()
-        With Loading
-            .Show()
-            .Text = "Loading Tutorials..."
-            .DPr.Style = ProgressBarStyle.Marquee
-            .DLb.Text = "Downloading Tutorials File..."
-            .DLb.Left -= 50
-            .DPr.Refresh()
-            .DLb.Refresh()
-        End With
+        Invoke(Sub()
+                   With Loading
+                       .Show()
+                       .Text = "Loading Tutorials..."
+                       .DPr.Style = ProgressBarStyle.Marquee
+                       .DPr.MarqueeAnimationSpeed = 10
+                       .DLb.Text = "Downloading Tutorials File..."
+                       .DLb.Left -= 50
+                   End With
+               End Sub)
 
         Invoke(Sub() Q_ListView.Enabled = False)
-        Dim a As New WebClient
-        a.DownloadFile("http://dtr.ucv.kro.kr", MainProject.TempDirectory & "\UniConverter-Tutorials.uni")
+        Try
+            Dim a As New WebClient
+            a.DownloadFile("http://dtr.ucv.kro.kr", MainProject.TempDirectory & "\UniConverter-Tutorials.uni")
+        Catch exN As WebException
+            Invoke(Sub() Loading.Dispose())
+            MessageBox.Show("Connecting Network Failed!" & vbNewLine & "Please check the computer's network.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Invoke(Sub() Close())
+            Exit Sub
+        End Try
 
-        Loading.Dispose()
         Invoke(Sub()
-                   Q_ListView.Enabled = True
-                   Tutorial_ReadMark()
-               End Sub)
-    End Sub
+                              Loading.Dispose()
+                              Q_ListView.Enabled = True
+                              Tutorial_ReadMark()
+                          End Sub)
+               End Sub
 
     Public Sub Tutorial_ReadMark()
         Dim TutorialsDir As String = MainProject.TempDirectory & "\UniConverter-Tutorials.uni"
