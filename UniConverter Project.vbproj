@@ -258,6 +258,9 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Tutorials.ko-KR.resx">
+      <DependentUpon>Tutorials.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Tutorials.resx">
       <DependentUpon>Tutorials.vb</DependentUpon>
     </EmbeddedResource>

@@ -52,11 +52,11 @@ Partial Class Info
         '
         Me.TipText1.AutoSize = True
         Me.TipText1.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.TipText1.Location = New System.Drawing.Point(24, 205)
+        Me.TipText1.Location = New System.Drawing.Point(19, 205)
         Me.TipText1.Name = "TipText1"
-        Me.TipText1.Size = New System.Drawing.Size(363, 14)
+        Me.TipText1.Size = New System.Drawing.Size(377, 14)
         Me.TipText1.TabIndex = 3
-        Me.TipText1.Text = "ⓒ 2018 ~ 2019 MineEric (최에릭), Follow_JB All Rights Reserved."
+        Me.TipText1.Text = "ⓒ 2018 ~ 2019 MineEric64 (최에릭), Follow_JB All Rights Reserved."
         '
         'ModeE
         '

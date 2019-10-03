@@ -30,7 +30,7 @@ Partial Class DeveloperMode_Main
         'DM_CW
         '
         Me.DM_CW.Font = New System.Drawing.Font("-윤디자인웹돋움", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.DM_CW.Location = New System.Drawing.Point(245, 15)
+        Me.DM_CW.Location = New System.Drawing.Point(255, 15)
         Me.DM_CW.Name = "DM_CW"
         Me.DM_CW.Size = New System.Drawing.Size(212, 174)
         Me.DM_CW.TabIndex = 0
@@ -53,16 +53,16 @@ Partial Class DeveloperMode_Main
         Me.SLabel.Font = New System.Drawing.Font("-윤디자인웹돋움", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.SLabel.Location = New System.Drawing.Point(12, 202)
         Me.SLabel.Name = "SLabel"
-        Me.SLabel.Size = New System.Drawing.Size(448, 57)
+        Me.SLabel.Size = New System.Drawing.Size(463, 57)
         Me.SLabel.TabIndex = 2
-        Me.SLabel.Text = "This Mode is Developer Mode." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "This Mode causes a lot of errors..." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Would you like" &
-    " to Turn on the Developer Mode?"
+        Me.SLabel.Text = "This Mode is Developer Mode." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "It causes a lot of errors..." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Also, it doesn't supp" &
+    "ort translating the Language."
         '
         'DeveloperMode_Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(469, 274)
+        Me.ClientSize = New System.Drawing.Size(479, 274)
         Me.Controls.Add(Me.SLabel)
         Me.Controls.Add(Me.DM_CF)
         Me.Controls.Add(Me.DM_CW)

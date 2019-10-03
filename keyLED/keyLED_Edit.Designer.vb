@@ -36,7 +36,11 @@ Partial Class keyLED_Edit
         Me.TestButton = New System.Windows.Forms.Button()
         Me.pfTest_bgw = New System.ComponentModel.BackgroundWorker()
         Me.Tests_bgw = New System.ComponentModel.BackgroundWorker()
+        Me.SpeedTrackBar = New System.Windows.Forms.TrackBar()
+        Me.spTipLb = New System.Windows.Forms.Label()
+        Me.spLb = New System.Windows.Forms.Label()
         CType(Me.UniLED_Edit, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.SpeedTrackBar, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'UniLED_Edit
@@ -63,10 +67,10 @@ Partial Class keyLED_Edit
         'CopyButton
         '
         Me.CopyButton.Enabled = False
-        Me.CopyButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CopyButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.CopyButton.Location = New System.Drawing.Point(463, 427)
         Me.CopyButton.Name = "CopyButton"
-        Me.CopyButton.Size = New System.Drawing.Size(102, 45)
+        Me.CopyButton.Size = New System.Drawing.Size(102, 74)
         Me.CopyButton.TabIndex = 19
         Me.CopyButton.Text = "Copy"
         Me.CopyButton.UseVisualStyleBackColor = True
@@ -97,6 +101,7 @@ Partial Class keyLED_Edit
         Me.LED_ListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.FileName})
         Me.LED_ListView.Font = New System.Drawing.Font("나눔고딕", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.LED_ListView.FullRowSelect = True
+        Me.LED_ListView.HideSelection = False
         Me.LED_ListView.Location = New System.Drawing.Point(10, 63)
         Me.LED_ListView.MultiSelect = False
         Me.LED_ListView.Name = "LED_ListView"
@@ -126,7 +131,7 @@ Partial Class keyLED_Edit
         Me.ALGModeBox.Font = New System.Drawing.Font("나눔고딕 ExtraBold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.ALGModeBox.FormattingEnabled = True
         Me.ALGModeBox.Items.AddRange(New Object() {"Ableton Live MIDI ALG1", "Non-Convert (Developer Mode)"})
-        Me.ALGModeBox.Location = New System.Drawing.Point(10, 449)
+        Me.ALGModeBox.Location = New System.Drawing.Point(12, 478)
         Me.ALGModeBox.Name = "ALGModeBox"
         Me.ALGModeBox.Size = New System.Drawing.Size(234, 23)
         Me.ALGModeBox.TabIndex = 26
@@ -149,13 +154,43 @@ Partial Class keyLED_Edit
         'TestButton
         '
         Me.TestButton.Enabled = False
-        Me.TestButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.TestButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.TestButton.Location = New System.Drawing.Point(360, 427)
         Me.TestButton.Name = "TestButton"
-        Me.TestButton.Size = New System.Drawing.Size(97, 45)
+        Me.TestButton.Size = New System.Drawing.Size(97, 74)
         Me.TestButton.TabIndex = 31
         Me.TestButton.Text = "Test"
         Me.TestButton.UseVisualStyleBackColor = True
+        '
+        'SpeedTrackBar
+        '
+        Me.SpeedTrackBar.Location = New System.Drawing.Point(12, 427)
+        Me.SpeedTrackBar.Maximum = 200
+        Me.SpeedTrackBar.Minimum = 1
+        Me.SpeedTrackBar.Name = "SpeedTrackBar"
+        Me.SpeedTrackBar.Size = New System.Drawing.Size(232, 45)
+        Me.SpeedTrackBar.TabIndex = 32
+        Me.SpeedTrackBar.Value = 100
+        '
+        'spTipLb
+        '
+        Me.spTipLb.AutoSize = True
+        Me.spTipLb.Font = New System.Drawing.Font("나눔바른고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.spTipLb.Location = New System.Drawing.Point(252, 427)
+        Me.spTipLb.Name = "spTipLb"
+        Me.spTipLb.Size = New System.Drawing.Size(49, 15)
+        Me.spTipLb.TabIndex = 33
+        Me.spTipLb.Text = "Speed:"
+        '
+        'spLb
+        '
+        Me.spLb.AutoSize = True
+        Me.spLb.Font = New System.Drawing.Font("나눔바른고딕", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.spLb.Location = New System.Drawing.Point(252, 450)
+        Me.spLb.Name = "spLb"
+        Me.spLb.Size = New System.Drawing.Size(60, 22)
+        Me.spLb.TabIndex = 34
+        Me.spLb.Text = "100%"
         '
         'keyLED_Edit
         '
@@ -163,7 +198,10 @@ Partial Class keyLED_Edit
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.ClientSize = New System.Drawing.Size(579, 484)
+        Me.ClientSize = New System.Drawing.Size(579, 510)
+        Me.Controls.Add(Me.spLb)
+        Me.Controls.Add(Me.spTipLb)
+        Me.Controls.Add(Me.SpeedTrackBar)
         Me.Controls.Add(Me.TestButton)
         Me.Controls.Add(Me.UniLED1)
         Me.Controls.Add(Me.ALGModeBox)
@@ -177,6 +215,7 @@ Partial Class keyLED_Edit
         Me.Name = "keyLED_Edit"
         Me.Text = "keyLED (MIDI Extension) Edit (Beta)"
         CType(Me.UniLED_Edit, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.SpeedTrackBar, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -195,4 +234,7 @@ Partial Class keyLED_Edit
     Friend WithEvents TestButton As Button
     Friend WithEvents pfTest_bgw As System.ComponentModel.BackgroundWorker
     Friend WithEvents Tests_bgw As System.ComponentModel.BackgroundWorker
+    Friend WithEvents SpeedTrackBar As TrackBar
+    Friend WithEvents spTipLb As Label
+    Friend WithEvents spLb As Label
 End Class

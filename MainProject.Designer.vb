@@ -128,7 +128,6 @@ Partial Class MainProject
         Me.uni8_6 = New System.Windows.Forms.Button()
         Me.uni8_7 = New System.Windows.Forms.Button()
         Me.uni8_8 = New System.Windows.Forms.Button()
-        Me.CutSndButton = New System.Windows.Forms.Button()
         Me.Tip3 = New System.Windows.Forms.Label()
         Me.keyLED1 = New System.Windows.Forms.TabPage()
         Me.DevelopingLabel2 = New System.Windows.Forms.Label()
@@ -524,7 +523,6 @@ Partial Class MainProject
         Me.KeySoundTab.Controls.Add(Me.btnPad_chain2)
         Me.KeySoundTab.Controls.Add(Me.btnPad_chain1)
         Me.KeySoundTab.Controls.Add(Me.PadLayoutPanel)
-        Me.KeySoundTab.Controls.Add(Me.CutSndButton)
         Me.KeySoundTab.Controls.Add(Me.Tip3)
         Me.KeySoundTab.Location = New System.Drawing.Point(4, 23)
         Me.KeySoundTab.Name = "KeySoundTab"
@@ -1500,16 +1498,6 @@ Partial Class MainProject
         Me.uni8_8.Size = New System.Drawing.Size(55, 48)
         Me.uni8_8.TabIndex = 1
         Me.uni8_8.UseVisualStyleBackColor = False
-        '
-        'CutSndButton
-        '
-        Me.CutSndButton.Font = New System.Drawing.Font("나눔스퀘어라운드 Bold", 24.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.CutSndButton.Location = New System.Drawing.Point(549, 16)
-        Me.CutSndButton.Name = "CutSndButton"
-        Me.CutSndButton.Size = New System.Drawing.Size(203, 105)
-        Me.CutSndButton.TabIndex = 41
-        Me.CutSndButton.Text = "Cut Sound "
-        Me.CutSndButton.UseVisualStyleBackColor = True
         '
         'Tip3
         '
@@ -3179,7 +3167,6 @@ Partial Class MainProject
     Friend WithEvents BGW_keySound As System.ComponentModel.BackgroundWorker
     Friend WithEvents MIDIn_Test As Button
     Friend WithEvents KeySoundTab As TabPage
-    Friend WithEvents CutSndButton As Button
     Friend WithEvents Tip3 As Label
     Friend WithEvents DevelopingLabel1 As Label
     Friend WithEvents btnPad_chain8 As Button

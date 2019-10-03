@@ -13,7 +13,6 @@ Imports A2UP.A2U.keyLED_MIDEX
 Imports A2UP.A2U.keySound
 Imports WMPLib
 Imports System.Drawing.Drawing2D
-Imports System.Globalization
 
 Public Class MainProject
 
@@ -94,6 +93,11 @@ Public Class MainProject
     ''' </summary>
     Dim ks_lpu As Integer = 1
 
+    ''' <summary>
+    ''' keySound 변환 여부.
+    ''' </summary>
+    Public ks_Converted As Boolean
+
 #End Region
 #Region "MainProject-keyLED(s)"
     Private stopitnow As Boolean = False
@@ -117,6 +121,11 @@ Public Class MainProject
     ''' HTML to LED Velocity.
     ''' </summary>
     Public led As New ledReturn
+
+    ''' <summary>
+    ''' keyLED 변환 여부.
+    ''' </summary>
+    Public kl_Converted As Boolean
 #End Region
 #Region "MainProject-Thread(s)"
     Public Shared ofd_FileName As String
@@ -175,9 +184,9 @@ Public Class MainProject
     Public Shared w8t4abl As String
 
     ''' <summary>
-    ''' 유니컨버터 언어.
+    ''' 유니컨버터 언어. (English / Korean)
     ''' </summary>
-    Public Shared lang As CultureInfo
+    Public Shared lang As Translator.tL
 
 #Region "MIDI Settings"
     Public midioutput As MidiOut
@@ -504,6 +513,8 @@ Public Class MainProject
             infoIsSaved = False
             IsUpdated = False
             IsWorking = False
+            ks_Converted = False
+            kl_Converted = True
 
             w8t4abl = String.Empty
             OpenProjectOnce = False
@@ -527,13 +538,17 @@ Public Class MainProject
                 SetUpLight_ = True
             End If
 
-            Dim trn As New Translator(setNode.ChildNodes(3).InnerText, IsDeveloperMode)
-            trn.TranslateMain()
-
             'Text of Info TextBox
             infoTB1.Text = "My Amazing UniPack!" 'Title
             infoTB2.Text = "UniConverter, " & My.Computer.Name 'Producer Name
-            'Chain!
+
+            'Translate the Language from "Translator" Class.
+            Dim Ln As String = setNode.ChildNodes(3).InnerText
+            Dim tLn As Translator.tL = Translator.GetLnEnum(Ln)
+            lang = tLn
+
+            Dim trn As New Translator(tLn, IsDeveloperMode)
+            trn.TranslateMain()
 
             '건드리면 IsSaved가 False로 진행되기 때문에 다시 기본값 설정을 해준다!
             IsSaved = True
@@ -553,21 +568,26 @@ Public Class MainProject
     End Sub
 
     Public Sub DeleteWorkspaceDir()
-        If Directory.Exists(Application.StartupPath & "\Workspace\unipack") Then
-            Directory.Delete(Application.StartupPath & "\Workspace\unipack", True)
+        If Directory.Exists(Application.StartupPath & "\Workspace") Then
+            Directory.Delete(Application.StartupPath & "\Workspace", True)
             Thread.Sleep(300)
-            Directory.CreateDirectory(Application.StartupPath & "\Workspace\unipack")
+            Directory.CreateDirectory(Application.StartupPath & "\Workspace")
         Else
-            Directory.CreateDirectory(Application.StartupPath & "\Workspace\unipack")
+            Directory.CreateDirectory(Application.StartupPath & "\Workspace")
         End If
     End Sub
 
     Private Sub OpenSoundsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SoundsToolStripMenuItem.Click
-        Dim ofd As New OpenFileDialog With {
-            .Filter = "WAV Sound Files|*.wav|MP3 Sound Files|*.mp3",
-            .Title = "Select Sounds",
-            .Multiselect = True
-        }
+        Dim ofd As New OpenFileDialog
+        Select Case lang
+            Case Translator.tL.English
+                ofd.Filter = "wav sound files|*.wav|mp3 sounds files|*.mp3"
+                ofd.Title = "Select Sounds"
+            Case Translator.tL.Korean
+                ofd.Filter = "wav 파일|*.wav|mp3 파일|*.mp3"
+                ofd.Title = "음악 파일을 선택하세요"
+        End Select
+        ofd.Multiselect = True
 
         If ofd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
             ofd_FileNames = ofd.FileNames
@@ -631,10 +651,16 @@ Public Class MainProject
 
             UI(Sub()
                    Loading.Show()
-                   Loading.Text = Me.Text & ": Loading LED Files..."
                    Loading.DPr.Maximum = FileNames.Length
                    Loading.DLb.Left = 40
-                   Loading.DLb.Text = "Loading LED Files..."
+                   Select Case lang
+                       Case Translator.tL.English
+                           Loading.Text = Me.Text & ": " & Loading.MsgEn.loading_LED_open_msg
+                           Loading.DLb.Text = Loading.MsgEn.loading_LED_open_msg
+                       Case Translator.tL.Korean
+                           Loading.Text = Me.Text & ": " & Loading.MsgKr.loading_LED_open_msg
+                           Loading.DLb.Text = Loading.MsgKr.loading_LED_open_msg
+                   End Select
                End Sub)
 
             If Directory.Exists("Workspace\ableproj\CoLED") Then
@@ -650,7 +676,12 @@ Public Class MainProject
                        Loading.DPr.Style = ProgressBarStyle.Continuous
                        Loading.DPr.Value += 1
                        Loading.DLb.Left = 40
-                       Loading.DLb.Text = String.Format(Loading.loading_LED_open_msg, Loading.DPr.Value, FileNames.Length)
+                       Select Case lang
+                           Case Translator.tL.English
+                               Loading.DLb.Text = String.Format(Loading.MsgEn.loading_LED_open_msg, Loading.DPr.Value, FileNames.Length)
+                           Case Translator.tL.Korean
+                               Loading.DLb.Text = String.Format(Loading.MsgKr.loading_LED_open_msg, Loading.DPr.Value, FileNames.Length)
+                       End Select
                    End Sub)
             Next
 
@@ -658,7 +689,12 @@ Public Class MainProject
                    Loading.DPr.Value = Loading.DPr.Maximum
                    Loading.DPr.Style = ProgressBarStyle.Marquee
                    Loading.DLb.Left = 40
-                   Loading.DLb.Text = "Loaded LED Files. Please Wait..."
+                   Select Case lang
+                       Case Translator.tL.English
+                           Loading.DLb.Text = Loading.MsgEn.loading_Sound_Loaded_msg
+                       Case Translator.tL.Korean
+                           Loading.DLb.Text = Loading.MsgKr.loading_Sound_Loaded_msg
+                   End Select
                End Sub)
 
             abl_openedled = True
@@ -722,29 +758,44 @@ Public Class MainProject
             End If
 
             If e.Cancel = False Then
-                Loading.Show()
-                Loading.Text = Me.Text & ": Loading LED Save File..."
-                FileName = ofd_FileName
-                Loading.DPr.Maximum = 1
-                Loading.DLb.Left = 40
-                Loading.DLb.Text = "Loading LED Save File..."
-                Loading.DLb.Refresh()
+                UI(Sub()
+                       Loading.Show()
+                       FileName = ofd_FileName
+                       Loading.DPr.Maximum = 1
+                       Loading.DLb.Left = 40
+                       Select Case lang
+                           Case Translator.tL.English
+                               Loading.Text = Me.Text & ": " & Loading.MsgEn.loading_LEDSave_open_msg
+                               Loading.DLb.Text = Loading.MsgEn.loading_LEDSave_open_msg
+                           Case Translator.tL.Korean
+                               Loading.Text = Me.Text & ": " & Loading.MsgKr.loading_LEDSave_open_msg
+                               Loading.DLb.Text = Loading.MsgKr.loading_LEDSave_open_msg
+                       End Select
+                   End Sub)
 
                 File.Copy(FileName, Application.StartupPath & "\Workspace\ableproj\LEDSave.uni", True)
-                Loading.DPr.Style = ProgressBarStyle.Continuous
-                Loading.DPr.Value = 1
-                Loading.DLb.Left = 40
-                Loading.DLb.Text = String.Format(Loading.loading_LED_open_msg, Loading.DPr.Value, 1)
-                Loading.DLb.Refresh()
+                UI(Sub()
+                       Loading.DPr.Style = ProgressBarStyle.Continuous
+                       Loading.DPr.Value = 1
+                       Loading.DLb.Left = 40
+                       Select Case lang
+                           Case Translator.tL.English
+                               Loading.DLb.Text = String.Format(Loading.MsgEn.loading_LED_open_msg, Loading.DPr.Value, 1)
+                           Case Translator.tL.Korean
+                               Loading.DLb.Text = String.Format(Loading.MsgKr.loading_LED_open_msg, Loading.DPr.Value, 1)
+                       End Select
 
-                Loading.DPr.Value = Loading.DPr.Maximum
-                Loading.DPr.Style = ProgressBarStyle.Marquee
-                Loading.DPr.Refresh()
-                Loading.DLb.Left = 40
-                Loading.DLb.Text = "Loaded keyLED Save File. Please Wait..."
-                Loading.DLb.Refresh()
+                       Loading.DPr.Value = Loading.DPr.Maximum
+                       Loading.DPr.Style = ProgressBarStyle.Marquee
+                       Loading.DLb.Left = 40
+                       Select Case lang
+                           Case Translator.tL.English
+                               Loading.DLb.Text = Loading.MsgEn.loading_LEDSave_Loaded_msg
+                           Case Translator.tL.Korean
+                               Loading.DLb.Text = Loading.MsgKr.loading_LEDSave_Loaded_msg
+                       End Select
+                   End Sub)
 
-                If OpenProjectOnce = False Then MessageBox.Show("LED Files Loaded! You can edit LEDs in 'keyLED (MIDI Extension)' Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
                 abl_openedled2 = True
                 Loading.Dispose()
             End If
@@ -766,52 +817,27 @@ Public Class MainProject
                 Exit Sub
             ElseIf e.Cancelled Then
                 If OpenProjectOnce Then
-                    OpenProjectOnce = False
-                    If abl_openedproj AndAlso abl_openedsnd AndAlso abl_openedled Then
-                        MessageBox.Show("Ableton Project, Sounds, LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    ElseIf abl_openedproj AndAlso abl_openedsnd AndAlso abl_openedled Then
-                        MessageBox.Show("Ableton Project, Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    ElseIf abl_openedproj Then
-                        MessageBox.Show("Ableton Project Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    ElseIf abl_openedsnd AndAlso abl_openedled Then
-                        MessageBox.Show("Sounds, LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    ElseIf abl_openedsnd Then
-                        MessageBox.Show("Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    ElseIf abl_openedled Then
-                        MessageBox.Show("LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    End If
-
-                    '이제 변환 작업 시작.
-                    'BGW_ablprojCvt.RunWorkerAsync()
-                    'BGW_soundsCvt.RunWorkerAsync()
-                    'BGW_keyLEDCvt.RunWorkerAsync()
+                    BGW_keySound.RunWorkerAsync()
                 Else
-                    MessageBox.Show("LED Files Loaded! You can edit LEDs in 'keyLED (MIDI Extension)' Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Select Case lang
+                        Case Translator.tL.English
+                            MessageBox.Show("LED Files Loaded! You can edit LEDs in 'keyLED (MIDI Extension)' Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Case Translator.tL.Korean
+                            MessageBox.Show("LED 파일이 로딩되었습니다! 'keyLED (미디 익스텐션)' 탭에서 LED를 편집할 수 있습니다.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End Select
                     BGW_keyLED_.RunWorkerAsync()
                 End If
                 Exit Sub
             Else
                 If OpenProjectOnce Then
-                    OpenProjectOnce = False
-                    If abl_openedproj AndAlso abl_openedsnd AndAlso abl_openedled Then
-                        MessageBox.Show("Ableton Project, Sounds, LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    ElseIf abl_openedproj AndAlso abl_openedsnd AndAlso abl_openedled Then
-                        MessageBox.Show("Ableton Project, Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    ElseIf abl_openedproj Then
-                        MessageBox.Show("Ableton Project Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    ElseIf abl_openedsnd AndAlso abl_openedled Then
-                        MessageBox.Show("Sounds, LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    ElseIf abl_openedsnd Then
-                        MessageBox.Show("Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    ElseIf abl_openedled Then
-                        MessageBox.Show("LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    End If
-
-                    '이제 변환 작업 시작.
-                    'BGW_ablprojCvt.RunWorkerAsync()
-                    'BGW_soundsCvt.RunWorkerAsync()
-                    'BGW_keyLEDCvt.RunWorkerAsync()
+                    BGW_keySound.RunWorkerAsync()
                 Else
+                    Select Case lang
+                        Case Translator.tL.English
+                            MessageBox.Show("LED Files Loaded! You can edit LEDs in 'keyLED (MIDI Extension)' Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Case Translator.tL.Korean
+                            MessageBox.Show("LED 파일이 로딩되었습니다! 'keyLED (미디 익스텐션)' 탭에서 LED를 편집할 수 있습니다.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End Select
                     BGW_keyLED_.RunWorkerAsync()
                 End If
             End If
@@ -883,25 +909,59 @@ Public Class MainProject
                Loading.DPr.Style = ProgressBarStyle.Marquee
                Loading.DPr.MarqueeAnimationSpeed = 10
                Loading.DLb.Left = 60
-               Loading.Text = Me.Text & ": Loading The Ableton Project File..."
-               Loading.DLb.Text = Loading.loading_Project_Load_msg
+               Select Case lang
+                   Case Translator.tL.English
+                       Loading.Text = Me.Text & ": Loading The Ableton Project File..."
+                       Loading.DLb.Text = Loading.MsgEn.loading_Project_Load_msg
+                   Case Translator.tL.Korean
+                       Loading.Text = Me.Text & ": 에이블톤 프로젝트 파일을 불러오는 중..."
+                       Loading.DLb.Text = Loading.MsgKr.loading_Project_Load_msg
+               End Select
            End Sub)
 
         abl_FileName = FileName
         File.Copy(FileName, "Workspace\ableproj\abl_proj.gz", True)
 
-        UI(Sub() Loading.DLb.Text = Loading.loading_Project_Extract_msg)
+        UI(Sub()
+               Select Case lang
+                   Case Translator.tL.English
+                       Loading.DLb.Text = Loading.MsgEn.loading_Project_Extract_msg
+                   Case Translator.tL.Korean
+                       Loading.DLb.Text = Loading.MsgKr.loading_Project_Extract_msg
+               End Select
+           End Sub)
         ExtractGZip("Workspace\ableproj\abl_proj.gz", "Workspace\ableproj")
         Thread.Sleep(300)
 
-        UI(Sub() Loading.DLb.Text = Loading.loading_Project_DeleteTmp_msg)
+        UI(Sub()
+               Select Case lang
+                   Case Translator.tL.English
+                       Loading.DLb.Text = Loading.MsgEn.loading_Project_DeleteTmp_msg
+                   Case Translator.tL.Korean
+                       Loading.DLb.Text = Loading.MsgKr.loading_Project_DeleteTmp_msg
+               End Select
+           End Sub)
         File.Delete("Workspace\ableproj\abl_proj.gz")
         File.Delete("Workspace\ableproj\abl_proj.xml")
 
-        UI(Sub() Loading.DLb.Text = Loading.loading_Project_ChangeExt_msg)
+        UI(Sub()
+               Select Case lang
+                   Case Translator.tL.English
+                       Loading.DLb.Text = Loading.MsgEn.loading_Project_ChangeExt_msg
+                   Case Translator.tL.Korean
+                       Loading.DLb.Text = Loading.MsgKr.loading_Project_ChangeExt_msg
+               End Select
+           End Sub)
         File.Move("Workspace\ableproj\abl_proj", "Workspace\ableproj\abl_proj.xml")
 
-        UI(Sub() Loading.DLb.Text = Loading.loading_Project_DeleteTmp_msg)
+        UI(Sub()
+               Select Case lang
+                   Case Translator.tL.English
+                       Loading.DLb.Text = Loading.MsgEn.loading_Project_DeleteTmp_msg
+                   Case Translator.tL.Korean
+                       Loading.DLb.Text = Loading.MsgKr.loading_Project_DeleteTmp_msg
+               End Select
+           End Sub)
         File.Delete("Workspace\ableproj\abl_proj")
 
 
@@ -909,14 +969,26 @@ Public Class MainProject
         'Reading Informations of Ableton Project.
 
         'Ableton Project's Name.
-        UI(Sub() Loading.DLb.Text = Loading.loading_Project_FileName_msg)
+        UI(Sub()
+               Select Case lang
+                   Case Translator.tL.English
+                       Loading.DLb.Text = Loading.MsgEn.loading_Project_FileName_msg
+                   Case Translator.tL.Korean
+                       Loading.DLb.Text = Loading.MsgKr.loading_Project_FileName_msg
+               End Select
+           End Sub)
 
         Dim FinalName As String = Path.GetFileNameWithoutExtension(FileName)
 
         'Ableton Project's Chain.
         UI(Sub()
                Loading.DLb.Left = 130
-               Loading.DLb.Text = Loading.loading_Project_Chain_msg
+               Select Case lang
+                   Case Translator.tL.English
+                       Loading.DLb.Text = Loading.MsgEn.loading_Project_Chain_msg
+                   Case Translator.tL.Korean
+                       Loading.DLb.Text = Loading.MsgKr.loading_Project_Chain_msg
+               End Select
            End Sub)
 #Region "Loading Chain Numbers"
         Dim ablprj As String = Application.StartupPath & "\Workspace\ableproj\abl_proj.xml"
@@ -953,7 +1025,12 @@ Public Class MainProject
 
         UI(Sub()
                Loading.DLb.Left = 40
-               Loading.DLb.Text = "Loading The Ableton Project File..."
+               Select Case lang
+                   Case Translator.tL.English
+                       Loading.DLb.Text = Loading.MsgEn.loading_Project_Load_msg
+                   Case Translator.tL.Korean
+                       Loading.DLb.Text = Loading.MsgKr.loading_Project_Load_msg
+               End Select
            End Sub)
 
         'XML File Load.
@@ -967,7 +1044,12 @@ Public Class MainProject
         UI(Sub() Loading.Dispose())
 
         If OpenProjectOnce = False Then
-            MessageBox.Show("Ableton Project File Loaded!" & vbNewLine & "You can edit info in Information Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Select Case lang
+                Case Translator.tL.English
+                    MessageBox.Show("Ableton Project File Loaded!" & vbNewLine & "You can edit info in Information Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Case Translator.tL.Korean
+                    MessageBox.Show("에이블톤 프로젝트 파일이 로딩되었습니다!" & vbNewLine & "'정보' 탭에서 정보를 수정할 수 있습니다.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End Select
         End If
     End Sub
 
@@ -1008,8 +1090,14 @@ Public Class MainProject
 
     Private Sub OpenAbletonProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenAbletonProjectToolStripMenuItem.Click
         Dim alsOpen1 As New OpenFileDialog
-        alsOpen1.Filter = "Ableton Project File|*.als"
-        alsOpen1.Title = "Select a Ableton Project File"
+        Select Case lang
+            Case Translator.tL.English
+                alsOpen1.Filter = "Ableton Project File|*.als"
+                alsOpen1.Title = "Select a Ableton Project File"
+            Case Translator.tL.Korean
+                alsOpen1.Filter = "에이블톤 프로젝트 파일|*.als"
+                alsOpen1.Title = "에이블톤 프로젝트 파일을 선택하세요"
+        End Select
         alsOpen1.AddExtension = False
         alsOpen1.Multiselect = False
 
@@ -1022,8 +1110,14 @@ Public Class MainProject
     Private Sub ConvertALSToUnipackToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ConvertALSToUnipackToolStripMenuItem.Click
 
         Dim sfd As New SaveFileDialog()
-        sfd.Filter = "Zip File|*.zip|UniPack File|*.uni"
-        sfd.Title = "Select Convert Ableton Project to UniPack"
+        Select Case lang
+            Case Translator.tL.English
+                sfd.Filter = "Zip File|*.zip|UniPack File|*.uni"
+                sfd.Title = "Select the UniPack File"
+            Case Translator.tL.Korean
+                sfd.Filter = "Zip 파일|*.zip|유니팩 파일|*.uni"
+                sfd.Title = "유니팩 파일을 어디다 저장할지 선택 하세요"
+        End Select
         sfd.AddExtension = False
 
         Try
@@ -1067,10 +1161,20 @@ Public Class MainProject
                 File.WriteAllText(Application.StartupPath & "\Workspace\unipack\info", String.Format("title={0}{1}buttonX=8{1}buttonY=8{1}producerName={2}{1}chain={3}{1}squareButton=true", infoTB1.Text, vbNewLine, infoTB2.Text, infoTB3.Text))
                 infoIsSaved = True
                 If Message Then
-                    MessageBox.Show("Saved info!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Select Case lang
+                        Case Translator.tL.English
+                            MessageBox.Show("Saved info!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Case Translator.tL.Korean
+                            MessageBox.Show("info를 저장 했습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End Select
                 End If
             Else
-                MessageBox.Show("You didn't open Ableton Project!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Select Case lang
+                    Case Translator.tL.English
+                        MessageBox.Show("You didn't open Ableton Project!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    Case Translator.tL.Korean
+                        MessageBox.Show("에이블톤 프로젝트를 열지 않았습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Select
             End If
 
         Catch ex As Exception
@@ -1090,19 +1194,28 @@ Public Class MainProject
                 UI(Sub()
                        With Loading
                            .Show()
-                           .Text = "Converting Ableton Sound Mapping to keySound..."
-                           .DLb.Text = "Loading Mapping Infos..."
+                           Select Case lang
+                               Case Translator.tL.English
+                                   .Text = Loading.MsgEn.loading_keySound_def_msg
+                                   .DLb.Text = Loading.MsgEn.loading_keySound_open_msg
+                               Case Translator.tL.Korean
+                                   .Text = Loading.MsgKr.loading_keySound_def_msg
+                                   .DLb.Text = Loading.MsgKr.loading_keySound_open_msg
+                           End Select
                            .DLb.Left -= 20
                            .DPr.Style = ProgressBarStyle.Marquee
                            .DPr.MarqueeAnimationSpeed = 10
-                           .Refresh()
                        End With
                    End Sub)
 
                 If Directory.Exists(Application.StartupPath & "\Workspace\unipack\sounds") Then
                     UI(Sub()
-                           Loading.DLb.Text = "Deleting Tempoary Files..."
-                           Loading.Refresh()
+                           Select Case lang
+                               Case Translator.tL.English
+                                   Loading.DLb.Text = Loading.MsgEn.loading_Project_DeleteTmp_msg
+                               Case Translator.tL.Korean
+                                   Loading.DLb.Text = Loading.MsgKr.loading_Project_DeleteTmp_msg
+                           End Select
                        End Sub)
 
                     My.Computer.FileSystem.DeleteDirectory(Application.StartupPath & "\Workspace\unipack\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
@@ -1113,8 +1226,12 @@ Public Class MainProject
                 End If
 
                 UI(Sub()
-                       Loading.DLb.Text = "Loading Mapping Infos..."
-                       Loading.Refresh()
+                       Select Case lang
+                           Case Translator.tL.English
+                               Loading.DLb.Text = Loading.MsgEn.loading_keySound_open_msg
+                           Case Translator.tL.Korean
+                               Loading.DLb.Text = Loading.MsgKr.loading_keySound_open_msg
+                       End Select
                    End Sub)
 
                 'InstrumentGroupDevice
@@ -1286,8 +1403,20 @@ Public Class MainProject
                    End Sub)
 
                 IsWorking = False
+                ks_Converted = True
                 UI(Sub() Loading.Dispose())
-                MessageBox.Show("keySound Converted!" & vbNewLine & "You can show the keySound on 'keySound' Tab!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+                If OpenProjectOnce Then
+                    BGW_keyLED_.RunWorkerAsync()
+                    Exit Sub
+                End If
+
+                Select Case lang
+                    Case Translator.tL.English
+                        MessageBox.Show("keySound Converted!" & vbNewLine & "You can show the keySound on 'keySound' Tab!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Case Translator.tL.Korean
+                        MessageBox.Show("keySound를 변환 했습니다!" & vbNewLine & "'keySound' 탭에서 keySound를 보실 수가 있습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End Select
 
                 If Not String.IsNullOrWhiteSpace(err) Then
                     MessageBox.Show("[ Warning ]" & vbNewLine & "keySound: [] format is invaild." & vbNewLine & err, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -1535,7 +1664,7 @@ Public Class MainProject
         Return inputstr.Replace(vbCr, "").Split(vbLf)
     End Function
 
-    Private Sub CutSndButton_Click(sender As Object, e As EventArgs) Handles CutSndButton.Click
+    Private Sub CutSndButton_Click(sender As Object, e As EventArgs)
         Try
             ofd.Filter = "MP3 File|*.mp3|WAV File|*.wav"
             If ofd.ShowDialog = DialogResult.OK Then
@@ -1557,10 +1686,16 @@ Public Class MainProject
 
         UI(Sub()
                Loading.Show()
-               Loading.Text = Me.Text & ": Loading Sound Files..."
                Loading.DPr.Maximum = FileNames.Length
                Loading.DLb.Left = 40
-               Loading.DLb.Text = "Loading Sound Files..."
+               Select Case lang
+                   Case Translator.tL.English
+                       Loading.Text = Me.Text & ": " & Loading.MsgEn.loading_Sound_Open_msg
+                       Loading.DLb.Text = Loading.MsgEn.loading_Sound_Open_msg
+                   Case Translator.tL.Korean
+                       Loading.Text = Me.Text & ": " & Loading.MsgKr.loading_Sound_Open_msg
+                       Loading.DLb.Text = Loading.MsgKr.loading_Sound_Open_msg
+               End Select
            End Sub)
 
         If Path.GetExtension(FileNames(FileNames.Length - 1)) = ".wav" Then
@@ -1578,7 +1713,12 @@ Public Class MainProject
                        Loading.DPr.Style = ProgressBarStyle.Continuous
                        Loading.DPr.Value += 1
                        Loading.DLb.Left = 40
-                       Loading.DLb.Text = String.Format(Loading.loading_Sound_Open_msg, Loading.DPr.Value, FileNames.Length)
+                       Select Case lang
+                           Case Translator.tL.English
+                               Loading.DLb.Text = String.Format(Loading.MsgEn.loading_Sound_Open_msg, Loading.DPr.Value, FileNames.Length)
+                           Case Translator.tL.Korean
+                               Loading.DLb.Text = String.Format(Loading.MsgKr.loading_Sound_Open_msg, Loading.DPr.Value, FileNames.Length)
+                       End Select
                    End Sub)
             Next
 
@@ -1606,7 +1746,12 @@ fexLine:
                                Loading.DPr.Style = ProgressBarStyle.Continuous
                                Loading.DPr.Value += 1
                                Loading.DLb.Left = 40
-                               Loading.DLb.Text = String.Format(Loading.loading_Sound_Open_msg, Loading.DPr.Value, ofd.FileNames.Length)
+                               Select Case lang
+                                   Case Translator.tL.English
+                                       Loading.DLb.Text = String.Format(Loading.MsgEn.loading_Sound_Open_msg, Loading.DPr.Value, ofd.FileNames.Length)
+                                   Case Translator.tL.Korean
+                                       Loading.DLb.Text = String.Format(Loading.MsgKr.loading_Sound_Open_msg, Loading.DPr.Value, ofd.FileNames.Length)
+                               End Select
                            End Sub)
                     End If
                 Next
@@ -1624,11 +1769,23 @@ fexLine:
                        UI(Sub()
                               Loading.DPr.Style = ProgressBarStyle.Marquee
                               Loading.DLb.Left = 40
-                              Loading.DLb.Text = "Loaded Sound Files. Please Wait..."
+                              Select Case lang
+                                  Case Translator.tL.English
+                                      Loading.DLb.Text = Loading.MsgEn.loading_Sound_Loaded_msg
+                                  Case Translator.tL.Korean
+                                      Loading.DLb.Text = Loading.MsgKr.loading_Sound_Loaded_msg
+                              End Select
 
                               Loading.Dispose()
                           End Sub)
-                       If OpenProjectOnce = False Then MessageBox.Show("Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                       If OpenProjectOnce = False Then
+                           Select Case lang
+                               Case Translator.tL.English
+                                   MessageBox.Show("Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                               Case Translator.tL.Korean
+                                   MessageBox.Show("사운드 파일들이 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                           End Select
+                       End If
                        abl_openedsnd = True
                        SoundIsSaved = True
 
@@ -1664,19 +1821,6 @@ fexLine:
         End Try
     End Sub
 
-    Private Sub OpenProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenProjectToolStripMenuItem.Click
-        Dim alsOpen1 As New OpenFileDialog
-        alsOpen1.Filter = "Ableton Project File|*.als"
-        alsOpen1.Title = "Select a Ableton Project File"
-        alsOpen1.AddExtension = False
-        alsOpen1.Multiselect = False
-
-        If alsOpen1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-            ofd_FileName = alsOpen1.FileName
-            OpenProjectOnce = True
-            BGW_ablproj.RunWorkerAsync()
-        End If
-    End Sub
 
     Private Sub CheckUpdateToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CheckUpdateToolStripMenuItem.Click
         If BGW_CheckUpdate.IsBusy = False Then
@@ -1686,18 +1830,40 @@ fexLine:
         If My.Computer.Network.IsAvailable = True Then
             Try
                 If My.Application.Info.Version = FileInfo Then
-                    MessageBox.Show("You are using a Latest Version." & vbNewLine & vbNewLine &
-                       "Current Version : " & My.Application.Info.Version.ToString & vbNewLine & "Latest Version : " & FileInfo.ToString, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Select Case lang
+                        Case Translator.tL.English
+                            MessageBox.Show("You are using a Latest Version." & vbNewLine & vbNewLine &
+                      "Current Version : " & My.Application.Info.Version.ToString & vbNewLine & "Latest Version : " & FileInfo.ToString, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Case Translator.tL.Korean
+                            MessageBox.Show("최신 버전을 사용하고 있습니다." & vbNewLine & vbNewLine &
+                      "현재 버전 : " & My.Application.Info.Version.ToString & vbNewLine & "최신 버전 : " & FileInfo.ToString, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End Select
                 ElseIf My.Application.Info.Version > FileInfo Then
-                    MessageBox.Show("You are using a Test Version!" & vbNewLine & vbNewLine & "Current Version : " & FileInfo.ToString & vbNewLine &
+                    Select Case lang
+                        Case Translator.tL.English
+                            MessageBox.Show("You are using a Test Version!" & vbNewLine & vbNewLine & "Current Version : " & FileInfo.ToString & vbNewLine &
                        "Your Test Version : " & My.Application.Info.Version.ToString, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Case Translator.tL.Korean
+                            MessageBox.Show("테스트 버전을 사용하고 있습니다!" & vbNewLine & vbNewLine & "현재 버전 : " & FileInfo.ToString & vbNewLine &
+                       "테스트 버전 : " & My.Application.Info.Version.ToString, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End Select
                 End If
             Catch exN As ArgumentNullException
-                MessageBox.Show("Network Connect Failed! Can't Check Update.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Select Case lang
+                    Case Translator.tL.English
+                        MessageBox.Show("Network Connect Failed! Can't Check Update.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    Case Translator.tL.Korean
+                        MessageBox.Show("네트워크를 연결할 수 없습니다! 업데이트를 확인할 수 없습니다.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Select
                 Exit Sub
             End Try
         Else
-            MessageBox.Show("Network Connect Failed! Can't Check Update.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Select Case lang
+                Case Translator.tL.English
+                    MessageBox.Show("Network Connect Failed! Can't Check Update.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Case Translator.tL.Korean
+                    MessageBox.Show("네트워크를 연결할 수 없습니다! 업데이트를 확인할 수 없습니다.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Select
         End If
     End Sub
 
@@ -1714,46 +1880,74 @@ fexLine:
             VerLog = setaNode.ChildNodes(2).InnerText.TrimStart
 
             If My.Application.Info.Version < FileInfo Then
-                If MessageBox.Show("New Version " & FileInfo.ToString & " is Available!" & vbNewLine & "Current Version : " & My.Application.Info.Version.ToString & vbNewLine & "Latest Version : " & FileInfo.ToString & vbNewLine &
-                                 vbNewLine & "Update Log:" & vbNewLine & VerLog, Me.Text & ": Update", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-                    With Loading
-                        .Show()
-                        .Text = "Downloading UniConverter V" & FileInfo.ToString
-                        .DPr.Refresh()
-                        .DLb.Text = "Downloading UniConverter V" & FileInfo.ToString & " ..."
-                        .DLb.Left = 20
-                        .DLb.Refresh()
-                    End With
+                Dim result As String = String.Empty
+                Dim result2 As String = String.Empty
+                Select Case lang
+                    Case Translator.tL.English
+                        result = "New Version " & FileInfo.ToString & " is Available!" & vbNewLine & "Current Version : " & My.Application.Info.Version.ToString & vbNewLine & "Latest Version : " & FileInfo.ToString & vbNewLine &
+                                 vbNewLine & "Update Log:" & vbNewLine & VerLog
+                        result2 = Me.Text & ": Update"
+                    Case Translator.tL.Korean
+                        result = FileInfo.ToString & " 버전을 사용할 수 있습니다!" & vbNewLine & "현재 버전 : " & My.Application.Info.Version.ToString & vbNewLine & "최신 버전 : " & FileInfo.ToString & vbNewLine &
+                                 vbNewLine & "업데이트 사항:" & vbNewLine & VerLog
+                        result2 = Me.Text & ": 업데이트"
+                End Select
+
+                If MessageBox.Show(result, result2, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+                    UI(Sub()
+                           With Loading
+                               .Show()
+                               Select Case lang
+                                   Case Translator.tL.English
+                                       .Text = "Downloading UniConverter v" & FileInfo.ToString
+                                       .DLb.Text = "Downloading UniConverter v" & FileInfo.ToString & " ..."
+                                   Case Translator.tL.Korean
+                                       .Text = "유니컨버터 v" & FileInfo.ToString
+                                       .DLb.Text = "유니컨버터 v" & FileInfo.ToString & " 다운로드 중..."
+                               End Select
+                               .DLb.Left = 20
+                           End With
+                       End Sub)
                     Client.DownloadFile("http://dpr.ucv.kro.kr", My.Computer.FileSystem.SpecialDirectories.Temp & "\UniConverter-Update.zip")
-                    Loading.DPr.Style = ProgressBarStyle.Continuous
-                    Loading.DPr.Value = 800
 
                     If Dir(Application.StartupPath & "\UniConverter_v" & FileInfo.ToString, vbDirectory) <> "" Then
-                        If File.Exists(Application.StartupPath & "\UniConverter_v" & FileInfo.ToString & "\UniConverter.exe") Then
-                            My.Computer.FileSystem.DeleteDirectory(Application.StartupPath & "\UniConverter_v" & FileInfo.ToString, FileIO.DeleteDirectoryOption.DeleteAllContents)
-                            My.Computer.FileSystem.CreateDirectory(Application.StartupPath & "\UniConverter_v" & FileInfo.ToString)
-                            ZipFile.ExtractToDirectory(My.Computer.FileSystem.SpecialDirectories.Temp & "\UniConverter-Update.zip", "UniConverter_v" & FileInfo.ToString)
-                        Else
-                            ZipFile.ExtractToDirectory(My.Computer.FileSystem.SpecialDirectories.Temp & "\UniConverter-Update.zip", "UniConverter_v" & FileInfo.ToString)
-                        End If
-                    Else
-                        My.Computer.FileSystem.CreateDirectory(Application.StartupPath & "\UniConverter_v" & FileInfo.ToString)
-                        ZipFile.ExtractToDirectory(My.Computer.FileSystem.SpecialDirectories.Temp & "\UniConverter-Update.zip", "UniConverter_v" & FileInfo.ToString)
-                    End If
+                               If File.Exists(Application.StartupPath & "\UniConverter_v" & FileInfo.ToString & "\UniConverter.exe") Then
+                                   My.Computer.FileSystem.DeleteDirectory(Application.StartupPath & "\UniConverter_v" & FileInfo.ToString, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                                   My.Computer.FileSystem.CreateDirectory(Application.StartupPath & "\UniConverter_v" & FileInfo.ToString)
+                                   ZipFile.ExtractToDirectory(My.Computer.FileSystem.SpecialDirectories.Temp & "\UniConverter-Update.zip", "UniConverter_v" & FileInfo.ToString)
+                               Else
+                                   ZipFile.ExtractToDirectory(My.Computer.FileSystem.SpecialDirectories.Temp & "\UniConverter-Update.zip", "UniConverter_v" & FileInfo.ToString)
+                               End If
+                           Else
+                               My.Computer.FileSystem.CreateDirectory(Application.StartupPath & "\UniConverter_v" & FileInfo.ToString)
+                               ZipFile.ExtractToDirectory(My.Computer.FileSystem.SpecialDirectories.Temp & "\UniConverter-Update.zip", "UniConverter_v" & FileInfo.ToString)
+                           End If
                     With Loading
-                        .DPr.Value = 1000
-                        If .DPr.Value = 1000 Then
-                            .DLb.Left = 120
-                            .DLb.Text = "Update Complete!"
-                            IsUpdated = True
-                            If MessageBox.Show("Update Complete! UniConverter " & FileInfo.ToString & " is in 'UniConverter_v" & FileInfo.ToString & "' Folder.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information) = DialogResult.OK Then
-                                File.Delete(My.Computer.FileSystem.SpecialDirectories.Temp & "\UniConverter-Update.zip")
-                                .Dispose()
-                                Dim setNode As XmlNode = setxml.SelectSingleNode("/UniConverter-XML/UniConverter-Settings")
-                                If Convert.ToBoolean(setNode.ChildNodes(1).InnerText) = True Then
-                                    Process.Start(String.Format("{0}\UniConverter_v{1}\UniConverter.exe", Application.StartupPath, FileInfo.ToString))
-                                    Application.Exit()
-                                End If
+                        UI(Sub()
+                               .DLb.Left = 120
+                               Select Case lang
+                                   Case Translator.tL.English
+                                       .DLb.Text = "Update Complete!"
+                                   Case Translator.tL.Korean
+                                       .DLb.Text = "업데이트를 완료 하였습니다!"
+                               End Select
+                               .Dispose()
+                           End Sub)
+                        IsUpdated = True
+                        Dim result3 As String = String.Empty
+
+                        Select Case lang
+                            Case Translator.tL.English
+                                result3 = "Update Complete! UniConverter " & FileInfo.ToString & " is in 'UniConverter_v" & FileInfo.ToString & "' Folder."
+                            Case Translator.tL.Korean
+                                result3 = "업데이트를 완료 하였습니다! 유니컨버터 v" & FileInfo.ToString & " 버전은 'UniConverter_v" & FileInfo.ToString & "' 폴더에 있습니다."
+                        End Select
+                        If MessageBox.Show(result3, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information) = DialogResult.OK Then
+                            File.Delete(My.Computer.FileSystem.SpecialDirectories.Temp & "\UniConverter-Update.zip")
+                            Dim setNode As XmlNode = setxml.SelectSingleNode("/UniConverter-XML/UniConverter-Settings")
+                            If Convert.ToBoolean(setNode.ChildNodes(1).InnerText) = True Then
+                                Process.Start(String.Format("{0}\UniConverter_v{1}\UniConverter.exe", Application.StartupPath, FileInfo.ToString))
+                                Application.Exit()
                             End If
                         End If
                     End With
@@ -1805,8 +1999,16 @@ fexLine:
                 Dim sfd As New SaveFileDialog()
                 Dim aN As DialogResult
 
-                sfd.Filter = "Zip File|*.zip|UniPack File|*.uni"
-                sfd.Title = "Save the UniPack"
+                UI(Sub()
+                       Select Case lang
+                           Case Translator.tL.English
+                               sfd.Filter = "Zip File|*.zip|UniPack File|*.uni"
+                               sfd.Title = "Save the UniPack"
+                           Case Translator.tL.Korean
+                               sfd.Filter = "Zip 파일|*.zip|유니팩 파일|*.uni"
+                               sfd.Title = "유니팩을 어디에 저장할지 선택하세요"
+                       End Select
+                   End Sub)
                 sfd.FileName = infoTitle
                 sfd.AddExtension = False
                 UI(Sub()
@@ -1822,16 +2024,35 @@ fexLine:
                                        .Show()
                                        .DPr.Style = ProgressBarStyle.Marquee
                                        .DPr.MarqueeAnimationSpeed = 10
-                                       .Text = Me.Text & ": Saving Ableton Project File to UniPack..."
+                                       Select Case lang
+                                           Case Translator.tL.English
+                                               .Text = Me.Text & ": Saving Converted UniPack..."
+                                           Case Translator.tL.Korean
+                                               .Text = Me.Text & ": 변환한 유니팩 저장 중..."
+                                       End Select
                                        .DLb.Left = 45
                                    End With
                                End Sub)
 
                             Dim result As String = Path.GetExtension(sfd.FileName)
                             If result = ".zip" Then
-                                UI(Sub() Loading.DLb.Text = "Creating UniPack to zip File...")
+                                UI(Sub()
+                                       Select Case lang
+                                           Case Translator.tL.English
+                                               Loading.DLb.Text = "Creating UniPack to zip File..."
+                                           Case Translator.tL.Korean
+                                               Loading.DLb.Text = "유니팩을 zip 파일로 저장 중..."
+                                       End Select
+                                   End Sub)
                             ElseIf result = ".uni" Then
-                                UI(Sub() Loading.DLb.Text = "Creating UniPack to uni File...")
+                                UI(Sub()
+                                       Select Case lang
+                                           Case Translator.tL.English
+                                               Loading.DLb.Text = "Creating UniPack to uni File..."
+                                           Case Translator.tL.Korean
+                                               Loading.DLb.Text = "유니팩을 uni 파일로 저장 중..."
+                                       End Select
+                                   End Sub)
                             End If
 
                         End If
@@ -1844,20 +2065,36 @@ fexLine:
                         UI(Sub() Loading.Dispose())
                         If Waiting = True Then
                             IsSaved = True
-                            MessageBox.Show("Saved UniPack!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            UI(Sub()
+                                   Select Case lang
+                                       Case Translator.tL.English
+                                           MessageBox.Show("Saved UniPack!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                       Case Translator.tL.Korean
+                                           MessageBox.Show("유니팩을 저장 했습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                   End Select
+                               End Sub)
                         End If
                     End If
                 End If
             Else
-                MessageBox.Show("Please convert the Ableton Project to UniPack first!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                UI(Sub()
+                       Select Case lang
+                           Case Translator.tL.English
+                               MessageBox.Show("Please convert the Ableton Project to UniPack first!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                           Case Translator.tL.Korean
+                               MessageBox.Show("먼저 에이블톤 프로젝트에서 유니팩으로 변환 해주세요!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                       End Select
+                   End Sub)
             End If
 
         Catch ex As Exception
-            If IsGreatExMode Then
-                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Else
-                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End If
+            UI(Sub()
+                   If IsGreatExMode Then
+                       MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                   Else
+                       MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                   End If
+               End Sub)
         End Try
     End Sub
 
@@ -1914,7 +2151,14 @@ fexLine:
             End If
 
             ofd.Multiselect = True
-            ofd.Filter = "LED Files|*.mid"
+            Select Case lang
+                Case Translator.tL.English
+                    ofd.Title = "Select LED Files"
+                    ofd.Filter = "LED Files|*.mid"
+                Case Translator.tL.Korean
+                    ofd.Title = "LED 파일을 선택하세요"
+                    ofd.Filter = "LED 파일|*.mid"
+            End Select
             If ofd.ShowDialog() = DialogResult.OK Then
                 ofd_FileNames = ofd.FileNames
                 BGW_keyLED.RunWorkerAsync()
@@ -1964,15 +2208,33 @@ fexLine:
             ElseIf wowk.Contains("MidiFighter 64") OrElse wowk.Contains("MidiFighter64") Then
                 midiinput_kind = 3 '미파64
             Else
-                MessageBox.Show("Wrong input Launchpad! Please select other thing!" & vbNewLine & String.Format("(Selected MIDI Device: {0})", wowk), "Wrong Launchpad", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Select Case lang
+                    Case Translator.tL.English
+                        MessageBox.Show("Wrong input Launchpad! Please select other thing!" & vbNewLine & String.Format("(Selected MIDI Device: {0})", wowk), "Wrong Launchpad", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        MIDIStatIn.Text = "MIDI Input: Not Connected"
+                    Case Translator.tL.Korean
+                        MessageBox.Show("미디 입력에 런치패드를 연결할 수 없습니다! 다른걸 선택해주세요." & vbNewLine & String.Format("(선택한 미디 장치: {0})", wowk), "잘못된 장치", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        MIDIStatIn.Text = "미디 입력: 연결 안됨"
+                End Select
                 midioutput_kind = 0
-                MIDIStatIn.Text = "MIDI Input: Not Connected"
             End If
 
-            MIDIStatIn.Text = String.Format("MIDI Input: Connected ({0})", MidiIn.DeviceInfo(InListBox.SelectedIndex).ProductName)
+            Select Case lang
+                Case Translator.tL.English
+                    MIDIStatIn.Text = String.Format("MIDI Input: Connected ({0})", MidiIn.DeviceInfo(InListBox.SelectedIndex).ProductName)
+                Case Translator.tL.Korean
+                    MIDIStatIn.Text = String.Format("미디 입력: 연결됨 ({0})", MidiIn.DeviceInfo(InListBox.SelectedIndex).ProductName)
+            End Select
 
         Catch ex As Exception
-            MessageBox.Show("Failed to connect input device. Please try again or restart UniConverter." & vbNewLine & "Also, You can report this in 'Report Tab'.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Select Case lang
+                Case Translator.tL.English
+                    MessageBox.Show("Failed to connect input device. Please try again or restart UniConverter." & vbNewLine & "Also, You can report this in 'Report Tab'.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    MIDIStatIn.Text = "MIDI Input: Not Connected"
+                Case Translator.tL.Korean
+                    MessageBox.Show("미디 입력을 장치에 연결할 수 없습니다. 다시 시도 하시거나 유니컨버터를 재시작 해주시기 바랍니다." & vbNewLine & "또한, '버그 제보' 탭에서 버그 제보 하실 수 있습니다.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    MIDIStatIn.Text = "미디 입력: 연결 안됨"
+            End Select
             midiinput_avail = False
             If IsGreatExMode Then
                 MessageBox.Show("Error: " & ex.Message & vbNewLine & "Exception StackTrace: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -1994,11 +2256,21 @@ fexLine:
             ElseIf wowc.Contains("MidiFighter 64") OrElse wowc.Contains("MidiFighter64") Then
                 midioutput_kind = 3 '미파64
             Else
-                MessageBox.Show("Wrong output Launchpad! Please select other thing!" & vbNewLine & String.Format("(Selected MIDI Device: {0})", wowc), "Wrong Launchpad", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Select Case lang
+                    Case Translator.tL.English
+                        MessageBox.Show("Wrong output Launchpad! Please select other thing." & vbNewLine & String.Format("(Selected MIDI Device: {0})", wowc), "Wrong Launchpad", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Case Translator.tL.Korean
+                        MessageBox.Show("미디 출력에 런치패드를 연결할 수 없습니다! 다른걸 선택해주세요." & vbNewLine & String.Format("(선택한 미디 장치: {0})", wowc), "잘못된 장치", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                End Select
                 midioutput_kind = 0
             End If
 
-            MIDIStatOut.Text = String.Format("Midi Output: Connected ({0})", MidiOut.DeviceInfo(OutListBox.SelectedIndex).ProductName)
+            Select Case lang
+                Case Translator.tL.English
+                    MIDIStatOut.Text = String.Format("Midi Output: Connected ({0})", MidiOut.DeviceInfo(OutListBox.SelectedIndex).ProductName)
+                Case Translator.tL.Korean
+                    MIDIStatOut.Text = String.Format("미디 출력: 연결됨 ({0})", MidiOut.DeviceInfo(OutListBox.SelectedIndex).ProductName)
+            End Select
             midioutput.SendBuffer({240, 0, 32, 41, 9, 60, 85, 110, 105, 116, 111, 114, 32, 118, Asc(My.Application.Info.Version.Major), 46, Asc(My.Application.Info.Version.Minor), 46, Asc(My.Application.Info.Version.Build), 46, Asc(My.Application.Info.Version.Revision), 247})
 
             If SetUpLight_ Then
@@ -2018,12 +2290,19 @@ fexLine:
             End If
 
         Catch ex As Exception
-            MessageBox.Show("Failed to connect output device. Please try again or restart UniConverter." & vbNewLine & "Also, You can report this in 'Report Tab'.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Select Case lang
+                Case Translator.tL.English
+                    MIDIStatOut.Text = "MIDI Output: Not Connected"
+                    MessageBox.Show("Failed to connect output device. Please try again or restart UniConverter." & vbNewLine & "Also, You can report this in 'Report Tab'.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Case Translator.tL.Korean
+                    MIDIStatOut.Text = "미디 출력: 연결 안됨"
+                    MessageBox.Show("미디 출력을 장치에 연결할 수 없습니다. 다시 시도 하시거나 유니컨버터를 재시작 해주시기 바랍니다." & vbNewLine & "또한, '버그 제보' 탭에서 버그 제보 하실 수 있습니다.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            End Select
+
             If IsGreatExMode Then
                 MessageBox.Show("Error: " & ex.Message & vbNewLine & "Exception StackTrace: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End If
             midioutput_kind = False
-            MIDIStatOut.Text = "MIDI Output: Not Connected"
         End Try
 
 #End Region
@@ -2048,9 +2327,14 @@ fexLine:
             midioutput_avail = False
         End If
 
-
-        MIDIStatIn.Text = "MIDI Input: Not Connected"
-        MIDIStatOut.Text = "MIDI Output: Not Connected"
+        Select Case lang
+            Case Translator.tL.English
+                MIDIStatIn.Text = "MIDI Input: Not Connected"
+                MIDIStatOut.Text = "MIDI Output: Not Connected"
+            Case Translator.tL.Korean
+                MIDIStatIn.Text = "미디 입력: 연결 안됨"
+                MIDIStatOut.Text = "미디 출력: 연결 안됨"
+        End Select
     End Sub
 
 #Region "Pitch2XY"
@@ -2474,9 +2758,12 @@ fexLine:
                 Invoke(Sub()
                            With Loading
                                .Show()
-                               .Text = "Converting Ableton LED to UniPack LED..."
-                               .Refresh()
-                               .DLb.Text = "Loading LED Infos..."
+                               Select Case lang
+                                   Case Translator.tL.English
+                                       .Text = Loading.MsgEn.loading_keyLED_def_msg
+                                       .DLb.Text = Loading.MsgEn.loading_keyLED_open_msg
+                                   Case Translator.tL.Korean
+                               End Select
                                .DPr.Style = ProgressBarStyle.Marquee
                                .DPr.MarqueeAnimationSpeed = 10
                            End With
@@ -2603,7 +2890,12 @@ fexLine:
 
                             UI(Sub()
                                    Loading.DLb.Left -= 70
-                                   Loading.DLb.Text = String.Format("Converting LED ({0}) to keyLED...", dFile)
+                                   Select Case lang
+                                       Case Translator.tL.English
+                                           Loading.DLb.Text = String.Format(Loading.MsgEn.loading_keyLED_Convert_msg, dFile)
+                                       Case Translator.tL.Korean
+                                           Loading.DLb.Text = String.Format(Loading.MsgKr.loading_keyLED_Convert_msg, dFile)
+                                   End Select
                                End Sub)
 
                             Dim dPath As String = String.Format("{0}\Workspace\ableproj\CoLED\{1}", Application.StartupPath, dFile)
@@ -2699,7 +2991,12 @@ fexLine:
 
                             UI(Sub()
                                    Loading.DLb.Left += 70
-                                   Loading.DLb.Text = "Extracting LED Infos..."
+                                   Select Case lang
+                                       Case Translator.tL.English
+                                           Loading.DLb.Text = Loading.MsgEn.loading_keyLED_Convert2_msg
+                                       Case Translator.tL.Korean
+                                           Loading.DLb.Text = Loading.MsgEn.loading_keyLED_Convert2_msg
+                                   End Select
                                End Sub)
 
                             'PatchSlot > Value > MxDPatchRef > FileRef > Name > Value 'Midi Extension.amxd'
@@ -2934,8 +3231,12 @@ fexLine:
 
                 Debug.WriteLine("Finish...")
                 UI(Sub()
-                       Loading.DLb.Text = "Loading UniPack LEDs..."
-                       Loading.DLb.Refresh()
+                       Select Case lang
+                           Case Translator.tL.English
+                               Loading.Text = Loading.MsgEn.loading_keyLED_Convert3_msg
+                           Case Translator.tL.Korean
+                               Loading.Text = Loading.MsgKr.loading_keyLED_Convert3_msg
+                       End Select
                    End Sub)
 
                 UI(Sub() Loading.Dispose())
@@ -2944,7 +3245,10 @@ fexLine:
                     w8t4abl = String.Empty
                 End If
 
+                IsWorking = False
                 keyLEDIsSaved = True
+                kl_Converted = True
+
                 UI(Sub()
                        keyLEDPad_Flush(True)
                        Thread.Sleep(300)
@@ -2977,11 +3281,111 @@ fexLine:
                 MessageBox.Show("Error - " & e.Error.Message & vbNewLine & "Error Message: " & e.Error.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             ElseIf e.Cancelled Then
-                Exit Sub
+                If OpenProjectOnce Then
+                    OpenProjectOnce = False
+                    If abl_openedproj AndAlso abl_openedsnd AndAlso abl_openedled Then
+                        Select Case lang
+                            Case Translator.tL.English
+                                MessageBox.Show("Ableton Project, Sounds, LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            Case Translator.tL.Korean
+                                MessageBox.Show("에이블톤 프로젝트, 사운드, LED 파일들이 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        End Select
+                    ElseIf abl_openedproj AndAlso abl_openedsnd AndAlso abl_openedled Then
+                        Select Case lang
+                            Case Translator.tL.English
+                                MessageBox.Show("Ableton Project, Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            Case Translator.tL.Korean
+                                MessageBox.Show("에이블톤 프로젝트, 사운드가 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        End Select
+                    ElseIf abl_openedproj Then
+                        Select Case lang
+                            Case Translator.tL.English
+                                MessageBox.Show("Ableton Project Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            Case Translator.tL.Korean
+                                MessageBox.Show("에이블톤 프로젝트가 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        End Select
+                    ElseIf abl_openedsnd AndAlso abl_openedled Then
+                        Select Case lang
+                            Case Translator.tL.English
+                                MessageBox.Show("Sounds, LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            Case Translator.tL.Korean
+                                MessageBox.Show("사운드, LED 파일이 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        End Select
+                    ElseIf abl_openedsnd Then
+                        Select Case lang
+                            Case Translator.tL.English
+                                MessageBox.Show("Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            Case Translator.tL.Korean
+                                MessageBox.Show("사운드가 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        End Select
+                    ElseIf abl_openedled Then
+                        Select Case lang
+                            Case Translator.tL.English
+                                MessageBox.Show("LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            Case Translator.tL.Korean
+                                MessageBox.Show("LED 파일이 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        End Select
+                    End If
+                    Exit Sub
+                End If
             Else
 
                 IsWorking = False
-                MessageBox.Show("LED File Converted!" & vbNewLine & "You can show the LEDs on 'keyLED (MIDI Extension)' Tab!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+                If OpenProjectOnce Then
+                    OpenProjectOnce = False
+                    If abl_openedproj AndAlso abl_openedsnd AndAlso abl_openedled Then
+                        Select Case lang
+                            Case Translator.tL.English
+                                MessageBox.Show("Ableton Project, Sounds, LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            Case Translator.tL.Korean
+                                MessageBox.Show("에이블톤 프로젝트, 사운드, LED 파일들이 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        End Select
+                    ElseIf abl_openedproj AndAlso abl_openedsnd AndAlso abl_openedled Then
+                        Select Case lang
+                            Case Translator.tL.English
+                                MessageBox.Show("Ableton Project, Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            Case Translator.tL.Korean
+                                MessageBox.Show("에이블톤 프로젝트, 사운드가 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        End Select
+                    ElseIf abl_openedproj Then
+                        Select Case lang
+                            Case Translator.tL.English
+                                MessageBox.Show("Ableton Project Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            Case Translator.tL.Korean
+                                MessageBox.Show("에이블톤 프로젝트가 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        End Select
+                    ElseIf abl_openedsnd AndAlso abl_openedled Then
+                        Select Case lang
+                            Case Translator.tL.English
+                                MessageBox.Show("Sounds, LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            Case Translator.tL.Korean
+                                MessageBox.Show("사운드, LED 파일이 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        End Select
+                    ElseIf abl_openedsnd Then
+                        Select Case lang
+                            Case Translator.tL.English
+                                MessageBox.Show("Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            Case Translator.tL.Korean
+                                MessageBox.Show("사운드가 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        End Select
+                    ElseIf abl_openedled Then
+                        Select Case lang
+                            Case Translator.tL.English
+                                MessageBox.Show("LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            Case Translator.tL.Korean
+                                MessageBox.Show("LED 파일이 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        End Select
+                    End If
+                    Exit Sub
+                End If
+
+                Select Case lang
+                    Case Translator.tL.English
+                        MessageBox.Show("LED File Converted!" & vbNewLine & "You can show the LEDs on 'keyLED (MIDI Extension)' Tab!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Case Translator.tL.Korean
+                        MessageBox.Show("LED File Converted!" & vbNewLine & "''keyLED (미디 익스텐션)' 탭에서 LED 파일들을 볼 수 있습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End Select
 
             End If
 
@@ -3103,10 +3507,20 @@ fexLine:
     Private Sub MIDIn_Test_Click(sender As Object, e As EventArgs) Handles MIDIn_Test.Click
         If IsMIDITest Then
             IsMIDITest = False
-            MessageBox.Show("MIDI Input and Note On Test Disabled.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Select Case lang
+                Case Translator.tL.English
+                    MessageBox.Show("MIDI Input and Note On Test Disabled.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Case Translator.tL.Korean
+                    MessageBox.Show("비활성화: 미디 입력, 노트 테스트", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End Select
         Else
             IsMIDITest = True
-            MessageBox.Show("MIDI Input and Note On Test Enabled!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Select Case lang
+                Case Translator.tL.English
+                    MessageBox.Show("MIDI Input and Note On Test Enabled!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Case Translator.tL.Korean
+                    MessageBox.Show("활성화: 미디 입력, 노트 테스트", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End Select
         End If
     End Sub
 
@@ -3304,8 +3718,15 @@ fexLine:
         abl_openedled = False
         abl_openedled2 = False
 
-        infoTB1.Text = "My Amazing UniPack!" 'Title
-        infoTB2.Text = "UniConverter, " & My.Computer.Name 'Producer Name
+        Select Case lang
+            Case Translator.tL.English
+                infoTB1.Text = "My Amazing UniPack!"
+                infoTB2.Text = "UniConverter, " & My.Computer.Name
+            Case Translator.tL.Korean
+                infoTB1.Text = "나의 멋진 유니팩!"
+                infoTB2.Text = "유니컨버터, " & My.Computer.Name
+        End Select
+
         infoTB3.Text = "1"
 
         '키사운드 레이아웃 비활성화
@@ -3342,6 +3763,15 @@ fexLine:
         kl_LEDFlush()
 
         IsSaved = True
-        MessageBox.Show("The Project reseted!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Select Case lang
+            Case Translator.tL.English
+                MessageBox.Show("The Project reseted!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Case Translator.tL.Korean
+                MessageBox.Show("프로젝트를 초기화 하였습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End Select
+    End Sub
+
+    Private Sub KeyLEDMIDEX_BetaButton_Click(sender As Object, e As EventArgs) Handles keyLEDMIDEX_BetaButton.Click
+        keyLED_Edit.Show()
     End Sub
 End Class

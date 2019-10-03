@@ -40,10 +40,10 @@ Partial Class Loading
         'DLb
         '
         Me.DLb.AutoSize = True
-        Me.DLb.Font = New System.Drawing.Font("Verdana", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.DLb.Location = New System.Drawing.Point(121, 82)
+        Me.DLb.Font = New System.Drawing.Font("나눔스퀘어라운드 Bold", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.DLb.Location = New System.Drawing.Point(121, 86)
         Me.DLb.Name = "DLb"
-        Me.DLb.Size = New System.Drawing.Size(198, 23)
+        Me.DLb.Size = New System.Drawing.Size(186, 21)
         Me.DLb.TabIndex = 1
         Me.DLb.Text = "Loading Contents..."
         '

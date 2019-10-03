@@ -254,9 +254,9 @@ o 6 3 a [나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 �
  String의 수를 세줍니다. 결과는 Integer.
  </summary>
 </member>
-<member name="F:UniConverter_Project.Tutorials.lang">
+<member name="M:UniConverter_Project.Translator.TranslateMain">
  <summary>
- 언어 정보.
+ Translate the MainProject Form.
  </summary>
 </member>
 <member name="F:UniConverter_Project.Tutorials.Answers_">
@@ -345,6 +345,11 @@ o 6 3 a [나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 �
  현재 소리를 재생.
  </summary>
 </member>
+<member name="F:UniConverter_Project.MainProject.ks_Converted">
+ <summary>
+ keySound 변환 여부.
+ </summary>
+</member>
 <member name="F:UniConverter_Project.MainProject.keyLEDIsSaved">
  <summary>
  MainProject keyLED 저장 여부. (keyLED / keyLED (MIDEX))
@@ -363,6 +368,11 @@ o 6 3 a [나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 �
 <member name="F:UniConverter_Project.MainProject.led">
  <summary>
  HTML to LED Velocity.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.kl_Converted">
+ <summary>
+ keyLED 변환 여부.
  </summary>
 </member>
 <member name="F:UniConverter_Project.MainProject.LicenseFile">
@@ -417,7 +427,7 @@ o 6 3 a [나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 �
 </member>
 <member name="F:UniConverter_Project.MainProject.lang">
  <summary>
- 유니컨버터 언어.
+ 유니컨버터 언어. (English / Korean)
  </summary>
 </member>
 <member name="F:UniConverter_Project.MainProject.midioutput_kind">

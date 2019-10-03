@@ -27,8 +27,8 @@ Partial Class UG_Settings
         Me.SaveButton = New System.Windows.Forms.Button()
         Me.ResetButton = New System.Windows.Forms.Button()
         Me.SetUpLight = New System.Windows.Forms.CheckBox()
-        Me.langs = New System.Windows.Forms.ComboBox()
-        Me.Label1 = New System.Windows.Forms.Label()
+        Me.LnComboBox = New System.Windows.Forms.ComboBox()
+        Me.LnLb = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
         'ChkUpdate
@@ -90,25 +90,25 @@ Partial Class UG_Settings
         Me.SetUpLight.Text = "Launchpad Setup Light"
         Me.SetUpLight.UseVisualStyleBackColor = True
         '
-        'langs
+        'LnComboBox
         '
-        Me.langs.Font = New System.Drawing.Font("나눔바른고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.langs.FormattingEnabled = True
-        Me.langs.Items.AddRange(New Object() {"English", "Korean"})
-        Me.langs.Location = New System.Drawing.Point(98, 91)
-        Me.langs.Name = "langs"
-        Me.langs.Size = New System.Drawing.Size(171, 23)
-        Me.langs.TabIndex = 8
+        Me.LnComboBox.Font = New System.Drawing.Font("나눔바른고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.LnComboBox.FormattingEnabled = True
+        Me.LnComboBox.Items.AddRange(New Object() {"English", "Korean"})
+        Me.LnComboBox.Location = New System.Drawing.Point(98, 91)
+        Me.LnComboBox.Name = "LnComboBox"
+        Me.LnComboBox.Size = New System.Drawing.Size(171, 23)
+        Me.LnComboBox.TabIndex = 8
         '
-        'Label1
+        'LnLb
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("나눔바른고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.Label1.Location = New System.Drawing.Point(16, 94)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(76, 15)
-        Me.Label1.TabIndex = 9
-        Me.Label1.Text = "Languages:"
+        Me.LnLb.AutoSize = True
+        Me.LnLb.Font = New System.Drawing.Font("나눔바른고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.LnLb.Location = New System.Drawing.Point(16, 94)
+        Me.LnLb.Name = "LnLb"
+        Me.LnLb.Size = New System.Drawing.Size(76, 15)
+        Me.LnLb.TabIndex = 9
+        Me.LnLb.Text = "Languages:"
         '
         'UG_Settings
         '
@@ -116,8 +116,8 @@ Partial Class UG_Settings
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.ClientSize = New System.Drawing.Size(284, 199)
-        Me.Controls.Add(Me.Label1)
-        Me.Controls.Add(Me.langs)
+        Me.Controls.Add(Me.LnLb)
+        Me.Controls.Add(Me.LnComboBox)
         Me.Controls.Add(Me.SetUpLight)
         Me.Controls.Add(Me.ResetButton)
         Me.Controls.Add(Me.SaveButton)
@@ -137,6 +137,6 @@ Partial Class UG_Settings
     Friend WithEvents SaveButton As Button
     Friend WithEvents ResetButton As Button
     Friend WithEvents SetUpLight As CheckBox
-    Friend WithEvents langs As ComboBox
-    Friend WithEvents Label1 As Label
+    Friend WithEvents LnComboBox As ComboBox
+    Friend WithEvents LnLb As Label
 End Class

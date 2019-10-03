@@ -149,6 +149,13 @@ Public Class keyLED_Test
             lmo.SendBuffer({240, 0, 32, 41, 9, 60, 85, 110, 105, 116, 111, 114, 32, 118, Asc(My.Application.Info.Version.Major), 46, Asc(My.Application.Info.Version.Minor), 46, Asc(My.Application.Info.Version.Build), 46, Asc(My.Application.Info.Version.Revision), 247})
             IsLaunchpaded = True
         End If
+
+        Select Case MainProject.lang
+            Case Translator.tL.Korean
+                Text = "keyLED 테스트 (베타)"
+                TestByt.Text = "LED 테스트!"
+                TimeLabel.Text = "테스트 시간: "
+        End Select
     End Sub
 
     Public Sub LoadkeyLEDText(LEDText As String)
@@ -267,7 +274,10 @@ Public Class keyLED_Test
             'ledfiles_now(chain, xcode, ycode) += 1
             stopwatch__1.[Stop]()
             Invoke(Sub()
-                       TimeLabel.Text = "Test Time: " & stopwatch__1.ElapsedMilliseconds & "ms"
+                       Select Case MainProject.lang
+                           Case Translator.tL.Korean
+                               TimeLabel.Text = "테스트 시간: " & stopwatch__1.ElapsedMilliseconds & "ms"
+                       End Select
                    End Sub)
         Catch
 

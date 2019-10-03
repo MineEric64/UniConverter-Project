@@ -6,6 +6,20 @@ Public Class Info
     Private Sub Info_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Text = MainProject.Text & ": Information"
         InfoText.Text = "Ver " & My.Application.Info.Version.ToString
+
+        Select Case MainProject.lang
+            Case Translator.tL.English
+                Exit Sub
+            Case Translator.tL.Korean
+                Text = MainProject.Text & ": 유니컨버터 정보"
+                ucv_link.Text = "유니컨버터 사이트"
+                ucvg_link.Text = "유니컨버터 오픈소스"
+                unitor_link.Text = "최에릭 깃헙 프로필"
+                unipadc_link.Left -= 15
+                unipadc_link.Text = "유니패드 사이트"
+                unipad_link.Text = "유니패드 카페"
+                InfoText.Text = My.Application.Info.Version.ToString & " 버전"
+        End Select
     End Sub
 
     Private Sub OKButton_Click(sender As Object, e As EventArgs) Handles OKButton.Click
@@ -67,7 +81,12 @@ Public Class Info
                     MessageBox.Show(String.Format("UniConverter v{0} - MineEric64 (최에릭)" & vbNewLine & "A2UP V{1} - MineEric64 (최에릭)" & vbNewLine & vbNewLine & "Help By Follow_JB, EX867, Ph-r", My.Application.Info.Version.ToString, GetFileVerInfo(A2UPFile)), Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
 
                 Case Else
-                    MessageBox.Show("Programming is so fun! XD", MainProject.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Select Case MainProject.lang
+                        Case Translator.tL.English
+                            MessageBox.Show("UniPack Converter for UniPad.", MainProject.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Case Translator.tL.Korean
+                            MessageBox.Show("유니패드를 위한 유니팩 컨버터.", MainProject.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End Select
             End Select
 
         Catch ex As Exception

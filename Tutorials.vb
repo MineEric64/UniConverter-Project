@@ -1,21 +1,19 @@
-﻿Imports System.Globalization
-Imports System.IO
+﻿Imports System.IO
 Imports System.Net
 Imports System.Threading
 
 Public Class Tutorials
     ''' <summary>
-    ''' 언어 정보.
-    ''' </summary>
-    Public Shared lang As CultureInfo
-
-    ''' <summary>
     ''' 답변 문자열().
     ''' </summary>
-    Public Answers_ As String()
+    Public Answers_ As New List(Of String)
 
     Private Sub Tutorials_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
+            Select Case MainProject.lang
+                Case Translator.tL.Korean
+                    Text = "튜토리얼"
+            End Select
 
             If My.Computer.Network.IsAvailable Then
 
@@ -39,10 +37,16 @@ Public Class Tutorials
         Invoke(Sub()
                    With Loading
                        .Show()
-                       .Text = "Loading Tutorials..."
                        .DPr.Style = ProgressBarStyle.Marquee
                        .DPr.MarqueeAnimationSpeed = 10
-                       .DLb.Text = "Downloading Tutorials File..."
+                       Select Case MainProject.lang
+                           Case Translator.tL.English
+                               .Text = "Loading Tutorials..."
+                               .DLb.Text = "Downloading Tutorials File..."
+                           Case Translator.tL.Korean
+                               .Text = "튜토리얼 불러오는 중..."
+                               .DLb.Text = "튜토리얼 파일 다운로드 하는 중..."
+                       End Select
                        .DLb.Left -= 50
                    End With
                End Sub)
@@ -52,28 +56,29 @@ Public Class Tutorials
             Dim a As New WebClient
             a.DownloadFile("http://dtr.ucv.kro.kr", MainProject.TempDirectory & "\UniConverter-Tutorials.uni")
         Catch exN As WebException
-            Invoke(Sub() Loading.Dispose())
-            MessageBox.Show("Connecting Network Failed!" & vbNewLine & "Please check the computer's network.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Invoke(Sub() Close())
+            Invoke(Sub()
+                       Loading.Dispose()
+                       Select Case MainProject.lang
+                           Case Translator.tL.English
+                               MessageBox.Show("Connecting Network Failed!" & vbNewLine & "Please check the computer's network.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                           Case Translator.tL.Korean
+                               MessageBox.Show("네트워크에 연결을 할 수 없습니다!" & vbNewLine & "컴퓨터의 네트워크를 확인해 주세요.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                       End Select
+                   End Sub)
             Exit Sub
         End Try
 
         Invoke(Sub()
-                              Loading.Dispose()
-                              Q_ListView.Enabled = True
-                              Tutorial_ReadMark()
-                          End Sub)
-               End Sub
+                   Loading.Dispose()
+                   Q_ListView.Enabled = True
+                   Tutorial_ReadMark()
+               End Sub)
+    End Sub
 
     Public Sub Tutorial_ReadMark()
         Dim TutorialsDir As String = MainProject.TempDirectory & "\UniConverter-Tutorials.uni"
         Dim tstr As String() = File.ReadAllLines(TutorialsDir)
-        Dim tr As String = File.ReadAllText(TutorialsDir)
-        Dim b As Integer = MainProject.Cntstr(tr, ">>") - 1
-        Dim c As Integer = 0
-
-        Answers_ = New String(b) {}
-
+        Dim skipInt As Integer = 0
 
         For i As Integer = 0 To tstr.Count - 1
 
@@ -83,36 +88,37 @@ Public Class Tutorials
             End If
 
             Dim a As String() = tstr(i).Split("=")
-
-            If a(0) & a(1) = "` Korean" Then
-                '한국어 지원은 나중에 언어 기능이 지원될 때...
-                Exit Sub
-            End If
-
             Select Case a(0)
 
                 Case "`"
-                    '한국어 지원은 나중에 언어 기능이 지원될 때...
-                    If a(1) = " English" Then
-                        lang = New CultureInfo("en-US")
+                    If Not MainProject.lang = Translator.GetLnEnum(a(1).Trim) Then
+                        skipInt = MainProject.Cntstr(File.ReadAllText(TutorialsDir), ">>")
+                    Else
+                        skipInt = 0
                     End If
 
                 Case ">"
+                    If Not skipInt = 0 Then
+                        skipInt -= 1
+                        Continue For
+                    End If
                     Q_ListView.Items.Add(a(1).Trim())
 
                 Case ">>"
-                    Answers_(c) = a(1)
-                    c += 1
+                    If Not skipInt = 0 Then
+                        skipInt -= 1
+                        Continue For
+                    End If
+                    Answers_.Add(a(1))
 
             End Select
-
         Next
     End Sub
 
     Private Sub Q_ListView_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Q_ListView.SelectedIndexChanged
         If Q_ListView.SelectedItems.Count > 0 Then
             Dim a As Integer = Q_ListView.SelectedItems.Item(0).Index
-            A_RichTextBox.Text = Answers_(a)
+            A_RichTextBox.Text = Answers_.Item(a)
         End If
     End Sub
 

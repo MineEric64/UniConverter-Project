@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <UniConverter-XML>
-	<UniConverter-Settings>
-		<CheckUpdate>True</CheckUpdate>
-		<LatestVer>True</LatestVer>
-		<SetupLights>True</SetupLights>
-		<Language>English</Language>
-	</UniConverter-Settings>
+  <UniConverter-Settings>
+    <CheckUpdate>True</CheckUpdate>
+    <LatestVer>True</LatestVer>
+    <SetupLights>True</SetupLights>
+    <Language>English</Language>
+  </UniConverter-Settings>
 </UniConverter-XML>

@@ -2,7 +2,9 @@
 
 Public Class UG_Settings
     Private IsSaved As Boolean
+    Private IsLn As Boolean
     Public setxml As New XmlDocument
+
     Private Sub UG_Settings_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         '이 설정 로딩 코드는 설정 코드가 수정될 때 마다 코드를 수정 해야 합니다.
         Try
@@ -45,13 +47,44 @@ Public Class UG_Settings
 
                 Select Case setaNode.ChildNodes(3).InnerText
                     Case "English", "Korean"
-                        langs.Text = setaNode.ChildNodes(3).InnerText
+                        Select Case MainProject.lang
+                            Case Translator.tL.English
+                                LnComboBox.Text = setaNode.ChildNodes(3).InnerText
+                            Case Translator.tL.Korean
+                                Dim ln As String = setaNode.ChildNodes(3).InnerText
+                                Select Case ln
+                                    Case "English"
+                                        LnComboBox.Text = "영어"
+                                    Case "Korean"
+                                        LnComboBox.Text = "한국어"
+                                End Select
+                        End Select
+
                     Case Else
                         Throw New FormatException("<Language>'s Value is invaild.")
                 End Select
 
                 IsSaved = True
             End If
+
+            '언어 설정
+            Select Case MainProject.lang
+                Case Translator.tL.English
+                    Exit Sub
+                Case Translator.tL.Korean
+                    Text = MainProject.Text & ": 설정"
+                    ChkUpdate.Text = "자동 업데이트 확인"
+                    LatestVer.Text = "업데이트 후 최신 버전 실행"
+                    SetUpLight.Text = "런치패드 셋업 LED"
+
+                    LnLb.Text = "언어: "
+                    LnComboBox.Left -= 30
+                    LnComboBox.Items.Clear()
+                    LnComboBox.Items.AddRange({"영어", "한국어"})
+
+                    ResetButton.Text = "초기화"
+                    SaveButton.Text = "저장"
+            End Select
 
         Catch ex As Exception
             If MainProject.IsGreatExMode Then
@@ -82,7 +115,12 @@ Public Class UG_Settings
                 SetUpLight.Checked = True
                 setaNode.ChildNodes(2).InnerText = "True"
 
-                langs.Text = "English"
+                Select Case MainProject.lang
+                    Case Translator.tL.English
+                        LnComboBox.Text = "English"
+                    Case Translator.tL.Korean
+                        LnComboBox.Text = "영어"
+                End Select
                 setaNode.ChildNodes(3).InnerText = "English"
 
             Else
@@ -173,9 +211,13 @@ Public Class UG_Settings
                         Throw New FormatException("<SetUpLights>'s Value is invaild.")
                 End Select
 
-                Select Case langs.Text
+                Select Case LnComboBox.Text
                     Case "English", "Korean"
-                        setaNode.ChildNodes(3).InnerText = langs.Text
+                        setaNode.ChildNodes(3).InnerText = LnComboBox.Text
+                    Case "영어"
+                        setaNode.ChildNodes(3).InnerText = "English"
+                    Case "한국어"
+                        setaNode.ChildNodes(3).InnerText = "Korean"
                     Case Else
                         Throw New FormatException("<Language>'s Value is invaild.")
                 End Select
@@ -186,7 +228,28 @@ Public Class UG_Settings
 
             setNode.Save(file_ex)
             IsSaved = True
-            If ShowMessage = True Then MessageBox.Show("Saved Settings!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If ShowMessage = True Then
+                Select Case MainProject.lang
+                    Case Translator.tL.English
+                        MessageBox.Show("Saved Settings!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Case Translator.tL.Korean
+                        MessageBox.Show("설정을 저장했습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End Select
+
+                If IsLn Then
+                    Dim result As String = String.Empty
+                    Select Case MainProject.lang
+                        Case Translator.tL.English
+                            result = "It needs to restart the UniConverter." & vbNewLine & "Continue?"
+                        Case Translator.tL.Korean
+                            result = "유니컨버터를 재시작해야 합니다." & vbNewLine & "계속 하시겠습니까?"
+                    End Select
+                    If MessageBox.Show(result, Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+                        MainProject.IsUpdated = True
+                        Application.Restart()
+                    End If
+                End If
+            End If
 
         Catch ex As Exception
             If MainProject.IsGreatExMode Then
@@ -195,5 +258,9 @@ Public Class UG_Settings
                 MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
         End Try
+    End Sub
+
+    Private Sub LnComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles LnComboBox.SelectedIndexChanged
+        IsLn = True
     End Sub
 End Class
