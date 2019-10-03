@@ -1,6 +1,6 @@
 # UniConverter Project
 
-         UniConverter Project v1.1.0.3
+         UniConverter Project v1.2.0.4
          
 ![UniConverter_tmpIcon](https://github.com/MineEric64/UniConverter-Project/blob/master/Resources/UniConverterV2.png)
 ![UniConverter_Icon](https://github.com/MineEric64/UniConverter-Project/blob/master/Resources/UniConverter_icon.png)
@@ -26,7 +26,7 @@ But, you can edit detail information of UniPack on Unitor.
 
 You can download UniConverter Latest Version on '[UniConverter Offical Site](http://ucv.kro.kr)'.
 If you want to use UniConverter Test Version, You must get permission to me. or, You can build the UniConverter directly!
-#### [ Latest Version: v1.1.0.3 (Pre-Release 2)   |   Test Version: v1.1.0.3 (Pre-Release 3) ]
+#### [ Latest Version: v1.1.0.3 (Pre-Release 2)   |   Test Version: v1.2.0.4 ]
 
 ## Functions
 
@@ -48,4 +48,4 @@ If you want to use UniConverter Test Version, You must get permission to me. or,
 >> Supporting Tutorial
 
 ##### DEVELOPING PROJECTS make someone convenient.
-#### By MineEric64 (최에릭) on 09/01/19
+#### By MineEric64 (최에릭) on 10/04/19
