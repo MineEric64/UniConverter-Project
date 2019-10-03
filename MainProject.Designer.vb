@@ -360,32 +360,32 @@ Partial Class MainProject
         'CheckUpdateToolStripMenuItem
         '
         Me.CheckUpdateToolStripMenuItem.Name = "CheckUpdateToolStripMenuItem"
-        Me.CheckUpdateToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CheckUpdateToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
         Me.CheckUpdateToolStripMenuItem.Text = "Check Update"
         '
         'ReportBugsToolStripMenuItem
         '
         Me.ReportBugsToolStripMenuItem.Name = "ReportBugsToolStripMenuItem"
-        Me.ReportBugsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ReportBugsToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
         Me.ReportBugsToolStripMenuItem.Text = "Report Bugs"
         '
         'DeveloperModeToolStripMenuItem
         '
         Me.DeveloperModeToolStripMenuItem.Name = "DeveloperModeToolStripMenuItem"
-        Me.DeveloperModeToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.DeveloperModeToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
         Me.DeveloperModeToolStripMenuItem.Text = "Developer Mode"
         Me.DeveloperModeToolStripMenuItem.Visible = False
         '
         'SettingsToolStripMenuItem1
         '
         Me.SettingsToolStripMenuItem1.Name = "SettingsToolStripMenuItem1"
-        Me.SettingsToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.SettingsToolStripMenuItem1.Size = New System.Drawing.Size(178, 22)
         Me.SettingsToolStripMenuItem1.Text = "Settings"
         '
         'InfoToolStripMenuItem
         '
         Me.InfoToolStripMenuItem.Name = "InfoToolStripMenuItem"
-        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.InfoToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
         Me.InfoToolStripMenuItem.Text = "Info"
         '
         'sfd
@@ -3095,7 +3095,7 @@ Partial Class MainProject
         Me.MainMenuStrip = Me.MenuStrip
         Me.MaximizeBox = False
         Me.Name = "MainProject"
-        Me.Text = "UniConverter Beta 4"
+        Me.Text = "UniConverter Beta 5"
         Me.MenuStrip.ResumeLayout(False)
         Me.MenuStrip.PerformLayout()
         Me.HomeEdit.ResumeLayout(False)
