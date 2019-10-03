@@ -24,7 +24,7 @@ Last, UniConverter trims some Sounds, LEDs of UniPack.
 Also, you can edit simple information of UniPack directly!
 But, you can edit detail information of UniPack on Unitor.
 
-You can download UniConverter Latest Version on '[UniConverter Offcial Site](http://ucv.kro.kr)'.
+You can download UniConverter Latest Version on '[UniConverter Official Site](http://ucv.kro.kr)'.
 If you want to use UniConverter Test Version, You must get permission to me. or, You can build the UniConverter directly!
 #### [ Latest Version: v1.1.0.3 (Pre-Release 2)   |   Test Version: v1.2.0.4 ]
 
