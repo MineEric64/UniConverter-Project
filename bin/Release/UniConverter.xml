@@ -172,13 +172,10 @@ o 6 3 a [나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 �
  Get Ableton Project's Chain Number.
  </summary>
 </member>
-<member name="M:UniConverter_Project.DeveloperMode_Project.GetkeyLED(UniConverter_Project.DeveloperMode_Project.EachCode,System.String,System.Boolean,System.Boolean)">
+<member name="M:UniConverter_Project.DeveloperMode_Project.GetkeyLED(UniConverter_Project.DeveloperMode_Project.EachCode)">
  <summary>
  Converting keyLED with XML2keyLED.
  </summary>
- <param name="XMLPath">XML Path.</param>
- <param name="keyLEDFiles">(Create/Don't Create) keyLED Files.</param>
- <param name="DebugFiles">(Create/Don't Create) Debug Files.</param>
  <returns></returns>
 </member>
 <member name="M:UniConverter_Project.DeveloperMode_Project.GetIndex(System.Object,System.String,System.Object,System.Object,System.Boolean)">
@@ -227,39 +224,14 @@ o 6 3 a [나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 �
  현재 체인. (1~8)
  </summary>
 </member>
-<member name="F:UniConverter_Project.keySound_Edit.keySound_MChain">
- <summary>
- 최대 체인. (1~8)
- </summary>
-</member>
 <member name="F:UniConverter_Project.keySound_Edit.keySoundLayoutTrue">
  <summary>
  키사운드 레이아웃 Boolean 여부.
  </summary>
 </member>
-<member name="F:UniConverter_Project.keySound_Edit.keySound_Line">
- <summary>
- 키사운드 텍스트 라인. Index: 0부터 시작
- </summary>
-</member>
-<member name="F:UniConverter_Project.keySound_Edit.PrChain">
- <summary>
- 이전 체인.
- </summary>
-</member>
-<member name="F:UniConverter_Project.keySound_Edit.ResetChain">
- <summary>
- 체인을 리셋. (keySound Layout 버튼)
- </summary>
-</member>
 <member name="F:UniConverter_Project.keySound_Edit.keySoundLoop">
  <summary>
  keySound Loop 여부.
- </summary>
-</member>
-<member name="F:UniConverter_Project.keySound_Edit.keySound_senderGAZUA">
- <summary>
- sender As Object.
  </summary>
 </member>
 <member name="F:UniConverter_Project.keySound_Edit.Erait">
@@ -282,15 +254,125 @@ o 6 3 a [나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 �
  String의 수를 세줍니다. 결과는 Integer.
  </summary>
 </member>
-<member name="M:UniConverter_Project.keyLED_Edit_Advanced.Save2Settings(System.Boolean)">
+<member name="M:UniConverter_Project.Translator.TranslateMain">
+ <summary>
+ Translate the MainProject Form.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.Tutorials.Answers_">
+ <summary>
+ 답변 문자열().
+ </summary>
+</member>
+<member name="M:UniConverter_Project.UG_Settings.Save2Settings(System.Boolean)">
  <summary>
  Save Settings To XML.
  </summary>
  <param name="ShowMessage">Showing Message.</param>
 </member>
-<member name="M:UniConverter_Project.keyLED_Edit_Advanced.LoadSettings">
+<member name="F:UniConverter_Project.MainProject.SoundIsSaved">
  <summary>
- Load Settings To XML.
+ keySound 저장 여부.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.ks_ctrl">
+ <summary>
+ keySound 버튼 저장
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.keySoundLayout">
+ <summary>
+ keySound 레이아웃 여부.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.ksUniPack_X">
+ <summary>
+ X 버튼 좌표. (1~8)
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.ksUniPack_Y">
+ <summary>
+ Y 버튼 좌표. (1~8)
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.keySound_Mapping">
+ <summary>
+ 키사운드 매핑.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.keySound_SameM">
+ <summary>
+ 최대 다중 매핑 지원. (1, 같은 사운드 다중 매핑 적용)
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.keySound_DifM">
+ <summary>
+ 최대 다중 매핑 지원. (2, 다른 사운드 다중 매핑 적용)
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.keySound_CChain">
+ <summary>
+ 현재 체인. (1~8)
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.ksUniPack_SelectedChain">
+ <summary>
+ 선택한 체인. (1~8)
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.keySoundLoop">
+ <summary>
+ keySound Loop 여부.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.ks_PlayLoop1">
+ <summary>
+ keySound Play Loop 1.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.ks_PlayLoop2">
+ <summary>
+ keySound Play Loop 2.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.ks_lpn">
+ <summary>
+ 다른 매핑할 때 소리를 재생함.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.ks_lpu">
+ <summary>
+ 현재 소리를 재생.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.ks_Converted">
+ <summary>
+ keySound 변환 여부.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.keyLEDIsSaved">
+ <summary>
+ MainProject keyLED 저장 여부. (keyLED / keyLED (MIDEX))
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.kl_ctrl">
+ <summary>
+ keyLED 버튼 저장
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.klUniPack_SelectedChain">
+ <summary>
+ 현재 선택한 체인. (1~8)
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.led">
+ <summary>
+ HTML to LED Velocity.
+ </summary>
+</member>
+<member name="F:UniConverter_Project.MainProject.kl_Converted">
+ <summary>
+ keyLED 변환 여부.
  </summary>
 </member>
 <member name="F:UniConverter_Project.MainProject.LicenseFile">
@@ -343,24 +425,9 @@ o 6 3 a [나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 �
  Waiting For Ableton Project. (LED Convert: "keyLED")
  </summary>
 </member>
-<member name="F:UniConverter_Project.MainProject.SoundIsSaved">
+<member name="F:UniConverter_Project.MainProject.lang">
  <summary>
- keySound 저장 여부.
- </summary>
-</member>
-<member name="F:UniConverter_Project.MainProject.LLV">
- <summary>
- 사운드 검색시 원본 리스트뷰. (Searching Sound ListView)
- </summary>
-</member>
-<member name="F:UniConverter_Project.MainProject.TVLV">
- <summary>
- Tempoary Virtual ListView. 사운드 로드시 임시로 저장하는 리스트뷰. (Reading from Ableton Project)
- </summary>
-</member>
-<member name="F:UniConverter_Project.MainProject.keyLEDIsSaved">
- <summary>
- MainProject keyLED 저장 여부. (keyLED / keyLED (MIDEX))
+ 유니컨버터 언어. (English / Korean)
  </summary>
 </member>
 <member name="F:UniConverter_Project.MainProject.midioutput_kind">
@@ -441,7 +508,14 @@ o 6 3 a [나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 �
  <summary>
  UniPack의 info 파일을 저장합니다.
  </summary>
- <param name="Message">메시지박스를 표시함.</param>
+ <param name="Message">메시지 박스를 표시함.</param>
+</member>
+<member name="M:UniConverter_Project.MainProject.SplitbyLine(System.String)">
+ <summary>
+ Line by Line으로 문자열을 자릅니다.
+ </summary>
+ <param name="inputstr">문자열.</param>
+ <returns></returns>
 </member>
 <member name="M:UniConverter_Project.MainProject.Save2Project(System.Boolean)">
  <summary>
@@ -471,21 +545,12 @@ o 6 3 a [나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 �
  <param name="pattern"></param>
  <returns></returns>
 </member>
-<member name="F:UniConverter_Project.Tutorials.lang">
+<member name="M:UniConverter_Project.MainProject.StringsToString(System.String[])">
  <summary>
- 언어 정보.
+ String() 형식을 String으로 변환 합니다.
  </summary>
-</member>
-<member name="F:UniConverter_Project.Tutorials.Answers_">
- <summary>
- 답변 문자열().
- </summary>
-</member>
-<member name="M:UniConverter_Project.UG_Settings.Save2Settings(System.Boolean)">
- <summary>
- Save Settings To XML.
- </summary>
- <param name="ShowMessage">Showing Message.</param>
+ <param name="inputstr">문자열</param>
+ <returns></returns>
 </member>
 </members>
 </doc>

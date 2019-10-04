@@ -1,5 +1,6 @@
 ﻿Imports System.IO
 Imports System.Net
+Imports System.Text
 Imports System.Threading
 
 Public Class Tutorials
@@ -77,7 +78,7 @@ Public Class Tutorials
 
     Public Sub Tutorial_ReadMark()
         Dim TutorialsDir As String = MainProject.TempDirectory & "\UniConverter-Tutorials.uni"
-        Dim tstr As String() = File.ReadAllLines(TutorialsDir)
+        Dim tstr As String() = File.ReadAllLines(TutorialsDir, Encoding.Default)
         Dim skipInt As Integer = 0
 
         For i As Integer = 0 To tstr.Count - 1

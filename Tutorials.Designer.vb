@@ -30,9 +30,9 @@ Partial Class Tutorials
         '
         'Q_ListView
         '
-        resources.ApplyResources(Me.Q_ListView, "Q_ListView")
         Me.Q_ListView.AllowDrop = True
         Me.Q_ListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.Qs})
+        resources.ApplyResources(Me.Q_ListView, "Q_ListView")
         Me.Q_ListView.FullRowSelect = True
         Me.Q_ListView.HideSelection = False
         Me.Q_ListView.MultiSelect = False
@@ -56,6 +56,7 @@ Partial Class Tutorials
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.Controls.Add(Me.A_RichTextBox)
         Me.Controls.Add(Me.Q_ListView)
+        Me.MaximizeBox = False
         Me.Name = "Tutorials"
         Me.ResumeLayout(False)
 

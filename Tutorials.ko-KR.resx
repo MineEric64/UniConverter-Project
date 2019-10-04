@@ -117,80 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Qs.Text" xml:space="preserve">
-    <value>Questions</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Qs.Width" type="System.Int32, mscorlib">
-    <value>498</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="Q_ListView.Font" type="System.Drawing.Font, System.Drawing">
-    <value>나눔고딕 ExtraBold, 8.999999pt, style=Bold</value>
-  </data>
-  <data name="Q_ListView.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 14</value>
-  </data>
-  <data name="Q_ListView.Size" type="System.Drawing.Size, System.Drawing">
-    <value>502, 174</value>
-  </data>
-  <data name="Q_ListView.TabIndex" type="System.Int32, mscorlib">
-    <value>24</value>
-  </data>
-  <data name="&gt;&gt;Q_ListView.Name" xml:space="preserve">
-    <value>Q_ListView</value>
-  </data>
-  <data name="&gt;&gt;Q_ListView.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ListView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Q_ListView.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
   <data name="&gt;&gt;Q_ListView.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="A_RichTextBox.Font" type="System.Drawing.Font, System.Drawing">
-    <value>나눔고딕, 11.25pt</value>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Q_ListView.TabIndex" type="System.Int32, mscorlib">
+    <value>24</value>
   </data>
-  <data name="A_RichTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 196</value>
-  </data>
-  <data name="A_RichTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>502, 314</value>
-  </data>
-  <data name="A_RichTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>25</value>
-  </data>
-  <data name="A_RichTextBox.Text" xml:space="preserve">
-    <value />
-  </data>
-  <data name="&gt;&gt;A_RichTextBox.Name" xml:space="preserve">
-    <value>A_RichTextBox</value>
-  </data>
-  <data name="&gt;&gt;A_RichTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RichTextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;A_RichTextBox.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;A_RichTextBox.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>7, 14</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="$this.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
-    <value>GrowAndShrink</value>
+  <data name="Qs.Text" xml:space="preserve">
+    <value>Questions</value>
   </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>526, 525</value>
-  </data>
-  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
-    <value>나눔바른고딕, 8.999999pt</value>
+  <data name="&gt;&gt;A_RichTextBox.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -2158,19 +2100,73 @@
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 </value>
   </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Tutorials</value>
-  </data>
-  <data name="&gt;&gt;Qs.Name" xml:space="preserve">
-    <value>Qs</value>
-  </data>
   <data name="&gt;&gt;Qs.Type" xml:space="preserve">
     <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="A_RichTextBox.Font" type="System.Drawing.Font, System.Drawing">
+    <value>나눔고딕, 11.25pt</value>
+  </data>
+  <data name="A_RichTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>25</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>Tutorials</value>
   </data>
+  <data name="Qs.Width" type="System.Int32, mscorlib">
+    <value>498</value>
+  </data>
+  <data name="&gt;&gt;Qs.Name" xml:space="preserve">
+    <value>Qs</value>
+  </data>
+  <data name="A_RichTextBox.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>526, 525</value>
+  </data>
+  <data name="A_RichTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 196</value>
+  </data>
+  <data name="&gt;&gt;A_RichTextBox.Name" xml:space="preserve">
+    <value>A_RichTextBox</value>
+  </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;Q_ListView.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="A_RichTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>502, 314</value>
+  </data>
+  <data name="Q_ListView.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 14</value>
+  </data>
+  <data name="&gt;&gt;A_RichTextBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;Q_ListView.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ListView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Q_ListView.Name" xml:space="preserve">
+    <value>Q_ListView</value>
+  </data>
+  <data name="&gt;&gt;A_RichTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RichTextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Q_ListView.Font" type="System.Drawing.Font, System.Drawing">
+    <value>나눔고딕 ExtraBold, 8.999999pt, style=Bold</value>
+  </data>
+  <data name="Q_ListView.Size" type="System.Drawing.Size, System.Drawing">
+    <value>502, 174</value>
+  </data>
+  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
+    <value>나눔바른고딕, 8.999999pt</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Tutorials</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
 </root>

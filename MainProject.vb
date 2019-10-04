@@ -514,7 +514,7 @@ Public Class MainProject
             IsUpdated = False
             IsWorking = False
             ks_Converted = False
-            kl_Converted = True
+            kl_Converted = False
 
             w8t4abl = String.Empty
             OpenProjectOnce = False
