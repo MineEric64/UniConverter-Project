@@ -131,6 +131,7 @@ Public Class MainProject
     Public Shared ofd_FileName As String
     Private ofd_FileNames() As String
     Private trd_ListView As ListView
+    Private updateShow As Boolean = False
 #End Region
 
     ''' <summary>
@@ -1821,50 +1822,44 @@ fexLine:
         End Try
     End Sub
 
-
     Private Sub CheckUpdateToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CheckUpdateToolStripMenuItem.Click
-        If BGW_CheckUpdate.IsBusy = False Then
-            BGW_CheckUpdate.RunWorkerAsync()
-        End If
-
-        If My.Computer.Network.IsAvailable = True Then
-            Try
-                If My.Application.Info.Version = FileInfo Then
-                    Select Case lang
-                        Case Translator.tL.English
-                            MessageBox.Show("You are using a Latest Version." & vbNewLine & vbNewLine &
-                      "Current Version : " & My.Application.Info.Version.ToString & vbNewLine & "Latest Version : " & FileInfo.ToString, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        Case Translator.tL.Korean
-                            MessageBox.Show("최신 버전을 사용하고 있습니다." & vbNewLine & vbNewLine &
-                      "현재 버전 : " & My.Application.Info.Version.ToString & vbNewLine & "최신 버전 : " & FileInfo.ToString, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    End Select
-                ElseIf My.Application.Info.Version > FileInfo Then
-                    Select Case lang
-                        Case Translator.tL.English
-                            MessageBox.Show("You are using a Test Version!" & vbNewLine & vbNewLine & "Current Version : " & FileInfo.ToString & vbNewLine &
-                       "Your Test Version : " & My.Application.Info.Version.ToString, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        Case Translator.tL.Korean
-                            MessageBox.Show("테스트 버전을 사용하고 있습니다!" & vbNewLine & vbNewLine & "현재 버전 : " & FileInfo.ToString & vbNewLine &
-                       "테스트 버전 : " & My.Application.Info.Version.ToString, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    End Select
-                End If
-            Catch exN As ArgumentNullException
-                Select Case lang
-                    Case Translator.tL.English
-                        MessageBox.Show("Network Connect Failed! Can't Check Update.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    Case Translator.tL.Korean
-                        MessageBox.Show("네트워크를 연결할 수 없습니다! 업데이트를 확인할 수 없습니다.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-                End Select
-                Exit Sub
-            End Try
-        Else
+        If My.Computer.Network.IsAvailable = False Then
             Select Case lang
                 Case Translator.tL.English
                     MessageBox.Show("Network Connect Failed! Can't Check Update.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Case Translator.tL.Korean
                     MessageBox.Show("네트워크를 연결할 수 없습니다! 업데이트를 확인할 수 없습니다.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Select
+            Exit Sub
         End If
+
+        Try
+            If My.Application.Info.Version = FileInfo Then
+                Select Case lang
+                    Case Translator.tL.English
+                        MessageBox.Show("You are using a Latest Version." & vbNewLine & vbNewLine &
+              "Current Version : " & My.Application.Info.Version.ToString & vbNewLine & "Latest Version : " & FileInfo.ToString, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Case Translator.tL.Korean
+                        MessageBox.Show("최신 버전을 사용하고 있습니다." & vbNewLine & vbNewLine &
+              "현재 버전 : " & My.Application.Info.Version.ToString & vbNewLine & "최신 버전 : " & FileInfo.ToString, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End Select
+            ElseIf My.Application.Info.Version > FileInfo Then
+                Select Case lang
+                    Case Translator.tL.English
+                        MessageBox.Show("You are using a Test Version!" & vbNewLine & vbNewLine & "Current Version : " & FileInfo.ToString & vbNewLine &
+               "Your Test Version : " & My.Application.Info.Version.ToString, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Case Translator.tL.Korean
+                        MessageBox.Show("테스트 버전을 사용하고 있습니다!" & vbNewLine & vbNewLine & "현재 버전 : " & FileInfo.ToString & vbNewLine &
+               "테스트 버전 : " & My.Application.Info.Version.ToString, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End Select
+            End If
+
+        Catch ex As ArgumentNullException
+            updateShow = True
+            If BGW_CheckUpdate.IsBusy = False Then
+                BGW_CheckUpdate.RunWorkerAsync()
+            End If
+        End Try
     End Sub
 
     Private Sub CheckUpdate(sender As Object, e As DoWorkEventArgs) Handles BGW_CheckUpdate.DoWork
@@ -1911,17 +1906,17 @@ fexLine:
                     Client.DownloadFile("http://dpr.ucv.kro.kr", My.Computer.FileSystem.SpecialDirectories.Temp & "\UniConverter-Update.zip")
 
                     If Dir(Application.StartupPath & "\UniConverter_v" & FileInfo.ToString, vbDirectory) <> "" Then
-                               If File.Exists(Application.StartupPath & "\UniConverter_v" & FileInfo.ToString & "\UniConverter.exe") Then
-                                   My.Computer.FileSystem.DeleteDirectory(Application.StartupPath & "\UniConverter_v" & FileInfo.ToString, FileIO.DeleteDirectoryOption.DeleteAllContents)
-                                   My.Computer.FileSystem.CreateDirectory(Application.StartupPath & "\UniConverter_v" & FileInfo.ToString)
-                                   ZipFile.ExtractToDirectory(My.Computer.FileSystem.SpecialDirectories.Temp & "\UniConverter-Update.zip", "UniConverter_v" & FileInfo.ToString)
-                               Else
-                                   ZipFile.ExtractToDirectory(My.Computer.FileSystem.SpecialDirectories.Temp & "\UniConverter-Update.zip", "UniConverter_v" & FileInfo.ToString)
-                               End If
-                           Else
-                               My.Computer.FileSystem.CreateDirectory(Application.StartupPath & "\UniConverter_v" & FileInfo.ToString)
-                               ZipFile.ExtractToDirectory(My.Computer.FileSystem.SpecialDirectories.Temp & "\UniConverter-Update.zip", "UniConverter_v" & FileInfo.ToString)
-                           End If
+                        If File.Exists(Application.StartupPath & "\UniConverter_v" & FileInfo.ToString & "\UniConverter.exe") Then
+                            My.Computer.FileSystem.DeleteDirectory(Application.StartupPath & "\UniConverter_v" & FileInfo.ToString, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                            My.Computer.FileSystem.CreateDirectory(Application.StartupPath & "\UniConverter_v" & FileInfo.ToString)
+                            ZipFile.ExtractToDirectory(My.Computer.FileSystem.SpecialDirectories.Temp & "\UniConverter-Update.zip", "UniConverter_v" & FileInfo.ToString)
+                        Else
+                            ZipFile.ExtractToDirectory(My.Computer.FileSystem.SpecialDirectories.Temp & "\UniConverter-Update.zip", "UniConverter_v" & FileInfo.ToString)
+                        End If
+                    Else
+                        My.Computer.FileSystem.CreateDirectory(Application.StartupPath & "\UniConverter_v" & FileInfo.ToString)
+                        ZipFile.ExtractToDirectory(My.Computer.FileSystem.SpecialDirectories.Temp & "\UniConverter-Update.zip", "UniConverter_v" & FileInfo.ToString)
+                    End If
                     With Loading
                         UI(Sub()
                                .DLb.Left = 120
@@ -1953,8 +1948,28 @@ fexLine:
                     End With
                 End If
             End If
-        Else
-            MessageBox.Show("Network Connect Failed! Can't Check Update.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+
+            If updateShow Then
+                If My.Application.Info.Version = FileInfo Then
+                    Select Case lang
+                        Case Translator.tL.English
+                            MessageBox.Show("You are using a Latest Version." & vbNewLine & vbNewLine &
+              "Current Version : " & My.Application.Info.Version.ToString & vbNewLine & "Latest Version : " & FileInfo.ToString, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Case Translator.tL.Korean
+                            MessageBox.Show("최신 버전을 사용하고 있습니다." & vbNewLine & vbNewLine &
+              "현재 버전 : " & My.Application.Info.Version.ToString & vbNewLine & "최신 버전 : " & FileInfo.ToString, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End Select
+                ElseIf My.Application.Info.Version > FileInfo Then
+                    Select Case lang
+                        Case Translator.tL.English
+                            MessageBox.Show("You are using a Test Version!" & vbNewLine & vbNewLine & "Current Version : " & FileInfo.ToString & vbNewLine &
+               "Your Test Version : " & My.Application.Info.Version.ToString, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Case Translator.tL.Korean
+                            MessageBox.Show("테스트 버전을 사용하고 있습니다!" & vbNewLine & vbNewLine & "현재 버전 : " & FileInfo.ToString & vbNewLine &
+               "테스트 버전 : " & My.Application.Info.Version.ToString, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End Select
+                End If
+            End If
         End If
     End Sub
 

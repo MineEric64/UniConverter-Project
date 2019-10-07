@@ -9,7 +9,7 @@ Imports System.Runtime.InteropServices
 ' 어셈블리 특성 값을 검토합니다.
 
 <Assembly: AssemblyTitle("UniConverter")>
-<Assembly: AssemblyDescription("UniConverter changes Abelton Project to Unipack.")>
+<Assembly: AssemblyDescription("UniConverter changes Abelton Project to UniPack.")>
 <Assembly: AssemblyCompany("UniLab")>
 <Assembly: AssemblyProduct("UniConverter")>
 <Assembly: AssemblyCopyright("Copyright © 2018~2019 최에릭, Follow_JB All Rights Reserved.")>
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' 지정되도록 할 수 있습니다.
 ' <Assembly: AssemblyVersion("1.0.*")>
 
-<Assembly: AssemblyVersion("1.2.0.4")>
-<Assembly: AssemblyFileVersion("1.2.0.4")>
+<Assembly: AssemblyVersion("1.2.0.5")>
+<Assembly: AssemblyFileVersion("1.2.0.5")>
