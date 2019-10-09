@@ -34,7 +34,6 @@ Partial Class Sound_Cutting
         Me.lblstat = New System.Windows.Forms.Label()
         Me.ofdFile = New System.Windows.Forms.OpenFileDialog()
         Me.btnSelectSource = New System.Windows.Forms.Button()
-        Me.Label2 = New System.Windows.Forms.Label()
         Me.RichTextBox1 = New System.Windows.Forms.RichTextBox()
         Me.txtSource = New System.Windows.Forms.TextBox()
         Me.CutButton = New System.Windows.Forms.Button()
@@ -43,6 +42,8 @@ Partial Class Sound_Cutting
         Me.AfterTabCheckBox = New System.Windows.Forms.CheckBox()
         Me.asdFileButton = New System.Windows.Forms.Button()
         Me.alcFileButton = New System.Windows.Forms.Button()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Button1 = New System.Windows.Forms.Button()
         CType(Me.SoundCutControl, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -91,7 +92,7 @@ Partial Class Sound_Cutting
         Me.SoundCutControl.AllowUserToAddRows = False
         Me.SoundCutControl.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.SoundCutControl.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.colStart, Me.colEnd, Me.colFileName, Me.colisAuto, Me.colTest})
-        Me.SoundCutControl.Location = New System.Drawing.Point(25, 229)
+        Me.SoundCutControl.Location = New System.Drawing.Point(364, 228)
         Me.SoundCutControl.Name = "SoundCutControl"
         Me.SoundCutControl.RowTemplate.Height = 23
         Me.SoundCutControl.Size = New System.Drawing.Size(499, 289)
@@ -140,16 +141,6 @@ Partial Class Sound_Cutting
         Me.btnSelectSource.TabIndex = 26
         Me.btnSelectSource.Text = "..."
         Me.btnSelectSource.UseVisualStyleBackColor = True
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Font = New System.Drawing.Font("나눔바른고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.Label2.Location = New System.Drawing.Point(21, 114)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(72, 15)
-        Me.Label2.TabIndex = 25
-        Me.Label2.Text = "Source File"
         '
         'RichTextBox1
         '
@@ -220,11 +211,31 @@ Partial Class Sound_Cutting
         Me.alcFileButton.Text = "Hoxy using .alc file?"
         Me.alcFileButton.UseVisualStyleBackColor = True
         '
-        'CuttingSound
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Font = New System.Drawing.Font("나눔바른고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.Label2.Location = New System.Drawing.Point(21, 114)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(72, 15)
+        Me.Label2.TabIndex = 25
+        Me.Label2.Text = "Source File"
+        '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(583, 112)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(75, 23)
+        Me.Button1.TabIndex = 36
+        Me.Button1.Text = "Test"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
+        'Sound_Cutting
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 14.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(546, 532)
+        Me.ClientSize = New System.Drawing.Size(847, 532)
+        Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.alcFileButton)
         Me.Controls.Add(Me.asdFileButton)
         Me.Controls.Add(Me.AfterTabCheckBox)
@@ -240,7 +251,7 @@ Partial Class Sound_Cutting
         Me.Controls.Add(Me.CutButton)
         Me.Controls.Add(Me.ProgressBar1)
         Me.Font = New System.Drawing.Font("나눔고딕", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.Name = "CuttingSound"
+        Me.Name = "Sound_Cutting"
         Me.Text = "Sound Cutter"
         CType(Me.SoundCutControl, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -260,7 +271,6 @@ Partial Class Sound_Cutting
     Friend WithEvents lblstat As Label
     Friend WithEvents ofdFile As OpenFileDialog
     Friend WithEvents btnSelectSource As Button
-    Friend WithEvents Label2 As Label
     Friend WithEvents RichTextBox1 As RichTextBox
     Friend WithEvents txtSource As TextBox
     Friend WithEvents CutButton As Button
@@ -269,4 +279,6 @@ Partial Class Sound_Cutting
     Friend WithEvents AfterTabCheckBox As CheckBox
     Friend WithEvents asdFileButton As Button
     Friend WithEvents alcFileButton As Button
+    Friend WithEvents Label2 As Label
+    Friend WithEvents Button1 As Button
 End Class

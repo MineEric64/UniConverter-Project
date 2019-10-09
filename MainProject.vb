@@ -267,24 +267,6 @@ Public Class MainProject
     ''' </summary>
     Public Shared TempDirectory As String = My.Computer.FileSystem.SpecialDirectories.Temp
 
-    ''' <summary>
-    '''  LAME으로 소리 확장자 변환. 현재 MP3toWAV 변환 가능. FileName의 경우 반드시 Application.StartupPath로 File을 지정하기 바람.
-    ''' </summary>
-    ''' <param name="CMDpath">CMD Path. (ex: Application.StartupPath + "\lame\cmd.exe")</param>
-    ''' <param name="LAMEpath">Lame Path. (ex: Application.StartupPath + "\lame\lame.exe")</param> 
-    ''' <param name="resFile">Original File Path. (ex: Application.StartupPath + "\Workspace\Hello_World.mp3")</param> 
-    ''' <param name="desFile">Destination File Path. (ex: Application.StartupPath + "\Workspace\Hello_World.wav")</param> 
-    ''' <param name="LameOption">Lame's Option Argument. (ex: "--preset extreme")</param> 
-    ''' <param name="HideCMD">Hiding CMD. (ex: True)</param>
-    ''' <param name="AppStyle">CMD App Style. (ex: AppWinStyle.Hide)</param>
-    Public Shared Sub Lame(CMDpath As String, LAMEpath As String, resFile As String, desFile As String, LameOption As String, HideCMD As Boolean, AppStyle As AppWinStyle)
-        If HideCMD = True Then
-            Shell(CMDpath + " /k " & LAMEpath & " " & ast & resFile & ast & " " & desFile & " " & LameOption, AppStyle)
-        ElseIf HideCMD = False Then
-            Shell(CMDpath + " /c " & LAMEpath & " " & ast & resFile & ast & " " & desFile & " " & LameOption, AppStyle)
-        End If
-    End Sub
-
     Private Sub MainProject_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
 
@@ -1434,6 +1416,111 @@ Public Class MainProject
         End Try
     End Sub
 
+    Private Sub BGW_soundcut_DoWork(sender As Object, e As DoWorkEventArgs) Handles BGW_soundcut.DoWork
+        Try
+            If e.Cancel = False AndAlso IsWorking = False AndAlso abl_openedproj AndAlso abl_openedsnd Then
+                IsWorking = True
+
+                UI(Sub()
+                       With Loading
+                           .Show()
+                           Select Case lang
+                               Case Translator.tL.English
+                                   .Text = Loading.MsgEn.loading_soundcut_def_msg
+                                   .DLb.Text = Loading.MsgEn.loading_soundcut_open_msg
+                               Case Translator.tL.Korean
+                                   .Text = Loading.MsgKr.loading_soundcut_def_msg
+                                   .DLb.Text = Loading.MsgKr.loading_soundcut_open_msg
+                           End Select
+                           .DLb.Left -= 20
+                           .DPr.Style = ProgressBarStyle.Marquee
+                           .DPr.MarqueeAnimationSpeed = 10
+                       End With
+                   End Sub)
+
+                UI(Sub()
+                       Select Case lang
+                           Case Translator.tL.English
+                               Loading.DLb.Text = Loading.MsgEn.loading_Project_DeleteTmp_msg
+                           Case Translator.tL.Korean
+                               Loading.DLb.Text = Loading.MsgKr.loading_Project_DeleteTmp_msg
+                       End Select
+                   End Sub)
+
+                If Directory.Exists(Application.StartupPath & "\Workspace\unipack\sounds") Then
+                    Directory.Delete(Application.StartupPath & "\Workspace\unipack\sounds", True)
+                    Thread.Sleep(300)
+                    Directory.CreateDirectory(Application.StartupPath & "\Workspace\unipack\sounds")
+                Else
+                    Directory.CreateDirectory(Application.StartupPath & "\Workspace\unipack\sounds")
+                End If
+
+                If Directory.Exists(Application.StartupPath & "\Workspace\TmpSound") Then
+                    Directory.Delete(Application.StartupPath & "\Workspace\TmpSound", True)
+                    Thread.Sleep(300)
+                    Directory.CreateDirectory(Application.StartupPath & "\Workspace\TmpSound")
+                Else
+                    Directory.CreateDirectory(Application.StartupPath & "\Workspace\TmpSound")
+                End If
+
+                UI(Sub()
+                           Select Case lang
+                               Case Translator.tL.English
+                                   Loading.DLb.Text = Loading.MsgEn.loading_soundcut_open_msg
+                               Case Translator.tL.Korean
+                                   Loading.DLb.Text = Loading.MsgKr.loading_soundcut_open_msg
+                           End Select
+                       End Sub)
+
+                    Dim ablprj As String = Application.StartupPath & "\Workspace\ableproj\abl_proj.xml"
+                    Dim doc As New XmlDocument
+                    Dim setNode As XmlNodeList
+
+                    doc.Load(ablprj)
+                    setNode = doc.GetElementsByTagName("InstrumentBranch")
+
+                    '에이블톤 sounds Crop 길이는 InstrumentBranch > DeviceChain > MidiToAudioDeviceChain > 
+                    'Devices > OriginalSimpler > Player > MultiSampleMap > SampleParts > MultiSamplePart > 
+                    'SampleEnd Value - SampleStart Value에 있습니다.
+
+                    '제 생각에는 만약 100ms 오디오가 있으면, SampleEnd - SampleStart 값은 10000이 되는 것 같습니다.
+                    '물론 제 가설입니다. 테스트 하면서 시행착오가 있겠죠...
+
+                    For Each x As XmlNode In setNode
+
+                        Dim sndName As String = x.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("OriginalSimpler").Item("Player").Item("MultiSampleMap").Item("SampleParts").Item("MultiSamplePart").Item("SampleRef").Item("FileRef").Item("Name").GetAttribute("Value")
+                        Dim ssTime As Long = x.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("OriginalSimpler").Item("Player").Item("MultiSampleMap").Item("SampleParts").Item("MultiSamplePart").Item("SampleStart").GetAttribute("Value")
+                        Dim seTime As Long = x.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("OriginalSimpler").Item("Player").Item("MultiSampleMap").Item("SampleParts").Item("MultiSamplePart").Item("SampleEnd").GetAttribute("Value")
+
+                    Dim StartTime As TimeSpan = sLToTime(ssTime)
+                    Dim EndTime As TimeSpan = sLToTime(seTime)
+
+                    If sndName.Contains(".mp3") Then
+                        sndName = sndName.Replace(".mp3", ".wav") '이미 파일을 불러왔을 때 변환이 되었으니 replace.
+                    End If
+
+                    Sound_Cutting.TrimWavFile(Application.StartupPath & "\Workspace\ableproj\sounds\" & sndName, Application.StartupPath & "\Workspace\TmpSound" & sndName, StartTime, EndTime)
+
+                Next
+
+                End If
+        Catch ex As Exception
+            If IsGreatExMode Then
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Else
+                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+        End Try
+    End Sub
+
+    Public Function SetFileName(ByVal FilePath As String, ByVal name As String) As String
+        Dim rName As String
+        Dim filename As String = FilePath.Split(Path.DirectorySeparatorChar).Last()
+
+        rName = FilePath.Replace(filename, name)
+        Return rName
+    End Function
+
     Private Sub ShowkeySoundLayout()
         If keySoundLayout = False Then
             clskeySoundLayout()
@@ -1724,29 +1811,34 @@ Public Class MainProject
             Next
 
         ElseIf Path.GetExtension(FileNames(FileNames.Length - 1)) = ".mp3" Then
+
             If My.Computer.FileSystem.DirectoryExists("Workspace\ableproj\sounds") = True Then
                 My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
             End If
             My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\sounds")
 
             For i = 0 To FileNames.Length - 1
-                File.Copy(FileNames(i), "Workspace\" & FileNames(i).Split("\").Last.Replace(" ", "").Trim(), True)
-            Next
-
-            For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\", FileIO.SearchOption.SearchTopLevelOnly, "*.mp3")
-                Lame("lame\cmd.exe", "lame\lame.exe", foundFile.Replace(Application.StartupPath + "\", ""), foundFile.Replace(".mp3", ".wav").Replace(Application.StartupPath + "\", ""), "--preset extreme", False, AppWinStyle.Hide)
+                File.Copy(FileNames(i), "Workspace\TmpSound\" & FileNames(i).Split("\").Last.Replace(" ", "").Trim(), True)
             Next
 
             Try
-fexLine:
                 For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\", FileIO.SearchOption.SearchTopLevelOnly, "*.mp3")
-                    If File.Exists(foundFile.Replace(".mp3", ".wav")) Then
-                        File.Move(foundFile.Replace(".mp3", ".wav"), "Workspace\ableproj\sounds\" & Path.GetFileName(foundFile.Replace(".mp3", ".wav")))
+                    Dim wavFile As String = foundFile.Replace(".mp3", ".wav")
+
+                    Sound_Cutting.Mp3ToWav(foundFile, wavFile)
+                    Thread.Sleep(300)
+
+                    If File.Exists(wavFile) Then
+
+                        File.Move(wavFile, "Workspace\ableproj\sounds\" & Path.GetFileName(wavFile))
+                        Thread.Sleep(300)
                         File.Delete(foundFile)
+
                         UI(Sub()
                                Loading.DPr.Style = ProgressBarStyle.Continuous
                                Loading.DPr.Value += 1
                                Loading.DLb.Left = 40
+
                                Select Case lang
                                    Case Translator.tL.English
                                        Loading.DLb.Text = String.Format(Loading.MsgEn.loading_Sound_Open_msg, Loading.DPr.Value, ofd.FileNames.Length)
@@ -1754,11 +1846,10 @@ fexLine:
                                        Loading.DLb.Text = String.Format(Loading.MsgKr.loading_Sound_Open_msg, Loading.DPr.Value, ofd.FileNames.Length)
                                End Select
                            End Sub)
+
                     End If
                 Next
             Catch fex As IOException 'I/O 오류 해결 코드.
-                Thread.Sleep(100)
-                GoTo fexLine
             End Try
         End If
 
@@ -1983,7 +2074,14 @@ fexLine:
         End If
 
         If IsSaved = False Then
-            Dim result As DialogResult = MessageBox.Show("You didn't save your UniPack. Would you like to save your UniPack?", Me.Text & ": Not Saved", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
+            Dim result As DialogResult
+            Select Case lang
+                Case Translator.tL.English
+                    result = MessageBox.Show("You didn't save your UniPack. Would you like to save your UniPack?", Me.Text & ": Not Saved", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
+                Case Translator.tL.Korean
+                    result = MessageBox.Show("유니팩을 저장하지 않으셨습니다. 유니팩을 저장 하시겠습니까?", Me.Text & ": 저장하지 않음", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
+            End Select
+
             If result = DialogResult.Yes Then
                 ThreadPool.QueueUserWorkItem(AddressOf Save2Project, False)
             ElseIf result = DialogResult.Cancel Then
