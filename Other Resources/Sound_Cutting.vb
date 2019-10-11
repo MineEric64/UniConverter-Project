@@ -190,7 +190,7 @@ Public Class Sound_Cutting
                 Dim endBytes = CInt(cutFromEnd.TotalMilliseconds) * bytesPerMillisecond
                 endBytes = endBytes - endBytes Mod reader.WaveFormat.BlockAlign
                 Dim endPos = CInt(reader.Length) - endBytes
-                TrimWavFile(reader, writer, startPos, endPos)
+                TrimWavFile(reader, writer, startPos, endBytes)
 
             End Using
         End Using
@@ -202,9 +202,14 @@ Public Class Sound_Cutting
 
         While reader.Position < endPos
             Dim bytesRequired = CInt(endPos - reader.Position)
-
             If bytesRequired > 0 Then
-                Dim bytesToRead = Math.Min(bytesRequired, buffer.Length)
+                Dim bytesToRead As Integer
+                Select Case reader.WaveFormat.BitsPerSample
+                    Case 16
+                        bytesToRead = Math.Min(bytesRequired, buffer.Length)
+                    Case 24
+                        bytesToRead = Math.Min(bytesRequired, buffer.Length - (buffer.Length Mod reader.WaveFormat.BlockAlign))
+                End Select
                 Dim bytesRead As Integer = reader.Read(buffer, 0, bytesToRead)
 
                 If bytesRead > 0 Then
@@ -222,8 +227,8 @@ Public Class Sound_Cutting
 
     Private Sub txtSource_TextChanged(sender As Object, e As EventArgs) Handles txtSource.TextChanged
         If (My.Computer.FileSystem.FileExists(Me.txtSource.Text) = True) Then
-            Dim a As New Mp3FileReader(Me.txtSource.Text)
-            Me.lblSoundLength.Text = "Length: " & a.TotalTime.ToString
+            'Dim a As New Mp3FileReader(Me.txtSource.Text)
+            'Me.lblSoundLength.Text = "Length: " & a.TotalTime.ToString
         End If
     End Sub
 
@@ -281,17 +286,14 @@ Public Class Sound_Cutting
 
     End Sub
 
-    Private Sub CuttingSound_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        txtSource.Text = MainProject.ofd_FileName
-    End Sub
-
     '완벽한 코드.
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        Dim outputPath As String = SetFileName(txtSource.Text, Path.GetFileNameWithoutExtension(txtSource.Text) & "_Trim.mp3")
+        Dim outputPath As String = SetFileName(txtSource.Text, Path.GetFileNameWithoutExtension(txtSource.Text) & "_Trim.wav")
         Dim startTime As TimeSpan = TimeSpan.Parse("0:0:10.0000000")
         Dim endTime As TimeSpan = TimeSpan.Parse("0:0:20.0000000")
-        TrimMp3(txtSource.Text, outputPath, startTime, endTime)
-        Mp3ToWav(outputPath, outputPath.Replace(".mp3", ".wav"))
+        TrimWavFile(txtSource.Text, outputPath, startTime, endTime)
+        'TrimMp3(txtSource.Text, outputPath, startTime, endTime)
+        'Mp3ToWav(outputPath, outputPath.Replace(".mp3", ".wav"))
     End Sub
 
     Public Function SetFileName(ByVal FilePath As String, ByVal name As String) As String

@@ -553,7 +553,7 @@ Public Class MainProject
     Public Sub DeleteWorkspaceDir()
         If Directory.Exists(Application.StartupPath & "\Workspace") Then
             Directory.Delete(Application.StartupPath & "\Workspace", True)
-            Thread.Sleep(300)
+            Thread.Sleep(500)
             Directory.CreateDirectory(Application.StartupPath & "\Workspace")
         Else
             Directory.CreateDirectory(Application.StartupPath & "\Workspace")
@@ -1479,18 +1479,40 @@ Public Class MainProject
                     doc.Load(ablprj)
                     setNode = doc.GetElementsByTagName("InstrumentBranch")
 
-                    '에이블톤 sounds Crop 길이는 InstrumentBranch > DeviceChain > MidiToAudioDeviceChain > 
-                    'Devices > OriginalSimpler > Player > MultiSampleMap > SampleParts > MultiSamplePart > 
-                    'SampleEnd Value - SampleStart Value에 있습니다.
+                UI(Sub()
+                       Loading.DPr.Style = ProgressBarStyle.Continuous
+                       Loading.DPr.Value = 0
+                       Loading.DPr.Maximum = setNode.Count
+                       Select Case lang
+                           Case Translator.tL.English
+                               Loading.DLb.Text = String.Format(Loading.MsgEn.loading_soundcut_convert1_msg, 0, Loading.DPr.Maximum)
+                           Case Translator.tL.Korean
+                               Loading.DLb.Text = String.Format(Loading.MsgKr.loading_soundcut_convert1_msg, 0, Loading.DPr.Maximum)
+                       End Select
+                       Loading.DLb.Left -= 30
+                   End Sub)
 
-                    '제 생각에는 만약 100ms 오디오가 있으면, SampleEnd - SampleStart 값은 10000이 되는 것 같습니다.
-                    '물론 제 가설입니다. 테스트 하면서 시행착오가 있겠죠...
+                '에이블톤 sounds Crop 길이는 InstrumentBranch > DeviceChain > MidiToAudioDeviceChain > 
+                'Devices > OriginalSimpler > Player > MultiSampleMap > SampleParts > MultiSamplePart > 
+                'SampleEnd Value - SampleStart Value에 있습니다.
 
-                    For Each x As XmlNode In setNode
+                '제 생각에는 만약 100ms 오디오가 있으면, SampleEnd - SampleStart 값은 10000이 되는 것 같습니다.
+                '물론 제 가설입니다. 테스트 하면서 시행착오가 있겠죠...
 
-                        Dim sndName As String = x.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("OriginalSimpler").Item("Player").Item("MultiSampleMap").Item("SampleParts").Item("MultiSamplePart").Item("SampleRef").Item("FileRef").Item("Name").GetAttribute("Value")
-                        Dim ssTime As Long = x.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("OriginalSimpler").Item("Player").Item("MultiSampleMap").Item("SampleParts").Item("MultiSamplePart").Item("SampleStart").GetAttribute("Value")
-                        Dim seTime As Long = x.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("OriginalSimpler").Item("Player").Item("MultiSampleMap").Item("SampleParts").Item("MultiSamplePart").Item("SampleEnd").GetAttribute("Value")
+                Dim il As Integer = 1 '로딩 폼 value.
+                Dim trName As String = "1" 'Trim할 때 쓰는 이름.
+                For Each x As XmlNode In setNode
+
+                    Try
+                        Dim t_DeviceChain As String = x.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("OriginalSimpler").Item("Player").Item("MultiSampleMap").Item("SampleParts").Item("MultiSamplePart").Item("SampleRef").Item("FileRef").Item("Name").GetAttribute("Value")
+                    Catch exN As NullReferenceException
+                        il += 1
+                        Continue For 'Random 이거나 Page > Chain 인거임.
+                    End Try
+
+                    Dim sndName As String = x.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("OriginalSimpler").Item("Player").Item("MultiSampleMap").Item("SampleParts").Item("MultiSamplePart").Item("SampleRef").Item("FileRef").Item("Name").GetAttribute("Value")
+                    Dim ssTime As Long = x.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("OriginalSimpler").Item("Player").Item("MultiSampleMap").Item("SampleParts").Item("MultiSamplePart").Item("SampleStart").GetAttribute("Value")
+                    Dim seTime As Long = x.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("OriginalSimpler").Item("Player").Item("MultiSampleMap").Item("SampleParts").Item("MultiSamplePart").Item("SampleEnd").GetAttribute("Value")
 
                     Dim StartTime As TimeSpan = sLToTime(ssTime)
                     Dim EndTime As TimeSpan = sLToTime(seTime)
@@ -1498,12 +1520,57 @@ Public Class MainProject
                     If sndName.Contains(".mp3") Then
                         sndName = sndName.Replace(".mp3", ".wav") '이미 파일을 불러왔을 때 변환이 되었으니 replace.
                     End If
+                    Debug.WriteLine(sndName)
+                    Sound_Cutting.TrimWavFile(Application.StartupPath & "\Workspace\ableproj\sounds\" & sndName, Application.StartupPath & "\Workspace\TmpSound\" & trName & ".wav", StartTime, EndTime)
+                    Debug.WriteLine(sndName & " : " & trName & ".wav, " & StartTime.TotalMilliseconds & " - " & EndTime.TotalMilliseconds)
 
-                    Sound_Cutting.TrimWavFile(Application.StartupPath & "\Workspace\ableproj\sounds\" & sndName, Application.StartupPath & "\Workspace\TmpSound" & sndName, StartTime, EndTime)
+                    UI(Sub()
+                           Select Case lang
+                               Case Translator.tL.English
+                                   Loading.DLb.Text = String.Format(Loading.MsgEn.loading_soundcut_convert1_msg, il, Loading.DPr.Maximum)
+                                   Loading.DPr.Value = il
+                               Case Translator.tL.Korean
+                                   Loading.DLb.Text = String.Format(Loading.MsgKr.loading_soundcut_convert1_msg, il, Loading.DPr.Maximum)
+                                   Loading.DPr.Value = il
+                           End Select
+                       End Sub)
+                    il += 1
+                    trName = Integer.Parse(trName) + 1
 
                 Next
 
-                End If
+                UI(Sub()
+                       il = 1
+                       Loading.DPr.Value = 0
+                       Loading.DPr.Maximum = Directory.GetFiles(Application.StartupPath & "\Workspace\TmpSound", "*.wav").Count
+                       Select Case lang
+                           Case Translator.tL.English
+                               Loading.DLb.Text = String.Format(Loading.MsgEn.loading_soundcut_convert2_msg, 0, Loading.DPr.Maximum)
+                           Case Translator.tL.Korean
+                               Loading.DLb.Text = String.Format(Loading.MsgKr.loading_soundcut_convert2_msg, 0, Loading.DPr.Maximum)
+                       End Select
+                       Loading.DLb.Left -= 40
+                   End Sub)
+
+                For Each itm As String In Directory.GetFiles(Application.StartupPath & "\Workspace\TmpSound", "*.wav")
+                    File.Move(itm, Application.StartupPath & "\Workspace\ableproj\sounds\" & Path.GetFileName(itm))
+                    UI(Sub()
+                           Select Case lang
+                               Case Translator.tL.English
+                                   Loading.DLb.Text = String.Format(Loading.MsgEn.loading_soundcut_convert2_msg, il, Loading.DPr.Maximum)
+                                   Loading.DPr.Value = il
+                               Case Translator.tL.Korean
+                                   Loading.DLb.Text = String.Format(Loading.MsgKr.loading_soundcut_convert2_msg, il, Loading.DPr.Maximum)
+                                   Loading.DPr.Value = il
+                           End Select
+                       End Sub)
+                    il += 1
+                Next
+
+                UI(Sub()
+                       Loading.Dispose()
+                   End Sub)
+            End If
         Catch ex As Exception
             If IsGreatExMode Then
                 MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -1899,7 +1966,8 @@ Public Class MainProject
                 Exit Sub
             Else
                 If abl_openedproj AndAlso abl_openedsnd Then
-                    BGW_keySound.RunWorkerAsync()
+                    BGW_soundcut.RunWorkerAsync()
+                    'BGW_keySound.RunWorkerAsync()
                 End If
 
                 If OpenProjectOnce Then OpenKeyLEDToolStripMenuItem_Click(Nothing, Nothing)
