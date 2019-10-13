@@ -1496,9 +1496,6 @@ Public Class MainProject
                 'Devices > OriginalSimpler > Player > MultiSampleMap > SampleParts > MultiSamplePart > 
                 'SampleEnd Value - SampleStart Value에 있습니다.
 
-                '제 생각에는 만약 100ms 오디오가 있으면, SampleEnd - SampleStart 값은 10000이 되는 것 같습니다.
-                '물론 제 가설입니다. 테스트 하면서 시행착오가 있겠죠...
-
                 Dim il As Integer = 1 '로딩 폼 value.
                 Dim trName As String = "1" 'Trim할 때 쓰는 이름.
                 For Each x As XmlNode In setNode
@@ -1520,10 +1517,8 @@ Public Class MainProject
                     If sndName.Contains(".mp3") Then
                         sndName = sndName.Replace(".mp3", ".wav") '이미 파일을 불러왔을 때 변환이 되었으니 replace.
                     End If
-                    Debug.WriteLine(sndName)
                     Sound_Cutting.TrimWavFile(Application.StartupPath & "\Workspace\ableproj\sounds\" & sndName, Application.StartupPath & "\Workspace\TmpSound\" & trName & ".wav", StartTime, EndTime)
                     Debug.WriteLine(sndName & " : " & trName & ".wav, " & StartTime.TotalMilliseconds & " - " & EndTime.TotalMilliseconds)
-
                     UI(Sub()
                            Select Case lang
                                Case Translator.tL.English

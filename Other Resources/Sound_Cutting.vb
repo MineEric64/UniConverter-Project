@@ -199,8 +199,11 @@ Public Class Sound_Cutting
     Private Shared Sub TrimWavFile(ByVal reader As WaveFileReader, ByVal writer As WaveFileWriter, ByVal startPos As Integer, ByVal endPos As Integer)
         reader.Position = startPos
         Dim buffer = New Byte(1023) {}
-
         While reader.Position < endPos
+            If reader.Position = reader.Length Then
+                Exit While
+            End If
+
             Dim bytesRequired = CInt(endPos - reader.Position)
             If bytesRequired > 0 Then
                 Dim bytesToRead As Integer
@@ -289,8 +292,8 @@ Public Class Sound_Cutting
     '완벽한 코드.
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Dim outputPath As String = SetFileName(txtSource.Text, Path.GetFileNameWithoutExtension(txtSource.Text) & "_Trim.wav")
-        Dim startTime As TimeSpan = TimeSpan.Parse("0:0:10.0000000")
-        Dim endTime As TimeSpan = TimeSpan.Parse("0:0:20.0000000")
+        Dim startTime As TimeSpan = TimeSpan.Parse("0:0:0.0000000") 'TimeSpan.Parse("0:0:10.0000000")
+        Dim endTime As TimeSpan = TimeSpan.Parse("0:0:0.4700000") 'TimeSpan.Parse("0:0:20.0000000")
         TrimWavFile(txtSource.Text, outputPath, startTime, endTime)
         'TrimMp3(txtSource.Text, outputPath, startTime, endTime)
         'Mp3ToWav(outputPath, outputPath.Replace(".mp3", ".wav"))
