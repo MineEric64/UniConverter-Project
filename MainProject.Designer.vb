@@ -3081,6 +3081,9 @@ Partial Class MainProject
         'BGW_keyLEDLayout
         '
         '
+        'BGW_soundcut
+        '
+        '
         'MainProject
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
@@ -3096,7 +3099,7 @@ Partial Class MainProject
         Me.MainMenuStrip = Me.MenuStrip
         Me.MaximizeBox = False
         Me.Name = "MainProject"
-        Me.Text = "UniConverter Beta 5"
+        Me.Text = "UniConverter Beta 6"
         Me.MenuStrip.ResumeLayout(False)
         Me.MenuStrip.PerformLayout()
         Me.HomeEdit.ResumeLayout(False)

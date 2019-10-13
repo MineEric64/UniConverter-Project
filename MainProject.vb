@@ -13,6 +13,7 @@ Imports A2UP.A2U.keyLED_MIDEX
 Imports A2UP.A2U.keySound
 Imports WMPLib
 Imports System.Drawing.Drawing2D
+Imports NAudio.Wave
 
 Public Class MainProject
 
@@ -1464,20 +1465,20 @@ Public Class MainProject
                 End If
 
                 UI(Sub()
-                           Select Case lang
-                               Case Translator.tL.English
-                                   Loading.DLb.Text = Loading.MsgEn.loading_soundcut_open_msg
-                               Case Translator.tL.Korean
-                                   Loading.DLb.Text = Loading.MsgKr.loading_soundcut_open_msg
-                           End Select
-                       End Sub)
+                       Select Case lang
+                           Case Translator.tL.English
+                               Loading.DLb.Text = Loading.MsgEn.loading_soundcut_open_msg
+                           Case Translator.tL.Korean
+                               Loading.DLb.Text = Loading.MsgKr.loading_soundcut_open_msg
+                       End Select
+                   End Sub)
 
-                    Dim ablprj As String = Application.StartupPath & "\Workspace\ableproj\abl_proj.xml"
-                    Dim doc As New XmlDocument
-                    Dim setNode As XmlNodeList
+                Dim ablprj As String = Application.StartupPath & "\Workspace\ableproj\abl_proj.xml"
+                Dim doc As New XmlDocument
+                Dim setNode As XmlNodeList
 
-                    doc.Load(ablprj)
-                    setNode = doc.GetElementsByTagName("InstrumentBranch")
+                doc.Load(ablprj)
+                setNode = doc.GetElementsByTagName("InstrumentBranch")
 
                 UI(Sub()
                        Loading.DPr.Style = ProgressBarStyle.Continuous
@@ -1517,6 +1518,11 @@ Public Class MainProject
                     If sndName.Contains(".mp3") Then
                         sndName = sndName.Replace(".mp3", ".wav") '이미 파일을 불러왔을 때 변환이 되었으니 replace.
                     End If
+
+                    If New WaveFileReader(Application.StartupPath & "\Workspace\ableproj\sounds\" & sndName).TotalTime.TotalMilliseconds - 30 <= EndTime.TotalMilliseconds AndAlso StartTime.TotalMilliseconds <= 30 Then
+                        Continue For '오차 ±30ms 보정 후 넘겨!
+                    End If
+
                     Sound_Cutting.TrimWavFile(Application.StartupPath & "\Workspace\ableproj\sounds\" & sndName, Application.StartupPath & "\Workspace\TmpSound\" & trName & ".wav", StartTime, EndTime)
                     Debug.WriteLine(sndName & " : " & trName & ".wav, " & StartTime.TotalMilliseconds & " - " & EndTime.TotalMilliseconds)
                     UI(Sub()
@@ -1531,7 +1537,6 @@ Public Class MainProject
                        End Sub)
                     il += 1
                     trName = Integer.Parse(trName) + 1
-
                 Next
 
                 UI(Sub()
