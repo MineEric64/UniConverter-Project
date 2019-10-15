@@ -3883,8 +3883,33 @@ Public Class MainProject
     End Sub
 
     Private Sub ResetTheProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ResetTheProjectToolStripMenuItem.Click
+        BGW_RsProj.RunWorkerAsync()
+    End Sub
+
+    Private Sub BGW_RsProj_DoWork(sender As Object, e As DoWorkEventArgs) Handles BGW_RsProj.DoWork
         '이 코드는 MainProject.Load 코드를 따와서 만들었습니다.
         '만약 MainProject.Load 코드가 업데이트를 했다면, 이 코드도 업데이트를 해주시기 바랍니다.
+
+        UI(Sub()
+               With Loading
+                   .Show()
+                   Select Case lang
+                       Case Translator.tL.English
+                           .Text = Loading.MsgEn.loading_Project_Reset
+                       Case Translator.tL.Korean
+                           .Text = Loading.MsgKr.loading_Project_Reset
+                   End Select
+
+                   Select Case lang
+                       Case Translator.tL.English
+                           .DLb.Text = Loading.MsgEn.loading_Project_ResetPr
+                       Case Translator.tL.Korean
+                           .DLb.Text = Loading.MsgKr.loading_Project_ResetPr
+                   End Select
+               End With
+           End Sub)
+
+        IsWorking = True '프로젝트를 초기화할 때 프로젝트를 불러오면 안되니깐...
 
         If Directory.Exists(Application.StartupPath & "\Workspace") Then
             Directory.Delete(Application.StartupPath & "\Workspace", True)
@@ -3901,49 +3926,65 @@ Public Class MainProject
 
         Select Case lang
             Case Translator.tL.English
-                infoTB1.Text = "My Amazing UniPack!"
-                infoTB2.Text = "UniConverter, " & My.Computer.Name
+                UI(Sub()
+                       infoTB1.Text = "My Amazing UniPack!"
+                       infoTB2.Text = "UniConverter, " & My.Computer.Name
+                   End Sub)
             Case Translator.tL.Korean
-                infoTB1.Text = "나의 멋진 유니팩!"
-                infoTB2.Text = "유니컨버터, " & My.Computer.Name
+                UI(Sub()
+                       infoTB1.Text = "나의 멋진 유니팩!"
+                       infoTB2.Text = "유니컨버터, " & My.Computer.Name
+                   End Sub)
         End Select
 
-        infoTB3.Text = "1"
+        UI(Sub()
+               infoTB3.Text = "1"
 
-        '키사운드 레이아웃 비활성화
-        PadLayoutPanel.Enabled = False
-        btnPad_chain1.Enabled = False
-        btnPad_chain2.Enabled = False
-        btnPad_chain3.Enabled = False
-        btnPad_chain4.Enabled = False
-        btnPad_chain5.Enabled = False
-        btnPad_chain6.Enabled = False
-        btnPad_chain7.Enabled = False
-        btnPad_chain8.Enabled = False
-        keySoundLayout = False
+               '키사운드 레이아웃 비활성화
+               PadLayoutPanel.Enabled = False
+               btnPad_chain1.Enabled = False
+               btnPad_chain2.Enabled = False
+               btnPad_chain3.Enabled = False
+               btnPad_chain4.Enabled = False
+               btnPad_chain5.Enabled = False
+               btnPad_chain6.Enabled = False
+               btnPad_chain7.Enabled = False
+               btnPad_chain8.Enabled = False
+               keySoundLayout = False
+           End Sub)
 
         For x As Integer = 1 To 8
             For y As Integer = 1 To 8
-                ks_ctrl(x & y).Text = String.Empty
-                ks_ctrl(x & y).BackColor = Color.Gray
-                ks_ctrl(x & y).ForeColor = Color.Black
+                UI(Sub()
+                       ks_ctrl(x & y).Text = String.Empty
+                       ks_ctrl(x & y).BackColor = Color.Gray
+                       ks_ctrl(x & y).ForeColor = Color.Black
+                   End Sub)
             Next
         Next
 
-        SoundIsSaved = False
-        keyLEDIsSaved = False
-        infoIsSaved = False
+               SoundIsSaved = False
+               keyLEDIsSaved = False
+               infoIsSaved = False
+
+               w8t4abl = String.Empty
+               OpenProjectOnce = False
+
+        UI(Sub()
+               keyLEDMIDEX_LEDViewMode.Checked = True
+               keyLEDPad_Flush(False)
+               keyLEDMIDEX_BetaButton.Enabled = False
+               kl_LEDFlush()
+           End Sub)
+
+        Thread.Sleep(300)
+        UI(Sub()
+               Loading.Dispose()
+           End Sub)
+
         IsWorking = False
-
-        w8t4abl = String.Empty
-        OpenProjectOnce = False
-
-        keyLEDMIDEX_LEDViewMode.Checked = True
-        keyLEDPad_Flush(False)
-        keyLEDMIDEX_BetaButton.Enabled = False
-        kl_LEDFlush()
-
         IsSaved = True
+
         Select Case lang
             Case Translator.tL.English
                 MessageBox.Show("The Project reseted!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
