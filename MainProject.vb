@@ -781,7 +781,7 @@ Public Class MainProject
                    End Sub)
 
                 abl_openedled2 = True
-                Loading.Dispose()
+                UI(Sub() Loading.Dispose())
             End If
 
         Catch ex As Exception
