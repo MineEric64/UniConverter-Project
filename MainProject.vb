@@ -1966,8 +1966,8 @@ Public Class MainProject
                 Exit Sub
             Else
                 If abl_openedproj AndAlso abl_openedsnd Then
-                    BGW_soundcut.RunWorkerAsync()
-                    'BGW_keySound.RunWorkerAsync()
+                    'BGW_soundcut.RunWorkerAsync() '아직 개발 완료 안됨.
+                    BGW_keySound.RunWorkerAsync()
                 End If
 
                 If OpenProjectOnce Then OpenKeyLEDToolStripMenuItem_Click(Nothing, Nothing)
