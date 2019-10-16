@@ -1819,22 +1819,6 @@ Public Class MainProject
         Return inputstr.Replace(vbCr, "").Split(vbLf)
     End Function
 
-    Private Sub CutSndButton_Click(sender As Object, e As EventArgs)
-        Try
-            ofd.Filter = "MP3 File|*.mp3|WAV File|*.wav"
-            If ofd.ShowDialog = DialogResult.OK Then
-                ofd_FileName = ofd.FileName
-                Sound_Cutting.Show()
-            End If
-        Catch ex As Exception
-            If IsGreatExMode Then
-                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Else
-                MessageBox.Show("Failed to edit keySound." & vbNewLine & "Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End If
-        End Try
-    End Sub
-
     Public Sub OpenSounds(sender As Object, e As DoWorkEventArgs) Handles BGW_sounds.DoWork
         Dim FileNames() As String
         FileNames = ofd_FileNames
@@ -2944,6 +2928,8 @@ Public Class MainProject
                                        .Text = Loading.MsgEn.loading_keyLED_def_msg
                                        .DLb.Text = Loading.MsgEn.loading_keyLED_open_msg
                                    Case Translator.tL.Korean
+                                       .Text = Loading.MsgKr.loading_keyLED_def_msg
+                                       .DLb.Text = Loading.MsgKr.loading_keyLED_open_msg
                                End Select
                                .DPr.Style = ProgressBarStyle.Marquee
                                .DPr.MarqueeAnimationSpeed = 10
@@ -2997,6 +2983,45 @@ Public Class MainProject
                 Next
 
                 File.WriteAllText(LEDMapping, StringsToString(LEDs))
+
+                '이제 버그와의 전쟁 (악몽)이 시작될 코드.
+                Dim ablprj As String = Application.StartupPath & "\Workspace\ableproj\abl_proj.xml"
+                Dim doc As New XmlDocument
+                Dim setNode As XmlNodeList
+                doc.Load(ablprj)
+                setNode = doc.GetElementsByTagName("MidiEffectBranch")
+
+                Dim InsBrnN As String = String.Empty 'Instrument Rack의 index를 통과 시켜주는 lst
+                Dim li As Integer = 1 '람다 식 경고 실화냐...
+                UI(Sub() Loading.DLb.Left -= 70)
+
+                For i As Integer = 0 To setNode.Count - 1
+                    UI(Sub()
+                           Select Case lang
+                               Case Translator.tL.English
+                                   Loading.DLb.Text = String.Format(Loading.MsgEn.loading_keyLED_PageOrChain_msg, li, setNode.Count)
+                               Case Translator.tL.Korean
+                                   Loading.DLb.Text = String.Format(Loading.MsgKr.loading_keyLED_PageOrChain_msg, li, setNode.Count)
+                           End Select
+                       End Sub)
+                    li += 1
+
+                    Try
+                        Dim _Test1 As Integer = Integer.Parse(setNode(i).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("LomId").GetAttribute("Value"))
+                        Try
+                            Dim _Test2 As Integer = Integer.Parse(setNode(i).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiRandom").Item("Choices").Item("Manual").GetAttribute("Value")) '랜덤 MidiEffectRack
+                        Catch exNN As NullReferenceException
+                            Dim _Test3 As String = setNode(i).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("PatchSlot").Item("Value").Item("MxDPatchRef").Item("FileRef").Item("Name").GetAttribute("Value") '일반 MidiEffectRack
+                        End Try
+                        InsBrnN &= i & ";"
+                        Catch exN As NullReferenceException
+                            Continue For 'Page나 다른 무언가이였던것임!
+                    End Try
+                Next
+
+                UI(Sub()
+                       Loading.DLb.Left += 70
+                   End Sub)
 
                 '또한 Clip Tempo는 BPM이며, [Clip Tempo = temp2]
                 'New Tempo는 빠르기다. [New Tempo = temp1]
@@ -3155,12 +3180,6 @@ Public Class MainProject
                             dSpeed = 0
 
                             '이제 Get Chain & X, Y from XML!!!
-                            Dim ablprj As String = Application.StartupPath & "\Workspace\ableproj\abl_proj.xml"
-                            Dim doc As New XmlDocument
-                            Dim setNode As XmlNodeList
-                            doc.Load(ablprj)
-                            setNode = doc.GetElementsByTagName("MidiEffectBranch")
-
                             Dim UniPack_Chain As Integer = 1
                             Dim UniPack_X As Integer = 0
                             Dim UniPack_Y As Integer = 0
@@ -3176,7 +3195,7 @@ Public Class MainProject
                                        Case Translator.tL.English
                                            Loading.DLb.Text = Loading.MsgEn.loading_keyLED_Convert2_msg
                                        Case Translator.tL.Korean
-                                           Loading.DLb.Text = Loading.MsgEn.loading_keyLED_Convert2_msg
+                                           Loading.DLb.Text = Loading.MsgKr.loading_keyLED_Convert2_msg
                                    End Select
                                End Sub)
 
@@ -3198,8 +3217,11 @@ Public Class MainProject
                             Dim IsRandom As Boolean = False '현재 접근하고 있는 XML Branch가 랜덤인가?
                             Dim Choices As Integer = 0 '매우 정확한 랜덤의 수. (from MidiRandom)
                             Dim curid As Integer = 1 '현재의 랜덤. (from Choices / MidiRandom)
-                            For ndx As Integer = 0 To setNode.Count - 1
+
+                            Dim InsX As String = InsBrnN.TrimEnd(";")
+                            For Each ndx As Integer In InsX.Split(";")
                                 Try
+
                                     currentid = Integer.Parse(setNode(ndx).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("LomId").GetAttribute("Value"))
                                     MidiName = setNode(ndx).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("PatchSlot").Item("Value").Item("MxDPatchRef").Item("FileRef").Item("Name").GetAttribute("Value")
 
@@ -3245,6 +3267,7 @@ Public Class MainProject
                                     MidiName = setNode(ndx).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("PatchSlot").Item("Value").Item("MxDPatchRef").Item("FileRef").Item("Name").GetAttribute("Value")
                                     If d_id = currentid AndAlso MidiName = "Midi Extension.amxd" Then
                                         id_index = ndx
+                                        InsBrnN.Replace(ndx & ";", "")
                                         Exit For
                                     End If
                                 End If
@@ -3565,7 +3588,7 @@ Public Class MainProject
                     Case Translator.tL.English
                         MessageBox.Show("LED File Converted!" & vbNewLine & "You can show the LEDs on 'keyLED (MIDI Extension)' Tab!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Case Translator.tL.Korean
-                        MessageBox.Show("LED File Converted!" & vbNewLine & "''keyLED (미디 익스텐션)' 탭에서 LED 파일들을 볼 수 있습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        MessageBox.Show("LED 파일이 변환 되었습니다!" & vbNewLine & "''keyLED (미디 익스텐션)' 탭에서 LED 파일들을 볼 수 있습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End Select
 
             End If
@@ -3955,10 +3978,12 @@ Public Class MainProject
 
         For x As Integer = 1 To 8
             For y As Integer = 1 To 8
+                Dim dx As Integer = x
+                Dim dy As Integer = y
                 UI(Sub()
-                       ks_ctrl(x & y).Text = String.Empty
-                       ks_ctrl(x & y).BackColor = Color.Gray
-                       ks_ctrl(x & y).ForeColor = Color.Black
+                       ks_ctrl(dx & dy).Text = String.Empty
+                       ks_ctrl(dx & dy).BackColor = Color.Gray
+                       ks_ctrl(dx & dy).ForeColor = Color.Black
                    End Sub)
             Next
         Next

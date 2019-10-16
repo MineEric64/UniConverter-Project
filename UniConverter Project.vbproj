@@ -123,12 +123,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Other Resources\Sound_Cutting.Designer.vb">
-      <DependentUpon>Sound_Cutting.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Other Resources\Sound_Cutting.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Developer Mode\DeveloperMode_Main.Designer.vb">
       <DependentUpon>DeveloperMode_Main.vb</DependentUpon>
     </Compile>
@@ -164,6 +158,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Other Resources\Sound_Cutting.vb" />
     <Compile Include="Other Resources\Tpdby.Designer.vb">
       <DependentUpon>Tpdby.vb</DependentUpon>
     </Compile>
@@ -221,9 +216,6 @@
   <ItemGroup>
     <EmbeddedResource Include="keyLED\keyLED_Test.resx">
       <DependentUpon>keyLED_Test.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Other Resources\Sound_Cutting.resx">
-      <DependentUpon>Sound_Cutting.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Developer Mode\DeveloperMode_Main.resx">
       <DependentUpon>DeveloperMode_Main.vb</DependentUpon>

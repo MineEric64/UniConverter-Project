@@ -28,6 +28,7 @@
         Public Shared loading_keyLED_Convert_msg As String = "Converting LED ({0}) to keyLED..."
         Public Shared loading_keyLED_Convert2_msg As String = "Extracting LED Infos..."
         Public Shared loading_keyLED_Convert3_msg As String = "Loading UniPack LEDs..."
+        Public Shared loading_keyLED_PageOrChain_msg As String = "Verifying LEDs... ({0}/{1})"
     End Class
 
     Public Class MsgKr
@@ -58,5 +59,6 @@
         Public Shared loading_keyLED_Convert_msg As String = "LED 파일 ({0})을 keyLED로 변환 중..."
         Public Shared loading_keyLED_Convert2_msg As String = "LED 매핑 정보를 불러오는 중..."
         Public Shared loading_keyLED_Convert3_msg As String = "유니팩 keyLED를 불러오는 중..."
+        Public Shared loading_keyLED_PageOrChain_msg As String = "LED를 검사하는 중... ({0}/{1})"
     End Class
 End Class

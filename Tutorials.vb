@@ -69,11 +69,21 @@ Public Class Tutorials
             Exit Sub
         End Try
 
-        Invoke(Sub()
-                   Loading.Dispose()
-                   Q_ListView.Enabled = True
-                   Tutorial_ReadMark()
-               End Sub)
+        Try
+            Invoke(Sub()
+                       Loading.Dispose()
+                       Q_ListView.Enabled = True
+                       Tutorial_ReadMark()
+                   End Sub)
+        Catch exN As InvalidOperationException
+            Exit Sub
+        End Try
+    End Sub
+
+    Private Sub Me_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        If Q_ListView.Enabled = False Then 'InvaildOperationException 예외 처리
+            Loading.Dispose()
+        End If
     End Sub
 
     Public Sub Tutorial_ReadMark()
