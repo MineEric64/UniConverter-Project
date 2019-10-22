@@ -128,7 +128,6 @@ Partial Class MainProject
         Me.uni8_6 = New System.Windows.Forms.Button()
         Me.uni8_7 = New System.Windows.Forms.Button()
         Me.uni8_8 = New System.Windows.Forms.Button()
-        Me.Tip3 = New System.Windows.Forms.Label()
         Me.keyLED1 = New System.Windows.Forms.TabPage()
         Me.DevelopingLabel2 = New System.Windows.Forms.Label()
         Me.keyLED2 = New System.Windows.Forms.TabPage()
@@ -525,7 +524,6 @@ Partial Class MainProject
         Me.KeySoundTab.Controls.Add(Me.btnPad_chain2)
         Me.KeySoundTab.Controls.Add(Me.btnPad_chain1)
         Me.KeySoundTab.Controls.Add(Me.PadLayoutPanel)
-        Me.KeySoundTab.Controls.Add(Me.Tip3)
         Me.KeySoundTab.Location = New System.Drawing.Point(4, 23)
         Me.KeySoundTab.Name = "KeySoundTab"
         Me.KeySoundTab.Padding = New System.Windows.Forms.Padding(3)
@@ -538,7 +536,7 @@ Partial Class MainProject
         '
         Me.DevelopingLabel1.AutoSize = True
         Me.DevelopingLabel1.Font = New System.Drawing.Font("나눔바른고딕OTF", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.DevelopingLabel1.Location = New System.Drawing.Point(132, 202)
+        Me.DevelopingLabel1.Location = New System.Drawing.Point(163, 226)
         Me.DevelopingLabel1.Name = "DevelopingLabel1"
         Me.DevelopingLabel1.Size = New System.Drawing.Size(540, 62)
         Me.DevelopingLabel1.TabIndex = 64
@@ -549,7 +547,7 @@ Partial Class MainProject
         '
         Me.btnPad_chain8.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.btnPad_chain8.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.btnPad_chain8.Location = New System.Drawing.Point(477, 396)
+        Me.btnPad_chain8.Location = New System.Drawing.Point(508, 420)
         Me.btnPad_chain8.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btnPad_chain8.Name = "btnPad_chain8"
         Me.btnPad_chain8.Size = New System.Drawing.Size(53, 52)
@@ -561,7 +559,7 @@ Partial Class MainProject
         '
         Me.btnPad_chain7.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.btnPad_chain7.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.btnPad_chain7.Location = New System.Drawing.Point(477, 343)
+        Me.btnPad_chain7.Location = New System.Drawing.Point(508, 367)
         Me.btnPad_chain7.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btnPad_chain7.Name = "btnPad_chain7"
         Me.btnPad_chain7.Size = New System.Drawing.Size(53, 48)
@@ -573,7 +571,7 @@ Partial Class MainProject
         '
         Me.btnPad_chain6.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.btnPad_chain6.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.btnPad_chain6.Location = New System.Drawing.Point(477, 289)
+        Me.btnPad_chain6.Location = New System.Drawing.Point(508, 313)
         Me.btnPad_chain6.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btnPad_chain6.Name = "btnPad_chain6"
         Me.btnPad_chain6.Size = New System.Drawing.Size(53, 48)
@@ -585,7 +583,7 @@ Partial Class MainProject
         '
         Me.btnPad_chain5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.btnPad_chain5.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.btnPad_chain5.Location = New System.Drawing.Point(477, 235)
+        Me.btnPad_chain5.Location = New System.Drawing.Point(508, 259)
         Me.btnPad_chain5.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btnPad_chain5.Name = "btnPad_chain5"
         Me.btnPad_chain5.Size = New System.Drawing.Size(53, 48)
@@ -597,7 +595,7 @@ Partial Class MainProject
         '
         Me.btnPad_chain4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.btnPad_chain4.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.btnPad_chain4.Location = New System.Drawing.Point(477, 181)
+        Me.btnPad_chain4.Location = New System.Drawing.Point(508, 205)
         Me.btnPad_chain4.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btnPad_chain4.Name = "btnPad_chain4"
         Me.btnPad_chain4.Size = New System.Drawing.Size(53, 48)
@@ -609,7 +607,7 @@ Partial Class MainProject
         '
         Me.btnPad_chain3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.btnPad_chain3.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.btnPad_chain3.Location = New System.Drawing.Point(477, 127)
+        Me.btnPad_chain3.Location = New System.Drawing.Point(508, 151)
         Me.btnPad_chain3.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btnPad_chain3.Name = "btnPad_chain3"
         Me.btnPad_chain3.Size = New System.Drawing.Size(53, 48)
@@ -621,7 +619,7 @@ Partial Class MainProject
         '
         Me.btnPad_chain2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.btnPad_chain2.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.btnPad_chain2.Location = New System.Drawing.Point(477, 73)
+        Me.btnPad_chain2.Location = New System.Drawing.Point(508, 97)
         Me.btnPad_chain2.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btnPad_chain2.Name = "btnPad_chain2"
         Me.btnPad_chain2.Size = New System.Drawing.Size(53, 48)
@@ -633,7 +631,7 @@ Partial Class MainProject
         '
         Me.btnPad_chain1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.btnPad_chain1.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.btnPad_chain1.Location = New System.Drawing.Point(477, 16)
+        Me.btnPad_chain1.Location = New System.Drawing.Point(508, 40)
         Me.btnPad_chain1.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btnPad_chain1.Name = "btnPad_chain1"
         Me.btnPad_chain1.Size = New System.Drawing.Size(53, 51)
@@ -719,7 +717,7 @@ Partial Class MainProject
         Me.PadLayoutPanel.Controls.Add(Me.uni8_7, 6, 7)
         Me.PadLayoutPanel.Controls.Add(Me.uni8_8, 7, 7)
         Me.PadLayoutPanel.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.PadLayoutPanel.Location = New System.Drawing.Point(25, 16)
+        Me.PadLayoutPanel.Location = New System.Drawing.Point(56, 40)
         Me.PadLayoutPanel.Name = "PadLayoutPanel"
         Me.PadLayoutPanel.RowCount = 8
         Me.PadLayoutPanel.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5!))
@@ -1500,18 +1498,6 @@ Partial Class MainProject
         Me.uni8_8.Size = New System.Drawing.Size(55, 48)
         Me.uni8_8.TabIndex = 1
         Me.uni8_8.UseVisualStyleBackColor = False
-        '
-        'Tip3
-        '
-        Me.Tip3.AutoSize = True
-        Me.Tip3.Font = New System.Drawing.Font("나눔바른고딕", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.Tip3.ForeColor = System.Drawing.Color.LightCoral
-        Me.Tip3.Location = New System.Drawing.Point(6, 463)
-        Me.Tip3.Name = "Tip3"
-        Me.Tip3.Size = New System.Drawing.Size(378, 28)
-        Me.Tip3.TabIndex = 36
-        Me.Tip3.Text = "Tip: If sound file didn't split, don't put it here." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Instead, you can cut sound o" &
-    "n Cut Sound Form. (Not-Recommend)"
         '
         'keyLED1
         '
@@ -3175,7 +3161,6 @@ Partial Class MainProject
     Friend WithEvents BGW_keySound As System.ComponentModel.BackgroundWorker
     Friend WithEvents MIDIn_Test As Button
     Friend WithEvents KeySoundTab As TabPage
-    Friend WithEvents Tip3 As Label
     Friend WithEvents DevelopingLabel1 As Label
     Friend WithEvents btnPad_chain8 As Button
     Friend WithEvents btnPad_chain7 As Button

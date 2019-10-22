@@ -63,7 +63,8 @@ Public Class Translator
                     'info 탭
                     .HomeEdit.TabPages(0).Text = Space(7) & "정보"
                     .infoT1.Text = Space(5) & "제목"
-                    .infoT2.Text = Space(24) & "제작자"
+                    .infoT2.Text = "제작자"
+                    .infoT2.Left = .infoTB2.Left - 72
                     .infoT3.Text = Space(7) & "체인"
                     .infoTB1.Text = "나의 멋진 유니팩!"
                     .infoTB2.Text = "유니컨버터, " & My.Computer.Name
@@ -71,7 +72,6 @@ Public Class Translator
                     .Tip1.Text = "팁: 에이블톤 프로젝트를 열면 info를 수정할 수 있습니다."
 
                     'keySound 탭
-                    .Tip3.Text = "팁: 만약 음악 파일이 잘라져 있지 않다면, 음악 파일을 불러오지 마세요." & vbNewLine & "그대신, '음악 자르기' 기능을 이용하여 음악을 자를 수 있습니다. (비추천)"
                     .DevelopingLabel1.Text = "'keySound 변환' 기능을 만들고 있습니다!" & vbNewLine & Space(17) & "잠시만 기다려주세요..."
 
                     'keyLED 탭

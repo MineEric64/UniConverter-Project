@@ -83,6 +83,7 @@ Public Class Tutorials
     Private Sub Me_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         If Q_ListView.Enabled = False Then 'InvaildOperationException 예외 처리
             Loading.Dispose()
+            Dispose()
         End If
     End Sub
 

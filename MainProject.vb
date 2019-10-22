@@ -639,10 +639,10 @@ Public Class MainProject
                    Loading.DLb.Left = 40
                    Select Case lang
                        Case Translator.tL.English
-                           Loading.Text = Me.Text & ": " & Loading.MsgEn.loading_LED_open_msg
+                           Loading.Text = Me.Text & ": " & Loading.MsgEn.loading_LED_open_msg.Replace("({0}/{1})", "")
                            Loading.DLb.Text = Loading.MsgEn.loading_LED_open_msg
                        Case Translator.tL.Korean
-                           Loading.Text = Me.Text & ": " & Loading.MsgKr.loading_LED_open_msg
+                           Loading.Text = Me.Text & ": " & Loading.MsgKr.loading_LED_open_msg.Replace("({0}/{1})", "")
                            Loading.DLb.Text = Loading.MsgKr.loading_LED_open_msg
                    End Select
                End Sub)
@@ -2991,7 +2991,7 @@ Public Class MainProject
                 doc.Load(ablprj)
                 setNode = doc.GetElementsByTagName("MidiEffectBranch")
 
-                Dim InsBrnN As String = String.Empty 'Instrument Rack의 index를 통과 시켜주는 lst
+                Dim InsBrnN As String = String.Empty 'Midi Effect Rack의 index를 통과 시켜주는 lst
                 Dim li As Integer = 1 '람다 식 경고 실화냐...
                 UI(Sub() Loading.DLb.Left -= 70)
 
@@ -3014,8 +3014,14 @@ Public Class MainProject
                             Dim _Test3 As String = setNode(i).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("PatchSlot").Item("Value").Item("MxDPatchRef").Item("FileRef").Item("Name").GetAttribute("Value") '일반 MidiEffectRack
                         End Try
                         InsBrnN &= i & ";"
-                        Catch exN As NullReferenceException
+                    Catch exN As NullReferenceException
+                        Try
+                            Dim _Test4 As Integer = Integer.Parse(setNode(i).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiEffectGroupDevice").Item("LomId").GetAttribute("Value"))
+                            Integer.Parse(setNode(i).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiRandom").Item("Choices").Item("Manual").GetAttribute("Value")) '랜덤 코드만 입장 가능.
+                            InsBrnN &= i & ";"
+                        Catch exNN As Exception
                             Continue For 'Page나 다른 무언가이였던것임!
+                        End Try
                     End Try
                 Next
 
@@ -3206,6 +3212,8 @@ Public Class MainProject
                             'keyLED에서는 MidiToMidiDeviceChain임. (ㄹㅇ 에이블톤 프로그램 제작자들은 알고리즘을 왜 이따구로 만들었냐..)
                             Dim id_index As Integer = 0 'LomId (MIDI Extension id)
                             Dim fndError As Boolean = False 'Key / Random Key
+                            Dim NotFound As Boolean = False '아직도 못찾았냐? 넘겨
+
                             Dim currentid As Integer = 0 '현재 id.
                             Dim MidiName As String = String.Empty
 
@@ -3240,7 +3248,6 @@ Public Class MainProject
                                     fndError = False
 
                                 Catch exN As NullReferenceException
-
                                     PrChain = Integer.Parse(setNode(ndx).Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1 '최소 체인.
                                     PrChainM = Integer.Parse(setNode(ndx).Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1 '최대 체인.
 
@@ -3263,20 +3270,23 @@ Public Class MainProject
                                 End Try
 
                                 If fndError = False Then
+                                    NotFound = True
                                     currentid = Integer.Parse(setNode(ndx).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("LomId").GetAttribute("Value"))
                                     MidiName = setNode(ndx).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("PatchSlot").Item("Value").Item("MxDPatchRef").Item("FileRef").Item("Name").GetAttribute("Value")
-                                    If d_id = currentid AndAlso MidiName = "Midi Extension.amxd" Then
+                                    If d_id = currentid AndAlso MidiName.Contains(".amxd") Then
                                         id_index = ndx
                                         InsBrnN.Replace(ndx & ";", "")
+                                        NotFound = False
                                         Exit For
                                     End If
                                 End If
-
-                                If ndx = setNode.Count - 1 Then
-                                    err &= vbNewLine & String.Format("Can't find id {0} on '{1}'.", d_id, dFile)
-                                    Choices = 8192 'Same As Continue For
-                                End If
                             Next
+
+                            If NotFound Then
+                                err &= vbNewLine & String.Format("Can't find id {0} on '{1}'.", d_id, dFile)
+                                Choices = 8192 'Same As Continue For
+                            End If
+
                             x = setNode(id_index)
 
                             UniPack_Chain = Integer.Parse(x.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1 'Get Chain.

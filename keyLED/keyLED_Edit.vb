@@ -5,6 +5,7 @@ Imports System.Threading
 
 Public Class keyLED_Edit
     Public CanEnable As Boolean = False
+    Public WaitForSpeed As Boolean = False
     Private UniText As String
 
     Private Sub KeyLED_Edit_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -252,6 +253,11 @@ Public Class keyLED_Edit
             stopw.Stop()
             Debug.WriteLine(String.Format("'{0}' Elapsed Time: {1}ms", ConLEDFile, stopw.ElapsedMilliseconds))
 
+            If WaitForSpeed Then
+                ThreadPool.QueueUserWorkItem(AddressOf keyLED_SpeedChanged, 201 - SpeedTrackBar.Value)
+                WaitForSpeed = False
+            End If
+
         Catch ex As Exception
             If MainProject.IsGreatExMode Then
                 MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -280,7 +286,11 @@ Public Class keyLED_Edit
     End Sub
 
     Private Sub SpeedTrackBar_ValueChanged(sender As Object, e As EventArgs) Handles SpeedTrackBar.MouseUp
-        ThreadPool.QueueUserWorkItem(AddressOf keyLED_SpeedChanged, 201 - SpeedTrackBar.Value)
+        If CanEnable Then
+            ThreadPool.QueueUserWorkItem(AddressOf keyLED_SpeedChanged, 201 - SpeedTrackBar.Value)
+        Else
+            WaitForSpeed = True
+        End If
     End Sub
 
     Public Sub keyLED_SpeedChanged(speed As Integer)
