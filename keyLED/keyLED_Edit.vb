@@ -249,6 +249,15 @@ Public Class keyLED_Edit
             UniText = str
             CanEnable = True 'Enabled to Test the LED.
             keyLED_Test.LoadkeyLEDText(UniLED_Edit.Text)
+            Dim LEDDelay As Integer = GetLEDDelay(UniLED_Edit.Text)
+            Invoke(Sub()
+                       Select Case MainProject.lang
+                           Case Translator.tL.English
+                               TimeLabel.Text = "LED Running Time: " & LEDDelay & "ms"
+                           Case Translator.tL.Korean
+                               TimeLabel.Text = "LED를 실행한 시간: " & LEDDelay & "ms"
+                       End Select
+                   End Sub)
 
             stopw.Stop()
             Debug.WriteLine(String.Format("'{0}' Elapsed Time: {1}ms", ConLEDFile, stopw.ElapsedMilliseconds))
@@ -280,6 +289,23 @@ Public Class keyLED_Edit
             End Select
         End If
     End Sub
+
+    Public Function GetLEDDelay(LEDText As String) As Integer
+        Dim delayMilliseconds As Integer = 0
+        For Each x As String In MainProject.SplitbyLine(LEDText)
+            Dim sp As String() = x.Split(" ")
+            If String.IsNullOrWhiteSpace(x) AndAlso sp.Count < 2 Then
+                Continue For
+            End If
+            If sp(0) = "d" AndAlso IsNumeric(sp(1)) Then
+                delayMilliseconds += Integer.Parse(sp(1))
+            Else
+                Continue For
+            End If
+        Next
+
+        Return delayMilliseconds
+    End Function
 
     Private Sub SpeedTrackBar_Scroll(sender As Object, e As EventArgs) Handles SpeedTrackBar.Scroll
         spLb.Text = String.Format("{0}%", SpeedTrackBar.Value)
@@ -357,6 +383,15 @@ Public Class keyLED_Edit
                End Sub)
         CanEnable = True 'Enabled to Test the LED.
         keyLED_Test.LoadkeyLEDText(UniLED_Edit.Text)
+        Dim LEDDelay As Integer = GetLEDDelay(UniLED_Edit.Text)
+        Invoke(Sub()
+                   Select Case MainProject.lang
+                       Case Translator.tL.English
+                           TimeLabel.Text = "LED Running Time: " & LEDDelay & "ms"
+                       Case Translator.tL.Korean
+                           TimeLabel.Text = "LED를 실행한 시간: " & LEDDelay & "ms"
+                   End Select
+               End Sub)
 
         Invoke(Sub() Loading.Dispose())
     End Sub

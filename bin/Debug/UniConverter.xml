@@ -415,11 +415,6 @@ o 6 3 a [나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 �
  지금 매우 중요한 작업 여부.
  </summary>
 </member>
-<member name="F:UniConverter_Project.MainProject.IsMIDITest">
- <summary>
- 미디 Input과 Note On 테스트 여부.
- </summary>
-</member>
 <member name="F:UniConverter_Project.MainProject.w8t4abl">
  <summary>
  Waiting For Ableton Project. (LED Convert: "keyLED")

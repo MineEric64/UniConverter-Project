@@ -39,6 +39,7 @@ Partial Class keyLED_Edit
         Me.SpeedTrackBar = New System.Windows.Forms.TrackBar()
         Me.spTipLb = New System.Windows.Forms.Label()
         Me.spLb = New System.Windows.Forms.Label()
+        Me.TimeLabel = New System.Windows.Forms.Label()
         CType(Me.UniLED_Edit, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SpeedTrackBar, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -54,7 +55,6 @@ Partial Class keyLED_Edit
         Me.UniLED_Edit.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.UniLED_Edit.DisabledColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer))
         Me.UniLED_Edit.Enabled = False
-        Me.UniLED_Edit.Font = New System.Drawing.Font("Courier New", 9.75!)
         Me.UniLED_Edit.IsReplaceMode = False
         Me.UniLED_Edit.Location = New System.Drawing.Point(360, 63)
         Me.UniLED_Edit.Name = "UniLED_Edit"
@@ -67,10 +67,10 @@ Partial Class keyLED_Edit
         'CopyButton
         '
         Me.CopyButton.Enabled = False
-        Me.CopyButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.CopyButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 18.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.CopyButton.Location = New System.Drawing.Point(463, 427)
         Me.CopyButton.Name = "CopyButton"
-        Me.CopyButton.Size = New System.Drawing.Size(102, 74)
+        Me.CopyButton.Size = New System.Drawing.Size(102, 57)
         Me.CopyButton.TabIndex = 19
         Me.CopyButton.Text = "Copy"
         Me.CopyButton.UseVisualStyleBackColor = True
@@ -154,10 +154,10 @@ Partial Class keyLED_Edit
         'TestButton
         '
         Me.TestButton.Enabled = False
-        Me.TestButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.TestButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 18.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.TestButton.Location = New System.Drawing.Point(360, 427)
         Me.TestButton.Name = "TestButton"
-        Me.TestButton.Size = New System.Drawing.Size(97, 74)
+        Me.TestButton.Size = New System.Drawing.Size(97, 57)
         Me.TestButton.TabIndex = 31
         Me.TestButton.Text = "Test"
         Me.TestButton.UseVisualStyleBackColor = True
@@ -192,6 +192,16 @@ Partial Class keyLED_Edit
         Me.spLb.TabIndex = 34
         Me.spLb.Text = "100%"
         '
+        'TimeLabel
+        '
+        Me.TimeLabel.AutoSize = True
+        Me.TimeLabel.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.TimeLabel.Location = New System.Drawing.Point(368, 490)
+        Me.TimeLabel.Name = "TimeLabel"
+        Me.TimeLabel.Size = New System.Drawing.Size(115, 14)
+        Me.TimeLabel.TabIndex = 35
+        Me.TimeLabel.Text = "LED Running Time: "
+        '
         'keyLED_Edit
         '
         Me.AllowDrop = True
@@ -199,6 +209,7 @@ Partial Class keyLED_Edit
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.ClientSize = New System.Drawing.Size(579, 510)
+        Me.Controls.Add(Me.TimeLabel)
         Me.Controls.Add(Me.spLb)
         Me.Controls.Add(Me.spTipLb)
         Me.Controls.Add(Me.SpeedTrackBar)
@@ -237,4 +248,5 @@ Partial Class keyLED_Edit
     Friend WithEvents SpeedTrackBar As TrackBar
     Friend WithEvents spTipLb As Label
     Friend WithEvents spLb As Label
+    Friend WithEvents TimeLabel As Label
 End Class

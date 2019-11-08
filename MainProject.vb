@@ -176,11 +176,6 @@ Public Class MainProject
     Public Shared IsWorking As Boolean
 
     ''' <summary>
-    ''' 미디 Input과 Note On 테스트 여부.
-    ''' </summary>
-    Public Shared IsMIDITest As Boolean
-
-    ''' <summary>
     ''' Waiting For Ableton Project. (LED Convert: "keyLED")
     ''' </summary>
     Public Shared w8t4abl As String
@@ -270,7 +265,6 @@ Public Class MainProject
 
     Private Sub MainProject_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
-
             Dim file_ex As String = Application.StartupPath + "\settings.xml"
 
             If File.Exists(file_ex) = False Then
@@ -502,7 +496,6 @@ Public Class MainProject
 
             w8t4abl = String.Empty
             OpenProjectOnce = False
-            IsMIDITest = False
 
             keyLEDMIDEX_LEDViewMode.Checked = True
             keyLEDPad_Flush(False)
@@ -3694,19 +3687,7 @@ Public Class MainProject
 
             Dim a As MidiEvent = e.MidiEvent '현재 미디 이벤트.
             If MidiEvent.IsNoteOn(a) Then '만약 미디 이벤트가 Note On 일 경우
-                If IsMIDITest Then
-
-                    Dim b As NoteOnEvent = DirectCast(a, NoteOnEvent) '미디 이벤트를 Note On 이벤트로 변환
-                    Dim x As Integer = GX_keyLED(keyLED_NoteEvents.NoteNumber_2, b.NoteNumber) 'Note On 번호를 유니팩의 x로 변환.
-                    Dim y As Integer = GY_keyLED(keyLED_NoteEvents.NoteNumber_2, b.NoteNumber) 'Note On 번호를 유니팩의 y로 변환.
-
-                    If Not x = -8192 Then 'Chain이 아닌 경우
-                        MessageBox.Show("Note: " & x & ", " & y, "MIDI In Test", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    Else
-                        MessageBox.Show("Note: (Chain) " & y, "MIDI In Test", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    End If
-                End If
-
+                '나중에 keyLED (MIDEX) 탭에서 런치패드 지원할 예정.
             End If
 
         Catch ex As Exception
@@ -3716,26 +3697,6 @@ Public Class MainProject
                 MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
         End Try
-    End Sub
-
-    Private Sub MIDIn_Test_Click(sender As Object, e As EventArgs) Handles MIDIn_Test.Click
-        If IsMIDITest Then
-            IsMIDITest = False
-            Select Case lang
-                Case Translator.tL.English
-                    MessageBox.Show("MIDI Input and Note On Test Disabled.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Case Translator.tL.Korean
-                    MessageBox.Show("비활성화: 미디 입력, 노트 테스트", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-            End Select
-        Else
-            IsMIDITest = True
-            Select Case lang
-                Case Translator.tL.English
-                    MessageBox.Show("MIDI Input and Note On Test Enabled!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Case Translator.tL.Korean
-                    MessageBox.Show("활성화: 미디 입력, 노트 테스트", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-            End Select
-        End If
     End Sub
 
     'keyLED
