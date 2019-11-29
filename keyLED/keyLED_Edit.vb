@@ -1,12 +1,17 @@
 ﻿Imports System.IO
 Imports NAudio.Midi
 Imports A2UP.A2U.keyLED_MIDEX
+Imports UniConverter_Project.keyLED_Edit_Ex
 Imports System.Threading
 
 Public Class keyLED_Edit
     Public CanEnable As Boolean = False
     Public WaitForSpeed As Boolean = False
     Private UniText As String
+
+    Public Ex_Default As New List(Of Nullable)
+    Public Ex_Flip As New List(Of FlipStructure)
+    Public Ex_Color As New List(Of Nullable)
 
     Private Sub KeyLED_Edit_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'FileName 표시.
@@ -19,11 +24,12 @@ Public Class keyLED_Edit
 
         Select Case MainProject.lang
             Case Translator.tL.Korean
-                Text = "keyLED (미디 익스텐션) 편집 (베타)"
+                Text = "keyLED 편집 (미디 익스텐션, 베타)"
                 AblLED.Text = "에이블톤 LED 파일"
                 UniLED.Text = "유니팩 LED 텍스트"
                 UniLED1.Text = "파일 이름: N/A"
                 spTipLb.Text = "빠르기:"
+                TimeLabel.Text = "LED Delay 시간:"
 
                 LED_ListView.Columns(0).Text = "파일 이름"
                 ALGModeBox.Items.Clear()
@@ -32,6 +38,7 @@ Public Class keyLED_Edit
 
                 TestButton.Text = "테스트"
                 CopyButton.Text = "복사"
+                LEDExButton.Text = "LED 확장 플러그인"
         End Select
     End Sub
 
@@ -255,7 +262,7 @@ Public Class keyLED_Edit
                            Case Translator.tL.English
                                TimeLabel.Text = "LED Running Time: " & LEDDelay & "ms"
                            Case Translator.tL.Korean
-                               TimeLabel.Text = "LED를 실행한 시간: " & LEDDelay & "ms"
+                               TimeLabel.Text = "LED Delay 시간: " & LEDDelay & "ms"
                        End Select
                    End Sub)
 
@@ -394,5 +401,9 @@ Public Class keyLED_Edit
                End Sub)
 
         Invoke(Sub() Loading.Dispose())
+    End Sub
+
+    Private Sub LEDExButton_Click(sender As Object, e As EventArgs) Handles LEDExButton.Click
+        keyLED_Edit_Ex.Show()
     End Sub
 End Class

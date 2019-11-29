@@ -34,12 +34,11 @@ Partial Class keyLED_Edit
         Me.UniLED1 = New System.Windows.Forms.Label()
         Me.GAZUA_ = New System.ComponentModel.BackgroundWorker()
         Me.TestButton = New System.Windows.Forms.Button()
-        Me.pfTest_bgw = New System.ComponentModel.BackgroundWorker()
-        Me.Tests_bgw = New System.ComponentModel.BackgroundWorker()
         Me.SpeedTrackBar = New System.Windows.Forms.TrackBar()
         Me.spTipLb = New System.Windows.Forms.Label()
         Me.spLb = New System.Windows.Forms.Label()
         Me.TimeLabel = New System.Windows.Forms.Label()
+        Me.LEDExButton = New System.Windows.Forms.Button()
         CType(Me.UniLED_Edit, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SpeedTrackBar, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -67,10 +66,10 @@ Partial Class keyLED_Edit
         'CopyButton
         '
         Me.CopyButton.Enabled = False
-        Me.CopyButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 18.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.CopyButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.CopyButton.Location = New System.Drawing.Point(463, 427)
         Me.CopyButton.Name = "CopyButton"
-        Me.CopyButton.Size = New System.Drawing.Size(102, 57)
+        Me.CopyButton.Size = New System.Drawing.Size(102, 41)
         Me.CopyButton.TabIndex = 19
         Me.CopyButton.Text = "Copy"
         Me.CopyButton.UseVisualStyleBackColor = True
@@ -131,9 +130,9 @@ Partial Class keyLED_Edit
         Me.ALGModeBox.Font = New System.Drawing.Font("나눔고딕 ExtraBold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.ALGModeBox.FormattingEnabled = True
         Me.ALGModeBox.Items.AddRange(New Object() {"Ableton Live MIDI ALG1", "Non-Convert (Developer Mode)"})
-        Me.ALGModeBox.Location = New System.Drawing.Point(12, 478)
+        Me.ALGModeBox.Location = New System.Drawing.Point(12, 508)
         Me.ALGModeBox.Name = "ALGModeBox"
-        Me.ALGModeBox.Size = New System.Drawing.Size(234, 23)
+        Me.ALGModeBox.Size = New System.Drawing.Size(232, 23)
         Me.ALGModeBox.TabIndex = 26
         Me.ALGModeBox.Text = "Ableton Live MIDI ALG1"
         '
@@ -154,21 +153,21 @@ Partial Class keyLED_Edit
         'TestButton
         '
         Me.TestButton.Enabled = False
-        Me.TestButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 18.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.TestButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.TestButton.Location = New System.Drawing.Point(360, 427)
         Me.TestButton.Name = "TestButton"
-        Me.TestButton.Size = New System.Drawing.Size(97, 57)
+        Me.TestButton.Size = New System.Drawing.Size(97, 41)
         Me.TestButton.TabIndex = 31
         Me.TestButton.Text = "Test"
         Me.TestButton.UseVisualStyleBackColor = True
         '
         'SpeedTrackBar
         '
-        Me.SpeedTrackBar.Location = New System.Drawing.Point(12, 427)
+        Me.SpeedTrackBar.Location = New System.Drawing.Point(10, 442)
         Me.SpeedTrackBar.Maximum = 200
         Me.SpeedTrackBar.Minimum = 1
         Me.SpeedTrackBar.Name = "SpeedTrackBar"
-        Me.SpeedTrackBar.Size = New System.Drawing.Size(232, 45)
+        Me.SpeedTrackBar.Size = New System.Drawing.Size(234, 45)
         Me.SpeedTrackBar.TabIndex = 32
         Me.SpeedTrackBar.Value = 100
         '
@@ -176,7 +175,7 @@ Partial Class keyLED_Edit
         '
         Me.spTipLb.AutoSize = True
         Me.spTipLb.Font = New System.Drawing.Font("나눔바른고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.spTipLb.Location = New System.Drawing.Point(252, 427)
+        Me.spTipLb.Location = New System.Drawing.Point(250, 437)
         Me.spTipLb.Name = "spTipLb"
         Me.spTipLb.Size = New System.Drawing.Size(49, 15)
         Me.spTipLb.TabIndex = 33
@@ -186,7 +185,7 @@ Partial Class keyLED_Edit
         '
         Me.spLb.AutoSize = True
         Me.spLb.Font = New System.Drawing.Font("나눔바른고딕", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.spLb.Location = New System.Drawing.Point(252, 450)
+        Me.spLb.Location = New System.Drawing.Point(250, 460)
         Me.spLb.Name = "spLb"
         Me.spLb.Size = New System.Drawing.Size(60, 22)
         Me.spLb.TabIndex = 34
@@ -196,11 +195,21 @@ Partial Class keyLED_Edit
         '
         Me.TimeLabel.AutoSize = True
         Me.TimeLabel.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.TimeLabel.Location = New System.Drawing.Point(368, 490)
+        Me.TimeLabel.Location = New System.Drawing.Point(376, 522)
         Me.TimeLabel.Name = "TimeLabel"
         Me.TimeLabel.Size = New System.Drawing.Size(115, 14)
         Me.TimeLabel.TabIndex = 35
         Me.TimeLabel.Text = "LED Running Time: "
+        '
+        'LEDExButton
+        '
+        Me.LEDExButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.LEDExButton.Location = New System.Drawing.Point(360, 474)
+        Me.LEDExButton.Name = "LEDExButton"
+        Me.LEDExButton.Size = New System.Drawing.Size(205, 45)
+        Me.LEDExButton.TabIndex = 36
+        Me.LEDExButton.Text = "LED Extensions"
+        Me.LEDExButton.UseVisualStyleBackColor = True
         '
         'keyLED_Edit
         '
@@ -208,7 +217,8 @@ Partial Class keyLED_Edit
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.ClientSize = New System.Drawing.Size(579, 510)
+        Me.ClientSize = New System.Drawing.Size(579, 543)
+        Me.Controls.Add(Me.LEDExButton)
         Me.Controls.Add(Me.TimeLabel)
         Me.Controls.Add(Me.spLb)
         Me.Controls.Add(Me.spTipLb)
@@ -224,7 +234,7 @@ Partial Class keyLED_Edit
         Me.Controls.Add(Me.UniLED_Edit)
         Me.MaximizeBox = False
         Me.Name = "keyLED_Edit"
-        Me.Text = "keyLED (MIDI Extension) Edit (Beta)"
+        Me.Text = "keyLED Edit (MIDI Extension, Beta)"
         CType(Me.UniLED_Edit, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.SpeedTrackBar, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -243,10 +253,9 @@ Partial Class keyLED_Edit
     Friend WithEvents UniLED1 As Label
     Friend WithEvents GAZUA_ As System.ComponentModel.BackgroundWorker
     Friend WithEvents TestButton As Button
-    Friend WithEvents pfTest_bgw As System.ComponentModel.BackgroundWorker
-    Friend WithEvents Tests_bgw As System.ComponentModel.BackgroundWorker
     Friend WithEvents SpeedTrackBar As TrackBar
     Friend WithEvents spTipLb As Label
     Friend WithEvents spLb As Label
     Friend WithEvents TimeLabel As Label
+    Friend WithEvents LEDExButton As Button
 End Class

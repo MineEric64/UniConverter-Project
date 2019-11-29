@@ -87,7 +87,6 @@ Public Class Translator
 
                     'MIDI Devices 탭
                     .HomeEdit.TabPages(4).Text = "미디 디바이스"
-                    .MIDIn_Test.Text = "미디 입력 테스트"
                     .LoadButton.Text = "불러오기"
                     .ConnectButton.Text = "연결"
                     .MIDIStat.Text = "미디 상태:"
@@ -109,6 +108,7 @@ Public Class Translator
                     .OpenKeyLEDToolStripMenuItem.Text = "LED 파일 열기"
                     .SaveProjectToolStripMenuItem.Text = "프로젝트 저장 (불러온 프로젝트만)"
                     .ConvertALSToUnipackToolStripMenuItem.Text = "에이블톤 프로젝트에서 유니팩으로 변환!"
+                    .AutoConvert.Text = "프로젝트를 열 때 자동으로 변환"
 
                     .EditToolStripMenuItem.Text = "편집"
                     .ResetTheProjectToolStripMenuItem.Text = "프로젝트 초기화"

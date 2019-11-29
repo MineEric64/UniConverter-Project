@@ -243,7 +243,6 @@ Partial Class MainProject
         Me.mc1 = New System.Windows.Forms.Button()
         Me.mc31 = New System.Windows.Forms.Button()
         Me.MIDISET = New System.Windows.Forms.TabPage()
-        Me.MIDIn_Test = New System.Windows.Forms.Button()
         Me.MIDIStatOut = New System.Windows.Forms.Label()
         Me.MIDIStatIn = New System.Windows.Forms.Label()
         Me.MIDIStat = New System.Windows.Forms.Label()
@@ -262,6 +261,7 @@ Partial Class MainProject
         Me.BGW_keyLEDLayout = New System.ComponentModel.BackgroundWorker()
         Me.BGW_soundcut = New System.ComponentModel.BackgroundWorker()
         Me.BGW_RsProj = New System.ComponentModel.BackgroundWorker()
+        Me.AutoConvert = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip.SuspendLayout()
         Me.HomeEdit.SuspendLayout()
         Me.Info1.SuspendLayout()
@@ -287,7 +287,7 @@ Partial Class MainProject
         '
         'FileToolStripMenuItem
         '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenProjectToolStripMenuItem, Me.SaveProjectToolStripMenuItem, Me.ConvertALSToUnipackToolStripMenuItem})
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenProjectToolStripMenuItem, Me.SaveProjectToolStripMenuItem, Me.ConvertALSToUnipackToolStripMenuItem, Me.AutoConvert})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
         Me.FileToolStripMenuItem.ShowShortcutKeys = False
         Me.FileToolStripMenuItem.Size = New System.Drawing.Size(39, 20)
@@ -297,7 +297,7 @@ Partial Class MainProject
         '
         Me.OpenProjectToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenAbletonProjectToolStripMenuItem, Me.SoundsToolStripMenuItem, Me.OpenKeyLEDToolStripMenuItem})
         Me.OpenProjectToolStripMenuItem.Name = "OpenProjectToolStripMenuItem"
-        Me.OpenProjectToolStripMenuItem.Size = New System.Drawing.Size(284, 22)
+        Me.OpenProjectToolStripMenuItem.Size = New System.Drawing.Size(355, 22)
         Me.OpenProjectToolStripMenuItem.Text = "Open Project"
         '
         'OpenAbletonProjectToolStripMenuItem
@@ -322,14 +322,14 @@ Partial Class MainProject
         '
         Me.SaveProjectToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
         Me.SaveProjectToolStripMenuItem.Name = "SaveProjectToolStripMenuItem"
-        Me.SaveProjectToolStripMenuItem.Size = New System.Drawing.Size(284, 22)
+        Me.SaveProjectToolStripMenuItem.Size = New System.Drawing.Size(355, 22)
         Me.SaveProjectToolStripMenuItem.Text = "Save Project (Loaded Project Only)"
         '
         'ConvertALSToUnipackToolStripMenuItem
         '
         Me.ConvertALSToUnipackToolStripMenuItem.Enabled = False
         Me.ConvertALSToUnipackToolStripMenuItem.Name = "ConvertALSToUnipackToolStripMenuItem"
-        Me.ConvertALSToUnipackToolStripMenuItem.Size = New System.Drawing.Size(284, 22)
+        Me.ConvertALSToUnipackToolStripMenuItem.Size = New System.Drawing.Size(355, 22)
         Me.ConvertALSToUnipackToolStripMenuItem.Text = "Convert Ableton Project to UniPack!"
         '
         'EditToolStripMenuItem
@@ -2949,7 +2949,6 @@ Partial Class MainProject
         '
         'MIDISET
         '
-        Me.MIDISET.Controls.Add(Me.MIDIn_Test)
         Me.MIDISET.Controls.Add(Me.MIDIStatOut)
         Me.MIDISET.Controls.Add(Me.MIDIStatIn)
         Me.MIDISET.Controls.Add(Me.MIDIStat)
@@ -2963,16 +2962,6 @@ Partial Class MainProject
         Me.MIDISET.TabIndex = 4
         Me.MIDISET.Text = "MIDI Devices"
         Me.MIDISET.UseVisualStyleBackColor = True
-        '
-        'MIDIn_Test
-        '
-        Me.MIDIn_Test.Font = New System.Drawing.Font("나눔바른고딕OTF", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.MIDIn_Test.Location = New System.Drawing.Point(492, 271)
-        Me.MIDIn_Test.Name = "MIDIn_Test"
-        Me.MIDIn_Test.Size = New System.Drawing.Size(242, 88)
-        Me.MIDIn_Test.TabIndex = 38
-        Me.MIDIn_Test.Text = "MIDI Input Test"
-        Me.MIDIn_Test.UseVisualStyleBackColor = True
         '
         'MIDIStatOut
         '
@@ -3074,6 +3063,15 @@ Partial Class MainProject
         'BGW_RsProj
         '
         '
+        'AutoConvert
+        '
+        Me.AutoConvert.Checked = True
+        Me.AutoConvert.CheckOnClick = True
+        Me.AutoConvert.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.AutoConvert.Name = "AutoConvert"
+        Me.AutoConvert.Size = New System.Drawing.Size(355, 22)
+        Me.AutoConvert.Text = "Convert Automatically when you load the project"
+        '
         'MainProject
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
@@ -3159,7 +3157,6 @@ Partial Class MainProject
     Friend WithEvents BGW_keyLED_ As System.ComponentModel.BackgroundWorker
     Friend WithEvents BGW_CheckUpdate As System.ComponentModel.BackgroundWorker
     Friend WithEvents BGW_keySound As System.ComponentModel.BackgroundWorker
-    Friend WithEvents MIDIn_Test As Button
     Friend WithEvents KeySoundTab As TabPage
     Friend WithEvents DevelopingLabel1 As Label
     Friend WithEvents btnPad_chain8 As Button
@@ -3351,4 +3348,5 @@ Partial Class MainProject
     Friend WithEvents ResetTheProjectToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents BGW_soundcut As System.ComponentModel.BackgroundWorker
     Friend WithEvents BGW_RsProj As System.ComponentModel.BackgroundWorker
+    Friend WithEvents AutoConvert As ToolStripMenuItem
 End Class

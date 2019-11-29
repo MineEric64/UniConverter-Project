@@ -181,7 +181,6 @@ Public Class keyLED_Test
         Catch exN As IOException
             Thread.Sleep(300)
         End Try
-        ThreadPool.QueueUserWorkItem(AddressOf LEDHandler)
 
         If MainProject.midioutput_avail Then
             If IsLaunchpaded = False Then
@@ -191,13 +190,22 @@ Public Class keyLED_Test
                 lmo.SendBuffer({240, 0, 32, 41, 9, 60, 85, 110, 105, 116, 111, 114, 32, 118, Asc(My.Application.Info.Version.Major), 46, Asc(My.Application.Info.Version.Minor), 46, Asc(My.Application.Info.Version.Build), 46, Asc(My.Application.Info.Version.Revision), 247})
                 IsLaunchpaded = True
             End If
+        End If
 
-            LEDHandler_Launchpad() 'Handle the LED to Launchpad.
-            End If
+        ThreadPool.QueueUserWorkItem(AddressOf LEDHandler) 'Handle the LED to Virtual 64 Pad & Launchpad.
     End Sub
 
     Private Sub LEDHandler()
         Try
+            Dim midioutput_available As Boolean
+            Invoke(Sub()
+                       midioutput_available = MainProject.midioutput_avail
+                   End Sub)
+
+            If midioutput_available Then
+                LEDHandler_Launchpad()
+            End If
+
             Dim linesInfo As New List(Of String)(File.ReadAllLines(Application.StartupPath & "\Workspace\TmpLED.txt"))
             linesInfo.RemoveAll(Function(s) s.Trim = "")
             Dim Lines() As String = linesInfo.ToArray
@@ -208,11 +216,13 @@ Public Class keyLED_Test
             For i = 0 To linescounter - 1
 
                 sp = Lines(i).Split(" ")
+                Dim sp3_v As Integer
                 If sp(0) = "o" OrElse sp(0) = "on" Then
 
                     'Velocity Code.
                     If sp(3) = "a" OrElse sp(3) = "auto" Then
                         sp(3) = sp(4)
+                        sp3_v = sp(3)
                         If IsNumeric(sp(3)) = False Then
                             MessageBox.Show("Wrong UniPad button code on line " & i + 1 & "!", "Wrong on command", MessageBoxButtons.OK, MessageBoxIcon.Error)
                             Exit For
@@ -224,6 +234,9 @@ Public Class keyLED_Test
                     If sp(1) = "mc" Then
                         Try
                             ctrl("mc" & sp(2)).BackColor = ColorTranslator.FromHtml("#" & sp(3))
+                            If midioutput_available Then
+                                mcSendNote(sp(2), sp3_v, Nothing, lkind, True)
+                            End If
                         Catch ex As Exception
                             MessageBox.Show("Wrong UniPad button code mc line " & i + 1 & "! Or maybe you didn't pointed the button code!", "Wrong on command", MessageBoxButtons.OK, MessageBoxIcon.Error)
                             Exit For
@@ -232,6 +245,9 @@ Public Class keyLED_Test
 
                         Try
                             ctrl(sp(1) & sp(2)).BackColor = ColorTranslator.FromHtml("#" & sp(3))
+                            If midioutput_available Then
+                                Handle_Launchpad(sp(1), sp(2), sp3_v, lkind)
+                            End If
                         Catch
                             MessageBox.Show("Wrong UniPad button code on line " & i + 1 & "! Or maybe you didn't pointed the button code!", "Wrong on command", MessageBoxButtons.OK, MessageBoxIcon.Error)
                             Exit For
@@ -244,6 +260,9 @@ Public Class keyLED_Test
                     If sp(1) = "mc" Then
                         Try
                             ctrl("mc" & sp(2)).BackColor = Color.Gray
+                            If midioutput_available Then
+                                mcSendNote(sp(2), 0, Nothing, lkind, True)
+                            End If
                         Catch ex As Exception
                             MessageBox.Show("Wrong UniPad button code mc line " & i + 1 & "! Or maybe you didn't pointed the button code!", "Wrong on command", MessageBoxButtons.OK, MessageBoxIcon.Error)
                             Exit For
@@ -252,6 +271,9 @@ Public Class keyLED_Test
 
                         Try
                             ctrl(sp(1) & sp(2)).BackColor = Color.Gray
+                            If midioutput_available Then
+                                Handle_Launchpad(sp(1), sp(2), 0, lkind)
+                            End If
                         Catch
                             MessageBox.Show("Wrong UniPad button code on line" & i + 1 & "! Or maybe you didn't pointed the button code!", "Wrong off command", MessageBoxButtons.OK, MessageBoxIcon.Error)
                             Exit For
@@ -271,7 +293,6 @@ Public Class keyLED_Test
                     Exit For
                 End If
             Next
-            'ledfiles_now(chain, xcode, ycode) += 1
             stopwatch__1.[Stop]()
             Invoke(Sub()
                        Select Case MainProject.lang
@@ -306,96 +327,7 @@ Public Class keyLED_Test
             For i = 1 To 32
                 mcSendNote(i, 0, Nothing, True)
             Next
-
-            ThreadPool.QueueUserWorkItem(AddressOf LEDEdit_PrepareToQueue)
         End If
-    End Sub
-
-    Private Sub LEDEdit_PrepareToQueue()
-        Try
-            Dim nsto As New Stopwatch
-            nsto.Start()
-
-            Dim linesInfo As New List(Of String)(File.ReadAllLines(Application.StartupPath & "\Workspace\TmpLED.txt"))
-            linesInfo.RemoveAll(Function(s) s.Trim = "")
-            Dim Lines() As String = linesInfo.ToArray
-            Dim linescounter As Integer = Lines.Length
-
-            Dim sp() As String
-            For i = 0 To linescounter - 1
-
-                sp = Lines(i).Split(" ")
-                If sp(0) = "o" OrElse sp(0) = "on" Then
-
-                    'Velocity Code.
-                    If sp(3) = "a" OrElse sp(3) = "auto" Then
-                        sp(3) = sp(4)
-                        If IsNumeric(sp(3)) = False Then
-                            MessageBox.Show("Wrong UniPad button code on line " & i + 1 & "!", "Wrong on command", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                            Exit For
-                        End If
-                    End If
-
-                    'On Code.
-                    If sp(1) = "mc" Then
-                        Try
-                            mcSendNote(sp(2), sp(3), Nothing, lkind, True)
-                        Catch ex As Exception
-                            MessageBox.Show("Wrong UniPad button code mc line " & i + 1 & "! Or maybe you didn't pointed the button code!", "Wrong on command", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                            Exit For
-                        End Try
-                    Else
-
-                        Try
-                            Handle_Launchpad(sp(1), sp(2), sp(3), lkind)
-                        Catch
-                            MessageBox.Show("Wrong UniPad button code on line " & i + 1 & "! Or maybe you didn't pointed the button code!", "Wrong on command", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                            Exit For
-                        End Try
-
-                    End If
-
-                ElseIf sp(0) = "f" OrElse sp(0) = "off" Then
-
-                    'Off Code.
-                    If sp(1) = "mc" Then
-                        Try
-                            mcSendNote(sp(2), 0, Nothing, lkind, True)
-                        Catch ex As Exception
-                            MessageBox.Show("Wrong UniPad button code mc line " & i + 1 & "! Or maybe you didn't pointed the button code!", "Wrong on command", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                            Exit For
-                        End Try
-                    Else
-
-                        Try
-                            Handle_Launchpad(sp(1), sp(2), 0, lkind)
-                        Catch
-                            MessageBox.Show("Wrong UniPad button code on line" & i + 1 & "! Or maybe you didn't pointed the button code!", "Wrong off command", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                            Exit For
-                        End Try
-                    End If
-
-                ElseIf sp(0) = "d" OrElse sp(0) = "delay" Then
-                    'Delay Code.
-                    If IsNumeric(sp(1)) = False Then
-                        MessageBox.Show("Wrong millisecond code on line " & i + 1 & "!", "Wrong delay command", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                        Exit For
-                    End If
-                    Thread.Sleep(sp(1))
-
-                Else
-                    MessageBox.Show("Wrong LED command " & Lines(i) & " on line" & i, "Wrong Data", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    Exit For
-                End If
-            Next
-
-        Catch ex As Exception
-            If MainProject.IsGreatExMode Then
-                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Else
-                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End If
-        End Try
     End Sub
 
     ''' <summary>

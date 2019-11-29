@@ -253,6 +253,11 @@ Public Class MainProject
     Public Shared LEDMapping_N As Char() = New Char(25) {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"}
 #End Region
 
+#Region "DLL Import Functions"
+    Declare Function GetDC Lib "user32" Alias "GetDC" (ByVal hwnd As Integer) As Integer
+    'Declare Function RoundRect Lib "gdi32" Alias "RoundRect" (ByVal hdc As Integer, ByVal x1 As Integer, ByVal y1 As Integer, ByVal x2 As Integer, ByVal y2 As Integer, ByVal x3 As Integer, ByVal y3 As Integer) As Integer
+#End Region
+
     ''' <summary>
     ''' 특별 기호 (")
     ''' </summary>
@@ -620,6 +625,44 @@ Public Class MainProject
             End If
             Return String.Empty
         End Try
+    End Function
+
+    Public Function roundRect(ByVal Rc As Rectangle, ByVal Rnd As Integer) As GraphicsPath
+        Dim path As New GraphicsPath
+
+        path.AddArc(Rc.X, Rc.Y, Rnd, Rnd, -180, 90)
+        path.AddLine(Rc.X + (Rnd \ 2), Rc.Y, Rc.X + Rc.Width - (Rnd \ 2), Rc.Y)
+        path.AddArc(Rc.X + Rc.Width - Rnd, Rc.Y, Rnd, Rnd, -90, 90)
+
+        path.AddLine(Rc.X + Rc.Width, Rc.Y + (Rnd \ 2), Rc.X + Rc.Width, Rc.Y + Rc.Height - (Rnd \ 2))
+        path.AddArc(Rc.X + Rc.Width - Rnd, Rc.Y + Rc.Height - Rnd, Rnd, Rnd, 0, 90)
+
+        path.AddLine(Rc.X + (Rnd \ 2), Rc.Y + Rc.Height, Rc.X + Rc.Width - (Rnd \ 2), Rc.Y + Rc.Height)
+
+        path.AddArc(Rc.X, Rc.Y + Rc.Height - Rnd, Rnd, Rnd, 90, 90)
+
+        path.AddLine(Rc.X, Rc.Y + (Rnd \ 2), Rc.X, Rc.Y + Rc.Height - (Rnd \ 2))
+
+        Return path
+    End Function
+
+    Public Function roundRect(ByVal x As Integer, ByVal y As Integer, ByVal width As Integer, ByVal height As Integer, ByVal Rnd As Integer) As GraphicsPath
+        Dim path As New GraphicsPath
+
+        path.AddArc(x, y, Rnd, Rnd, -180, 90)
+        path.AddLine(x + (Rnd \ 2), y, x + width - (Rnd \ 2), y)
+        path.AddArc(x + width - Rnd, y, Rnd, Rnd, -90, 90)
+
+        path.AddLine(x + width, y + (Rnd \ 2), x + width, y + height - (Rnd \ 2))
+        path.AddArc(x + width - Rnd, y + height - Rnd, Rnd, Rnd, 0, 90)
+
+        path.AddLine(x + (Rnd \ 2), y + height, x + width - (Rnd \ 2), y + height)
+
+        path.AddArc(x, y + height - Rnd, Rnd, Rnd, 90, 90)
+
+        path.AddLine(x, y + (Rnd \ 2), x, y + height - (Rnd \ 2))
+
+        Return path
     End Function
 
     Private Sub BGW_keyLED_DoWork(sender As Object, e As DoWorkEventArgs) Handles BGW_keyLED.DoWork
@@ -1042,7 +1085,7 @@ Public Class MainProject
                     OpenSoundsToolStripMenuItem_Click(Nothing, Nothing)
                 End If
 
-                If String.IsNullOrEmpty(w8t4abl) = False Then
+                If String.IsNullOrEmpty(w8t4abl) = False AndAlso AutoConvert.Checked Then
                     Select Case w8t4abl
 
                         Case "keyLED"
@@ -1051,7 +1094,7 @@ Public Class MainProject
                     End Select
                 End If
 
-                If abl_openedproj AndAlso abl_openedsnd Then
+                If abl_openedproj AndAlso abl_openedsnd AndAlso AutoConvert.Checked Then
                     BGW_keySound.RunWorkerAsync()
                 End If
 
@@ -1942,7 +1985,7 @@ Public Class MainProject
             ElseIf e.Cancelled Then
                 Exit Sub
             Else
-                If abl_openedproj AndAlso abl_openedsnd Then
+                If abl_openedproj AndAlso abl_openedsnd AndAlso AutoConvert.Checked Then
                     'BGW_soundcut.RunWorkerAsync() '아직 개발 완료 안됨.
                     BGW_keySound.RunWorkerAsync()
                 End If
@@ -3991,5 +4034,6 @@ Public Class MainProject
 
     Private Sub KeyLEDMIDEX_BetaButton_Click(sender As Object, e As EventArgs) Handles keyLEDMIDEX_BetaButton.Click
         keyLED_Edit.Show()
+        keyLED_Edit.Focus()
     End Sub
 End Class

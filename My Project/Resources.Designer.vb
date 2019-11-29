@@ -77,6 +77,16 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        '''</summary>
+        Friend ReadOnly Property FLIP() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("FLIP", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  PExpY2Vuc2VOYW1lPSJEZXZlbG9wZXIgTW9kZSIgTGljZW5zZURldmVsb3Blcj0iTWluZUVyaWM2NCIgUHJvZ3JhbTJ1c2VMaWNlbnNlPSJVbmlDb252ZXJ0ZXIiIExpY2Vuc2VDcmVhdGVEYXRlPSIyMDE5LTA3LTEwLTEzLTQ2IiBFeHBpcmVkRGF0ZT0iMjAyNC0wNy0xMC0xMy00NiI+
         '''
         '''//This is UniConverter&apos;s Developer Mode License.
@@ -101,49 +111,49 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  o 3 4 a 78
-        '''o 4 4 a 78
-        '''o 4 5 a 78
-        '''o 4 6 a 78
-        '''o 5 3 a 78
-        '''o 5 4 a 78
-        '''o 5 5 a 78
-        '''o 6 5 a 78
-        '''d 30
-        '''o 3 3 a 78
-        '''o 3 4 a 78
-        '''o 3 5 a 78
-        '''o 3 6 a 78
-        '''o 4 3 a 78
-        '''o 4 4 a 78
-        '''o 4 5 a 78
-        '''o 4 6 a 78
-        '''o 5 3 a 78
-        '''o 5 4 a 78
-        '''o 5 5 a 78
-        '''o 5 6 a 78
-        '''o 6 3 a 78
-        '''o 6 4 a 78
-        '''o 6 5 a 78
-        '''o 6 6 a 78
-        '''d 30
-        '''o 2 5 a 78
-        '''o 2 6 a 78
-        '''o 3 2 a 78
-        '''o 3 3 a 78
-        '''o 3 4 a 79
-        '''o 3 5 a 78
-        '''o 3 6 a 78
-        '''o 4 2 a 78
-        '''o 4 3 a 78
-        '''o 4 4 a 79
-        '''o 4 5 a 79
-        '''o 4 6 a 79
-        '''o 5 3 a 79
-        '''o 5 4 a 79
-        '''o 5 5 a 79
-        '''o 5 6 a 78
-        '''o 5 7 a 78
+        '''  o 3 4 a 37
+        '''o 4 4 a 37
+        '''o 4 5 a 37
+        '''o 4 6 a 37
+        '''o 5 3 a 37
+        '''o 5 4 a 37
+        '''o 5 5 a 37
+        '''o 6 5 a 37
+        '''d 40
+        '''o 3 3 a 37
+        '''o 3 4 a 37
+        '''o 3 5 a 37
+        '''o 3 6 a 37
+        '''o 4 3 a 37
+        '''o 4 4 a 37
+        '''o 4 5 a 37
+        '''o 4 6 a 37
+        '''o 5 3 a 37
+        '''o 5 4 a 37
+        '''o 5 5 a 37
+        '''o 5 6 a 37
+        '''o 6 3 a 37
+        '''o 6 4 a 37
+        '''o 6 5 a 37
+        '''o 6 6 a 37
+        '''d 40
+        '''o 2 5 a 37
+        '''o 2 6 a 37
+        '''o 3 2 a 37
+        '''o 3 3 a 37
+        '''o 3 4 a 11
+        '''o 3 5 a 37
+        '''o 3 6 a 37
+        '''o 4 2 a 37
+        '''o 4 3 a 37
+        '''o 4 4 a 11
+        '''o 4 5 a 11
+        '''o 4 6 a 11
+        '''o 5 3 a 11
+        '''o 5 4 a 11
+        '''o 5 5 a 11
+        '''o 5 6 a 37
+        '''o 5 7 a 37
         '''o 6 3 a [나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 문자열을 찾습니다.
         '''</summary>
         Friend ReadOnly Property SuperLightText() As String
