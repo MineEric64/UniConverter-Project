@@ -837,28 +837,36 @@ Public Class MainProject
                 Exit Sub
             ElseIf e.Cancelled Then
                 If OpenProjectOnce Then
-                    BGW_keySound.RunWorkerAsync()
+                    If AutoConvert.Checked Then
+                        BGW_keySound.RunWorkerAsync()
+                    End If
                 Else
-                    Select Case lang
+                        Select Case lang
                         Case Translator.tL.English
                             MessageBox.Show("LED Files Loaded! You can edit LEDs in 'keyLED (MIDI Extension)' Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
                         Case Translator.tL.Korean
                             MessageBox.Show("LED 파일이 로딩되었습니다! 'keyLED (미디 익스텐션)' 탭에서 LED를 편집할 수 있습니다.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End Select
-                    BGW_keyLED_.RunWorkerAsync()
+                    If AutoConvert.Checked Then
+                        BGW_keyLED_.RunWorkerAsync()
+                    End If
                 End If
-                Exit Sub
+                    Exit Sub
             Else
                 If OpenProjectOnce Then
-                    BGW_keySound.RunWorkerAsync()
+                    If AutoConvert.Checked Then
+                        BGW_keySound.RunWorkerAsync()
+                    End If
                 Else
-                    Select Case lang
+                        Select Case lang
                         Case Translator.tL.English
                             MessageBox.Show("LED Files Loaded! You can edit LEDs in 'keyLED (MIDI Extension)' Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
                         Case Translator.tL.Korean
                             MessageBox.Show("LED 파일이 로딩되었습니다! 'keyLED (미디 익스텐션)' 탭에서 LED를 편집할 수 있습니다.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End Select
-                    BGW_keyLED_.RunWorkerAsync()
+                    If AutoConvert.Checked Then
+                        BGW_keyLED_.RunWorkerAsync()
+                    End If
                 End If
             End If
         Catch ex As Exception

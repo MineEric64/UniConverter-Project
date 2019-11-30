@@ -31,6 +31,7 @@ Partial Class MainProject
         Me.OpenKeyLEDToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveProjectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ConvertALSToUnipackToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AutoConvert = New System.Windows.Forms.ToolStripMenuItem()
         Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ResetTheProjectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TutorialsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -261,7 +262,6 @@ Partial Class MainProject
         Me.BGW_keyLEDLayout = New System.ComponentModel.BackgroundWorker()
         Me.BGW_soundcut = New System.ComponentModel.BackgroundWorker()
         Me.BGW_RsProj = New System.ComponentModel.BackgroundWorker()
-        Me.AutoConvert = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip.SuspendLayout()
         Me.HomeEdit.SuspendLayout()
         Me.Info1.SuspendLayout()
@@ -331,6 +331,15 @@ Partial Class MainProject
         Me.ConvertALSToUnipackToolStripMenuItem.Name = "ConvertALSToUnipackToolStripMenuItem"
         Me.ConvertALSToUnipackToolStripMenuItem.Size = New System.Drawing.Size(355, 22)
         Me.ConvertALSToUnipackToolStripMenuItem.Text = "Convert Ableton Project to UniPack!"
+        '
+        'AutoConvert
+        '
+        Me.AutoConvert.Checked = True
+        Me.AutoConvert.CheckOnClick = True
+        Me.AutoConvert.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.AutoConvert.Name = "AutoConvert"
+        Me.AutoConvert.Size = New System.Drawing.Size(355, 22)
+        Me.AutoConvert.Text = "Convert Automatically when you load the project"
         '
         'EditToolStripMenuItem
         '
@@ -3062,15 +3071,6 @@ Partial Class MainProject
         '
         'BGW_RsProj
         '
-        '
-        'AutoConvert
-        '
-        Me.AutoConvert.Checked = True
-        Me.AutoConvert.CheckOnClick = True
-        Me.AutoConvert.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.AutoConvert.Name = "AutoConvert"
-        Me.AutoConvert.Size = New System.Drawing.Size(355, 22)
-        Me.AutoConvert.Text = "Convert Automatically when you load the project"
         '
         'MainProject
         '

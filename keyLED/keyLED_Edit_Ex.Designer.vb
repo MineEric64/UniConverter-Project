@@ -26,19 +26,21 @@ Partial Class keyLED_Edit_Ex
         Me.DefEx = New System.Windows.Forms.TabPage()
         Me.OpenAblPrjBtn = New System.Windows.Forms.Button()
         Me.Flip = New System.Windows.Forms.TabPage()
-        Me.DuplicateCheckBox = New System.Windows.Forms.CheckBox()
-        Me.FLIPGroupBox = New System.Windows.Forms.GroupBox()
-        Me.MirrorCheckBox = New System.Windows.Forms.CheckBox()
-        Me.RotateComboBox = New System.Windows.Forms.ComboBox()
-        Me.MirrorComboBox = New System.Windows.Forms.ComboBox()
-        Me.RotateCheckBox = New System.Windows.Forms.CheckBox()
-        Me.FLIPPictureBox = New System.Windows.Forms.PictureBox()
+        Me.Flip_AutoLoadButton = New System.Windows.Forms.Button()
+        Me.Flip_ResetButton = New System.Windows.Forms.Button()
+        Me.Flip_DuplicateCheckBox = New System.Windows.Forms.CheckBox()
+        Me.FlipGroupBox = New System.Windows.Forms.GroupBox()
+        Me.Flip_MirrorCheckBox = New System.Windows.Forms.CheckBox()
+        Me.Flip_RotateComboBox = New System.Windows.Forms.ComboBox()
+        Me.Flip_MirrorComboBox = New System.Windows.Forms.ComboBox()
+        Me.Flip_RotateCheckBox = New System.Windows.Forms.CheckBox()
+        Me.FlipPictureBox = New System.Windows.Forms.PictureBox()
         Me.ColorEx = New System.Windows.Forms.TabPage()
         Me.TabControl.SuspendLayout()
         Me.DefEx.SuspendLayout()
         Me.Flip.SuspendLayout()
-        Me.FLIPGroupBox.SuspendLayout()
-        CType(Me.FLIPPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.FlipGroupBox.SuspendLayout()
+        CType(Me.FlipPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'TabControl
@@ -75,9 +77,11 @@ Partial Class keyLED_Edit_Ex
         '
         'Flip
         '
-        Me.Flip.Controls.Add(Me.DuplicateCheckBox)
-        Me.Flip.Controls.Add(Me.FLIPGroupBox)
-        Me.Flip.Controls.Add(Me.FLIPPictureBox)
+        Me.Flip.Controls.Add(Me.Flip_AutoLoadButton)
+        Me.Flip.Controls.Add(Me.Flip_ResetButton)
+        Me.Flip.Controls.Add(Me.Flip_DuplicateCheckBox)
+        Me.Flip.Controls.Add(Me.FlipGroupBox)
+        Me.Flip.Controls.Add(Me.FlipPictureBox)
         Me.Flip.Location = New System.Drawing.Point(4, 22)
         Me.Flip.Name = "Flip"
         Me.Flip.Padding = New System.Windows.Forms.Padding(3)
@@ -86,84 +90,105 @@ Partial Class keyLED_Edit_Ex
         Me.Flip.Text = "Flip"
         Me.Flip.UseVisualStyleBackColor = True
         '
-        'DuplicateCheckBox
+        'Flip_AutoLoadButton
         '
-        Me.DuplicateCheckBox.AutoSize = True
-        Me.DuplicateCheckBox.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.DuplicateCheckBox.Location = New System.Drawing.Point(301, 348)
-        Me.DuplicateCheckBox.Name = "DuplicateCheckBox"
-        Me.DuplicateCheckBox.Size = New System.Drawing.Size(128, 26)
-        Me.DuplicateCheckBox.TabIndex = 5
-        Me.DuplicateCheckBox.Text = "DUPLICATE"
-        Me.DuplicateCheckBox.UseVisualStyleBackColor = True
+        Me.Flip_AutoLoadButton.Enabled = False
+        Me.Flip_AutoLoadButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.Flip_AutoLoadButton.Location = New System.Drawing.Point(583, 311)
+        Me.Flip_AutoLoadButton.Name = "Flip_AutoLoadButton"
+        Me.Flip_AutoLoadButton.Size = New System.Drawing.Size(160, 74)
+        Me.Flip_AutoLoadButton.TabIndex = 7
+        Me.Flip_AutoLoadButton.Text = "Auto Load from Ableton Project (Beta)"
+        Me.Flip_AutoLoadButton.UseVisualStyleBackColor = True
         '
-        'FLIPGroupBox
+        'Flip_ResetButton
         '
-        Me.FLIPGroupBox.Controls.Add(Me.MirrorCheckBox)
-        Me.FLIPGroupBox.Controls.Add(Me.RotateComboBox)
-        Me.FLIPGroupBox.Controls.Add(Me.MirrorComboBox)
-        Me.FLIPGroupBox.Controls.Add(Me.RotateCheckBox)
-        Me.FLIPGroupBox.Font = New System.Drawing.Font("나눔바른고딕OTF", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.FLIPGroupBox.Location = New System.Drawing.Point(218, 223)
-        Me.FLIPGroupBox.Name = "FLIPGroupBox"
-        Me.FLIPGroupBox.Size = New System.Drawing.Size(285, 109)
-        Me.FLIPGroupBox.TabIndex = 5
-        Me.FLIPGroupBox.TabStop = False
-        Me.FLIPGroupBox.Text = "LED Extensions"
+        Me.Flip_ResetButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.Flip_ResetButton.Location = New System.Drawing.Point(583, 244)
+        Me.Flip_ResetButton.Name = "Flip_ResetButton"
+        Me.Flip_ResetButton.Size = New System.Drawing.Size(160, 53)
+        Me.Flip_ResetButton.TabIndex = 6
+        Me.Flip_ResetButton.Text = "Reset"
+        Me.Flip_ResetButton.UseVisualStyleBackColor = True
         '
-        'MirrorCheckBox
+        'Flip_DuplicateCheckBox
         '
-        Me.MirrorCheckBox.AutoSize = True
-        Me.MirrorCheckBox.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.MirrorCheckBox.Location = New System.Drawing.Point(25, 21)
-        Me.MirrorCheckBox.Name = "MirrorCheckBox"
-        Me.MirrorCheckBox.Size = New System.Drawing.Size(101, 26)
-        Me.MirrorCheckBox.TabIndex = 1
-        Me.MirrorCheckBox.Text = "MIRROR"
-        Me.MirrorCheckBox.UseVisualStyleBackColor = True
+        Me.Flip_DuplicateCheckBox.AutoSize = True
+        Me.Flip_DuplicateCheckBox.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.Flip_DuplicateCheckBox.Location = New System.Drawing.Point(301, 348)
+        Me.Flip_DuplicateCheckBox.Name = "Flip_DuplicateCheckBox"
+        Me.Flip_DuplicateCheckBox.Size = New System.Drawing.Size(128, 26)
+        Me.Flip_DuplicateCheckBox.TabIndex = 5
+        Me.Flip_DuplicateCheckBox.Text = "DUPLICATE"
+        Me.Flip_DuplicateCheckBox.UseVisualStyleBackColor = True
         '
-        'RotateComboBox
+        'FlipGroupBox
         '
-        Me.RotateComboBox.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.RotateComboBox.FormattingEnabled = True
-        Me.RotateComboBox.Items.AddRange(New Object() {"90°", "180°", "270°"})
-        Me.RotateComboBox.Location = New System.Drawing.Point(132, 66)
-        Me.RotateComboBox.Name = "RotateComboBox"
-        Me.RotateComboBox.Size = New System.Drawing.Size(121, 30)
-        Me.RotateComboBox.TabIndex = 4
-        Me.RotateComboBox.Text = "90°"
+        Me.FlipGroupBox.Controls.Add(Me.Flip_MirrorCheckBox)
+        Me.FlipGroupBox.Controls.Add(Me.Flip_RotateComboBox)
+        Me.FlipGroupBox.Controls.Add(Me.Flip_MirrorComboBox)
+        Me.FlipGroupBox.Controls.Add(Me.Flip_RotateCheckBox)
+        Me.FlipGroupBox.Font = New System.Drawing.Font("나눔바른고딕OTF", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.FlipGroupBox.Location = New System.Drawing.Point(218, 223)
+        Me.FlipGroupBox.Name = "FlipGroupBox"
+        Me.FlipGroupBox.Size = New System.Drawing.Size(285, 109)
+        Me.FlipGroupBox.TabIndex = 5
+        Me.FlipGroupBox.TabStop = False
+        Me.FlipGroupBox.Text = "LED Extensions"
         '
-        'MirrorComboBox
+        'Flip_MirrorCheckBox
         '
-        Me.MirrorComboBox.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.MirrorComboBox.FormattingEnabled = True
-        Me.MirrorComboBox.Items.AddRange(New Object() {"Horizontal", "Vertical"})
-        Me.MirrorComboBox.Location = New System.Drawing.Point(132, 19)
-        Me.MirrorComboBox.Name = "MirrorComboBox"
-        Me.MirrorComboBox.Size = New System.Drawing.Size(121, 30)
-        Me.MirrorComboBox.TabIndex = 2
-        Me.MirrorComboBox.Text = "Horizontal"
+        Me.Flip_MirrorCheckBox.AutoSize = True
+        Me.Flip_MirrorCheckBox.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.Flip_MirrorCheckBox.Location = New System.Drawing.Point(25, 21)
+        Me.Flip_MirrorCheckBox.Name = "Flip_MirrorCheckBox"
+        Me.Flip_MirrorCheckBox.Size = New System.Drawing.Size(101, 26)
+        Me.Flip_MirrorCheckBox.TabIndex = 1
+        Me.Flip_MirrorCheckBox.Text = "MIRROR"
+        Me.Flip_MirrorCheckBox.UseVisualStyleBackColor = True
         '
-        'RotateCheckBox
+        'Flip_RotateComboBox
         '
-        Me.RotateCheckBox.AutoSize = True
-        Me.RotateCheckBox.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.RotateCheckBox.Location = New System.Drawing.Point(25, 68)
-        Me.RotateCheckBox.Name = "RotateCheckBox"
-        Me.RotateCheckBox.Size = New System.Drawing.Size(99, 26)
-        Me.RotateCheckBox.TabIndex = 3
-        Me.RotateCheckBox.Text = "ROTATE"
-        Me.RotateCheckBox.UseVisualStyleBackColor = True
+        Me.Flip_RotateComboBox.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.Flip_RotateComboBox.FormattingEnabled = True
+        Me.Flip_RotateComboBox.Items.AddRange(New Object() {"90°", "180°", "270°"})
+        Me.Flip_RotateComboBox.Location = New System.Drawing.Point(132, 66)
+        Me.Flip_RotateComboBox.Name = "Flip_RotateComboBox"
+        Me.Flip_RotateComboBox.Size = New System.Drawing.Size(121, 30)
+        Me.Flip_RotateComboBox.TabIndex = 4
+        Me.Flip_RotateComboBox.Text = "90°"
         '
-        'FLIPPictureBox
+        'Flip_MirrorComboBox
         '
-        Me.FLIPPictureBox.Image = Global.UniConverter_Project.My.Resources.Resources.FLIP
-        Me.FLIPPictureBox.Location = New System.Drawing.Point(6, 6)
-        Me.FLIPPictureBox.Name = "FLIPPictureBox"
-        Me.FLIPPictureBox.Size = New System.Drawing.Size(756, 194)
-        Me.FLIPPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.FLIPPictureBox.TabIndex = 0
-        Me.FLIPPictureBox.TabStop = False
+        Me.Flip_MirrorComboBox.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.Flip_MirrorComboBox.FormattingEnabled = True
+        Me.Flip_MirrorComboBox.Items.AddRange(New Object() {"Horizontal", "Vertical"})
+        Me.Flip_MirrorComboBox.Location = New System.Drawing.Point(132, 19)
+        Me.Flip_MirrorComboBox.Name = "Flip_MirrorComboBox"
+        Me.Flip_MirrorComboBox.Size = New System.Drawing.Size(121, 30)
+        Me.Flip_MirrorComboBox.TabIndex = 2
+        Me.Flip_MirrorComboBox.Text = "Horizontal"
+        '
+        'Flip_RotateCheckBox
+        '
+        Me.Flip_RotateCheckBox.AutoSize = True
+        Me.Flip_RotateCheckBox.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.Flip_RotateCheckBox.Location = New System.Drawing.Point(25, 68)
+        Me.Flip_RotateCheckBox.Name = "Flip_RotateCheckBox"
+        Me.Flip_RotateCheckBox.Size = New System.Drawing.Size(99, 26)
+        Me.Flip_RotateCheckBox.TabIndex = 3
+        Me.Flip_RotateCheckBox.Text = "ROTATE"
+        Me.Flip_RotateCheckBox.UseVisualStyleBackColor = True
+        '
+        'FlipPictureBox
+        '
+        Me.FlipPictureBox.Image = Global.UniConverter_Project.My.Resources.Resources.FLIP
+        Me.FlipPictureBox.Location = New System.Drawing.Point(6, 6)
+        Me.FlipPictureBox.Name = "FlipPictureBox"
+        Me.FlipPictureBox.Size = New System.Drawing.Size(756, 194)
+        Me.FlipPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.FlipPictureBox.TabIndex = 0
+        Me.FlipPictureBox.TabStop = False
         '
         'ColorEx
         '
@@ -186,9 +211,9 @@ Partial Class keyLED_Edit_Ex
         Me.DefEx.ResumeLayout(False)
         Me.Flip.ResumeLayout(False)
         Me.Flip.PerformLayout()
-        Me.FLIPGroupBox.ResumeLayout(False)
-        Me.FLIPGroupBox.PerformLayout()
-        CType(Me.FLIPPictureBox, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.FlipGroupBox.ResumeLayout(False)
+        Me.FlipGroupBox.PerformLayout()
+        CType(Me.FlipPictureBox, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -198,11 +223,13 @@ Partial Class keyLED_Edit_Ex
     Friend WithEvents Flip As TabPage
     Friend WithEvents ColorEx As TabPage
     Friend WithEvents OpenAblPrjBtn As Button
-    Friend WithEvents DuplicateCheckBox As CheckBox
-    Friend WithEvents FLIPGroupBox As GroupBox
-    Friend WithEvents MirrorCheckBox As CheckBox
-    Friend WithEvents RotateComboBox As ComboBox
-    Friend WithEvents MirrorComboBox As ComboBox
-    Friend WithEvents RotateCheckBox As CheckBox
-    Friend WithEvents FLIPPictureBox As PictureBox
+    Friend WithEvents Flip_DuplicateCheckBox As CheckBox
+    Friend WithEvents FlipGroupBox As GroupBox
+    Friend WithEvents Flip_MirrorCheckBox As CheckBox
+    Friend WithEvents Flip_RotateComboBox As ComboBox
+    Friend WithEvents Flip_MirrorComboBox As ComboBox
+    Friend WithEvents Flip_RotateCheckBox As CheckBox
+    Friend WithEvents FlipPictureBox As PictureBox
+    Friend WithEvents Flip_ResetButton As Button
+    Friend WithEvents Flip_AutoLoadButton As Button
 End Class

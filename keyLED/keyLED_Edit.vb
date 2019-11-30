@@ -94,6 +94,8 @@ Public Class keyLED_Edit
                        TestButton.Enabled = False
                        keyLED_Test.Enabled = False
                        CopyButton.Enabled = False
+                       LEDExButton.Enabled = False
+                       keyLED_Edit_Ex.Enabled = False
                    End Sub)
 
             'Beta Code!
@@ -146,6 +148,7 @@ Public Class keyLED_Edit
                                 str = str & vbNewLine & "d " & Math.Round(GetNoteDelay(keyLED_NoteEvents.NoteLength_2, bpm.Tempo, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delaycount) * (speed / 100))
                             End If
 
+                            '기본값
                             UniNoteNumberX = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
                             UniNoteNumberY = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
                             delaycount = a.AbsoluteTime
@@ -153,6 +156,34 @@ Public Class keyLED_Edit
                             If UniNoteNumberX = 0 AndAlso UniNoteNumberY = 0 Then
                                 Debug.WriteLine("Unknown Note Number. [ Note: " & a.NoteNumber & " ]")
                                 Continue For
+                            End If
+
+                            'LED 익스텐션
+                            If Not Ex_Flip.Count = 0 Then
+#Region "Flip 익스텐션"
+                                If Not keyLED_Edit_Ex.IsAutoLoaded = False Then
+
+                                Else
+                                    Dim LEDListView_SelectedIndex As Integer = -1
+                                    Invoke(Sub() LEDListView_SelectedIndex = LED_ListView.SelectedItems(0).Index)
+                                    Dim FlipStructure_ As FlipStructure = Ex_Flip(LEDListView_SelectedIndex)
+
+                                    '수정 사항: Rotate와 Duplicate Function 코드 추가.
+                                    If FlipStructure_.Mirror = Mirror.Horizontal Then
+                                        If GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber) = -8192 Then
+                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Mirror_Horizontal_MC(GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber))
+                                        Else
+                                            UniNoteNumberX = 9 - GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
+                                        End If
+                                    ElseIf FlipStructure_.Mirror = Mirror.Vertical Then
+                                        If GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber) = -8192 Then
+                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Mirror_Vertical_MC(GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber))
+                                        Else
+                                            UniNoteNumberY = 9 - GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
+                                        End If
+                                    End If
+#End Region
+                                End If
                             End If
 
                             If Not UniNoteNumberX = -8192 Then
@@ -252,6 +283,8 @@ Public Class keyLED_Edit
                        TestButton.Enabled = True
                        keyLED_Test.Enabled = True
                        CopyButton.Enabled = True
+                       LEDExButton.Enabled = True
+                       keyLED_Edit_Ex.Enabled = True
                    End Sub)
             UniText = str
             CanEnable = True 'Enabled to Test the LED.
