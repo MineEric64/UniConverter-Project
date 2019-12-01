@@ -118,6 +118,20 @@ o 6 3 a [나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 �
   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
 </summary>
 </member>
+<member name="M:UniConverter_Project.keyLED_Edit_Ex.Flip_Rotate_90(System.Int32)">
+ <summary>
+ 90도 회전해줍니다. 이 함수에서는 시계방향 90도를 해줍니다.
+ </summary>
+ <param name="source">X, Y 좌표입니다. XY형식으로 붙여서 쓰세요. 예: 88, 11, 35</param>
+ <returns></returns>
+</member>
+<member name="M:UniConverter_Project.keyLED_Edit_Ex.Flip_Rotate_270(System.Int32)">
+ <summary>
+ 90도 회전해줍니다. 이 함수에서는 반시계방향 90도를 해줍니다.
+ </summary>
+ <param name="source">X, Y 좌표입니다. XY형식으로 붙여서 쓰세요. 예: 88, 11, 35</param>
+ <returns></returns>
+</member>
 <member name="F:UniConverter_Project.keyLED_Test.ctrl">
  <summary>
  버튼 저장
