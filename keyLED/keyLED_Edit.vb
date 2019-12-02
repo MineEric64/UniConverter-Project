@@ -161,56 +161,131 @@ Public Class keyLED_Edit
                             'LED 익스텐션
                             If Not Ex_Flip.Count = 0 Then
 #Region "Flip 익스텐션"
-                                If Not keyLED_Edit_Ex.IsAutoLoaded = False Then
+                                If IsAutoLoaded = False Then
+                                    Dim FlipStructure_ As FlipStructure = Ex_Flip(0)
 
+                                    If FlipStructure_.Mirror = Mirror.Horizontal Then 'Mirror
+                                        If UniNoteNumberX = -8192 Then
+                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Mirror_Horizontal_MC(UniNoteNumberY)
+                                        Else
+                                            UniNoteNumberY = 9 - UniNoteNumberY
+                                        End If
+                                    ElseIf FlipStructure_.Mirror = Mirror.Vertical Then
+                                        If UniNoteNumberX = -8192 Then
+                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Mirror_Vertical_MC(UniNoteNumberY)
+                                        Else
+                                            UniNoteNumberX = 9 - UniNoteNumberX
+                                        End If
+                                    End If
+
+                                    If FlipStructure_.Rotate = 90 Then 'Rotate
+                                        If UniNoteNumberX = -8192 Then
+                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Rotate_90_MC(UniNoteNumberY)
+                                        Else
+                                            Dim xValue As Flip_Rotate_XYReturn = keyLED_Edit_Ex.Flip_Rotate_90(UniNoteNumberX & UniNoteNumberY)
+                                            UniNoteNumberX = xValue.x
+                                            UniNoteNumberY = xValue.y
+                                        End If
+                                    ElseIf FlipStructure_.Rotate = 180 Then '좀 난감한 스파게티 코드...
+                                        If UniNoteNumberX = -8192 Then
+                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Rotate_90_MC(keyLED_Edit_Ex.Flip_Rotate_90_MC(UniNoteNumberY))
+                                        Else
+                                            Dim xValue As Flip_Rotate_XYReturn = keyLED_Edit_Ex.Flip_Rotate_90(keyLED_Edit_Ex.Flip_Rotate_90(UniNoteNumberX & UniNoteNumberY).x & keyLED_Edit_Ex.Flip_Rotate_90(UniNoteNumberX & UniNoteNumberY).y)
+                                            UniNoteNumberX = xValue.x
+                                            UniNoteNumberY = xValue.y
+                                        End If
+                                    ElseIf FlipStructure_.Rotate = 270 Then
+                                        If UniNoteNumberX = -8192 Then
+                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Rotate_270_MC(UniNoteNumberY)
+                                        Else
+                                            Dim xValue As Flip_Rotate_XYReturn = keyLED_Edit_Ex.Flip_Rotate_270(UniNoteNumberX & UniNoteNumberY)
+                                            UniNoteNumberX = xValue.x
+                                            UniNoteNumberY = xValue.y
+                                        End If
+                                    End If
+
+                                    If FlipStructure_.Duplicate = True Then 'Duplicate
+                                        If FlipStructure_.Mirror <> Mirror.None OrElse FlipStructure_.Rotate <> 0 Then
+                                            If Not UniNoteNumberX = -8192 Then
+                                                If notWhSp Then
+                                                    notWhSp = False
+                                                    str = "o " & GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber) & " " & GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber) & " a " & a.Velocity
+                                                Else
+                                                    str = str & vbNewLine & "o " & GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber) & " " & GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber) & " a " & a.Velocity
+                                                End If
+                                            Else
+                                                If notWhSp Then
+                                                    notWhSp = False
+                                                    str = "o mc " & GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber) & " a " & a.Velocity
+                                                Else
+                                                    str = str & vbNewLine & "o mc " & GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber) & " a " & a.Velocity
+                                                End If
+                                            End If
+                                        End If
+                                    End If
                                 Else
                                     Dim LEDListView_SelectedIndex As Integer = -1
                                     Invoke(Sub() LEDListView_SelectedIndex = LED_ListView.SelectedItems(0).Index)
                                     Dim FlipStructure_ As FlipStructure = Ex_Flip(LEDListView_SelectedIndex)
 
-                                    '수정 사항: Duplicate Function 코드 추가.
                                     If FlipStructure_.Mirror = Mirror.Horizontal Then 'Mirror
-                                        If GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber) = -8192 Then
-                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Mirror_Horizontal_MC(GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber))
+                                        If UniNoteNumberX = -8192 Then
+                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Mirror_Horizontal_MC(UniNoteNumberY)
                                         Else
-                                            UniNoteNumberX = 9 - GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
+                                            UniNoteNumberY = 9 - UniNoteNumberY
                                         End If
                                     ElseIf FlipStructure_.Mirror = Mirror.Vertical Then
-                                        If GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber) = -8192 Then
-                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Mirror_Vertical_MC(GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber))
+                                        If UniNoteNumberX = -8192 Then
+                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Mirror_Vertical_MC(UniNoteNumberY)
                                         Else
-                                            UniNoteNumberY = 9 - GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
+                                            UniNoteNumberX = 9 - UniNoteNumberX
                                         End If
                                     End If
 
                                     If FlipStructure_.Rotate = 90 Then 'Rotate
-                                        If GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber) = -8192 Then
-                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Rotate_90_MC(GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber))
+                                        If UniNoteNumberX = -8192 Then
+                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Rotate_90_MC(UniNoteNumberY)
                                         Else
-                                            Dim xValue As Flip_Rotate_XYReturn = keyLED_Edit_Ex.Flip_Rotate_90(GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber) & GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber))
+                                            Dim xValue As Flip_Rotate_XYReturn = keyLED_Edit_Ex.Flip_Rotate_90(UniNoteNumberX & UniNoteNumberY)
                                             UniNoteNumberX = xValue.x
                                             UniNoteNumberY = xValue.y
                                         End If
                                     ElseIf FlipStructure_.Rotate = 180 Then '좀 난감한 스파게티 코드...
-                                        If GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber) = -8192 Then
-                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Rotate_90_MC(keyLED_Edit_Ex.Flip_Rotate_90_MC(GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)))
+                                        If UniNoteNumberX = -8192 Then
+                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Rotate_90_MC(keyLED_Edit_Ex.Flip_Rotate_90_MC(UniNoteNumberY))
                                         Else
-                                            Dim xValue As Flip_Rotate_XYReturn = keyLED_Edit_Ex.Flip_Rotate_90(keyLED_Edit_Ex.Flip_Rotate_90(GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber) & GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)).x & keyLED_Edit_Ex.Flip_Rotate_90(GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber) & GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)).y)
+                                            Dim xValue As Flip_Rotate_XYReturn = keyLED_Edit_Ex.Flip_Rotate_90(keyLED_Edit_Ex.Flip_Rotate_90(UniNoteNumberX & UniNoteNumberY).x & keyLED_Edit_Ex.Flip_Rotate_90(UniNoteNumberX & UniNoteNumberY).y)
                                             UniNoteNumberX = xValue.x
                                             UniNoteNumberY = xValue.y
                                         End If
                                     ElseIf FlipStructure_.Rotate = 270 Then
-                                        If GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber) = -8192 Then
-                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Rotate_270_MC(GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber))
+                                        If UniNoteNumberX = -8192 Then
+                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Rotate_270_MC(UniNoteNumberY)
                                         Else
-                                            Dim xValue As Flip_Rotate_XYReturn = keyLED_Edit_Ex.Flip_Rotate_270(GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber) & GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber))
+                                            Dim xValue As Flip_Rotate_XYReturn = keyLED_Edit_Ex.Flip_Rotate_270(UniNoteNumberX & UniNoteNumberY)
                                             UniNoteNumberX = xValue.x
                                             UniNoteNumberY = xValue.y
                                         End If
                                     End If
 
-                                    If FlipStructure_.Duplicate = True Then
-                                        '나중에... 너무 복잡하다
+                                    If FlipStructure_.Duplicate = True Then 'Duplicate
+                                        If FlipStructure_.Mirror <> Mirror.None OrElse FlipStructure_.Rotate <> 0 Then
+                                            If Not UniNoteNumberX = -8192 Then
+                                                If notWhSp Then
+                                                    notWhSp = False
+                                                    str = "o " & GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber) & " " & GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber) & " a " & a.Velocity
+                                                Else
+                                                    str = str & vbNewLine & "o " & GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber) & " " & GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber) & " a " & a.Velocity
+                                                End If
+                                            Else
+                                                If notWhSp Then
+                                                    notWhSp = False
+                                                    str = "o mc " & GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber) & " a " & a.Velocity
+                                                Else
+                                                    str = str & vbNewLine & "o mc " & GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber) & " a " & a.Velocity
+                                                End If
+                                            End If
+                                        End If
                                     End If
 #End Region
                                 End If
@@ -250,6 +325,139 @@ Public Class keyLED_Edit
                             If UniNoteNumberX = 0 AndAlso UniNoteNumberY = 0 Then
                                 Debug.WriteLine("Unknown Note Number. [ Note: " & a.NoteNumber & " ]")
                                 Continue For
+                            End If
+
+                            'LED 익스텐션
+                            If Not Ex_Flip.Count = 0 Then
+#Region "Flip 익스텐션"
+                                If IsAutoLoaded = False Then
+                                    Dim FlipStructure_ As FlipStructure = Ex_Flip(0)
+
+                                    If FlipStructure_.Mirror = Mirror.Horizontal Then 'Mirror
+                                        If UniNoteNumberX = -8192 Then
+                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Mirror_Horizontal_MC(UniNoteNumberY)
+                                        Else
+                                            UniNoteNumberY = 9 - UniNoteNumberY
+                                        End If
+                                    ElseIf FlipStructure_.Mirror = Mirror.Vertical Then
+                                        If UniNoteNumberX = -8192 Then
+                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Mirror_Vertical_MC(UniNoteNumberY)
+                                        Else
+                                            UniNoteNumberX = 9 - UniNoteNumberX
+                                        End If
+                                    End If
+
+                                    If FlipStructure_.Rotate = 90 Then 'Rotate
+                                        If UniNoteNumberX = -8192 Then
+                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Rotate_90_MC(UniNoteNumberY)
+                                        Else
+                                            Dim xValue As Flip_Rotate_XYReturn = keyLED_Edit_Ex.Flip_Rotate_90(UniNoteNumberX & UniNoteNumberY)
+                                            UniNoteNumberX = xValue.x
+                                            UniNoteNumberY = xValue.y
+                                        End If
+                                    ElseIf FlipStructure_.Rotate = 180 Then '좀 난감한 스파게티 코드...
+                                        If UniNoteNumberX = -8192 Then
+                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Rotate_90_MC(keyLED_Edit_Ex.Flip_Rotate_90_MC(UniNoteNumberY))
+                                        Else
+                                            Dim xValue As Flip_Rotate_XYReturn = keyLED_Edit_Ex.Flip_Rotate_90(keyLED_Edit_Ex.Flip_Rotate_90(UniNoteNumberX & UniNoteNumberY).x & keyLED_Edit_Ex.Flip_Rotate_90(UniNoteNumberX & UniNoteNumberY).y)
+                                            UniNoteNumberX = xValue.x
+                                            UniNoteNumberY = xValue.y
+                                        End If
+                                    ElseIf FlipStructure_.Rotate = 270 Then
+                                        If UniNoteNumberX = -8192 Then
+                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Rotate_270_MC(UniNoteNumberY)
+                                        Else
+                                            Dim xValue As Flip_Rotate_XYReturn = keyLED_Edit_Ex.Flip_Rotate_270(UniNoteNumberX & UniNoteNumberY)
+                                            UniNoteNumberX = xValue.x
+                                            UniNoteNumberY = xValue.y
+                                        End If
+                                    End If
+
+                                    If FlipStructure_.Duplicate = True Then 'Duplicate
+                                        If FlipStructure_.Mirror <> Mirror.None OrElse FlipStructure_.Rotate <> 0 Then
+                                            If Not UniNoteNumberX = -8192 Then
+                                                If notWhSp Then
+                                                    notWhSp = False
+                                                    str = "f " & GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber) & " " & GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
+                                                Else
+                                                    str = str & vbNewLine & "f " & GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber) & " " & GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
+                                                End If
+                                            Else
+                                                If notWhSp Then
+                                                    notWhSp = False
+                                                    str = "f mc " & GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
+                                                Else
+                                                    str = str & vbNewLine & "f mc " & GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
+                                                End If
+                                            End If
+                                        End If
+                                    End If
+                                Else
+                                    Dim LEDListView_SelectedIndex As Integer = -1
+                                    Invoke(Sub() LEDListView_SelectedIndex = LED_ListView.SelectedItems(0).Index)
+                                    Dim FlipStructure_ As FlipStructure = Ex_Flip(LEDListView_SelectedIndex)
+
+                                    If FlipStructure_.Mirror = Mirror.Horizontal Then 'Mirror
+                                        If UniNoteNumberX = -8192 Then
+                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Mirror_Horizontal_MC(UniNoteNumberY)
+                                        Else
+                                            UniNoteNumberY = 9 - UniNoteNumberY
+                                        End If
+                                    ElseIf FlipStructure_.Mirror = Mirror.Vertical Then
+                                        If UniNoteNumberX = -8192 Then
+                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Mirror_Vertical_MC(UniNoteNumberY)
+                                        Else
+                                            UniNoteNumberX = 9 - UniNoteNumberX
+                                        End If
+                                    End If
+
+                                    If FlipStructure_.Rotate = 90 Then 'Rotate
+                                        If UniNoteNumberX = -8192 Then
+                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Rotate_90_MC(UniNoteNumberY)
+                                        Else
+                                            Dim xValue As Flip_Rotate_XYReturn = keyLED_Edit_Ex.Flip_Rotate_90(UniNoteNumberX & UniNoteNumberY)
+                                            UniNoteNumberX = xValue.x
+                                            UniNoteNumberY = xValue.y
+                                        End If
+                                    ElseIf FlipStructure_.Rotate = 180 Then '좀 난감한 스파게티 코드...
+                                        If UniNoteNumberX = -8192 Then
+                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Rotate_90_MC(keyLED_Edit_Ex.Flip_Rotate_90_MC(UniNoteNumberY))
+                                        Else
+                                            Dim xValue As Flip_Rotate_XYReturn = keyLED_Edit_Ex.Flip_Rotate_90(keyLED_Edit_Ex.Flip_Rotate_90(UniNoteNumberX & UniNoteNumberY).x & keyLED_Edit_Ex.Flip_Rotate_90(UniNoteNumberX & UniNoteNumberY).y)
+                                            UniNoteNumberX = xValue.x
+                                            UniNoteNumberY = xValue.y
+                                        End If
+                                    ElseIf FlipStructure_.Rotate = 270 Then
+                                        If UniNoteNumberX = -8192 Then
+                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Rotate_270_MC(UniNoteNumberY)
+                                        Else
+                                            Dim xValue As Flip_Rotate_XYReturn = keyLED_Edit_Ex.Flip_Rotate_270(UniNoteNumberX & UniNoteNumberY)
+                                            UniNoteNumberX = xValue.x
+                                            UniNoteNumberY = xValue.y
+                                        End If
+                                    End If
+
+                                    If FlipStructure_.Duplicate = True Then 'Duplicate
+                                        If FlipStructure_.Mirror <> Mirror.None OrElse FlipStructure_.Rotate <> 0 Then
+                                            If Not UniNoteNumberX = -8192 Then
+                                                If notWhSp Then
+                                                    notWhSp = False
+                                                    str = "f " & GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber) & " " & GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
+                                                Else
+                                                    str = str & vbNewLine & "f " & GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber) & " " & GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
+                                                End If
+                                            Else
+                                                If notWhSp Then
+                                                    notWhSp = False
+                                                    str = "f mc " & GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
+                                                Else
+                                                    str = str & vbNewLine & "f mc " & GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
+                                                End If
+                                            End If
+                                        End If
+                                    End If
+#End Region
+                                End If
                             End If
 
                             If Not UniNoteNumberX = -8192 Then

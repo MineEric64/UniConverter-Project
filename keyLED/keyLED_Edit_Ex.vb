@@ -2,7 +2,7 @@
     Dim openedproj As Boolean = False
     Dim projectPath As String = String.Empty
 
-    Public IsAutoLoaded As Boolean = False
+    Public Shared IsAutoLoaded As Boolean = False
     Public FlipIndex As Integer
 
     Private Sub KeyLED_Edit_Ex_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -51,7 +51,14 @@
     End Enum
 
     Private Sub FlipExtensions_Changed(sender As Object, e As EventArgs) Handles Flip_MirrorCheckBox.CheckedChanged, Flip_MirrorComboBox.SelectedIndexChanged, Flip_RotateCheckBox.CheckedChanged, Flip_RotateComboBox.SelectedIndexChanged, Flip_DuplicateCheckBox.CheckedChanged
-        keyLED_Edit.Ex_Flip.Insert(0, GetFlipStructure()) '나중에 FlipIndex로 바꿔야 함.
+        If keyLED_Edit.GAZUA_.IsBusy Then
+            Exit Sub '오류!
+        End If
+
+        If IsAutoLoaded = False Then
+            keyLED_Edit.Ex_Flip.Clear()
+            keyLED_Edit.Ex_Flip.Add(GetFlipStructure()) '나중에 FlipIndex로 바꿔야 함.
+        End If
     End Sub
 
     Private Sub Flip_ResetButton_Click(sender As Object, e As EventArgs) Handles Flip_ResetButton.Click

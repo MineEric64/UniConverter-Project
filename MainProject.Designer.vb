@@ -3087,7 +3087,7 @@ Partial Class MainProject
         Me.MainMenuStrip = Me.MenuStrip
         Me.MaximizeBox = False
         Me.Name = "MainProject"
-        Me.Text = "UniConverter Beta 6"
+        Me.Text = "UniConverter Beta 7"
         Me.MenuStrip.ResumeLayout(False)
         Me.MenuStrip.PerformLayout()
         Me.HomeEdit.ResumeLayout(False)
