@@ -35,9 +35,7 @@ Public Class Sound_Cutting
             Using reader As New Mp3FileReader(mp3File)
                 Using pcmStream As WaveStream = WaveFormatConversionStream.CreatePcmStream(reader)
                     WaveFileWriter.CreateWaveFile(outputFile, pcmStream)
-
                 End Using
-
             End Using
         Catch
         End Try

@@ -48,6 +48,7 @@ Partial Class keyLED_Edit_Ex
         Me.TabControl.Controls.Add(Me.DefEx)
         Me.TabControl.Controls.Add(Me.Flip)
         Me.TabControl.Controls.Add(Me.ColorEx)
+        Me.TabControl.Font = New System.Drawing.Font("NanumBarunGothic", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.TabControl.Location = New System.Drawing.Point(12, 12)
         Me.TabControl.Name = "TabControl"
         Me.TabControl.SelectedIndex = 0
@@ -57,17 +58,18 @@ Partial Class keyLED_Edit_Ex
         'DefEx
         '
         Me.DefEx.Controls.Add(Me.OpenAblPrjBtn)
-        Me.DefEx.Location = New System.Drawing.Point(4, 22)
+        Me.DefEx.Font = New System.Drawing.Font("NanumBarunGothic", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.DefEx.Location = New System.Drawing.Point(4, 23)
         Me.DefEx.Name = "DefEx"
         Me.DefEx.Padding = New System.Windows.Forms.Padding(3)
-        Me.DefEx.Size = New System.Drawing.Size(768, 400)
+        Me.DefEx.Size = New System.Drawing.Size(768, 399)
         Me.DefEx.TabIndex = 0
         Me.DefEx.Text = "[Default Extension]"
         Me.DefEx.UseVisualStyleBackColor = True
         '
         'OpenAblPrjBtn
         '
-        Me.OpenAblPrjBtn.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.OpenAblPrjBtn.Font = New System.Drawing.Font("NanumBarunGothicOTF", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.OpenAblPrjBtn.Location = New System.Drawing.Point(23, 20)
         Me.OpenAblPrjBtn.Name = "OpenAblPrjBtn"
         Me.OpenAblPrjBtn.Size = New System.Drawing.Size(146, 62)
@@ -82,6 +84,7 @@ Partial Class keyLED_Edit_Ex
         Me.Flip.Controls.Add(Me.Flip_DuplicateCheckBox)
         Me.Flip.Controls.Add(Me.FlipGroupBox)
         Me.Flip.Controls.Add(Me.FlipPictureBox)
+        Me.Flip.Font = New System.Drawing.Font("NanumBarunGothic", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.Flip.Location = New System.Drawing.Point(4, 22)
         Me.Flip.Name = "Flip"
         Me.Flip.Padding = New System.Windows.Forms.Padding(3)
@@ -93,7 +96,7 @@ Partial Class keyLED_Edit_Ex
         'Flip_AutoLoadButton
         '
         Me.Flip_AutoLoadButton.Enabled = False
-        Me.Flip_AutoLoadButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.Flip_AutoLoadButton.Font = New System.Drawing.Font("NanumBarunGothicOTF", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.Flip_AutoLoadButton.Location = New System.Drawing.Point(583, 311)
         Me.Flip_AutoLoadButton.Name = "Flip_AutoLoadButton"
         Me.Flip_AutoLoadButton.Size = New System.Drawing.Size(160, 74)
@@ -103,7 +106,7 @@ Partial Class keyLED_Edit_Ex
         '
         'Flip_ResetButton
         '
-        Me.Flip_ResetButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.Flip_ResetButton.Font = New System.Drawing.Font("NanumBarunGothicOTF", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.Flip_ResetButton.Location = New System.Drawing.Point(583, 244)
         Me.Flip_ResetButton.Name = "Flip_ResetButton"
         Me.Flip_ResetButton.Size = New System.Drawing.Size(160, 53)
@@ -114,7 +117,7 @@ Partial Class keyLED_Edit_Ex
         'Flip_DuplicateCheckBox
         '
         Me.Flip_DuplicateCheckBox.AutoSize = True
-        Me.Flip_DuplicateCheckBox.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.Flip_DuplicateCheckBox.Font = New System.Drawing.Font("NanumBarunGothicOTF", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.Flip_DuplicateCheckBox.Location = New System.Drawing.Point(301, 348)
         Me.Flip_DuplicateCheckBox.Name = "Flip_DuplicateCheckBox"
         Me.Flip_DuplicateCheckBox.Size = New System.Drawing.Size(128, 26)
@@ -128,7 +131,7 @@ Partial Class keyLED_Edit_Ex
         Me.FlipGroupBox.Controls.Add(Me.Flip_RotateComboBox)
         Me.FlipGroupBox.Controls.Add(Me.Flip_MirrorComboBox)
         Me.FlipGroupBox.Controls.Add(Me.Flip_RotateCheckBox)
-        Me.FlipGroupBox.Font = New System.Drawing.Font("나눔바른고딕OTF", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.FlipGroupBox.Font = New System.Drawing.Font("NanumBarunGothicOTF", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.FlipGroupBox.Location = New System.Drawing.Point(218, 223)
         Me.FlipGroupBox.Name = "FlipGroupBox"
         Me.FlipGroupBox.Size = New System.Drawing.Size(285, 109)
@@ -139,7 +142,7 @@ Partial Class keyLED_Edit_Ex
         'Flip_MirrorCheckBox
         '
         Me.Flip_MirrorCheckBox.AutoSize = True
-        Me.Flip_MirrorCheckBox.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.Flip_MirrorCheckBox.Font = New System.Drawing.Font("NanumBarunGothicOTF", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.Flip_MirrorCheckBox.Location = New System.Drawing.Point(25, 21)
         Me.Flip_MirrorCheckBox.Name = "Flip_MirrorCheckBox"
         Me.Flip_MirrorCheckBox.Size = New System.Drawing.Size(101, 26)
@@ -149,7 +152,7 @@ Partial Class keyLED_Edit_Ex
         '
         'Flip_RotateComboBox
         '
-        Me.Flip_RotateComboBox.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.Flip_RotateComboBox.Font = New System.Drawing.Font("NanumBarunGothicOTF", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.Flip_RotateComboBox.FormattingEnabled = True
         Me.Flip_RotateComboBox.Items.AddRange(New Object() {"90°", "180°", "270°"})
         Me.Flip_RotateComboBox.Location = New System.Drawing.Point(132, 66)
@@ -160,7 +163,7 @@ Partial Class keyLED_Edit_Ex
         '
         'Flip_MirrorComboBox
         '
-        Me.Flip_MirrorComboBox.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.Flip_MirrorComboBox.Font = New System.Drawing.Font("NanumBarunGothicOTF", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.Flip_MirrorComboBox.FormattingEnabled = True
         Me.Flip_MirrorComboBox.Items.AddRange(New Object() {"Horizontal", "Vertical"})
         Me.Flip_MirrorComboBox.Location = New System.Drawing.Point(132, 19)
@@ -172,7 +175,7 @@ Partial Class keyLED_Edit_Ex
         'Flip_RotateCheckBox
         '
         Me.Flip_RotateCheckBox.AutoSize = True
-        Me.Flip_RotateCheckBox.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.Flip_RotateCheckBox.Font = New System.Drawing.Font("NanumBarunGothicOTF", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.Flip_RotateCheckBox.Location = New System.Drawing.Point(25, 68)
         Me.Flip_RotateCheckBox.Name = "Flip_RotateCheckBox"
         Me.Flip_RotateCheckBox.Size = New System.Drawing.Size(99, 26)
@@ -192,6 +195,7 @@ Partial Class keyLED_Edit_Ex
         '
         'ColorEx
         '
+        Me.ColorEx.Font = New System.Drawing.Font("NanumBarunGothic", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.ColorEx.Location = New System.Drawing.Point(4, 22)
         Me.ColorEx.Name = "ColorEx"
         Me.ColorEx.Size = New System.Drawing.Size(768, 400)

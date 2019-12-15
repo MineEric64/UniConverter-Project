@@ -10,6 +10,22 @@
             openedproj = True
             projectPath = MainProject.abl_Name
         End If
+
+        Select Case MainProject.lang
+            Case Translator.tL.Korean
+                Me.Text = "keyLED 편집 - LED 확장 기능"
+                OpenAblPrjBtn.Text = "에이블톤 프로젝트 열기"
+                TabControl.TabPages(0).Text = "[기본 플러그인]"
+                TabControl.TabPages(1).Text = "플립"
+                TabControl.TabPages(2).Text = "색깔 플러그인"
+
+                FlipGroupBox.Text = "LED 플러그인"
+                Flip_ResetButton.Text = "초기화"
+                Flip_AutoLoadButton.Text = "에이블톤 프로젝트에서 자동 불러오기 (베타)"
+                Flip_MirrorCheckBox.Text = "거울 모드"
+                Flip_RotateCheckBox.Text = "회전"
+                Flip_DuplicateCheckBox.Text = "복제"
+        End Select
     End Sub
 
     Public Function GetFlipStructure() As FlipStructure
