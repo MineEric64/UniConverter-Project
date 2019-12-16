@@ -36,11 +36,14 @@ Partial Class keyLED_Edit_Ex
         Me.Flip_RotateCheckBox = New System.Windows.Forms.CheckBox()
         Me.FlipPictureBox = New System.Windows.Forms.PictureBox()
         Me.ColorEx = New System.Windows.Forms.TabPage()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
         Me.TabControl.SuspendLayout()
         Me.DefEx.SuspendLayout()
         Me.Flip.SuspendLayout()
         Me.FlipGroupBox.SuspendLayout()
         CType(Me.FlipPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ColorEx.SuspendLayout()
         Me.SuspendLayout()
         '
         'TabControl
@@ -57,6 +60,7 @@ Partial Class keyLED_Edit_Ex
         '
         'DefEx
         '
+        Me.DefEx.Controls.Add(Me.Label1)
         Me.DefEx.Controls.Add(Me.OpenAblPrjBtn)
         Me.DefEx.Font = New System.Drawing.Font("NanumBarunGothic", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.DefEx.Location = New System.Drawing.Point(4, 23)
@@ -69,6 +73,7 @@ Partial Class keyLED_Edit_Ex
         '
         'OpenAblPrjBtn
         '
+        Me.OpenAblPrjBtn.Enabled = False
         Me.OpenAblPrjBtn.Font = New System.Drawing.Font("NanumBarunGothicOTF", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.OpenAblPrjBtn.Location = New System.Drawing.Point(23, 20)
         Me.OpenAblPrjBtn.Name = "OpenAblPrjBtn"
@@ -85,10 +90,10 @@ Partial Class keyLED_Edit_Ex
         Me.Flip.Controls.Add(Me.FlipGroupBox)
         Me.Flip.Controls.Add(Me.FlipPictureBox)
         Me.Flip.Font = New System.Drawing.Font("NanumBarunGothic", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.Flip.Location = New System.Drawing.Point(4, 22)
+        Me.Flip.Location = New System.Drawing.Point(4, 23)
         Me.Flip.Name = "Flip"
         Me.Flip.Padding = New System.Windows.Forms.Padding(3)
-        Me.Flip.Size = New System.Drawing.Size(768, 400)
+        Me.Flip.Size = New System.Drawing.Size(768, 399)
         Me.Flip.TabIndex = 1
         Me.Flip.Text = "Flip"
         Me.Flip.UseVisualStyleBackColor = True
@@ -195,29 +200,55 @@ Partial Class keyLED_Edit_Ex
         '
         'ColorEx
         '
+        Me.ColorEx.Controls.Add(Me.Label2)
         Me.ColorEx.Font = New System.Drawing.Font("NanumBarunGothic", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.ColorEx.Location = New System.Drawing.Point(4, 22)
+        Me.ColorEx.Location = New System.Drawing.Point(4, 23)
         Me.ColorEx.Name = "ColorEx"
-        Me.ColorEx.Size = New System.Drawing.Size(768, 400)
+        Me.ColorEx.Size = New System.Drawing.Size(768, 399)
         Me.ColorEx.TabIndex = 2
         Me.ColorEx.Text = "Color Extension"
         Me.ColorEx.UseVisualStyleBackColor = True
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Font = New System.Drawing.Font("NanumBarunGothicOTF", 36.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.Label1.Location = New System.Drawing.Point(66, 133)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(658, 110)
+        Me.Label1.TabIndex = 1
+        Me.Label1.Text = "Not yet :(" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "They will add in next version."
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Font = New System.Drawing.Font("NanumBarunGothicOTF", 36.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.Label2.Location = New System.Drawing.Point(55, 144)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(658, 110)
+        Me.Label2.TabIndex = 2
+        Me.Label2.Text = "Not yet :(" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "They will add in next version."
         '
         'keyLED_Edit_Ex
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.ClientSize = New System.Drawing.Size(800, 450)
         Me.Controls.Add(Me.TabControl)
+        Me.MaximizeBox = False
         Me.Name = "keyLED_Edit_Ex"
         Me.Text = "keyLED Edit - LED Extensions"
         Me.TabControl.ResumeLayout(False)
         Me.DefEx.ResumeLayout(False)
+        Me.DefEx.PerformLayout()
         Me.Flip.ResumeLayout(False)
         Me.Flip.PerformLayout()
         Me.FlipGroupBox.ResumeLayout(False)
         Me.FlipGroupBox.PerformLayout()
         CType(Me.FlipPictureBox, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ColorEx.ResumeLayout(False)
+        Me.ColorEx.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -236,4 +267,6 @@ Partial Class keyLED_Edit_Ex
     Friend WithEvents FlipPictureBox As PictureBox
     Friend WithEvents Flip_ResetButton As Button
     Friend WithEvents Flip_AutoLoadButton As Button
+    Friend WithEvents Label1 As Label
+    Friend WithEvents Label2 As Label
 End Class

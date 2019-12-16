@@ -23,6 +23,8 @@
                 Flip_ResetButton.Text = "초기화"
                 Flip_AutoLoadButton.Text = "에이블톤 프로젝트에서 자동 불러오기 (베타)"
                 Flip_MirrorCheckBox.Text = "거울 모드"
+                Flip_MirrorComboBox.Items(0) = "수평" 'ComboBox에서 Items(i)는 string (Text)임.
+                Flip_MirrorComboBox.Items(1) = "수직"
                 Flip_RotateCheckBox.Text = "회전"
                 Flip_DuplicateCheckBox.Text = "복제"
         End Select
@@ -31,13 +33,28 @@
     Public Function GetFlipStructure() As FlipStructure
         Dim FlipStructure_ As New FlipStructure(Mirror.None, 0, False)
 
-        If Flip_MirrorCheckBox.Checked Then
-            If Flip_MirrorComboBox.Text = "Horizontal" Then
-                FlipStructure_.Mirror = Mirror.Horizontal
-            ElseIf Flip_MirrorComboBox.Text = "Vertical" Then
-                FlipStructure_.Mirror = Mirror.Vertical
-            End If
-        End If
+        Select Case MainProject.lang
+            Case Translator.tL.English
+
+                If Flip_MirrorCheckBox.Checked Then
+                    If Flip_MirrorComboBox.Text = "Horizontal" Then
+                        FlipStructure_.Mirror = Mirror.Horizontal
+                    ElseIf Flip_MirrorComboBox.Text = "Vertical" Then
+                        FlipStructure_.Mirror = Mirror.Vertical
+                    End If
+                End If
+
+            Case Translator.tL.Korean
+
+                If Flip_MirrorCheckBox.Checked Then
+                    If Flip_MirrorComboBox.Text = "수평" Then
+                        FlipStructure_.Mirror = Mirror.Horizontal
+                    ElseIf Flip_MirrorComboBox.Text = "수직" Then
+                        FlipStructure_.Mirror = Mirror.Vertical
+                    End If
+                End If
+
+        End Select
 
         If Flip_RotateCheckBox.Checked Then
             FlipStructure_.Rotate = Integer.Parse(Flip_RotateComboBox.Text.Replace("°", ""))
