@@ -1280,10 +1280,10 @@ Public Class MainProject
                 Dim PrChain As Integer = 0 '랜덤의 체인.
                 Dim PrChainM As Integer = 0 '랜덤의 최대 체인.
                 Dim IsRandom As Boolean = False '현재 접근하고 있는 XML Branch가 랜덤인가?
-                Dim rnd As Integer = 1 '랜덤의 수
-                Dim Choices As Integer = 0 '매우 정확한 랜덤의 수. (from MidiRandom)
-                Dim curid As Integer = 1 '현재의 랜덤 Xml.
-                Dim realCh As Integer = 0 '랜덤을 선언할 때 정말 정확한 수.
+                Dim rnd As Integer = 1 'MidiRandom (랜덤)이 몇 개가 있는가?
+                Dim Choices As Integer = 0 '매우 정확한 랜덤의 수. (from MidiRandom, 최종 랜덤)
+                Dim curid As Integer = 1 '지금 현재 무슨 랜덤을 선언 하고 있나? (index)
+                Dim realCh As Integer = 0 'Choices랑 같음 (다중매핑 index, 그런데 현재 Choices랑 다른 점을 못찾겠음. 그 때는 진짜 IQ 200 넘었었나;)
 
                 Dim str As String = String.Empty 'keySound 그 자체.
                 Dim err As String = String.Empty 'keySound 변환 할 때의 오류를 저장하는 곳.

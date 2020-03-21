@@ -54,6 +54,7 @@ Partial Class keyLED_Edit
         Me.UniLED_Edit.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.UniLED_Edit.DisabledColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer), CType(CType(180, Byte), Integer))
         Me.UniLED_Edit.Enabled = False
+        Me.UniLED_Edit.Font = New System.Drawing.Font("Courier New", 9.75!)
         Me.UniLED_Edit.IsReplaceMode = False
         Me.UniLED_Edit.Location = New System.Drawing.Point(360, 63)
         Me.UniLED_Edit.Name = "UniLED_Edit"
@@ -66,7 +67,7 @@ Partial Class keyLED_Edit
         'CopyButton
         '
         Me.CopyButton.Enabled = False
-        Me.CopyButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.CopyButton.Font = New System.Drawing.Font("NanumBarunGothicOTF", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.CopyButton.Location = New System.Drawing.Point(463, 427)
         Me.CopyButton.Name = "CopyButton"
         Me.CopyButton.Size = New System.Drawing.Size(102, 41)
@@ -77,7 +78,7 @@ Partial Class keyLED_Edit
         'AblLED
         '
         Me.AblLED.AutoSize = True
-        Me.AblLED.Font = New System.Drawing.Font("나눔바른고딕", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.AblLED.Font = New System.Drawing.Font("NanumBarunGothic", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.AblLED.Location = New System.Drawing.Point(64, 41)
         Me.AblLED.Name = "AblLED"
         Me.AblLED.Size = New System.Drawing.Size(120, 17)
@@ -87,7 +88,7 @@ Partial Class keyLED_Edit
         'UniLED
         '
         Me.UniLED.AutoSize = True
-        Me.UniLED.Font = New System.Drawing.Font("나눔바른고딕", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.UniLED.Font = New System.Drawing.Font("NanumBarunGothic", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.UniLED.Location = New System.Drawing.Point(403, 41)
         Me.UniLED.Name = "UniLED"
         Me.UniLED.Size = New System.Drawing.Size(126, 17)
@@ -98,7 +99,7 @@ Partial Class keyLED_Edit
         '
         Me.LED_ListView.AllowDrop = True
         Me.LED_ListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.FileName})
-        Me.LED_ListView.Font = New System.Drawing.Font("나눔고딕", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.LED_ListView.Font = New System.Drawing.Font("NanumGothic", 8.999999!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.LED_ListView.FullRowSelect = True
         Me.LED_ListView.HideSelection = False
         Me.LED_ListView.Location = New System.Drawing.Point(10, 63)
@@ -127,19 +128,19 @@ Partial Class keyLED_Edit
         '
         'ALGModeBox
         '
-        Me.ALGModeBox.Font = New System.Drawing.Font("나눔고딕 ExtraBold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.ALGModeBox.Font = New System.Drawing.Font("NanumGothicExtraBold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.ALGModeBox.FormattingEnabled = True
-        Me.ALGModeBox.Items.AddRange(New Object() {"Ableton Live MIDI ALG1", "Non-Convert (Developer Mode)"})
+        Me.ALGModeBox.Items.AddRange(New Object() {"Ableton Live MIDI (Drum Rack Layout)", "Non-Convert (Developer Mode)"})
         Me.ALGModeBox.Location = New System.Drawing.Point(12, 508)
         Me.ALGModeBox.Name = "ALGModeBox"
         Me.ALGModeBox.Size = New System.Drawing.Size(232, 23)
         Me.ALGModeBox.TabIndex = 26
-        Me.ALGModeBox.Text = "Ableton Live MIDI ALG1"
+        Me.ALGModeBox.Text = "Ableton Live MIDI (Drum Rack Layout)"
         '
         'UniLED1
         '
         Me.UniLED1.AutoSize = True
-        Me.UniLED1.Font = New System.Drawing.Font("나눔바른고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.UniLED1.Font = New System.Drawing.Font("NanumBarunGothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.UniLED1.Location = New System.Drawing.Point(275, 13)
         Me.UniLED1.Name = "UniLED1"
         Me.UniLED1.Size = New System.Drawing.Size(94, 15)
@@ -153,7 +154,7 @@ Partial Class keyLED_Edit
         'TestButton
         '
         Me.TestButton.Enabled = False
-        Me.TestButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.TestButton.Font = New System.Drawing.Font("NanumBarunGothicOTF", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.TestButton.Location = New System.Drawing.Point(360, 427)
         Me.TestButton.Name = "TestButton"
         Me.TestButton.Size = New System.Drawing.Size(97, 41)
@@ -174,7 +175,7 @@ Partial Class keyLED_Edit
         'spTipLb
         '
         Me.spTipLb.AutoSize = True
-        Me.spTipLb.Font = New System.Drawing.Font("나눔바른고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.spTipLb.Font = New System.Drawing.Font("NanumBarunGothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.spTipLb.Location = New System.Drawing.Point(250, 437)
         Me.spTipLb.Name = "spTipLb"
         Me.spTipLb.Size = New System.Drawing.Size(49, 15)
@@ -184,7 +185,7 @@ Partial Class keyLED_Edit
         'spLb
         '
         Me.spLb.AutoSize = True
-        Me.spLb.Font = New System.Drawing.Font("나눔바른고딕", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.spLb.Font = New System.Drawing.Font("NanumBarunGothic", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.spLb.Location = New System.Drawing.Point(250, 460)
         Me.spLb.Name = "spLb"
         Me.spLb.Size = New System.Drawing.Size(60, 22)
@@ -194,7 +195,7 @@ Partial Class keyLED_Edit
         'TimeLabel
         '
         Me.TimeLabel.AutoSize = True
-        Me.TimeLabel.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.TimeLabel.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.TimeLabel.Location = New System.Drawing.Point(376, 522)
         Me.TimeLabel.Name = "TimeLabel"
         Me.TimeLabel.Size = New System.Drawing.Size(115, 14)
@@ -203,7 +204,7 @@ Partial Class keyLED_Edit
         '
         'LEDExButton
         '
-        Me.LEDExButton.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.LEDExButton.Font = New System.Drawing.Font("NanumBarunGothicOTF", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.LEDExButton.Location = New System.Drawing.Point(360, 474)
         Me.LEDExButton.Name = "LEDExButton"
         Me.LEDExButton.Size = New System.Drawing.Size(205, 45)
