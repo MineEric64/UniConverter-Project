@@ -255,7 +255,6 @@ Partial Class MainProject
         Me.BGW_ablproj = New System.ComponentModel.BackgroundWorker()
         Me.BGW_sounds = New System.ComponentModel.BackgroundWorker()
         Me.BGW_keyLED2 = New System.ComponentModel.BackgroundWorker()
-        Me.BGW_keyLED_ = New System.ComponentModel.BackgroundWorker()
         Me.BGW_CheckUpdate = New System.ComponentModel.BackgroundWorker()
         Me.BGW_keySound = New System.ComponentModel.BackgroundWorker()
         Me.BGW_keySoundLayout = New System.ComponentModel.BackgroundWorker()
@@ -3051,9 +3050,6 @@ Partial Class MainProject
         'BGW_keyLED2
         '
         '
-        'BGW_keyLED_
-        '
-        '
         'BGW_CheckUpdate
         '
         '
@@ -3154,7 +3150,6 @@ Partial Class MainProject
     Friend WithEvents MIDIStat As Label
     Friend WithEvents MIDIStatOut As Label
     Friend WithEvents BGW_keyLED2 As System.ComponentModel.BackgroundWorker
-    Friend WithEvents BGW_keyLED_ As System.ComponentModel.BackgroundWorker
     Friend WithEvents BGW_CheckUpdate As System.ComponentModel.BackgroundWorker
     Friend WithEvents BGW_keySound As System.ComponentModel.BackgroundWorker
     Friend WithEvents KeySoundTab As TabPage

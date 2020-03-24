@@ -847,8 +847,10 @@ Public Class MainProject
                         Case Translator.tL.Korean
                             MessageBox.Show("LED 파일이 로딩되었습니다! 'keyLED (미디 익스텐션)' 탭에서 LED를 편집할 수 있습니다.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End Select
-                    If AutoConvert.Checked Then
-                        BGW_keyLED_.RunWorkerAsync()
+                    If AutoConvert.Checked AndAlso abl_openedproj AndAlso abl_openedled AndAlso abl_openedled2 Then
+                        Task.Run(Sub()
+                                     KeyLED_MidiToKeyLED_AutoConvert()
+                                 End Sub)
                     End If
                 End If
                     Exit Sub
@@ -865,7 +867,9 @@ Public Class MainProject
                             MessageBox.Show("LED 파일이 로딩되었습니다! 'keyLED (미디 익스텐션)' 탭에서 LED를 편집할 수 있습니다.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End Select
                     If AutoConvert.Checked Then
-                        BGW_keyLED_.RunWorkerAsync()
+                        Task.Run(Sub()
+                                     KeyLED_MidiToKeyLED_AutoConvert()
+                                 End Sub)
                     End If
                 End If
             End If
@@ -1097,7 +1101,11 @@ Public Class MainProject
                     Select Case w8t4abl
 
                         Case "keyLED"
-                            BGW_keyLED_.RunWorkerAsync()
+                            If abl_openedproj AndAlso abl_openedled AndAlso abl_openedled2 Then
+                                Task.Run(Sub()
+                                             KeyLED_MidiToKeyLED_AutoConvert()
+                                         End Sub)
+                            End If
 
                     End Select
                 End If
@@ -1435,7 +1443,9 @@ Public Class MainProject
                 UI(Sub() Loading.Dispose())
 
                 If OpenProjectOnce Then
-                    BGW_keyLED_.RunWorkerAsync()
+                    Task.Run(Sub()
+                                 KeyLED_MidiToKeyLED_AutoConvert()
+                             End Sub)
                     Exit Sub
                 End If
 
@@ -2959,10 +2969,9 @@ Public Class MainProject
     End Sub
 
     '에이블톤 Instrument Rack을 keyLED로 바꿔주는 코드.
-    Private Sub BGW_keyLED__DoWork(sender As Object, e As DoWorkEventArgs) Handles BGW_keyLED_.DoWork
+    Private Sub KeyLED_MidiToKeyLED_AutoConvert()
         Try
-
-            If abl_openedproj AndAlso abl_openedled AndAlso Not e.Cancel Then
+            If abl_openedproj AndAlso abl_openedled Then
 
                 Invoke(Sub()
                            With Loading
@@ -3161,72 +3170,7 @@ Public Class MainProject
                                 Continue For
                             End If
 
-                            Dim keyLED As New MidiFile(dPath, False)
-                            Dim str As String = String.Empty
-                            Dim delaycount As Integer = 0
-                            Dim UniNoteNumberX As Integer 'X
-                            Dim UniNoteNumberY As Integer 'Y
-
-                            For Each mdEvent_list In keyLED.Events
-                                For Each mdEvent In mdEvent_list
-
-                                    If mdEvent.CommandCode = MidiCommandCode.NoteOn Then
-                                        Dim a As NoteOnEvent = DirectCast(mdEvent, NoteOnEvent)
-
-                                        If Not delaycount = a.AbsoluteTime OrElse Not a.DeltaTime = 0 Then
-                                            If dSpeed = 0 Then
-                                                str = str & vbNewLine & "d " & GetNoteDelay(keyLED_NoteEvents.NoteLength_2, dBPM, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delaycount)
-                                            Else
-                                                str = str & vbNewLine & "d " & Math.Round(GetNoteDelay(keyLED_NoteEvents.NoteLength_2, dBPM, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delaycount) * (dSpeed / 100))
-                                            End If
-                                        End If
-
-                                        UniNoteNumberX = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
-                                        UniNoteNumberY = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
-                                        delaycount = a.AbsoluteTime
-
-                                        If UniNoteNumberX = 0 AndAlso UniNoteNumberY = 0 Then
-                                            Debug.WriteLine("Unknown Note Number. [ Note: " & a.NoteNumber & " ]")
-                                            Continue For
-                                        End If
-
-                                        If Not UniNoteNumberX = -8192 Then
-                                            str = str & vbNewLine & "o " & UniNoteNumberX & " " & UniNoteNumberY & " a " & a.Velocity
-                                        Else
-                                            str = str & vbNewLine & "o mc " & UniNoteNumberY & " a " & a.Velocity
-                                        End If
-
-                                    ElseIf mdEvent.CommandCode = MidiCommandCode.NoteOff Then
-
-                                        Dim a As NoteEvent = DirectCast(mdEvent, NoteEvent)
-
-                                        If Not delaycount = a.AbsoluteTime OrElse Not a.DeltaTime = 0 Then
-                                            If dSpeed = 0 Then
-                                                str = str & vbNewLine & "d " & GetNoteDelay(keyLED_NoteEvents.NoteLength_2, dBPM, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delaycount)
-                                            Else
-                                                str = str & vbNewLine & "d " & Math.Round(GetNoteDelay(keyLED_NoteEvents.NoteLength_2, dBPM, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delaycount) * (dSpeed / 100))
-                                            End If
-                                        End If
-
-                                        UniNoteNumberX = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
-                                        UniNoteNumberY = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
-                                        delaycount = a.AbsoluteTime
-
-                                        If UniNoteNumberX = 0 AndAlso UniNoteNumberY = 0 Then
-                                            Debug.WriteLine("Unknown Note Number. [ Note: " & a.NoteNumber & " ]")
-                                            Continue For
-                                        End If
-
-                                        If Not UniNoteNumberX = -8192 Then
-                                            str = str & vbNewLine & "f " & UniNoteNumberX & " " & UniNoteNumberY
-                                        Else
-                                            str = str & vbNewLine & "f mc " & UniNoteNumberY
-                                        End If
-
-                                    End If
-                                Next
-                            Next
-
+                            Dim str As String = keyLED_Edit.keyLED_MidiToKeyLED(dPath, True, dSpeed, dBPM)
                             dSpeed = 0
 
                             '이제 Get Chain & X, Y from XML!!!
@@ -3519,135 +3463,67 @@ Public Class MainProject
 
             Else
                 w8t4abl = "keyLED"
-                e.Cancel = True
             End If
+
+            IsWorking = False
+
+            If OpenProjectOnce Then
+                OpenProjectOnce = False
+                If abl_openedproj AndAlso abl_openedsnd AndAlso abl_openedled Then
+                    Select Case lang
+                        Case Translator.tL.English
+                            MessageBox.Show("Ableton Project, Sounds, LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Case Translator.tL.Korean
+                            MessageBox.Show("에이블톤 프로젝트, 사운드, LED 파일들이 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End Select
+                ElseIf abl_openedproj AndAlso abl_openedsnd AndAlso abl_openedled Then
+                    Select Case lang
+                        Case Translator.tL.English
+                            MessageBox.Show("Ableton Project, Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Case Translator.tL.Korean
+                            MessageBox.Show("에이블톤 프로젝트, 사운드가 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End Select
+                ElseIf abl_openedproj Then
+                    Select Case lang
+                        Case Translator.tL.English
+                            MessageBox.Show("Ableton Project Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Case Translator.tL.Korean
+                            MessageBox.Show("에이블톤 프로젝트가 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End Select
+                ElseIf abl_openedsnd AndAlso abl_openedled Then
+                    Select Case lang
+                        Case Translator.tL.English
+                            MessageBox.Show("Sounds, LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Case Translator.tL.Korean
+                            MessageBox.Show("사운드, LED 파일이 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End Select
+                ElseIf abl_openedsnd Then
+                    Select Case lang
+                        Case Translator.tL.English
+                            MessageBox.Show("Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Case Translator.tL.Korean
+                            MessageBox.Show("사운드가 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End Select
+                ElseIf abl_openedled Then
+                    Select Case lang
+                        Case Translator.tL.English
+                            MessageBox.Show("LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Case Translator.tL.Korean
+                            MessageBox.Show("LED 파일이 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End Select
+                End If
+                Exit Sub
+            End If
+
+            Select Case lang
+                Case Translator.tL.English
+                    MessageBox.Show("LED File Converted!" & vbNewLine & "You can show the LEDs on 'keyLED (MIDI Extension)' Tab!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Case Translator.tL.Korean
+                    MessageBox.Show("LED 파일이 변환 되었습니다!" & vbNewLine & "''keyLED (미디 익스텐션)' 탭에서 LED 파일들을 볼 수 있습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End Select
 
         Catch ex As Exception
             UI(Sub() Loading.Dispose())
-            If IsGreatExMode Then
-                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Else
-                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End If
-            e.Cancel = True
-        End Try
-    End Sub
-
-    Private Sub BGW_keyLED__RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles BGW_keyLED_.RunWorkerCompleted
-        Try
-            If e.Error IsNot Nothing Then
-                MessageBox.Show("Error - " & e.Error.Message & vbNewLine & "Error Message: " & e.Error.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                Exit Sub
-            ElseIf e.Cancelled Then
-                If OpenProjectOnce Then
-                    OpenProjectOnce = False
-                    If abl_openedproj AndAlso abl_openedsnd AndAlso abl_openedled Then
-                        Select Case lang
-                            Case Translator.tL.English
-                                MessageBox.Show("Ableton Project, Sounds, LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                            Case Translator.tL.Korean
-                                MessageBox.Show("에이블톤 프로젝트, 사운드, LED 파일들이 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        End Select
-                    ElseIf abl_openedproj AndAlso abl_openedsnd AndAlso abl_openedled Then
-                        Select Case lang
-                            Case Translator.tL.English
-                                MessageBox.Show("Ableton Project, Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                            Case Translator.tL.Korean
-                                MessageBox.Show("에이블톤 프로젝트, 사운드가 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        End Select
-                    ElseIf abl_openedproj Then
-                        Select Case lang
-                            Case Translator.tL.English
-                                MessageBox.Show("Ableton Project Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                            Case Translator.tL.Korean
-                                MessageBox.Show("에이블톤 프로젝트가 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        End Select
-                    ElseIf abl_openedsnd AndAlso abl_openedled Then
-                        Select Case lang
-                            Case Translator.tL.English
-                                MessageBox.Show("Sounds, LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                            Case Translator.tL.Korean
-                                MessageBox.Show("사운드, LED 파일이 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        End Select
-                    ElseIf abl_openedsnd Then
-                        Select Case lang
-                            Case Translator.tL.English
-                                MessageBox.Show("Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                            Case Translator.tL.Korean
-                                MessageBox.Show("사운드가 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        End Select
-                    ElseIf abl_openedled Then
-                        Select Case lang
-                            Case Translator.tL.English
-                                MessageBox.Show("LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                            Case Translator.tL.Korean
-                                MessageBox.Show("LED 파일이 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        End Select
-                    End If
-                    Exit Sub
-                End If
-            Else
-
-                IsWorking = False
-
-                If OpenProjectOnce Then
-                    OpenProjectOnce = False
-                    If abl_openedproj AndAlso abl_openedsnd AndAlso abl_openedled Then
-                        Select Case lang
-                            Case Translator.tL.English
-                                MessageBox.Show("Ableton Project, Sounds, LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                            Case Translator.tL.Korean
-                                MessageBox.Show("에이블톤 프로젝트, 사운드, LED 파일들이 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        End Select
-                    ElseIf abl_openedproj AndAlso abl_openedsnd AndAlso abl_openedled Then
-                        Select Case lang
-                            Case Translator.tL.English
-                                MessageBox.Show("Ableton Project, Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                            Case Translator.tL.Korean
-                                MessageBox.Show("에이블톤 프로젝트, 사운드가 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        End Select
-                    ElseIf abl_openedproj Then
-                        Select Case lang
-                            Case Translator.tL.English
-                                MessageBox.Show("Ableton Project Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                            Case Translator.tL.Korean
-                                MessageBox.Show("에이블톤 프로젝트가 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        End Select
-                    ElseIf abl_openedsnd AndAlso abl_openedled Then
-                        Select Case lang
-                            Case Translator.tL.English
-                                MessageBox.Show("Sounds, LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                            Case Translator.tL.Korean
-                                MessageBox.Show("사운드, LED 파일이 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        End Select
-                    ElseIf abl_openedsnd Then
-                        Select Case lang
-                            Case Translator.tL.English
-                                MessageBox.Show("Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                            Case Translator.tL.Korean
-                                MessageBox.Show("사운드가 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        End Select
-                    ElseIf abl_openedled Then
-                        Select Case lang
-                            Case Translator.tL.English
-                                MessageBox.Show("LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                            Case Translator.tL.Korean
-                                MessageBox.Show("LED 파일이 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        End Select
-                    End If
-                    Exit Sub
-                End If
-
-                Select Case lang
-                    Case Translator.tL.English
-                        MessageBox.Show("LED File Converted!" & vbNewLine & "You can show the LEDs on 'keyLED (MIDI Extension)' Tab!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    Case Translator.tL.Korean
-                        MessageBox.Show("LED 파일이 변환 되었습니다!" & vbNewLine & "''keyLED (미디 익스텐션)' 탭에서 LED 파일들을 볼 수 있습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                End Select
-
-            End If
-
-        Catch ex As Exception
             If IsGreatExMode Then
                 MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Else

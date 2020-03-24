@@ -72,7 +72,7 @@ Public Class keyLED_Edit
             LEDExButton.Enabled = False
             keyLED_Edit_Ex.Enabled = False
 
-            UniLED_Edit.Text = Await keyLED_MidiToKeyLEDAsync(Application.StartupPath & "\Workspace\ableproj\CoLED\" & LED_ListView.FocusedItem.Text, False, 0)
+            UniLED_Edit.Text = Await keyLED_MidiToKeyLEDAsync(Application.StartupPath & "\Workspace\ableproj\CoLED\" & LED_ListView.FocusedItem.Text, False, SpeedTrackBar.Value, 0)
         Catch ex As Exception
             If MainProject.IsGreatExMode Then
                 MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -91,7 +91,7 @@ Public Class keyLED_Edit
     ''' keyLED 기능: MIDI 파일을 keyLED 내용으로 변환해줍니다. 미디 익스텐션만 가능
     ''' </summary>
     ''' <param name="AutoConvert">자동 변환인지의 여부입니다.</param>
-    Public Function keyLED_MidiToKeyLED(FilePath As String, AutoConvert As Boolean, tempo As Integer) As String
+    Public Function keyLED_MidiToKeyLED(FilePath As String, AutoConvert As Boolean, speed As Integer, tempo As Integer) As String
         Try
             Dim notWhSp As Boolean = True
 
@@ -147,7 +147,6 @@ Public Class keyLED_Edit
                             Dim bpm As New TempoEvent(500000, a.AbsoluteTime)
 
                             If Not delaycount = a.AbsoluteTime OrElse Not a.DeltaTime = 0 Then
-                                Dim speed As Integer = 100
                                 Dim bpmTempo As Integer = 0
 
                                 If tempo = 0 Then
@@ -155,10 +154,13 @@ Public Class keyLED_Edit
                                 Else
                                     bpmTempo = tempo
                                 End If
-                                If AutoConvert = False Then
-                                    Invoke(Sub() speed = SpeedTrackBar.Value)
+#Region "NewLine"
+                                If notWhSp = True Then
+                                    notWhSp = False
+                                Else
+                                    str.Append(vbNewLine)
                                 End If
-                                str.Append(vbNewLine)
+#End Region
                                 str.Append("d ")
                                 str.Append(Math.Round(GetNoteDelay(keyLED_NoteEvents.NoteLength_2, bpm.Tempo, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delaycount) * (speed / 100)))
                             End If
@@ -380,17 +382,19 @@ Public Class keyLED_Edit
                             Dim bpm As New TempoEvent(500000, a.AbsoluteTime)
 
                             If Not delaycount = a.AbsoluteTime OrElse Not a.DeltaTime = 0 Then
-                                Dim speed As Integer = 100
                                 Dim bpmTempo As Integer = 0
                                 If tempo = 0 Then
                                     bpmTempo = bpm.Tempo
                                 Else
                                     bpmTempo = tempo
                                 End If
-                                If AutoConvert = False Then
-                                    Invoke(Sub() speed = SpeedTrackBar.Value)
+#Region "NewLine"
+                                If notWhSp = True Then
+                                    notWhSp = False
+                                Else
+                                    str.Append(vbNewLine)
                                 End If
-                                str.Append(vbNewLine)
+#End Region
                                 str.Append("d ")
                                 str.Append(Math.Round(GetNoteDelay(keyLED_NoteEvents.NoteLength_2, bpmTempo, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delaycount) * (speed / 100)))
                             End If
@@ -677,8 +681,6 @@ Public Class keyLED_Edit
 
             If WaitForSpeed Then
                 WaitForSpeed = False
-                Dim speed As Integer = 100
-                Invoke(Sub() speed = SpeedTrackBar.Value)
                 Return keyLED_SpeedChanged(speed)
             End If
 
@@ -693,8 +695,8 @@ Public Class keyLED_Edit
         Return String.Empty
     End Function
 
-    Public Async Function keyLED_MidiToKeyLEDAsync(FilePath As String, AutoConvert As Boolean, tempo As Integer) As Task(Of String)
-        Return Await Task.Run(Function() keyLED_MidiToKeyLED(FilePath, AutoConvert, tempo))
+    Public Async Function keyLED_MidiToKeyLEDAsync(FilePath As String, AutoConvert As Boolean, speed As Integer, tempo As Integer) As Task(Of String)
+        Return Await Task.Run(Function() keyLED_MidiToKeyLED(FilePath, AutoConvert, speed, tempo))
     End Function
 
     Private Sub TestButton_Click(sender As Object, e As EventArgs) Handles TestButton.Click

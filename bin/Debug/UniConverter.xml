@@ -273,7 +273,7 @@ o 6 3 a [나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 �
  String의 수를 세줍니다. 결과는 Integer.
  </summary>
 </member>
-<member name="M:UniConverter_Project.keyLED_Edit.keyLED_MidiToKeyLED(System.String,System.Boolean,System.Int32)">
+<member name="M:UniConverter_Project.keyLED_Edit.keyLED_MidiToKeyLED(System.String,System.Boolean,System.Int32,System.Int32)">
  <summary>
  keyLED 기능: MIDI 파일을 keyLED 내용으로 변환해줍니다. 미디 익스텐션만 가능
  </summary>
