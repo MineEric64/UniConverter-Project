@@ -6,7 +6,7 @@
 ![UniConverter_Icon](https://github.com/MineEric64/UniConverter-Project/blob/master/Resources/UniConverter_icon.png)
 
 ### Made By 'MineEric64'. (최에릭)
-#### Helped By 'Follow_JB', 'EX867', 'Ph-r'.
+#### Helped By 'Follow_JB', 'EX867'.
 
 ## Instruction
 
@@ -22,10 +22,9 @@ For Example, UniConverter reads algorithms to Ableton Project's Information.
 UniConverter converts Ableton Project's Information to UniPack's Information.
 Last, UniConverter trims some Sounds, LEDs of UniPack.
 Also, you can edit simple information of UniPack directly!
-But, you can edit detail information of UniPack on Unitor.
+But, you can edit detail information of UniPack on [Unitor](https://bit.do/unitor).
 
 You can download UniConverter Latest Version on '[UniConverter Official Site](http://ucv.kro.kr)'.
-If you want to use UniConverter Test Version, You must get permission to me. or, You can build the UniConverter directly!
 #### [ Latest Version: v1.2.0.7 (Pre-Release 1)   |   Test Version: v1.2.0.7 ]
 
 ## Functions
