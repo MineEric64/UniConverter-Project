@@ -1826,7 +1826,7 @@ Partial Class MainProject
         'ucvLogo
         '
         Me.ucvLogo.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.ucvLogo.Image = Global.UniConverter_Project.My.Resources.Resources.UniConverter_icon
+        Me.ucvLogo.Image = Global.UniConverter.My.Resources.Resources.UniConverter_icon
         Me.ucvLogo.Location = New System.Drawing.Point(426, 3)
         Me.ucvLogo.Name = "ucvLogo"
         Me.ucvLogo.Size = New System.Drawing.Size(45, 40)
@@ -3083,7 +3083,7 @@ Partial Class MainProject
         Me.MainMenuStrip = Me.MenuStrip
         Me.MaximizeBox = False
         Me.Name = "MainProject"
-        Me.Text = "UniConverter Beta 8 (Pre-Release 1)"
+        Me.Text = "UniConverter Beta 8"
         Me.MenuStrip.ResumeLayout(False)
         Me.MenuStrip.PerformLayout()
         Me.HomeEdit.ResumeLayout(False)

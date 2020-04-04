@@ -7,6 +7,8 @@ Public Class Info
         Me.Text = MainProject.Text & ": Information"
         InfoText.Text = "Ver " & My.Application.Info.Version.ToString
 
+        ToolTip1.SetToolTip(TipText1, "Q. Who made it?" & vbNewLine & "A. This program made by MineEric64 (최에릭), Helped by FollowJB, EX867.")
+
         Select Case MainProject.lang
             Case Translator.tL.English
                 Exit Sub
@@ -24,7 +26,6 @@ Public Class Info
 
     Private Sub OKButton_Click(sender As Object, e As EventArgs) Handles OKButton.Click
         Try
-            Dim A2UPFile As String = Application.StartupPath & "\A2UP.dll"
             Dim fs As FileStream
             Dim info As Byte()
 
@@ -78,14 +79,14 @@ Public Class Info
                     MessageBox.Show(String.Format("Developer Mode {0}, GreatEx Mode {1}", DeveloperModebool, GreatExModebool), Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
 
                 Case "UniConverter-Project"
-                    MessageBox.Show(String.Format("UniConverter v{0} - MineEric64 (최에릭)" & vbNewLine & "A2UP V{1} - MineEric64 (최에릭)" & vbNewLine & vbNewLine & "Help By Follow_JB, EX867, Ph-r", My.Application.Info.Version.ToString, GetFileVerInfo(A2UPFile)), Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    MessageBox.Show(String.Format("UniConverter v{0} - MineEric64 (최에릭)" & vbNewLine & "A2UP V{1} - MineEric64 (최에릭)" & vbNewLine & vbNewLine & "Help By Follow_JB, EX867", My.Application.Info.Version.ToString, A2UP.A2U.GetVersion()), Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
 
                 Case Else
                     Select Case MainProject.lang
                         Case Translator.tL.English
-                            MessageBox.Show("UniPack Converter for UniPad.", MainProject.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            MessageBox.Show("UniPack Converter for UniPad." & vbNewLine & My.Application.Info.Copyright, MainProject.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
                         Case Translator.tL.Korean
-                            MessageBox.Show("유니패드를 위한 유니팩 컨버터.", MainProject.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            MessageBox.Show("유니패드를 위한 유니팩 컨버터." & vbNewLine & My.Application.Info.Copyright, MainProject.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End Select
             End Select
 

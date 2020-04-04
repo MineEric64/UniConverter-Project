@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{6B3E3215-A629-4BA5-BC73-AF6CF7DCDAA6}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <StartupObject>UniConverter_Project.My.MyApplication</StartupObject>
-    <RootNamespace>UniConverter_Project</RootNamespace>
+    <StartupObject>UniConverter.My.MyApplication</StartupObject>
+    <RootNamespace>UniConverter</RootNamespace>
     <AssemblyName>UniConverter</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>

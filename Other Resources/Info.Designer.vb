@@ -22,6 +22,7 @@ Partial Class Info
     '코드 편집기에서는 수정하지 마세요.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Info))
         Me.InfoText = New System.Windows.Forms.Label()
         Me.TipText1 = New System.Windows.Forms.Label()
@@ -34,6 +35,7 @@ Partial Class Info
         Me.ucvg_link = New System.Windows.Forms.LinkLabel()
         Me.unipad_link = New System.Windows.Forms.LinkLabel()
         Me.unipadc_link = New System.Windows.Forms.LinkLabel()
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         CType(Me.UCV_Alpha, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.UCV_Icon, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -41,7 +43,7 @@ Partial Class Info
         'InfoText
         '
         Me.InfoText.AutoSize = True
-        Me.InfoText.Font = New System.Drawing.Font("나눔바른고딕OTF", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.InfoText.Font = New System.Drawing.Font("NanumBarunGothicOTF", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.InfoText.Location = New System.Drawing.Point(300, 305)
         Me.InfoText.Name = "InfoText"
         Me.InfoText.Size = New System.Drawing.Size(45, 22)
@@ -51,16 +53,16 @@ Partial Class Info
         'TipText1
         '
         Me.TipText1.AutoSize = True
-        Me.TipText1.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.TipText1.Location = New System.Drawing.Point(19, 205)
+        Me.TipText1.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.TipText1.Location = New System.Drawing.Point(42, 205)
         Me.TipText1.Name = "TipText1"
-        Me.TipText1.Size = New System.Drawing.Size(377, 14)
+        Me.TipText1.Size = New System.Drawing.Size(321, 14)
         Me.TipText1.TabIndex = 3
-        Me.TipText1.Text = "ⓒ 2018 ~ 2019 MineEric64 (최에릭), Follow_JB All Rights Reserved."
+        Me.TipText1.Text = "Copyright 2018 ~ 2020. Team Unitor All Rights Reserved."
         '
         'ModeE
         '
-        Me.ModeE.Font = New System.Drawing.Font("나눔바른고딕", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.ModeE.Font = New System.Drawing.Font("NanumBarunGothic", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.ModeE.Location = New System.Drawing.Point(77, 222)
         Me.ModeE.Name = "ModeE"
         Me.ModeE.Size = New System.Drawing.Size(169, 21)
@@ -68,7 +70,7 @@ Partial Class Info
         '
         'OKButton
         '
-        Me.OKButton.Font = New System.Drawing.Font("나눔고딕", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.OKButton.Font = New System.Drawing.Font("NanumGothic", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.OKButton.Location = New System.Drawing.Point(252, 222)
         Me.OKButton.Name = "OKButton"
         Me.OKButton.Size = New System.Drawing.Size(75, 23)
@@ -80,7 +82,7 @@ Partial Class Info
         '
         Me.ucv_link.AutoSize = True
         Me.ucv_link.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.ucv_link.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.ucv_link.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.ucv_link.Location = New System.Drawing.Point(12, 290)
         Me.ucv_link.Name = "ucv_link"
         Me.ucv_link.Size = New System.Drawing.Size(105, 14)
@@ -100,7 +102,7 @@ Partial Class Info
         '
         'UCV_Icon
         '
-        Me.UCV_Icon.Image = Global.UniConverter_Project.My.Resources.Resources.UniConverter_icon
+        Me.UCV_Icon.Image = Global.UniConverter.My.Resources.Resources.UniConverter_icon
         Me.UCV_Icon.Location = New System.Drawing.Point(134, 26)
         Me.UCV_Icon.Name = "UCV_Icon"
         Me.UCV_Icon.Size = New System.Drawing.Size(131, 130)
@@ -112,7 +114,7 @@ Partial Class Info
         '
         Me.unitor_link.AutoSize = True
         Me.unitor_link.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.unitor_link.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.unitor_link.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.unitor_link.Location = New System.Drawing.Point(12, 313)
         Me.unitor_link.Name = "unitor_link"
         Me.unitor_link.Size = New System.Drawing.Size(112, 14)
@@ -124,7 +126,7 @@ Partial Class Info
         '
         Me.ucvg_link.AutoSize = True
         Me.ucvg_link.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.ucvg_link.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.ucvg_link.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.ucvg_link.Location = New System.Drawing.Point(123, 290)
         Me.ucvg_link.Name = "ucvg_link"
         Me.ucvg_link.Size = New System.Drawing.Size(123, 14)
@@ -136,7 +138,7 @@ Partial Class Info
         '
         Me.unipad_link.AutoSize = True
         Me.unipad_link.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.unipad_link.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.unipad_link.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.unipad_link.Location = New System.Drawing.Point(206, 313)
         Me.unipad_link.Name = "unipad_link"
         Me.unipad_link.Size = New System.Drawing.Size(75, 14)
@@ -148,13 +150,18 @@ Partial Class Info
         '
         Me.unipadc_link.AutoSize = True
         Me.unipadc_link.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.unipadc_link.Font = New System.Drawing.Font("나눔바른고딕OTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.unipadc_link.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.unipadc_link.Location = New System.Drawing.Point(130, 313)
         Me.unipadc_link.Name = "unipadc_link"
         Me.unipadc_link.Size = New System.Drawing.Size(70, 14)
         Me.unipadc_link.TabIndex = 11
         Me.unipadc_link.TabStop = True
         Me.unipadc_link.Text = "UniPad Site"
+        '
+        'ToolTip1
+        '
+        Me.ToolTip1.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info
+        Me.ToolTip1.ToolTipTitle = "Information"
         '
         'Info
         '
@@ -196,4 +203,5 @@ Partial Class Info
     Friend WithEvents ucvg_link As LinkLabel
     Friend WithEvents unipad_link As LinkLabel
     Friend WithEvents unipadc_link As LinkLabel
+    Friend WithEvents ToolTip1 As ToolTip
 End Class

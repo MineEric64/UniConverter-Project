@@ -9,10 +9,10 @@ Imports System.Runtime.InteropServices
 ' 어셈블리 특성 값을 검토합니다.
 
 <Assembly: AssemblyTitle("UniConverter")>
-<Assembly: AssemblyDescription("UniConverter changes Abelton Project to UniPack.")>
+<Assembly: AssemblyDescription("UniPack Converter for UniPad. (Ableton Project File to UniPack)")>
 <Assembly: AssemblyCompany("UniLab")>
 <Assembly: AssemblyProduct("UniConverter")>
-<Assembly: AssemblyCopyright("Copyright © 2018~2019 최에릭, Follow_JB All Rights Reserved.")>
+<Assembly: AssemblyCopyright("Copyright 2018~2020. Team Unitor All Rights Reserved.")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>

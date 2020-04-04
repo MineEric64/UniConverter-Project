@@ -190,7 +190,7 @@ Partial Class keyLED_Edit_Ex
         '
         'FlipPictureBox
         '
-        Me.FlipPictureBox.Image = Global.UniConverter_Project.My.Resources.Resources.FLIP
+        Me.FlipPictureBox.Image = Global.UniConverter.My.Resources.Resources.FLIP
         Me.FlipPictureBox.Location = New System.Drawing.Point(6, 6)
         Me.FlipPictureBox.Name = "FlipPictureBox"
         Me.FlipPictureBox.Size = New System.Drawing.Size(756, 194)

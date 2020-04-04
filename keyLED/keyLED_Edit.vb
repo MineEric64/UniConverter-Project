@@ -1,7 +1,7 @@
 ﻿Imports System.IO
 Imports NAudio.Midi
 Imports A2UP.A2U.keyLED_MIDEX
-Imports UniConverter_Project.keyLED_Edit_Ex
+Imports UniConverter.keyLED_Edit_Ex
 Imports System.Threading
 Imports System.Text
 

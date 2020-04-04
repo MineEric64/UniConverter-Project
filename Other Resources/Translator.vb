@@ -95,9 +95,9 @@ Public Class Translator
 
                     'MainProject 폼
                     If IsDM = False Then
-                        .Text = "유니컨버터 베타 8 (프리-릴리즈 1)"
+                        .Text = "유니컨버터 베타 8"
                     Else
-                        .Text = "유니컨버터 베타 8 (프리-릴리즈 1, 제작자 모드)"
+                        .Text = "유니컨버터 베타 8 (제작자 모드)"
                     End If
 
                     'Tool Strip
