@@ -58,7 +58,7 @@ Public Class Translator
                 Exit Sub '유니컨버터의 기본값 텍스트는 영어다.
             Case tL.Korean
 
-                '유니컨버터 v1.2.0.6 한글 버전.
+                '유니컨버터 v1.2.0.7 (프리-릴리즈 1) 한글 버전.
                 With MainProject
                     'info 탭
                     .HomeEdit.TabPages(0).Text = Space(7) & "정보"
@@ -95,9 +95,9 @@ Public Class Translator
 
                     'MainProject 폼
                     If IsDM = False Then
-                        .Text = "유니컨버터 베타 7"
+                        .Text = "유니컨버터 베타 8 (프리-릴리즈 1)"
                     Else
-                        .Text = "유니컨버터 베타 7 (제작자 모드)"
+                        .Text = "유니컨버터 베타 8 (프리-릴리즈 1, 제작자 모드)"
                     End If
 
                     'Tool Strip
