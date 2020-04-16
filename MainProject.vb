@@ -847,7 +847,7 @@ Public Class MainProject
                         Case Translator.tL.Korean
                             MessageBox.Show("LED 파일이 로딩되었습니다! 'keyLED (미디 익스텐션)' 탭에서 LED를 편집할 수 있습니다.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End Select
-                    If AutoConvert.Checked AndAlso abl_openedproj AndAlso abl_openedled AndAlso abl_openedled2 Then
+                    If AutoConvert.Checked AndAlso abl_openedproj AndAlso abl_openedled Then
                         Task.Run(Sub()
                                      KeyLED_MidiToKeyLED_AutoConvert()
                                  End Sub)
@@ -3002,40 +3002,49 @@ Public Class MainProject
                     Directory.CreateDirectory(c)
                 End If
 
-                Dim LEDSave As String = Application.StartupPath & "\Workspace\ableproj\LEDSave.uni"
-                Dim LEDMapping As String = Application.StartupPath & "\Workspace\ableproj\LEDMapping.uni"
-                Dim LEDs As String() = File.ReadAllLines(LEDSave)
-                File.WriteAllText(LEDSave, StringsToString(LEDs))
+                Dim MidiKind As String = "MidiExtension" 'MidiExtension / MidiFire
 
-                For i As Integer = 0 To LEDs.Count - 1
-                    LEDs(i) = LEDs(i).Replace(";", "")
+                Dim MIDEX_LEDSave As String = Application.StartupPath & "\Workspace\ableproj\LEDSave.uni"
+                Dim MIDEX_LEDMapping As String = Application.StartupPath & "\Workspace\ableproj\LEDMapping.uni"
 
-                    If LEDs(i).Contains("temp") Then
-                        If LEDs(i).Contains("temp1") Then 'New Tempo (빠르기)
 
-                            Dim id As Integer = Integer.Parse(LEDs(i).Split(",")(0).Replace("temp1", "").Replace("id", ""))
-                            Dim speed As Integer = Integer.Parse(LEDs(i).Split(" ")(2))
-                            LEDs(i) = String.Format("New Tempo/{0}/{1}", id, speed) '[1: 구문, 2: id, 3: 빠르기]
 
-                        ElseIf LEDs(i).Contains("temp2") Then 'Clip Tempo (BPM)
+                If File.Exists(MIDEX_LEDSave) AndAlso File.ReadAllText(Application.StartupPath & "\Workspace\ableproj\abl_proj.xml").Contains("Midi Extension") Then
+                    Dim LEDs As String() = File.ReadAllLines(MIDEX_LEDSave)
+                    File.WriteAllText(MIDEX_LEDSave, StringsToString(LEDs))
 
-                            Dim id As Integer = Integer.Parse(LEDs(i).Split(",")(0).Replace("temp2", "").Replace("id", ""))
-                            Dim bpm As Integer = Integer.Parse(LEDs(i).Split(" ")(2))
-                            LEDs(i) = String.Format("Clip Tempo/{0}/{1}", id, bpm) '[1: 구문, 2: id, 3: BPM]
+                    For i As Integer = 0 To LEDs.Count - 1
+                        LEDs(i) = LEDs(i).Replace(";", "")
+
+                        If LEDs(i).Contains("temp") Then
+                            If LEDs(i).Contains("temp1") Then 'New Tempo (빠르기)
+
+                                Dim id As Integer = Integer.Parse(LEDs(i).Split(",")(0).Replace("temp1", "").Replace("id", ""))
+                                Dim speed As Integer = Integer.Parse(LEDs(i).Split(" ")(2))
+                                LEDs(i) = String.Format("New Tempo/{0}/{1}", id, speed) '[1: 구문, 2: id, 3: 빠르기]
+
+                            ElseIf LEDs(i).Contains("temp2") Then 'Clip Tempo (BPM)
+
+                                Dim id As Integer = Integer.Parse(LEDs(i).Split(",")(0).Replace("temp2", "").Replace("id", ""))
+                                Dim bpm As Integer = Integer.Parse(LEDs(i).Split(" ")(2))
+                                LEDs(i) = String.Format("Clip Tempo/{0}/{1}", id, bpm) '[1: 구문, 2: id, 3: BPM]
+
+                            End If
+
+                        ElseIf LEDs(i).Contains("midifile") Then '미디 파일
+
+                            Dim id As Integer = Integer.Parse(LEDs(i).Split(",")(0).Replace("midifile", "").Replace("id", ""))
+                            Dim FileName As String = LEDs(i).Split(" ")(2).Split("/").Last()
+                            LEDs(i) = String.Format("MIDI Extension/{0}/{1}", id, FileName) '[1: 구문, 2: id, 3: BPM]
 
                         End If
 
-                    ElseIf LEDs(i).Contains("midifile") Then '미디 파일
+                    Next
 
-                        Dim id As Integer = Integer.Parse(LEDs(i).Split(",")(0).Replace("midifile", "").Replace("id", ""))
-                        Dim FileName As String = LEDs(i).Split(" ")(2).Split("/").Last()
-                        LEDs(i) = String.Format("MIDI Extension/{0}/{1}", id, FileName) '[1: 구문, 2: id, 3: BPM]
-
-                    End If
-
-                Next
-
-                File.WriteAllText(LEDMapping, StringsToString(LEDs))
+                    File.WriteAllText(MIDEX_LEDMapping, StringsToString(LEDs))
+                Else
+                    MidiKind = "MidiFire"
+                End If
 
                 '이제 버그와의 전쟁 (악몽)이 시작될 코드.
                 Dim ablprj As String = Application.StartupPath & "\Workspace\ableproj\abl_proj.xml"
@@ -3044,283 +3053,337 @@ Public Class MainProject
                 doc.Load(ablprj)
                 setNode = doc.GetElementsByTagName("MidiEffectBranch")
 
-                Dim InsBrnN As String = String.Empty 'Midi Effect Rack의 index를 통과 시켜주는 lst
-                Dim li As Integer = 1 '람다 식 경고 실화냐...
-                UI(Sub() Loading.DLb.Left -= 70)
-
-                For i As Integer = 0 To setNode.Count - 1
-                    UI(Sub()
-                           Select Case lang
-                               Case Translator.tL.English
-                                   Loading.DLb.Text = String.Format(Loading.MsgEn.loading_keyLED_PageOrChain_msg, li, setNode.Count)
-                               Case Translator.tL.Korean
-                                   Loading.DLb.Text = String.Format(Loading.MsgKr.loading_keyLED_PageOrChain_msg, li, setNode.Count)
-                           End Select
-                       End Sub)
-                    li += 1
-
-                    Try
-                        Dim _Test1 As Integer = Integer.Parse(setNode(i).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("LomId").GetAttribute("Value"))
-                        Try
-                            Dim _Test2 As Integer = Integer.Parse(setNode(i).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiRandom").Item("Choices").Item("Manual").GetAttribute("Value")) '랜덤 MidiEffectRack
-                        Catch exNN As NullReferenceException
-                            Dim _Test3 As String = setNode(i).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("PatchSlot").Item("Value").Item("MxDPatchRef").Item("FileRef").Item("Name").GetAttribute("Value") '일반 MidiEffectRack
-                        End Try
-                        InsBrnN &= i & ";"
-                    Catch exN As NullReferenceException
-                        Try
-                            Dim _Test4 As Integer = Integer.Parse(setNode(i).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiEffectGroupDevice").Item("LomId").GetAttribute("Value"))
-                            Integer.Parse(setNode(i).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiRandom").Item("Choices").Item("Manual").GetAttribute("Value")) '랜덤 코드만 입장 가능.
-                            InsBrnN &= i & ";"
-                        Catch exNN As Exception
-                            Continue For 'Page나 다른 무언가이였던것임!
-                        End Try
-                    End Try
-                Next
-
-                UI(Sub()
-                       Loading.DLb.Left += 70
-                   End Sub)
-
-                '또한 Clip Tempo는 BPM이며, [Clip Tempo = temp2]
-                'New Tempo는 빠르기다. [New Tempo = temp1]
-
-                Dim il As Integer = 0
-                Dim ChN As String = String.Empty 'New Tempo [Speed]
-                Dim ChN2 As String = String.Empty 'Clip Tempo [BPM]
                 Dim err As String = String.Empty
-                For Each d As String In LEDs
 
-                    'Beta Code!
-                    '이 Beta Convert Code는 오류가 발생할 수 있습니다.
-                    '주의사항: 완전 꼬인 스파게티 코드라서, 눈에 보기 좋지 않고, 코드도 꼬여서 프로그램이 뻗어버릴 확률이 높습니다.
-                    '코드를 만질 때 주의해주세요!
+                If MidiKind = "MidiExtension" Then '구식 스파게티 코드
+                    Dim InsBrnN As String = String.Empty 'Midi Effect Rack의 index를 통과 시켜주는 lst
+                    Dim li As Integer = 1 '람다 식 경고 실화냐...
+                    UI(Sub() Loading.DLb.Left -= 70)
 
-                    '주의사항을 다 보셨다면, 당신은 Editor 권한을 가질 수 있습니다.
+                    For i As Integer = 0 To setNode.Count - 1
+                        UI(Sub()
+                               Select Case lang
+                                   Case Translator.tL.English
+                                       Loading.DLb.Text = String.Format(Loading.MsgEn.loading_keyLED_PageOrChain_msg, li, setNode.Count)
+                                   Case Translator.tL.Korean
+                                       Loading.DLb.Text = String.Format(Loading.MsgKr.loading_keyLED_PageOrChain_msg, li, setNode.Count)
+                               End Select
+                           End Sub)
+                        li += 1
 
-                    '이 코드는 Follow_JB님의 midi2keyLED를 참고하여 만든 코드. (Thanks to Follow_JB. :D)
+                        Try
+                            Dim _Test1 As Integer = Integer.Parse(setNode(i).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("LomId").GetAttribute("Value"))
+                            Try
+                                Dim _Test2 As Integer = Integer.Parse(setNode(i).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiRandom").Item("Choices").Item("Manual").GetAttribute("Value")) '랜덤 MidiEffectRack
+                            Catch exNN As NullReferenceException
+                                Dim _Test3 As String = setNode(i).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("PatchSlot").Item("Value").Item("MxDPatchRef").Item("FileRef").Item("Name").GetAttribute("Value") '일반 MidiEffectRack
+                            End Try
+                            InsBrnN &= i & ";"
+                        Catch exN As NullReferenceException
+                            Try
+                                Dim _Test4 As Integer = Integer.Parse(setNode(i).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiEffectGroupDevice").Item("LomId").GetAttribute("Value"))
+                                Integer.Parse(setNode(i).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiRandom").Item("Choices").Item("Manual").GetAttribute("Value")) '랜덤 코드만 입장 가능.
+                                InsBrnN &= i & ";"
+                            Catch exNN As Exception
+                                Continue For 'Page나 다른 무언가이였던것임!
+                            End Try
+                        End Try
+                    Next
 
-                    'yi = XML의 수.
-                    'il = XML keyLED 변수.
+                    UI(Sub()
+                           Loading.DLb.Left += 70
+                       End Sub)
 
-                    If String.IsNullOrWhiteSpace(d) Then
-                        Continue For
-                    End If
+                    '또한 Clip Tempo는 BPM이며, [Clip Tempo = temp2]
+                    'New Tempo는 빠르기다. [New Tempo = temp1]
 
-                    Dim d_arg As String = d.Split("/")(0)
-                    Select Case d_arg
+                    Dim il As Integer = 0
+                    Dim ChN As String = String.Empty 'New Tempo [Speed]
+                    Dim ChN2 As String = String.Empty 'Clip Tempo [BPM]
 
-                        Case "MIDI Extension" '미디 파일.
-                            Dim d_id As Integer = d.Split("/")(1)
+                    Dim LEDsText As String() = File.ReadAllLines(MIDEX_LEDMapping)
+                    For di As Integer = 0 To LEDsText.Length - 1
+                        Dim d As String = LEDsText(di)
 
-                            Dim dFile As String = d.Split("/")(2)
-                            Dim dIndex As Integer() = ReadAllIndex(LEDs, "MIDI Extension")
-                            Dim dix As Integer = 0
+                        'Beta Code!
+                        '이 Beta Convert Code는 오류가 발생할 수 있습니다.
+                        '주의사항: 완전 꼬인 스파게티 코드라서, 눈에 보기 좋지 않고, 코드도 꼬여서 프로그램이 뻗어버릴 확률이 높습니다.
+                        '코드를 만질 때 주의해주세요!
 
-                            Dim dSpeed As Integer = 0
-                            Dim dBPM As Integer = 0
+                        '주의사항을 다 보셨다면, 당신은 Editor 권한을 가질 수 있습니다.
+
+                        '이 코드는 Follow_JB님의 midi2keyLED를 참고하여 만든 코드. (Thanks to Follow_JB. :D)
+
+                        'yi = XML의 수.
+                        'il = XML keyLED 변수.
+
+                        If String.IsNullOrWhiteSpace(d) Then
+                            Continue For
+                        End If
+
+                        Dim d_arg As String = d.Split("/")(0)
+                        Select Case d_arg
+
+                            Case "MIDI Extension" '미디 파일.
+                                Dim d_id As Integer = d.Split("/")(1)
+
+                                Dim dFile As String = d.Split("/")(2)
+                                Dim dIndex As Integer() = ReadAllIndex(LEDsText, "MIDI Extension")
+                                Dim dix As Integer = 0
+
+                                Dim dSpeed As Integer = 0
+                                Dim dBPM As Integer = 0
 #Region "Set the Tempo"
-                            If String.IsNullOrWhiteSpace(ChN) = False Then 'Set Speed.
+                                If String.IsNullOrWhiteSpace(ChN) = False Then 'Set Speed.
 
-                                For Each ri As String In ChN.Split(";")
-                                    If String.IsNullOrWhiteSpace(ri) Then
-                                        Continue For
-                                    End If
-
-                                    If d_id = ri.Split("/")(0) Then
-                                        ChN = ChN.Replace(ri & ";", "")
-                                        dSpeed = ri.Split("/")(1)
-                                        Exit For
-                                    End If
-                                Next
-
-                            End If
-
-                            If String.IsNullOrWhiteSpace(ChN2) = False Then 'Set BPM.
-
-                                For Each ri As String In ChN2.Split(";")
-                                    If String.IsNullOrWhiteSpace(ri) Then
-                                        Continue For
-                                    End If
-
-                                    If d_id = ri.Split("/")(0) Then
-                                        ChN2 = ChN2.Replace(ri & ";", "")
-                                        dBPM = ri.Split("/")(1)
-                                        Exit For
-                                    End If
-                                Next
-
-                            End If
-#End Region
-
-                            UI(Sub()
-                                   Loading.DLb.Left -= 70
-                                   Select Case lang
-                                       Case Translator.tL.English
-                                           Loading.DLb.Text = String.Format(Loading.MsgEn.loading_keyLED_Convert_msg, dFile)
-                                       Case Translator.tL.Korean
-                                           Loading.DLb.Text = String.Format(Loading.MsgKr.loading_keyLED_Convert_msg, dFile)
-                                   End Select
-                               End Sub)
-
-                            Dim dPath As String = String.Format("{0}\Workspace\ableproj\CoLED\{1}", Application.StartupPath, dFile)
-                            If File.Exists(dPath) = False Then
-                                Debug.WriteLine(String.Format("'{0}' File doesn't exists.", dFile))
-                                err &= vbNewLine & String.Format("'{0}' MIDI File doesn't exists.", dFile)
-                                Continue For
-                            End If
-
-                            Dim str As String = keyLED_Edit.keyLED_MidiToKeyLED(dPath, True, dSpeed, dBPM)
-                            dSpeed = 0
-
-                            '이제 Get Chain & X, Y from XML!!!
-                            Dim UniPack_Chain As Integer = 1
-                            Dim UniPack_X As Integer = 0
-                            Dim UniPack_Y As Integer = 0
-                            Dim UniPack_L As Integer = 0
-
-                            Dim fileN As String = String.Empty
-                            Dim x As XmlNode
-                            Dim sFile As String = String.Empty
-
-                            UI(Sub()
-                                   Loading.DLb.Left += 70
-                                   Select Case lang
-                                       Case Translator.tL.English
-                                           Loading.DLb.Text = Loading.MsgEn.loading_keyLED_Convert2_msg
-                                       Case Translator.tL.Korean
-                                           Loading.DLb.Text = Loading.MsgKr.loading_keyLED_Convert2_msg
-                                   End Select
-                               End Sub)
-
-                            'PatchSlot > Value > MxDPatchRef > FileRef > Name > Value 'Midi Extension.amxd'
-                            'LED Save 파일의 id는 MxDeviceMidiEffect의 LomId Value랑 같음.
-
-                            '또한 keySound에서는 Random 선언이 MidiToAudioDeviceChain,
-                            'keyLED에서는 MidiToMidiDeviceChain임. (ㄹㅇ 에이블톤 프로그램 제작자들은 알고리즘을 왜 이따구로 만들었냐..)
-                            Dim id_index As Integer = 0 'LomId (MIDI Extension id)
-                            Dim fndError As Boolean = False 'Key / Random Key
-                            Dim NotFound As Boolean = False '아직도 못찾았냐? 넘겨
-
-                            Dim currentid As Integer = 0 '현재 id.
-                            Dim MidiName As String = String.Empty
-
-                            Dim PrChain As Integer = 0 '랜덤의 체인.
-                            Dim PrChainM As Integer = 0 '랜덤의 최대 체인.
-                            Dim PrKey As Integer = 0 '랜덤의 ksX.
-                            Dim PrKeyM As Integer = 0 '랜덤의 최대 ksX.
-
-                            Dim IsRandom As Boolean = False '현재 접근하고 있는 XML Branch가 랜덤인가?
-                            Dim Choices As Integer = 0 '매우 정확한 랜덤의 수. (from MidiRandom)
-                            Dim curid As Integer = 1 '현재의 랜덤. (from Choices / MidiRandom)
-
-                            Dim InsX As String = InsBrnN.TrimEnd(";")
-                            For Each ndx As Integer In InsX.Split(";")
-                                Try
-
-                                    currentid = Integer.Parse(setNode(ndx).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("LomId").GetAttribute("Value"))
-                                    MidiName = setNode(ndx).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("PatchSlot").Item("Value").Item("MxDPatchRef").Item("FileRef").Item("Name").GetAttribute("Value")
-
-                                    If Choices >= curid AndAlso IsRandom Then '랜덤인 경우.
-                                        IsRandom = True
-                                        If Choices = curid Then
-                                            Choices = 0
-                                            curid = 0
+                                    For Each ri As String In ChN.Split(";")
+                                        If String.IsNullOrWhiteSpace(ri) Then
+                                            Continue For
                                         End If
 
-                                        curid += 1
-                                    Else
-                                        IsRandom = False
-                                    End If
+                                        If d_id = ri.Split("/")(0) Then
+                                            ChN = ChN.Replace(ri & ";", "")
+                                            dSpeed = ri.Split("/")(1)
+                                            Exit For
+                                        End If
+                                    Next
 
-                                    fndError = False
+                                End If
 
-                                Catch exN As NullReferenceException
-                                    PrChain = Integer.Parse(setNode(ndx).Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1 '최소 체인.
-                                    PrChainM = Integer.Parse(setNode(ndx).Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1 '최대 체인.
+                                If String.IsNullOrWhiteSpace(ChN2) = False Then 'Set BPM.
 
-                                    PrKey = Integer.Parse(setNode(ndx).Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value")) '최소 Key (ksX).
-                                    PrKeyM = Integer.Parse(setNode(ndx).Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value")) '최대 Key (ksX).
+                                    For Each ri As String In ChN2.Split(";")
+                                        If String.IsNullOrWhiteSpace(ri) Then
+                                            Continue For
+                                        End If
 
+                                        If d_id = ri.Split("/")(0) Then
+                                            ChN2 = ChN2.Replace(ri & ";", "")
+                                            dBPM = ri.Split("/")(1)
+                                            Exit For
+                                        End If
+                                    Next
+
+                                End If
+#End Region
+
+                                UI(Sub()
+                                       Loading.DLb.Left -= 70
+                                       Select Case lang
+                                           Case Translator.tL.English
+                                               Loading.DLb.Text = String.Format(Loading.MsgEn.loading_keyLED_Convert_msg, dFile)
+                                           Case Translator.tL.Korean
+                                               Loading.DLb.Text = String.Format(Loading.MsgKr.loading_keyLED_Convert_msg, dFile)
+                                       End Select
+                                   End Sub)
+
+                                Dim dPath As String = String.Format("{0}\Workspace\ableproj\CoLED\{1}", Application.StartupPath, dFile)
+                                If File.Exists(dPath) = False Then
+                                    Debug.WriteLine(String.Format("'{0}' File doesn't exists.", dFile))
+                                    err &= vbNewLine & String.Format("'{0}' MIDI File doesn't exists.", dFile)
+                                    Continue For
+                                End If
+
+                                Dim str As String = keyLED_Edit.keyLED_MidiToKeyLED(dPath, True, dSpeed, dBPM)
+                                dSpeed = 0
+
+                                '이제 Get Chain & X, Y from XML!!!
+                                Dim UniPack_Chain As Integer = 1
+                                Dim UniPack_X As Integer = 0
+                                Dim UniPack_Y As Integer = 0
+                                Dim UniPack_L As Integer = 0
+
+                                Dim fileN As String = String.Empty
+                                Dim x As XmlNode
+                                Dim sFile As String = String.Empty
+
+                                UI(Sub()
+                                       Loading.DLb.Left += 70
+                                       Select Case lang
+                                           Case Translator.tL.English
+                                               Loading.DLb.Text = Loading.MsgEn.loading_keyLED_Convert2_msg
+                                           Case Translator.tL.Korean
+                                               Loading.DLb.Text = Loading.MsgKr.loading_keyLED_Convert2_msg
+                                       End Select
+                                   End Sub)
+
+                                'PatchSlot > Value > MxDPatchRef > FileRef > Name > Value 'Midi Extension.amxd'
+                                'LED Save 파일의 id는 MxDeviceMidiEffect의 LomId Value랑 같음.
+
+                                '또한 keySound에서는 Random 선언이 MidiToAudioDeviceChain,
+                                'keyLED에서는 MidiToMidiDeviceChain임. (ㄹㅇ 에이블톤 프로그램 제작자들은 알고리즘을 왜 이따구로 만들었냐..)
+                                Dim id_index As Integer = 0 'LomId (MIDI Extension id)
+                                Dim fndError As Boolean = False 'Key / Random Key
+                                Dim NotFound As Boolean = False '아직도 못찾았냐? 넘겨
+
+                                Dim currentid As Integer = 0 '현재 id.
+                                Dim MidiName As String = String.Empty
+
+                                Dim PrChain As Integer = 0 '랜덤의 체인.
+                                Dim PrChainM As Integer = 0 '랜덤의 최대 체인.
+                                Dim PrKey As Integer = 0 '랜덤의 ksX.
+                                Dim PrKeyM As Integer = 0 '랜덤의 최대 ksX.
+
+                                Dim IsRandom As Boolean = False '현재 접근하고 있는 XML Branch가 랜덤인가?
+                                Dim Choices As Integer = 0 '매우 정확한 랜덤의 수. (from MidiRandom)
+                                Dim curid As Integer = 1 '현재의 랜덤. (from Choices / MidiRandom)
+
+                                Dim InsX As String = InsBrnN.TrimEnd(";")
+                                For Each ndx As Integer In InsX.Split(";")
                                     Try
-                                        Choices = Integer.Parse(setNode(ndx).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiRandom").Item("Choices").Item("Manual").GetAttribute("Value")) 'MidiRandom > Choices > Manual Value
-                                    Catch exNN As NullReferenceException
-                                        Choices = 0
+
+                                        currentid = Integer.Parse(setNode(ndx).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("LomId").GetAttribute("Value"))
+                                        MidiName = setNode(ndx).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("PatchSlot").Item("Value").Item("MxDPatchRef").Item("FileRef").Item("Name").GetAttribute("Value")
+
+                                        If Choices >= curid AndAlso IsRandom Then '랜덤인 경우.
+                                            IsRandom = True
+                                            If Choices = curid Then
+                                                Choices = 0
+                                                curid = 0
+                                            End If
+
+                                            curid += 1
+                                        Else
+                                            IsRandom = False
+                                        End If
+
+                                        fndError = False
+
+                                    Catch exN As NullReferenceException
+                                        PrChain = Integer.Parse(setNode(ndx).Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1 '최소 체인.
+                                        PrChainM = Integer.Parse(setNode(ndx).Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1 '최대 체인.
+
+                                        PrKey = Integer.Parse(setNode(ndx).Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value")) '최소 Key (ksX).
+                                        PrKeyM = Integer.Parse(setNode(ndx).Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value")) '최대 Key (ksX).
+
+                                        Try
+                                            Choices = Integer.Parse(setNode(ndx).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiRandom").Item("Choices").Item("Manual").GetAttribute("Value")) 'MidiRandom > Choices > Manual Value
+                                        Catch exNN As NullReferenceException
+                                            Choices = 0
+                                        End Try
+
+                                        If Choices > 0 Then '랜덤인 경우.
+                                            IsRandom = True
+                                        Else
+                                            Choices = 0
+                                            IsRandom = False
+                                        End If
+                                        fndError = True
                                     End Try
 
-                                    If Choices > 0 Then '랜덤인 경우.
-                                        IsRandom = True
-                                    Else
-                                        Choices = 0
-                                        IsRandom = False
+                                    If fndError = False Then
+                                        NotFound = True
+                                        currentid = Integer.Parse(setNode(ndx).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("LomId").GetAttribute("Value"))
+                                        MidiName = setNode(ndx).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("PatchSlot").Item("Value").Item("MxDPatchRef").Item("FileRef").Item("Name").GetAttribute("Value")
+                                        If d_id = currentid AndAlso MidiName.Contains(".amxd") Then
+                                            id_index = ndx
+                                            InsBrnN.Replace(ndx & ";", "")
+                                            NotFound = False
+                                            Exit For
+                                        End If
                                     End If
-                                    fndError = True
-                                End Try
+                                Next
 
-                                If fndError = False Then
-                                    NotFound = True
-                                    currentid = Integer.Parse(setNode(ndx).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("LomId").GetAttribute("Value"))
-                                    MidiName = setNode(ndx).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("PatchSlot").Item("Value").Item("MxDPatchRef").Item("FileRef").Item("Name").GetAttribute("Value")
-                                    If d_id = currentid AndAlso MidiName.Contains(".amxd") Then
-                                        id_index = ndx
-                                        InsBrnN.Replace(ndx & ";", "")
-                                        NotFound = False
-                                        Exit For
-                                    End If
+                                If NotFound Then
+                                    err &= vbNewLine & String.Format("Can't find id {0} on '{1}'.", d_id, dFile)
+                                    Choices = 8192 'Same As Continue For
                                 End If
-                            Next
 
-                            If NotFound Then
-                                err &= vbNewLine & String.Format("Can't find id {0} on '{1}'.", d_id, dFile)
-                                Choices = 8192 'Same As Continue For
-                            End If
+                                x = setNode(id_index)
 
-                            x = setNode(id_index)
+                                UniPack_Chain = Integer.Parse(x.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1 'Get Chain.
+                                UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))) 'Get X Pos.
+                                UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))) 'Get Y Pos.
+                                UniPack_L = 1
 
-                            UniPack_Chain = Integer.Parse(x.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1 'Get Chain.
-                            UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))) 'Get X Pos.
-                            UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))) 'Get Y Pos.
-                            UniPack_L = 1
+                                Dim MaxChain As Integer = Integer.Parse(x.Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1
+                                If Not PrChain = 0 AndAlso IsRandom Then 'Random Chain.
+                                    UniPack_Chain = PrChain
+                                    MaxChain = PrChainM
+                                Else
+                                    PrChain = 0
+                                End If
 
-                            Dim MaxChain As Integer = Integer.Parse(x.Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1
-                            If Not PrChain = 0 AndAlso IsRandom Then 'Random Chain.
-                                UniPack_Chain = PrChain
-                                MaxChain = PrChainM
-                            Else
-                                PrChain = 0
-                            End If
+                                Dim MaxX As Integer = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))) 'Get X Pos.
+                                Dim MaxY As Integer = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))) 'Get Y Pos.
+                                If Not PrKey = 0 AndAlso IsRandom Then 'Random Key.
+                                    UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, PrKey)
+                                    UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, PrKey)
+                                End If
 
-                            Dim MaxX As Integer = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))) 'Get X Pos.
-                            Dim MaxY As Integer = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))) 'Get Y Pos.
-                            If Not PrKey = 0 AndAlso IsRandom Then 'Random Key.
-                                UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, PrKey)
-                                UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, PrKey)
-                            End If
+                                If UniPack_Chain > 8 OrElse UniPack_Chain = 0 OrElse UniPack_X = -8192 OrElse UniPack_X = 0 OrElse Choices = 8192 Then
+                                    Continue For
+                                End If
 
-                            If UniPack_Chain > 8 OrElse UniPack_Chain = 0 OrElse UniPack_X = -8192 OrElse UniPack_X = 0 OrElse Choices = 8192 Then
-                                Continue For
-                            End If
+                                Dim LoopNumber_1 As Integer() = New Integer(1) {}
+                                Dim LoopNumber_1bool As Boolean 'Chain Value = ?
+                                LoopNumber_1(0) = UniPack_Chain
+                                LoopNumber_1(1) = MaxChain
+                                LoopNumber_1bool = LoopNumber_1(0) = LoopNumber_1(1)
 
-                            Dim LoopNumber_1 As Integer() = New Integer(1) {}
-                            Dim LoopNumber_1bool As Boolean 'Chain Value = ?
-                            LoopNumber_1(0) = UniPack_Chain
-                            LoopNumber_1(1) = MaxChain
-                            LoopNumber_1bool = LoopNumber_1(0) = LoopNumber_1(1)
+                                Dim LoopNumber_2 As Integer() = New Integer(1) {}
+                                Dim LoopNumber_2bool As Boolean 'Key Value = ?
+                                LoopNumber_2(0) = Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))
+                                LoopNumber_2(1) = Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))
+                                LoopNumber_2bool = LoopNumber_2(0) = LoopNumber_2(1)
 
-                            Dim LoopNumber_2 As Integer() = New Integer(1) {}
-                            Dim LoopNumber_2bool As Boolean 'Key Value = ?
-                            LoopNumber_2(0) = Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))
-                            LoopNumber_2(1) = Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))
-                            LoopNumber_2bool = LoopNumber_2(0) = LoopNumber_2(1)
+                                If LoopNumber_1bool = False Then
 
-                            If LoopNumber_1bool = False Then
+                                    '시작 길이와 끝 길이가 다른 경우 (Loop 1 활성화 시)
+                                    For p As Integer = LoopNumber_1(0) To LoopNumber_1(1)
 
-                                '시작 길이와 끝 길이가 다른 경우 (Loop 1 활성화 시)
-                                For p As Integer = LoopNumber_1(0) To LoopNumber_1(1)
+                                        If LoopNumber_2bool Then
+
+                                            UniPack_Chain = p
+#Region "Save the keyLED with Overwrite Protection!"
+                                            If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) OrElse File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
+                                                If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
+                                                    My.Computer.FileSystem.RenameFile(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), String.Format("{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L))
+                                                End If
+                                                For Each lpn As Char In LEDMapping_N
+                                                    If Not File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn)) Then
+                                                        File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn), str)
+                                                        Exit For
+                                                    End If
+                                                Next
+
+                                            Else
+                                                File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), str)
+                                            End If
+#End Region
+
+                                        ElseIf LoopNumber_2bool = False Then
+
+                                            For q As Integer = LoopNumber_2(0) To LoopNumber_2(1)
+                                                UniPack_Chain = p
+                                                UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
+                                                UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
+#Region "Save the keyLED with Overwrite Protection!"
+                                                If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) OrElse File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
+                                                    If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
+                                                        My.Computer.FileSystem.RenameFile(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), String.Format("{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L))
+                                                    End If
+                                                    For Each lpn As Char In LEDMapping_N
+                                                        If Not File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn)) Then
+                                                            File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn), str)
+                                                            Exit For
+                                                        End If
+                                                    Next
+
+                                                Else
+                                                    File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), str)
+                                                End If
+#End Region
+                                            Next
+
+                                        End If
+
+                                    Next
+
+                                ElseIf LoopNumber_1bool Then
 
                                     If LoopNumber_2bool Then
-
-                                        UniPack_Chain = p
+                                        '기본값.
 #Region "Save the keyLED with Overwrite Protection!"
                                         If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) OrElse File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
                                             If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
@@ -3341,7 +3404,6 @@ Public Class MainProject
                                     ElseIf LoopNumber_2bool = False Then
 
                                         For q As Integer = LoopNumber_2(0) To LoopNumber_2(1)
-                                            UniPack_Chain = p
                                             UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
                                             UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
 #Region "Save the keyLED with Overwrite Protection!"
@@ -3364,105 +3426,71 @@ Public Class MainProject
 
                                     End If
 
-                                Next
-
-                            ElseIf LoopNumber_1bool Then
-
-                                If LoopNumber_2bool Then
-                                    '기본값.
-#Region "Save the keyLED with Overwrite Protection!"
-                                    If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) OrElse File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
-                                        If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
-                                            My.Computer.FileSystem.RenameFile(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), String.Format("{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L))
-                                        End If
-                                        For Each lpn As Char In LEDMapping_N
-                                            If Not File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn)) Then
-                                                File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn), str)
-                                                Exit For
-                                            End If
-                                        Next
-
-                                    Else
-                                        File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), str)
-                                    End If
-#End Region
-
-                                ElseIf LoopNumber_2bool = False Then
-
-                                    For q As Integer = LoopNumber_2(0) To LoopNumber_2(1)
-                                        UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
-                                        UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
-#Region "Save the keyLED with Overwrite Protection!"
-                                        If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) OrElse File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
-                                            If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
-                                                My.Computer.FileSystem.RenameFile(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), String.Format("{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L))
-                                            End If
-                                            For Each lpn As Char In LEDMapping_N
-                                                If Not File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn)) Then
-                                                    File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn), str)
-                                                    Exit For
-                                                End If
-                                            Next
-
-                                        Else
-                                            File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), str)
-                                        End If
-#End Region
-                                    Next
-
                                 End If
+                                Debug.WriteLine(dFile & ", x:" & UniPack_X & " y:" & UniPack_Y)
+                                il = dIndex(dix)
+                                dix += 1
 
-                            End If
-                            Debug.WriteLine(dFile & ", x:" & UniPack_X & " y:" & UniPack_Y)
-                            il = dIndex(dix)
-                            dix += 1
+                            Case "Clip Tempo" 'MIDI Clip's BPM.
+                                Dim d_id As Integer = d.Split("/")(1)
+                                Dim dBPM As Integer = d.Split("/")(2)
+                                ChN2 &= String.Format("{0}/{1};", d_id, dBPM)
 
-                        Case "Clip Tempo" 'MIDI Clip's BPM.
-                            Dim d_id As Integer = d.Split("/")(1)
-                            Dim dBPM As Integer = d.Split("/")(2)
-                            ChN2 &= String.Format("{0}/{1};", d_id, dBPM)
+                            Case "New Tempo" 'MIDI Clip's Speed.
+                                Dim d_id As Integer = d.Split("/")(1)
+                                Dim dSpeed As Integer = d.Split("/")(2)
+                                ChN &= String.Format("{0}/{1};", d_id, dSpeed)
 
-                        Case "New Tempo" 'MIDI Clip's Speed.
-                            Dim d_id As Integer = d.Split("/")(1)
-                            Dim dSpeed As Integer = d.Split("/")(2)
-                            ChN &= String.Format("{0}/{1};", d_id, dSpeed)
+                        End Select
 
-                    End Select
+                    Next
+                ElseIf MidiKind = "MidiFire" Then '너무 스파게티 코드여서 그대로 진행하기에는 너무 아까워서 처음부터 코드를 다시 짜기로 함.
+                    For i As Integer = 0 To setNode.Count - 1
+                        Invoke(Sub()
+                                   Select Case lang
+                                       Case Translator.tL.English
+                                           Loading.DLb.Text = String.Format(Loading.MsgEn.loading_keyLED_PageOrChain_msg, i, setNode.Count)
+                                       Case Translator.tL.Korean
+                                           Loading.DLb.Text = String.Format(Loading.MsgKr.loading_keyLED_PageOrChain_msg, i, setNode.Count)
+                                   End Select
+                               End Sub)
+                    Next
 
-                Next
+                    '유니컨버터 3074줄부터 제대로 다시 코딩.
+                End If
 
                 Debug.WriteLine("Finish...")
-                UI(Sub()
-                       Select Case lang
-                           Case Translator.tL.English
-                               Loading.Text = Loading.MsgEn.loading_keyLED_Convert3_msg
-                           Case Translator.tL.Korean
-                               Loading.Text = Loading.MsgKr.loading_keyLED_Convert3_msg
-                       End Select
-                   End Sub)
+                    UI(Sub()
+                           Select Case lang
+                               Case Translator.tL.English
+                                   Loading.Text = Loading.MsgEn.loading_keyLED_Convert3_msg
+                               Case Translator.tL.Korean
+                                   Loading.Text = Loading.MsgKr.loading_keyLED_Convert3_msg
+                           End Select
+                       End Sub)
 
-                UI(Sub() Loading.Dispose())
+                    UI(Sub() Loading.Dispose())
 
-                If w8t4abl = "keyLED" Then
-                    w8t4abl = String.Empty
+                    If w8t4abl = "keyLED" Then
+                        w8t4abl = String.Empty
+                    End If
+
+                    IsWorking = False
+                    keyLEDIsSaved = True
+                    kl_Converted = True
+
+                    UI(Sub()
+                           keyLEDPad_Flush(True)
+                           Thread.Sleep(300)
+                           BGW_keyLEDLayout.RunWorkerAsync()
+                       End Sub)
+
+                    If Not String.IsNullOrWhiteSpace(err) Then
+                    MessageBox.Show("[ Warning ]" & vbNewLine & "keyLED (MIDI Extension): [] format is invaild." & vbNewLine & err.ToString(), Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 End If
 
-                IsWorking = False
-                keyLEDIsSaved = True
-                kl_Converted = True
-
-                UI(Sub()
-                       keyLEDPad_Flush(True)
-                       Thread.Sleep(300)
-                       BGW_keyLEDLayout.RunWorkerAsync()
-                   End Sub)
-
-                If Not String.IsNullOrWhiteSpace(err) Then
-                    MessageBox.Show("[ Warning ]" & vbNewLine & "keyLED (MIDI Extension): [] format is invaild." & vbNewLine & err, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                End If
-
-            Else
-                w8t4abl = "keyLED"
+                Else
+                    w8t4abl = "keyLED"
             End If
 
             IsWorking = False
