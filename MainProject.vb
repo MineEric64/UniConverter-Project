@@ -14,6 +14,7 @@ Imports A2UP.A2U.keySound
 Imports WMPLib
 Imports System.Drawing.Drawing2D
 Imports NAudio.Wave
+Imports System.Text
 
 Public Class MainProject
 
@@ -841,7 +842,7 @@ Public Class MainProject
                         BGW_keySound.RunWorkerAsync()
                     End If
                 Else
-                        Select Case lang
+                    Select Case lang
                         Case Translator.tL.English
                             MessageBox.Show("LED Files Loaded! You can edit LEDs in 'keyLED (MIDI Extension)' Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
                         Case Translator.tL.Korean
@@ -853,14 +854,14 @@ Public Class MainProject
                                  End Sub)
                     End If
                 End If
-                    Exit Sub
+                Exit Sub
             Else
                 If OpenProjectOnce Then
                     If AutoConvert.Checked Then
                         BGW_keySound.RunWorkerAsync()
                     End If
                 Else
-                        Select Case lang
+                    Select Case lang
                         Case Translator.tL.English
                             MessageBox.Show("LED Files Loaded! You can edit LEDs in 'keyLED (MIDI Extension)' Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
                         Case Translator.tL.Korean
@@ -3445,6 +3446,9 @@ Public Class MainProject
 
                     Next
                 ElseIf MidiKind = "MidiFire" Then '너무 스파게티 코드여서 그대로 진행하기에는 너무 아까워서 처음부터 코드를 다시 짜기로 함.
+                    Dim items As New List(Of Integer)
+                    Dim errStr As New StringBuilder(255)
+
                     For i As Integer = 0 To setNode.Count - 1
                         Invoke(Sub()
                                    Select Case lang
@@ -3454,43 +3458,287 @@ Public Class MainProject
                                            Loading.DLb.Text = String.Format(Loading.MsgKr.loading_keyLED_PageOrChain_msg, i, setNode.Count)
                                    End Select
                                End Sub)
+
+                        '유니컨버터 3074줄부터 제대로 다시 코딩.
+                        Try
+                            Dim _Test1 As Integer = Integer.Parse(setNode(i).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("LomId").GetAttribute("Value"))
+                            Try
+                                Dim _Test2 As Integer = Integer.Parse(setNode(i).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiRandom").Item("Choices").Item("Manual").GetAttribute("Value")) '랜덤 MidiEffectRack
+                            Catch exNN As NullReferenceException
+                                Dim _Test3 As String = setNode(i).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("PatchSlot").Item("Value").Item("MxDPatchRef").Item("FileRef").Item("Name").GetAttribute("Value") '일반 MidiEffectRack
+                            End Try
+                            items.Add(i) '옳소.
+                        Catch exN As NullReferenceException
+                            Try
+                                Dim _Test4 As Integer = Integer.Parse(setNode(i).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiEffectGroupDevice").Item("LomId").GetAttribute("Value"))
+                                'Integer.Parse(setNode(i).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiRandom").Item("Choices").Item("Manual").GetAttribute("Value")) '랜덤 코드만 입장 가능.
+                                items.Add(i)
+                            Catch exNN As Exception
+                                Continue For 'Page나 다른 무언가이였던것임!
+                            End Try
+                        End Try
                     Next
 
-                    '유니컨버터 3074줄부터 제대로 다시 코딩.
+                    Invoke(Sub()
+                               Loading.DLb.Left += 70
+                               Select Case lang
+                                   Case Translator.tL.English
+                                       Loading.DLb.Text = Loading.MsgEn.loading_keyLED_Convert2_msg
+                                   Case Translator.tL.Korean
+                                       Loading.DLb.Text = Loading.MsgKr.loading_keyLED_Convert2_msg
+                               End Select
+                           End Sub)
+
+                    For i As Integer = 0 To items.Count - 1
+                        Dim root As XmlNode = setNode(items(i))
+
+                        Dim UniPack_Chain As Integer = 1
+                        Dim UniPack_X As Integer = 0
+                        Dim UniPack_Y As Integer = 0
+                        Dim UniPack_L As Integer = 0
+
+                        Dim fndError As Boolean = False 'Key / Random Key
+                        Dim MidiName As String = String.Empty
+                        Dim MidiFileName As String = String.Empty
+
+                        Dim PrChain As Integer = 0 '랜덤의 체인.
+                        Dim PrChainM As Integer = 0 '랜덤의 최대 체인.
+                        Dim PrKey As Integer = 0 '랜덤의 ksX.
+                        Dim PrKeyM As Integer = 0 '랜덤의 최대 ksX.
+
+                        Dim IsNextOfNext As Boolean = False 'MidiEffectRack 안에 MidiEffectRack이 있는가? ( https://blog.naver.com/ericseyoun/221673229156 참고 )
+                        Dim IsRandom As Boolean = False '현재 접근하고 있는 XML Branch가 랜덤인가?
+                        Dim Choices As Integer = 0 '매우 정확한 랜덤의 수. (from MidiRandom)
+                        Dim curid As Integer = 1 '현재의 랜덤. (from Choices / MidiRandom)
+
+                        Try
+
+                            Integer.Parse(root.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("LomId").GetAttribute("Value"))
+                            MidiName = root.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("PatchSlot").Item("Value").Item("MxDPatchRef").Item("FileRef").Item("Name").GetAttribute("Value")
+
+                            If Choices >= curid AndAlso IsRandom Then '랜덤인 경우.
+                                IsRandom = True
+                                If Choices = curid Then
+                                    Choices = 0
+                                    curid = 0
+                                End If
+
+                                curid += 1
+                            Else
+                                IsRandom = False
+                            End If
+
+                            fndError = False
+
+                        Catch exN As NullReferenceException
+                            PrChain = Integer.Parse(root.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1 '최소 체인.
+                            PrChainM = Integer.Parse(root.Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1 '최대 체인.
+
+                            PrKey = Integer.Parse(root.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value")) '최소 Key (ksX).
+                            PrKeyM = Integer.Parse(root.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value")) '최대 Key (ksX).
+
+                            Try
+                                Choices = Integer.Parse(root.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiRandom").Item("Choices").Item("Manual").GetAttribute("Value")) 'MidiRandom > Choices > Manual Value
+                            Catch exNN As NullReferenceException
+                                Choices = 0
+                            End Try
+
+                            If Choices > 0 Then '랜덤인 경우.
+                                IsRandom = True
+                            Else
+                                Choices = 0
+                                IsRandom = False
+                            End If
+                            fndError = True
+                        End Try
+
+                        If fndError = False AndAlso Not MidiName.Contains(".amxd") Then
+                            errStr.Append(vbNewLine & "Can't find index " & i.ToString() & ".")
+                            Continue For
+                        End If
+
+                        UniPack_Chain = Integer.Parse(root.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1 'Get Chain.
+                        UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, Integer.Parse(root.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))) 'Get X Pos.
+                        UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, Integer.Parse(root.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))) 'Get Y Pos.
+                        UniPack_L = 1
+
+                        Dim MaxChain As Integer = Integer.Parse(root.Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1
+                        If Not PrChain = 0 AndAlso IsRandom Then 'Random Chain.
+                            UniPack_Chain = PrChain
+                            MaxChain = PrChainM
+                        Else
+                            PrChain = 0
+                        End If
+
+                        Dim MaxX As Integer = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, Integer.Parse(root.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))) 'Get X Pos.
+                        Dim MaxY As Integer = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, Integer.Parse(root.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))) 'Get Y Pos.
+                        If Not PrKey = 0 AndAlso IsRandom Then 'Random Key.
+                            UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, PrKey)
+                            UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, PrKey)
+                        End If
+
+                        Try
+                            MidiFileName = root.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("FileDropList").Item("FileDropList").Item("MxDFullFileDrop").Item("FileRef").Item("FileRef").Item("Name").GetAttribute("Value")
+                        Catch ex As NullReferenceException
+                            Continue For
+                        End Try
+
+                        If UniPack_Chain > 8 OrElse UniPack_Chain = 0 OrElse UniPack_X = -8192 OrElse UniPack_X = 0 Then
+                            Continue For
+                        End If
+
+                        Dim LoopNumber_1 As Integer() = New Integer(1) {}
+                        Dim LoopNumber_1bool As Boolean 'Chain Value = ?
+                        LoopNumber_1(0) = UniPack_Chain
+                        LoopNumber_1(1) = MaxChain
+                        LoopNumber_1bool = LoopNumber_1(0) = LoopNumber_1(1)
+
+                        Dim LoopNumber_2 As Integer() = New Integer(1) {}
+                        Dim LoopNumber_2bool As Boolean 'Key Value = ?
+                        LoopNumber_2(0) = Integer.Parse(root.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))
+                        LoopNumber_2(1) = Integer.Parse(root.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))
+                        LoopNumber_2bool = LoopNumber_2(0) = LoopNumber_2(1)
+
+                        Dim str As String = keyLED_Edit.keyLED_MidiToKeyLED(String.Format("{0}\Workspace\ableproj\CoLED\{1}", Application.StartupPath, MidiFileName), True, 100, 120)
+
+                        If LoopNumber_1bool = False Then
+
+                            '시작 길이와 끝 길이가 다른 경우 (Loop 1 활성화 시)
+                            For p As Integer = LoopNumber_1(0) To LoopNumber_1(1)
+
+                                If LoopNumber_2bool Then
+
+                                    UniPack_Chain = p
+#Region "Save the keyLED with Overwrite Protection!"
+                                    If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) OrElse File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
+                                        If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
+                                            My.Computer.FileSystem.RenameFile(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), String.Format("{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L))
+                                        End If
+                                        For Each lpn As Char In LEDMapping_N
+                                            If Not File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn)) Then
+                                                File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn), Str)
+                                                Exit For
+                                            End If
+                                        Next
+
+                                    Else
+                                        File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), Str)
+                                    End If
+#End Region
+
+                                ElseIf LoopNumber_2bool = False Then
+
+                                    For q As Integer = LoopNumber_2(0) To LoopNumber_2(1)
+                                        UniPack_Chain = p
+                                        UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
+                                        UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
+#Region "Save the keyLED with Overwrite Protection!"
+                                        If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) OrElse File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
+                                            If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
+                                                My.Computer.FileSystem.RenameFile(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), String.Format("{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L))
+                                            End If
+                                            For Each lpn As Char In LEDMapping_N
+                                                If Not File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn)) Then
+                                                    File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn), Str)
+                                                    Exit For
+                                                End If
+                                            Next
+
+                                        Else
+                                            File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), Str)
+                                        End If
+#End Region
+                                    Next
+
+                                End If
+
+                            Next
+
+                        ElseIf LoopNumber_1bool Then
+
+                            If LoopNumber_2bool Then
+                                '기본값.
+#Region "Save the keyLED with Overwrite Protection!"
+                                If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) OrElse File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
+                                    If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
+                                        My.Computer.FileSystem.RenameFile(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), String.Format("{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L))
+                                    End If
+                                    For Each lpn As Char In LEDMapping_N
+                                        If Not File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn)) Then
+                                            File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn), Str)
+                                            Exit For
+                                        End If
+                                    Next
+
+                                Else
+                                    File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), Str)
+                                End If
+#End Region
+
+                            ElseIf LoopNumber_2bool = False Then
+
+                                For q As Integer = LoopNumber_2(0) To LoopNumber_2(1)
+                                    UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
+                                    UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
+#Region "Save the keyLED with Overwrite Protection!"
+                                    If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) OrElse File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
+                                        If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
+                                            My.Computer.FileSystem.RenameFile(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), String.Format("{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L))
+                                        End If
+                                        For Each lpn As Char In LEDMapping_N
+                                            If Not File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn)) Then
+                                                File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn), Str)
+                                                Exit For
+                                            End If
+                                        Next
+
+                                    Else
+                                        File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), Str)
+                                    End If
+#End Region
+                                Next
+
+                            End If
+
+                        End If
+                        Debug.WriteLine(MidiFileName & ", chain:" & UniPack_Chain & " x:" & UniPack_X & " y:" & UniPack_Y)
+                    Next
+
+                    err = errStr.ToString()
                 End If
 
                 Debug.WriteLine("Finish...")
-                    UI(Sub()
-                           Select Case lang
-                               Case Translator.tL.English
-                                   Loading.Text = Loading.MsgEn.loading_keyLED_Convert3_msg
-                               Case Translator.tL.Korean
-                                   Loading.Text = Loading.MsgKr.loading_keyLED_Convert3_msg
-                           End Select
-                       End Sub)
+                UI(Sub()
+                       Select Case lang
+                           Case Translator.tL.English
+                               Loading.Text = Loading.MsgEn.loading_keyLED_Convert3_msg
+                           Case Translator.tL.Korean
+                               Loading.Text = Loading.MsgKr.loading_keyLED_Convert3_msg
+                       End Select
+                   End Sub)
 
-                    UI(Sub() Loading.Dispose())
+                UI(Sub() Loading.Dispose())
 
-                    If w8t4abl = "keyLED" Then
-                        w8t4abl = String.Empty
-                    End If
+                If w8t4abl = "keyLED" Then
+                    w8t4abl = String.Empty
+                End If
 
-                    IsWorking = False
-                    keyLEDIsSaved = True
-                    kl_Converted = True
+                IsWorking = False
+                keyLEDIsSaved = True
+                kl_Converted = True
 
-                    UI(Sub()
-                           keyLEDPad_Flush(True)
-                           Thread.Sleep(300)
-                           BGW_keyLEDLayout.RunWorkerAsync()
-                       End Sub)
+                UI(Sub()
+                       keyLEDPad_Flush(True)
+                       Thread.Sleep(300)
+                       BGW_keyLEDLayout.RunWorkerAsync()
+                   End Sub)
 
-                    If Not String.IsNullOrWhiteSpace(err) Then
+                If Not String.IsNullOrWhiteSpace(err) Then
                     MessageBox.Show("[ Warning ]" & vbNewLine & "keyLED (MIDI Extension): [] format is invaild." & vbNewLine & err.ToString(), Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 End If
 
-                Else
-                    w8t4abl = "keyLED"
+            Else
+                w8t4abl = "keyLED"
             End If
 
             IsWorking = False
@@ -3559,6 +3807,24 @@ Public Class MainProject
             End If
         End Try
     End Sub
+
+    Private Class keyLED_ErrorStructure
+        Public id As Integer
+        Public file As String
+        Public str As String
+
+        Sub New(str As String)
+            Me.id = -1
+            Me.file = "HelloWorld.mid"
+            Me.str = str
+        End Sub
+
+        Sub New(id As Integer, file As String, str As String)
+            Me.id = id
+            Me.file = file
+            Me.str = str
+        End Sub
+    End Class
 
     ''' <summary>
     ''' String의 수를 세줍니다. 결과는 Integer.
@@ -3914,12 +4180,12 @@ Public Class MainProject
             Next
         Next
 
-               SoundIsSaved = False
-               keyLEDIsSaved = False
-               infoIsSaved = False
+        SoundIsSaved = False
+        keyLEDIsSaved = False
+        infoIsSaved = False
 
-               w8t4abl = String.Empty
-               OpenProjectOnce = False
+        w8t4abl = String.Empty
+        OpenProjectOnce = False
 
         UI(Sub()
                keyLEDMIDEX_LEDViewMode.Checked = True
