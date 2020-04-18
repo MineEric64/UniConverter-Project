@@ -42,46 +42,12 @@ Public Class Sound_Cutting
     End Sub
 
     'https://markheath.net/post/trimming-wav-file-using-naudio
+    'https://stackoverflow.com/questions/48827119/splitting-a-wav-file-using-naudio-removes-1-second-from-each-part 이걸로 해결
     Public Shared Sub TrimWavFile(ByVal inPath As String, ByVal outPath As String, ByVal cutFromStart As TimeSpan, ByVal cutFromEnd As TimeSpan)
-        Using reader As WaveFileReader = New WaveFileReader(inPath)
-            Using writer As WaveFileWriter = New WaveFileWriter(outPath, reader.WaveFormat)
-
-                Dim bytesPerMillisecond As Integer = reader.WaveFormat.AverageBytesPerSecond / 1000
-                Dim startPos = CInt(cutFromStart.TotalMilliseconds) * bytesPerMillisecond
-                startPos = startPos - startPos Mod reader.WaveFormat.BlockAlign
-                Dim endBytes = CInt(cutFromEnd.TotalMilliseconds) * bytesPerMillisecond
-                endBytes = endBytes - endBytes Mod reader.WaveFormat.BlockAlign
-                Dim endPos = CInt(reader.Length) - endBytes
-                TrimWavFile(reader, writer, startPos, endBytes)
-
-            End Using
+        Using reader As AudioFileReader = New AudioFileReader(inPath)
+            reader.CurrentTime = cutFromStart
+            WaveFileWriter.CreateWaveFile16(outPath, reader.Take(cutFromEnd - cutFromStart))
         End Using
-    End Sub
-
-    Private Shared Sub TrimWavFile(ByVal reader As WaveFileReader, ByVal writer As WaveFileWriter, ByVal startPos As Integer, ByVal endPos As Integer)
-        reader.Position = startPos
-        Dim buffer = New Byte(1023) {}
-        While reader.Position < endPos
-            If reader.Position = reader.Length Then
-                Exit While
-            End If
-
-            Dim bytesRequired = CInt(endPos - reader.Position)
-            If bytesRequired > 0 Then
-                Dim bytesToRead As Integer
-                Select Case reader.WaveFormat.BitsPerSample
-                    Case 16
-                        bytesToRead = Math.Min(bytesRequired, buffer.Length)
-                    Case 24
-                        bytesToRead = Math.Min(bytesRequired, buffer.Length - (buffer.Length Mod reader.WaveFormat.BlockAlign))
-                End Select
-                Dim bytesRead As Integer = reader.Read(buffer, 0, bytesToRead)
-
-                If bytesRead > 0 Then
-                    writer.Write(buffer, 0, bytesRead)
-                End If
-            End If
-        End While
     End Sub
 
     '완벽한 코드.

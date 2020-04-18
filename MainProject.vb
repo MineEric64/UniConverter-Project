@@ -1173,7 +1173,12 @@ Public Class MainProject
 
     Private Sub Info_SaveButton_Click(sender As Object, e As EventArgs) Handles Info_SaveButton.Click
         Try
-            UniPack_SaveInfo(True)
+            'UniPack_SaveInfo(True)
+
+            'x.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("OriginalSimpler").Item("Player").Item("MultiSampleMap").Item("LoopModulators").Item("SampleStart").Item("Manual").GetAttribute("Value")
+            'x.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("OriginalSimpler").Item("Player").Item("MultiSampleMap").Item("LoopModulators").Item("SampleLength").Item("Manual").GetAttribute("Value")
+            BGW_soundcut.RunWorkerAsync()
+
         Catch ex As Exception
             If IsGreatExMode Then
                 MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -1553,7 +1558,7 @@ Public Class MainProject
                 'SampleEnd Value - SampleStart Value에 있습니다.
 
                 Dim il As Integer = 1 '로딩 폼 value.
-                Dim trName As String = "1" 'Trim할 때 쓰는 이름.
+                Dim trName As String = String.Empty 'Trim할 때 쓰는 이름.
                 For Each x As XmlNode In setNode
 
                     Try
@@ -1569,6 +1574,7 @@ Public Class MainProject
 
                     Dim StartTime As TimeSpan = sLToTime(ssTime)
                     Dim EndTime As TimeSpan = sLToTime(seTime)
+                    trName = Convert.ToInt32(StartTime.TotalMilliseconds) & "-" & Convert.ToInt32(EndTime.TotalMilliseconds)
 
                     If sndName.Contains(".mp3") Then
                         sndName = sndName.Replace(".mp3", ".wav") '이미 파일을 불러왔을 때 변환이 되었으니 replace.
@@ -1591,7 +1597,6 @@ Public Class MainProject
                            End Select
                        End Sub)
                     il += 1
-                    trName = Integer.Parse(trName) + 1
                 Next
 
                 UI(Sub()
@@ -1622,9 +1627,13 @@ Public Class MainProject
                     il += 1
                 Next
 
-                UI(Sub()
-                       Loading.Dispose()
-                   End Sub)
+                Invoke(Sub()
+                           Loading.Dispose()
+                       End Sub)
+
+                If abl_openedproj AndAlso abl_openedsnd AndAlso AutoConvert.Checked Then
+                    BGW_keySound.RunWorkerAsync()
+                End If
             End If
         Catch ex As Exception
             If IsGreatExMode Then
@@ -2005,8 +2014,7 @@ Public Class MainProject
                 Exit Sub
             Else
                 If abl_openedproj AndAlso abl_openedsnd AndAlso AutoConvert.Checked Then
-                    'BGW_soundcut.RunWorkerAsync() '아직 개발 완료 안됨.
-                    BGW_keySound.RunWorkerAsync()
+                    BGW_soundcut.RunWorkerAsync()
                 End If
 
                 If OpenProjectOnce Then OpenKeyLEDToolStripMenuItem_Click(Nothing, Nothing)
@@ -3293,8 +3301,8 @@ Public Class MainProject
                                 x = setNode(id_index)
 
                                 UniPack_Chain = Integer.Parse(x.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1 'Get Chain.
-                                UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))) 'Get X Pos.
-                                UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))) 'Get Y Pos.
+                                UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))) 'Get X Pos.
+                                UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))) 'Get Y Pos.
                                 UniPack_L = 1
 
                                 Dim MaxChain As Integer = Integer.Parse(x.Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1
@@ -3305,11 +3313,11 @@ Public Class MainProject
                                     PrChain = 0
                                 End If
 
-                                Dim MaxX As Integer = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))) 'Get X Pos.
-                                Dim MaxY As Integer = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))) 'Get Y Pos.
+                                Dim MaxX As Integer = GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))) 'Get X Pos.
+                                Dim MaxY As Integer = GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, Integer.Parse(x.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))) 'Get Y Pos.
                                 If Not PrKey = 0 AndAlso IsRandom Then 'Random Key.
-                                    UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, PrKey)
-                                    UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, PrKey)
+                                    UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, PrKey)
+                                    UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, PrKey)
                                 End If
 
                                 If UniPack_Chain > 8 OrElse UniPack_Chain = 0 OrElse UniPack_X = -8192 OrElse UniPack_X = 0 OrElse Choices = 8192 Then
@@ -3357,8 +3365,8 @@ Public Class MainProject
 
                                             For q As Integer = LoopNumber_2(0) To LoopNumber_2(1)
                                                 UniPack_Chain = p
-                                                UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
-                                                UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
+                                                UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, q)
+                                                UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, q)
 #Region "Save the keyLED with Overwrite Protection!"
                                                 If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) OrElse File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
                                                     If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
@@ -3405,8 +3413,8 @@ Public Class MainProject
                                     ElseIf LoopNumber_2bool = False Then
 
                                         For q As Integer = LoopNumber_2(0) To LoopNumber_2(1)
-                                            UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
-                                            UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
+                                            UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, q)
+                                            UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, q)
 #Region "Save the keyLED with Overwrite Protection!"
                                             If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) OrElse File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
                                                 If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
@@ -3579,8 +3587,8 @@ Public Class MainProject
                         End If
 
                         UniPack_Chain = Integer.Parse(root.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1 'Get Chain.
-                        UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, Integer.Parse(root.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))) 'Get X Pos.
-                        UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, Integer.Parse(root.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))) 'Get Y Pos.
+                        UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, Integer.Parse(root.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))) 'Get X Pos.
+                        UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, Integer.Parse(root.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))) 'Get Y Pos.
                         UniPack_L = 1
 
                         Dim MaxChain As Integer = Integer.Parse(root.Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1
@@ -3597,11 +3605,11 @@ Public Class MainProject
                             MaxChain = NextOfNextMaxChain
                         End If
 
-                        Dim MaxX As Integer = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, Integer.Parse(root.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))) 'Get X Pos.
-                        Dim MaxY As Integer = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, Integer.Parse(root.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))) 'Get Y Pos.
+                        Dim MaxX As Integer = GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, Integer.Parse(root.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))) 'Get X Pos.
+                        Dim MaxY As Integer = GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, Integer.Parse(root.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))) 'Get Y Pos.
                         If Not PrKey = 0 AndAlso IsRandom Then 'Random Key.
-                            UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, PrKey)
-                            UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, PrKey)
+                            UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, PrKey)
+                            UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, PrKey)
                         End If
 
                         Try
@@ -3657,8 +3665,8 @@ Public Class MainProject
 
                                     For q As Integer = LoopNumber_2(0) To LoopNumber_2(1)
                                         UniPack_Chain = p
-                                        UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
-                                        UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
+                                        UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, q)
+                                        UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, q)
 #Region "Save the keyLED with Overwrite Protection!"
                                         If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) OrElse File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
                                             If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
@@ -3705,8 +3713,8 @@ Public Class MainProject
                             ElseIf LoopNumber_2bool = False Then
 
                                 For q As Integer = LoopNumber_2(0) To LoopNumber_2(1)
-                                    UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
-                                    UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, q)
+                                    UniPack_X = GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, q)
+                                    UniPack_Y = GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, q)
 #Region "Save the keyLED with Overwrite Protection!"
                                     If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) OrElse File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
                                         If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then

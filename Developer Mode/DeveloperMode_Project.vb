@@ -243,8 +243,8 @@ Public Class DeveloperMode_Project
                 '수정 해야할 사항: XML에 있는 On 메시지와 딜레이 구문 추가 후 딜레이가 끝나면 Off 메시지 구문 추가.
                 For i As Integer = 0 To lin - 1
 
-                    Dim MidiKey_X As Integer = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, LastNOTEArr(i))
-                    Dim MidiKey_Y As Integer = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, LastNOTEArr(i))
+                    Dim MidiKey_X As Integer = GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, LastNOTEArr(i))
+                    Dim MidiKey_Y As Integer = GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, LastNOTEArr(i))
                     RetStr = RetStr & vbNewLine & String.Format("o {0} {1} a {2}", MidiKey_X, MidiKey_Y, FinalVelocity(i))
                     If Not FinalDurArr(i) = 0 Then
                         RetStr = RetStr & vbNewLine & String.Format("d {0}", FinalDurArr(i))
@@ -295,8 +295,8 @@ Public Class DeveloperMode_Project
                                 str = str & vbNewLine & "d " & GetNoteDelay(keyLED_NoteEvents.NoteLength_2, bpm.Tempo, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delaycount)
                             End If
 
-                            UniNoteNumberX = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
-                            UniNoteNumberY = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
+                            UniNoteNumberX = GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber)
+                            UniNoteNumberY = GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber)
                             delaycount = a.AbsoluteTime
 
                             If UniNoteNumberX = 0 AndAlso UniNoteNumberY = 0 Then
@@ -319,8 +319,8 @@ Public Class DeveloperMode_Project
                                 str = str & vbNewLine & "d " & GetNoteDelay(keyLED_NoteEvents.NoteLength_2, bpm.Tempo, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delaycount)
                             End If
 
-                            UniNoteNumberX = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
-                            UniNoteNumberY = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
+                            UniNoteNumberX = GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber)
+                            UniNoteNumberY = GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber)
                             delaycount = a.AbsoluteTime
 
                             If UniNoteNumberX = 0 AndAlso UniNoteNumberY = 0 Then

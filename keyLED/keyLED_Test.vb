@@ -288,6 +288,8 @@ Public Class keyLED_Test
                     End If
                     Thread.Sleep(sp(1))
 
+                ElseIf sp(0) = "l" Then '새롭게 추가된 로고라이트
+                    '나중에 하겠소.
                 Else
                     MessageBox.Show("Wrong LED command " & Lines(i) & " on line" & i, "Wrong Data", MessageBoxButtons.OK, MessageBoxIcon.Error)
                     Exit For

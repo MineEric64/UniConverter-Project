@@ -166,8 +166,8 @@ Public Class keyLED_Edit
                             End If
 
                             '기본값
-                            UniNoteNumberX = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
-                            UniNoteNumberY = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
+                            UniNoteNumberX = GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber)
+                            UniNoteNumberY = GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber)
                             delaycount = a.AbsoluteTime
 
                             If UniNoteNumberX = 0 AndAlso UniNoteNumberY = 0 Then
@@ -232,9 +232,9 @@ Public Class keyLED_Edit
                                                 End If
 #End Region
                                                 str.Append("o ")
-                                                str.Append(GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber))
+                                                str.Append(GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber))
                                                 str.Append(" ")
-                                                str.Append(GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber))
+                                                str.Append(GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber))
                                                 str.Append(" a ")
                                                 str.Append(a.Velocity)
                                             ElseIf Not UniNoteNumberX = -8193 Then
@@ -246,7 +246,7 @@ Public Class keyLED_Edit
                                                 End If
 #End Region
                                                 str.Append("o mc ")
-                                                str.Append(GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber))
+                                                str.Append(GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber))
                                                 str.Append(" a ")
                                                 str.Append(a.Velocity)
                                             End If
@@ -308,9 +308,9 @@ Public Class keyLED_Edit
                                                 End If
 #End Region
                                                 str.Append("o ")
-                                                str.Append(GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber))
+                                                str.Append(GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber))
                                                 str.Append(" ")
-                                                str.Append(GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber))
+                                                str.Append(GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber))
                                                 str.Append(" a ")
                                                 str.Append(a.Velocity)
                                             ElseIf Not UniNoteNumberX = -8193 Then
@@ -322,7 +322,7 @@ Public Class keyLED_Edit
                                                 End If
 #End Region
                                                 str.Append("o mc ")
-                                                str.Append(GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber))
+                                                str.Append(GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber))
                                                 str.Append(" a ")
                                                 str.Append(a.Velocity)
                                             End If
@@ -399,8 +399,8 @@ Public Class keyLED_Edit
                                 str.Append(Math.Round(GetNoteDelay(keyLED_NoteEvents.NoteLength_2, bpmTempo, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delaycount) * (speed / 100)))
                             End If
 
-                            UniNoteNumberX = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
-                            UniNoteNumberY = GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber)
+                            UniNoteNumberX = GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber)
+                            UniNoteNumberY = GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber)
                             delaycount = a.AbsoluteTime
 
                             If UniNoteNumberX = 0 AndAlso UniNoteNumberY = 0 Then
@@ -474,9 +474,9 @@ Public Class keyLED_Edit
                                                     End If
 #End Region
                                                     str.Append("f ")
-                                                    str.Append(GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber))
+                                                    str.Append(GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber))
                                                     str.Append(" ")
-                                                    str.Append(GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber))
+                                                    str.Append(GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber))
                                                 ElseIf Not UniNoteNumberX = -8193 Then
 #Region "NewLine"
                                                     If notWhSp = True Then
@@ -486,7 +486,7 @@ Public Class keyLED_Edit
                                                     End If
 #End Region
                                                     str.Append("f mc ")
-                                                    str.Append(GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber))
+                                                    str.Append(GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber))
                                                 End If
                                             End If
                                         End If
@@ -546,9 +546,9 @@ Public Class keyLED_Edit
                                                     End If
 #End Region
                                                     str.Append("f ")
-                                                    str.Append(GX_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber))
+                                                    str.Append(GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber))
                                                     str.Append(" ")
-                                                    str.Append(GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber))
+                                                    str.Append(GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber))
                                                 ElseIf Not UniNoteNumberX = -8193 Then
 #Region "NewLine"
                                                     If notWhSp = True Then
@@ -558,7 +558,7 @@ Public Class keyLED_Edit
                                                     End If
 #End Region
                                                     str.Append("f mc ")
-                                                    str.Append(GY_keyLED(keyLED_NoteEvents.NoteNumber_1, a.NoteNumber))
+                                                    str.Append(GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber))
                                                 End If
                                             End If
                                         End If
