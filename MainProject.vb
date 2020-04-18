@@ -3449,6 +3449,8 @@ Public Class MainProject
                     Dim items As New List(Of Integer)
                     Dim errStr As New StringBuilder(255)
 
+                    Dim IsNextOfNext As New List(Of Boolean) 'MidiEffectRack 안에 MidiEffectRack이 있는가? ( https://blog.naver.com/ericseyoun/221673229156 참고 )
+
                     For i As Integer = 0 To setNode.Count - 1
                         Invoke(Sub()
                                    Select Case lang
@@ -3467,14 +3469,23 @@ Public Class MainProject
                             Catch exNN As NullReferenceException
                                 Dim _Test3 As String = setNode(i).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("PatchSlot").Item("Value").Item("MxDPatchRef").Item("FileRef").Item("Name").GetAttribute("Value") '일반 MidiEffectRack
                             End Try
+                            IsNextOfNext.Add(False)
                             items.Add(i) '옳소.
                         Catch exN As NullReferenceException
+                            Dim NextOfNextFound As Boolean = False
                             Try
                                 Dim _Test4 As Integer = Integer.Parse(setNode(i).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiEffectGroupDevice").Item("LomId").GetAttribute("Value"))
-                                'Integer.Parse(setNode(i).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiRandom").Item("Choices").Item("Manual").GetAttribute("Value")) '랜덤 코드만 입장 가능.
+                                Try
+                                    Integer.Parse(setNode(i).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiRandom").Item("Choices").Item("Manual").GetAttribute("Value")) '랜덤 코드만 입장 가능.
+                                Catch
+                                    '이것도 Exception 처리 나오면 다른거고, 성공하면 Page임.
+                                    Dim NextOfNextTest As String = setNode(i).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiEffectGroupDevice").Item("Branches").Item("MidiEffectBranch").GetAttribute("Id")
+                                    NextOfNextFound = True
+                                End Try
+                                IsNextOfNext.Add(NextOfNextFound)
                                 items.Add(i)
-                            Catch exNN As Exception
-                                Continue For 'Page나 다른 무언가이였던것임!
+                                Catch exNN As Exception
+                                Continue For '다른 무언가이였던것임!
                             End Try
                         End Try
                     Next
@@ -3489,29 +3500,35 @@ Public Class MainProject
                                End Select
                            End Sub)
 
+                    Dim UniPack_Chain As Integer = 1
+                    Dim UniPack_X As Integer = 0
+                    Dim UniPack_Y As Integer = 0
+                    Dim UniPack_L As Integer = 0
+
+                    Dim fndError As Boolean = False 'Key / Random Key
+                    Dim MidiName As String = String.Empty
+                    Dim MidiFileName As String = String.Empty
+
+                    Dim PrChain As Integer = 0 '랜덤의 체인.
+                    Dim PrChainM As Integer = 0 '랜덤의 최대 체인.
+                    Dim PrKey As Integer = 0 '랜덤의 ksX.
+                    Dim PrKeyM As Integer = 0 '랜덤의 최대 ksX.
+
+                    Dim NextOfNextChain As Integer = 0 'Parent의 체인.
+                    Dim NextOfNextMaxChain As Integer = 0 'Parent의 최대 체인.
+                    Dim IsRandom As Boolean = False '현재 접근하고 있는 XML Branch가 랜덤인가?
+                    Dim Choices As Integer = 0 '매우 정확한 랜덤의 수. (from MidiRandom)
+                    Dim curid As Integer = 1 '현재의 랜덤. (from Choices / MidiRandom)
+
                     For i As Integer = 0 To items.Count - 1
                         Dim root As XmlNode = setNode(items(i))
 
-                        Dim UniPack_Chain As Integer = 1
-                        Dim UniPack_X As Integer = 0
-                        Dim UniPack_Y As Integer = 0
-                        Dim UniPack_L As Integer = 0
-
-                        Dim fndError As Boolean = False 'Key / Random Key
-                        Dim MidiName As String = String.Empty
-                        Dim MidiFileName As String = String.Empty
-
-                        Dim PrChain As Integer = 0 '랜덤의 체인.
-                        Dim PrChainM As Integer = 0 '랜덤의 최대 체인.
-                        Dim PrKey As Integer = 0 '랜덤의 ksX.
-                        Dim PrKeyM As Integer = 0 '랜덤의 최대 ksX.
-
-                        Dim IsNextOfNext As Boolean = False 'MidiEffectRack 안에 MidiEffectRack이 있는가? ( https://blog.naver.com/ericseyoun/221673229156 참고 )
-                        Dim IsRandom As Boolean = False '현재 접근하고 있는 XML Branch가 랜덤인가?
-                        Dim Choices As Integer = 0 '매우 정확한 랜덤의 수. (from MidiRandom)
-                        Dim curid As Integer = 1 '현재의 랜덤. (from Choices / MidiRandom)
-
                         Try
+                            If IsNextOfNext(i) Then
+                                NextOfNextChain = Integer.Parse(root.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1 '최소 체인.
+                                NextOfNextMaxChain = Integer.Parse(root.Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1 '최대 체인.
+                                Continue For
+                            End If
 
                             Integer.Parse(root.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("LomId").GetAttribute("Value"))
                             MidiName = root.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("PatchSlot").Item("Value").Item("MxDPatchRef").Item("FileRef").Item("Name").GetAttribute("Value")
@@ -3531,6 +3548,10 @@ Public Class MainProject
                             fndError = False
 
                         Catch exN As NullReferenceException
+                            If root.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiRandom").Item("On").Item("Manual").GetAttribute("Value") = "false" Then
+                                Continue For '비활성화
+                            End If
+
                             PrChain = Integer.Parse(root.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1 '최소 체인.
                             PrChainM = Integer.Parse(root.Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1 '최대 체인.
 
@@ -3568,6 +3589,12 @@ Public Class MainProject
                             MaxChain = PrChainM
                         Else
                             PrChain = 0
+                        End If
+
+                        'NextOfNext Chain 반영
+                        If Not NextOfNextChain = 0 AndAlso Not NextOfNextMaxChain = 0 AndAlso IsRandom = False Then
+                            UniPack_Chain = NextOfNextChain
+                            MaxChain = NextOfNextMaxChain
                         End If
 
                         Dim MaxX As Integer = GX_keyLED(keyLED_NoteEvents.NoteNumber_1, Integer.Parse(root.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))) 'Get X Pos.
@@ -4213,5 +4240,9 @@ Public Class MainProject
     Private Sub KeyLEDMIDEX_BetaButton_Click(sender As Object, e As EventArgs) Handles keyLEDMIDEX_BetaButton.Click
         keyLED_Edit.Show()
         keyLED_Edit.Focus()
+    End Sub
+
+    Private Sub LEDtoAutoPlayToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LEDtoAutoPlayToolStripMenuItem.Click
+        keyLED_AutoPlay.Show()
     End Sub
 End Class

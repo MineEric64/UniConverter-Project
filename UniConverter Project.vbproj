@@ -112,6 +112,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationEvents.vb" />
+    <Compile Include="keyLED\keyLED_AutoPlay.Designer.vb">
+      <DependentUpon>keyLED_AutoPlay.vb</DependentUpon>
+    </Compile>
+    <Compile Include="keyLED\keyLED_AutoPlay.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="keyLED\keyLED_Edit_Ex.Designer.vb">
       <DependentUpon>keyLED_Edit_Ex.vb</DependentUpon>
     </Compile>
@@ -220,6 +226,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="keyLED\keyLED_AutoPlay.resx">
+      <DependentUpon>keyLED_AutoPlay.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="keyLED\keyLED_Edit_Ex.resx">
       <DependentUpon>keyLED_Edit_Ex.vb</DependentUpon>
     </EmbeddedResource>
