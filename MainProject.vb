@@ -213,6 +213,8 @@ Public Class MainProject
     Public Shared abl_openedsnd As Boolean
     Public Shared abl_openedled As Boolean
     Public Shared abl_openedled2 As Boolean
+
+    Private splitSounds As New List(Of String)
 #End Region
 
 #Region "About XML (Settings / Version)"
@@ -292,7 +294,7 @@ Public Class MainProject
                 DeveloperModeToolStripMenuItem.Visible = True
             End If
 
-            DeleteWorkspaceDir() 'Workspace의 UniPack 폴더 정리.
+            Task.Run(Sub() DeleteWorkspaceDir()) 'Workspace의 UniPack 폴더 정리.
             Thread.Sleep(500)
 
 #Region "Dictionary 버튼 추가"
@@ -553,7 +555,7 @@ Public Class MainProject
     Public Sub DeleteWorkspaceDir()
         If Directory.Exists(Application.StartupPath & "\Workspace") Then
             Directory.Delete(Application.StartupPath & "\Workspace", True)
-            Thread.Sleep(500)
+            Thread.Sleep(1000)
             Directory.CreateDirectory(Application.StartupPath & "\Workspace")
         Else
             Directory.CreateDirectory(Application.StartupPath & "\Workspace")
@@ -1353,7 +1355,22 @@ Public Class MainProject
 #End Region
 
                     Dim sndName As String = x.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("OriginalSimpler").Item("Player").Item("MultiSampleMap").Item("SampleParts").Item("MultiSamplePart").Item("SampleRef").Item("FileRef").Item("Name").GetAttribute("Value")
+                    Dim FinalSoundName As String = x.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("OriginalSimpler").Item("Player").Item("MultiSampleMap").Item("SampleParts").Item("MultiSamplePart").Item("SampleRef").Item("FileRef").Item("Name").GetAttribute("Value")
                     Dim Chain As Integer = Integer.Parse(x.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1
+
+                    If Not splitSounds.Count = 0 Then
+                        Try
+                            Dim StartTime As TimeSpan = sLToTime(Convert.ToInt64(x.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("OriginalSimpler").Item("Player").Item("MultiSampleMap").Item("SampleParts").Item("MultiSamplePart").Item("SampleStart").GetAttribute("Value")))
+                            Dim EndTime As TimeSpan = sLToTime(Convert.ToInt64(x.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("OriginalSimpler").Item("Player").Item("MultiSampleMap").Item("SampleParts").Item("MultiSamplePart").Item("SampleEnd").GetAttribute("Value")))
+
+                            Dim key As String = StartTime.TotalMilliseconds & "-" & EndTime.TotalMilliseconds & ".wav"
+                            If splitSounds.Contains(key) Then
+                                FinalSoundName = key
+                            End If
+
+                        Catch exN As NullReferenceException '없는걸로...
+                        End Try
+                    End If
 
 #Region "Error Lists"
                     If Not File.Exists(Application.StartupPath & "\Workspace\ableproj\sounds\" & sndName) Then
@@ -1397,30 +1414,30 @@ Public Class MainProject
                     Dim ks As ksX = GetkeySound(ks_NoteEvents.NoteNumber_1, rNote)
 #Region "keySound Debugging"
                     If lpn = False Then
-                        Debug.WriteLine(String.Format("{0}: {1} {2} {3}", sndName, Chain, ks.x, ks.y))
+                        Debug.WriteLine(String.Format("{0}: {1} {2} {3}", FinalSoundName, Chain, ks.x, ks.y))
                     Else
-                        Debug.WriteLine(String.Format("{0}: {1} ~ {2} {3} {4}", sndName, Chain, MaxChain, ks.x, ks.y))
+                        Debug.WriteLine(String.Format("{0}: {1} ~ {2} {3} {4}", FinalSoundName, Chain, MaxChain, ks.x, ks.y))
                     End If
 #End Region
 
-                    File.Copy(Application.StartupPath & "\Workspace\ableproj\sounds\" & sndName, Application.StartupPath & "\Workspace\unipack\sounds\" & sndName, True)
+                    File.Copy(Application.StartupPath & "\Workspace\ableproj\sounds\" & FinalSoundName, Application.StartupPath & "\Workspace\unipack\sounds\" & FinalSoundName, True)
                     If String.IsNullOrWhiteSpace(str) Then
                         If lpn = False Then
-                            str &= String.Format("{0} {1} {2} {3}", Chain, ks.x, ks.y, sndName)
+                            str &= String.Format("{0} {1} {2} {3}", Chain, ks.x, ks.y, FinalSoundName)
                         Else
 #Region "체인 ~ 최대 체인 변환"
                             For Ci As Integer = Chain To MaxChain
-                                str &= String.Format("{0} {1} {2} {3}", Ci, ks.x, ks.y, sndName)
+                                str &= String.Format("{0} {1} {2} {3}", Ci, ks.x, ks.y, FinalSoundName)
                             Next
 #End Region
                         End If
                     Else
                         If lpn = False Then
-                            str &= vbNewLine & String.Format("{0} {1} {2} {3}", Chain, ks.x, ks.y, sndName)
+                            str &= vbNewLine & String.Format("{0} {1} {2} {3}", Chain, ks.x, ks.y, FinalSoundName)
                         Else
 #Region "체인 ~ 최대 체인 변환"
                             For Ci As Integer = Chain To MaxChain
-                                str &= vbNewLine & String.Format("{0} {1} {2} {3}", Ci, ks.x, ks.y, sndName)
+                                str &= vbNewLine & String.Format("{0} {1} {2} {3}", Ci, ks.x, ks.y, FinalSoundName)
                             Next
 #End Region
                         End If
@@ -1524,6 +1541,8 @@ Public Class MainProject
                     Directory.CreateDirectory(Application.StartupPath & "\Workspace\TmpSound")
                 End If
 
+                splitSounds = New List(Of String)
+
                 UI(Sub()
                        Select Case lang
                            Case Translator.tL.English
@@ -1536,6 +1555,7 @@ Public Class MainProject
                 Dim ablprj As String = Application.StartupPath & "\Workspace\ableproj\abl_proj.xml"
                 Dim doc As New XmlDocument
                 Dim setNode As XmlNodeList
+                Dim err As New StringBuilder(255)
 
                 doc.Load(ablprj)
                 setNode = doc.GetElementsByTagName("InstrumentBranch")
@@ -1576,6 +1596,15 @@ Public Class MainProject
                     Dim EndTime As TimeSpan = sLToTime(seTime)
                     trName = Convert.ToInt32(StartTime.TotalMilliseconds) & "-" & Convert.ToInt32(EndTime.TotalMilliseconds)
 
+                    If File.Exists(Application.StartupPath & "\Workspace\ableproj\sounds\" & sndName) = False Then
+                        err.Append(vbNewLine)
+                        err.Append("File '")
+                        err.Append(sndName)
+                        err.Append("' doesn't exists.")
+
+                        Continue For
+                    End If
+
                     If sndName.Contains(".mp3") Then
                         sndName = sndName.Replace(".mp3", ".wav") '이미 파일을 불러왔을 때 변환이 되었으니 replace.
                     End If
@@ -1585,6 +1614,7 @@ Public Class MainProject
                     End If
 
                     Sound_Cutting.TrimWavFile(Application.StartupPath & "\Workspace\ableproj\sounds\" & sndName, Application.StartupPath & "\Workspace\TmpSound\" & trName & ".wav", StartTime, EndTime)
+                    splitSounds.Add(trName & ".wav")
                     Debug.WriteLine(sndName & " : " & trName & ".wav, " & StartTime.TotalMilliseconds & " - " & EndTime.TotalMilliseconds)
                     UI(Sub()
                            Select Case lang
@@ -1599,39 +1629,36 @@ Public Class MainProject
                     il += 1
                 Next
 
-                UI(Sub()
-                       il = 1
-                       Loading.DPr.Value = 0
-                       Loading.DPr.Maximum = Directory.GetFiles(Application.StartupPath & "\Workspace\TmpSound", "*.wav").Count
-                       Select Case lang
-                           Case Translator.tL.English
-                               Loading.DLb.Text = String.Format(Loading.MsgEn.loading_soundcut_convert2_msg, 0, Loading.DPr.Maximum)
-                           Case Translator.tL.Korean
-                               Loading.DLb.Text = String.Format(Loading.MsgKr.loading_soundcut_convert2_msg, 0, Loading.DPr.Maximum)
-                       End Select
-                       Loading.DLb.Left -= 40
-                   End Sub)
+                Loading.DLb.Left -= 40
+                Dim files As String() = Directory.GetFiles(Application.StartupPath & "\Workspace\TmpSound", "*.wav")
+                For i As Integer = 0 To files.Count - 1
+                    File.Move(files(i), Application.StartupPath & "\Workspace\ableproj\sounds\" & Path.GetFileName(files(i)))
 
-                For Each itm As String In Directory.GetFiles(Application.StartupPath & "\Workspace\TmpSound", "*.wav")
-                    File.Move(itm, Application.StartupPath & "\Workspace\ableproj\sounds\" & Path.GetFileName(itm))
-                    UI(Sub()
-                           Select Case lang
-                               Case Translator.tL.English
-                                   Loading.DLb.Text = String.Format(Loading.MsgEn.loading_soundcut_convert2_msg, il, Loading.DPr.Maximum)
-                                   Loading.DPr.Value = il
-                               Case Translator.tL.Korean
-                                   Loading.DLb.Text = String.Format(Loading.MsgKr.loading_soundcut_convert2_msg, il, Loading.DPr.Maximum)
-                                   Loading.DPr.Value = il
-                           End Select
-                       End Sub)
-                    il += 1
+                    Invoke(Sub()
+                               Loading.DPr.Value = i + 1
+                               Loading.DPr.Maximum = files.Count
+                               Select Case lang
+                                   Case Translator.tL.English
+                                       Loading.DLb.Text = String.Format(Loading.MsgEn.loading_soundcut_convert2_msg, 0, Loading.DPr.Maximum)
+                                   Case Translator.tL.Korean
+                                       Loading.DLb.Text = String.Format(Loading.MsgKr.loading_soundcut_convert2_msg, 0, Loading.DPr.Maximum)
+                               End Select
+                           End Sub)
                 Next
 
                 Invoke(Sub()
                            Loading.Dispose()
                        End Sub)
 
-                If abl_openedproj AndAlso abl_openedsnd AndAlso AutoConvert.Checked Then
+                If Not err.Length = 0 Then
+                    MessageBox.Show("Error occured when it splits the sounds automatically." & vbNewLine & err.ToString(), Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                End If
+
+                Dim AutoConvertBoolean As Boolean = False
+                Invoke(Sub() AutoConvertBoolean = AutoConvert.Checked)
+
+                IsWorking = False
+                If abl_openedproj AndAlso abl_openedsnd AndAlso AutoConvertBoolean Then
                     BGW_keySound.RunWorkerAsync()
                 End If
             End If
