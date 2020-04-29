@@ -75,7 +75,7 @@ Public Class keyLED_Edit
             UniLED_Edit.Text = Await keyLED_MidiToKeyLEDAsync(Application.StartupPath & "\Workspace\ableproj\CoLED\" & LED_ListView.FocusedItem.Text, False, SpeedTrackBar.Value, 0)
         Catch ex As Exception
             If MainProject.IsGreatExMode Then
-                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.ToString(), Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Else
                 MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
@@ -106,317 +106,87 @@ Public Class keyLED_Edit
             Dim stopw As New Stopwatch
             stopw.Start()
 
+            Try
+                Dim LEDMidiFileTest As New MidiFile(FilePath, False)
+            Catch
+                If AutoConvert = False Then
+                    Invoke(Sub()
+                               UniLED_Edit.Enabled = True
+                               UniLED_Edit.Clear()
+                           End Sub)
+                End If
+                Return "Error:" & vbNewLine & "This Midi File is something wrong. please select another midi file. We're so sorry about that."
+            End Try
+
             Dim keyLED As New MidiFile(FilePath, False)
 
-            If AutoConvert = False Then
-                Invoke(Sub()
-                           UniLED_Edit.Enabled = True
-                           UniLED_Edit.Clear()
-                           UniLED_Edit.Text = "Please Wait..." 'FastColoredTextBox supports only English :(
-                           Select Case MainProject.lang
-                               Case Translator.tL.English
-                                   UniLED1.Text = "File Name: " & Path.GetFileName(FilePath)
-                               Case Translator.tL.Korean
-                                   UniLED1.Text = "파일 이름: " & Path.GetFileName(FilePath)
-                           End Select
-                       End Sub)
-            End If
+                If AutoConvert = False Then
+                    Invoke(Sub()
+                               UniLED_Edit.Enabled = True
+                               UniLED_Edit.Clear()
+                               UniLED_Edit.Text = "Please Wait..." 'FastColoredTextBox supports only English :(
+                               Select Case MainProject.lang
+                                   Case Translator.tL.English
+                                       UniLED1.Text = "File Name: " & Path.GetFileName(FilePath)
+                                   Case Translator.tL.Korean
+                                       UniLED1.Text = "파일 이름: " & Path.GetFileName(FilePath)
+                               End Select
+                           End Sub)
+                End If
 
-            Dim ALGItemIndex As Integer = -1
-            If AutoConvert = False Then
-                Invoke(Sub() ALGItemIndex = ALGModeBox.SelectedIndex)
-            Else
-                ALGItemIndex = 0 '자동변환에서는 기본 알고리즘이 Drum Rack Layout이다.
-            End If
+                Dim ALGItemIndex As Integer = -1
+                If AutoConvert = False Then
+                    Invoke(Sub() ALGItemIndex = ALGModeBox.SelectedIndex)
+                Else
+                    ALGItemIndex = 0 '자동변환에서는 기본 알고리즘이 Drum Rack Layout이다.
+                End If
 
-            '이 코드는 Follow_JB님의 midi2keyLED를 참고하여 만든 코드. (Thanks to Follow_JB. :D)
+                '이 코드는 Follow_JB님의 midi2keyLED를 참고하여 만든 코드. (Thanks to Follow_JB. :D)
 
-            Dim str As StringBuilder = New StringBuilder(100)
-            Dim delaycount As Integer = 0
-            Dim UniNoteNumberX As Integer 'X
-            Dim UniNoteNumberY As Integer 'Y
+                Dim str As StringBuilder = New StringBuilder(100)
+                Dim delaycount As Integer = 0
+                Dim UniNoteNumberX As Integer 'X
+                Dim UniNoteNumberY As Integer 'Y
 
-            For i As Integer = 0 To keyLED.Events.Count - 1
-                For j As Integer = 0 To keyLED.Events(i).Count - 1
-                    Dim mdEvent As MidiEvent = keyLED.Events(i)(j)
+                For i As Integer = 0 To keyLED.Events.Count - 1
+                    For j As Integer = 0 To keyLED.Events(i).Count - 1
+                        Dim mdEvent As MidiEvent = keyLED.Events(i)(j)
 
-                    If ALGItemIndex = 0 Then 'Drum Rack Layout
+                        If ALGItemIndex = 0 Then 'Drum Rack Layout
 
-                        If mdEvent.CommandCode = MidiCommandCode.NoteOn Then
-                            Dim a As NoteOnEvent = DirectCast(mdEvent, NoteOnEvent)
-                            Dim bpm As New TempoEvent(500000, a.AbsoluteTime)
+                            If mdEvent.CommandCode = MidiCommandCode.NoteOn Then
+                                Dim a As NoteOnEvent = DirectCast(mdEvent, NoteOnEvent)
+                                Dim bpm As New TempoEvent(500000, a.AbsoluteTime)
 
-                            If Not delaycount = a.AbsoluteTime OrElse Not a.DeltaTime = 0 Then
-                                Dim bpmTempo As Integer = 0
+                                If Not delaycount = a.AbsoluteTime OrElse Not a.DeltaTime = 0 Then
+                                    Dim bpmTempo As Integer = 0
 
-                                If tempo = 0 Then
-                                    bpmTempo = bpm.Tempo
-                                Else
-                                    bpmTempo = tempo
-                                End If
-#Region "NewLine"
-                                If notWhSp = True Then
-                                    notWhSp = False
-                                Else
-                                    str.Append(vbNewLine)
-                                End If
-#End Region
-                                str.Append("d ")
-                                str.Append(Math.Round(GetNoteDelay(keyLED_NoteEvents.NoteLength_2, bpm.Tempo, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delaycount) * (speed / 100)))
-                            End If
-
-                            '기본값
-                            UniNoteNumberX = GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber)
-                            UniNoteNumberY = GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber)
-                            delaycount = a.AbsoluteTime
-
-                            If UniNoteNumberX = 0 AndAlso UniNoteNumberY = 0 Then
-                                Debug.WriteLine("Unknown Note Number. [ Note: " & a.NoteNumber & " ]")
-                                Continue For
-                            End If
-
-                            'LED 익스텐션
-                            If Not Ex_Flip.Count = 0 Then
-#Region "Flip 익스텐션"
-                                If IsAutoLoaded = False Then
-                                    Dim FlipStructure_ As FlipStructure = Ex_Flip(0)
-
-                                    If FlipStructure_.Mirror = Mirror.Horizontal Then 'Mirror
-                                        If UniNoteNumberX = -8192 Then
-                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Mirror_Horizontal_MC(UniNoteNumberY)
-                                        ElseIf Not UniNoteNumberX = -8193 Then
-                                            UniNoteNumberY = 9 - UniNoteNumberY
-                                        End If
-                                    ElseIf FlipStructure_.Mirror = Mirror.Vertical Then
-                                        If UniNoteNumberX = -8192 Then
-                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Mirror_Vertical_MC(UniNoteNumberY)
-                                        ElseIf Not UniNoteNumberX = -8193 Then
-                                            UniNoteNumberX = 9 - UniNoteNumberX
-                                        End If
+                                    If tempo = 0 Then
+                                        bpmTempo = bpm.Tempo
+                                    Else
+                                        bpmTempo = tempo
                                     End If
-
-                                    If FlipStructure_.Rotate = 90 Then 'Rotate
-                                        If UniNoteNumberX = -8192 Then
-                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Rotate_90_MC(UniNoteNumberY)
-                                        ElseIf Not UniNoteNumberX = -8193 Then
-                                            Dim xValue As Flip_Rotate_XYReturn = keyLED_Edit_Ex.Flip_Rotate_90(UniNoteNumberX & UniNoteNumberY)
-                                            UniNoteNumberX = xValue.x
-                                            UniNoteNumberY = xValue.y
-                                        End If
-                                    ElseIf FlipStructure_.Rotate = 180 Then '좀 난감한 스파게티 코드...
-                                        If UniNoteNumberX = -8192 Then
-                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Rotate_90_MC(keyLED_Edit_Ex.Flip_Rotate_90_MC(UniNoteNumberY))
-                                        ElseIf Not UniNoteNumberX = -8193 Then
-                                            Dim xValue As Flip_Rotate_XYReturn = keyLED_Edit_Ex.Flip_Rotate_90(keyLED_Edit_Ex.Flip_Rotate_90(UniNoteNumberX & UniNoteNumberY).x & keyLED_Edit_Ex.Flip_Rotate_90(UniNoteNumberX & UniNoteNumberY).y)
-                                            UniNoteNumberX = xValue.x
-                                            UniNoteNumberY = xValue.y
-                                        End If
-                                    ElseIf FlipStructure_.Rotate = 270 Then
-                                        If UniNoteNumberX = -8192 Then
-                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Rotate_270_MC(UniNoteNumberY)
-                                        ElseIf Not UniNoteNumberX = -8193 Then
-                                            Dim xValue As Flip_Rotate_XYReturn = keyLED_Edit_Ex.Flip_Rotate_270(UniNoteNumberX & UniNoteNumberY)
-                                            UniNoteNumberX = xValue.x
-                                            UniNoteNumberY = xValue.y
-                                        End If
-                                    End If
-
-                                    If FlipStructure_.Duplicate = True Then 'Duplicate
-                                        If FlipStructure_.Mirror <> Mirror.None OrElse FlipStructure_.Rotate <> 0 Then
-                                            If Not UniNoteNumberX = -8192 Then
 #Region "NewLine"
-                                                If notWhSp = True Then
-                                                    notWhSp = False
-                                                Else
-                                                    str.Append(vbNewLine)
-                                                End If
-#End Region
-                                                str.Append("o ")
-                                                str.Append(GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber))
-                                                str.Append(" ")
-                                                str.Append(GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber))
-                                                str.Append(" a ")
-                                                str.Append(a.Velocity)
-                                            ElseIf Not UniNoteNumberX = -8193 Then
-#Region "NewLine"
-                                                If notWhSp = True Then
-                                                    notWhSp = False
-                                                Else
-                                                    str.Append(vbNewLine)
-                                                End If
-#End Region
-                                                str.Append("o mc ")
-                                                str.Append(GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber))
-                                                str.Append(" a ")
-                                                str.Append(a.Velocity)
-                                            End If
-                                        End If
-                                    End If
-                                Else
-                                    Dim LEDListView_SelectedIndex As Integer = -1
-                                    Invoke(Sub() LEDListView_SelectedIndex = LED_ListView.SelectedItems(0).Index)
-                                    Dim FlipStructure_ As FlipStructure = Ex_Flip(LEDListView_SelectedIndex)
-
-                                    If FlipStructure_.Mirror = Mirror.Horizontal Then 'Mirror
-                                        If UniNoteNumberX = -8192 Then
-                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Mirror_Horizontal_MC(UniNoteNumberY)
-                                        ElseIf Not UniNoteNumberX = -8193 Then
-                                            UniNoteNumberY = 9 - UniNoteNumberY
-                                        End If
-                                    ElseIf FlipStructure_.Mirror = Mirror.Vertical Then
-                                        If UniNoteNumberX = -8192 Then
-                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Mirror_Vertical_MC(UniNoteNumberY)
-                                        ElseIf Not UniNoteNumberX = -8193 Then
-                                            UniNoteNumberX = 9 - UniNoteNumberX
-                                        End If
-                                    End If
-
-                                    If FlipStructure_.Rotate = 90 Then 'Rotate
-                                        If UniNoteNumberX = -8192 Then
-                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Rotate_90_MC(UniNoteNumberY)
-                                        ElseIf Not UniNoteNumberX = -8193 Then
-                                            Dim xValue As Flip_Rotate_XYReturn = keyLED_Edit_Ex.Flip_Rotate_90(UniNoteNumberX & UniNoteNumberY)
-                                            UniNoteNumberX = xValue.x
-                                            UniNoteNumberY = xValue.y
-                                        End If
-                                    ElseIf FlipStructure_.Rotate = 180 Then '좀 난감한 스파게티 코드...
-                                        If UniNoteNumberX = -8192 Then
-                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Rotate_90_MC(keyLED_Edit_Ex.Flip_Rotate_90_MC(UniNoteNumberY))
-                                        ElseIf Not UniNoteNumberX = -8193 Then
-                                            Dim xValue As Flip_Rotate_XYReturn = keyLED_Edit_Ex.Flip_Rotate_90(keyLED_Edit_Ex.Flip_Rotate_90(UniNoteNumberX & UniNoteNumberY).x & keyLED_Edit_Ex.Flip_Rotate_90(UniNoteNumberX & UniNoteNumberY).y)
-                                            UniNoteNumberX = xValue.x
-                                            UniNoteNumberY = xValue.y
-                                        End If
-                                    ElseIf FlipStructure_.Rotate = 270 Then
-                                        If UniNoteNumberX = -8192 Then
-                                            UniNoteNumberY = keyLED_Edit_Ex.Flip_Rotate_270_MC(UniNoteNumberY)
-                                        ElseIf Not UniNoteNumberX = -8193 Then
-                                            Dim xValue As Flip_Rotate_XYReturn = keyLED_Edit_Ex.Flip_Rotate_270(UniNoteNumberX & UniNoteNumberY)
-                                            UniNoteNumberX = xValue.x
-                                            UniNoteNumberY = xValue.y
-                                        End If
-                                    End If
-
-                                    If FlipStructure_.Duplicate = True Then 'Duplicate
-                                        If FlipStructure_.Mirror <> Mirror.None OrElse FlipStructure_.Rotate <> 0 Then
-                                            If Not UniNoteNumberX = -8192 Then
-#Region "NewLine"
-                                                If notWhSp = True Then
-                                                    notWhSp = False
-                                                Else
-                                                    str.Append(vbNewLine)
-                                                End If
-#End Region
-                                                str.Append("o ")
-                                                str.Append(GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber))
-                                                str.Append(" ")
-                                                str.Append(GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber))
-                                                str.Append(" a ")
-                                                str.Append(a.Velocity)
-                                            ElseIf Not UniNoteNumberX = -8193 Then
-#Region "NewLine"
-                                                If notWhSp = True Then
-                                                    notWhSp = False
-                                                Else
-                                                    str.Append(vbNewLine)
-                                                End If
-#End Region
-                                                str.Append("o mc ")
-                                                str.Append(GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber))
-                                                str.Append(" a ")
-                                                str.Append(a.Velocity)
-                                            End If
-                                        End If
+                                    If notWhSp = True Then
+                                        notWhSp = False
+                                    Else
+                                        str.Append(vbNewLine)
                                     End If
 #End Region
+                                    str.Append("d ")
+                                    str.Append(Math.Round(GetNoteDelay(keyLED_NoteEvents.NoteLength_2, bpm.Tempo, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delaycount) * (speed / 100)))
                                 End If
-                            End If
 
-                            If Not UniNoteNumberX = -8192 AndAlso Not UniNoteNumberX = -8193 Then
-#Region "set str var"
-#Region "NewLine"
-                                If notWhSp = True Then
-                                    notWhSp = False
-                                Else
-                                    str.Append(vbNewLine)
+                                '기본값
+                                UniNoteNumberX = GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber)
+                                UniNoteNumberY = GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber)
+                                delaycount = a.AbsoluteTime
+
+                                If UniNoteNumberX = 0 AndAlso UniNoteNumberY = 0 Then
+                                    Debug.WriteLine("Unknown Note Number. [ Note: " & a.NoteNumber & " ]")
+                                    Continue For
                                 End If
-#End Region
-                                str.Append("o ")
-                                str.Append(UniNoteNumberX)
-                                str.Append(" ")
-                                str.Append(UniNoteNumberY)
-                                str.Append(" a ")
-                                str.Append(a.Velocity)
-#End Region
-                            ElseIf UniNoteNumberX = -8193 Then '로고라이트 및 모드라이트
-#Region "set str var"
-#Region "NewLine"
-                                If notWhSp = True Then
-                                    notWhSp = False
-                                Else
-                                    str.Append(vbNewLine)
-                                End If
-#End Region
-                                str.Append("o l a ")
-                                str.Append(a.Velocity)
-#End Region
-                            Else
-#Region "set str var"
-#Region "NewLine"
-                                If notWhSp = True Then
-                                    notWhSp = False
-                                Else
-                                    str.Append(vbNewLine)
-                                End If
-#End Region
-                                str.Append("o mc ")
-                                str.Append(UniNoteNumberY)
-                                str.Append(" a ")
-                                str.Append(a.Velocity)
-#End Region
-                            End If
 
-                        ElseIf mdEvent.CommandCode = MidiCommandCode.NoteOff Then
-
-                            Dim a As NoteEvent = DirectCast(mdEvent, NoteEvent)
-                            Dim bpm As New TempoEvent(500000, a.AbsoluteTime)
-
-                            If Not delaycount = a.AbsoluteTime OrElse Not a.DeltaTime = 0 Then
-                                Dim bpmTempo As Integer = 0
-                                If tempo = 0 Then
-                                    bpmTempo = bpm.Tempo
-                                Else
-                                    bpmTempo = tempo
-                                End If
-#Region "NewLine"
-                                If notWhSp = True Then
-                                    notWhSp = False
-                                Else
-                                    str.Append(vbNewLine)
-                                End If
-#End Region
-                                str.Append("d ")
-                                str.Append(Math.Round(GetNoteDelay(keyLED_NoteEvents.NoteLength_2, bpmTempo, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delaycount) * (speed / 100)))
-                            End If
-
-                            UniNoteNumberX = GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber)
-                            UniNoteNumberY = GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber)
-                            delaycount = a.AbsoluteTime
-
-                            If UniNoteNumberX = 0 AndAlso UniNoteNumberY = 0 Then
-                                Debug.WriteLine("Unknown Note Number. [ Note: " & a.NoteNumber & " ]")
-                                Continue For
-                            End If
-
-                            Dim IsFlickering As Boolean = False '플리커링 문제 (유니컨버터 v1.2.0.6 이전 버전에서 발생하는 문제)
-                            If Not j + 1 > keyLED.Events(i).Count - 1 Then
-                                Dim nextEvent As MidiEvent = keyLED.Events(i)(j + 1)
-                                If nextEvent.CommandCode = MidiCommandCode.NoteOn AndAlso DirectCast(nextEvent, NoteOnEvent).NoteNumber = a.NoteNumber Then
-                                    IsFlickering = True
-                                End If
-                            End If
-
-                            If IsFlickering = False Then
                                 'LED 익스텐션
                                 If Not Ex_Flip.Count = 0 Then
 #Region "Flip 익스텐션"
@@ -473,10 +243,12 @@ Public Class keyLED_Edit
                                                         str.Append(vbNewLine)
                                                     End If
 #End Region
-                                                    str.Append("f ")
+                                                    str.Append("o ")
                                                     str.Append(GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber))
                                                     str.Append(" ")
                                                     str.Append(GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber))
+                                                    str.Append(" a ")
+                                                    str.Append(a.Velocity)
                                                 ElseIf Not UniNoteNumberX = -8193 Then
 #Region "NewLine"
                                                     If notWhSp = True Then
@@ -485,8 +257,10 @@ Public Class keyLED_Edit
                                                         str.Append(vbNewLine)
                                                     End If
 #End Region
-                                                    str.Append("f mc ")
+                                                    str.Append("o mc ")
                                                     str.Append(GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber))
+                                                    str.Append(" a ")
+                                                    str.Append(a.Velocity)
                                                 End If
                                             End If
                                         End If
@@ -545,10 +319,12 @@ Public Class keyLED_Edit
                                                         str.Append(vbNewLine)
                                                     End If
 #End Region
-                                                    str.Append("f ")
+                                                    str.Append("o ")
                                                     str.Append(GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber))
                                                     str.Append(" ")
                                                     str.Append(GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber))
+                                                    str.Append(" a ")
+                                                    str.Append(a.Velocity)
                                                 ElseIf Not UniNoteNumberX = -8193 Then
 #Region "NewLine"
                                                     If notWhSp = True Then
@@ -557,8 +333,10 @@ Public Class keyLED_Edit
                                                         str.Append(vbNewLine)
                                                     End If
 #End Region
-                                                    str.Append("f mc ")
+                                                    str.Append("o mc ")
                                                     str.Append(GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber))
+                                                    str.Append(" a ")
+                                                    str.Append(a.Velocity)
                                                 End If
                                             End If
                                         End If
@@ -575,10 +353,12 @@ Public Class keyLED_Edit
                                         str.Append(vbNewLine)
                                     End If
 #End Region
-                                    str.Append("f ")
+                                    str.Append("o ")
                                     str.Append(UniNoteNumberX)
                                     str.Append(" ")
                                     str.Append(UniNoteNumberY)
+                                    str.Append(" a ")
+                                    str.Append(a.Velocity)
 #End Region
                                 ElseIf UniNoteNumberX = -8193 Then '로고라이트 및 모드라이트
 #Region "set str var"
@@ -589,7 +369,8 @@ Public Class keyLED_Edit
                                         str.Append(vbNewLine)
                                     End If
 #End Region
-                                    str.Append("f l")
+                                    str.Append("o l a ")
+                                    str.Append(a.Velocity)
 #End Region
                                 Else
 #Region "set str var"
@@ -600,93 +381,324 @@ Public Class keyLED_Edit
                                         str.Append(vbNewLine)
                                     End If
 #End Region
-                                    str.Append("f mc ")
+                                    str.Append("o mc ")
                                     str.Append(UniNoteNumberY)
+                                    str.Append(" a ")
+                                    str.Append(a.Velocity)
 #End Region
                                 End If
-                            End If
-                        End If
 
-                    ElseIf ALGItemIndex = 1 Then 'Developer Mode
+                            ElseIf mdEvent.CommandCode = MidiCommandCode.NoteOff Then
+
+                                Dim a As NoteEvent = DirectCast(mdEvent, NoteEvent)
+                                Dim bpm As New TempoEvent(500000, a.AbsoluteTime)
+
+                                If Not delaycount = a.AbsoluteTime OrElse Not a.DeltaTime = 0 Then
+                                    Dim bpmTempo As Integer = 0
+                                    If tempo = 0 Then
+                                        bpmTempo = bpm.Tempo
+                                    Else
+                                        bpmTempo = tempo
+                                    End If
+#Region "NewLine"
+                                    If notWhSp = True Then
+                                        notWhSp = False
+                                    Else
+                                        str.Append(vbNewLine)
+                                    End If
+#End Region
+                                    str.Append("d ")
+                                    str.Append(Math.Round(GetNoteDelay(keyLED_NoteEvents.NoteLength_2, bpmTempo, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delaycount) * (speed / 100)))
+                                End If
+
+                                UniNoteNumberX = GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber)
+                                UniNoteNumberY = GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber)
+                                delaycount = a.AbsoluteTime
+
+                                If UniNoteNumberX = 0 AndAlso UniNoteNumberY = 0 Then
+                                    Debug.WriteLine("Unknown Note Number. [ Note: " & a.NoteNumber & " ]")
+                                    Continue For
+                                End If
+
+                                Dim IsFlickering As Boolean = False '플리커링 문제 (유니컨버터 v1.2.0.6 이전 버전에서 발생하는 문제)
+                                If Not j + 1 > keyLED.Events(i).Count - 1 Then
+                                    Dim nextEvent As MidiEvent = keyLED.Events(i)(j + 1)
+                                    If nextEvent.CommandCode = MidiCommandCode.NoteOn AndAlso DirectCast(nextEvent, NoteOnEvent).NoteNumber = a.NoteNumber Then
+                                        IsFlickering = True
+                                    End If
+                                End If
+
+                                If IsFlickering = False Then
+                                    'LED 익스텐션
+                                    If Not Ex_Flip.Count = 0 Then
+#Region "Flip 익스텐션"
+                                        If IsAutoLoaded = False Then
+                                            Dim FlipStructure_ As FlipStructure = Ex_Flip(0)
+
+                                            If FlipStructure_.Mirror = Mirror.Horizontal Then 'Mirror
+                                                If UniNoteNumberX = -8192 Then
+                                                    UniNoteNumberY = keyLED_Edit_Ex.Flip_Mirror_Horizontal_MC(UniNoteNumberY)
+                                                ElseIf Not UniNoteNumberX = -8193 Then
+                                                    UniNoteNumberY = 9 - UniNoteNumberY
+                                                End If
+                                            ElseIf FlipStructure_.Mirror = Mirror.Vertical Then
+                                                If UniNoteNumberX = -8192 Then
+                                                    UniNoteNumberY = keyLED_Edit_Ex.Flip_Mirror_Vertical_MC(UniNoteNumberY)
+                                                ElseIf Not UniNoteNumberX = -8193 Then
+                                                    UniNoteNumberX = 9 - UniNoteNumberX
+                                                End If
+                                            End If
+
+                                            If FlipStructure_.Rotate = 90 Then 'Rotate
+                                                If UniNoteNumberX = -8192 Then
+                                                    UniNoteNumberY = keyLED_Edit_Ex.Flip_Rotate_90_MC(UniNoteNumberY)
+                                                ElseIf Not UniNoteNumberX = -8193 Then
+                                                    Dim xValue As Flip_Rotate_XYReturn = keyLED_Edit_Ex.Flip_Rotate_90(UniNoteNumberX & UniNoteNumberY)
+                                                    UniNoteNumberX = xValue.x
+                                                    UniNoteNumberY = xValue.y
+                                                End If
+                                            ElseIf FlipStructure_.Rotate = 180 Then '좀 난감한 스파게티 코드...
+                                                If UniNoteNumberX = -8192 Then
+                                                    UniNoteNumberY = keyLED_Edit_Ex.Flip_Rotate_90_MC(keyLED_Edit_Ex.Flip_Rotate_90_MC(UniNoteNumberY))
+                                                ElseIf Not UniNoteNumberX = -8193 Then
+                                                    Dim xValue As Flip_Rotate_XYReturn = keyLED_Edit_Ex.Flip_Rotate_90(keyLED_Edit_Ex.Flip_Rotate_90(UniNoteNumberX & UniNoteNumberY).x & keyLED_Edit_Ex.Flip_Rotate_90(UniNoteNumberX & UniNoteNumberY).y)
+                                                    UniNoteNumberX = xValue.x
+                                                    UniNoteNumberY = xValue.y
+                                                End If
+                                            ElseIf FlipStructure_.Rotate = 270 Then
+                                                If UniNoteNumberX = -8192 Then
+                                                    UniNoteNumberY = keyLED_Edit_Ex.Flip_Rotate_270_MC(UniNoteNumberY)
+                                                ElseIf Not UniNoteNumberX = -8193 Then
+                                                    Dim xValue As Flip_Rotate_XYReturn = keyLED_Edit_Ex.Flip_Rotate_270(UniNoteNumberX & UniNoteNumberY)
+                                                    UniNoteNumberX = xValue.x
+                                                    UniNoteNumberY = xValue.y
+                                                End If
+                                            End If
+
+                                            If FlipStructure_.Duplicate = True Then 'Duplicate
+                                                If FlipStructure_.Mirror <> Mirror.None OrElse FlipStructure_.Rotate <> 0 Then
+                                                    If Not UniNoteNumberX = -8192 Then
+#Region "NewLine"
+                                                        If notWhSp = True Then
+                                                            notWhSp = False
+                                                        Else
+                                                            str.Append(vbNewLine)
+                                                        End If
+#End Region
+                                                        str.Append("f ")
+                                                        str.Append(GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber))
+                                                        str.Append(" ")
+                                                        str.Append(GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber))
+                                                    ElseIf Not UniNoteNumberX = -8193 Then
+#Region "NewLine"
+                                                        If notWhSp = True Then
+                                                            notWhSp = False
+                                                        Else
+                                                            str.Append(vbNewLine)
+                                                        End If
+#End Region
+                                                        str.Append("f mc ")
+                                                        str.Append(GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber))
+                                                    End If
+                                                End If
+                                            End If
+                                        Else
+                                            Dim LEDListView_SelectedIndex As Integer = -1
+                                            Invoke(Sub() LEDListView_SelectedIndex = LED_ListView.SelectedItems(0).Index)
+                                            Dim FlipStructure_ As FlipStructure = Ex_Flip(LEDListView_SelectedIndex)
+
+                                            If FlipStructure_.Mirror = Mirror.Horizontal Then 'Mirror
+                                                If UniNoteNumberX = -8192 Then
+                                                    UniNoteNumberY = keyLED_Edit_Ex.Flip_Mirror_Horizontal_MC(UniNoteNumberY)
+                                                ElseIf Not UniNoteNumberX = -8193 Then
+                                                    UniNoteNumberY = 9 - UniNoteNumberY
+                                                End If
+                                            ElseIf FlipStructure_.Mirror = Mirror.Vertical Then
+                                                If UniNoteNumberX = -8192 Then
+                                                    UniNoteNumberY = keyLED_Edit_Ex.Flip_Mirror_Vertical_MC(UniNoteNumberY)
+                                                ElseIf Not UniNoteNumberX = -8193 Then
+                                                    UniNoteNumberX = 9 - UniNoteNumberX
+                                                End If
+                                            End If
+
+                                            If FlipStructure_.Rotate = 90 Then 'Rotate
+                                                If UniNoteNumberX = -8192 Then
+                                                    UniNoteNumberY = keyLED_Edit_Ex.Flip_Rotate_90_MC(UniNoteNumberY)
+                                                ElseIf Not UniNoteNumberX = -8193 Then
+                                                    Dim xValue As Flip_Rotate_XYReturn = keyLED_Edit_Ex.Flip_Rotate_90(UniNoteNumberX & UniNoteNumberY)
+                                                    UniNoteNumberX = xValue.x
+                                                    UniNoteNumberY = xValue.y
+                                                End If
+                                            ElseIf FlipStructure_.Rotate = 180 Then '좀 난감한 스파게티 코드...
+                                                If UniNoteNumberX = -8192 Then
+                                                    UniNoteNumberY = keyLED_Edit_Ex.Flip_Rotate_90_MC(keyLED_Edit_Ex.Flip_Rotate_90_MC(UniNoteNumberY))
+                                                ElseIf Not UniNoteNumberX = -8193 Then
+                                                    Dim xValue As Flip_Rotate_XYReturn = keyLED_Edit_Ex.Flip_Rotate_90(keyLED_Edit_Ex.Flip_Rotate_90(UniNoteNumberX & UniNoteNumberY).x & keyLED_Edit_Ex.Flip_Rotate_90(UniNoteNumberX & UniNoteNumberY).y)
+                                                    UniNoteNumberX = xValue.x
+                                                    UniNoteNumberY = xValue.y
+                                                End If
+                                            ElseIf FlipStructure_.Rotate = 270 Then
+                                                If UniNoteNumberX = -8192 Then
+                                                    UniNoteNumberY = keyLED_Edit_Ex.Flip_Rotate_270_MC(UniNoteNumberY)
+                                                ElseIf Not UniNoteNumberX = -8193 Then
+                                                    Dim xValue As Flip_Rotate_XYReturn = keyLED_Edit_Ex.Flip_Rotate_270(UniNoteNumberX & UniNoteNumberY)
+                                                    UniNoteNumberX = xValue.x
+                                                    UniNoteNumberY = xValue.y
+                                                End If
+                                            End If
+
+                                            If FlipStructure_.Duplicate = True Then 'Duplicate
+                                                If FlipStructure_.Mirror <> Mirror.None OrElse FlipStructure_.Rotate <> 0 Then
+                                                    If Not UniNoteNumberX = -8192 Then
+#Region "NewLine"
+                                                        If notWhSp = True Then
+                                                            notWhSp = False
+                                                        Else
+                                                            str.Append(vbNewLine)
+                                                        End If
+#End Region
+                                                        str.Append("f ")
+                                                        str.Append(GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber))
+                                                        str.Append(" ")
+                                                        str.Append(GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber))
+                                                    ElseIf Not UniNoteNumberX = -8193 Then
+#Region "NewLine"
+                                                        If notWhSp = True Then
+                                                            notWhSp = False
+                                                        Else
+                                                            str.Append(vbNewLine)
+                                                        End If
+#End Region
+                                                        str.Append("f mc ")
+                                                        str.Append(GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber))
+                                                    End If
+                                                End If
+                                            End If
+#End Region
+                                        End If
+                                    End If
+
+                                    If Not UniNoteNumberX = -8192 AndAlso Not UniNoteNumberX = -8193 Then
+#Region "set str var"
+#Region "NewLine"
+                                        If notWhSp = True Then
+                                            notWhSp = False
+                                        Else
+                                            str.Append(vbNewLine)
+                                        End If
+#End Region
+                                        str.Append("f ")
+                                        str.Append(UniNoteNumberX)
+                                        str.Append(" ")
+                                        str.Append(UniNoteNumberY)
+#End Region
+                                    ElseIf UniNoteNumberX = -8193 Then '로고라이트 및 모드라이트
+#Region "set str var"
+#Region "NewLine"
+                                        If notWhSp = True Then
+                                            notWhSp = False
+                                        Else
+                                            str.Append(vbNewLine)
+                                        End If
+#End Region
+                                        str.Append("f l")
+#End Region
+                                    Else
+#Region "set str var"
+#Region "NewLine"
+                                        If notWhSp = True Then
+                                            notWhSp = False
+                                        Else
+                                            str.Append(vbNewLine)
+                                        End If
+#End Region
+                                        str.Append("f mc ")
+                                        str.Append(UniNoteNumberY)
+#End Region
+                                    End If
+                                End If
+                            End If
+
+                        ElseIf ALGItemIndex = 1 Then 'Developer Mode
 #Region "Non-Convert (Developer Mode)"
-                        If mdEvent.CommandCode = MidiCommandCode.NoteOn Then
-                            Dim a As NoteOnEvent = DirectCast(mdEvent, NoteOnEvent)
+                            If mdEvent.CommandCode = MidiCommandCode.NoteOn Then
+                                Dim a As NoteOnEvent = DirectCast(mdEvent, NoteOnEvent)
 
-                            If Not delaycount = a.AbsoluteTime Then
+                                If Not delaycount = a.AbsoluteTime Then
+                                    str.Append(vbNewLine)
+                                    str.Append("d ")
+                                    str.Append(a.AbsoluteTime - delaycount)
+                                End If
+
+                                delaycount = a.AbsoluteTime
                                 str.Append(vbNewLine)
-                                str.Append("d ")
-                                str.Append(a.AbsoluteTime - delaycount)
+                                str.Append("o ")
+                                str.Append(a.NoteNumber)
+                                str.Append(" a ")
+                                str.Append(a.Velocity)
+
+                            ElseIf mdEvent.CommandCode = MidiCommandCode.NoteOff Then
+
+                                Dim a As NoteEvent = DirectCast(mdEvent, NoteEvent)
+
+                                If Not delaycount = a.AbsoluteTime Then
+                                    str.Append(vbNewLine)
+                                    str.Append("d ")
+                                    str.Append(a.AbsoluteTime - delaycount)
+                                End If
+
+                                str.Append("f ")
+                                str.Append(a.NoteNumber)
+
                             End If
-
-                            delaycount = a.AbsoluteTime
-                            str.Append(vbNewLine)
-                            str.Append("o ")
-                            str.Append(a.NoteNumber)
-                            str.Append(" a ")
-                            str.Append(a.Velocity)
-
-                        ElseIf mdEvent.CommandCode = MidiCommandCode.NoteOff Then
-
-                            Dim a As NoteEvent = DirectCast(mdEvent, NoteEvent)
-
-                            If Not delaycount = a.AbsoluteTime Then
-                                str.Append(vbNewLine)
-                                str.Append("d ")
-                                str.Append(a.AbsoluteTime - delaycount)
-                            End If
-
-                            str.Append("f ")
-                            str.Append(a.NoteNumber)
-
-                        End If
 #End Region
 
-                    Else
-                        Select Case MainProject.lang
-                            Case Translator.tL.English
-                                MessageBox.Show("You have to select the 'Ableton Live MIDI ALG1' or 'Non-Convert (Developer Mode)'.'", Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                            Case Translator.tL.Korean
-                                MessageBox.Show("알고리즘은 에이블톤 라이브 미디 1'이나 '원본 (제작자 모드)'를 선택해야 합니다.", Me.Text & ": 오류", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                        End Select
-                        Return String.Empty
-                    End If
+                        Else
+                            Select Case MainProject.lang
+                                Case Translator.tL.English
+                                    MessageBox.Show("You have to select the 'Ableton Live MIDI ALG1' or 'Non-Convert (Developer Mode)'.'", Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                                Case Translator.tL.Korean
+                                    MessageBox.Show("알고리즘은 에이블톤 라이브 미디 1'이나 '원본 (제작자 모드)'를 선택해야 합니다.", Me.Text & ": 오류", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                            End Select
+                            Return String.Empty
+                        End If
+                    Next
                 Next
-            Next
 
-            If AutoConvert = False Then
-                Invoke(Sub()
-                           UniLED_Edit.Text = str.ToString()
-                           TestButton.Enabled = True
-                           keyLED_Test.Enabled = True
-                           CopyButton.Enabled = True
-                           LEDExButton.Enabled = True
-                           keyLED_Edit_Ex.Enabled = True
-                       End Sub)
-                UniText = str.ToString()
-                CanEnable = True 'Enabled to Test the LED.
-                keyLED_Test.LoadkeyLEDText(str.ToString())
-                Dim LEDDelay As Integer = GetLEDDelay(str.ToString())
-                Invoke(Sub()
-                           Select Case MainProject.lang
-                               Case Translator.tL.English
-                                   TimeLabel.Text = "LED Running Time: " & LEDDelay & "ms"
-                               Case Translator.tL.Korean
-                                   TimeLabel.Text = "LED Delay 시간: " & LEDDelay & "ms"
-                           End Select
-                       End Sub)
+                If AutoConvert = False Then
+                    Invoke(Sub()
+                               UniLED_Edit.Text = str.ToString()
+                               TestButton.Enabled = True
+                               keyLED_Test.Enabled = True
+                               CopyButton.Enabled = True
+                               LEDExButton.Enabled = True
+                               keyLED_Edit_Ex.Enabled = True
+                           End Sub)
+                    UniText = str.ToString()
+                    CanEnable = True 'Enabled to Test the LED.
+                    keyLED_Test.LoadkeyLEDText(str.ToString())
+                    Dim LEDDelay As Integer = GetLEDDelay(str.ToString())
+                    Invoke(Sub()
+                               Select Case MainProject.lang
+                                   Case Translator.tL.English
+                                       TimeLabel.Text = "LED Running Time: " & LEDDelay & "ms"
+                                   Case Translator.tL.Korean
+                                       TimeLabel.Text = "LED Delay 시간: " & LEDDelay & "ms"
+                               End Select
+                           End Sub)
 
-                stopw.Stop()
-                Debug.WriteLine(String.Format("'{0}' Elapsed Time: {1}ms", Path.GetFileName(FilePath), stopw.ElapsedMilliseconds))
-            End If
+                    stopw.Stop()
+                    Debug.WriteLine(String.Format("'{0}' Elapsed Time: {1}ms", Path.GetFileName(FilePath), stopw.ElapsedMilliseconds))
+                End If
 
-            If WaitForSpeed Then
-                WaitForSpeed = False
-                Return keyLED_SpeedChanged(speed)
-            End If
+                If WaitForSpeed Then
+                    WaitForSpeed = False
+                    Return keyLED_SpeedChanged(speed)
+                End If
 
-            Return str.ToString()
-        Catch ex As Exception
-            If MainProject.IsGreatExMode Then
+                Return str.ToString()
+            Catch ex As Exception
+                If MainProject.IsGreatExMode Then
                 MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Else
                 MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
