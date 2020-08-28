@@ -84,6 +84,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\NAudio.dll</HintPath>
     </Reference>
+    <Reference Include="PVS.MediaPlayer">
+      <HintPath>..\..\ProjectUnitor\allnewunitor\bin\Debug\PVS.MediaPlayer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -159,6 +162,12 @@
     <Compile Include="keySound\keySound_Edit.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Other Resources\Contents.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Contents.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Other Resources\LEDNodeList.vb" />
     <Compile Include="Other Resources\Loading.Designer.vb">
       <DependentUpon>Loading.vb</DependentUpon>
     </Compile>
@@ -247,6 +256,12 @@
     <EmbeddedResource Include="keySound\keySound_Edit.resx">
       <DependentUpon>keySound_Edit.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Other Resources\Contents.ko.resx" />
+    <EmbeddedResource Include="Other Resources\Contents.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Contents.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Other Resources\Loading.resx">
       <DependentUpon>Loading.vb</DependentUpon>
     </EmbeddedResource>
@@ -333,5 +348,6 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

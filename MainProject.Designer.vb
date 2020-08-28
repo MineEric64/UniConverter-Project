@@ -34,6 +34,7 @@ Partial Class MainProject
         Me.AutoConvert = New System.Windows.Forms.ToolStripMenuItem()
         Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ResetTheProjectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.LEDtoAutoPlayToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TutorialsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -262,7 +263,6 @@ Partial Class MainProject
         Me.BGW_keyLEDLayout = New System.ComponentModel.BackgroundWorker()
         Me.BGW_soundcut = New System.ComponentModel.BackgroundWorker()
         Me.BGW_RsProj = New System.ComponentModel.BackgroundWorker()
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.MenuStrip.SuspendLayout()
         Me.HomeEdit.SuspendLayout()
         Me.Info1.SuspendLayout()
@@ -354,6 +354,11 @@ Partial Class MainProject
         Me.ResetTheProjectToolStripMenuItem.Name = "ResetTheProjectToolStripMenuItem"
         Me.ResetTheProjectToolStripMenuItem.Size = New System.Drawing.Size(251, 22)
         Me.ResetTheProjectToolStripMenuItem.Text = "Reset the Project"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(248, 6)
         '
         'LEDtoAutoPlayToolStripMenuItem
         '
@@ -3075,11 +3080,6 @@ Partial Class MainProject
         '
         'BGW_RsProj
         '
-        '
-        'ToolStripSeparator1
-        '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(248, 6)
         '
         'MainProject
         '

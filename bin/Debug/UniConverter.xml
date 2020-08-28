@@ -118,6 +118,22 @@ o 6 3 a  [rest of string was truncated]&quot;;.
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
 </member>
+<member name="T:UniConverter.My.Resources.Contents">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Contents.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Contents.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
 <member name="M:UniConverter.keyLED_Edit_Ex.Flip_Rotate_90(System.Int32)">
  <summary>
  90도 회전해줍니다. 이 함수에서는 시계방향 90도를 해줍니다.
@@ -530,6 +546,15 @@ o 6 3 a  [rest of string was truncated]&quot;;.
  MainProject에서 프로젝트를 저장합니다.
  </summary>
  <param name="Waiting">기다릴까?</param>
+</member>
+<member name="M:UniConverter.MainProject.ConvertKeyLEDForMIDEX_v2(System.String,System.String@,System.Boolean,System.String)">
+ <summary>
+ 종합 keyLED (MIDEX) 변환 함수 (Midi Extension, Midi Fire, Lightweight 지원)
+ </summary>
+ <param name="AbletonProjectFilePath">에이블톤 프로젝트 파일 경로</param>
+ <param name="err">오류 메시지</param>
+ <param name="ShowLoadingMessage">로딩 메시지</param>
+ <param name="PluginName">플러그인 이름</param>
 </member>
 <member name="M:UniConverter.MainProject.Cntstr(System.String,System.String)">
  <summary>

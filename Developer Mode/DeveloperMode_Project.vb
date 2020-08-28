@@ -4,6 +4,8 @@ Imports System.Xml
 Imports A2UP.A2U.keyLED_MIDEX
 Imports NAudio.Midi
 
+Imports System.Text
+
 Public Class DeveloperMode_Project
     'Developer Mode에서는 Exception 예외 처리 때 GreatEx가 필요 없습니다.
     '어처피 Developer Mode는 불안정한 모드들을 Beta 기능으로 지원해주기 때문에 GreatEx가 필요 없습니다.
@@ -64,7 +66,7 @@ Public Class DeveloperMode_Project
         DeveloperMode_abl_FileVersion = NewElementList.GetAttribute("Creator")
 
         Dim itm As New List(Of String) _
-    From {"File Name", "Chains", "File Version", "Sound Cutting", "KeyTracks (keyLED)", "keyLED (MIDI Extension)"}
+    From {"File Name", "Chains", "File Version", "Sound Cutting", "KeyTracks (keyLED)", "keyLED (MIDI Extension)", "keyLED (MIDEX, MidiFire)"}
         Info_ListView.Items.Clear()
         For Each items As String In itm
             Info_ListView.Items.Add(items)
@@ -89,6 +91,8 @@ Public Class DeveloperMode_Project
                     Info_TextBox.Text = GetkeyLED(EachCode.keyLED_1)
                 Case "keyLED (MIDI Extension)"
                     Info_TextBox.Text = GetkeyLED(EachCode.keyLED_MIDEX_1)
+                Case "keyLED (MIDEX, MidiFire)"
+                    Info_TextBox.Text = GetkeyLED_MIDEX_v2()
             End Select
         End If
     End Sub
@@ -96,6 +100,43 @@ Public Class DeveloperMode_Project
     Private Shared Function GetXpath(ByVal node As XmlNode) As String
         If node.Name = "#document" Then Return String.Empty
         Return GetXpath(node.SelectSingleNode("..")) & "/" + If(node.NodeType = XmlNodeType.Attribute, "@", String.Empty) + node.Name
+    End Function
+
+    Public Shared Function GetkeyLED_MIDEX_v2() As String
+        Dim sb As New StringBuilder(255)
+
+        Dim doc As New XmlDocument
+        doc.Load(AbletonProjectXML)
+        
+        For Each x As XmlNode In doc.GetElementsByTagName("MidiEffectBranch")
+            Try
+                Dim _Test1 As Integer = Integer.Parse(x.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("LomId").GetAttribute("Value"))
+                Try
+                    Dim _Test2 As Integer = Integer.Parse(x.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiRandom").Item("Choices").Item("Manual").GetAttribute("Value")) '랜덤 MidiEffectRack
+                Catch exNN As NullReferenceException
+                    Dim _Test3 As String = x.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("PatchSlot").Item("Value").Item("MxDPatchRef").Item("FileRef").Item("Name").GetAttribute("Value") '일반 MidiEffectRack
+                End Try
+            Catch exN As NullReferenceException
+                Dim NextOfNextFound As Boolean = False
+                Try
+                    Dim _Test4 As Integer = Integer.Parse(x.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiEffectGroupDevice").Item("LomId").GetAttribute("Value"))
+                    Try
+                        Integer.Parse(x.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiRandom").Item("Choices").Item("Manual").GetAttribute("Value")) '랜덤 코드만 입장 가능.
+                    Catch
+                        '이것도 Exception 처리 나오면 다른거고, 성공하면 Page임.
+                        Dim NextOfNextTest As String = x.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiEffectGroupDevice").Item("Branches").Item("MidiEffectBranch").GetAttribute("Id")
+                        NextOfNextFound = True
+                    End Try
+                    Catch exNN As Exception
+                        Continue For '다른 무언가이였던것임!
+                    End Try
+            End Try
+
+            sb.Append(GetXpath(x))
+            sb.Append(Environment.NewLine)
+        Next
+
+        Return sb.ToString()
     End Function
 
     ''' <summary>
