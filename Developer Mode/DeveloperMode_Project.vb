@@ -66,7 +66,7 @@ Public Class DeveloperMode_Project
         DeveloperMode_abl_FileVersion = NewElementList.GetAttribute("Creator")
 
         Dim itm As New List(Of String) _
-    From {"File Name", "Chains", "File Version", "Sound Cutting", "KeyTracks (keyLED)", "keyLED (MIDI Extension)", "keyLED (MIDEX, MidiFire)"}
+    From {"File Name", "Chains", "File Version", "Sound Cutting", "KeyTracks (keyLED)", "keyLED (MIDI Extension)", "keyLED (MIDEX, MidiFire)", "keyLED (integrated version)"}
         Info_ListView.Items.Clear()
         For Each items As String In itm
             Info_ListView.Items.Add(items)
@@ -93,6 +93,12 @@ Public Class DeveloperMode_Project
                     Info_TextBox.Text = GetkeyLED(EachCode.keyLED_MIDEX_1)
                 Case "keyLED (MIDEX, MidiFire)"
                     Info_TextBox.Text = GetkeyLED_MIDEX_v2()
+                Case "keyLED (integrated version)"
+                    With MainProject
+                        Dim err As String = String.Empty
+                        .ConvertKeyLEDForMIDEX_v2(AbletonProjectXML, err, False, "MidiFire")
+                        Debug.WriteLineIf(Not String.IsNullOrWhiteSpace(err), err)
+                    End With
             End Select
         End If
     End Sub

@@ -271,7 +271,7 @@ Public Class MainProject
     ''' </summary>
     Public Shared TempDirectory As String = My.Computer.FileSystem.SpecialDirectories.Temp
 
-    Private Sub MainProject_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Async Sub MainProject_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
             Dim file_ex As String = Application.StartupPath + "\settings.xml"
 
@@ -294,8 +294,9 @@ Public Class MainProject
                 DeveloperModeToolStripMenuItem.Visible = True
             End If
 
-            Task.Run(Sub() DeleteWorkspaceDir()) 'Workspace의 UniPack 폴더 정리.
-            Thread.Sleep(500)
+            Await Task.Run(Sub() 'Workspace의 UniPack 폴더 정리.
+                DeleteWorkspaceDir()
+                           End Sub)
 
 #Region "Dictionary 버튼 추가"
             'keySound 8x8 유니패드 버튼
@@ -555,7 +556,6 @@ Public Class MainProject
     Public Sub DeleteWorkspaceDir()
         If Directory.Exists(Application.StartupPath & "\Workspace") Then
             Directory.Delete(Application.StartupPath & "\Workspace", True)
-            Thread.Sleep(1000)
             Directory.CreateDirectory(Application.StartupPath & "\Workspace")
         Else
             Directory.CreateDirectory(Application.StartupPath & "\Workspace")
@@ -3501,18 +3501,95 @@ Public Class MainProject
         doc.Load(AbletonProjectFilePath)
         setNode = doc.GetElementsByTagName("MidiEffectBranch")
 
-        Dim LEDList As New List(Of LEDNodeList)
+        Dim errSb As New StringBuilder(255)
 
-        For i = 0 To setNode.Count - 1
-            Dim LEDNode As XmlNode = setNode(i)
+        Dim LEDList As New List(Of LEDNodeList) '최종 노드 배열
 
+        Dim midiEffectBranchList As New List(Of MidiEffectBranches) '최종으로 MidiEffectBranch만 갖고 올 배열
+        Dim nodeListInNode As List(Of LEDNodeList) = Nothing 'For문을 돌면서 LEDList에 Node를 넣을 배열
 
+        midiEffectBranchList.AddRange(GetMidiEffectBranches(setNode))
+
+        For i = 0 To midiEffectBranchList.Count - 1
+            Dim branches As MidiEffectBranches = midiEffectBranchList(i)
+
+            nodeListInNode = LEDList
+
+            For j = 0 To branches.MidiEffectBranchList.Count - 1
+                Dim branch As MidiEffectBranch = branches.MidiEffectBranchList(j)
+
+                Dim branchesInNodeList As List(Of LEDNodeList)
+                branchesInNodeList = nodeListInNode.Where(Function(x) x.Xpath = "MidiEffectBranch" AndAlso x.Id = branch.Id).ToList()
+                
+                If branchesInNodeList.Count = 0 Then '추가
+                    Dim nodeList As New LEDNodeList("MidiEffectBranch", branch.Id, branch.Node)
+
+                    nodeListInNode.Add(nodeList)
+                    nodeListInNode = nodeList.NodeList
+
+                Else '존재 하는 경우
+                    Dim firstBranch As LEDNodeList = branchesInNodeList(0)
+                    
+                    nodeListInNode = firstBranch.NodeList
+                End If
+            Next
         Next
+
+        err = errSb.ToString()
     End Sub
 
     Public Shared Function GetXpathForXml(ByVal node As XmlNode) As String
         If node.Name = "#document" Then Return String.Empty
         Return GetXpathForXml(node.SelectSingleNode("..")) & "/" + If(node.NodeType = XmlNodeType.Attribute, "@", String.Empty) + node.Name
+    End Function
+
+    Public Shared Function GetXpathsForKeyLED(xpath As String) As String()
+        Dim xpaths As String() = xpath.TrimStart("/").Split("/")
+        Dim xpathList As New List(Of String)
+
+        Dim needToAdd As Boolean = False
+
+        For i = 0 To xpaths.Count() - 1
+            If Not needToAdd AndAlso xpaths(i) = "MidiEffectBranch" Then
+                needToAdd = True
+            End If
+            If Not needToAdd Then
+                Continue For
+            End If
+
+            xpathList.Add(xpaths(i))
+        Next
+        
+        Return xpathList.ToArray()
+    End Function
+
+    Public Shared Function GetMidiEffectBranches(setNode As XmlNodeList) As MidiEffectBranches()
+        Dim midiEffectBranchList As New List(Of MidiEffectBranches)
+
+        For i = 0 To setNode.Count - 1
+            Dim LEDNode As XmlNode = setNode(i)
+            Dim nodeXpath As String() = GetXpathsForKeyLED(GetXpathForXml(LEDNode))
+
+            Dim branches As New MidiEffectBranches()
+
+            Dim nodeInNode As XmlNode = LEDNode
+
+            For j = 0 To nodeXpath.Length - 1
+                If nodeInNode.Name = "MidiEffectBranch" Then
+                    Dim id As Integer = Integer.Parse(nodeInNode.Attributes("Id").Value)
+                    Dim branch As New MidiEffectBranch(id, nodeInNode)
+
+                    branches.MidiEffectBranchList.Add(branch)
+                End If
+
+                nodeInNode = nodeInNode.ParentNode
+            Next
+
+            branches.MidiEffectBranchList.Reverse()
+            midiEffectBranchList.Add(branches)
+        Next
+
+        Return midiEffectBranchList.ToArray()
     End Function
 
     Public Sub ConvertKeyLEDForMidiExtension(AbletonProjectFilePath As String, ByRef err As String, ShowLoadingMessage As Boolean)
@@ -4291,4 +4368,20 @@ Public Class MainProject
     Private Sub LEDtoAutoPlayToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LEDtoAutoPlayToolStripMenuItem.Click
         keyLED_AutoPlay.Show()
     End Sub
+
+    Public Shared Function ArrayToString(Of T)(ByVal array As IEnumerable(Of T)) As String
+        Dim text As StringBuilder = New StringBuilder()
+        text.Append("[")
+
+        For i As Integer = 0 To array.Count - 1
+            text.Append(array(i).ToString())
+
+            If Not i = array.Count - 1 Then
+                text.Append(",")
+            End If
+        Next
+        text.Append("]")
+
+        Return text.ToString()
+    End Function
 End Class

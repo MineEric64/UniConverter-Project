@@ -133,6 +133,8 @@
     <Compile Include="keyLED\keyLED_Test.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="keyLED\MidiEffectBranch.vb" />
+    <Compile Include="keyLED\MidiEffectBranches.vb" />
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -167,7 +169,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Contents.resx</DependentUpon>
     </Compile>
-    <Compile Include="Other Resources\LEDNodeList.vb" />
+    <Compile Include="keyLED\LEDNodeList.vb" />
     <Compile Include="Other Resources\Loading.Designer.vb">
       <DependentUpon>Loading.vb</DependentUpon>
     </Compile>
