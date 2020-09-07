@@ -3503,6 +3503,7 @@ Public Class MainProject
 
         Dim errSb As New StringBuilder(255)
 
+        'List In List 알고리즘으로 배열 정렬
         Dim LEDList As New List(Of LEDNodeList) '최종 노드 배열
 
         Dim midiEffectBranchList As New List(Of MidiEffectBranches) '최종으로 MidiEffectBranch만 갖고 올 배열
@@ -3524,6 +3525,16 @@ Public Class MainProject
                 If branchesInNodeList.Count = 0 Then '추가
                     Dim nodeList As New LEDNodeList("MidiEffectBranch", branch.Id, branch.Node)
 
+                    If Not IsNothing(branch.MidiEffectRack) Then 'Midi Effect Rack 추가
+                        Dim midiEffectRackId As Integer = Integer.Parse(branch.MidiEffectRack.Attributes("Id").Value)
+                        Dim midiEffectRackList As List(Of LEDNodeList) = nodeListInNode.Where(Function(x) x.Xpath = "MidiEffectRack" AndAlso x.Id = midiEffectRackId).ToList()
+
+                        If midiEffectRackList.Count = 0 Then
+                            Dim nodeMidiEffectRack As New LEDNodeList("MidiEffectRack", midiEffectRackId, branch.MidiEffectRack)
+                            nodeListInNode.Add(nodeMidiEffectRack)
+                        End If
+                    End If
+
                     nodeListInNode.Add(nodeList)
                     nodeListInNode = nodeList.NodeList
 
@@ -3533,6 +3544,17 @@ Public Class MainProject
                     nodeListInNode = firstBranch.NodeList
                 End If
             Next
+        Next
+
+        'Chain 유효성 검사 (with MidiEffectRack)
+        For i = 0 To LEDList.Count - 1
+            Dim LEDNode As LEDNodeList = LEDList(i)
+
+            nodeListInNode = LEDNode.NodeList
+
+            While nodeListInNode.Count <> 0
+
+            End While
         Next
 
         err = errSb.ToString()
@@ -3578,6 +3600,10 @@ Public Class MainProject
                 If nodeInNode.Name = "MidiEffectBranch" Then
                     Dim id As Integer = Integer.Parse(nodeInNode.Attributes("Id").Value)
                     Dim branch As New MidiEffectBranch(id, nodeInNode)
+
+                    If nodeInNode.ParentNode.ParentNode.Name = "MidiEffectGroupDevice" Then 'Midi Effect Rack
+                        branch.MidiEffectRack = nodeInNode.ParentNode.ParentNode
+                    End If
 
                     branches.MidiEffectBranchList.Add(branch)
                 End If
