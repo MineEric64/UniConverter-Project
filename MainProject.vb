@@ -16,6 +16,8 @@ Imports System.Drawing.Drawing2D
 Imports NAudio.Wave
 Imports System.Text
 
+Imports UniConverter.keyLED_Edit
+
 Public Class MainProject
 
 #Region "UniConverter-MainProject(s)"
@@ -3489,9 +3491,9 @@ Public Class MainProject
     ''' </summary>
     ''' <param name="AbletonProjectFilePath">에이블톤 프로젝트 파일 경로</param>
     ''' <param name="err">오류 메시지</param>
-    ''' <param name="ShowLoadingMessage">로딩 메시지</param>
-    ''' <param name="PluginName">플러그인 이름</param>
-    Public Sub ConvertKeyLEDForMIDEX_v2(AbletonProjectFilePath As String, ByRef err As String, ShowLoadingMessage As Boolean, PluginName As String)
+    ''' <param name="showLoadingMessage">로딩 메시지</param>
+    ''' <param name="pluginName">플러그인 이름</param>
+    Public Sub ConvertKeyLEDForMIDEX_v2(abletonProjectFilePath As String, ByRef err As String, showLoadingMessage As Boolean, pluginName As Plugins)
         '코드 종합 및 최적화 버전 (v2)
 
         'NextOfNext 문제점 완전히 해결
@@ -3550,9 +3552,42 @@ Public Class MainProject
         For i = 0 To LEDList.Count - 1
             Dim LEDNode As LEDNodeList = LEDList(i)
 
+            Dim chain = 1
+
             nodeListInNode = LEDNode.NodeList
 
             While nodeListInNode.Count <> 0
+                Dim isRealChain = False '현재 체인을 바꿀 수 있는 체인인가?
+
+                Dim midiEffectRack As List(Of LEDNodeList) = nodeListInNode.Where(Function(x) x.Xpath = "MidiEffectRack").ToList()
+                
+                If midiEffectRack.Count > 0 Then
+                    Dim macroControl As XmlNode = midiEffectRack.First().Node.Item("MacroControls.0")
+                    Dim keyMidi As XmlNode = macroControl.Item("KeyMidi")
+                    Dim midiControllerRange As XmlNode = macroControl.Item("MidiControllerRange")
+
+                    Dim minChain As Integer = Integer.Parse(midiControllerRange.Item("Min").GetAttribute("Value"))
+                    Dim maxChain As Integer = Integer.Parse(midiControllerRange.Item("Max").GetAttribute("Value"))
+
+                    If Not IsNothing(keyMidi) Then
+                        Dim lowerRangeNote As Integer = Integer.Parse(keyMidi.Item("LowerRangeNote").GetAttribute("Value"))
+                        Dim upperRangeNote As Integer = Integer.Parse(keyMidi.Item("UpperRangeNote").GetAttribute("Value"))
+                        Dim maxRangeNote As Integer = upperRangeNote - lowerRangeNote
+
+                        If maxRangeNote = 7 AndAlso minChain = 0 AndAlso maxChain = 7 Then 'Chain Selector 부분
+                            isRealChain = True
+                        End If
+                    End If
+                End If
+
+                Select Case pluginName
+                    Case Plugins.MidiExtension
+                        Return
+
+                    Case Plugins.MidiFire, Plugins.LightWeight
+                        Return
+
+                End Select
 
             End While
         Next

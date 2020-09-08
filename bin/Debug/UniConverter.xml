@@ -547,14 +547,14 @@ o 6 3 a  [rest of string was truncated]&quot;;.
  </summary>
  <param name="Waiting">기다릴까?</param>
 </member>
-<member name="M:UniConverter.MainProject.ConvertKeyLEDForMIDEX_v2(System.String,System.String@,System.Boolean,System.String)">
+<member name="M:UniConverter.MainProject.ConvertKeyLEDForMIDEX_v2(System.String,System.String@,System.Boolean,UniConverter.keyLED_Edit.Plugins)">
  <summary>
  종합 keyLED (MIDEX) 변환 함수 (Midi Extension, Midi Fire, Lightweight 지원)
  </summary>
  <param name="AbletonProjectFilePath">에이블톤 프로젝트 파일 경로</param>
  <param name="err">오류 메시지</param>
- <param name="ShowLoadingMessage">로딩 메시지</param>
- <param name="PluginName">플러그인 이름</param>
+ <param name="showLoadingMessage">로딩 메시지</param>
+ <param name="pluginName">플러그인 이름</param>
 </member>
 <member name="M:UniConverter.MainProject.Cntstr(System.String,System.String)">
  <summary>

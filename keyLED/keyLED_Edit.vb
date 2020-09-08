@@ -14,6 +14,13 @@ Public Class keyLED_Edit
     Public Ex_Flip As New List(Of FlipStructure)
     Public Ex_Color As New List(Of Nullable)
 
+    Public Enum Plugins
+        MidiExtension
+        MidiFire
+        LightWeight
+        Flip
+    End Enum
+
     Private Sub KeyLED_Edit_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'FileName 표시.
         For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\ableproj\CoLED", FileIO.SearchOption.SearchTopLevelOnly, "*.mid") 'FileName의 파일 찾기
