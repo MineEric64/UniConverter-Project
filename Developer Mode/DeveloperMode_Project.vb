@@ -96,7 +96,7 @@ Public Class DeveloperMode_Project
                 Case "keyLED (integrated version)"
                     With MainProject
                         Dim err As String = String.Empty
-                        .ConvertKeyLEDForMIDEX_v2(AbletonProjectXML, err, False, keyLED_Edit.Plugins.MidiFire)
+                        .ConvertKeyLEDForMIDEX_v2(AbletonProjectXML, err, False)
                         Debug.WriteLineIf(Not String.IsNullOrWhiteSpace(err), err)
                     End With
             End Select

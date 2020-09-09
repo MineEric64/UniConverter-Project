@@ -406,11 +406,6 @@ o 6 3 a  [rest of string was truncated]&quot;;.
  현재 선택한 체인. (1~8)
  </summary>
 </member>
-<member name="F:UniConverter.MainProject.led">
- <summary>
- HTML to LED Velocity.
- </summary>
-</member>
 <member name="F:UniConverter.MainProject.kl_Converted">
  <summary>
  keyLED 변환 여부.
@@ -547,7 +542,7 @@ o 6 3 a  [rest of string was truncated]&quot;;.
  </summary>
  <param name="Waiting">기다릴까?</param>
 </member>
-<member name="M:UniConverter.MainProject.ConvertKeyLEDForMIDEX_v2(System.String,System.String@,System.Boolean,UniConverter.keyLED_Edit.Plugins)">
+<member name="M:UniConverter.MainProject.ConvertKeyLEDForMIDEX_v2(System.String,System.String@,System.Boolean)">
  <summary>
  종합 keyLED (MIDEX) 변환 함수 (Midi Extension, Midi Fire, Lightweight 지원)
  </summary>
@@ -555,6 +550,14 @@ o 6 3 a  [rest of string was truncated]&quot;;.
  <param name="err">오류 메시지</param>
  <param name="showLoadingMessage">로딩 메시지</param>
  <param name="pluginName">플러그인 이름</param>
+</member>
+<member name="M:UniConverter.MainProject.ConvertKeyLEDForMidiFire_v2(System.Xml.XmlNode,UniConverter.MultiMapping@)">
+ <summary>
+ Midi Fire 플러그인을 위한 LED 자동 변환 함수
+ </summary>
+ <param name="node"></param>
+ <param name="mm"></param>
+ <returns></returns>
 </member>
 <member name="M:UniConverter.MainProject.Cntstr(System.String,System.String)">
  <summary>
