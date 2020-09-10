@@ -211,6 +211,7 @@ Public Class MainProject
 
     Private splitSounds As New List(Of String)
 
+    Public Shared ReadOnly ABLETON_PROJECT_XML_PATH As String = Application.StartupPath & "\Workspace\ableproj\abl_proj.xml"
     Public Shared ReadOnly KEYLED_MIDI_PATH As String = Application.StartupPath & "\Workspace\ableproj\CoLED"
     Public Shared ReadOnly KEYLED_UNIPACK_PATH As String = Application.StartupPath & "\Workspace\unipack\keyLED"
 #End Region
@@ -939,6 +940,38 @@ Public Class MainProject
         End Using
     End Sub
 
+    ''' <summary>
+    ''' 체인 값 얻는 함수
+    ''' </summary>
+    ''' <param name="xmlPath">에이블톤 프로젝트 XML 경로</param>
+    ''' <returns></returns>
+    Public Shared Function GetChainFromAbletonProject(xmlPath As String) As Integer
+        Dim doc As New XmlDocument
+        doc.Load(xmlPath)
+
+        Dim chain = 1
+
+        'LED
+        Dim ledNodes As XmlNodeList = doc.GetElementsByTagName("MidiEffectBranch")
+        Dim ledNodeList As List(Of XmlNode) = ledNodes.Cast(Of XmlNode).ToList()
+
+        Dim chainList As List(Of Integer) = ledNodeList.Select(Function(x) Integer.Parse(x.Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1).ToList()
+        Dim sortedChainList As List(Of Integer) = chainList.OrderByDescending(Function(x) x).ToList()
+        Dim maxChain As Integer = sortedChainList.First()
+
+        ledNodeList.Clear()
+        chainList.Clear()
+        sortedChainList.Clear()
+
+        If maxChain >= 1 AndAlso maxChain <= 8 Then
+            chain = maxChain
+        ElseIf maxChain > 8 Then
+            chain = 8
+        End If '최대 체인이 1보다 작은 경우는 이미 chain이 1이므로 생략
+
+        Return chain
+    End Function
+
     Private Sub Ableton_OpenProject(sender As Object, e As DoWorkEventArgs) Handles BGW_ablproj.DoWork
         '---Beta Code: Converting Ableton Project Info To Unipack Info---
         '이 Beta Convert Code는 오류가 발생할 수 있습니다.
@@ -1037,38 +1070,11 @@ Public Class MainProject
                        Loading.DLb.Text = Loading.MsgKr.loading_Project_Chain_msg
                End Select
            End Sub)
-#Region "Loading Chain Numbers"
-        Dim ablprj As String = Application.StartupPath & "\Workspace\ableproj\abl_proj.xml"
-        Dim doc As New XmlDocument
-        Dim setNode As XmlNodeList
-        doc.Load(ablprj)
-        setNode = doc.GetElementsByTagName("MidiEffectBranch")
 
-        Dim li As Integer = setNode.Count
-        Dim chan_ As Integer() = New Integer(li) {}
-
-        Dim iy As Integer = 0
-        For Each x As XmlNode In setNode
-            'Chain + 1 해주는 이유는 항상 Chain의 기본값이 0이기 때문임. 유니팩에서는 Chain 1이여도 에이블톤에서는 Chain 0임.
-            chan_(iy) = x.Item("BranchSelectorRange").Item("Max").GetAttribute("Value") + 1
-            iy += 1
-        Next
-
-        Array.Sort(chan_)
-        Array.Reverse(chan_)
-
-        Dim FinalChain As Integer = 0
-        For i As Integer = 0 To chan_.Count - 1
-            If chan_(i) < 9 AndAlso chan_(i) > 0 Then
-                FinalChain = chan_(i)
-                Exit For
-            End If
-        Next
-#End Region
 
         '정리.
         abl_Name = FinalName
-        abl_Chain = FinalChain
+        abl_Chain = GetChainFromAbletonProject(ABLETON_PROJECT_XML_PATH)
 
         UI(Sub()
                Loading.DLb.Left = 40
@@ -2604,7 +2610,7 @@ Public Class MainProject
         End Select
     End Sub
 
-#Region "Pitch2XY"
+#Region "Pitch2XY (Deprecated On Unitor v3.1.2.1)"
     Private Function MIDIFighter64_GetKey_(ByVal 피치 As Integer) As String
         Select Case 피치
             Case 52
@@ -3607,12 +3613,14 @@ Public Class MainProject
                     Dim pluginNameInXml As String = String.Empty
 
                     Try
-                        pluginNameInXml = node.Node.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("SourceContext").Item("Value").Item("BranchSourceContext").Item("OriginalFileRef").Item("FileRef").Item("Name").GetAttribute("Value")
+                        pluginNameInXml = node.Node.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect")?.Item("SourceContext")?.Item("Value")?.Item("BranchSourceContext")?.Item("OriginalFileRef")?.Item("FileRef")?.Item("Name")?.GetAttribute("Value")
                         pluginName = GetPluginForKeyLED(pluginNameInXml)
 
                         If pluginName = Plugins.None Then
                             isFoundPlugin = False
                             pluginName = Nothing
+                        Else
+                            isFoundPlugin = True
                         End If
 
                     Catch ex As NullReferenceException
@@ -3620,7 +3628,7 @@ Public Class MainProject
                         pluginName = Nothing
                     End Try
                     
-                    If node.NodeList.Count <> 0 AndAlso Not isFoundPlugin AndAlso IsNothing(pluginName) Then '플러그인 자동으로 못찾음
+                    If node.NodeList.Count <> 0 AndAlso Not isFoundPlugin AndAlso pluginName = Plugins.None Then '플러그인 자동으로 못찾음
                         MessageBox.Show($"Plugin not found.{Environment.NewLine}Plugin Name: '{pluginNameInXml}'") '원래는 플러그인 뭘 사용했는지 물어보고 그 다음 결정하는건데 그건 나중에
                         Return
                     End If
@@ -3711,6 +3719,10 @@ Public Class MainProject
     End Function
 
     Public Shared Function GetPluginForKeyLED(name As String) As Plugins
+        If IsNothing(name) Then
+            Return Plugins.None
+        End If
+
         name = name.ToLower().Replace(" ", "")
 
         If name.Contains(".amxd") Then
@@ -3783,36 +3795,38 @@ Public Class MainProject
         End If
 
         Try
-            Dim midiName As String = node.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("FileDropList").Item("FileDropList").Item("MxDFullFileDrop").Item("FileRef").Item("FileRef").Item("Name").GetAttribute("Value")
-            Dim midiPathList As List(Of String) = Directory.GetFiles(KEYLED_MIDI_PATH, "*.mid").ToList().Where(Function(filePath) Path.GetFileName(filePath) = midiName).ToList()
+            Dim midiName As String = node.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices")?.Item("MxDeviceMidiEffect")?.Item("FileDropList")?.Item("FileDropList")?.Item("MxDFullFileDrop")?.Item("FileRef")?.Item("FileRef")?.Item("Name")?.GetAttribute("Value")
+            
+            If Not IsNothing(midiName) Then
+                Dim midiPathList As List(Of String) = Directory.GetFiles(KEYLED_MIDI_PATH, "*.mid").ToList().Where(Function(filePath) Path.GetFileName(filePath) = midiName).ToList()
 
-            If midiPathList.Count > 0 Then
-                Dim midiPath As String = midiPathList.First()
-                Dim script As String = keyLED_Edit.keyLED_MidiToKeyLED(midiPath, True, 100, 120)
+                If midiPathList.Count > 0 Then
+                    Dim midiPath As String = midiPathList.First()
+                    Dim script As String = keyLED_Edit.keyLED_MidiToKeyLED(midiPath, True, 100, 120)
 
 
+                    Dim chainMin As Integer = Integer.Parse(node.Item("BranchSelectorRange").Item("Min").GetAttribute("Value"))
+                    Dim chainMax As Integer = Integer.Parse(node.Item("BranchSelectorRange").Item("Max").GetAttribute("Value"))
 
-                Dim chainMin As Integer = Integer.Parse(node.Item("BranchSelectorRange").Item("Min").GetAttribute("Value"))
-                Dim chainMax As Integer = Integer.Parse(node.Item("BranchSelectorRange").Item("Max").GetAttribute("Value"))
+                    Dim noteNumberMin As Integer = Integer.Parse(node.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))
+                    Dim noteNumberMax As Integer = Integer.Parse(node.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))
 
-                Dim noteNumberMin As Integer = Integer.Parse(node.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))
-                Dim noteNumberMax As Integer = Integer.Parse(node.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))
+                    If isRandom Then
+                        noteNumberMin = mm.NoteNumberMin
+                        noteNumberMax = mm.NoteNumberMax
+                    End If
 
-                If isRandom Then
-                    noteNumberMin = mm.NoteNumberMin
-                    noteNumberMax = mm.NoteNumberMax
-                End If
+                    For chain = chainMin To chainMax
+                        For noteNumber = noteNumberMin To noteNumberMax
+                            Dim x As Integer = GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, noteNumber)
+                            Dim y As Integer = GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, noteNumber)
+                            Dim loopNumber As Integer = 1
 
-                For chain = chainMin To chainMax
-                    For noteNumber = noteNumberMin To noteNumberMax
-                        Dim x As Integer = GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, noteNumber)
-                        Dim y As Integer = GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, noteNumber)
-                        Dim loopNumber As Integer = 1
-
-                        Dim led As New KeyLEDStructure(chain + 1, x, y, loopNumber, script)
-                        ledList.Add(led)
+                            Dim led As New KeyLEDStructure(chain + 1, x, y, loopNumber, script)
+                            ledList.Add(led)
+                        Next
                     Next
-                Next
+                End If
             End If
 
         Catch ex As NullReferenceException

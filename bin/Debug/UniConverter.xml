@@ -523,6 +523,13 @@ o 6 3 a  [rest of string was truncated]&quot;;.
  <param name="URL">사이트 url.</param>
  <returns></returns>
 </member>
+<member name="M:UniConverter.MainProject.GetChainFromAbletonProject(System.String)">
+ <summary>
+ 체인 값 얻는 함수
+ </summary>
+ <param name="xmlPath">에이블톤 프로젝트 XML 경로</param>
+ <returns></returns>
+</member>
 <member name="M:UniConverter.MainProject.UniPack_SaveInfo(System.Boolean)">
  <summary>
  UniPack의 info 파일을 저장합니다.
