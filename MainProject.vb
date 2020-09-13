@@ -3538,14 +3538,14 @@ Public Class MainProject
                 Dim branch As MidiEffectBranch = branches.MidiEffectBranchList(j)
 
                 Dim branchesInNodeList As List(Of LEDNodeList)
-                branchesInNodeList = nodeListInNode.Where(Function(x) x.Xpath = "MidiEffectBranch" AndAlso x.Id = branch.Id).ToList()
+                branchesInNodeList = nodeListInNode.Where(Function(x) x.Name = "MidiEffectBranch" AndAlso x.Id = branch.Id).ToList()
                 
                 If branchesInNodeList.Count = 0 Then '추가
                     Dim nodeList As New LEDNodeList("MidiEffectBranch", branch.Id, branch.Node)
 
                     If Not IsNothing(branch.MidiEffectRack) Then 'Midi Effect Rack 추가
                         Dim midiEffectRackId As Integer = Integer.Parse(branch.MidiEffectRack.Attributes("Id").Value)
-                        Dim midiEffectRackList As List(Of LEDNodeList) = nodeListInNode.Where(Function(x) x.Xpath = "MidiEffectRack" AndAlso x.Id = midiEffectRackId).ToList()
+                        Dim midiEffectRackList As List(Of LEDNodeList) = nodeListInNode.Where(Function(x) x.Name = "MidiEffectRack" AndAlso x.Id = midiEffectRackId).ToList()
 
                         If midiEffectRackList.Count = 0 Then
                             Dim nodeMidiEffectRack As New LEDNodeList("MidiEffectRack", midiEffectRackId, branch.MidiEffectRack)
@@ -3576,28 +3576,21 @@ Public Class MainProject
         Dim isFoundPlugin As Boolean = False
         Dim mm As New MultiMapping(0, 0, 0)
 
-        Dim previousIndent As Integer = -1
-
         Dim checkChainAction As Action(Of LEDNodeList, List(Of LEDNodeList), Integer) = Sub(node As LEDNodeList, parentNode As List(Of LEDNodeList), indent As Integer)
-            If node.Xpath = "MidiEffectBranch" Then
+            If node.Name = "MidiEffectBranch" Then
                 Dim isRealChain = False '현재 체인을 바꿀 수 있는 체인인가?
 
-                Dim midiEffectRack As List(Of LEDNodeList) = parentNode.Where(Function(x) x.Xpath = "MidiEffectRack").ToList()
+                Dim midiEffectRack As List(Of LEDNodeList) = parentNode.Where(Function(x) x.Name = "MidiEffectRack").ToList()
 
                 If midiEffectRack.Count > 0 Then
                     Dim macroControl As XmlNode = midiEffectRack.First().Node.Item("MacroControls.0")
                     Dim keyMidi As XmlNode = macroControl.Item("KeyMidi")
-                    Dim midiControllerRange As XmlNode = macroControl.Item("MidiControllerRange")
-
-                    Dim minChain As Integer = Convert.ToInt32(Math.Round(Double.Parse(midiControllerRange.Item("Min").GetAttribute("Value"))))
-                    Dim maxChain As Integer = Convert.ToInt32(Math.Round(Double.Parse(midiControllerRange.Item("Max").GetAttribute("Value"))))
 
                     If Not IsNothing(keyMidi) Then
                         Dim lowerRangeNote As Integer = Integer.Parse(keyMidi.Item("LowerRangeNote").GetAttribute("Value"))
                         Dim upperRangeNote As Integer = Integer.Parse(keyMidi.Item("UpperRangeNote").GetAttribute("Value"))
-                        Dim maxRangeNote As Integer = upperRangeNote - lowerRangeNote
 
-                        If maxRangeNote = 7 AndAlso minChain = 0 AndAlso maxChain = 7 Then 'Chain Selector 부분
+                        If upperRangeNote - lowerRangeNote = 7 Then 'Chain Selector 부분
                             isRealChain = True
                         End If
                     End If
@@ -3647,6 +3640,11 @@ Public Class MainProject
 
                     SaveKeyLEDWithOverwriteProtectionForMIDEX(chain, led.X, led.Y, led.LoopNumber, led.Script)
                 Next
+
+                'NextOfNext MidiEffectRack
+                If toSaveLEDList.Length = 0 AndAlso node.NodeList.Count > 0 AndAlso isRealChain Then
+                    chain = Integer.Parse(node.Node.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1
+                End If
             End If
                                                                   End Sub
 
@@ -3773,15 +3771,19 @@ Public Class MainProject
                 Dim midiRandomNode As XmlNode = node.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiRandom")
                 
                 If Not IsNothing(midiRandomNode) Then
-                    Dim choices As Integer = Integer.Parse(midiRandomNode.Item("Choices").Item("Manual").GetAttribute("Value"))
-                    Dim noteNumberMin As Integer = Integer.Parse(node.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))
-                    Dim noteNumberMax As Integer = Integer.Parse(node.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))
+                    Dim isActive As Boolean = Boolean.Parse(midiRandomNode.Item("On").Item("Manual").GetAttribute("Value"))
 
-                    mm.Count = choices
-                    mm.NoteNumberMin = noteNumberMin
-                    mm.NoteNumberMax = noteNumberMax
+                    If isActive Then '활성화 상태인 경우
+                        Dim choices As Integer = Integer.Parse(midiRandomNode.Item("Choices").Item("Manual").GetAttribute("Value"))
+                        Dim noteNumberMin As Integer = Integer.Parse(node.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))
+                        Dim noteNumberMax As Integer = Integer.Parse(node.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))
 
-                    Return {}
+                        mm.Count = choices
+                        mm.NoteNumberMin = noteNumberMin
+                        mm.NoteNumberMax = noteNumberMax
+
+                        Return {}
+                    End If
                 End If
 
             Catch ex As NullReferenceException
@@ -3792,13 +3794,12 @@ Public Class MainProject
         Try
             Dim midiName As String = node.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices")?.Item("MxDeviceMidiEffect")?.Item("FileDropList")?.Item("FileDropList")?.Item("MxDFullFileDrop")?.Item("FileRef")?.Item("FileRef")?.Item("Name")?.GetAttribute("Value")
             
-            If Not IsNothing(midiName) Then
+            If Not String.IsNullOrWhiteSpace(midiName) Then
                 Dim midiPathList As List(Of String) = Directory.GetFiles(KEYLED_MIDI_PATH, "*.mid").ToList().Where(Function(filePath) Path.GetFileName(filePath) = midiName).ToList()
 
                 If midiPathList.Count > 0 Then
                     Dim midiPath As String = midiPathList.First()
                     Dim script As String = keyLED_Edit.keyLED_MidiToKeyLED(midiPath, True, 100, 120)
-
 
                     Dim chainMin As Integer = Integer.Parse(node.Item("BranchSelectorRange").Item("Min").GetAttribute("Value"))
                     Dim chainMax As Integer = Integer.Parse(node.Item("BranchSelectorRange").Item("Max").GetAttribute("Value"))
@@ -4207,19 +4208,20 @@ Public Class MainProject
             Directory.CreateDirectory(KEYLED_UNIPACK_PATH)
         End If
         
-        If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", chain, x, y, loopNumber)) OrElse File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} a", chain, x, y, loopNumber)) Then
-            If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", chain, x, y, loopNumber)) Then
-                My.Computer.FileSystem.RenameFile(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", chain, x, y, loopNumber), String.Format("{0} {1} {2} {3} a", chain, x, y, loopNumber))
+        If File.Exists(KEYLED_UNIPACK_PATH & String.Format("\{0} {1} {2} {3}", chain, x, y, loopNumber)) OrElse File.Exists(KEYLED_UNIPACK_PATH & String.Format("\{0} {1} {2} {3} a", chain, x, y, loopNumber)) Then
+            If File.Exists(KEYLED_UNIPACK_PATH & String.Format("\{0} {1} {2} {3}", chain, x, y, loopNumber)) Then
+                My.Computer.FileSystem.RenameFile(KEYLED_UNIPACK_PATH & String.Format("\{0} {1} {2} {3}", chain, x, y, loopNumber), String.Format("{0} {1} {2} {3} a", chain, x, y, loopNumber))
             End If
-            For Each lpn As Char In LEDMapping_N
-                If Not File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", chain, x, y, loopNumber, lpn)) Then
-                    File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", chain, x, y, loopNumber, lpn), keyLEDContent)
+
+            For Each lpn In LEDMapping_N
+                If Not File.Exists(KEYLED_UNIPACK_PATH & String.Format("\{0} {1} {2} {3} {4}", chain, x, y, loopNumber, lpn)) Then
+                    File.WriteAllText(KEYLED_UNIPACK_PATH & String.Format("\{0} {1} {2} {3} {4}", chain, x, y, loopNumber, lpn), keyLEDContent)
                     Exit For
                 End If
             Next
 
         Else
-            File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", chain, x, y, loopNumber), keyLEDContent)
+            File.WriteAllText(KEYLED_UNIPACK_PATH & String.Format("\{0} {1} {2} {3}", chain, x, y, loopNumber), keyLEDContent)
         End If
     End Sub
 
