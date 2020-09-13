@@ -3578,32 +3578,27 @@ Public Class MainProject
 
         Dim previousIndent As Integer = -1
 
-        Dim checkChainAction As Action(Of LEDNodeList, List(Of LEDNodeList), Integer) = Sub(node As LEDNodeList, parent As List(Of LEDNodeList), indent As Integer)
+        Dim checkChainAction As Action(Of LEDNodeList, List(Of LEDNodeList), Integer) = Sub(node As LEDNodeList, parentNode As List(Of LEDNodeList), indent As Integer)
             If node.Xpath = "MidiEffectBranch" Then
                 Dim isRealChain = False '현재 체인을 바꿀 수 있는 체인인가?
 
-                If previousIndent <> indent Then
-                    previousIndent = indent
-                    isRealChain = False
+                Dim midiEffectRack As List(Of LEDNodeList) = parentNode.Where(Function(x) x.Xpath = "MidiEffectRack").ToList()
 
-                    Dim midiEffectRack As List(Of LEDNodeList) = parent.Where(Function(x) x.Xpath = "MidiEffectRack").ToList()
-                
-                    If midiEffectRack.Count > 0 Then
-                        Dim macroControl As XmlNode = midiEffectRack.First().Node.Item("MacroControls.0")
-                        Dim keyMidi As XmlNode = macroControl.Item("KeyMidi")
-                        Dim midiControllerRange As XmlNode = macroControl.Item("MidiControllerRange")
+                If midiEffectRack.Count > 0 Then
+                    Dim macroControl As XmlNode = midiEffectRack.First().Node.Item("MacroControls.0")
+                    Dim keyMidi As XmlNode = macroControl.Item("KeyMidi")
+                    Dim midiControllerRange As XmlNode = macroControl.Item("MidiControllerRange")
 
-                        Dim minChain As Integer = Convert.ToInt32(Math.Round(Double.Parse(midiControllerRange.Item("Min").GetAttribute("Value"))))
-                        Dim maxChain As Integer = Convert.ToInt32(Math.Round(Double.Parse(midiControllerRange.Item("Max").GetAttribute("Value"))))
+                    Dim minChain As Integer = Convert.ToInt32(Math.Round(Double.Parse(midiControllerRange.Item("Min").GetAttribute("Value"))))
+                    Dim maxChain As Integer = Convert.ToInt32(Math.Round(Double.Parse(midiControllerRange.Item("Max").GetAttribute("Value"))))
 
-                        If Not IsNothing(keyMidi) Then
-                            Dim lowerRangeNote As Integer = Integer.Parse(keyMidi.Item("LowerRangeNote").GetAttribute("Value"))
-                            Dim upperRangeNote As Integer = Integer.Parse(keyMidi.Item("UpperRangeNote").GetAttribute("Value"))
-                            Dim maxRangeNote As Integer = upperRangeNote - lowerRangeNote
+                    If Not IsNothing(keyMidi) Then
+                        Dim lowerRangeNote As Integer = Integer.Parse(keyMidi.Item("LowerRangeNote").GetAttribute("Value"))
+                        Dim upperRangeNote As Integer = Integer.Parse(keyMidi.Item("UpperRangeNote").GetAttribute("Value"))
+                        Dim maxRangeNote As Integer = upperRangeNote - lowerRangeNote
 
-                            If maxRangeNote = 7 AndAlso minChain = 0 AndAlso maxChain = 7 Then 'Chain Selector 부분
-                                isRealChain = True
-                            End If
+                        If maxRangeNote = 7 AndAlso minChain = 0 AndAlso maxChain = 7 Then 'Chain Selector 부분
+                            isRealChain = True
                         End If
                     End If
                 End If
@@ -3638,7 +3633,7 @@ Public Class MainProject
 
                 Select Case pluginName
                     Case Plugins.MidiExtension
-                        toSaveLEDList = ConvertKeyLEDForMidiExtension_v2(node.Node, Nothing)
+                        toSaveLEDList = ConvertKeyLEDForMidiExtension_v2(node.Node, New List(Of MidiExtensionSave))
 
                     Case Plugins.MidiFire, Plugins.Lightweight
                         toSaveLEDList = ConvertKeyLEDForMidiFire_v2(node.Node, mm)
@@ -3719,7 +3714,7 @@ Public Class MainProject
     End Function
 
     Public Shared Function GetPluginForKeyLED(name As String) As Plugins
-        If IsNothing(name) Then
+        If String.IsNullOrWhiteSpace(name) Then
             Return Plugins.None
         End If
 
