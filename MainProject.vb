@@ -211,6 +211,8 @@ Public Class MainProject
 
     Private splitSounds As New List(Of String)
 
+    Private _midiExtensionMapping As New Dictionary(Of Integer, MidiExtensionSave)
+
     Public Shared ReadOnly ABLETON_PROJECT_XML_PATH As String = Application.StartupPath & "\Workspace\ableproj\abl_proj.xml"
     Public Shared ReadOnly KEYLED_MIDI_PATH As String = Application.StartupPath & "\Workspace\ableproj\CoLED"
     Public Shared ReadOnly KEYLED_UNIPACK_PATH As String = Application.StartupPath & "\Workspace\unipack\keyLED"
@@ -252,7 +254,7 @@ Public Class MainProject
     ''' <summary>
     ''' LED 다중 매핑 순서. (a b c ...)
     ''' </summary>
-    Public Shared LEDMapping_N As Char() = New Char(25) {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"}
+    Public Shared LEDMappings As Char() = New Char(25) {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"}
 #End Region
 
 #Region "DLL Import Functions"
@@ -754,6 +756,8 @@ Public Class MainProject
 
     Private Function GetMidiExtensionSaveFile() As Boolean
         Try
+            _midiExtensionMapping.Clear()
+
             Dim s As String = My.Computer.FileSystem.GetParentPath(ofd_FileNames(0))
             Dim wowkac As String = String.Empty
             For Each d As String In My.Computer.FileSystem.GetFiles(s, FileIO.SearchOption.SearchTopLevelOnly)
@@ -1925,7 +1929,7 @@ Public Class MainProject
     ''' <param name="inputstr">문자열.</param>
     ''' <returns></returns>
     Public Shared Function SplitbyLine(inputstr As String) As String()
-        Return inputstr.Replace(vbCr, "").Split(vbLf)
+        Return inputstr.Split(vbCrLf)
     End Function
 
     Public Sub OpenSounds(sender As Object, e As DoWorkEventArgs) Handles BGW_sounds.DoWork
@@ -3022,7 +3026,510 @@ Public Class MainProject
         'keyLED_Test.LoadkeyLEDText(keyLEDMIDEX_UniLED.Text)
     End Sub
 
-    '에이블톤 Instrument Rack을 keyLED로 바꿔주는 코드.
+    ''' <summary>
+    ''' 종합 keyLED (MIDEX) 변환 함수 (Midi Extension, Midi Fire, Lightweight 지원)
+    ''' </summary>
+    ''' <param name="AbletonProjectFilePath">에이블톤 프로젝트 파일 경로</param>
+    ''' <param name="err">오류 메시지</param>
+    ''' <param name="showLoadingMessage">로딩 메시지</param>
+    ''' <param name="pluginName">플러그인 이름</param>
+    Public Sub ConvertKeyLEDForMIDEX_v2(abletonProjectFilePath As String, ByRef err As String, showLoadingMessage As Boolean)
+        '코드 종합 및 최적화 버전 (v2)
+
+        'NextOfNext 문제점 완전히 해결
+
+        Dim doc As New XmlDocument
+        Dim setNode As XmlNodeList
+        doc.Load(AbletonProjectFilePath)
+        setNode = doc.GetElementsByTagName("MidiEffectBranch")
+
+        Dim errSb As New StringBuilder(255)
+
+        'List In List 알고리즘으로 배열 정렬
+        Dim LEDList As New List(Of LEDNodeList) '최종 노드 배열
+
+        Dim midiEffectBranchList As New List(Of MidiEffectBranches) '최종으로 MidiEffectBranch만 갖고 올 배열
+        Dim nodeListInNode As List(Of LEDNodeList) = Nothing 'For문을 돌면서 LEDList에 Node를 넣을 배열
+
+        midiEffectBranchList.AddRange(GetMidiEffectBranches(setNode))
+
+        For i = 0 To midiEffectBranchList.Count - 1
+            Dim branches As MidiEffectBranches = midiEffectBranchList(i)
+
+            nodeListInNode = LEDList
+
+            For j = 0 To branches.MidiEffectBranchList.Count - 1
+                Dim branch As MidiEffectBranch = branches.MidiEffectBranchList(j)
+
+                Dim branchesInNodeList As List(Of LEDNodeList)
+                branchesInNodeList = nodeListInNode.Where(Function(x) x.Name = "MidiEffectBranch" AndAlso x.Id = branch.Id).ToList()
+                
+                If branchesInNodeList.Count = 0 Then '추가
+                    Dim nodeList As New LEDNodeList("MidiEffectBranch", branch.Id, branch.Node)
+
+                    If Not IsNothing(branch.MidiEffectRack) Then 'Midi Effect Rack 추가
+                        Dim midiEffectRackId As Integer = Integer.Parse(branch.MidiEffectRack.Attributes("Id").Value)
+                        Dim midiEffectRackList As List(Of LEDNodeList) = nodeListInNode.Where(Function(x) x.Name = "MidiEffectRack" AndAlso x.Id = midiEffectRackId).ToList()
+
+                        If midiEffectRackList.Count = 0 Then
+                            Dim nodeMidiEffectRack As New LEDNodeList("MidiEffectRack", midiEffectRackId, branch.MidiEffectRack)
+                            nodeListInNode.Add(nodeMidiEffectRack)
+                        End If
+                    End If
+
+                    nodeListInNode.Add(nodeList)
+                    nodeListInNode = nodeList.NodeList
+
+                Else '존재 하는 경우
+                    Dim firstBranch As LEDNodeList = branchesInNodeList(0)
+                    
+                    nodeListInNode = firstBranch.NodeList
+                End If
+            Next
+        Next
+
+        If LEDList.Count = 0 Then
+            MessageBox.Show("LED not found")
+            Return
+        End If
+
+        'Chain 유효성 검사 (with MidiEffectRack)
+        Dim chain = 1
+
+        Dim pluginName As Plugins = Nothing
+        Dim isFoundPlugin As Boolean = False
+        Dim mm As New MultiMapping(0, 0, 0)
+
+        Dim checkChainAction As Action(Of LEDNodeList, List(Of LEDNodeList), Integer) = Sub(node As LEDNodeList, parentNode As List(Of LEDNodeList), indent As Integer)
+            If node.Name = "MidiEffectBranch" Then
+                Dim isRealChain = False '현재 체인을 바꿀 수 있는 체인인가?
+
+                Dim midiEffectRack As List(Of LEDNodeList) = parentNode.Where(Function(x) x.Name = "MidiEffectRack").ToList()
+
+                If midiEffectRack.Count > 0 Then
+                    Dim macroControl As XmlNode = midiEffectRack.First().Node.Item("MacroControls.0")
+                    Dim keyMidi As XmlNode = macroControl.Item("KeyMidi")
+
+                    If Not IsNothing(keyMidi) Then
+                        Dim lowerRangeNote As Integer = Integer.Parse(keyMidi.Item("LowerRangeNote").GetAttribute("Value"))
+                        Dim upperRangeNote As Integer = Integer.Parse(keyMidi.Item("UpperRangeNote").GetAttribute("Value"))
+
+                        If upperRangeNote - lowerRangeNote = 7 Then 'Chain Selector 부분
+                            isRealChain = True
+                        End If
+                    End If
+                End If
+
+                '플러그인 자동 인식
+                If Not isFoundPlugin Then
+                    Dim pluginNameInXml As String = String.Empty
+
+                    Try
+                        pluginNameInXml = node.Node.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect")?.Item("SourceContext")?.Item("Value")?.Item("BranchSourceContext")?.Item("OriginalFileRef")?.Item("FileRef")?.Item("Name")?.GetAttribute("Value")
+                        pluginName = GetPluginForKeyLED(pluginNameInXml)
+
+                        If pluginName = Plugins.None Then
+                            isFoundPlugin = False
+                            pluginName = Nothing
+                        Else
+                            isFoundPlugin = True
+                        End If
+
+                    Catch ex As NullReferenceException
+                        isFoundPlugin = False
+                        pluginName = Nothing
+                    End Try
+                    
+                    If node.NodeList.Count <> 0 AndAlso Not isFoundPlugin AndAlso pluginName = Plugins.None Then '플러그인 자동으로 못찾음
+                        MessageBox.Show($"Plugin not found.{Environment.NewLine}Plugin Name: '{pluginNameInXml}'") '원래는 플러그인 뭘 사용했는지 물어보고 그 다음 결정하는건데 그건 나중에
+                        Return
+                    End If
+                End If
+
+                Dim toSaveLEDList As KeyLEDStructure() = {}
+
+                Select Case pluginName
+                    Case Plugins.MidiExtension
+                        If _midiExtensionMapping.Count = 0 Then
+                            If MessageBox.Show("?", Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+                                Dim fileName As String = String.Empty
+
+                                Invoke(Sub()
+                                    Dim _ofd As New OpenFileDialog()
+                                    _ofd.Multiselect = False
+                                    _ofd.Title = "Please"
+
+                                   If _ofd.ShowDialog() = DialogResult.OK Then
+                                       fileName = _ofd.FileName
+                                   End If
+                                       End Sub)
+
+                                If Not String.IsNullOrWhiteSpace(fileName) Then
+                                    _midiExtensionMapping = GetMappingListForMidiExtension(fileName)
+                                End If
+                            End If
+
+                            If _midiExtensionMapping.Count = 0 Then
+                                Return
+                            End If
+                        End If
+
+                        toSaveLEDList = ConvertKeyLEDForMidiExtension_v2(node.Node, mm, _midiExtensionMapping)
+
+                    Case Plugins.MidiFire, Plugins.Lightweight
+                        toSaveLEDList = ConvertKeyLEDForMidiFire_v2(node.Node, mm)
+
+                End Select
+
+                For Each led In toSaveLEDList
+                    If isRealChain Then
+                        chain = led.Chain
+                    End If
+
+                    led.Chain = chain
+                    SaveKeyLED(led)
+                Next
+
+                'NextOfNext MidiEffectRack
+                If toSaveLEDList.Length = 0 AndAlso node.NodeList.Count > 0 AndAlso isRealChain Then
+                    chain = Integer.Parse(node.Node.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1
+                End If
+            End If
+                                                                  End Sub
+
+        GetLEDNodeInLoop(LEDList, checkChainAction)
+
+        err = errSb.ToString()
+
+        MessageBox.Show("Done!")
+    End Sub
+
+    Public Shared Function GetXpathForXml(ByVal node As XmlNode) As String
+        If node.Name = "#document" Then Return String.Empty
+        Return GetXpathForXml(node.SelectSingleNode("..")) & "/" + If(node.NodeType = XmlNodeType.Attribute, "@", String.Empty) + node.Name
+    End Function
+
+    Public Shared Function GetXpathsForKeyLED(xpath As String) As String()
+        Dim xpaths As String() = xpath.TrimStart("/").Split("/")
+        Dim xpathList As New List(Of String)
+
+        Dim needToAdd As Boolean = False
+
+        For i = 0 To xpaths.Count() - 1
+            If Not needToAdd AndAlso xpaths(i) = "MidiEffectBranch" Then
+                needToAdd = True
+            End If
+            If Not needToAdd Then
+                Continue For
+            End If
+
+            xpathList.Add(xpaths(i))
+        Next
+        
+        Return xpathList.ToArray()
+    End Function
+
+    Public Shared Function GetMidiEffectBranches(setNode As XmlNodeList) As MidiEffectBranches()
+        Dim midiEffectBranchList As New List(Of MidiEffectBranches)
+
+        For i = 0 To setNode.Count - 1
+            Dim LEDNode As XmlNode = setNode(i)
+            Dim nodeXpath As String() = GetXpathsForKeyLED(GetXpathForXml(LEDNode))
+
+            Dim branches As New MidiEffectBranches()
+
+            Dim nodeInNode As XmlNode = LEDNode
+
+            For j = 0 To nodeXpath.Length - 1
+                If nodeInNode.Name = "MidiEffectBranch" Then
+                    Dim id As Integer = Integer.Parse(nodeInNode.Attributes("Id").Value)
+                    Dim branch As New MidiEffectBranch(id, nodeInNode)
+
+                    If nodeInNode.ParentNode.ParentNode.Name = "MidiEffectGroupDevice" Then 'Midi Effect Rack
+                        branch.MidiEffectRack = nodeInNode.ParentNode.ParentNode
+                    End If
+
+                    branches.MidiEffectBranchList.Add(branch)
+                End If
+
+                nodeInNode = nodeInNode.ParentNode
+            Next
+
+            branches.MidiEffectBranchList.Reverse()
+            midiEffectBranchList.Add(branches)
+        Next
+
+        Return midiEffectBranchList.ToArray()
+    End Function
+
+    Public Shared Function GetPluginForKeyLED(name As String) As Plugins
+        If String.IsNullOrWhiteSpace(name) Then
+            Return Plugins.None
+        End If
+
+        name = name.ToLower().Replace(" ", "")
+
+        If name.Contains(".amxd") Then
+            If name.Contains("midiext") OrElse name.Contains("midext") Then
+                Return Plugins.MidiExtension
+            ElseIf name.Contains("midifire") OrElse name.Contains("midfire") Then
+                Return Plugins.MidiFire
+            ElseIf name.Contains("lightweight") Then
+                Return Plugins.Lightweight
+            End If
+        End If
+
+        Return Plugins.None
+    End Function
+
+    Public Function ConvertKeyLEDForMidiExtension_v2(node As XmlNode, ByRef mm As MultiMapping, saveContent As Dictionary(Of Integer, MidiExtensionSave)) As KeyLEDStructure()
+        Dim ledList As New List(Of KeyLEDStructure)
+
+        Try
+            Dim device As XmlNode = node?.Item("DeviceChain")?.Item("MidiToMidiDeviceChain")?.Item("Devices")?.Item("MxDeviceMidiEffect")
+            Dim id As Integer = If(Not IsNothing(device), Integer.Parse(device.Item("LomId").GetAttribute("Value")), -1)
+
+            If id <> -1 AndAlso saveContent.ContainsKey(id) Then
+                Dim save As MidiExtensionSave = saveContent(id)
+                Dim filePath As String = $"{KEYLED_MIDI_PATH}\{save.MidiName}"
+
+                ledList.AddRange(ConvertKeyLEDForAnyMIDEX(node, mm, filePath, save.Speed, save.BPM))
+            Else
+                ConvertKeyLEDForAnyMIDEX(node, mm, String.Empty) 'MultiMapping
+            End If
+
+        Catch ex As NullReferenceException
+            '?
+        End Try
+
+        Return ledList.ToArray()
+    End Function
+
+    ''' <summary>
+    ''' 미디 익스텐션 Save 파일을 통해 매핑 데이터들을 불러옵니다.
+    ''' </summary>
+    ''' <returns></returns>
+    Public Shared Function GetMappingListForMidiExtension(path As String) As Dictionary(Of Integer, MidiExtensionSave)
+        Dim mappingList As New Dictionary(Of Integer, MidiExtensionSave)
+
+        Dim texts As String() = SplitbyLine(File.ReadAllText(path))
+
+        For Each s In texts
+            If String.IsNullOrWhiteSpace(s) Then
+                Continue For
+            End If
+
+            Dim datas As String() = s.Split(" ")
+
+            If datas(1).Contains("temp1") Then '빠르기
+                Dim id As Integer = Integer.Parse(datas(1).Replace("id", "").Replace("temp1", ""))
+                Dim speed As Integer = Integer.Parse(datas(2).TrimEnd(";"))
+
+                If Not mappingList.ContainsKey(id) Then
+                    Dim save As New MidiExtensionSave()
+                    mappingList.Add(id, save)
+                End If
+
+                mappingList(id).Speed = speed
+
+            ElseIf datas(1).Contains("temp2") Then 'BPM
+                Dim id As Integer = Integer.Parse(datas(1).Replace("id", "").Replace("temp2", ""))
+                Dim bpm As Integer = Integer.Parse(datas(2).TrimEnd(";"))
+
+                If Not mappingList.ContainsKey(id) Then
+                    Dim save As New MidiExtensionSave()
+                    mappingList.Add(id, save)
+                End If
+
+                mappingList(id).BPM = bpm
+
+            ElseIf datas(1).Contains("midifile") Then 'LED 파일
+                Dim id As Integer = Integer.Parse(datas(1).Replace("midifile", "").Replace("id", ""))
+                Dim file As String = datas(2).Split("/").Last().TrimEnd(";")
+
+                If Not mappingList.ContainsKey(id) Then
+                    Dim save As New MidiExtensionSave()
+                    mappingList.Add(id, save)
+                End If
+
+                mappingList(id).MidiName = file
+            End If
+        Next
+
+        Return mappingList
+    End Function
+
+    ''' <summary>
+    ''' Midi Fire 플러그인을 위한 LED 자동 변환 함수
+    ''' </summary>
+    ''' <param name="node"></param>
+    ''' <param name="mm"></param>
+    ''' <returns></returns>
+    Public Function ConvertKeyLEDForMidiFire_v2(node As XmlNode, ByRef mm As MultiMapping) As KeyLEDStructure()
+        Dim ledList As New List(Of KeyLEDStructure)
+
+        Try
+            Dim midiName As String = node.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices")?.Item("MxDeviceMidiEffect")?.Item("FileDropList")?.Item("FileDropList")?.Item("MxDFullFileDrop")?.Item("FileRef")?.Item("FileRef")?.Item("Name")?.GetAttribute("Value")
+            
+            If Not String.IsNullOrWhiteSpace(midiName) Then
+                Dim midiPathList As List(Of String) = Directory.GetFiles(KEYLED_MIDI_PATH, "*.mid").ToList().Where(Function(filePath) Path.GetFileName(filePath) = midiName).ToList()
+
+                If midiPathList.Count > 0 Then
+                    Dim midiPath As String = midiPathList.First()
+                    ledList.AddRange(ConvertKeyLEDForAnyMIDEX(node, mm, midiPath))
+                Else
+                    ConvertKeyLEDForAnyMIDEX(node, mm, String.Empty) 'MultiMapping
+                End If
+            End If
+        Catch ex As NullReferenceException
+            '?
+        End Try
+
+        Return ledList.ToArray()
+    End Function
+
+    ''' <summary>
+    ''' 통합 이후 Midi Fire, Midi Extension, Lightweight를 통해 LED 파일만 변환할 때 통합적으로 불러오는 함수
+    ''' </summary>
+    ''' <param name="node"></param>
+    ''' <param name="mm"></param>
+    ''' <param name="midiFilePath"></param>
+    ''' <returns></returns>
+    Public Shared Function ConvertKeyLEDForAnyMIDEX(node As XmlNode, ByRef mm As MultiMapping, midiFilePath As String, Optional speed As Integer = 100, Optional bpm As Integer = 120) As KeyLEDStructure()
+        Dim ledList As New List(Of KeyLEDStructure)
+
+        Dim isRandom As Boolean = False '멀티매핑 인가?
+
+        If mm.Count > 0 Then
+            isRandom = True
+            mm.Count -= 1
+        Else
+            isRandom = False
+            mm = New MultiMapping(0, 0, 0)
+        End If
+
+        If Not isRandom Then
+            'MidiRandom 테스트
+            Try
+                Dim midiRandomNode As XmlNode = node.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiRandom")
+                
+                If Not IsNothing(midiRandomNode) Then
+                    Dim isActive As Boolean = Boolean.Parse(midiRandomNode.Item("On").Item("Manual").GetAttribute("Value"))
+
+                    If isActive Then '활성화 상태인 경우
+                        Dim choices As Integer = Integer.Parse(midiRandomNode.Item("Choices").Item("Manual").GetAttribute("Value"))
+                        Dim noteNumberMin As Integer = Integer.Parse(node.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))
+                        Dim noteNumberMax As Integer = Integer.Parse(node.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))
+
+                        mm.Count = choices
+                        mm.NoteNumberMin = noteNumberMin
+                        mm.NoteNumberMax = noteNumberMax
+
+                        Return {}
+                    End If
+                End If
+
+            Catch ex As NullReferenceException
+                '정상적인 MidiEffectBranch임.
+            End Try
+        End If
+
+        Try
+            If File.Exists(midiFilePath) Then
+                Dim script As String = keyLED_Edit.keyLED_MidiToKeyLED(midiFilePath, True, speed, bpm)
+
+                Dim chainMin As Integer = Integer.Parse(node.Item("BranchSelectorRange").Item("Min").GetAttribute("Value"))
+                Dim chainMax As Integer = Integer.Parse(node.Item("BranchSelectorRange").Item("Max").GetAttribute("Value"))
+
+                Dim noteNumberMin As Integer = Integer.Parse(node.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))
+                Dim noteNumberMax As Integer = Integer.Parse(node.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))
+
+                If isRandom Then
+                    noteNumberMin = mm.NoteNumberMin
+                    noteNumberMax = mm.NoteNumberMax
+                End If
+
+                For chain = chainMin To chainMax
+                    For noteNumber = noteNumberMin To noteNumberMax
+                        Dim x As Integer = GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, noteNumber)
+                        Dim y As Integer = GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, noteNumber)
+                        Dim loopNumber As Integer = 1
+
+                        Dim led As New KeyLEDStructure(chain + 1, x, y, loopNumber, script)
+                        ledList.Add(led)
+                    Next
+                Next
+            End If
+
+        Catch ex As NullReferenceException
+            '?
+        End Try
+
+        Return ledList.ToArray()
+    End Function
+
+    ''' <summary>
+    ''' keyLED를 Workspace에 저장
+    ''' </summary>
+    ''' <param name="keyLED"></param>
+    Public Shared Sub SaveKeyLED(keyLED As KeyLEDStructure)
+        SaveKeyLED(keyLED.Chain, keyLED.X, keyLED.Y, keyLED.LoopNumber, keyLED.Script)
+    End Sub
+
+    Public Shared Sub SaveKeyLED(chain As Integer, x As Integer, y As Integer, loopNumber As Integer, content As String)
+        If Not Directory.Exists(KEYLED_UNIPACK_PATH) Then
+            Directory.CreateDirectory(KEYLED_UNIPACK_PATH)
+        End If
+
+        Dim name As String = $"{chain} {x} {y} {loopNumber}"
+        Dim path As String = $"{KEYLED_UNIPACK_PATH}\{name}"
+
+        If File.Exists(path) Then
+            File.Move(path, RenameKeyLED(path, "a"C))
+        End If
+
+        For Each c In LEDMappings
+            Dim ledPath As String = RenameKeyLED(path, c)
+
+            If Not File.Exists(ledPath) Then
+                File.WriteAllText(ledPath, content)
+                Exit For
+            End If
+        Next
+    End Sub
+
+    Private Shared Function RenameKeyLED(name As String, alphabet As Char) As String
+        If Not IsNothing(alphabet) AndAlso Asc(alphabet) >= 97 AndAlso Asc(alphabet) <= 122 Then
+            name = $"{name} {alphabet}"
+        End If
+
+        Return name
+    End Function
+
+    'https://stackoverflow.com/questions/21472941/create-a-nested-list-of-items-from-objects-with-a-parent-reference
+    Public Shared Sub GetLEDNodeInLoop(nodes As IEnumerable(Of LEDNodeList), doAction As Action(Of LEDNodeList, List(Of LEDNodeList), Integer), Optional indent As Integer = 0)
+        For Each root In nodes
+            doAction(root, nodes, indent)
+            GetLEDNodeInLoop(root.NodeList, doAction, indent + 1)
+        Next
+    End Sub
+
+    'https://stackoverflow.com/questions/9555864/variable-nested-for-loops for Visual Basic .NET
+    Public Shared Sub DoLoop(depth As Integer, ByRef numbers As List(Of Integer), ByRef maxes As List(Of Integer), doAction As Action(Of List(Of Integer)))
+        If depth > 0 Then
+            For i = 0 To maxes(depth - 1) - 1
+                numbers(depth - 1) = i
+                DoLoop(depth - 1, numbers, maxes, doAction)
+            Next
+
+        Else
+            doAction(numbers)
+
+        End If
+    End Sub
+#Region "KeyLED (MIDEX) Conversion (Deprecated, v1)"
+    '에이블톤 Instrument Rack을 keyLED로 바꿔주는 코드. (Deprecated)
+    <Obsolete("This method is deprecated, use ConvertKeyLEDForMIDEX_v2 instead.")>
     Private Sub KeyLED_MidiToKeyLED_AutoConvert()
         Try
             If abl_openedproj AndAlso abl_openedled Then
@@ -3308,7 +3815,7 @@ Public Class MainProject
                                         If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
                                             My.Computer.FileSystem.RenameFile(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), String.Format("{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L))
                                         End If
-                                        For Each lpn As Char In LEDMapping_N
+                                        For Each lpn As Char In LEDMappings
                                             If Not File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn)) Then
                                                 File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn), Str)
                                                 Exit For
@@ -3331,7 +3838,7 @@ Public Class MainProject
                                             If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
                                                 My.Computer.FileSystem.RenameFile(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), String.Format("{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L))
                                             End If
-                                            For Each lpn As Char In LEDMapping_N
+                                            For Each lpn As Char In LEDMappings
                                                 If Not File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn)) Then
                                                     File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn), Str)
                                                     Exit For
@@ -3357,7 +3864,7 @@ Public Class MainProject
                                     If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
                                         My.Computer.FileSystem.RenameFile(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), String.Format("{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L))
                                     End If
-                                    For Each lpn As Char In LEDMapping_N
+                                    For Each lpn As Char In LEDMappings
                                         If Not File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn)) Then
                                             File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn), Str)
                                             Exit For
@@ -3379,7 +3886,7 @@ Public Class MainProject
                                         If File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L)) Then
                                             My.Computer.FileSystem.RenameFile(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), String.Format("{0} {1} {2} {3} a", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L))
                                         End If
-                                        For Each lpn As Char In LEDMapping_N
+                                        For Each lpn As Char In LEDMappings
                                             If Not File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn)) Then
                                                 File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn), Str)
                                                 Exit For
@@ -3502,358 +4009,7 @@ Public Class MainProject
         End Try
     End Sub
 
-    ''' <summary>
-    ''' 종합 keyLED (MIDEX) 변환 함수 (Midi Extension, Midi Fire, Lightweight 지원)
-    ''' </summary>
-    ''' <param name="AbletonProjectFilePath">에이블톤 프로젝트 파일 경로</param>
-    ''' <param name="err">오류 메시지</param>
-    ''' <param name="showLoadingMessage">로딩 메시지</param>
-    ''' <param name="pluginName">플러그인 이름</param>
-    Public Sub ConvertKeyLEDForMIDEX_v2(abletonProjectFilePath As String, ByRef err As String, showLoadingMessage As Boolean)
-        '코드 종합 및 최적화 버전 (v2)
-
-        'NextOfNext 문제점 완전히 해결
-
-        Dim doc As New XmlDocument
-        Dim setNode As XmlNodeList
-        doc.Load(AbletonProjectFilePath)
-        setNode = doc.GetElementsByTagName("MidiEffectBranch")
-
-        Dim errSb As New StringBuilder(255)
-
-        'List In List 알고리즘으로 배열 정렬
-        Dim LEDList As New List(Of LEDNodeList) '최종 노드 배열
-
-        Dim midiEffectBranchList As New List(Of MidiEffectBranches) '최종으로 MidiEffectBranch만 갖고 올 배열
-        Dim nodeListInNode As List(Of LEDNodeList) = Nothing 'For문을 돌면서 LEDList에 Node를 넣을 배열
-
-        midiEffectBranchList.AddRange(GetMidiEffectBranches(setNode))
-
-        For i = 0 To midiEffectBranchList.Count - 1
-            Dim branches As MidiEffectBranches = midiEffectBranchList(i)
-
-            nodeListInNode = LEDList
-
-            For j = 0 To branches.MidiEffectBranchList.Count - 1
-                Dim branch As MidiEffectBranch = branches.MidiEffectBranchList(j)
-
-                Dim branchesInNodeList As List(Of LEDNodeList)
-                branchesInNodeList = nodeListInNode.Where(Function(x) x.Name = "MidiEffectBranch" AndAlso x.Id = branch.Id).ToList()
-                
-                If branchesInNodeList.Count = 0 Then '추가
-                    Dim nodeList As New LEDNodeList("MidiEffectBranch", branch.Id, branch.Node)
-
-                    If Not IsNothing(branch.MidiEffectRack) Then 'Midi Effect Rack 추가
-                        Dim midiEffectRackId As Integer = Integer.Parse(branch.MidiEffectRack.Attributes("Id").Value)
-                        Dim midiEffectRackList As List(Of LEDNodeList) = nodeListInNode.Where(Function(x) x.Name = "MidiEffectRack" AndAlso x.Id = midiEffectRackId).ToList()
-
-                        If midiEffectRackList.Count = 0 Then
-                            Dim nodeMidiEffectRack As New LEDNodeList("MidiEffectRack", midiEffectRackId, branch.MidiEffectRack)
-                            nodeListInNode.Add(nodeMidiEffectRack)
-                        End If
-                    End If
-
-                    nodeListInNode.Add(nodeList)
-                    nodeListInNode = nodeList.NodeList
-
-                Else '존재 하는 경우
-                    Dim firstBranch As LEDNodeList = branchesInNodeList(0)
-                    
-                    nodeListInNode = firstBranch.NodeList
-                End If
-            Next
-        Next
-
-        If LEDList.Count = 0 Then
-            MessageBox.Show("LED not found")
-            Return
-        End If
-
-        'Chain 유효성 검사 (with MidiEffectRack)
-        Dim chain = 1
-
-        Dim pluginName As Plugins = Nothing
-        Dim isFoundPlugin As Boolean = False
-        Dim mm As New MultiMapping(0, 0, 0)
-
-        Dim checkChainAction As Action(Of LEDNodeList, List(Of LEDNodeList), Integer) = Sub(node As LEDNodeList, parentNode As List(Of LEDNodeList), indent As Integer)
-            If node.Name = "MidiEffectBranch" Then
-                Dim isRealChain = False '현재 체인을 바꿀 수 있는 체인인가?
-
-                Dim midiEffectRack As List(Of LEDNodeList) = parentNode.Where(Function(x) x.Name = "MidiEffectRack").ToList()
-
-                If midiEffectRack.Count > 0 Then
-                    Dim macroControl As XmlNode = midiEffectRack.First().Node.Item("MacroControls.0")
-                    Dim keyMidi As XmlNode = macroControl.Item("KeyMidi")
-
-                    If Not IsNothing(keyMidi) Then
-                        Dim lowerRangeNote As Integer = Integer.Parse(keyMidi.Item("LowerRangeNote").GetAttribute("Value"))
-                        Dim upperRangeNote As Integer = Integer.Parse(keyMidi.Item("UpperRangeNote").GetAttribute("Value"))
-
-                        If upperRangeNote - lowerRangeNote = 7 Then 'Chain Selector 부분
-                            isRealChain = True
-                        End If
-                    End If
-                End If
-
-                '플러그인 자동 인식
-                If Not isFoundPlugin Then
-                    Dim pluginNameInXml As String = String.Empty
-
-                    Try
-                        pluginNameInXml = node.Node.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect")?.Item("SourceContext")?.Item("Value")?.Item("BranchSourceContext")?.Item("OriginalFileRef")?.Item("FileRef")?.Item("Name")?.GetAttribute("Value")
-                        pluginName = GetPluginForKeyLED(pluginNameInXml)
-
-                        If pluginName = Plugins.None Then
-                            isFoundPlugin = False
-                            pluginName = Nothing
-                        Else
-                            isFoundPlugin = True
-                        End If
-
-                    Catch ex As NullReferenceException
-                        isFoundPlugin = False
-                        pluginName = Nothing
-                    End Try
-                    
-                    If node.NodeList.Count <> 0 AndAlso Not isFoundPlugin AndAlso pluginName = Plugins.None Then '플러그인 자동으로 못찾음
-                        MessageBox.Show($"Plugin not found.{Environment.NewLine}Plugin Name: '{pluginNameInXml}'") '원래는 플러그인 뭘 사용했는지 물어보고 그 다음 결정하는건데 그건 나중에
-                        Return
-                    End If
-                End If
-
-                Dim toSaveLEDList As KeyLEDStructure() = {}
-
-                Select Case pluginName
-                    Case Plugins.MidiExtension
-                        toSaveLEDList = ConvertKeyLEDForMidiExtension_v2(node.Node, New List(Of MidiExtensionSave))
-
-                    Case Plugins.MidiFire, Plugins.Lightweight
-                        toSaveLEDList = ConvertKeyLEDForMidiFire_v2(node.Node, mm)
-
-                End Select
-
-                For Each led In toSaveLEDList
-                    If isRealChain Then
-                        chain = led.Chain
-                    End If
-
-                    SaveKeyLEDWithOverwriteProtectionForMIDEX(chain, led.X, led.Y, led.LoopNumber, led.Script)
-                Next
-
-                'NextOfNext MidiEffectRack
-                If toSaveLEDList.Length = 0 AndAlso node.NodeList.Count > 0 AndAlso isRealChain Then
-                    chain = Integer.Parse(node.Node.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1
-                End If
-            End If
-                                                                  End Sub
-
-        GetLEDNodeInLoop(LEDList, checkChainAction)
-
-        err = errSb.ToString()
-    End Sub
-
-    Public Shared Function GetXpathForXml(ByVal node As XmlNode) As String
-        If node.Name = "#document" Then Return String.Empty
-        Return GetXpathForXml(node.SelectSingleNode("..")) & "/" + If(node.NodeType = XmlNodeType.Attribute, "@", String.Empty) + node.Name
-    End Function
-
-    Public Shared Function GetXpathsForKeyLED(xpath As String) As String()
-        Dim xpaths As String() = xpath.TrimStart("/").Split("/")
-        Dim xpathList As New List(Of String)
-
-        Dim needToAdd As Boolean = False
-
-        For i = 0 To xpaths.Count() - 1
-            If Not needToAdd AndAlso xpaths(i) = "MidiEffectBranch" Then
-                needToAdd = True
-            End If
-            If Not needToAdd Then
-                Continue For
-            End If
-
-            xpathList.Add(xpaths(i))
-        Next
-        
-        Return xpathList.ToArray()
-    End Function
-
-    Public Shared Function GetMidiEffectBranches(setNode As XmlNodeList) As MidiEffectBranches()
-        Dim midiEffectBranchList As New List(Of MidiEffectBranches)
-
-        For i = 0 To setNode.Count - 1
-            Dim LEDNode As XmlNode = setNode(i)
-            Dim nodeXpath As String() = GetXpathsForKeyLED(GetXpathForXml(LEDNode))
-
-            Dim branches As New MidiEffectBranches()
-
-            Dim nodeInNode As XmlNode = LEDNode
-
-            For j = 0 To nodeXpath.Length - 1
-                If nodeInNode.Name = "MidiEffectBranch" Then
-                    Dim id As Integer = Integer.Parse(nodeInNode.Attributes("Id").Value)
-                    Dim branch As New MidiEffectBranch(id, nodeInNode)
-
-                    If nodeInNode.ParentNode.ParentNode.Name = "MidiEffectGroupDevice" Then 'Midi Effect Rack
-                        branch.MidiEffectRack = nodeInNode.ParentNode.ParentNode
-                    End If
-
-                    branches.MidiEffectBranchList.Add(branch)
-                End If
-
-                nodeInNode = nodeInNode.ParentNode
-            Next
-
-            branches.MidiEffectBranchList.Reverse()
-            midiEffectBranchList.Add(branches)
-        Next
-
-        Return midiEffectBranchList.ToArray()
-    End Function
-
-    Public Shared Function GetPluginForKeyLED(name As String) As Plugins
-        If String.IsNullOrWhiteSpace(name) Then
-            Return Plugins.None
-        End If
-
-        name = name.ToLower().Replace(" ", "")
-
-        If name.Contains(".amxd") Then
-            If name.Contains("midiext") OrElse name.Contains("midext") Then
-                Return Plugins.MidiExtension
-            ElseIf name.Contains("midifire") OrElse name.Contains("midfire") Then
-                Return Plugins.MidiFire
-            ElseIf name.Contains("lightweight") Then
-                Return Plugins.Lightweight
-            End If
-        End If
-
-        Return Plugins.None
-    End Function
-
-    Public Function ConvertKeyLEDForMidiExtension_v2(node As XmlNode, saveContent As List(Of MidiExtensionSave)) As KeyLEDStructure()
-        Dim ledList As New List(Of KeyLEDStructure)
-        
-        Dim chain As Integer = 1
-        Dim x As Integer = 1
-        Dim y As Integer = 1
-        Dim loopNumber As Integer = 1
-
-        Dim script As New StringBuilder(255)
-
-
-
-        Return ledList.ToArray()
-    End Function
-
-    ''' <summary>
-    ''' Midi Fire 플러그인을 위한 LED 자동 변환 함수
-    ''' </summary>
-    ''' <param name="node"></param>
-    ''' <param name="mm"></param>
-    ''' <returns></returns>
-    Public Function ConvertKeyLEDForMidiFire_v2(node As XmlNode, ByRef mm As MultiMapping) As KeyLEDStructure()
-        Dim ledList As New List(Of KeyLEDStructure)
-
-        Dim isRandom As Boolean = False '멀티매핑 인가?
-
-        If mm.Count > 0 Then
-            isRandom = True
-            mm.Count -= 1
-        Else
-            isRandom = False
-            mm = New MultiMapping(0, 0, 0)
-        End If
-
-        If Not isRandom Then
-            'MidiRandom 테스트
-            Try
-                Dim midiRandomNode As XmlNode = node.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiRandom")
-                
-                If Not IsNothing(midiRandomNode) Then
-                    Dim isActive As Boolean = Boolean.Parse(midiRandomNode.Item("On").Item("Manual").GetAttribute("Value"))
-
-                    If isActive Then '활성화 상태인 경우
-                        Dim choices As Integer = Integer.Parse(midiRandomNode.Item("Choices").Item("Manual").GetAttribute("Value"))
-                        Dim noteNumberMin As Integer = Integer.Parse(node.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))
-                        Dim noteNumberMax As Integer = Integer.Parse(node.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))
-
-                        mm.Count = choices
-                        mm.NoteNumberMin = noteNumberMin
-                        mm.NoteNumberMax = noteNumberMax
-
-                        Return {}
-                    End If
-                End If
-
-            Catch ex As NullReferenceException
-                '정상적인 MidiEffectBranch임.
-            End Try
-        End If
-
-        Try
-            Dim midiName As String = node.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices")?.Item("MxDeviceMidiEffect")?.Item("FileDropList")?.Item("FileDropList")?.Item("MxDFullFileDrop")?.Item("FileRef")?.Item("FileRef")?.Item("Name")?.GetAttribute("Value")
-            
-            If Not String.IsNullOrWhiteSpace(midiName) Then
-                Dim midiPathList As List(Of String) = Directory.GetFiles(KEYLED_MIDI_PATH, "*.mid").ToList().Where(Function(filePath) Path.GetFileName(filePath) = midiName).ToList()
-
-                If midiPathList.Count > 0 Then
-                    Dim midiPath As String = midiPathList.First()
-                    Dim script As String = keyLED_Edit.keyLED_MidiToKeyLED(midiPath, True, 100, 120)
-
-                    Dim chainMin As Integer = Integer.Parse(node.Item("BranchSelectorRange").Item("Min").GetAttribute("Value"))
-                    Dim chainMax As Integer = Integer.Parse(node.Item("BranchSelectorRange").Item("Max").GetAttribute("Value"))
-
-                    Dim noteNumberMin As Integer = Integer.Parse(node.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))
-                    Dim noteNumberMax As Integer = Integer.Parse(node.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))
-
-                    If isRandom Then
-                        noteNumberMin = mm.NoteNumberMin
-                        noteNumberMax = mm.NoteNumberMax
-                    End If
-
-                    For chain = chainMin To chainMax
-                        For noteNumber = noteNumberMin To noteNumberMax
-                            Dim x As Integer = GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, noteNumber)
-                            Dim y As Integer = GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, noteNumber)
-                            Dim loopNumber As Integer = 1
-
-                            Dim led As New KeyLEDStructure(chain + 1, x, y, loopNumber, script)
-                            ledList.Add(led)
-                        Next
-                    Next
-                End If
-            End If
-
-        Catch ex As NullReferenceException
-            '?
-        End Try
-
-        Return ledList.ToArray()
-    End Function
-
-    'https://stackoverflow.com/questions/21472941/create-a-nested-list-of-items-from-objects-with-a-parent-reference
-    Public Shared Sub GetLEDNodeInLoop(nodes As IEnumerable(Of LEDNodeList), doAction As Action(Of LEDNodeList, List(Of LEDNodeList), Integer), Optional indent As Integer = 0)
-        For Each root In nodes
-            doAction(root, nodes, indent)
-            GetLEDNodeInLoop(root.NodeList, doAction, indent + 1)
-        Next
-    End Sub
-
-    'https://stackoverflow.com/questions/9555864/variable-nested-for-loops for Visual Basic .NET
-    Public Shared Sub DoLoop(depth As Integer, ByRef numbers As List(Of Integer), ByRef maxes As List(Of Integer), doAction As Action(Of List(Of Integer)))
-        If depth > 0 Then
-            For i = 0 To maxes(depth - 1) - 1
-                numbers(depth - 1) = i
-                DoLoop(depth - 1, numbers, maxes, doAction)
-            Next
-
-        Else
-            doAction(numbers)
-
-        End If
-    End Sub
-
+    <Obsolete("This method is deprecated, use ConvertKeyLEDForMidiExtension_v2 instead.")>
     Public Sub ConvertKeyLEDForMidiExtension(AbletonProjectFilePath As String, ByRef err As String, ShowLoadingMessage As Boolean)
         Dim doc As New XmlDocument
         Dim setNode As XmlNodeList
@@ -4203,6 +4359,7 @@ Public Class MainProject
         Next
     End Sub
 
+    <Obsolete("This method is deprecated, use SaveKeyLED instead.")>
     Public Shared Sub SaveKeyLEDWithOverwriteProtectionForMIDEX(chain As Integer, x As Integer, y As Integer, loopNumber As Integer, keyLEDContent As String)
         If Not Directory.Exists(KEYLED_UNIPACK_PATH) Then
             Directory.CreateDirectory(KEYLED_UNIPACK_PATH)
@@ -4213,7 +4370,7 @@ Public Class MainProject
                 My.Computer.FileSystem.RenameFile(KEYLED_UNIPACK_PATH & String.Format("\{0} {1} {2} {3}", chain, x, y, loopNumber), String.Format("{0} {1} {2} {3} a", chain, x, y, loopNumber))
             End If
 
-            For Each lpn In LEDMapping_N
+            For Each lpn In LEDMappings
                 If Not File.Exists(KEYLED_UNIPACK_PATH & String.Format("\{0} {1} {2} {3} {4}", chain, x, y, loopNumber, lpn)) Then
                     File.WriteAllText(KEYLED_UNIPACK_PATH & String.Format("\{0} {1} {2} {3} {4}", chain, x, y, loopNumber, lpn), keyLEDContent)
                     Exit For
@@ -4224,24 +4381,7 @@ Public Class MainProject
             File.WriteAllText(KEYLED_UNIPACK_PATH & String.Format("\{0} {1} {2} {3}", chain, x, y, loopNumber), keyLEDContent)
         End If
     End Sub
-
-    Private Class keyLED_ErrorStructure
-        Public id As Integer
-        Public file As String
-        Public str As String
-
-        Sub New(str As String)
-            Me.id = -1
-            Me.file = "HelloWorld.mid"
-            Me.str = str
-        End Sub
-
-        Sub New(id As Integer, file As String, str As String)
-            Me.id = id
-            Me.file = file
-            Me.str = str
-        End Sub
-    End Class
+#End Region
 
     ''' <summary>
     ''' String의 수를 세줍니다. 결과는 Integer.

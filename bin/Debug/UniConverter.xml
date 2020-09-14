@@ -501,7 +501,7 @@ o 6 3 a  [rest of string was truncated]&quot;;.
  Launchpad Setup Light. [When you connect the Launchpad]
  </summary>
 </member>
-<member name="F:UniConverter.MainProject.LEDMapping_N">
+<member name="F:UniConverter.MainProject.LEDMappings">
  <summary>
  LED 다중 매핑 순서. (a b c ...)
  </summary>
@@ -558,6 +558,12 @@ o 6 3 a  [rest of string was truncated]&quot;;.
  <param name="showLoadingMessage">로딩 메시지</param>
  <param name="pluginName">플러그인 이름</param>
 </member>
+<member name="M:UniConverter.MainProject.GetMappingListForMidiExtension(System.String)">
+ <summary>
+ 미디 익스텐션 Save 파일을 통해 매핑 데이터들을 불러옵니다.
+ </summary>
+ <returns></returns>
+</member>
 <member name="M:UniConverter.MainProject.ConvertKeyLEDForMidiFire_v2(System.Xml.XmlNode,UniConverter.MultiMapping@)">
  <summary>
  Midi Fire 플러그인을 위한 LED 자동 변환 함수
@@ -565,6 +571,21 @@ o 6 3 a  [rest of string was truncated]&quot;;.
  <param name="node"></param>
  <param name="mm"></param>
  <returns></returns>
+</member>
+<member name="M:UniConverter.MainProject.ConvertKeyLEDForAnyMIDEX(System.Xml.XmlNode,UniConverter.MultiMapping@,System.String,System.Int32,System.Int32)">
+ <summary>
+ 통합 이후 Midi Fire, Midi Extension, Lightweight를 통해 LED 파일만 변환할 때 통합적으로 불러오는 함수
+ </summary>
+ <param name="node"></param>
+ <param name="mm"></param>
+ <param name="midiFilePath"></param>
+ <returns></returns>
+</member>
+<member name="M:UniConverter.MainProject.SaveKeyLED(UniConverter.KeyLEDStructure)">
+ <summary>
+ keyLED를 Workspace에 저장
+ </summary>
+ <param name="keyLED"></param>
 </member>
 <member name="M:UniConverter.MainProject.Cntstr(System.String,System.String)">
  <summary>

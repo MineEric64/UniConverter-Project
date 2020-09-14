@@ -73,7 +73,7 @@ Public Class DeveloperMode_Project
         Next
     End Sub
 
-    Private Sub Info_ListView_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Info_ListView.SelectedIndexChanged
+    Private Async Sub Info_ListView_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Info_ListView.SelectedIndexChanged
         If Info_ListView.SelectedItems.Count > 0 Then '이것이 신의 한수... SelectedItem 코드 작성 시 꼭 필요. (invaildArgument 오류)
 
             Dim SelectedItem As ListViewItem = Info_ListView.SelectedItems(0)
@@ -96,7 +96,11 @@ Public Class DeveloperMode_Project
                 Case "keyLED (integrated version)"
                     With MainProject
                         Dim err As String = String.Empty
-                        .ConvertKeyLEDForMIDEX_v2(AbletonProjectXML, err, False)
+
+                        Await Task.Run(Sub()
+                                .ConvertKeyLEDForMIDEX_v2(AbletonProjectXML, err, True)
+                            End Sub)
+
                         Debug.WriteLineIf(Not String.IsNullOrWhiteSpace(err), err)
                     End With
             End Select
