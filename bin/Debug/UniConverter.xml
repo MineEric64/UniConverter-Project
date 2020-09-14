@@ -556,7 +556,6 @@ o 6 3 a  [rest of string was truncated]&quot;;.
  <param name="AbletonProjectFilePath">에이블톤 프로젝트 파일 경로</param>
  <param name="err">오류 메시지</param>
  <param name="showLoadingMessage">로딩 메시지</param>
- <param name="pluginName">플러그인 이름</param>
 </member>
 <member name="M:UniConverter.MainProject.GetMappingListForMidiExtension(System.String)">
  <summary>

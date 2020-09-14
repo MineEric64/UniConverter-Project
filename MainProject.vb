@@ -723,6 +723,27 @@ Public Class MainProject
 
             abl_openedled = True
             UI(Sub() Loading.Dispose())
+
+            GetMidiExtensionSaveFile(FileNames(0))
+
+            If abl_openedproj AndAlso abl_openedled Then
+                Invoke(Sub()
+                        btnConvertKeyLEDAutomatically.Enabled = True
+                    End Sub)
+
+                If AutoConvert.Checked Then
+                    Dim errorMessage As String = String.Empty
+
+                    Task.Run(Sub()
+                        ConvertKeyLEDForMIDEX_v2(ABLETON_PROJECT_XML_PATH, errorMessage, True)
+                    End Sub)
+
+                    If Not String.IsNullOrWhiteSpace(errorMessage) Then
+                        MessageBox.Show(errorMessage, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    End If
+                End If
+            End If
+
         Catch ex As Exception
             If IsGreatExMode Then
                 MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -754,30 +775,18 @@ Public Class MainProject
         End Try
     End Sub
 
-    Private Function GetMidiExtensionSaveFile() As Boolean
+    Private Function GetMidiExtensionSaveFile(ledFilePath As String) As Boolean
         Try
             _midiExtensionMapping.Clear()
 
-            Dim s As String = My.Computer.FileSystem.GetParentPath(ofd_FileNames(0))
-            Dim wowkac As String = String.Empty
+            Dim s As String = My.Computer.FileSystem.GetParentPath(ledFilePath)
+
             For Each d As String In My.Computer.FileSystem.GetFiles(s, FileIO.SearchOption.SearchTopLevelOnly)
                 If d.ToLower().Contains("save") AndAlso Path.HasExtension(d) = False Then
-                    wowkac = d
-
+                    _midiExtensionMapping = GetMappingListForMidiExtension(d)
                     Exit For
                 End If
             Next
-
-            If Not wowkac = String.Empty Then
-                File.Copy(wowkac, Application.StartupPath & "\Workspace\ableproj\LEDSave.uni", True)
-                abl_openedled2 = True
-                stopitnow = True
-                BGW_keyLED2.RunWorkerAsync()
-
-                Return True
-            End If
-
-            Return False
 
         Catch ex As Exception
             If IsGreatExMode Then
@@ -786,6 +795,8 @@ Public Class MainProject
                 MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
         End Try
+
+        Return _midiExtensionMapping.Count > 0
     End Function
 
     'LED Save 파일 (0save 파일, 미디 익스텐션용)
@@ -867,11 +878,6 @@ Public Class MainProject
                         Case Translator.tL.Korean
                             MessageBox.Show("LED 파일이 로딩되었습니다! 'keyLED (미디 익스텐션)' 탭에서 LED를 편집할 수 있습니다.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End Select
-                    If AutoConvert.Checked AndAlso abl_openedproj AndAlso abl_openedled Then
-                        Task.Run(Sub()
-                                     KeyLED_MidiToKeyLED_AutoConvert()
-                                 End Sub)
-                    End If
                 End If
                 Exit Sub
             Else
@@ -886,11 +892,6 @@ Public Class MainProject
                         Case Translator.tL.Korean
                             MessageBox.Show("LED 파일이 로딩되었습니다! 'keyLED (미디 익스텐션)' 탭에서 LED를 편집할 수 있습니다.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End Select
-                    If AutoConvert.Checked Then
-                        Task.Run(Sub()
-                                     KeyLED_MidiToKeyLED_AutoConvert()
-                                 End Sub)
-                    End If
                 End If
             End If
         Catch ex As Exception
@@ -1100,6 +1101,24 @@ Public Class MainProject
         UniPack_SaveInfo(False)
         UI(Sub() Loading.Dispose())
 
+        If abl_openedproj AndAlso abl_openedled Then
+            Invoke(Sub()
+                btnConvertKeyLEDAutomatically.Enabled = True
+            End Sub)
+
+            If AutoConvert.Checked Then
+                Dim errorMessage As String = String.Empty
+
+                Task.Run(Sub()
+                    ConvertKeyLEDForMIDEX_v2(ABLETON_PROJECT_XML_PATH, errorMessage, True)
+                End Sub)
+
+                If Not String.IsNullOrWhiteSpace(errorMessage) Then
+                    MessageBox.Show(errorMessage, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                End If
+            End If
+        End If
+
         If OpenProjectOnce = False Then
             Select Case lang
                 Case Translator.tL.English
@@ -1118,23 +1137,6 @@ Public Class MainProject
             ElseIf e.Cancelled Then
                 Exit Sub
             Else
-                If OpenProjectOnce Then
-                    OpenSoundsToolStripMenuItem_Click(Nothing, Nothing)
-                End If
-
-                If String.IsNullOrEmpty(w8t4abl) = False AndAlso AutoConvert.Checked Then
-                    Select Case w8t4abl
-
-                        Case "keyLED"
-                            If abl_openedproj AndAlso abl_openedled AndAlso abl_openedled2 Then
-                                Task.Run(Sub()
-                                             KeyLED_MidiToKeyLED_AutoConvert()
-                                         End Sub)
-                            End If
-
-                    End Select
-                End If
-
                 If abl_openedproj AndAlso abl_openedsnd AndAlso AutoConvert.Checked Then
                     BGW_keySound.RunWorkerAsync()
                 End If
@@ -1486,13 +1488,6 @@ Public Class MainProject
                 IsWorking = False
                 ks_Converted = True
                 UI(Sub() Loading.Dispose())
-
-                If OpenProjectOnce Then
-                    Task.Run(Sub()
-                                 KeyLED_MidiToKeyLED_AutoConvert()
-                             End Sub)
-                    Exit Sub
-                End If
 
                 Select Case lang
                     Case Translator.tL.English
@@ -1929,7 +1924,17 @@ Public Class MainProject
     ''' <param name="inputstr">문자열.</param>
     ''' <returns></returns>
     Public Shared Function SplitbyLine(inputstr As String) As String()
-        Return inputstr.Split(vbCrLf)
+        Dim strs As String() = {}
+
+        If inputstr.Contains(vbCr) AndAlso Not inputstr.Contains(vbLf) Then 'Macintosh (Cr)
+            strs = inputstr.Split(vbCr)
+        ElseIf Not inputstr.Contains(vbCr) AndAlso inputstr.Contains(vbLf) Then 'Linux (Lf)
+            strs = inputstr.Split(vbLf)
+        Else 'Windows (CrLf)
+            strs = inputstr.Split(new String() {Environment.NewLine}, StringSplitOptions.None)
+        End If
+
+        Return strs
     End Function
 
     Public Sub OpenSounds(sender As Object, e As DoWorkEventArgs) Handles BGW_sounds.DoWork
@@ -3032,7 +3037,6 @@ Public Class MainProject
     ''' <param name="AbletonProjectFilePath">에이블톤 프로젝트 파일 경로</param>
     ''' <param name="err">오류 메시지</param>
     ''' <param name="showLoadingMessage">로딩 메시지</param>
-    ''' <param name="pluginName">플러그인 이름</param>
     Public Sub ConvertKeyLEDForMIDEX_v2(abletonProjectFilePath As String, ByRef err As String, showLoadingMessage As Boolean)
         '코드 종합 및 최적화 버전 (v2)
 
@@ -3130,20 +3134,14 @@ Public Class MainProject
 
                         If pluginName = Plugins.None Then
                             isFoundPlugin = False
-                            pluginName = Nothing
                         Else
                             isFoundPlugin = True
                         End If
 
                     Catch ex As NullReferenceException
                         isFoundPlugin = False
-                        pluginName = Nothing
+                        pluginName = Plugins.None
                     End Try
-                    
-                    If node.NodeList.Count <> 0 AndAlso Not isFoundPlugin AndAlso pluginName = Plugins.None Then '플러그인 자동으로 못찾음
-                        MessageBox.Show($"Plugin not found.{Environment.NewLine}Plugin Name: '{pluginNameInXml}'") '원래는 플러그인 뭘 사용했는지 물어보고 그 다음 결정하는건데 그건 나중에
-                        Return
-                    End If
                 End If
 
                 Dim toSaveLEDList As KeyLEDStructure() = {}
@@ -4711,20 +4709,22 @@ Public Class MainProject
                    End Sub)
         End Select
 
-        UI(Sub()
-               infoTB3.Text = "1"
+        Invoke(Sub()
+            infoTB3.Text = "1"
 
-               '키사운드 레이아웃 비활성화
-               PadLayoutPanel.Enabled = False
-               btnPad_chain1.Enabled = False
-               btnPad_chain2.Enabled = False
-               btnPad_chain3.Enabled = False
-               btnPad_chain4.Enabled = False
-               btnPad_chain5.Enabled = False
-               btnPad_chain6.Enabled = False
-               btnPad_chain7.Enabled = False
-               btnPad_chain8.Enabled = False
-               keySoundLayout = False
+            '키사운드 레이아웃 비활성화
+            PadLayoutPanel.Enabled = False
+            btnPad_chain1.Enabled = False
+            btnPad_chain2.Enabled = False
+            btnPad_chain3.Enabled = False
+            btnPad_chain4.Enabled = False
+            btnPad_chain5.Enabled = False
+            btnPad_chain6.Enabled = False
+            btnPad_chain7.Enabled = False
+            btnPad_chain8.Enabled = False
+            keySoundLayout = False
+
+            btnConvertKeyLEDAutomatically.Enabled = False
            End Sub)
 
         For x As Integer = 1 To 8
@@ -4793,4 +4793,16 @@ Public Class MainProject
 
         Return text.ToString()
     End Function
+
+    Private Async Sub btnConvertKeyLEDAutomatically_Click(sender As Object, e As EventArgs) Handles btnConvertKeyLEDAutomatically.Click
+        Dim errorMessage As String = String.Empty
+
+        Await Task.Run(Sub()
+            ConvertKeyLEDForMIDEX_v2(ABLETON_PROJECT_XML_PATH, errorMessage, True)
+                       End Sub)
+
+        If Not String.IsNullOrWhiteSpace(errorMessage) Then
+            MessageBox.Show(errorMessage, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        End If
+    End Sub
 End Class

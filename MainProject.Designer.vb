@@ -134,6 +134,7 @@ Partial Class MainProject
         Me.keyLED1 = New System.Windows.Forms.TabPage()
         Me.DevelopingLabel2 = New System.Windows.Forms.Label()
         Me.keyLED2 = New System.Windows.Forms.TabPage()
+        Me.btnConvertKeyLEDAutomatically = New System.Windows.Forms.Button()
         Me.keyLEDMIDEX_Md = New System.Windows.Forms.GroupBox()
         Me.keyLEDMIDEX_LEDViewMode = New System.Windows.Forms.RadioButton()
         Me.keyLEDMIDEX_prMode = New System.Windows.Forms.RadioButton()
@@ -263,22 +264,22 @@ Partial Class MainProject
         Me.BGW_keyLEDLayout = New System.ComponentModel.BackgroundWorker()
         Me.BGW_soundcut = New System.ComponentModel.BackgroundWorker()
         Me.BGW_RsProj = New System.ComponentModel.BackgroundWorker()
-        Me.MenuStrip.SuspendLayout()
-        Me.HomeEdit.SuspendLayout()
-        Me.Info1.SuspendLayout()
-        Me.KeySoundTab.SuspendLayout()
-        Me.PadLayoutPanel.SuspendLayout()
-        Me.keyLED1.SuspendLayout()
-        Me.keyLED2.SuspendLayout()
-        Me.keyLEDMIDEX_Md.SuspendLayout()
-        Me.keyLED_Pad64.SuspendLayout()
-        CType(Me.ucvLogo, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.MIDISET.SuspendLayout()
-        Me.SuspendLayout()
+        Me.MenuStrip.SuspendLayout
+        Me.HomeEdit.SuspendLayout
+        Me.Info1.SuspendLayout
+        Me.KeySoundTab.SuspendLayout
+        Me.PadLayoutPanel.SuspendLayout
+        Me.keyLED1.SuspendLayout
+        Me.keyLED2.SuspendLayout
+        Me.keyLEDMIDEX_Md.SuspendLayout
+        Me.keyLED_Pad64.SuspendLayout
+        CType(Me.ucvLogo,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.MIDISET.SuspendLayout
+        Me.SuspendLayout
         '
         'MenuStrip
         '
-        Me.MenuStrip.Font = New System.Drawing.Font("NanumBarunGothic", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.MenuStrip.Font = New System.Drawing.Font("NanumBarunGothic", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.EditToolStripMenuItem, Me.TutorialsToolStripMenuItem, Me.SettingsToolStripMenuItem})
         Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip.Name = "MenuStrip"
@@ -290,7 +291,7 @@ Partial Class MainProject
         '
         Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenProjectToolStripMenuItem, Me.SaveProjectToolStripMenuItem, Me.ConvertALSToUnipackToolStripMenuItem, Me.AutoConvert})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
-        Me.FileToolStripMenuItem.ShowShortcutKeys = False
+        Me.FileToolStripMenuItem.ShowShortcutKeys = false
         Me.FileToolStripMenuItem.Size = New System.Drawing.Size(39, 20)
         Me.FileToolStripMenuItem.Text = "File"
         '
@@ -328,15 +329,15 @@ Partial Class MainProject
         '
         'ConvertALSToUnipackToolStripMenuItem
         '
-        Me.ConvertALSToUnipackToolStripMenuItem.Enabled = False
+        Me.ConvertALSToUnipackToolStripMenuItem.Enabled = false
         Me.ConvertALSToUnipackToolStripMenuItem.Name = "ConvertALSToUnipackToolStripMenuItem"
         Me.ConvertALSToUnipackToolStripMenuItem.Size = New System.Drawing.Size(355, 22)
         Me.ConvertALSToUnipackToolStripMenuItem.Text = "Convert Ableton Project to UniPack!"
         '
         'AutoConvert
         '
-        Me.AutoConvert.Checked = True
-        Me.AutoConvert.CheckOnClick = True
+        Me.AutoConvert.Checked = true
+        Me.AutoConvert.CheckOnClick = true
         Me.AutoConvert.CheckState = System.Windows.Forms.CheckState.Checked
         Me.AutoConvert.Name = "AutoConvert"
         Me.AutoConvert.Size = New System.Drawing.Size(355, 22)
@@ -396,7 +397,7 @@ Partial Class MainProject
         Me.DeveloperModeToolStripMenuItem.Name = "DeveloperModeToolStripMenuItem"
         Me.DeveloperModeToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
         Me.DeveloperModeToolStripMenuItem.Text = "Developer Mode"
-        Me.DeveloperModeToolStripMenuItem.Visible = False
+        Me.DeveloperModeToolStripMenuItem.Visible = false
         '
         'SettingsToolStripMenuItem1
         '
@@ -412,7 +413,7 @@ Partial Class MainProject
         '
         'sfd
         '
-        Me.sfd.AddExtension = False
+        Me.sfd.AddExtension = false
         '
         'LEDOpen1
         '
@@ -425,8 +426,8 @@ Partial Class MainProject
         Me.HomeEdit.Controls.Add(Me.keyLED1)
         Me.HomeEdit.Controls.Add(Me.keyLED2)
         Me.HomeEdit.Controls.Add(Me.MIDISET)
-        Me.HomeEdit.Font = New System.Drawing.Font("NanumBarunGothic", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.HomeEdit.HotTrack = True
+        Me.HomeEdit.Font = New System.Drawing.Font("NanumBarunGothic", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
+        Me.HomeEdit.HotTrack = true
         Me.HomeEdit.Location = New System.Drawing.Point(12, 27)
         Me.HomeEdit.Name = "HomeEdit"
         Me.HomeEdit.SelectedIndex = 0
@@ -449,22 +450,22 @@ Partial Class MainProject
         Me.Info1.Size = New System.Drawing.Size(776, 495)
         Me.Info1.TabIndex = 0
         Me.Info1.Text = "Information"
-        Me.Info1.UseVisualStyleBackColor = True
+        Me.Info1.UseVisualStyleBackColor = true
         '
         'infoTB3
         '
-        Me.infoTB3.Font = New System.Drawing.Font("NanumBarunGothicOTF", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.infoTB3.Font = New System.Drawing.Font("NanumBarunGothicOTF", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.infoTB3.Location = New System.Drawing.Point(248, 268)
         Me.infoTB3.Name = "infoTB3"
-        Me.infoTB3.ReadOnly = True
+        Me.infoTB3.ReadOnly = true
         Me.infoTB3.Size = New System.Drawing.Size(329, 39)
         Me.infoTB3.TabIndex = 30
         Me.infoTB3.Text = "1"
         '
         'Tip1
         '
-        Me.Tip1.AutoSize = True
-        Me.Tip1.Font = New System.Drawing.Font("NanumBarunGothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.Tip1.AutoSize = true
+        Me.Tip1.Font = New System.Drawing.Font("NanumBarunGothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.Tip1.ForeColor = System.Drawing.Color.LightCoral
         Me.Tip1.Location = New System.Drawing.Point(6, 472)
         Me.Tip1.Name = "Tip1"
@@ -474,18 +475,18 @@ Partial Class MainProject
         '
         'Info_SaveButton
         '
-        Me.Info_SaveButton.Font = New System.Drawing.Font("NanumSquareRound Bold", 24.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.Info_SaveButton.Font = New System.Drawing.Font("NanumSquareRound Bold", 24!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.Info_SaveButton.Location = New System.Drawing.Point(557, 360)
         Me.Info_SaveButton.Name = "Info_SaveButton"
         Me.Info_SaveButton.Size = New System.Drawing.Size(196, 116)
         Me.Info_SaveButton.TabIndex = 27
         Me.Info_SaveButton.Text = "Save"
-        Me.Info_SaveButton.UseVisualStyleBackColor = True
+        Me.Info_SaveButton.UseVisualStyleBackColor = true
         '
         'infoT3
         '
-        Me.infoT3.AutoSize = True
-        Me.infoT3.Font = New System.Drawing.Font("NanumBarunGothicOTF", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.infoT3.AutoSize = true
+        Me.infoT3.Font = New System.Drawing.Font("NanumBarunGothicOTF", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.infoT3.ForeColor = System.Drawing.SystemColors.ControlText
         Me.infoT3.Location = New System.Drawing.Point(159, 278)
         Me.infoT3.Name = "infoT3"
@@ -495,8 +496,8 @@ Partial Class MainProject
         '
         'infoT2
         '
-        Me.infoT2.AutoSize = True
-        Me.infoT2.Font = New System.Drawing.Font("NanumBarunGothicOTF", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.infoT2.AutoSize = true
+        Me.infoT2.Font = New System.Drawing.Font("NanumBarunGothicOTF", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.infoT2.ForeColor = System.Drawing.SystemColors.ControlText
         Me.infoT2.Location = New System.Drawing.Point(77, 184)
         Me.infoT2.Name = "infoT2"
@@ -506,7 +507,7 @@ Partial Class MainProject
         '
         'infoTB2
         '
-        Me.infoTB2.Font = New System.Drawing.Font("YDIWebDotum", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.infoTB2.Font = New System.Drawing.Font("YDIWebDotum", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.infoTB2.Location = New System.Drawing.Point(248, 181)
         Me.infoTB2.Name = "infoTB2"
         Me.infoTB2.Size = New System.Drawing.Size(329, 30)
@@ -515,7 +516,7 @@ Partial Class MainProject
         '
         'infoTB1
         '
-        Me.infoTB1.Font = New System.Drawing.Font("YDIWebDotum", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.infoTB1.Font = New System.Drawing.Font("YDIWebDotum", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.infoTB1.Location = New System.Drawing.Point(249, 96)
         Me.infoTB1.Name = "infoTB1"
         Me.infoTB1.Size = New System.Drawing.Size(328, 30)
@@ -524,8 +525,8 @@ Partial Class MainProject
         '
         'infoT1
         '
-        Me.infoT1.AutoSize = True
-        Me.infoT1.Font = New System.Drawing.Font("NanumBarunGothicOTF", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.infoT1.AutoSize = true
+        Me.infoT1.Font = New System.Drawing.Font("NanumBarunGothicOTF", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.infoT1.ForeColor = System.Drawing.SystemColors.ControlText
         Me.infoT1.Location = New System.Drawing.Point(169, 99)
         Me.infoT1.Name = "infoT1"
@@ -551,114 +552,114 @@ Partial Class MainProject
         Me.KeySoundTab.Size = New System.Drawing.Size(776, 495)
         Me.KeySoundTab.TabIndex = 1
         Me.KeySoundTab.Text = "keySound"
-        Me.KeySoundTab.UseVisualStyleBackColor = True
+        Me.KeySoundTab.UseVisualStyleBackColor = true
         '
         'DevelopingLabel1
         '
-        Me.DevelopingLabel1.AutoSize = True
-        Me.DevelopingLabel1.Font = New System.Drawing.Font("NanumBarunGothicOTF", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.DevelopingLabel1.AutoSize = true
+        Me.DevelopingLabel1.Font = New System.Drawing.Font("NanumBarunGothicOTF", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.DevelopingLabel1.Location = New System.Drawing.Point(163, 226)
         Me.DevelopingLabel1.Name = "DevelopingLabel1"
         Me.DevelopingLabel1.Size = New System.Drawing.Size(540, 62)
         Me.DevelopingLabel1.TabIndex = 64
-        Me.DevelopingLabel1.Text = "We are developing ""Converting keySound""!" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "                           Coming Soon." &
+        Me.DevelopingLabel1.Text = "We are developing ""Converting keySound""!"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                           Coming Soon."& _ 
     ".."
         '
         'btnPad_chain8
         '
         Me.btnPad_chain8.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.btnPad_chain8.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.btnPad_chain8.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.btnPad_chain8.Location = New System.Drawing.Point(508, 420)
         Me.btnPad_chain8.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btnPad_chain8.Name = "btnPad_chain8"
         Me.btnPad_chain8.Size = New System.Drawing.Size(53, 52)
         Me.btnPad_chain8.TabIndex = 63
         Me.btnPad_chain8.Text = "8"
-        Me.btnPad_chain8.UseVisualStyleBackColor = True
+        Me.btnPad_chain8.UseVisualStyleBackColor = true
         '
         'btnPad_chain7
         '
         Me.btnPad_chain7.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.btnPad_chain7.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.btnPad_chain7.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.btnPad_chain7.Location = New System.Drawing.Point(508, 367)
         Me.btnPad_chain7.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btnPad_chain7.Name = "btnPad_chain7"
         Me.btnPad_chain7.Size = New System.Drawing.Size(53, 48)
         Me.btnPad_chain7.TabIndex = 62
         Me.btnPad_chain7.Text = "7"
-        Me.btnPad_chain7.UseVisualStyleBackColor = True
+        Me.btnPad_chain7.UseVisualStyleBackColor = true
         '
         'btnPad_chain6
         '
         Me.btnPad_chain6.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.btnPad_chain6.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.btnPad_chain6.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.btnPad_chain6.Location = New System.Drawing.Point(508, 313)
         Me.btnPad_chain6.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btnPad_chain6.Name = "btnPad_chain6"
         Me.btnPad_chain6.Size = New System.Drawing.Size(53, 48)
         Me.btnPad_chain6.TabIndex = 61
         Me.btnPad_chain6.Text = "6"
-        Me.btnPad_chain6.UseVisualStyleBackColor = True
+        Me.btnPad_chain6.UseVisualStyleBackColor = true
         '
         'btnPad_chain5
         '
         Me.btnPad_chain5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.btnPad_chain5.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.btnPad_chain5.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.btnPad_chain5.Location = New System.Drawing.Point(508, 259)
         Me.btnPad_chain5.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btnPad_chain5.Name = "btnPad_chain5"
         Me.btnPad_chain5.Size = New System.Drawing.Size(53, 48)
         Me.btnPad_chain5.TabIndex = 60
         Me.btnPad_chain5.Text = "5"
-        Me.btnPad_chain5.UseVisualStyleBackColor = True
+        Me.btnPad_chain5.UseVisualStyleBackColor = true
         '
         'btnPad_chain4
         '
         Me.btnPad_chain4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.btnPad_chain4.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.btnPad_chain4.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.btnPad_chain4.Location = New System.Drawing.Point(508, 205)
         Me.btnPad_chain4.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btnPad_chain4.Name = "btnPad_chain4"
         Me.btnPad_chain4.Size = New System.Drawing.Size(53, 48)
         Me.btnPad_chain4.TabIndex = 59
         Me.btnPad_chain4.Text = "4"
-        Me.btnPad_chain4.UseVisualStyleBackColor = True
+        Me.btnPad_chain4.UseVisualStyleBackColor = true
         '
         'btnPad_chain3
         '
         Me.btnPad_chain3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.btnPad_chain3.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.btnPad_chain3.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.btnPad_chain3.Location = New System.Drawing.Point(508, 151)
         Me.btnPad_chain3.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btnPad_chain3.Name = "btnPad_chain3"
         Me.btnPad_chain3.Size = New System.Drawing.Size(53, 48)
         Me.btnPad_chain3.TabIndex = 58
         Me.btnPad_chain3.Text = "3"
-        Me.btnPad_chain3.UseVisualStyleBackColor = True
+        Me.btnPad_chain3.UseVisualStyleBackColor = true
         '
         'btnPad_chain2
         '
         Me.btnPad_chain2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.btnPad_chain2.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.btnPad_chain2.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.btnPad_chain2.Location = New System.Drawing.Point(508, 97)
         Me.btnPad_chain2.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btnPad_chain2.Name = "btnPad_chain2"
         Me.btnPad_chain2.Size = New System.Drawing.Size(53, 48)
         Me.btnPad_chain2.TabIndex = 57
         Me.btnPad_chain2.Text = "2"
-        Me.btnPad_chain2.UseVisualStyleBackColor = True
+        Me.btnPad_chain2.UseVisualStyleBackColor = true
         '
         'btnPad_chain1
         '
         Me.btnPad_chain1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.btnPad_chain1.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.btnPad_chain1.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.btnPad_chain1.Location = New System.Drawing.Point(508, 40)
         Me.btnPad_chain1.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btnPad_chain1.Name = "btnPad_chain1"
         Me.btnPad_chain1.Size = New System.Drawing.Size(53, 51)
         Me.btnPad_chain1.TabIndex = 56
         Me.btnPad_chain1.Text = "1"
-        Me.btnPad_chain1.UseVisualStyleBackColor = True
+        Me.btnPad_chain1.UseVisualStyleBackColor = true
         '
         'PadLayoutPanel
         '
@@ -737,7 +738,7 @@ Partial Class MainProject
         Me.PadLayoutPanel.Controls.Add(Me.uni8_6, 5, 7)
         Me.PadLayoutPanel.Controls.Add(Me.uni8_7, 6, 7)
         Me.PadLayoutPanel.Controls.Add(Me.uni8_8, 7, 7)
-        Me.PadLayoutPanel.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.PadLayoutPanel.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.PadLayoutPanel.Location = New System.Drawing.Point(56, 40)
         Me.PadLayoutPanel.Name = "PadLayoutPanel"
         Me.PadLayoutPanel.RowCount = 8
@@ -749,7 +750,7 @@ Partial Class MainProject
         Me.PadLayoutPanel.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5!))
         Me.PadLayoutPanel.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5!))
         Me.PadLayoutPanel.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5!))
-        Me.PadLayoutPanel.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
+        Me.PadLayoutPanel.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20!))
         Me.PadLayoutPanel.Size = New System.Drawing.Size(446, 432)
         Me.PadLayoutPanel.TabIndex = 55
         '
@@ -762,7 +763,7 @@ Partial Class MainProject
         Me.uni1_1.Name = "uni1_1"
         Me.uni1_1.Size = New System.Drawing.Size(49, 48)
         Me.uni1_1.TabIndex = 0
-        Me.uni1_1.UseVisualStyleBackColor = False
+        Me.uni1_1.UseVisualStyleBackColor = false
         '
         'uni1_2
         '
@@ -774,7 +775,7 @@ Partial Class MainProject
         Me.uni1_2.Name = "uni1_2"
         Me.uni1_2.Size = New System.Drawing.Size(49, 48)
         Me.uni1_2.TabIndex = 1
-        Me.uni1_2.UseVisualStyleBackColor = False
+        Me.uni1_2.UseVisualStyleBackColor = false
         '
         'uni1_3
         '
@@ -786,7 +787,7 @@ Partial Class MainProject
         Me.uni1_3.Name = "uni1_3"
         Me.uni1_3.Size = New System.Drawing.Size(49, 48)
         Me.uni1_3.TabIndex = 1
-        Me.uni1_3.UseVisualStyleBackColor = False
+        Me.uni1_3.UseVisualStyleBackColor = false
         '
         'uni1_4
         '
@@ -798,7 +799,7 @@ Partial Class MainProject
         Me.uni1_4.Name = "uni1_4"
         Me.uni1_4.Size = New System.Drawing.Size(49, 48)
         Me.uni1_4.TabIndex = 1
-        Me.uni1_4.UseVisualStyleBackColor = False
+        Me.uni1_4.UseVisualStyleBackColor = false
         '
         'uni1_5
         '
@@ -810,7 +811,7 @@ Partial Class MainProject
         Me.uni1_5.Name = "uni1_5"
         Me.uni1_5.Size = New System.Drawing.Size(49, 48)
         Me.uni1_5.TabIndex = 1
-        Me.uni1_5.UseVisualStyleBackColor = False
+        Me.uni1_5.UseVisualStyleBackColor = false
         '
         'uni1_6
         '
@@ -822,7 +823,7 @@ Partial Class MainProject
         Me.uni1_6.Name = "uni1_6"
         Me.uni1_6.Size = New System.Drawing.Size(49, 48)
         Me.uni1_6.TabIndex = 1
-        Me.uni1_6.UseVisualStyleBackColor = False
+        Me.uni1_6.UseVisualStyleBackColor = false
         '
         'uni1_7
         '
@@ -834,7 +835,7 @@ Partial Class MainProject
         Me.uni1_7.Name = "uni1_7"
         Me.uni1_7.Size = New System.Drawing.Size(49, 48)
         Me.uni1_7.TabIndex = 1
-        Me.uni1_7.UseVisualStyleBackColor = False
+        Me.uni1_7.UseVisualStyleBackColor = false
         '
         'uni1_8
         '
@@ -846,7 +847,7 @@ Partial Class MainProject
         Me.uni1_8.Name = "uni1_8"
         Me.uni1_8.Size = New System.Drawing.Size(55, 48)
         Me.uni1_8.TabIndex = 1
-        Me.uni1_8.UseVisualStyleBackColor = False
+        Me.uni1_8.UseVisualStyleBackColor = false
         '
         'uni2_1
         '
@@ -858,7 +859,7 @@ Partial Class MainProject
         Me.uni2_1.Name = "uni2_1"
         Me.uni2_1.Size = New System.Drawing.Size(49, 48)
         Me.uni2_1.TabIndex = 1
-        Me.uni2_1.UseVisualStyleBackColor = False
+        Me.uni2_1.UseVisualStyleBackColor = false
         '
         'uni2_2
         '
@@ -870,7 +871,7 @@ Partial Class MainProject
         Me.uni2_2.Name = "uni2_2"
         Me.uni2_2.Size = New System.Drawing.Size(49, 48)
         Me.uni2_2.TabIndex = 1
-        Me.uni2_2.UseVisualStyleBackColor = False
+        Me.uni2_2.UseVisualStyleBackColor = false
         '
         'uni2_3
         '
@@ -882,7 +883,7 @@ Partial Class MainProject
         Me.uni2_3.Name = "uni2_3"
         Me.uni2_3.Size = New System.Drawing.Size(49, 48)
         Me.uni2_3.TabIndex = 1
-        Me.uni2_3.UseVisualStyleBackColor = False
+        Me.uni2_3.UseVisualStyleBackColor = false
         '
         'uni2_4
         '
@@ -894,7 +895,7 @@ Partial Class MainProject
         Me.uni2_4.Name = "uni2_4"
         Me.uni2_4.Size = New System.Drawing.Size(49, 48)
         Me.uni2_4.TabIndex = 1
-        Me.uni2_4.UseVisualStyleBackColor = False
+        Me.uni2_4.UseVisualStyleBackColor = false
         '
         'uni2_5
         '
@@ -906,7 +907,7 @@ Partial Class MainProject
         Me.uni2_5.Name = "uni2_5"
         Me.uni2_5.Size = New System.Drawing.Size(49, 48)
         Me.uni2_5.TabIndex = 1
-        Me.uni2_5.UseVisualStyleBackColor = False
+        Me.uni2_5.UseVisualStyleBackColor = false
         '
         'uni2_6
         '
@@ -918,7 +919,7 @@ Partial Class MainProject
         Me.uni2_6.Name = "uni2_6"
         Me.uni2_6.Size = New System.Drawing.Size(49, 48)
         Me.uni2_6.TabIndex = 1
-        Me.uni2_6.UseVisualStyleBackColor = False
+        Me.uni2_6.UseVisualStyleBackColor = false
         '
         'uni2_7
         '
@@ -930,7 +931,7 @@ Partial Class MainProject
         Me.uni2_7.Name = "uni2_7"
         Me.uni2_7.Size = New System.Drawing.Size(49, 48)
         Me.uni2_7.TabIndex = 1
-        Me.uni2_7.UseVisualStyleBackColor = False
+        Me.uni2_7.UseVisualStyleBackColor = false
         '
         'uni2_8
         '
@@ -942,7 +943,7 @@ Partial Class MainProject
         Me.uni2_8.Name = "uni2_8"
         Me.uni2_8.Size = New System.Drawing.Size(55, 48)
         Me.uni2_8.TabIndex = 1
-        Me.uni2_8.UseVisualStyleBackColor = False
+        Me.uni2_8.UseVisualStyleBackColor = false
         '
         'uni3_1
         '
@@ -954,7 +955,7 @@ Partial Class MainProject
         Me.uni3_1.Name = "uni3_1"
         Me.uni3_1.Size = New System.Drawing.Size(49, 48)
         Me.uni3_1.TabIndex = 1
-        Me.uni3_1.UseVisualStyleBackColor = False
+        Me.uni3_1.UseVisualStyleBackColor = false
         '
         'uni3_2
         '
@@ -966,7 +967,7 @@ Partial Class MainProject
         Me.uni3_2.Name = "uni3_2"
         Me.uni3_2.Size = New System.Drawing.Size(49, 48)
         Me.uni3_2.TabIndex = 1
-        Me.uni3_2.UseVisualStyleBackColor = False
+        Me.uni3_2.UseVisualStyleBackColor = false
         '
         'uni3_3
         '
@@ -978,7 +979,7 @@ Partial Class MainProject
         Me.uni3_3.Name = "uni3_3"
         Me.uni3_3.Size = New System.Drawing.Size(49, 48)
         Me.uni3_3.TabIndex = 1
-        Me.uni3_3.UseVisualStyleBackColor = False
+        Me.uni3_3.UseVisualStyleBackColor = false
         '
         'uni3_4
         '
@@ -990,7 +991,7 @@ Partial Class MainProject
         Me.uni3_4.Name = "uni3_4"
         Me.uni3_4.Size = New System.Drawing.Size(49, 48)
         Me.uni3_4.TabIndex = 1
-        Me.uni3_4.UseVisualStyleBackColor = False
+        Me.uni3_4.UseVisualStyleBackColor = false
         '
         'uni3_5
         '
@@ -1002,7 +1003,7 @@ Partial Class MainProject
         Me.uni3_5.Name = "uni3_5"
         Me.uni3_5.Size = New System.Drawing.Size(49, 48)
         Me.uni3_5.TabIndex = 1
-        Me.uni3_5.UseVisualStyleBackColor = False
+        Me.uni3_5.UseVisualStyleBackColor = false
         '
         'uni3_6
         '
@@ -1014,7 +1015,7 @@ Partial Class MainProject
         Me.uni3_6.Name = "uni3_6"
         Me.uni3_6.Size = New System.Drawing.Size(49, 48)
         Me.uni3_6.TabIndex = 1
-        Me.uni3_6.UseVisualStyleBackColor = False
+        Me.uni3_6.UseVisualStyleBackColor = false
         '
         'uni3_7
         '
@@ -1026,7 +1027,7 @@ Partial Class MainProject
         Me.uni3_7.Name = "uni3_7"
         Me.uni3_7.Size = New System.Drawing.Size(49, 48)
         Me.uni3_7.TabIndex = 1
-        Me.uni3_7.UseVisualStyleBackColor = False
+        Me.uni3_7.UseVisualStyleBackColor = false
         '
         'uni3_8
         '
@@ -1038,7 +1039,7 @@ Partial Class MainProject
         Me.uni3_8.Name = "uni3_8"
         Me.uni3_8.Size = New System.Drawing.Size(55, 48)
         Me.uni3_8.TabIndex = 1
-        Me.uni3_8.UseVisualStyleBackColor = False
+        Me.uni3_8.UseVisualStyleBackColor = false
         '
         'uni4_1
         '
@@ -1050,7 +1051,7 @@ Partial Class MainProject
         Me.uni4_1.Name = "uni4_1"
         Me.uni4_1.Size = New System.Drawing.Size(49, 48)
         Me.uni4_1.TabIndex = 1
-        Me.uni4_1.UseVisualStyleBackColor = False
+        Me.uni4_1.UseVisualStyleBackColor = false
         '
         'uni4_2
         '
@@ -1062,7 +1063,7 @@ Partial Class MainProject
         Me.uni4_2.Name = "uni4_2"
         Me.uni4_2.Size = New System.Drawing.Size(49, 48)
         Me.uni4_2.TabIndex = 1
-        Me.uni4_2.UseVisualStyleBackColor = False
+        Me.uni4_2.UseVisualStyleBackColor = false
         '
         'uni4_3
         '
@@ -1074,7 +1075,7 @@ Partial Class MainProject
         Me.uni4_3.Name = "uni4_3"
         Me.uni4_3.Size = New System.Drawing.Size(49, 48)
         Me.uni4_3.TabIndex = 1
-        Me.uni4_3.UseVisualStyleBackColor = False
+        Me.uni4_3.UseVisualStyleBackColor = false
         '
         'uni4_4
         '
@@ -1086,7 +1087,7 @@ Partial Class MainProject
         Me.uni4_4.Name = "uni4_4"
         Me.uni4_4.Size = New System.Drawing.Size(49, 48)
         Me.uni4_4.TabIndex = 1
-        Me.uni4_4.UseVisualStyleBackColor = False
+        Me.uni4_4.UseVisualStyleBackColor = false
         '
         'uni4_5
         '
@@ -1098,7 +1099,7 @@ Partial Class MainProject
         Me.uni4_5.Name = "uni4_5"
         Me.uni4_5.Size = New System.Drawing.Size(49, 48)
         Me.uni4_5.TabIndex = 1
-        Me.uni4_5.UseVisualStyleBackColor = False
+        Me.uni4_5.UseVisualStyleBackColor = false
         '
         'uni4_6
         '
@@ -1110,7 +1111,7 @@ Partial Class MainProject
         Me.uni4_6.Name = "uni4_6"
         Me.uni4_6.Size = New System.Drawing.Size(49, 48)
         Me.uni4_6.TabIndex = 1
-        Me.uni4_6.UseVisualStyleBackColor = False
+        Me.uni4_6.UseVisualStyleBackColor = false
         '
         'uni4_7
         '
@@ -1122,7 +1123,7 @@ Partial Class MainProject
         Me.uni4_7.Name = "uni4_7"
         Me.uni4_7.Size = New System.Drawing.Size(49, 48)
         Me.uni4_7.TabIndex = 1
-        Me.uni4_7.UseVisualStyleBackColor = False
+        Me.uni4_7.UseVisualStyleBackColor = false
         '
         'uni4_8
         '
@@ -1134,7 +1135,7 @@ Partial Class MainProject
         Me.uni4_8.Name = "uni4_8"
         Me.uni4_8.Size = New System.Drawing.Size(55, 48)
         Me.uni4_8.TabIndex = 1
-        Me.uni4_8.UseVisualStyleBackColor = False
+        Me.uni4_8.UseVisualStyleBackColor = false
         '
         'uni5_1
         '
@@ -1146,7 +1147,7 @@ Partial Class MainProject
         Me.uni5_1.Name = "uni5_1"
         Me.uni5_1.Size = New System.Drawing.Size(49, 48)
         Me.uni5_1.TabIndex = 1
-        Me.uni5_1.UseVisualStyleBackColor = False
+        Me.uni5_1.UseVisualStyleBackColor = false
         '
         'uni5_2
         '
@@ -1158,7 +1159,7 @@ Partial Class MainProject
         Me.uni5_2.Name = "uni5_2"
         Me.uni5_2.Size = New System.Drawing.Size(49, 48)
         Me.uni5_2.TabIndex = 1
-        Me.uni5_2.UseVisualStyleBackColor = False
+        Me.uni5_2.UseVisualStyleBackColor = false
         '
         'uni5_3
         '
@@ -1170,7 +1171,7 @@ Partial Class MainProject
         Me.uni5_3.Name = "uni5_3"
         Me.uni5_3.Size = New System.Drawing.Size(49, 48)
         Me.uni5_3.TabIndex = 1
-        Me.uni5_3.UseVisualStyleBackColor = False
+        Me.uni5_3.UseVisualStyleBackColor = false
         '
         'uni5_4
         '
@@ -1182,7 +1183,7 @@ Partial Class MainProject
         Me.uni5_4.Name = "uni5_4"
         Me.uni5_4.Size = New System.Drawing.Size(49, 48)
         Me.uni5_4.TabIndex = 1
-        Me.uni5_4.UseVisualStyleBackColor = False
+        Me.uni5_4.UseVisualStyleBackColor = false
         '
         'uni5_5
         '
@@ -1194,7 +1195,7 @@ Partial Class MainProject
         Me.uni5_5.Name = "uni5_5"
         Me.uni5_5.Size = New System.Drawing.Size(49, 48)
         Me.uni5_5.TabIndex = 1
-        Me.uni5_5.UseVisualStyleBackColor = False
+        Me.uni5_5.UseVisualStyleBackColor = false
         '
         'uni5_6
         '
@@ -1206,7 +1207,7 @@ Partial Class MainProject
         Me.uni5_6.Name = "uni5_6"
         Me.uni5_6.Size = New System.Drawing.Size(49, 48)
         Me.uni5_6.TabIndex = 1
-        Me.uni5_6.UseVisualStyleBackColor = False
+        Me.uni5_6.UseVisualStyleBackColor = false
         '
         'uni5_7
         '
@@ -1218,7 +1219,7 @@ Partial Class MainProject
         Me.uni5_7.Name = "uni5_7"
         Me.uni5_7.Size = New System.Drawing.Size(49, 48)
         Me.uni5_7.TabIndex = 1
-        Me.uni5_7.UseVisualStyleBackColor = False
+        Me.uni5_7.UseVisualStyleBackColor = false
         '
         'uni5_8
         '
@@ -1230,7 +1231,7 @@ Partial Class MainProject
         Me.uni5_8.Name = "uni5_8"
         Me.uni5_8.Size = New System.Drawing.Size(55, 48)
         Me.uni5_8.TabIndex = 1
-        Me.uni5_8.UseVisualStyleBackColor = False
+        Me.uni5_8.UseVisualStyleBackColor = false
         '
         'uni6_1
         '
@@ -1242,7 +1243,7 @@ Partial Class MainProject
         Me.uni6_1.Name = "uni6_1"
         Me.uni6_1.Size = New System.Drawing.Size(49, 48)
         Me.uni6_1.TabIndex = 1
-        Me.uni6_1.UseVisualStyleBackColor = False
+        Me.uni6_1.UseVisualStyleBackColor = false
         '
         'uni6_2
         '
@@ -1254,7 +1255,7 @@ Partial Class MainProject
         Me.uni6_2.Name = "uni6_2"
         Me.uni6_2.Size = New System.Drawing.Size(49, 48)
         Me.uni6_2.TabIndex = 1
-        Me.uni6_2.UseVisualStyleBackColor = False
+        Me.uni6_2.UseVisualStyleBackColor = false
         '
         'uni6_3
         '
@@ -1266,7 +1267,7 @@ Partial Class MainProject
         Me.uni6_3.Name = "uni6_3"
         Me.uni6_3.Size = New System.Drawing.Size(49, 48)
         Me.uni6_3.TabIndex = 1
-        Me.uni6_3.UseVisualStyleBackColor = False
+        Me.uni6_3.UseVisualStyleBackColor = false
         '
         'uni6_4
         '
@@ -1278,7 +1279,7 @@ Partial Class MainProject
         Me.uni6_4.Name = "uni6_4"
         Me.uni6_4.Size = New System.Drawing.Size(49, 48)
         Me.uni6_4.TabIndex = 1
-        Me.uni6_4.UseVisualStyleBackColor = False
+        Me.uni6_4.UseVisualStyleBackColor = false
         '
         'uni6_5
         '
@@ -1290,7 +1291,7 @@ Partial Class MainProject
         Me.uni6_5.Name = "uni6_5"
         Me.uni6_5.Size = New System.Drawing.Size(49, 48)
         Me.uni6_5.TabIndex = 1
-        Me.uni6_5.UseVisualStyleBackColor = False
+        Me.uni6_5.UseVisualStyleBackColor = false
         '
         'uni6_6
         '
@@ -1302,7 +1303,7 @@ Partial Class MainProject
         Me.uni6_6.Name = "uni6_6"
         Me.uni6_6.Size = New System.Drawing.Size(49, 48)
         Me.uni6_6.TabIndex = 1
-        Me.uni6_6.UseVisualStyleBackColor = False
+        Me.uni6_6.UseVisualStyleBackColor = false
         '
         'uni6_7
         '
@@ -1314,7 +1315,7 @@ Partial Class MainProject
         Me.uni6_7.Name = "uni6_7"
         Me.uni6_7.Size = New System.Drawing.Size(49, 48)
         Me.uni6_7.TabIndex = 1
-        Me.uni6_7.UseVisualStyleBackColor = False
+        Me.uni6_7.UseVisualStyleBackColor = false
         '
         'uni6_8
         '
@@ -1326,7 +1327,7 @@ Partial Class MainProject
         Me.uni6_8.Name = "uni6_8"
         Me.uni6_8.Size = New System.Drawing.Size(55, 48)
         Me.uni6_8.TabIndex = 1
-        Me.uni6_8.UseVisualStyleBackColor = False
+        Me.uni6_8.UseVisualStyleBackColor = false
         '
         'uni7_1
         '
@@ -1338,7 +1339,7 @@ Partial Class MainProject
         Me.uni7_1.Name = "uni7_1"
         Me.uni7_1.Size = New System.Drawing.Size(49, 48)
         Me.uni7_1.TabIndex = 1
-        Me.uni7_1.UseVisualStyleBackColor = False
+        Me.uni7_1.UseVisualStyleBackColor = false
         '
         'uni7_2
         '
@@ -1350,7 +1351,7 @@ Partial Class MainProject
         Me.uni7_2.Name = "uni7_2"
         Me.uni7_2.Size = New System.Drawing.Size(49, 48)
         Me.uni7_2.TabIndex = 1
-        Me.uni7_2.UseVisualStyleBackColor = False
+        Me.uni7_2.UseVisualStyleBackColor = false
         '
         'uni7_3
         '
@@ -1362,7 +1363,7 @@ Partial Class MainProject
         Me.uni7_3.Name = "uni7_3"
         Me.uni7_3.Size = New System.Drawing.Size(49, 48)
         Me.uni7_3.TabIndex = 1
-        Me.uni7_3.UseVisualStyleBackColor = False
+        Me.uni7_3.UseVisualStyleBackColor = false
         '
         'uni7_4
         '
@@ -1374,7 +1375,7 @@ Partial Class MainProject
         Me.uni7_4.Name = "uni7_4"
         Me.uni7_4.Size = New System.Drawing.Size(49, 48)
         Me.uni7_4.TabIndex = 1
-        Me.uni7_4.UseVisualStyleBackColor = False
+        Me.uni7_4.UseVisualStyleBackColor = false
         '
         'uni7_5
         '
@@ -1386,7 +1387,7 @@ Partial Class MainProject
         Me.uni7_5.Name = "uni7_5"
         Me.uni7_5.Size = New System.Drawing.Size(49, 48)
         Me.uni7_5.TabIndex = 1
-        Me.uni7_5.UseVisualStyleBackColor = False
+        Me.uni7_5.UseVisualStyleBackColor = false
         '
         'uni7_6
         '
@@ -1398,7 +1399,7 @@ Partial Class MainProject
         Me.uni7_6.Name = "uni7_6"
         Me.uni7_6.Size = New System.Drawing.Size(49, 48)
         Me.uni7_6.TabIndex = 1
-        Me.uni7_6.UseVisualStyleBackColor = False
+        Me.uni7_6.UseVisualStyleBackColor = false
         '
         'uni7_7
         '
@@ -1410,7 +1411,7 @@ Partial Class MainProject
         Me.uni7_7.Name = "uni7_7"
         Me.uni7_7.Size = New System.Drawing.Size(49, 48)
         Me.uni7_7.TabIndex = 1
-        Me.uni7_7.UseVisualStyleBackColor = False
+        Me.uni7_7.UseVisualStyleBackColor = false
         '
         'uni7_8
         '
@@ -1422,7 +1423,7 @@ Partial Class MainProject
         Me.uni7_8.Name = "uni7_8"
         Me.uni7_8.Size = New System.Drawing.Size(55, 48)
         Me.uni7_8.TabIndex = 1
-        Me.uni7_8.UseVisualStyleBackColor = False
+        Me.uni7_8.UseVisualStyleBackColor = false
         '
         'uni8_1
         '
@@ -1434,7 +1435,7 @@ Partial Class MainProject
         Me.uni8_1.Name = "uni8_1"
         Me.uni8_1.Size = New System.Drawing.Size(49, 48)
         Me.uni8_1.TabIndex = 1
-        Me.uni8_1.UseVisualStyleBackColor = False
+        Me.uni8_1.UseVisualStyleBackColor = false
         '
         'uni8_2
         '
@@ -1446,7 +1447,7 @@ Partial Class MainProject
         Me.uni8_2.Name = "uni8_2"
         Me.uni8_2.Size = New System.Drawing.Size(49, 48)
         Me.uni8_2.TabIndex = 1
-        Me.uni8_2.UseVisualStyleBackColor = False
+        Me.uni8_2.UseVisualStyleBackColor = false
         '
         'uni8_3
         '
@@ -1458,7 +1459,7 @@ Partial Class MainProject
         Me.uni8_3.Name = "uni8_3"
         Me.uni8_3.Size = New System.Drawing.Size(49, 48)
         Me.uni8_3.TabIndex = 1
-        Me.uni8_3.UseVisualStyleBackColor = False
+        Me.uni8_3.UseVisualStyleBackColor = false
         '
         'uni8_4
         '
@@ -1470,7 +1471,7 @@ Partial Class MainProject
         Me.uni8_4.Name = "uni8_4"
         Me.uni8_4.Size = New System.Drawing.Size(49, 48)
         Me.uni8_4.TabIndex = 1
-        Me.uni8_4.UseVisualStyleBackColor = False
+        Me.uni8_4.UseVisualStyleBackColor = false
         '
         'uni8_5
         '
@@ -1482,7 +1483,7 @@ Partial Class MainProject
         Me.uni8_5.Name = "uni8_5"
         Me.uni8_5.Size = New System.Drawing.Size(49, 48)
         Me.uni8_5.TabIndex = 1
-        Me.uni8_5.UseVisualStyleBackColor = False
+        Me.uni8_5.UseVisualStyleBackColor = false
         '
         'uni8_6
         '
@@ -1494,7 +1495,7 @@ Partial Class MainProject
         Me.uni8_6.Name = "uni8_6"
         Me.uni8_6.Size = New System.Drawing.Size(49, 48)
         Me.uni8_6.TabIndex = 1
-        Me.uni8_6.UseVisualStyleBackColor = False
+        Me.uni8_6.UseVisualStyleBackColor = false
         '
         'uni8_7
         '
@@ -1506,7 +1507,7 @@ Partial Class MainProject
         Me.uni8_7.Name = "uni8_7"
         Me.uni8_7.Size = New System.Drawing.Size(49, 48)
         Me.uni8_7.TabIndex = 1
-        Me.uni8_7.UseVisualStyleBackColor = False
+        Me.uni8_7.UseVisualStyleBackColor = false
         '
         'uni8_8
         '
@@ -1518,7 +1519,7 @@ Partial Class MainProject
         Me.uni8_8.Name = "uni8_8"
         Me.uni8_8.Size = New System.Drawing.Size(55, 48)
         Me.uni8_8.TabIndex = 1
-        Me.uni8_8.UseVisualStyleBackColor = False
+        Me.uni8_8.UseVisualStyleBackColor = false
         '
         'keyLED1
         '
@@ -1528,21 +1529,22 @@ Partial Class MainProject
         Me.keyLED1.Size = New System.Drawing.Size(776, 495)
         Me.keyLED1.TabIndex = 2
         Me.keyLED1.Text = "keyLED"
-        Me.keyLED1.UseVisualStyleBackColor = True
+        Me.keyLED1.UseVisualStyleBackColor = true
         '
         'DevelopingLabel2
         '
-        Me.DevelopingLabel2.AutoSize = True
-        Me.DevelopingLabel2.Font = New System.Drawing.Font("NanumBarunGothicOTF", 24.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.DevelopingLabel2.AutoSize = true
+        Me.DevelopingLabel2.Font = New System.Drawing.Font("NanumBarunGothicOTF", 24!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
         Me.DevelopingLabel2.Location = New System.Drawing.Point(83, 191)
         Me.DevelopingLabel2.Name = "DevelopingLabel2"
         Me.DevelopingLabel2.Size = New System.Drawing.Size(607, 74)
         Me.DevelopingLabel2.TabIndex = 36
-        Me.DevelopingLabel2.Text = "We are developing ""Converting keyLED""!" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "                           Coming Soon..." &
+        Me.DevelopingLabel2.Text = "We are developing ""Converting keyLED""!"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                           Coming Soon..."& _ 
     ""
         '
         'keyLED2
         '
+        Me.keyLED2.Controls.Add(Me.btnConvertKeyLEDAutomatically)
         Me.keyLED2.Controls.Add(Me.keyLEDMIDEX_Md)
         Me.keyLED2.Controls.Add(Me.btn_Chain3)
         Me.keyLED2.Controls.Add(Me.btn_Chain2)
@@ -1560,7 +1562,18 @@ Partial Class MainProject
         Me.keyLED2.Size = New System.Drawing.Size(776, 495)
         Me.keyLED2.TabIndex = 3
         Me.keyLED2.Text = "keyLED (MIDI Extension)"
-        Me.keyLED2.UseVisualStyleBackColor = True
+        Me.keyLED2.UseVisualStyleBackColor = true
+        '
+        'btnConvertKeyLEDAutomatically
+        '
+        Me.btnConvertKeyLEDAutomatically.Enabled = false
+        Me.btnConvertKeyLEDAutomatically.Font = New System.Drawing.Font("NanumBarunGothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
+        Me.btnConvertKeyLEDAutomatically.Location = New System.Drawing.Point(576, 191)
+        Me.btnConvertKeyLEDAutomatically.Name = "btnConvertKeyLEDAutomatically"
+        Me.btnConvertKeyLEDAutomatically.Size = New System.Drawing.Size(186, 86)
+        Me.btnConvertKeyLEDAutomatically.TabIndex = 77
+        Me.btnConvertKeyLEDAutomatically.Text = "Convert keyLED Automatically!"
+        Me.btnConvertKeyLEDAutomatically.UseVisualStyleBackColor = true
         '
         'keyLEDMIDEX_Md
         '
@@ -1570,159 +1583,159 @@ Partial Class MainProject
         Me.keyLEDMIDEX_Md.Name = "keyLEDMIDEX_Md"
         Me.keyLEDMIDEX_Md.Size = New System.Drawing.Size(186, 70)
         Me.keyLEDMIDEX_Md.TabIndex = 76
-        Me.keyLEDMIDEX_Md.TabStop = False
+        Me.keyLEDMIDEX_Md.TabStop = false
         Me.keyLEDMIDEX_Md.Text = "keyLED Modes"
         '
         'keyLEDMIDEX_LEDViewMode
         '
-        Me.keyLEDMIDEX_LEDViewMode.AutoSize = True
+        Me.keyLEDMIDEX_LEDViewMode.AutoSize = true
         Me.keyLEDMIDEX_LEDViewMode.Location = New System.Drawing.Point(6, 44)
         Me.keyLEDMIDEX_LEDViewMode.Name = "keyLEDMIDEX_LEDViewMode"
         Me.keyLEDMIDEX_LEDViewMode.Size = New System.Drawing.Size(112, 18)
         Me.keyLEDMIDEX_LEDViewMode.TabIndex = 1
         Me.keyLEDMIDEX_LEDViewMode.Text = "LED View Mode"
-        Me.keyLEDMIDEX_LEDViewMode.UseVisualStyleBackColor = True
+        Me.keyLEDMIDEX_LEDViewMode.UseVisualStyleBackColor = true
         '
         'keyLEDMIDEX_prMode
         '
-        Me.keyLEDMIDEX_prMode.AutoSize = True
+        Me.keyLEDMIDEX_prMode.AutoSize = true
         Me.keyLEDMIDEX_prMode.Location = New System.Drawing.Point(6, 20)
         Me.keyLEDMIDEX_prMode.Name = "keyLEDMIDEX_prMode"
         Me.keyLEDMIDEX_prMode.Size = New System.Drawing.Size(132, 18)
         Me.keyLEDMIDEX_prMode.TabIndex = 0
         Me.keyLEDMIDEX_prMode.Text = "Performance Mode"
-        Me.keyLEDMIDEX_prMode.UseVisualStyleBackColor = True
+        Me.keyLEDMIDEX_prMode.UseVisualStyleBackColor = true
         '
         'btn_Chain3
         '
         Me.btn_Chain3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.btn_Chain3.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.btn_Chain3.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.btn_Chain3.Location = New System.Drawing.Point(512, 156)
         Me.btn_Chain3.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btn_Chain3.Name = "btn_Chain3"
         Me.btn_Chain3.Size = New System.Drawing.Size(53, 39)
         Me.btn_Chain3.TabIndex = 75
         Me.btn_Chain3.Text = "3"
-        Me.btn_Chain3.UseVisualStyleBackColor = True
+        Me.btn_Chain3.UseVisualStyleBackColor = true
         '
         'btn_Chain2
         '
         Me.btn_Chain2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.btn_Chain2.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.btn_Chain2.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.btn_Chain2.Location = New System.Drawing.Point(512, 109)
         Me.btn_Chain2.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btn_Chain2.Name = "btn_Chain2"
         Me.btn_Chain2.Size = New System.Drawing.Size(53, 40)
         Me.btn_Chain2.TabIndex = 74
         Me.btn_Chain2.Text = "2"
-        Me.btn_Chain2.UseVisualStyleBackColor = True
+        Me.btn_Chain2.UseVisualStyleBackColor = true
         '
         'btn_Chain1
         '
         Me.btn_Chain1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.btn_Chain1.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.btn_Chain1.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.btn_Chain1.Location = New System.Drawing.Point(512, 63)
         Me.btn_Chain1.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btn_Chain1.Name = "btn_Chain1"
         Me.btn_Chain1.Size = New System.Drawing.Size(53, 40)
         Me.btn_Chain1.TabIndex = 73
         Me.btn_Chain1.Text = "1"
-        Me.btn_Chain1.UseVisualStyleBackColor = True
+        Me.btn_Chain1.UseVisualStyleBackColor = true
         '
         'DevelopingLabel3
         '
-        Me.DevelopingLabel3.Font = New System.Drawing.Font("NanumBarunGothicOTF", 26.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.DevelopingLabel3.Font = New System.Drawing.Font("NanumBarunGothicOTF", 26.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.DevelopingLabel3.Location = New System.Drawing.Point(512, 14)
         Me.DevelopingLabel3.Name = "DevelopingLabel3"
         Me.DevelopingLabel3.Size = New System.Drawing.Size(250, 135)
         Me.DevelopingLabel3.TabIndex = 72
-        Me.DevelopingLabel3.Text = "keyLED (MIDI Extension)" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "[ Beta ]"
+        Me.DevelopingLabel3.Text = "keyLED (MIDI Extension)"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"[ Beta ]"
         Me.DevelopingLabel3.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'btn_Chain8
         '
         Me.btn_Chain8.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.btn_Chain8.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.btn_Chain8.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.btn_Chain8.Location = New System.Drawing.Point(512, 385)
         Me.btn_Chain8.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btn_Chain8.Name = "btn_Chain8"
         Me.btn_Chain8.Size = New System.Drawing.Size(53, 40)
         Me.btn_Chain8.TabIndex = 71
         Me.btn_Chain8.Text = "8"
-        Me.btn_Chain8.UseVisualStyleBackColor = True
+        Me.btn_Chain8.UseVisualStyleBackColor = true
         '
         'btn_Chain7
         '
         Me.btn_Chain7.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.btn_Chain7.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.btn_Chain7.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.btn_Chain7.Location = New System.Drawing.Point(512, 339)
         Me.btn_Chain7.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btn_Chain7.Name = "btn_Chain7"
         Me.btn_Chain7.Size = New System.Drawing.Size(53, 40)
         Me.btn_Chain7.TabIndex = 70
         Me.btn_Chain7.Text = "7"
-        Me.btn_Chain7.UseVisualStyleBackColor = True
+        Me.btn_Chain7.UseVisualStyleBackColor = true
         '
         'btn_Chain6
         '
         Me.btn_Chain6.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.btn_Chain6.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.btn_Chain6.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.btn_Chain6.Location = New System.Drawing.Point(512, 293)
         Me.btn_Chain6.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btn_Chain6.Name = "btn_Chain6"
         Me.btn_Chain6.Size = New System.Drawing.Size(53, 40)
         Me.btn_Chain6.TabIndex = 69
         Me.btn_Chain6.Text = "6"
-        Me.btn_Chain6.UseVisualStyleBackColor = True
+        Me.btn_Chain6.UseVisualStyleBackColor = true
         '
         'btn_Chain5
         '
         Me.btn_Chain5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.btn_Chain5.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.btn_Chain5.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.btn_Chain5.Location = New System.Drawing.Point(512, 247)
         Me.btn_Chain5.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btn_Chain5.Name = "btn_Chain5"
         Me.btn_Chain5.Size = New System.Drawing.Size(53, 40)
         Me.btn_Chain5.TabIndex = 68
         Me.btn_Chain5.Text = "5"
-        Me.btn_Chain5.UseVisualStyleBackColor = True
+        Me.btn_Chain5.UseVisualStyleBackColor = true
         '
         'btn_Chain4
         '
         Me.btn_Chain4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.btn_Chain4.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.btn_Chain4.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.btn_Chain4.Location = New System.Drawing.Point(512, 201)
         Me.btn_Chain4.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btn_Chain4.Name = "btn_Chain4"
         Me.btn_Chain4.Size = New System.Drawing.Size(53, 40)
         Me.btn_Chain4.TabIndex = 67
         Me.btn_Chain4.Text = "4"
-        Me.btn_Chain4.UseVisualStyleBackColor = True
+        Me.btn_Chain4.UseVisualStyleBackColor = true
         '
         'keyLEDMIDEX_BetaButton
         '
-        Me.keyLEDMIDEX_BetaButton.Font = New System.Drawing.Font("NanumBarunGothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.keyLEDMIDEX_BetaButton.Font = New System.Drawing.Font("NanumBarunGothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.keyLEDMIDEX_BetaButton.Location = New System.Drawing.Point(576, 293)
         Me.keyLEDMIDEX_BetaButton.Name = "keyLEDMIDEX_BetaButton"
         Me.keyLEDMIDEX_BetaButton.Size = New System.Drawing.Size(186, 86)
         Me.keyLEDMIDEX_BetaButton.TabIndex = 48
         Me.keyLEDMIDEX_BetaButton.Text = "Edit keyLED! (MIDI Extension) (Advanced)"
-        Me.keyLEDMIDEX_BetaButton.UseVisualStyleBackColor = True
+        Me.keyLEDMIDEX_BetaButton.UseVisualStyleBackColor = true
         '
         'keyLED_Pad64
         '
         Me.keyLED_Pad64.BackColor = System.Drawing.Color.Transparent
         Me.keyLED_Pad64.ColumnCount = 10
-        Me.keyLED_Pad64.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
-        Me.keyLED_Pad64.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
-        Me.keyLED_Pad64.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
-        Me.keyLED_Pad64.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
-        Me.keyLED_Pad64.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
-        Me.keyLED_Pad64.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
-        Me.keyLED_Pad64.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
-        Me.keyLED_Pad64.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
-        Me.keyLED_Pad64.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
-        Me.keyLED_Pad64.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
+        Me.keyLED_Pad64.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10!))
+        Me.keyLED_Pad64.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10!))
+        Me.keyLED_Pad64.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10!))
+        Me.keyLED_Pad64.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10!))
+        Me.keyLED_Pad64.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10!))
+        Me.keyLED_Pad64.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10!))
+        Me.keyLED_Pad64.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10!))
+        Me.keyLED_Pad64.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10!))
+        Me.keyLED_Pad64.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10!))
+        Me.keyLED_Pad64.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10!))
         Me.keyLED_Pad64.Controls.Add(Me.ucvLogo, 9, 0)
         Me.keyLED_Pad64.Controls.Add(Me.mc32, 0, 1)
         Me.keyLED_Pad64.Controls.Add(Me.u21, 1, 2)
@@ -1823,16 +1836,16 @@ Partial Class MainProject
         Me.keyLED_Pad64.Location = New System.Drawing.Point(32, 14)
         Me.keyLED_Pad64.Name = "keyLED_Pad64"
         Me.keyLED_Pad64.RowCount = 10
-        Me.keyLED_Pad64.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
-        Me.keyLED_Pad64.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
-        Me.keyLED_Pad64.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
-        Me.keyLED_Pad64.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
-        Me.keyLED_Pad64.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
-        Me.keyLED_Pad64.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
-        Me.keyLED_Pad64.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
-        Me.keyLED_Pad64.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
-        Me.keyLED_Pad64.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
-        Me.keyLED_Pad64.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
+        Me.keyLED_Pad64.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10!))
+        Me.keyLED_Pad64.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10!))
+        Me.keyLED_Pad64.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10!))
+        Me.keyLED_Pad64.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10!))
+        Me.keyLED_Pad64.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10!))
+        Me.keyLED_Pad64.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10!))
+        Me.keyLED_Pad64.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10!))
+        Me.keyLED_Pad64.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10!))
+        Me.keyLED_Pad64.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10!))
+        Me.keyLED_Pad64.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10!))
         Me.keyLED_Pad64.Size = New System.Drawing.Size(474, 462)
         Me.keyLED_Pad64.TabIndex = 46
         '
@@ -1845,7 +1858,7 @@ Partial Class MainProject
         Me.ucvLogo.Size = New System.Drawing.Size(45, 40)
         Me.ucvLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
         Me.ucvLogo.TabIndex = 5
-        Me.ucvLogo.TabStop = False
+        Me.ucvLogo.TabStop = false
         '
         'mc32
         '
@@ -1856,7 +1869,7 @@ Partial Class MainProject
         Me.mc32.Name = "mc32"
         Me.mc32.Size = New System.Drawing.Size(41, 40)
         Me.mc32.TabIndex = 1
-        Me.mc32.UseVisualStyleBackColor = False
+        Me.mc32.UseVisualStyleBackColor = false
         '
         'u21
         '
@@ -1868,7 +1881,7 @@ Partial Class MainProject
         Me.u21.Name = "u21"
         Me.u21.Size = New System.Drawing.Size(41, 40)
         Me.u21.TabIndex = 1
-        Me.u21.UseVisualStyleBackColor = False
+        Me.u21.UseVisualStyleBackColor = false
         '
         'u11
         '
@@ -1880,7 +1893,7 @@ Partial Class MainProject
         Me.u11.Name = "u11"
         Me.u11.Size = New System.Drawing.Size(41, 40)
         Me.u11.TabIndex = 1
-        Me.u11.UseVisualStyleBackColor = False
+        Me.u11.UseVisualStyleBackColor = false
         '
         'mc2
         '
@@ -1891,7 +1904,7 @@ Partial Class MainProject
         Me.mc2.Name = "mc2"
         Me.mc2.Size = New System.Drawing.Size(41, 40)
         Me.mc2.TabIndex = 1
-        Me.mc2.UseVisualStyleBackColor = False
+        Me.mc2.UseVisualStyleBackColor = false
         '
         'u12
         '
@@ -1903,7 +1916,7 @@ Partial Class MainProject
         Me.u12.Name = "u12"
         Me.u12.Size = New System.Drawing.Size(41, 40)
         Me.u12.TabIndex = 1
-        Me.u12.UseVisualStyleBackColor = False
+        Me.u12.UseVisualStyleBackColor = false
         '
         'u22
         '
@@ -1915,7 +1928,7 @@ Partial Class MainProject
         Me.u22.Name = "u22"
         Me.u22.Size = New System.Drawing.Size(41, 40)
         Me.u22.TabIndex = 1
-        Me.u22.UseVisualStyleBackColor = False
+        Me.u22.UseVisualStyleBackColor = false
         '
         'u13
         '
@@ -1927,7 +1940,7 @@ Partial Class MainProject
         Me.u13.Name = "u13"
         Me.u13.Size = New System.Drawing.Size(41, 40)
         Me.u13.TabIndex = 1
-        Me.u13.UseVisualStyleBackColor = False
+        Me.u13.UseVisualStyleBackColor = false
         '
         'u23
         '
@@ -1939,7 +1952,7 @@ Partial Class MainProject
         Me.u23.Name = "u23"
         Me.u23.Size = New System.Drawing.Size(41, 40)
         Me.u23.TabIndex = 1
-        Me.u23.UseVisualStyleBackColor = False
+        Me.u23.UseVisualStyleBackColor = false
         '
         'u14
         '
@@ -1951,7 +1964,7 @@ Partial Class MainProject
         Me.u14.Name = "u14"
         Me.u14.Size = New System.Drawing.Size(41, 40)
         Me.u14.TabIndex = 1
-        Me.u14.UseVisualStyleBackColor = False
+        Me.u14.UseVisualStyleBackColor = false
         '
         'mc3
         '
@@ -1962,7 +1975,7 @@ Partial Class MainProject
         Me.mc3.Name = "mc3"
         Me.mc3.Size = New System.Drawing.Size(41, 40)
         Me.mc3.TabIndex = 1
-        Me.mc3.UseVisualStyleBackColor = False
+        Me.mc3.UseVisualStyleBackColor = false
         '
         'mc4
         '
@@ -1973,7 +1986,7 @@ Partial Class MainProject
         Me.mc4.Name = "mc4"
         Me.mc4.Size = New System.Drawing.Size(41, 40)
         Me.mc4.TabIndex = 1
-        Me.mc4.UseVisualStyleBackColor = False
+        Me.mc4.UseVisualStyleBackColor = false
         '
         'mc5
         '
@@ -1984,7 +1997,7 @@ Partial Class MainProject
         Me.mc5.Name = "mc5"
         Me.mc5.Size = New System.Drawing.Size(41, 40)
         Me.mc5.TabIndex = 1
-        Me.mc5.UseVisualStyleBackColor = False
+        Me.mc5.UseVisualStyleBackColor = false
         '
         'mc6
         '
@@ -1995,7 +2008,7 @@ Partial Class MainProject
         Me.mc6.Name = "mc6"
         Me.mc6.Size = New System.Drawing.Size(41, 40)
         Me.mc6.TabIndex = 1
-        Me.mc6.UseVisualStyleBackColor = False
+        Me.mc6.UseVisualStyleBackColor = false
         '
         'mc7
         '
@@ -2006,7 +2019,7 @@ Partial Class MainProject
         Me.mc7.Name = "mc7"
         Me.mc7.Size = New System.Drawing.Size(41, 40)
         Me.mc7.TabIndex = 1
-        Me.mc7.UseVisualStyleBackColor = False
+        Me.mc7.UseVisualStyleBackColor = false
         '
         'mc8
         '
@@ -2017,7 +2030,7 @@ Partial Class MainProject
         Me.mc8.Name = "mc8"
         Me.mc8.Size = New System.Drawing.Size(41, 40)
         Me.mc8.TabIndex = 1
-        Me.mc8.UseVisualStyleBackColor = False
+        Me.mc8.UseVisualStyleBackColor = false
         '
         'mc9
         '
@@ -2028,7 +2041,7 @@ Partial Class MainProject
         Me.mc9.Name = "mc9"
         Me.mc9.Size = New System.Drawing.Size(45, 40)
         Me.mc9.TabIndex = 1
-        Me.mc9.UseVisualStyleBackColor = False
+        Me.mc9.UseVisualStyleBackColor = false
         '
         'u18
         '
@@ -2040,7 +2053,7 @@ Partial Class MainProject
         Me.u18.Name = "u18"
         Me.u18.Size = New System.Drawing.Size(41, 40)
         Me.u18.TabIndex = 1
-        Me.u18.UseVisualStyleBackColor = False
+        Me.u18.UseVisualStyleBackColor = false
         '
         'u17
         '
@@ -2052,7 +2065,7 @@ Partial Class MainProject
         Me.u17.Name = "u17"
         Me.u17.Size = New System.Drawing.Size(41, 40)
         Me.u17.TabIndex = 1
-        Me.u17.UseVisualStyleBackColor = False
+        Me.u17.UseVisualStyleBackColor = false
         '
         'u16
         '
@@ -2064,7 +2077,7 @@ Partial Class MainProject
         Me.u16.Name = "u16"
         Me.u16.Size = New System.Drawing.Size(41, 40)
         Me.u16.TabIndex = 1
-        Me.u16.UseVisualStyleBackColor = False
+        Me.u16.UseVisualStyleBackColor = false
         '
         'u15
         '
@@ -2076,7 +2089,7 @@ Partial Class MainProject
         Me.u15.Name = "u15"
         Me.u15.Size = New System.Drawing.Size(41, 40)
         Me.u15.TabIndex = 1
-        Me.u15.UseVisualStyleBackColor = False
+        Me.u15.UseVisualStyleBackColor = false
         '
         'u24
         '
@@ -2088,7 +2101,7 @@ Partial Class MainProject
         Me.u24.Name = "u24"
         Me.u24.Size = New System.Drawing.Size(41, 40)
         Me.u24.TabIndex = 1
-        Me.u24.UseVisualStyleBackColor = False
+        Me.u24.UseVisualStyleBackColor = false
         '
         'u34
         '
@@ -2100,7 +2113,7 @@ Partial Class MainProject
         Me.u34.Name = "u34"
         Me.u34.Size = New System.Drawing.Size(41, 40)
         Me.u34.TabIndex = 1
-        Me.u34.UseVisualStyleBackColor = False
+        Me.u34.UseVisualStyleBackColor = false
         '
         'u33
         '
@@ -2112,7 +2125,7 @@ Partial Class MainProject
         Me.u33.Name = "u33"
         Me.u33.Size = New System.Drawing.Size(41, 40)
         Me.u33.TabIndex = 1
-        Me.u33.UseVisualStyleBackColor = False
+        Me.u33.UseVisualStyleBackColor = false
         '
         'u32
         '
@@ -2124,7 +2137,7 @@ Partial Class MainProject
         Me.u32.Name = "u32"
         Me.u32.Size = New System.Drawing.Size(41, 40)
         Me.u32.TabIndex = 1
-        Me.u32.UseVisualStyleBackColor = False
+        Me.u32.UseVisualStyleBackColor = false
         '
         'u31
         '
@@ -2136,7 +2149,7 @@ Partial Class MainProject
         Me.u31.Name = "u31"
         Me.u31.Size = New System.Drawing.Size(41, 40)
         Me.u31.TabIndex = 1
-        Me.u31.UseVisualStyleBackColor = False
+        Me.u31.UseVisualStyleBackColor = false
         '
         'mc30
         '
@@ -2147,7 +2160,7 @@ Partial Class MainProject
         Me.mc30.Name = "mc30"
         Me.mc30.Size = New System.Drawing.Size(41, 40)
         Me.mc30.TabIndex = 1
-        Me.mc30.UseVisualStyleBackColor = False
+        Me.mc30.UseVisualStyleBackColor = false
         '
         'mc29
         '
@@ -2158,7 +2171,7 @@ Partial Class MainProject
         Me.mc29.Name = "mc29"
         Me.mc29.Size = New System.Drawing.Size(41, 40)
         Me.mc29.TabIndex = 1
-        Me.mc29.UseVisualStyleBackColor = False
+        Me.mc29.UseVisualStyleBackColor = false
         '
         'mc28
         '
@@ -2169,7 +2182,7 @@ Partial Class MainProject
         Me.mc28.Name = "mc28"
         Me.mc28.Size = New System.Drawing.Size(41, 40)
         Me.mc28.TabIndex = 1
-        Me.mc28.UseVisualStyleBackColor = False
+        Me.mc28.UseVisualStyleBackColor = false
         '
         'mc27
         '
@@ -2180,7 +2193,7 @@ Partial Class MainProject
         Me.mc27.Name = "mc27"
         Me.mc27.Size = New System.Drawing.Size(41, 40)
         Me.mc27.TabIndex = 1
-        Me.mc27.UseVisualStyleBackColor = False
+        Me.mc27.UseVisualStyleBackColor = false
         '
         'mc26
         '
@@ -2191,7 +2204,7 @@ Partial Class MainProject
         Me.mc26.Name = "mc26"
         Me.mc26.Size = New System.Drawing.Size(41, 40)
         Me.mc26.TabIndex = 1
-        Me.mc26.UseVisualStyleBackColor = False
+        Me.mc26.UseVisualStyleBackColor = false
         '
         'mc25
         '
@@ -2202,7 +2215,7 @@ Partial Class MainProject
         Me.mc25.Name = "mc25"
         Me.mc25.Size = New System.Drawing.Size(41, 40)
         Me.mc25.TabIndex = 1
-        Me.mc25.UseVisualStyleBackColor = False
+        Me.mc25.UseVisualStyleBackColor = false
         '
         'mc24
         '
@@ -2213,7 +2226,7 @@ Partial Class MainProject
         Me.mc24.Name = "mc24"
         Me.mc24.Size = New System.Drawing.Size(41, 42)
         Me.mc24.TabIndex = 1
-        Me.mc24.UseVisualStyleBackColor = False
+        Me.mc24.UseVisualStyleBackColor = false
         '
         'u81
         '
@@ -2225,7 +2238,7 @@ Partial Class MainProject
         Me.u81.Name = "u81"
         Me.u81.Size = New System.Drawing.Size(41, 40)
         Me.u81.TabIndex = 1
-        Me.u81.UseVisualStyleBackColor = False
+        Me.u81.UseVisualStyleBackColor = false
         '
         'u82
         '
@@ -2237,7 +2250,7 @@ Partial Class MainProject
         Me.u82.Name = "u82"
         Me.u82.Size = New System.Drawing.Size(41, 40)
         Me.u82.TabIndex = 1
-        Me.u82.UseVisualStyleBackColor = False
+        Me.u82.UseVisualStyleBackColor = false
         '
         'u72
         '
@@ -2249,7 +2262,7 @@ Partial Class MainProject
         Me.u72.Name = "u72"
         Me.u72.Size = New System.Drawing.Size(41, 40)
         Me.u72.TabIndex = 1
-        Me.u72.UseVisualStyleBackColor = False
+        Me.u72.UseVisualStyleBackColor = false
         '
         'u71
         '
@@ -2261,7 +2274,7 @@ Partial Class MainProject
         Me.u71.Name = "u71"
         Me.u71.Size = New System.Drawing.Size(41, 40)
         Me.u71.TabIndex = 1
-        Me.u71.UseVisualStyleBackColor = False
+        Me.u71.UseVisualStyleBackColor = false
         '
         'u61
         '
@@ -2273,7 +2286,7 @@ Partial Class MainProject
         Me.u61.Name = "u61"
         Me.u61.Size = New System.Drawing.Size(41, 40)
         Me.u61.TabIndex = 1
-        Me.u61.UseVisualStyleBackColor = False
+        Me.u61.UseVisualStyleBackColor = false
         '
         'u62
         '
@@ -2285,7 +2298,7 @@ Partial Class MainProject
         Me.u62.Name = "u62"
         Me.u62.Size = New System.Drawing.Size(41, 40)
         Me.u62.TabIndex = 1
-        Me.u62.UseVisualStyleBackColor = False
+        Me.u62.UseVisualStyleBackColor = false
         '
         'u52
         '
@@ -2297,7 +2310,7 @@ Partial Class MainProject
         Me.u52.Name = "u52"
         Me.u52.Size = New System.Drawing.Size(41, 40)
         Me.u52.TabIndex = 1
-        Me.u52.UseVisualStyleBackColor = False
+        Me.u52.UseVisualStyleBackColor = false
         '
         'u51
         '
@@ -2309,7 +2322,7 @@ Partial Class MainProject
         Me.u51.Name = "u51"
         Me.u51.Size = New System.Drawing.Size(41, 40)
         Me.u51.TabIndex = 1
-        Me.u51.UseVisualStyleBackColor = False
+        Me.u51.UseVisualStyleBackColor = false
         '
         'u41
         '
@@ -2321,7 +2334,7 @@ Partial Class MainProject
         Me.u41.Name = "u41"
         Me.u41.Size = New System.Drawing.Size(41, 40)
         Me.u41.TabIndex = 1
-        Me.u41.UseVisualStyleBackColor = False
+        Me.u41.UseVisualStyleBackColor = false
         '
         'u42
         '
@@ -2333,7 +2346,7 @@ Partial Class MainProject
         Me.u42.Name = "u42"
         Me.u42.Size = New System.Drawing.Size(41, 40)
         Me.u42.TabIndex = 1
-        Me.u42.UseVisualStyleBackColor = False
+        Me.u42.UseVisualStyleBackColor = false
         '
         'u43
         '
@@ -2345,7 +2358,7 @@ Partial Class MainProject
         Me.u43.Name = "u43"
         Me.u43.Size = New System.Drawing.Size(41, 40)
         Me.u43.TabIndex = 1
-        Me.u43.UseVisualStyleBackColor = False
+        Me.u43.UseVisualStyleBackColor = false
         '
         'u53
         '
@@ -2357,7 +2370,7 @@ Partial Class MainProject
         Me.u53.Name = "u53"
         Me.u53.Size = New System.Drawing.Size(41, 40)
         Me.u53.TabIndex = 1
-        Me.u53.UseVisualStyleBackColor = False
+        Me.u53.UseVisualStyleBackColor = false
         '
         'u63
         '
@@ -2369,7 +2382,7 @@ Partial Class MainProject
         Me.u63.Name = "u63"
         Me.u63.Size = New System.Drawing.Size(41, 40)
         Me.u63.TabIndex = 1
-        Me.u63.UseVisualStyleBackColor = False
+        Me.u63.UseVisualStyleBackColor = false
         '
         'u73
         '
@@ -2381,7 +2394,7 @@ Partial Class MainProject
         Me.u73.Name = "u73"
         Me.u73.Size = New System.Drawing.Size(41, 40)
         Me.u73.TabIndex = 1
-        Me.u73.UseVisualStyleBackColor = False
+        Me.u73.UseVisualStyleBackColor = false
         '
         'u83
         '
@@ -2393,7 +2406,7 @@ Partial Class MainProject
         Me.u83.Name = "u83"
         Me.u83.Size = New System.Drawing.Size(41, 40)
         Me.u83.TabIndex = 1
-        Me.u83.UseVisualStyleBackColor = False
+        Me.u83.UseVisualStyleBackColor = false
         '
         'mc22
         '
@@ -2404,7 +2417,7 @@ Partial Class MainProject
         Me.mc22.Name = "mc22"
         Me.mc22.Size = New System.Drawing.Size(41, 42)
         Me.mc22.TabIndex = 1
-        Me.mc22.UseVisualStyleBackColor = False
+        Me.mc22.UseVisualStyleBackColor = false
         '
         'mc23
         '
@@ -2415,7 +2428,7 @@ Partial Class MainProject
         Me.mc23.Name = "mc23"
         Me.mc23.Size = New System.Drawing.Size(41, 42)
         Me.mc23.TabIndex = 1
-        Me.mc23.UseVisualStyleBackColor = False
+        Me.mc23.UseVisualStyleBackColor = false
         '
         'mc21
         '
@@ -2426,7 +2439,7 @@ Partial Class MainProject
         Me.mc21.Name = "mc21"
         Me.mc21.Size = New System.Drawing.Size(41, 42)
         Me.mc21.TabIndex = 1
-        Me.mc21.UseVisualStyleBackColor = False
+        Me.mc21.UseVisualStyleBackColor = false
         '
         'mc20
         '
@@ -2437,7 +2450,7 @@ Partial Class MainProject
         Me.mc20.Name = "mc20"
         Me.mc20.Size = New System.Drawing.Size(41, 42)
         Me.mc20.TabIndex = 1
-        Me.mc20.UseVisualStyleBackColor = False
+        Me.mc20.UseVisualStyleBackColor = false
         '
         'mc19
         '
@@ -2448,7 +2461,7 @@ Partial Class MainProject
         Me.mc19.Name = "mc19"
         Me.mc19.Size = New System.Drawing.Size(41, 42)
         Me.mc19.TabIndex = 1
-        Me.mc19.UseVisualStyleBackColor = False
+        Me.mc19.UseVisualStyleBackColor = false
         '
         'mc18
         '
@@ -2459,7 +2472,7 @@ Partial Class MainProject
         Me.mc18.Name = "mc18"
         Me.mc18.Size = New System.Drawing.Size(41, 42)
         Me.mc18.TabIndex = 1
-        Me.mc18.UseVisualStyleBackColor = False
+        Me.mc18.UseVisualStyleBackColor = false
         '
         'mc17
         '
@@ -2470,7 +2483,7 @@ Partial Class MainProject
         Me.mc17.Name = "mc17"
         Me.mc17.Size = New System.Drawing.Size(41, 42)
         Me.mc17.TabIndex = 1
-        Me.mc17.UseVisualStyleBackColor = False
+        Me.mc17.UseVisualStyleBackColor = false
         '
         'mc16
         '
@@ -2481,7 +2494,7 @@ Partial Class MainProject
         Me.mc16.Name = "mc16"
         Me.mc16.Size = New System.Drawing.Size(45, 40)
         Me.mc16.TabIndex = 1
-        Me.mc16.UseVisualStyleBackColor = False
+        Me.mc16.UseVisualStyleBackColor = false
         '
         'u88
         '
@@ -2493,7 +2506,7 @@ Partial Class MainProject
         Me.u88.Name = "u88"
         Me.u88.Size = New System.Drawing.Size(41, 40)
         Me.u88.TabIndex = 1
-        Me.u88.UseVisualStyleBackColor = False
+        Me.u88.UseVisualStyleBackColor = false
         '
         'u87
         '
@@ -2505,7 +2518,7 @@ Partial Class MainProject
         Me.u87.Name = "u87"
         Me.u87.Size = New System.Drawing.Size(41, 40)
         Me.u87.TabIndex = 1
-        Me.u87.UseVisualStyleBackColor = False
+        Me.u87.UseVisualStyleBackColor = false
         '
         'u86
         '
@@ -2517,7 +2530,7 @@ Partial Class MainProject
         Me.u86.Name = "u86"
         Me.u86.Size = New System.Drawing.Size(41, 40)
         Me.u86.TabIndex = 1
-        Me.u86.UseVisualStyleBackColor = False
+        Me.u86.UseVisualStyleBackColor = false
         '
         'u85
         '
@@ -2529,7 +2542,7 @@ Partial Class MainProject
         Me.u85.Name = "u85"
         Me.u85.Size = New System.Drawing.Size(41, 40)
         Me.u85.TabIndex = 1
-        Me.u85.UseVisualStyleBackColor = False
+        Me.u85.UseVisualStyleBackColor = false
         '
         'u75
         '
@@ -2541,7 +2554,7 @@ Partial Class MainProject
         Me.u75.Name = "u75"
         Me.u75.Size = New System.Drawing.Size(41, 40)
         Me.u75.TabIndex = 1
-        Me.u75.UseVisualStyleBackColor = False
+        Me.u75.UseVisualStyleBackColor = false
         '
         'u74
         '
@@ -2553,7 +2566,7 @@ Partial Class MainProject
         Me.u74.Name = "u74"
         Me.u74.Size = New System.Drawing.Size(41, 40)
         Me.u74.TabIndex = 1
-        Me.u74.UseVisualStyleBackColor = False
+        Me.u74.UseVisualStyleBackColor = false
         '
         'u84
         '
@@ -2565,7 +2578,7 @@ Partial Class MainProject
         Me.u84.Name = "u84"
         Me.u84.Size = New System.Drawing.Size(41, 40)
         Me.u84.TabIndex = 1
-        Me.u84.UseVisualStyleBackColor = False
+        Me.u84.UseVisualStyleBackColor = false
         '
         'u64
         '
@@ -2577,7 +2590,7 @@ Partial Class MainProject
         Me.u64.Name = "u64"
         Me.u64.Size = New System.Drawing.Size(41, 40)
         Me.u64.TabIndex = 1
-        Me.u64.UseVisualStyleBackColor = False
+        Me.u64.UseVisualStyleBackColor = false
         '
         'u54
         '
@@ -2589,7 +2602,7 @@ Partial Class MainProject
         Me.u54.Name = "u54"
         Me.u54.Size = New System.Drawing.Size(41, 40)
         Me.u54.TabIndex = 1
-        Me.u54.UseVisualStyleBackColor = False
+        Me.u54.UseVisualStyleBackColor = false
         '
         'u44
         '
@@ -2601,7 +2614,7 @@ Partial Class MainProject
         Me.u44.Name = "u44"
         Me.u44.Size = New System.Drawing.Size(41, 40)
         Me.u44.TabIndex = 1
-        Me.u44.UseVisualStyleBackColor = False
+        Me.u44.UseVisualStyleBackColor = false
         '
         'u45
         '
@@ -2613,7 +2626,7 @@ Partial Class MainProject
         Me.u45.Name = "u45"
         Me.u45.Size = New System.Drawing.Size(41, 40)
         Me.u45.TabIndex = 1
-        Me.u45.UseVisualStyleBackColor = False
+        Me.u45.UseVisualStyleBackColor = false
         '
         'u35
         '
@@ -2625,7 +2638,7 @@ Partial Class MainProject
         Me.u35.Name = "u35"
         Me.u35.Size = New System.Drawing.Size(41, 40)
         Me.u35.TabIndex = 1
-        Me.u35.UseVisualStyleBackColor = False
+        Me.u35.UseVisualStyleBackColor = false
         '
         'u25
         '
@@ -2637,7 +2650,7 @@ Partial Class MainProject
         Me.u25.Name = "u25"
         Me.u25.Size = New System.Drawing.Size(41, 40)
         Me.u25.TabIndex = 1
-        Me.u25.UseVisualStyleBackColor = False
+        Me.u25.UseVisualStyleBackColor = false
         '
         'u26
         '
@@ -2649,7 +2662,7 @@ Partial Class MainProject
         Me.u26.Name = "u26"
         Me.u26.Size = New System.Drawing.Size(41, 40)
         Me.u26.TabIndex = 1
-        Me.u26.UseVisualStyleBackColor = False
+        Me.u26.UseVisualStyleBackColor = false
         '
         'u36
         '
@@ -2661,7 +2674,7 @@ Partial Class MainProject
         Me.u36.Name = "u36"
         Me.u36.Size = New System.Drawing.Size(41, 40)
         Me.u36.TabIndex = 1
-        Me.u36.UseVisualStyleBackColor = False
+        Me.u36.UseVisualStyleBackColor = false
         '
         'u46
         '
@@ -2673,7 +2686,7 @@ Partial Class MainProject
         Me.u46.Name = "u46"
         Me.u46.Size = New System.Drawing.Size(41, 40)
         Me.u46.TabIndex = 1
-        Me.u46.UseVisualStyleBackColor = False
+        Me.u46.UseVisualStyleBackColor = false
         '
         'u56
         '
@@ -2685,7 +2698,7 @@ Partial Class MainProject
         Me.u56.Name = "u56"
         Me.u56.Size = New System.Drawing.Size(41, 40)
         Me.u56.TabIndex = 1
-        Me.u56.UseVisualStyleBackColor = False
+        Me.u56.UseVisualStyleBackColor = false
         '
         'u55
         '
@@ -2697,7 +2710,7 @@ Partial Class MainProject
         Me.u55.Name = "u55"
         Me.u55.Size = New System.Drawing.Size(41, 40)
         Me.u55.TabIndex = 1
-        Me.u55.UseVisualStyleBackColor = False
+        Me.u55.UseVisualStyleBackColor = false
         '
         'u65
         '
@@ -2709,7 +2722,7 @@ Partial Class MainProject
         Me.u65.Name = "u65"
         Me.u65.Size = New System.Drawing.Size(41, 40)
         Me.u65.TabIndex = 1
-        Me.u65.UseVisualStyleBackColor = False
+        Me.u65.UseVisualStyleBackColor = false
         '
         'u66
         '
@@ -2721,7 +2734,7 @@ Partial Class MainProject
         Me.u66.Name = "u66"
         Me.u66.Size = New System.Drawing.Size(41, 40)
         Me.u66.TabIndex = 1
-        Me.u66.UseVisualStyleBackColor = False
+        Me.u66.UseVisualStyleBackColor = false
         '
         'u76
         '
@@ -2733,7 +2746,7 @@ Partial Class MainProject
         Me.u76.Name = "u76"
         Me.u76.Size = New System.Drawing.Size(41, 40)
         Me.u76.TabIndex = 1
-        Me.u76.UseVisualStyleBackColor = False
+        Me.u76.UseVisualStyleBackColor = false
         '
         'u77
         '
@@ -2745,7 +2758,7 @@ Partial Class MainProject
         Me.u77.Name = "u77"
         Me.u77.Size = New System.Drawing.Size(41, 40)
         Me.u77.TabIndex = 1
-        Me.u77.UseVisualStyleBackColor = False
+        Me.u77.UseVisualStyleBackColor = false
         '
         'u67
         '
@@ -2757,7 +2770,7 @@ Partial Class MainProject
         Me.u67.Name = "u67"
         Me.u67.Size = New System.Drawing.Size(41, 40)
         Me.u67.TabIndex = 1
-        Me.u67.UseVisualStyleBackColor = False
+        Me.u67.UseVisualStyleBackColor = false
         '
         'u68
         '
@@ -2769,7 +2782,7 @@ Partial Class MainProject
         Me.u68.Name = "u68"
         Me.u68.Size = New System.Drawing.Size(41, 40)
         Me.u68.TabIndex = 1
-        Me.u68.UseVisualStyleBackColor = False
+        Me.u68.UseVisualStyleBackColor = false
         '
         'u78
         '
@@ -2781,7 +2794,7 @@ Partial Class MainProject
         Me.u78.Name = "u78"
         Me.u78.Size = New System.Drawing.Size(41, 40)
         Me.u78.TabIndex = 1
-        Me.u78.UseVisualStyleBackColor = False
+        Me.u78.UseVisualStyleBackColor = false
         '
         'mc15
         '
@@ -2792,7 +2805,7 @@ Partial Class MainProject
         Me.mc15.Name = "mc15"
         Me.mc15.Size = New System.Drawing.Size(45, 40)
         Me.mc15.TabIndex = 1
-        Me.mc15.UseVisualStyleBackColor = False
+        Me.mc15.UseVisualStyleBackColor = false
         '
         'mc14
         '
@@ -2803,7 +2816,7 @@ Partial Class MainProject
         Me.mc14.Name = "mc14"
         Me.mc14.Size = New System.Drawing.Size(45, 40)
         Me.mc14.TabIndex = 1
-        Me.mc14.UseVisualStyleBackColor = False
+        Me.mc14.UseVisualStyleBackColor = false
         '
         'mc13
         '
@@ -2814,7 +2827,7 @@ Partial Class MainProject
         Me.mc13.Name = "mc13"
         Me.mc13.Size = New System.Drawing.Size(45, 40)
         Me.mc13.TabIndex = 1
-        Me.mc13.UseVisualStyleBackColor = False
+        Me.mc13.UseVisualStyleBackColor = false
         '
         'u58
         '
@@ -2826,7 +2839,7 @@ Partial Class MainProject
         Me.u58.Name = "u58"
         Me.u58.Size = New System.Drawing.Size(41, 40)
         Me.u58.TabIndex = 1
-        Me.u58.UseVisualStyleBackColor = False
+        Me.u58.UseVisualStyleBackColor = false
         '
         'u57
         '
@@ -2838,7 +2851,7 @@ Partial Class MainProject
         Me.u57.Name = "u57"
         Me.u57.Size = New System.Drawing.Size(41, 40)
         Me.u57.TabIndex = 1
-        Me.u57.UseVisualStyleBackColor = False
+        Me.u57.UseVisualStyleBackColor = false
         '
         'u47
         '
@@ -2850,7 +2863,7 @@ Partial Class MainProject
         Me.u47.Name = "u47"
         Me.u47.Size = New System.Drawing.Size(41, 40)
         Me.u47.TabIndex = 1
-        Me.u47.UseVisualStyleBackColor = False
+        Me.u47.UseVisualStyleBackColor = false
         '
         'u48
         '
@@ -2862,7 +2875,7 @@ Partial Class MainProject
         Me.u48.Name = "u48"
         Me.u48.Size = New System.Drawing.Size(41, 40)
         Me.u48.TabIndex = 1
-        Me.u48.UseVisualStyleBackColor = False
+        Me.u48.UseVisualStyleBackColor = false
         '
         'u38
         '
@@ -2874,7 +2887,7 @@ Partial Class MainProject
         Me.u38.Name = "u38"
         Me.u38.Size = New System.Drawing.Size(41, 40)
         Me.u38.TabIndex = 1
-        Me.u38.UseVisualStyleBackColor = False
+        Me.u38.UseVisualStyleBackColor = false
         '
         'mc11
         '
@@ -2885,7 +2898,7 @@ Partial Class MainProject
         Me.mc11.Name = "mc11"
         Me.mc11.Size = New System.Drawing.Size(45, 40)
         Me.mc11.TabIndex = 1
-        Me.mc11.UseVisualStyleBackColor = False
+        Me.mc11.UseVisualStyleBackColor = false
         '
         'u37
         '
@@ -2897,7 +2910,7 @@ Partial Class MainProject
         Me.u37.Name = "u37"
         Me.u37.Size = New System.Drawing.Size(41, 40)
         Me.u37.TabIndex = 1
-        Me.u37.UseVisualStyleBackColor = False
+        Me.u37.UseVisualStyleBackColor = false
         '
         'u27
         '
@@ -2909,7 +2922,7 @@ Partial Class MainProject
         Me.u27.Name = "u27"
         Me.u27.Size = New System.Drawing.Size(41, 40)
         Me.u27.TabIndex = 1
-        Me.u27.UseVisualStyleBackColor = False
+        Me.u27.UseVisualStyleBackColor = false
         '
         'u28
         '
@@ -2921,7 +2934,7 @@ Partial Class MainProject
         Me.u28.Name = "u28"
         Me.u28.Size = New System.Drawing.Size(41, 40)
         Me.u28.TabIndex = 1
-        Me.u28.UseVisualStyleBackColor = False
+        Me.u28.UseVisualStyleBackColor = false
         '
         'mc10
         '
@@ -2932,7 +2945,7 @@ Partial Class MainProject
         Me.mc10.Name = "mc10"
         Me.mc10.Size = New System.Drawing.Size(45, 40)
         Me.mc10.TabIndex = 1
-        Me.mc10.UseVisualStyleBackColor = False
+        Me.mc10.UseVisualStyleBackColor = false
         '
         'mc12
         '
@@ -2943,7 +2956,7 @@ Partial Class MainProject
         Me.mc12.Name = "mc12"
         Me.mc12.Size = New System.Drawing.Size(45, 40)
         Me.mc12.TabIndex = 1
-        Me.mc12.UseVisualStyleBackColor = False
+        Me.mc12.UseVisualStyleBackColor = false
         '
         'mc1
         '
@@ -2955,7 +2968,7 @@ Partial Class MainProject
         Me.mc1.Name = "mc1"
         Me.mc1.Size = New System.Drawing.Size(41, 40)
         Me.mc1.TabIndex = 1
-        Me.mc1.UseVisualStyleBackColor = False
+        Me.mc1.UseVisualStyleBackColor = false
         '
         'mc31
         '
@@ -2966,7 +2979,7 @@ Partial Class MainProject
         Me.mc31.Name = "mc31"
         Me.mc31.Size = New System.Drawing.Size(41, 40)
         Me.mc31.TabIndex = 1
-        Me.mc31.UseVisualStyleBackColor = False
+        Me.mc31.UseVisualStyleBackColor = false
         '
         'MIDISET
         '
@@ -2982,11 +2995,11 @@ Partial Class MainProject
         Me.MIDISET.Size = New System.Drawing.Size(776, 495)
         Me.MIDISET.TabIndex = 4
         Me.MIDISET.Text = "MIDI Devices"
-        Me.MIDISET.UseVisualStyleBackColor = True
+        Me.MIDISET.UseVisualStyleBackColor = true
         '
         'MIDIStatOut
         '
-        Me.MIDIStatOut.AutoSize = True
+        Me.MIDIStatOut.AutoSize = true
         Me.MIDIStatOut.Location = New System.Drawing.Point(501, 51)
         Me.MIDIStatOut.Name = "MIDIStatOut"
         Me.MIDIStatOut.Size = New System.Drawing.Size(164, 14)
@@ -2995,7 +3008,7 @@ Partial Class MainProject
         '
         'MIDIStatIn
         '
-        Me.MIDIStatIn.AutoSize = True
+        Me.MIDIStatIn.AutoSize = true
         Me.MIDIStatIn.Location = New System.Drawing.Point(501, 35)
         Me.MIDIStatIn.Name = "MIDIStatIn"
         Me.MIDIStatIn.Size = New System.Drawing.Size(154, 14)
@@ -3004,7 +3017,7 @@ Partial Class MainProject
         '
         'MIDIStat
         '
-        Me.MIDIStat.AutoSize = True
+        Me.MIDIStat.AutoSize = true
         Me.MIDIStat.Location = New System.Drawing.Point(489, 17)
         Me.MIDIStat.Name = "MIDIStat"
         Me.MIDIStat.Size = New System.Drawing.Size(75, 14)
@@ -3013,8 +3026,8 @@ Partial Class MainProject
         '
         'OutListBox
         '
-        Me.OutListBox.Font = New System.Drawing.Font("NanumBarunGothic", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.OutListBox.FormattingEnabled = True
+        Me.OutListBox.Font = New System.Drawing.Font("NanumBarunGothic", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
+        Me.OutListBox.FormattingEnabled = true
         Me.OutListBox.ItemHeight = 17
         Me.OutListBox.Location = New System.Drawing.Point(265, 32)
         Me.OutListBox.Name = "OutListBox"
@@ -3023,8 +3036,8 @@ Partial Class MainProject
         '
         'InListBox
         '
-        Me.InListBox.Font = New System.Drawing.Font("NanumBarunGothic", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.InListBox.FormattingEnabled = True
+        Me.InListBox.Font = New System.Drawing.Font("NanumBarunGothic", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
+        Me.InListBox.FormattingEnabled = true
         Me.InListBox.ItemHeight = 17
         Me.InListBox.Location = New System.Drawing.Point(27, 32)
         Me.InListBox.Name = "InListBox"
@@ -3033,23 +3046,23 @@ Partial Class MainProject
         '
         'ConnectButton
         '
-        Me.ConnectButton.Font = New System.Drawing.Font("NanumBarunGothicOTF", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.ConnectButton.Font = New System.Drawing.Font("NanumBarunGothicOTF", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.ConnectButton.Location = New System.Drawing.Point(294, 379)
         Me.ConnectButton.Name = "ConnectButton"
         Me.ConnectButton.Size = New System.Drawing.Size(440, 88)
         Me.ConnectButton.TabIndex = 31
         Me.ConnectButton.Text = "Connect!"
-        Me.ConnectButton.UseVisualStyleBackColor = True
+        Me.ConnectButton.UseVisualStyleBackColor = true
         '
         'LoadButton
         '
-        Me.LoadButton.Font = New System.Drawing.Font("NanumBarunGothicOTF", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.LoadButton.Font = New System.Drawing.Font("NanumBarunGothicOTF", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.LoadButton.Location = New System.Drawing.Point(62, 379)
         Me.LoadButton.Name = "LoadButton"
         Me.LoadButton.Size = New System.Drawing.Size(206, 88)
         Me.LoadButton.TabIndex = 30
         Me.LoadButton.Text = "Load"
-        Me.LoadButton.UseVisualStyleBackColor = True
+        Me.LoadButton.UseVisualStyleBackColor = true
         '
         'BGW_keyLED
         '
@@ -3083,41 +3096,41 @@ Partial Class MainProject
         '
         'MainProject
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(7!, 12!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.BackColor = System.Drawing.SystemColors.Control
         Me.ClientSize = New System.Drawing.Size(808, 563)
         Me.Controls.Add(Me.HomeEdit)
         Me.Controls.Add(Me.MenuStrip)
-        Me.Font = New System.Drawing.Font("Gulim", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.KeyPreview = True
+        Me.Font = New System.Drawing.Font("Gulim", 9!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
+        Me.Icon = CType(resources.GetObject("$this.Icon"),System.Drawing.Icon)
+        Me.KeyPreview = true
         Me.MainMenuStrip = Me.MenuStrip
-        Me.MaximizeBox = False
+        Me.MaximizeBox = false
         Me.Name = "MainProject"
         Me.Text = "UniConverter Beta 8"
-        Me.MenuStrip.ResumeLayout(False)
-        Me.MenuStrip.PerformLayout()
-        Me.HomeEdit.ResumeLayout(False)
-        Me.Info1.ResumeLayout(False)
-        Me.Info1.PerformLayout()
-        Me.KeySoundTab.ResumeLayout(False)
-        Me.KeySoundTab.PerformLayout()
-        Me.PadLayoutPanel.ResumeLayout(False)
-        Me.keyLED1.ResumeLayout(False)
-        Me.keyLED1.PerformLayout()
-        Me.keyLED2.ResumeLayout(False)
-        Me.keyLEDMIDEX_Md.ResumeLayout(False)
-        Me.keyLEDMIDEX_Md.PerformLayout()
-        Me.keyLED_Pad64.ResumeLayout(False)
-        CType(Me.ucvLogo, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.MIDISET.ResumeLayout(False)
-        Me.MIDISET.PerformLayout()
-        Me.ResumeLayout(False)
-        Me.PerformLayout()
+        Me.MenuStrip.ResumeLayout(false)
+        Me.MenuStrip.PerformLayout
+        Me.HomeEdit.ResumeLayout(false)
+        Me.Info1.ResumeLayout(false)
+        Me.Info1.PerformLayout
+        Me.KeySoundTab.ResumeLayout(false)
+        Me.KeySoundTab.PerformLayout
+        Me.PadLayoutPanel.ResumeLayout(false)
+        Me.keyLED1.ResumeLayout(false)
+        Me.keyLED1.PerformLayout
+        Me.keyLED2.ResumeLayout(false)
+        Me.keyLEDMIDEX_Md.ResumeLayout(false)
+        Me.keyLEDMIDEX_Md.PerformLayout
+        Me.keyLED_Pad64.ResumeLayout(false)
+        CType(Me.ucvLogo,System.ComponentModel.ISupportInitialize).EndInit
+        Me.MIDISET.ResumeLayout(false)
+        Me.MIDISET.PerformLayout
+        Me.ResumeLayout(false)
+        Me.PerformLayout
 
-    End Sub
+End Sub
 
     Friend WithEvents MenuStrip As MenuStrip
     Friend WithEvents FileToolStripMenuItem As ToolStripMenuItem
@@ -3359,4 +3372,5 @@ Partial Class MainProject
     Friend WithEvents AutoConvert As ToolStripMenuItem
     Friend WithEvents LEDtoAutoPlayToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
+    Friend WithEvents btnConvertKeyLEDAutomatically As Button
 End Class
