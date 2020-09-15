@@ -25,7 +25,7 @@ Namespace My.Resources
     <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0"),  _
      Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute()>  _
-    Friend Class Contents
+    Public Class Contents
         
         Private Shared resourceMan As Global.System.Resources.ResourceManager
         
@@ -40,7 +40,7 @@ Namespace My.Resources
         '''  Returns the cached ResourceManager instance used by this class.
         '''</summary>
         <Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Friend Shared ReadOnly Property ResourceManager() As Global.System.Resources.ResourceManager
+        Public Shared ReadOnly Property ResourceManager() As Global.System.Resources.ResourceManager
             Get
                 If Object.ReferenceEquals(resourceMan, Nothing) Then
                     Dim temp As Global.System.Resources.ResourceManager = New Global.System.Resources.ResourceManager("UniConverter.Contents", GetType(Contents).Assembly)
@@ -55,7 +55,7 @@ Namespace My.Resources
         '''  resource lookups using this strongly typed resource class.
         '''</summary>
         <Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Friend Shared Property Culture() As Global.System.Globalization.CultureInfo
+        Public Shared Property Culture() As Global.System.Globalization.CultureInfo
             Get
                 Return resourceCulture
             End Get
@@ -65,9 +65,18 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Looks up a localized string similar to Hello, World!.
+        '''</summary>
+        Public Shared ReadOnly Property HelloWorld() As String
+            Get
+                Return ResourceManager.GetString("HelloWorld", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized string similar to Converted LED sucessfully!.
         '''</summary>
-        Friend Shared ReadOnly Property LED_Converted() As String
+        Public Shared ReadOnly Property LED_Converted() As String
             Get
                 Return ResourceManager.GetString("LED_Converted", resourceCulture)
             End Get
@@ -76,7 +85,7 @@ Namespace My.Resources
         '''<summary>
         '''  Looks up a localized string similar to Converting Ableton LED to UniPack LED....
         '''</summary>
-        Friend Shared ReadOnly Property LED_Converting() As String
+        Public Shared ReadOnly Property LED_Converting() As String
             Get
                 Return ResourceManager.GetString("LED_Converting", resourceCulture)
             End Get
@@ -85,7 +94,7 @@ Namespace My.Resources
         '''<summary>
         '''  Looks up a localized string similar to Converting LED... ({0} / {1}).
         '''</summary>
-        Friend Shared ReadOnly Property LED_Converting_Title() As String
+        Public Shared ReadOnly Property LED_Converting_Title() As String
             Get
                 Return ResourceManager.GetString("LED_Converting_Title", resourceCulture)
             End Get
@@ -94,7 +103,7 @@ Namespace My.Resources
         '''<summary>
         '''  Looks up a localized string similar to Couldn&apos;t find any LED in this project..
         '''</summary>
-        Friend Shared ReadOnly Property LED_Not_Found() As String
+        Public Shared ReadOnly Property LED_Not_Found() As String
             Get
                 Return ResourceManager.GetString("LED_Not_Found", resourceCulture)
             End Get
@@ -107,7 +116,7 @@ Namespace My.Resources
         '''Would you like to select the data file and continue?
         '''(Often data file is in LED File (.mid extension) folder, it doesn&apos;t have extension also its name contains &apos;save&apos;).
         '''</summary>
-        Friend Shared ReadOnly Property LED_Save_File_Not_Found() As String
+        Public Shared ReadOnly Property LED_Save_File_Not_Found() As String
             Get
                 Return ResourceManager.GetString("LED_Save_File_Not_Found", resourceCulture)
             End Get
@@ -116,9 +125,136 @@ Namespace My.Resources
         '''<summary>
         '''  Looks up a localized string similar to Verifying LED... ({0} / {1}).
         '''</summary>
-        Friend Shared ReadOnly Property LED_Verifying() As String
+        Public Shared ReadOnly Property LED_Verifying() As String
             Get
                 Return ResourceManager.GetString("LED_Verifying", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Finding Chains....
+        '''</summary>
+        Public Shared ReadOnly Property Project_Chain() As String
+            Get
+                Return ResourceManager.GetString("Project_Chain", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Applying to readable Infos....
+        '''</summary>
+        Public Shared ReadOnly Property Project_ChangeExtension() As String
+            Get
+                Return ResourceManager.GetString("Project_ChangeExtension", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Deleting Workspace....
+        '''</summary>
+        Public Shared ReadOnly Property Project_DeleteWorkspace() As String
+            Get
+                Return ResourceManager.GetString("Project_DeleteWorkspace", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Deleting The Tempoary Files....
+        '''</summary>
+        Public Shared ReadOnly Property Project_DeletingTempoaryFiles() As String
+            Get
+                Return ResourceManager.GetString("Project_DeletingTempoaryFiles", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Extracting The Project File....
+        '''</summary>
+        Public Shared ReadOnly Property Project_Extracting() As String
+            Get
+                Return ResourceManager.GetString("Project_Extracting", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Finding File Name....
+        '''</summary>
+        Public Shared ReadOnly Property Project_FileName() As String
+            Get
+                Return ResourceManager.GetString("Project_FileName", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Ableton Project File Loaded!
+        '''You can edit info in Information Tab..
+        '''</summary>
+        Public Shared ReadOnly Property Project_Loaded() As String
+            Get
+                Return ResourceManager.GetString("Project_Loaded", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Loading The Project File....
+        '''</summary>
+        Public Shared ReadOnly Property Project_Loading() As String
+            Get
+                Return ResourceManager.GetString("Project_Loading", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Ableton Project File|*.als.
+        '''</summary>
+        Public Shared ReadOnly Property Project_ofd_Filter() As String
+            Get
+                Return ResourceManager.GetString("Project_ofd_Filter", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Select a Ableton Project File.
+        '''</summary>
+        Public Shared ReadOnly Property Project_ofd_Title() As String
+            Get
+                Return ResourceManager.GetString("Project_ofd_Title", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Reseting Project....
+        '''</summary>
+        Public Shared ReadOnly Property Project_Reset() As String
+            Get
+                Return ResourceManager.GetString("Project_Reset", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Zip File|*.zip|UniPack File|*.uni.
+        '''</summary>
+        Public Shared ReadOnly Property Project_sfd_Filter() As String
+            Get
+                Return ResourceManager.GetString("Project_sfd_Filter", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Select the UniPack File.
+        '''</summary>
+        Public Shared ReadOnly Property Project_sfd_Title() As String
+            Get
+                Return ResourceManager.GetString("Project_sfd_Title", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Loading The Ableton Project File....
+        '''</summary>
+        Public Shared ReadOnly Property Project_Title() As String
+            Get
+                Return ResourceManager.GetString("Project_Title", resourceCulture)
             End Get
         End Property
     End Class

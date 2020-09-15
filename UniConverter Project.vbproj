@@ -173,6 +173,11 @@
       <DependentUpon>Contents.resx</DependentUpon>
     </Compile>
     <Compile Include="keyLED\LEDNodeList.vb" />
+    <Compile Include="Other Resources\Contents.ko.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Contents.ko.resx</DependentUpon>
+    </Compile>
     <Compile Include="Other Resources\Loading.Designer.vb">
       <DependentUpon>Loading.vb</DependentUpon>
     </Compile>
@@ -261,10 +266,14 @@
     <EmbeddedResource Include="keySound\keySound_Edit.resx">
       <DependentUpon>keySound_Edit.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Other Resources\Contents.ko.resx" />
+    <EmbeddedResource Include="Other Resources\Contents.ko.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Contents.ko.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+    </EmbeddedResource>
     <EmbeddedResource Include="Other Resources\Contents.resx">
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Contents.Designer.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Other Resources\Loading.resx">

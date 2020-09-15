@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="HelloWorld" xml:space="preserve">
+    <value>안녕, 세상아!</value>
+  </data>
   <data name="LED_Converted" xml:space="preserve">
     <value>LED가 성공적으로 변환되었습니다!</value>
   </data>
@@ -124,7 +127,7 @@
     <value>에이블톤 LED를 유니팩 LED로 변환 중...</value>
   </data>
   <data name="LED_Converting_Title" xml:space="preserve">
-    <value>LED 변환 중... ({0} / {1})</value>
+    <value>LED 변환 중...</value>
   </data>
   <data name="LED_Not_Found" xml:space="preserve">
     <value>프로젝트에서 LED를 찾지 못했습니다.</value>
@@ -138,5 +141,48 @@
   </data>
   <data name="LED_Verifying" xml:space="preserve">
     <value>LED 확인 중... ({0} / {1})</value>
+  </data>
+  <data name="Project_Chain" xml:space="preserve">
+    <value>체인을 찾는 중...</value>
+  </data>
+  <data name="Project_ChangeExtension" xml:space="preserve">
+    <value>읽을 수 있는 정보로 적용하는 중...</value>
+  </data>
+  <data name="Project_DeleteWorkspace" xml:space="preserve">
+    <value>임시 작업 공간을 삭제하는 중...</value>
+  </data>
+  <data name="Project_DeletingTempoaryFiles" xml:space="preserve">
+    <value>임시 파일을 삭제하는 중...</value>
+  </data>
+  <data name="Project_Extracting" xml:space="preserve">
+    <value>프로젝트 파일 압축 푸는 중...</value>
+  </data>
+  <data name="Project_FileName" xml:space="preserve">
+    <value>파일 이름을 찾는 중...</value>
+  </data>
+  <data name="Project_Loaded" xml:space="preserve">
+    <value>에이블톤 프로젝트 파일이 로딩되었습니다!
+'정보' 탭에서 정보를 수정할 수 있습니다.</value>
+  </data>
+  <data name="Project_Loading" xml:space="preserve">
+    <value>프로젝트 파일을 불러오는 중...</value>
+  </data>
+  <data name="Project_ofd_Filter" xml:space="preserve">
+    <value>에이블톤 프로젝트 파일|*.als</value>
+  </data>
+  <data name="Project_ofd_Title" xml:space="preserve">
+    <value>에이블톤 프로젝트 파일을 선택하세요</value>
+  </data>
+  <data name="Project_Reset" xml:space="preserve">
+    <value>프로젝트를 초기화하는 중...</value>
+  </data>
+  <data name="Project_sfd_Filter" xml:space="preserve">
+    <value>Zip 파일|*.zip|유니팩 파일|*.uni</value>
+  </data>
+  <data name="Project_sfd_Title" xml:space="preserve">
+    <value>유니팩 파일을 어디다 저장할지 선택하세요</value>
+  </data>
+  <data name="Project_Title" xml:space="preserve">
+    <value>에이블톤 프로젝트 파일을 불러오는 중...</value>
   </data>
 </root>

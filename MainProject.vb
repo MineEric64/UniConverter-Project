@@ -218,9 +218,15 @@ Public Class MainProject
 
     Private _midiExtensionMapping As New Dictionary(Of Integer, MidiExtensionSave)
 
-    Public Shared ReadOnly ABLETON_PROJECT_XML_PATH As String = Application.StartupPath & "\Workspace\ableproj\abl_proj.xml"
-    Public Shared ReadOnly KEYLED_MIDI_PATH As String = Application.StartupPath & "\Workspace\ableproj\CoLED"
-    Public Shared ReadOnly KEYLED_UNIPACK_PATH As String = Application.StartupPath & "\Workspace\unipack\keyLED"
+    Public Shared ReadOnly WORKSPACE_PATH As String = Application.StartupPath & "\Workspace"
+
+    Public Shared ReadOnly ABLETON_PROJECT_PATH As String = WORKSPACE_PATH & "\ableproj"
+    Public Shared ReadOnly ABLETON_PROJECT_XML_PATH As String = ABLETON_PROJECT_PATH & "\abl_proj.xml"
+    Public Shared ReadOnly ABLETON_KEYLED_PATH As String = ABLETON_PROJECT_PATH & "\CoLED"
+    
+    Public Shared ReadOnly UNIPACK_PROJECT_PATH As String = WORKSPACE_PATH & "\unipack"
+    Public Shared ReadOnly UNIPACK_SOUNDS_PATH As String = UNIPACK_PROJECT_PATH & "\sounds"
+    Public Shared ReadOnly UNIPACK_KEYLED_PATH As String = UNIPACK_PROJECT_PATH & "\keyLED"
 #End Region
 
 #Region "About XML (Settings / Version)"
@@ -541,9 +547,15 @@ Public Class MainProject
 
             Select Case tLn
                 Case Translator.tL.English
-                    Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en-US")
+                    Dim culture As CultureInfo = CultureInfo.GetCultureInfo("en-US")
+
+                    Thread.CurrentThread.CurrentUICulture = culture
+                    My.Resources.Contents.Culture = culture
                 Case Translator.tL.Korean
-                    Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("ko-KR")
+                    Dim culture As CultureInfo = CultureInfo.GetCultureInfo("ko-KR")
+
+                    Thread.CurrentThread.CurrentUICulture = culture
+                    My.Resources.Contents.Culture = culture
             End Select
 
             Dim trn As New Translator(tLn, IsDeveloperMode)
@@ -974,17 +986,20 @@ Public Class MainProject
 
         Dim chainList As List(Of Integer) = ledNodeList.Select(Function(x) Integer.Parse(x.Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1).ToList()
         Dim sortedChainList As List(Of Integer) = chainList.OrderByDescending(Function(x) x).ToList()
-        Dim maxChain As Integer = sortedChainList.First()
 
-        ledNodeList.Clear()
-        chainList.Clear()
-        sortedChainList.Clear()
+        If sortedChainList.Count > 0 Then
+            Dim maxChain As Integer = sortedChainList.First()
 
-        If maxChain >= 1 AndAlso maxChain <= 8 Then
-            chain = maxChain
-        ElseIf maxChain > 8 Then
-            chain = 8
-        End If '최대 체인이 1보다 작은 경우는 이미 chain이 1이므로 생략
+            ledNodeList.Clear()
+            chainList.Clear()
+            sortedChainList.Clear()
+
+            If maxChain >= 1 AndAlso maxChain <= 8 Then
+                chain = maxChain
+            ElseIf maxChain > 8 Then
+                chain = 8
+            End If '최대 체인이 1보다 작은 경우는 이미 chain이 1이므로 생략
+        End If
 
         Return chain
     End Function
@@ -996,122 +1011,82 @@ Public Class MainProject
 
         'Convert Ableton Project to Unipack Informations. (BETA!!!)
 
-        Dim FileName As String = ofd_FileName
-        If Not Dir("Workspace\ableproj", vbDirectory) <> "" Then
-            My.Computer.FileSystem.CreateDirectory("Workspace\ableproj")
+        'v1.2.0.7: 베타 코드라기 보다는 코드 자체가 좀 옛날 버전이라 그런지 좀 스파게티 코드입니다.
+        '따라서 나중에 코드를 개편할 예정입니다.
+        '그 때는 베타 버전에서 정식 버전 (v1.0)으로 업그레이드 될지도 모르겠네요...
+
+        Dim fileName As String = ofd_FileName
+
+        If Not Directory.Exists(ABLETON_PROJECT_PATH) Then
+            Directory.CreateDirectory(ABLETON_PROJECT_PATH)
         End If
 
-        UI(Sub()
-               Loading.Show()
-               Loading.DPr.Style = ProgressBarStyle.Marquee
-               Loading.DPr.MarqueeAnimationSpeed = 10
-               Loading.DLb.Left = 60
-               Select Case lang
-                   Case Translator.tL.English
-                       Loading.Text = Me.Text & ": Loading The Ableton Project File..."
-                       Loading.DLb.Text = Loading.MsgEn.loading_Project_Load_msg
-                   Case Translator.tL.Korean
-                       Loading.Text = Me.Text & ": 에이블톤 프로젝트 파일을 불러오는 중..."
-                       Loading.DLb.Text = Loading.MsgKr.loading_Project_Load_msg
-               End Select
+        Invoke(Sub()
+            Loading.Show()
+            Loading.DPr.Style = ProgressBarStyle.Marquee
+            Loading.DPr.MarqueeAnimationSpeed = 10
+
+            Loading.Text = Me.Text & $": {My.Resources.Contents.Project_Title}"
+            Loading.DLb.Text = My.Resources.Contents.Project_Loading
            End Sub)
 
-        abl_FileName = FileName
-        File.Copy(FileName, "Workspace\ableproj\abl_proj.gz", True)
+        abl_FileName = fileName
+        File.Copy(fileName, ABLETON_PROJECT_PATH & "\abl_proj.gz", True)
 
-        UI(Sub()
-               Select Case lang
-                   Case Translator.tL.English
-                       Loading.DLb.Text = Loading.MsgEn.loading_Project_Extract_msg
-                   Case Translator.tL.Korean
-                       Loading.DLb.Text = Loading.MsgKr.loading_Project_Extract_msg
-               End Select
+        Invoke(Sub()
+            Loading.DLb.Text = My.Resources.Contents.Project_Extracting
            End Sub)
-        ExtractGZip("Workspace\ableproj\abl_proj.gz", "Workspace\ableproj")
-        Thread.Sleep(300)
 
-        UI(Sub()
-               Select Case lang
-                   Case Translator.tL.English
-                       Loading.DLb.Text = Loading.MsgEn.loading_Project_DeleteTmp_msg
-                   Case Translator.tL.Korean
-                       Loading.DLb.Text = Loading.MsgKr.loading_Project_DeleteTmp_msg
-               End Select
-           End Sub)
+        ExtractGZip(ABLETON_PROJECT_PATH & "\abl_proj.gz", ABLETON_PROJECT_PATH)
+
+        Invoke(Sub()
+            Loading.DLb.Text = My.Resources.Contents.Project_DeletingTempoaryFiles
+        End Sub)
+
         File.Delete("Workspace\ableproj\abl_proj.gz")
-        File.Delete("Workspace\ableproj\abl_proj.xml")
 
-        UI(Sub()
-               Select Case lang
-                   Case Translator.tL.English
-                       Loading.DLb.Text = Loading.MsgEn.loading_Project_ChangeExt_msg
-                   Case Translator.tL.Korean
-                       Loading.DLb.Text = Loading.MsgKr.loading_Project_ChangeExt_msg
-               End Select
-           End Sub)
-        File.Move("Workspace\ableproj\abl_proj", "Workspace\ableproj\abl_proj.xml")
+        Invoke(Sub()
+            Loading.DLb.Text = My.Resources.Contents.Project_ChangeExtension
+        End Sub)
 
-        UI(Sub()
-               Select Case lang
-                   Case Translator.tL.English
-                       Loading.DLb.Text = Loading.MsgEn.loading_Project_DeleteTmp_msg
-                   Case Translator.tL.Korean
-                       Loading.DLb.Text = Loading.MsgKr.loading_Project_DeleteTmp_msg
-               End Select
-           End Sub)
-        File.Delete("Workspace\ableproj\abl_proj")
+        File.Move(ABLETON_PROJECT_PATH & "\abl_proj", ABLETON_PROJECT_XML_PATH)
 
 
 
         'Reading Informations of Ableton Project.
 
         'Ableton Project's Name.
-        UI(Sub()
-               Select Case lang
-                   Case Translator.tL.English
-                       Loading.DLb.Text = Loading.MsgEn.loading_Project_FileName_msg
-                   Case Translator.tL.Korean
-                       Loading.DLb.Text = Loading.MsgKr.loading_Project_FileName_msg
-               End Select
-           End Sub)
+        Invoke(Sub()
+            Loading.DLb.Text = My.Resources.Contents.Project_FileName
+        End Sub)
 
-        Dim FinalName As String = Path.GetFileNameWithoutExtension(FileName)
+        Dim finalName As String = Path.GetFileNameWithoutExtension(fileName)
 
         'Ableton Project's Chain.
-        UI(Sub()
-               Loading.DLb.Left = 130
-               Select Case lang
-                   Case Translator.tL.English
-                       Loading.DLb.Text = Loading.MsgEn.loading_Project_Chain_msg
-                   Case Translator.tL.Korean
-                       Loading.DLb.Text = Loading.MsgKr.loading_Project_Chain_msg
-               End Select
-           End Sub)
-
+        Invoke(Sub()
+            Loading.DLb.Text = My.Resources.Contents.Project_Chain
+        End Sub)
 
         '정리.
-        abl_Name = FinalName
+        abl_Name = finalName
         abl_Chain = GetChainFromAbletonProject(ABLETON_PROJECT_XML_PATH)
-
-        UI(Sub()
-               Loading.DLb.Left = 40
-               Select Case lang
-                   Case Translator.tL.English
-                       Loading.DLb.Text = Loading.MsgEn.loading_Project_Load_msg
-                   Case Translator.tL.Korean
-                       Loading.DLb.Text = Loading.MsgKr.loading_Project_Load_msg
-               End Select
-           End Sub)
 
         'XML File Load.
         Invoke(Sub()
-                   infoTB1.Text = abl_Name
-                   infoTB3.Text = abl_Chain
+            Loading.DLb.Text = My.Resources.Contents.Project_Loading
+
+            infoTB1.Text = abl_Name
+            infoTB3.Text = abl_Chain
                End Sub)
 
         abl_openedproj = True
         UniPack_SaveInfo(False)
-        UI(Sub() Loading.Dispose())
+
+        Invoke(Sub()
+            Loading.Close()
+        End Sub)
+
+        MessageBox.Show(My.Resources.Contents.Project_Loaded, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
 
         If abl_openedproj AndAlso abl_openedled Then
             Invoke(Sub()
@@ -1129,15 +1104,6 @@ Public Class MainProject
                     MessageBox.Show(errorMessage, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 End If
             End If
-        End If
-
-        If OpenProjectOnce = False Then
-            Select Case lang
-                Case Translator.tL.English
-                    MessageBox.Show("Ableton Project File Loaded!" & vbNewLine & "You can edit info in Information Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Case Translator.tL.Korean
-                    MessageBox.Show("에이블톤 프로젝트 파일이 로딩되었습니다!" & vbNewLine & "'정보' 탭에서 정보를 수정할 수 있습니다.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-            End Select
         End If
     End Sub
 
@@ -1165,18 +1131,12 @@ Public Class MainProject
 
     Private Sub OpenAbletonProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenAbletonProjectToolStripMenuItem.Click
         Dim alsOpen1 As New OpenFileDialog
-        Select Case lang
-            Case Translator.tL.English
-                alsOpen1.Filter = "Ableton Project File|*.als"
-                alsOpen1.Title = "Select a Ableton Project File"
-            Case Translator.tL.Korean
-                alsOpen1.Filter = "에이블톤 프로젝트 파일|*.als"
-                alsOpen1.Title = "에이블톤 프로젝트 파일을 선택하세요"
-        End Select
+        alsOpen1.Filter = My.Resources.Contents.Project_ofd_Filter
+        alsOpen1.Title = My.Resources.Contents.Project_ofd_Title
         alsOpen1.AddExtension = False
         alsOpen1.Multiselect = False
 
-        If alsOpen1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+        If alsOpen1.ShowDialog() = DialogResult.OK Then
             ofd_FileName = alsOpen1.FileName
             BGW_ablproj.RunWorkerAsync()
         End If
@@ -1185,14 +1145,8 @@ Public Class MainProject
     Private Sub ConvertALSToUnipackToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ConvertALSToUnipackToolStripMenuItem.Click
 
         Dim sfd As New SaveFileDialog()
-        Select Case lang
-            Case Translator.tL.English
-                sfd.Filter = "Zip File|*.zip|UniPack File|*.uni"
-                sfd.Title = "Select the UniPack File"
-            Case Translator.tL.Korean
-                sfd.Filter = "Zip 파일|*.zip|유니팩 파일|*.uni"
-                sfd.Title = "유니팩 파일을 어디다 저장할지 선택 하세요"
-        End Select
+        sfd.Filter = My.Resources.Contents.Project_sfd_Filter
+        sfd.Title = My.Resources.Contents.Project_sfd_Title
         sfd.AddExtension = False
 
         Try
@@ -1289,20 +1243,14 @@ Public Class MainProject
                    End Sub)
 
                 If Directory.Exists(Application.StartupPath & "\Workspace\unipack\sounds") Then
-                    UI(Sub()
-                           Select Case lang
-                               Case Translator.tL.English
-                                   Loading.DLb.Text = Loading.MsgEn.loading_Project_DeleteTmp_msg
-                               Case Translator.tL.Korean
-                                   Loading.DLb.Text = Loading.MsgKr.loading_Project_DeleteTmp_msg
-                           End Select
+                    Invoke(Sub()
+                        Loading.DLb.Text = My.Resources.Contents.Project_DeletingTempoaryFiles
                        End Sub)
 
-                    My.Computer.FileSystem.DeleteDirectory(Application.StartupPath & "\Workspace\unipack\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
-                    Thread.Sleep(300)
-                    Directory.CreateDirectory(Application.StartupPath & "\Workspace\unipack\sounds")
+                    Directory.Delete(UNIPACK_SOUNDS_PATH, True)
+                    Directory.CreateDirectory(UNIPACK_SOUNDS_PATH)
                 Else
-                    Directory.CreateDirectory(Application.StartupPath & "\Workspace\unipack\sounds")
+                    Directory.CreateDirectory(UNIPACK_SOUNDS_PATH)
                 End If
 
                 UI(Sub()
@@ -1545,14 +1493,9 @@ Public Class MainProject
                        End With
                    End Sub)
 
-                UI(Sub()
-                       Select Case lang
-                           Case Translator.tL.English
-                               Loading.DLb.Text = Loading.MsgEn.loading_Project_DeleteTmp_msg
-                           Case Translator.tL.Korean
-                               Loading.DLb.Text = Loading.MsgKr.loading_Project_DeleteTmp_msg
-                       End Select
-                   End Sub)
+                Invoke(Sub()
+                    Loading.DLb.Text = My.Resources.Contents.Project_DeletingTempoaryFiles
+                       End Sub)
 
                 If Directory.Exists(Application.StartupPath & "\Workspace\unipack\sounds") Then
                     Directory.Delete(Application.StartupPath & "\Workspace\unipack\sounds", True)
@@ -3073,7 +3016,7 @@ Public Class MainProject
         Invoke(Sub()
                    Loading.Show()
 
-                   Loading.Text = String.Format(My.Resources.Contents.LED_Converting_Title, 1, 2)
+                   Loading.Text = My.Resources.Contents.LED_Converting_Title
                    Loading.DLb.Text = String.Format(My.Resources.Contents.LED_Verifying, 0, midiEffectBranchList.Count)
                End Sub)
 
@@ -3310,7 +3253,7 @@ Public Class MainProject
 
             If id <> -1 AndAlso saveContent.ContainsKey(id) Then
                 Dim save As MidiExtensionSave = saveContent(id)
-                Dim filePath As String = $"{KEYLED_MIDI_PATH}\{save.MidiName}"
+                Dim filePath As String = $"{ABLETON_KEYLED_PATH}\{save.MidiName}"
 
                 ledList.AddRange(ConvertKeyLEDForAnyMIDEX(node, mm, filePath, save.Speed, save.BPM))
             Else
@@ -3411,7 +3354,7 @@ Public Class MainProject
             Dim midiName As String = node.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices")?.Item("MxDeviceMidiEffect")?.Item("FileDropList")?.Item("FileDropList")?.Item("MxDFullFileDrop")?.Item("FileRef")?.Item("FileRef")?.Item("Name")?.GetAttribute("Value")
             
             If Not String.IsNullOrWhiteSpace(midiName) Then
-                Dim midiPathList As List(Of String) = Directory.GetFiles(KEYLED_MIDI_PATH, "*.mid").ToList().Where(Function(filePath) Path.GetFileName(filePath) = midiName).ToList()
+                Dim midiPathList As List(Of String) = Directory.GetFiles(ABLETON_KEYLED_PATH, "*.mid").ToList().Where(Function(filePath) Path.GetFileName(filePath) = midiName).ToList()
 
                 If midiPathList.Count > 0 Then
                     Dim midiPath As String = midiPathList.First()
@@ -3516,12 +3459,12 @@ Public Class MainProject
     End Sub
 
     Public Shared Sub SaveKeyLED(chain As Integer, x As Integer, y As Integer, loopNumber As Integer, content As String)
-        If Not Directory.Exists(KEYLED_UNIPACK_PATH) Then
-            Directory.CreateDirectory(KEYLED_UNIPACK_PATH)
+        If Not Directory.Exists(UNIPACK_KEYLED_PATH) Then
+            Directory.CreateDirectory(UNIPACK_KEYLED_PATH)
         End If
 
         Dim name As String = $"{chain} {x} {y} {loopNumber}"
-        Dim path As String = $"{KEYLED_UNIPACK_PATH}\{name}"
+        Dim path As String = $"{UNIPACK_KEYLED_PATH}\{name}"
 
         If File.Exists(path) Then
             File.Move(path, RenameKeyLED(path, "a"C))
@@ -4400,24 +4343,24 @@ Public Class MainProject
 
     <Obsolete("This method is deprecated, use SaveKeyLED instead.")>
     Public Shared Sub SaveKeyLEDWithOverwriteProtectionForMIDEX(chain As Integer, x As Integer, y As Integer, loopNumber As Integer, keyLEDContent As String)
-        If Not Directory.Exists(KEYLED_UNIPACK_PATH) Then
-            Directory.CreateDirectory(KEYLED_UNIPACK_PATH)
+        If Not Directory.Exists(UNIPACK_KEYLED_PATH) Then
+            Directory.CreateDirectory(UNIPACK_KEYLED_PATH)
         End If
         
-        If File.Exists(KEYLED_UNIPACK_PATH & String.Format("\{0} {1} {2} {3}", chain, x, y, loopNumber)) OrElse File.Exists(KEYLED_UNIPACK_PATH & String.Format("\{0} {1} {2} {3} a", chain, x, y, loopNumber)) Then
-            If File.Exists(KEYLED_UNIPACK_PATH & String.Format("\{0} {1} {2} {3}", chain, x, y, loopNumber)) Then
-                My.Computer.FileSystem.RenameFile(KEYLED_UNIPACK_PATH & String.Format("\{0} {1} {2} {3}", chain, x, y, loopNumber), String.Format("{0} {1} {2} {3} a", chain, x, y, loopNumber))
+        If File.Exists(UNIPACK_KEYLED_PATH & String.Format("\{0} {1} {2} {3}", chain, x, y, loopNumber)) OrElse File.Exists(UNIPACK_KEYLED_PATH & String.Format("\{0} {1} {2} {3} a", chain, x, y, loopNumber)) Then
+            If File.Exists(UNIPACK_KEYLED_PATH & String.Format("\{0} {1} {2} {3}", chain, x, y, loopNumber)) Then
+                My.Computer.FileSystem.RenameFile(UNIPACK_KEYLED_PATH & String.Format("\{0} {1} {2} {3}", chain, x, y, loopNumber), String.Format("{0} {1} {2} {3} a", chain, x, y, loopNumber))
             End If
 
             For Each lpn In LEDMappings
-                If Not File.Exists(KEYLED_UNIPACK_PATH & String.Format("\{0} {1} {2} {3} {4}", chain, x, y, loopNumber, lpn)) Then
-                    File.WriteAllText(KEYLED_UNIPACK_PATH & String.Format("\{0} {1} {2} {3} {4}", chain, x, y, loopNumber, lpn), keyLEDContent)
+                If Not File.Exists(UNIPACK_KEYLED_PATH & String.Format("\{0} {1} {2} {3} {4}", chain, x, y, loopNumber, lpn)) Then
+                    File.WriteAllText(UNIPACK_KEYLED_PATH & String.Format("\{0} {1} {2} {3} {4}", chain, x, y, loopNumber, lpn), keyLEDContent)
                     Exit For
                 End If
             Next
 
         Else
-            File.WriteAllText(KEYLED_UNIPACK_PATH & String.Format("\{0} {1} {2} {3}", chain, x, y, loopNumber), keyLEDContent)
+            File.WriteAllText(UNIPACK_KEYLED_PATH & String.Format("\{0} {1} {2} {3}", chain, x, y, loopNumber), keyLEDContent)
         End If
     End Sub
 #End Region
@@ -4703,33 +4646,21 @@ Public Class MainProject
         '이 코드는 MainProject.Load 코드를 따와서 만들었습니다.
         '만약 MainProject.Load 코드가 업데이트를 했다면, 이 코드도 업데이트를 해주시기 바랍니다.
 
-        UI(Sub()
+        Invoke(Sub()
                With Loading
                    .Show()
-                   Select Case lang
-                       Case Translator.tL.English
-                           .Text = Loading.MsgEn.loading_Project_Reset
-                       Case Translator.tL.Korean
-                           .Text = Loading.MsgKr.loading_Project_Reset
-                   End Select
-
-                   Select Case lang
-                       Case Translator.tL.English
-                           .DLb.Text = Loading.MsgEn.loading_Project_ResetPr
-                       Case Translator.tL.Korean
-                           .DLb.Text = Loading.MsgKr.loading_Project_ResetPr
-                   End Select
+                   .Text = My.Resources.Contents.Project_Reset
+                   .DLb.Text = My.Resources.Contents.Project_DeleteWorkspace
                End With
            End Sub)
 
         IsWorking = True '프로젝트를 초기화할 때 프로젝트를 불러오면 안되니깐...
 
-        If Directory.Exists(Application.StartupPath & "\Workspace") Then
-            Directory.Delete(Application.StartupPath & "\Workspace", True)
-            Thread.Sleep(300)
-            Directory.CreateDirectory(Application.StartupPath & "\Workspace")
+        If Directory.Exists(WORKSPACE_PATH) Then
+            Directory.Delete(WORKSPACE_PATH, True)
+            Directory.CreateDirectory(WORKSPACE_PATH)
         Else
-            Directory.CreateDirectory(Application.StartupPath & "\Workspace")
+            Directory.CreateDirectory(WORKSPACE_PATH)
         End If
 
         abl_openedproj = False
@@ -4787,16 +4718,15 @@ Public Class MainProject
         w8t4abl = String.Empty
         OpenProjectOnce = False
 
-        UI(Sub()
+        Invoke(Sub()
                keyLEDMIDEX_LEDViewMode.Checked = True
                keyLEDPad_Flush(False)
                keyLEDMIDEX_BetaButton.Enabled = False
                kl_LEDFlush()
            End Sub)
 
-        Thread.Sleep(300)
-        UI(Sub()
-               Loading.Dispose()
+        Invoke(Sub()
+               Loading.Close()
            End Sub)
 
         IsWorking = False

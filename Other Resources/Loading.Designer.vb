@@ -29,7 +29,7 @@ Partial Class Loading
         '
         'DPr
         '
-        Me.DPr.Location = New System.Drawing.Point(34, 28)
+        Me.DPr.Location = New System.Drawing.Point(33, 74)
         Me.DPr.MarqueeAnimationSpeed = 10
         Me.DPr.Maximum = 1000
         Me.DPr.Name = "DPr"
@@ -41,7 +41,7 @@ Partial Class Loading
         '
         Me.DLb.AutoSize = true
         Me.DLb.Font = New System.Drawing.Font("NanumSquareRound Bold", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
-        Me.DLb.Location = New System.Drawing.Point(121, 86)
+        Me.DLb.Location = New System.Drawing.Point(29, 36)
         Me.DLb.Name = "DLb"
         Me.DLb.Size = New System.Drawing.Size(186, 21)
         Me.DLb.TabIndex = 1

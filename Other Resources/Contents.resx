@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="HelloWorld" xml:space="preserve">
+    <value>Hello, World!</value>
+  </data>
   <data name="LED_Converted" xml:space="preserve">
     <value>Converted LED sucessfully!</value>
   </data>
@@ -138,5 +141,48 @@ Would you like to select the data file and continue?
   </data>
   <data name="LED_Verifying" xml:space="preserve">
     <value>Verifying LED... ({0} / {1})</value>
+  </data>
+  <data name="Project_Chain" xml:space="preserve">
+    <value>Finding Chains...</value>
+  </data>
+  <data name="Project_ChangeExtension" xml:space="preserve">
+    <value>Applying to readable Infos...</value>
+  </data>
+  <data name="Project_DeleteWorkspace" xml:space="preserve">
+    <value>Deleting Workspace...</value>
+  </data>
+  <data name="Project_DeletingTempoaryFiles" xml:space="preserve">
+    <value>Deleting The Tempoary Files...</value>
+  </data>
+  <data name="Project_Extracting" xml:space="preserve">
+    <value>Extracting The Project File...</value>
+  </data>
+  <data name="Project_FileName" xml:space="preserve">
+    <value>Finding File Name...</value>
+  </data>
+  <data name="Project_Loaded" xml:space="preserve">
+    <value>Ableton Project File Loaded!
+You can edit info in Information Tab.</value>
+  </data>
+  <data name="Project_Loading" xml:space="preserve">
+    <value>Loading The Project File...</value>
+  </data>
+  <data name="Project_ofd_Filter" xml:space="preserve">
+    <value>Ableton Project File|*.als</value>
+  </data>
+  <data name="Project_ofd_Title" xml:space="preserve">
+    <value>Select a Ableton Project File</value>
+  </data>
+  <data name="Project_Reset" xml:space="preserve">
+    <value>Reseting Project...</value>
+  </data>
+  <data name="Project_sfd_Filter" xml:space="preserve">
+    <value>Zip File|*.zip|UniPack File|*.uni</value>
+  </data>
+  <data name="Project_sfd_Title" xml:space="preserve">
+    <value>Select the UniPack File</value>
+  </data>
+  <data name="Project_Title" xml:space="preserve">
+    <value>Loading The Ableton Project File...</value>
   </data>
 </root>

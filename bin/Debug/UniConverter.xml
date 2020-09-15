@@ -134,6 +134,11 @@ o 6 3 a  [rest of string was truncated]&quot;;.
   resource lookups using this strongly typed resource class.
 </summary>
 </member>
+<member name="P:UniConverter.My.Resources.Contents.HelloWorld">
+<summary>
+  Looks up a localized string similar to Hello, World!.
+</summary>
+</member>
 <member name="P:UniConverter.My.Resources.Contents.LED_Converted">
 <summary>
   Looks up a localized string similar to Converted LED sucessfully!.
@@ -166,6 +171,77 @@ Would you like to select the data file and continue?
 <member name="P:UniConverter.My.Resources.Contents.LED_Verifying">
 <summary>
   Looks up a localized string similar to Verifying LED... ({0} / {1}).
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Contents.Project_Chain">
+<summary>
+  Looks up a localized string similar to Finding Chains....
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Contents.Project_ChangeExtension">
+<summary>
+  Looks up a localized string similar to Applying to readable Infos....
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Contents.Project_DeleteWorkspace">
+<summary>
+  Looks up a localized string similar to Deleting Workspace....
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Contents.Project_DeletingTempoaryFiles">
+<summary>
+  Looks up a localized string similar to Deleting The Tempoary Files....
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Contents.Project_Extracting">
+<summary>
+  Looks up a localized string similar to Extracting The Project File....
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Contents.Project_FileName">
+<summary>
+  Looks up a localized string similar to Finding File Name....
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Contents.Project_Loaded">
+<summary>
+  Looks up a localized string similar to Ableton Project File Loaded!
+You can edit info in Information Tab..
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Contents.Project_Loading">
+<summary>
+  Looks up a localized string similar to Loading The Project File....
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Contents.Project_ofd_Filter">
+<summary>
+  Looks up a localized string similar to Ableton Project File|*.als.
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Contents.Project_ofd_Title">
+<summary>
+  Looks up a localized string similar to Select a Ableton Project File.
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Contents.Project_Reset">
+<summary>
+  Looks up a localized string similar to Reseting Project....
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Contents.Project_sfd_Filter">
+<summary>
+  Looks up a localized string similar to Zip File|*.zip|UniPack File|*.uni.
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Contents.Project_sfd_Title">
+<summary>
+  Looks up a localized string similar to Select the UniPack File.
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Contents.Project_Title">
+<summary>
+  Looks up a localized string similar to Loading The Ableton Project File....
 </summary>
 </member>
 <member name="M:UniConverter.keyLED_Edit_Ex.Flip_Rotate_90(System.Int32)">
