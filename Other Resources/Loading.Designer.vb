@@ -25,7 +25,7 @@ Partial Class Loading
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Loading))
         Me.DPr = New System.Windows.Forms.ProgressBar()
         Me.DLb = New System.Windows.Forms.Label()
-        Me.SuspendLayout()
+        Me.SuspendLayout
         '
         'DPr
         '
@@ -39,34 +39,35 @@ Partial Class Loading
         '
         'DLb
         '
-        Me.DLb.AutoSize = True
-        Me.DLb.Font = New System.Drawing.Font("나눔스퀘어라운드 Bold", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.DLb.AutoSize = true
+        Me.DLb.Font = New System.Drawing.Font("NanumSquareRound Bold", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
         Me.DLb.Location = New System.Drawing.Point(121, 86)
         Me.DLb.Name = "DLb"
         Me.DLb.Size = New System.Drawing.Size(186, 21)
         Me.DLb.TabIndex = 1
         Me.DLb.Text = "Loading Contents..."
+        Me.DLb.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'Loading
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(7!, 12!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.ClientSize = New System.Drawing.Size(440, 140)
-        Me.ControlBox = False
+        Me.ControlBox = false
         Me.Controls.Add(Me.DLb)
         Me.Controls.Add(Me.DPr)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
-        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.MaximizeBox = False
-        Me.MinimizeBox = False
+        Me.Icon = CType(resources.GetObject("$this.Icon"),System.Drawing.Icon)
+        Me.MaximizeBox = false
+        Me.MinimizeBox = false
         Me.Name = "Loading"
         Me.Text = "Loading Contents..."
-        Me.TopMost = True
-        Me.ResumeLayout(False)
-        Me.PerformLayout()
+        Me.TopMost = true
+        Me.ResumeLayout(false)
+        Me.PerformLayout
 
-    End Sub
+End Sub
 
     Friend WithEvents DPr As ProgressBar
     Friend WithEvents DLb As Label
