@@ -126,11 +126,17 @@
   <data name="LED_Converting" xml:space="preserve">
     <value>Converting Ableton LED to UniPack LED...</value>
   </data>
+  <data name="LED_Converting_Error" xml:space="preserve">
+    <value>Error occured while converting LED.
+
+Error Message:
+{0}</value>
+  </data>
   <data name="LED_Converting_Title" xml:space="preserve">
     <value>Converting LED... ({0} / {1})</value>
   </data>
   <data name="LED_Loaded" xml:space="preserve">
-    <value>Loaded LED Files. Please Wait...</value>
+    <value>LED Files Loaded! You can edit LEDs in 'keyLED (MIDI Extension)' Tab.</value>
   </data>
   <data name="LED_Not_Found" xml:space="preserve">
     <value>Couldn't find any LED in this project.</value>
@@ -156,6 +162,12 @@ Would you like to select the data file and continue?
   </data>
   <data name="LED_Verifying" xml:space="preserve">
     <value>Verifying LED... ({0} / {1})</value>
+  </data>
+  <data name="Main_OpenAbletonProject" xml:space="preserve">
+    <value>Open Ableton Project</value>
+  </data>
+  <data name="Main_OpenAbletonProject_Beta" xml:space="preserve">
+    <value>Open Ableton Project (Beta)</value>
   </data>
   <data name="Project_Chain" xml:space="preserve">
     <value>Finding Chains...</value>
@@ -201,7 +213,7 @@ You can edit info in Information Tab.</value>
     <value>Loading The Ableton Project File...</value>
   </data>
   <data name="Sound_Loaded" xml:space="preserve">
-    <value>Loaded Sound Files. Please Wait...</value>
+    <value>Sounds Loaded!</value>
   </data>
   <data name="Sound_ofd_Filter" xml:space="preserve">
     <value>wav sound files|*.wav|mp3 sounds files|*.mp3|All Sound Files|*.*</value>

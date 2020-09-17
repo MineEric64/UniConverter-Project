@@ -149,14 +149,47 @@ o 6 3 a  [rest of string was truncated]&quot;;.
   Looks up a localized string similar to Converting Ableton LED to UniPack LED....
 </summary>
 </member>
+<member name="P:UniConverter.My.Resources.Contents.LED_Converting_Error">
+<summary>
+  Looks up a localized string similar to Error occured while converting LED.
+
+Error Message:
+{0}.
+</summary>
+</member>
 <member name="P:UniConverter.My.Resources.Contents.LED_Converting_Title">
 <summary>
   Looks up a localized string similar to Converting LED... ({0} / {1}).
 </summary>
 </member>
+<member name="P:UniConverter.My.Resources.Contents.LED_Loaded">
+<summary>
+  Looks up a localized string similar to LED Files Loaded! You can edit LEDs in &apos;keyLED (MIDI Extension)&apos; Tab..
+</summary>
+</member>
 <member name="P:UniConverter.My.Resources.Contents.LED_Not_Found">
 <summary>
   Looks up a localized string similar to Couldn&apos;t find any LED in this project..
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Contents.LED_ofd_Filter">
+<summary>
+  Looks up a localized string similar to LED Files|*.mid.
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Contents.LED_ofd_Title">
+<summary>
+  Looks up a localized string similar to Select LED Files.
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Contents.LED_Open">
+<summary>
+  Looks up a localized string similar to Loading LED Files... ({0} / {1}).
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Contents.LED_Open_Title">
+<summary>
+  Looks up a localized string similar to Opening LED Files.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.LED_Save_File_Not_Found">
@@ -171,6 +204,16 @@ Would you like to select the data file and continue?
 <member name="P:UniConverter.My.Resources.Contents.LED_Verifying">
 <summary>
   Looks up a localized string similar to Verifying LED... ({0} / {1}).
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Contents.Main_OpenAbletonProject">
+<summary>
+  Looks up a localized string similar to Open Ableton Project.
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Contents.Main_OpenAbletonProject_Beta">
+<summary>
+  Looks up a localized string similar to Open Ableton Project (Beta).
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Project_Chain">
@@ -242,6 +285,31 @@ You can edit info in Information Tab..
 <member name="P:UniConverter.My.Resources.Contents.Project_Title">
 <summary>
   Looks up a localized string similar to Loading The Ableton Project File....
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Contents.Sound_Loaded">
+<summary>
+  Looks up a localized string similar to Sounds Loaded!.
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Contents.Sound_ofd_Filter">
+<summary>
+  Looks up a localized string similar to wav sound files|*.wav|mp3 sounds files|*.mp3|All Sound Files|*.*.
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Contents.Sound_ofd_Title">
+<summary>
+  Looks up a localized string similar to Select Sounds.
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Contents.Sound_Open">
+<summary>
+  Looks up a localized string similar to Loading Sound Files... ({0} / {1}).
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Contents.Sound_Open_Title">
+<summary>
+  Looks up a localized string similar to Loading Sound Files.
 </summary>
 </member>
 <member name="M:UniConverter.keyLED_Edit_Ex.Flip_Rotate_90(System.Int32)">
@@ -635,10 +703,22 @@ You can edit info in Information Tab..
 </member>
 <member name="M:UniConverter.MainProject.GetChainFromAbletonProject(System.String)">
  <summary>
- 체인 값 얻는 함수
+ 체인 값을 가져옵니다.
  </summary>
  <param name="xmlPath">에이블톤 프로젝트 XML 경로</param>
  <returns></returns>
+</member>
+<member name="M:UniConverter.MainProject.OpenAbletonProjectFile(System.String,System.Boolean)">
+ <summary>
+ 에이블톤 프로젝트 파일을 불러옵니다.
+ </summary>
+ <param name="fileName">에이블톤 프로젝트 파일 경로</param>
+ <param name="showLoadingMessage">불러오는 중 메시지의 존재 여부</param>
+</member>
+<member name="M:UniConverter.MainProject.ReadyForAutoConvertForKeyLED">
+ <summary>
+ 자동 변환 (KeyLED MIDEX)
+ </summary>
 </member>
 <member name="M:UniConverter.MainProject.UniPack_SaveInfo(System.Boolean)">
  <summary>
@@ -723,6 +803,18 @@ You can edit info in Information Tab..
  String() 형식을 String으로 변환 합니다.
  </summary>
  <param name="inputstr">문자열</param>
+ <returns></returns>
+</member>
+<member name="M:UniConverter.MainProject.OpenAbletonProjectOnce">
+ <summary>
+ Nogada Version (v1.0)
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:UniConverter.MainProject.OpenAbletonProjectOnce_v2">
+ <summary>
+ Smart Version (v2.0)
+ </summary>
  <returns></returns>
 </member>
 </members>

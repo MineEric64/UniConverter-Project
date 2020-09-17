@@ -126,11 +126,17 @@
   <data name="LED_Converting" xml:space="preserve">
     <value>에이블톤 LED를 유니팩 LED로 변환 중...</value>
   </data>
+  <data name="LED_Converting_Error" xml:space="preserve">
+    <value>LED 변환 중에 오류가 발생했습니다.
+
+오류 내용:
+{0}</value>
+  </data>
   <data name="LED_Converting_Title" xml:space="preserve">
     <value>LED 변환 중...</value>
   </data>
   <data name="LED_Loaded" xml:space="preserve">
-    <value>LED 파일들을 불러왔습니다. 잠시만 기다려주세요...</value>
+    <value>LED 파일이 로딩되었습니다! 'keyLED (미디 익스텐션)' 탭에서 LED를 편집할 수 있습니다.</value>
   </data>
   <data name="LED_Not_Found" xml:space="preserve">
     <value>프로젝트에서 LED를 찾지 못했습니다.</value>
@@ -156,6 +162,12 @@
   </data>
   <data name="LED_Verifying" xml:space="preserve">
     <value>LED 확인 중... ({0} / {1})</value>
+  </data>
+  <data name="Main_OpenAbletonProject" xml:space="preserve">
+    <value>에이블톤 프로젝트 열기</value>
+  </data>
+  <data name="Main_OpenAbletonProject_Beta" xml:space="preserve">
+    <value>에이블톤 프로젝트 열기 (베타)</value>
   </data>
   <data name="Project_Chain" xml:space="preserve">
     <value>체인을 찾는 중...</value>
@@ -201,7 +213,7 @@
     <value>에이블톤 프로젝트 파일을 불러오는 중...</value>
   </data>
   <data name="Sound_Loaded" xml:space="preserve">
-    <value>사운드 파일이 로딩되었습니다. 잠시만 기다려주세요...</value>
+    <value>사운드 파일들을 불러왔습니다!</value>
   </data>
   <data name="Sound_ofd_Filter" xml:space="preserve">
     <value>wav 파일|*.wav|mp3 파일|*.mp3|모든 사운드 파일|*.*</value>

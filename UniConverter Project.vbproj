@@ -189,6 +189,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Other Resources\ProjectOpenMethod.vb" />
     <Compile Include="Other Resources\Sound_Cutting.vb" />
     <Compile Include="Other Resources\Tpdby.Designer.vb">
       <DependentUpon>Tpdby.vb</DependentUpon>

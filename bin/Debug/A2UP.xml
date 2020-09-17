@@ -1,0 +1,112 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+A2UP
+</name>
+</assembly>
+<members>
+<member name="T:A2UP.My.Resources.Resources">
+<summary>
+  지역화된 문자열 등을 찾기 위한 강력한 형식의 리소스 클래스입니다.
+</summary>
+</member>
+<member name="P:A2UP.My.Resources.Resources.ResourceManager">
+<summary>
+  이 클래스에서 사용하는 캐시된 ResourceManager 인스턴스를 반환합니다.
+</summary>
+</member>
+<member name="P:A2UP.My.Resources.Resources.Culture">
+<summary>
+  이 강력한 형식의 리소스 클래스를 사용하여 모든 리소스 조회에 대해 현재 스레드의 CurrentUICulture 속성을
+  재정의합니다.
+</summary>
+</member>
+<member name="M:A2UP.A2U.GetVersion">
+ <summary>
+ Get Version from A2UP.
+ </summary>
+ <returns></returns>
+</member>
+<member name="F:A2UP.A2U.keyLED_MIDEX.keyLED_NoteEvents.NoteNumber_DrumRackLayout">
+ <summary>
+ Launchpad LED's Note Number.
+ </summary>
+</member>
+<member name="F:A2UP.A2U.keyLED_MIDEX.keyLED_NoteEvents.NoteNumber_XYLayout">
+ <summary>
+ Launchpad MIDI In's Note Number.
+ </summary>
+</member>
+<member name="F:A2UP.A2U.keyLED_MIDEX.keyLED_NoteEvents.NoteLength_1">
+ <summary>
+ Launchpad LED's Note Length.
+ </summary>
+</member>
+<member name="F:A2UP.A2U.keyLED_MIDEX.keyLED_NoteEvents.NoteLength_2">
+ <summary>
+ Get Note Length using FL Studio. (BPM: 120, PPQ: 96 / 192)
+ </summary>
+</member>
+<member name="M:A2UP.A2U.keyLED_MIDEX.GX_keyLED(A2UP.A2U.keyLED_MIDEX.keyLED_NoteEvents,System.Int32)">
+ <summary>
+ Get keyLED Position X from MIDI Event.
+ </summary>
+ <param name="List">keyLED Algorithm List.</param>
+ <param name="NoteNumber">MIDI Note Number.</param>
+ <returns></returns>
+</member>
+<member name="M:A2UP.A2U.keyLED_MIDEX.GY_keyLED(A2UP.A2U.keyLED_MIDEX.keyLED_NoteEvents,System.Int32)">
+ <summary>
+ Get keyLED Position Y from MIDI Event.
+ </summary>
+ <param name="List">keyLED Algorithm List.</param>
+ <param name="NoteNumber">MIDI Note Number.</param>
+ <returns></returns>
+</member>
+<member name="M:A2UP.A2U.keyLED_MIDEX.GetNoteDelay(A2UP.A2U.keyLED_MIDEX.keyLED_NoteEvents,System.Int32,System.Int32,System.Int32)">
+ <summary>
+ Get Note Delay from NoteOnEvent's Note Length. (NAudio) [Ticks to Milliseconds]
+ </summary>
+ <param name="List">Note Events.</param>
+ <param name="bpm">Beats Per Minute.</param>
+ <param name="ppq">Pulses Per Quarter note.</param>
+ <param name="delay">Note Length from NoteOnEvent.</param>
+ <returns></returns>
+</member>
+<member name="M:A2UP.A2U.keyLED_MIDEX.GetNoteNumber(A2UP.A2U.keyLED_MIDEX.keyLED_NoteEvents,System.Int32,System.Int32)">
+ <summary>
+ Get Note Number from UniPack keyLED.
+ </summary>
+ <param name="List">Note Events.</param>
+ <param name="x">UniPack X</param>
+ <param name="y">UniPack Y</param>
+ <returns></returns>
+</member>
+<member name="F:A2UP.A2U.keySound.ks_NoteEvents.NoteNumber_1">
+ <summary>
+ Recieving Note Number. [ Drum Rack ]
+ </summary>
+</member>
+<member name="M:A2UP.A2U.keySound.GetkeySound(A2UP.A2U.keySound.ks_NoteEvents,System.Int32)">
+ <summary>
+ Get keySound from keySound_X.
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:A2UP.A2U.keySound.Create_ksX(System.Int32,System.Int32)">
+ <summary>
+ Create the ksX with x and y.
+ </summary>
+ <param name="x"></param>
+ <param name="y"></param>
+ <returns></returns>
+</member>
+<member name="M:A2UP.A2U.keySound.CreateNullksX">
+ <summary>
+ Create the ksX with null. (x: 0, y: 0)
+ </summary>
+ <returns></returns>
+</member>
+</members>
+</doc>

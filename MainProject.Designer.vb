@@ -26,12 +26,15 @@ Partial Class MainProject
         Me.MenuStrip = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenProjectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OpenAPFToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.OpenAbletonProjectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SoundsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenKeyLEDToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveProjectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ConvertALSToUnipackToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AutoConvert = New System.Windows.Forms.ToolStripMenuItem()
+        Me.UseNewFeatureAboutOpenProjectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ResetTheProjectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
@@ -254,13 +257,13 @@ Partial Class MainProject
         Me.InListBox = New System.Windows.Forms.ListBox()
         Me.ConnectButton = New System.Windows.Forms.Button()
         Me.LoadButton = New System.Windows.Forms.Button()
-        Me.BGW_ablproj = New System.ComponentModel.BackgroundWorker()
         Me.BGW_CheckUpdate = New System.ComponentModel.BackgroundWorker()
         Me.BGW_keySound = New System.ComponentModel.BackgroundWorker()
         Me.BGW_keySoundLayout = New System.ComponentModel.BackgroundWorker()
         Me.BGW_keyLEDLayout = New System.ComponentModel.BackgroundWorker()
         Me.BGW_soundcut = New System.ComponentModel.BackgroundWorker()
         Me.BGW_RsProj = New System.ComponentModel.BackgroundWorker()
+        Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.MenuStrip.SuspendLayout
         Me.HomeEdit.SuspendLayout
         Me.Info1.SuspendLayout
@@ -286,7 +289,7 @@ Partial Class MainProject
         '
         'FileToolStripMenuItem
         '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenProjectToolStripMenuItem, Me.SaveProjectToolStripMenuItem, Me.ConvertALSToUnipackToolStripMenuItem, Me.AutoConvert})
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenProjectToolStripMenuItem, Me.SaveProjectToolStripMenuItem, Me.ConvertALSToUnipackToolStripMenuItem, Me.ToolStripSeparator3, Me.AutoConvert, Me.UseNewFeatureAboutOpenProjectToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
         Me.FileToolStripMenuItem.ShowShortcutKeys = false
         Me.FileToolStripMenuItem.Size = New System.Drawing.Size(39, 20)
@@ -294,16 +297,27 @@ Partial Class MainProject
         '
         'OpenProjectToolStripMenuItem
         '
-        Me.OpenProjectToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenAbletonProjectToolStripMenuItem, Me.SoundsToolStripMenuItem, Me.OpenKeyLEDToolStripMenuItem})
+        Me.OpenProjectToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenAPFToolStripMenuItem, Me.ToolStripSeparator2, Me.OpenAbletonProjectToolStripMenuItem, Me.SoundsToolStripMenuItem, Me.OpenKeyLEDToolStripMenuItem})
         Me.OpenProjectToolStripMenuItem.Name = "OpenProjectToolStripMenuItem"
         Me.OpenProjectToolStripMenuItem.Size = New System.Drawing.Size(355, 22)
         Me.OpenProjectToolStripMenuItem.Text = "Open Project"
+        '
+        'OpenAPFToolStripMenuItem
+        '
+        Me.OpenAPFToolStripMenuItem.Name = "OpenAPFToolStripMenuItem"
+        Me.OpenAPFToolStripMenuItem.Size = New System.Drawing.Size(243, 22)
+        Me.OpenAPFToolStripMenuItem.Text = "Open Ableton Project (Beta)"
+        '
+        'ToolStripSeparator2
+        '
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(240, 6)
         '
         'OpenAbletonProjectToolStripMenuItem
         '
         Me.OpenAbletonProjectToolStripMenuItem.Name = "OpenAbletonProjectToolStripMenuItem"
         Me.OpenAbletonProjectToolStripMenuItem.Size = New System.Drawing.Size(243, 22)
-        Me.OpenAbletonProjectToolStripMenuItem.Text = "Open Ableton Project (Beta)"
+        Me.OpenAbletonProjectToolStripMenuItem.Text = "Open Ableton Project File"
         '
         'SoundsToolStripMenuItem
         '
@@ -339,6 +353,15 @@ Partial Class MainProject
         Me.AutoConvert.Name = "AutoConvert"
         Me.AutoConvert.Size = New System.Drawing.Size(355, 22)
         Me.AutoConvert.Text = "Convert Automatically when you load the project"
+        '
+        'UseNewFeatureAboutOpenProjectToolStripMenuItem
+        '
+        Me.UseNewFeatureAboutOpenProjectToolStripMenuItem.Checked = true
+        Me.UseNewFeatureAboutOpenProjectToolStripMenuItem.CheckOnClick = true
+        Me.UseNewFeatureAboutOpenProjectToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.UseNewFeatureAboutOpenProjectToolStripMenuItem.Name = "UseNewFeatureAboutOpenProjectToolStripMenuItem"
+        Me.UseNewFeatureAboutOpenProjectToolStripMenuItem.Size = New System.Drawing.Size(355, 22)
+        Me.UseNewFeatureAboutOpenProjectToolStripMenuItem.Text = "Use new feature about Open Ableton Project"
         '
         'EditToolStripMenuItem
         '
@@ -3061,9 +3084,6 @@ Partial Class MainProject
         Me.LoadButton.Text = "Load"
         Me.LoadButton.UseVisualStyleBackColor = true
         '
-        'BGW_ablproj
-        '
-        '
         'BGW_CheckUpdate
         '
         '
@@ -3081,6 +3101,11 @@ Partial Class MainProject
         '
         'BGW_RsProj
         '
+        '
+        'ToolStripSeparator3
+        '
+        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(352, 6)
         '
         'MainProject
         '
@@ -3152,7 +3177,6 @@ End Sub
     Friend WithEvents infoTB3 As TextBox
     Friend WithEvents DeveloperModeToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents OpenKeyLEDToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents BGW_ablproj As System.ComponentModel.BackgroundWorker
     Friend WithEvents MIDISET As TabPage
     Friend WithEvents ConnectButton As Button
     Friend WithEvents LoadButton As Button
@@ -3358,4 +3382,8 @@ End Sub
     Friend WithEvents LEDtoAutoPlayToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
     Friend WithEvents btnConvertKeyLEDAutomatically As Button
+    Friend WithEvents UseNewFeatureAboutOpenProjectToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents OpenAPFToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator2 As ToolStripSeparator
+    Friend WithEvents ToolStripSeparator3 As ToolStripSeparator
 End Class

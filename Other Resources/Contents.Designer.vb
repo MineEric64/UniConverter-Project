@@ -92,6 +92,18 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Looks up a localized string similar to Error occured while converting LED.
+        '''
+        '''Error Message:
+        '''{0}.
+        '''</summary>
+        Public Shared ReadOnly Property LED_Converting_Error() As String
+            Get
+                Return ResourceManager.GetString("LED_Converting_Error", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized string similar to Converting LED... ({0} / {1}).
         '''</summary>
         Public Shared ReadOnly Property LED_Converting_Title() As String
@@ -101,7 +113,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Loaded LED Files. Please Wait....
+        '''  Looks up a localized string similar to LED Files Loaded! You can edit LEDs in &apos;keyLED (MIDI Extension)&apos; Tab..
         '''</summary>
         Public Shared ReadOnly Property LED_Loaded() As String
             Get
@@ -173,6 +185,24 @@ Namespace My.Resources
         Public Shared ReadOnly Property LED_Verifying() As String
             Get
                 Return ResourceManager.GetString("LED_Verifying", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Open Ableton Project.
+        '''</summary>
+        Public Shared ReadOnly Property Main_OpenAbletonProject() As String
+            Get
+                Return ResourceManager.GetString("Main_OpenAbletonProject", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Open Ableton Project (Beta).
+        '''</summary>
+        Public Shared ReadOnly Property Main_OpenAbletonProject_Beta() As String
+            Get
+                Return ResourceManager.GetString("Main_OpenAbletonProject_Beta", resourceCulture)
             End Get
         End Property
         
@@ -304,7 +334,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Loaded Sound Files. Please Wait....
+        '''  Looks up a localized string similar to Sounds Loaded!.
         '''</summary>
         Public Shared ReadOnly Property Sound_Loaded() As String
             Get

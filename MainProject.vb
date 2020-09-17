@@ -130,8 +130,6 @@ Public Class MainProject
     Public kl_Converted As Boolean
 #End Region
 #Region "MainProject-Thread(s)"
-    Public Shared ofd_FileName As String
-    Private ofd_FileNames() As String
     Private trd_ListView As ListView
     Private updateShow As Boolean = False
 #End Region
@@ -169,7 +167,7 @@ Public Class MainProject
     ''' <summary>
     ''' 한 번에 Ableton Project를 열 것인가?
     ''' </summary>
-    Public OpenProjectOnce As Boolean
+    Public OpenProjectOnce As ProjectOpenMethod
 
     ''' <summary>
     ''' 지금 매우 중요한 작업 여부.
@@ -517,7 +515,7 @@ Public Class MainProject
             kl_Converted = False
 
             w8t4abl = String.Empty
-            OpenProjectOnce = False
+            OpenProjectOnce = ProjectOpenMethod.Smart
 
             keyLEDMIDEX_LEDViewMode.Checked = True
             keyLEDPad_Flush(False)
@@ -591,7 +589,8 @@ Public Class MainProject
     Private Sub OpenSoundsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SoundsToolStripMenuItem.Click
         Dim ofd As New OpenFileDialog()
         ofd.Filter = My.Resources.Contents.Sound_ofd_Filter
-        ofd.Multiselect = My.Resources.Contents.Sound_ofd_Title
+        ofd.Title = My.Resources.Contents.Sound_ofd_Title
+        ofd.Multiselect = True
 
         If ofd.ShowDialog() = DialogResult.OK Then
             Task.Run(Sub()
@@ -690,82 +689,95 @@ Public Class MainProject
         Return path
     End Function
 
-    Public Sub OpenKeyLED(fileNames As String(), showLoadingMessage As Boolean)
-        If showLoadingMessage Then
-            Invoke(Sub()
-                Loading.Show()
-                Loading.DPr.Maximum = fileNames.Length
+    Private Sub OpenKeyLED(fileNames As String(), showLoadingMessage As Boolean)
+        If fileNames.Length > 0 Then
+            If showLoadingMessage Then
+                Invoke(Sub()
+                    Loading.Show()
+                    Loading.DPr.Maximum = fileNames.Length
 
-                Loading.Text = My.Resources.Contents.LED_Open_Title
-                Loading.DLb.Text = String.Format(My.Resources.Contents.LED_Open, 0, fileNames.Length)
+                    Loading.Text = My.Resources.Contents.LED_Open_Title
+                    Loading.DLb.Text = String.Format(My.Resources.Contents.LED_Open, 0, fileNames.Length)
+                       End Sub)
+            End If
+
+            If Directory.Exists(ABLETON_KEYLED_PATH) Then
+                Directory.Delete(ABLETON_KEYLED_PATH, True)
+            End If
+
+            Directory.CreateDirectory(ABLETON_KEYLED_PATH)
+
+            For i = 0 To fileNames.Length - 1
+                Dim fileName As String = fileNames(i)
+
+                File.Copy(fileName, Path.Combine(ABLETON_KEYLED_PATH, Path.GetFileName(fileName)), True)
+                
+                If showLoadingMessage Then
+                    Invoke(Sub()
+                           Loading.DPr.Style = ProgressBarStyle.Continuous
+                           Loading.DPr.Value += 1
+
+                           Loading.DLb.Text = String.Format(My.Resources.Contents.LED_Open, Loading.DPr.Value, fileNames.Length)
+                       End Sub)
+                End If
+            Next
+
+            If showLoadingMessage Then
+                Invoke(Sub()
+                       Loading.DPr.Value = Loading.DPr.Maximum
+                       Loading.DPr.Style = ProgressBarStyle.Marquee
+
+                       Loading.DLb.Text = My.Resources.Contents.LED_Loaded
                    End Sub)
-        End If
+            End If
 
-        If Directory.Exists(ABLETON_KEYLED_PATH) Then
-            Directory.Delete(ABLETON_KEYLED_PATH, True)
-        End If
+            abl_openedled = True
+            GetMidiExtensionSaveFile(fileNames)
 
-        Directory.CreateDirectory(ABLETON_KEYLED_PATH)
-
-        For i = 0 To fileNames.Length - 1
-            Dim fileName As String = fileNames(i)
-
-            File.Copy(fileName, Path.Combine(ABLETON_KEYLED_PATH, Path.GetFileName(fileName)), True)
-            
-            Invoke(Sub()
-                   Loading.DPr.Style = ProgressBarStyle.Continuous
-                   Loading.DPr.Value += 1
-
-                   Loading.DLb.Text = String.Format(My.Resources.Contents.LED_Open, Loading.DPr.Value, fileNames.Length)
-               End Sub)
-        Next
-
-        Invoke(Sub()
-               Loading.DPr.Value = Loading.DPr.Maximum
-               Loading.DPr.Style = ProgressBarStyle.Marquee
-
-               Loading.DLb.Text = My.Resources.Contents.LED_Loaded
-           End Sub)
-
-        abl_openedled = True
-
-        Invoke(Sub()
-            keyLEDMIDEX_BetaButton.Enabled = True
-
-            Loading.Close()
-           End Sub)
-
-        GetMidiExtensionSaveFile(FileNames(0))
-
-        If abl_openedproj AndAlso abl_openedled Then
-            Invoke(Sub()
-                    btnConvertKeyLEDAutomatically.Enabled = True
+            If showLoadingMessage Then
+                Invoke(Sub()
+                    Loading.Close()
                 End Sub)
 
-            If AutoConvert.Checked Then
-                Dim errorMessage As String = String.Empty
-
-                ConvertKeyLEDForMIDEX_v2(ABLETON_PROJECT_XML_PATH, errorMessage, True)
-
-                If Not String.IsNullOrWhiteSpace(errorMessage) Then
-                    MessageBox.Show(errorMessage, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                End If
+                MessageBox.Show(My.Resources.Contents.LED_Loaded, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
         End If
     End Sub
 
-    Private Function GetMidiExtensionSaveFile(ledFilePath As String) As Boolean
+    Private Function GetMidiExtensionSaveFile(ledFilePath As String()) As Boolean
         Try
             _midiExtensionMapping.Clear()
 
-            Dim s As String = My.Computer.FileSystem.GetParentPath(ledFilePath)
+            Dim pathList As New List(Of String)
 
-            For Each d As String In My.Computer.FileSystem.GetFiles(s, FileIO.SearchOption.SearchTopLevelOnly)
-                If d.ToLower().Contains("save") AndAlso Path.HasExtension(d) = False Then
-                    _midiExtensionMapping = GetMappingListForMidiExtension(d)
-                    Exit For
+            Dim saveFilePath As String = String.Empty
+            Dim saveFileFound As Boolean = False
+
+            For Each led In ledFilePath
+                Dim parentPath As String = Directory.GetParent(led).FullName
+
+                If Not pathList.Contains(parentPath) Then
+                    For Each x In Directory.GetFiles(parentPath, "*.*", SearchOption.AllDirectories)
+                        Dim fileName As String = Path.GetFileName(x)
+
+                        If fileName.ToLower().Contains("save") AndAlso Not Path.HasExtension(x) Then
+                            saveFilePath = x
+                            saveFileFound = True
+                            Exit For
+                        End If
+                    Next
+
+                    If saveFileFound Then
+                        Exit For
+                    End If
+
+                    pathList.Add(parentPath)
                 End If
             Next
+
+            If saveFileFound AndAlso Not String.IsNullOrWhiteSpace(saveFilePath) Then
+                _midiExtensionMapping = GetMappingListForMidiExtension(saveFilePath)
+            End If
 
         Catch ex As Exception
             If IsGreatExMode Then
@@ -799,7 +811,7 @@ Public Class MainProject
     End Sub
 
     ''' <summary>
-    ''' 체인 값 얻는 함수
+    ''' 체인 값을 가져옵니다.
     ''' </summary>
     ''' <param name="xmlPath">에이블톤 프로젝트 XML 경로</param>
     ''' <returns></returns>
@@ -833,132 +845,130 @@ Public Class MainProject
         Return chain
     End Function
 
-    Private Sub Ableton_OpenProject(sender As Object, e As DoWorkEventArgs) Handles BGW_ablproj.DoWork
-        '---Beta Code: Converting Ableton Project Info To Unipack Info---
-        '이 Beta Convert Code는 오류가 발생할 수 있습니다.
-        '주의사항을 다 보셨다면, 당신은 Editor 권한을 가질 수 있습니다.
-
-        'Convert Ableton Project to Unipack Informations. (BETA!!!)
-
-        'v1.2.0.7: 베타 코드라기 보다는 코드 자체가 좀 옛날 버전이라 그런지 좀 스파게티 코드입니다.
-        '따라서 나중에 코드를 개편할 예정입니다.
-        '그 때는 베타 버전에서 정식 버전 (v1.0)으로 업그레이드 될지도 모르겠네요...
-
-        Dim fileName As String = ofd_FileName
+    ''' <summary>
+    ''' 에이블톤 프로젝트 파일을 불러옵니다.
+    ''' </summary>
+    ''' <param name="fileName">에이블톤 프로젝트 파일 경로</param>
+    ''' <param name="showLoadingMessage">불러오는 중 메시지의 존재 여부</param>
+    Private Sub OpenAbletonProjectFile(fileName As String, showLoadingMessage As Boolean)
+        If String.IsNullOrWhiteSpace(fileName) OrElse Not File.Exists(fileName) Then
+            Return
+        End If
 
         If Not Directory.Exists(ABLETON_PROJECT_PATH) Then
             Directory.CreateDirectory(ABLETON_PROJECT_PATH)
         End If
 
-        Invoke(Sub()
-            Loading.Show()
-            Loading.DPr.Style = ProgressBarStyle.Marquee
-            Loading.DPr.MarqueeAnimationSpeed = 10
+        If showLoadingMessage Then
+            Invoke(Sub()
+                Loading.Show()
+                Loading.DPr.Style = ProgressBarStyle.Marquee
+                Loading.DPr.MarqueeAnimationSpeed = 10
 
-            Loading.Text = Me.Text & $": {My.Resources.Contents.Project_Title}"
-            Loading.DLb.Text = My.Resources.Contents.Project_Loading
-           End Sub)
+                Loading.Text = Me.Text & $": {My.Resources.Contents.Project_Title}"
+                Loading.DLb.Text = My.Resources.Contents.Project_Loading
+               End Sub)
+        End If
 
         abl_FileName = fileName
         File.Copy(fileName, ABLETON_PROJECT_PATH & "\abl_proj.gz", True)
 
-        Invoke(Sub()
-            Loading.DLb.Text = My.Resources.Contents.Project_Extracting
-           End Sub)
+        If showLoadingMessage Then
+            Invoke(Sub()
+                Loading.DLb.Text = My.Resources.Contents.Project_Extracting
+               End Sub)
+        End If
 
         ExtractGZip(ABLETON_PROJECT_PATH & "\abl_proj.gz", ABLETON_PROJECT_PATH)
 
-        Invoke(Sub()
-            Loading.DLb.Text = My.Resources.Contents.Project_DeletingTempoaryFiles
-        End Sub)
+        If showLoadingMessage Then
+            Invoke(Sub()
+                Loading.DLb.Text = My.Resources.Contents.Project_DeletingTempoaryFiles
+            End Sub)
+        End If
 
         File.Delete("Workspace\ableproj\abl_proj.gz")
 
-        Invoke(Sub()
-            Loading.DLb.Text = My.Resources.Contents.Project_ChangeExtension
-        End Sub)
+        If showLoadingMessage Then
+            Invoke(Sub()
+                Loading.DLb.Text = My.Resources.Contents.Project_ChangeExtension
+            End Sub)
+        End If
 
         File.Move(ABLETON_PROJECT_PATH & "\abl_proj", ABLETON_PROJECT_XML_PATH)
-
-
 
         'Reading Informations of Ableton Project.
 
         'Ableton Project's Name.
-        Invoke(Sub()
-            Loading.DLb.Text = My.Resources.Contents.Project_FileName
-        End Sub)
+        If showLoadingMessage Then
+            Invoke(Sub()
+                Loading.DLb.Text = My.Resources.Contents.Project_FileName
+            End Sub)
+        End If
 
         Dim finalName As String = Path.GetFileNameWithoutExtension(fileName)
 
         'Ableton Project's Chain.
-        Invoke(Sub()
-            Loading.DLb.Text = My.Resources.Contents.Project_Chain
-        End Sub)
+        If showLoadingMessage Then
+            Invoke(Sub()
+                Loading.DLb.Text = My.Resources.Contents.Project_Chain
+            End Sub)
+        End If
 
         '정리.
         abl_Name = finalName
         abl_Chain = GetChainFromAbletonProject(ABLETON_PROJECT_XML_PATH)
 
         'XML File Load.
-        Invoke(Sub()
-            Loading.DLb.Text = My.Resources.Contents.Project_Loading
+        If showLoadingMessage Then
+            Invoke(Sub()
+                Loading.DLb.Text = My.Resources.Contents.Project_Loading
 
-            infoTB1.Text = abl_Name
-            infoTB3.Text = abl_Chain
-               End Sub)
+                infoTB1.Text = abl_Name
+                infoTB3.Text = abl_Chain
+                   End Sub)
+        End If
 
         abl_openedproj = True
         UniPack_SaveInfo(False)
 
-        Invoke(Sub()
-            Loading.Close()
-        End Sub)
-
-        MessageBox.Show(My.Resources.Contents.Project_Loaded, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-
-        If abl_openedproj AndAlso abl_openedled Then
+        If showLoadingMessage Then
             Invoke(Sub()
-                btnConvertKeyLEDAutomatically.Enabled = True
+                Loading.Close()
             End Sub)
 
-            If AutoConvert.Checked Then
-                Dim errorMessage As String = String.Empty
-
-                Task.Run(Sub()
-                    ConvertKeyLEDForMIDEX_v2(ABLETON_PROJECT_XML_PATH, errorMessage, True)
-                End Sub)
-
-                If Not String.IsNullOrWhiteSpace(errorMessage) Then
-                    MessageBox.Show(errorMessage, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                End If
-            End If
+            MessageBox.Show(My.Resources.Contents.Project_Loaded, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
 
-    Private Sub BGW_ablproj_Completed(sender As Object, e As RunWorkerCompletedEventArgs) Handles BGW_ablproj.RunWorkerCompleted
-        Try
-            If e.Error IsNot Nothing Then
-                MessageBox.Show("Error - " & e.Error.Message & vbNewLine & "Error Message: " & e.Error.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                Exit Sub
-            ElseIf e.Cancelled Then
-                Exit Sub
-            Else
-                If abl_openedproj AndAlso abl_openedsnd AndAlso AutoConvert.Checked Then
-                    BGW_keySound.RunWorkerAsync()
+    ''' <summary>
+    ''' 자동 변환 (KeyLED MIDEX)
+    ''' </summary>
+    Public Async Function ReadyForAutoConvertForKeyLED() As Task
+        If abl_openedproj AndAlso abl_openedled Then
+            btnConvertKeyLEDAutomatically.Enabled = True
+
+            If AutoConvert.Checked Then
+                Dim errorMessage As String = Await ReadyForConvertKeyLEDForMIDEX()
+
+                If Not String.IsNullOrWhiteSpace(errorMessage) Then
+                    MessageBox.Show(String.Format(My.Resources.Contents.LED_Converting_Error, errorMessage), Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 End If
-
             End If
-        Catch ex As Exception
-            If IsGreatExMode Then
-                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Else
-                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End If
-        End Try
-    End Sub
+        End If
+    End Function
 
-    Private Sub OpenAbletonProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenAbletonProjectToolStripMenuItem.Click
+    Private Async Function ReadyForConvertKeyLEDForMIDEX() As Task(Of String)
+        Dim errorMessage As String = String.Empty
+
+        Await Task.Run(Sub()
+            ConvertKeyLEDForMIDEX_v2(ABLETON_PROJECT_XML_PATH, errorMessage, True)
+        End Sub)
+
+        Return errorMessage
+    End Function
+
+    Private Async Sub OpenAbletonProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenAbletonProjectToolStripMenuItem.Click
         Dim alsOpen1 As New OpenFileDialog
         alsOpen1.Filter = My.Resources.Contents.Project_ofd_Filter
         alsOpen1.Title = My.Resources.Contents.Project_ofd_Title
@@ -966,8 +976,10 @@ Public Class MainProject
         alsOpen1.Multiselect = False
 
         If alsOpen1.ShowDialog() = DialogResult.OK Then
-            ofd_FileName = alsOpen1.FileName
-            BGW_ablproj.RunWorkerAsync()
+            Await Task.Run(Sub()
+                OpenAbletonProjectFile(alsOpen1.FileName, True)
+                     End Sub)
+            Await ReadyForAutoConvertForKeyLED()
         End If
     End Sub
 
@@ -1721,135 +1733,72 @@ Public Class MainProject
         Return strs
     End Function
 
-    Public Sub OpenSounds(fileNames As String(), showLoadingMessage As Boolean)
-        Invoke(Sub()
-               Loading.Show()
-               Loading.DPr.Maximum = FileNames.Length
-
-               Loading.Text = My.Resources.Contents.Sound_Open_Title
-               Loading.DLb.Text = String.Format(My.Resources.Contents.Sound_Open, 0, fileNames.Length)
-           End Sub)
-
-        If Directory.Exists(ABLETON_SOUNDS_PATH) Then
-            Directory.Delete(ABLETON_SOUNDS_PATH)
-        End If
-
-        Directory.CreateDirectory(ABLETON_SOUNDS_PATH)
-
-        For i = 0 To fileNames.Length - 1
-            Dim fileName As String = fileNames(i)
-            Dim fileExtension As String = Path.GetExtension(fileName)
-
-            If fileExtension = ".mp3" OrElse fileExtension = ".wav" Then
-                File.Copy(fileName, $"{ABLETON_SOUNDS_PATH}\{Path.GetFileName(fileName)}", True)
-                
+    Private Sub OpenSounds(fileNames As String(), showLoadingMessage As Boolean)
+        If fileNames.Length > 0 Then
+            If showLoadingMessage Then
                 Invoke(Sub()
-                       Loading.DPr.Style = ProgressBarStyle.Continuous
-                       Loading.DPr.Value += 1
-                       
-                       Loading.DLb.Text = String.Format(My.Resources.Contents.Sound_Open, Loading.DPr.Value, fileNames.Length)
+                       Loading.Show()
+                       Loading.DPr.Maximum = FileNames.Length
+
+                       Loading.Text = My.Resources.Contents.Sound_Open_Title
+                       Loading.DLb.Text = String.Format(My.Resources.Contents.Sound_Open, 0, fileNames.Length)
                    End Sub)
             End If
-        Next
 
-        If My.Computer.FileSystem.DirectoryExists("Workspace\ableproj\sounds") = True Then
-            My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
-        End If
-        My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\sounds")
+            If Directory.Exists(ABLETON_SOUNDS_PATH) Then
+                Directory.Delete(ABLETON_SOUNDS_PATH)
+            End If
 
-        For i = 0 To FileNames.Length - 1
-            File.Copy(FileNames(i), "Workspace\TmpSound\" & FileNames(i).Split("\").Last.Replace(" ", "").Trim(), True)
-        Next
+            Directory.CreateDirectory(ABLETON_SOUNDS_PATH)
 
-        Try
-            For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\", FileIO.SearchOption.SearchTopLevelOnly, "*.mp3")
-                Dim wavFile As String = foundFile.Replace(".mp3", ".wav")
+            Dim toConvertSoundList As New List(Of String)
 
-                Sound_Cutting.Mp3ToWav(foundFile, wavFile)
-                Thread.Sleep(300)
+            For i = 0 To fileNames.Length - 1
+                Dim fileName As String = fileNames(i)
+                Dim fileExtension As String = Path.GetExtension(fileName)
 
-                If File.Exists(wavFile) Then
-
-                    File.Move(wavFile, "Workspace\ableproj\sounds\" & Path.GetFileName(wavFile))
-                    Thread.Sleep(300)
-                    File.Delete(foundFile)
-
-                    UI(Sub()
-                           Loading.DPr.Style = ProgressBarStyle.Continuous
-                           Loading.DPr.Value += 1
-                           Loading.DLb.Left = 40
-
-                           Select Case lang
-                               Case Translator.tL.English
-                                   Loading.DLb.Text = String.Format(Loading.MsgEn.loading_Sound_Open_msg, Loading.DPr.Value, ofd.FileNames.Length)
-                               Case Translator.tL.Korean
-                                   Loading.DLb.Text = String.Format(Loading.MsgKr.loading_Sound_Open_msg, Loading.DPr.Value, ofd.FileNames.Length)
-                           End Select
-                       End Sub)
-
+                If fileExtension = ".wav" Then
+                    File.Copy(fileName, $"{ABLETON_SOUNDS_PATH}\{Path.GetFileName(fileName)}", True)
+                    
+                    If showLoadingMessage Then
+                        Invoke(Sub()
+                               Loading.DPr.Style = ProgressBarStyle.Continuous
+                               Loading.DPr.Value += 1
+                               
+                               Loading.DLb.Text = String.Format(My.Resources.Contents.Sound_Open, Loading.DPr.Value, fileNames.Length)
+                           End Sub)
+                    End If
+                ElseIf fileExtension = ".mp3" Then
+                    toConvertSoundList.Add(fileName)
                 End If
             Next
-        Catch fex As IOException 'I/O 오류 해결 코드.
-        End Try
 
-        '-After Loading WAV/MP3!
-        UI(Sub()
-               Loading.DPr.Value = Loading.DPr.Maximum
-               If Loading.DPr.Value = FileNames.Length Then
-                   If FileNames.Length = Directory.GetFiles(Application.StartupPath & "\Workspace\ableproj\sounds\", "*.wav").Length Then
-                       UI(Sub()
-                              Loading.DPr.Style = ProgressBarStyle.Marquee
-                              Loading.DLb.Left = 40
-                              Select Case lang
-                                  Case Translator.tL.English
-                                      Loading.DLb.Text = Loading.MsgEn.loading_Sound_Loaded_msg
-                                  Case Translator.tL.Korean
-                                      Loading.DLb.Text = Loading.MsgKr.loading_Sound_Loaded_msg
-                              End Select
+            For i = 0 To toConvertSoundList.Count - 1
+                Dim filePath As String = toConvertSoundList(i)
+                Dim fileName As String = Path.GetFileName(filePath)
+                Dim destPath As String = $"{ABLETON_SOUNDS_PATH}\{Path.ChangeExtension(filePath, ".wav")}"
 
-                              Loading.Dispose()
-                          End Sub)
-                       If OpenProjectOnce = False Then
-                           Select Case lang
-                               Case Translator.tL.English
-                                   MessageBox.Show("Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                               Case Translator.tL.Korean
-                                   MessageBox.Show("사운드 파일들이 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                           End Select
-                       End If
-                       abl_openedsnd = True
-                       SoundIsSaved = True
+                Sound_Cutting.Mp3ToWav(filePath, destPath)
 
-                   Else
-                       MessageBox.Show("Error! - Code: MaxFileLength.Value = GetFiles.Length", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-                   End If
-               Else
-                   MessageBox.Show("Error! - Code: LoadedFiles.Value = MaxFileLength.Value", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-               End If
-           End Sub)
-    End Sub
-
-    Private Sub BGW_sounds_Completed(sender As Object, e As RunWorkerCompletedEventArgs) 
-        Try
-            If e.Error IsNot Nothing Then
-                MessageBox.Show("Error - " & e.Error.Message & vbNewLine & "Error Message: " & e.Error.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                Exit Sub
-            ElseIf e.Cancelled Then
-                Exit Sub
-            Else
-                If abl_openedproj AndAlso abl_openedsnd AndAlso AutoConvert.Checked Then
-                    BGW_soundcut.RunWorkerAsync()
+                If showLoadingMessage Then
+                    Invoke(Sub()
+                        Loading.DPr.Value += 1
+                        Loading.DLb.Text = String.Format(My.Resources.Contents.Sound_Open, Loading.DPr.Value, fileNames.Length)
+                    End Sub)
                 End If
+            Next
 
-                If OpenProjectOnce Then OpenKeyLEDToolStripMenuItem_Click(Nothing, Nothing)
+            abl_openedsnd = True
+            SoundIsSaved = True
+
+            If showLoadingMessage Then
+                Invoke(Sub()
+                    Loading.Close()
+                End Sub)
+
+                MessageBox.Show(My.Resources.Contents.Sound_Loaded, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
-        Catch ex As Exception
-            If IsGreatExMode Then
-                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Else
-                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End If
-        End Try
+        End If
     End Sub
 
     Private Sub CheckUpdateToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CheckUpdateToolStripMenuItem.Click
@@ -2198,18 +2147,19 @@ Public Class MainProject
 
     Private Async Sub OpenKeyLEDToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenKeyLEDToolStripMenuItem.Click
         Try
-            If keyLED_Edit.Visible Then
-                keyLED_Edit.Close()
-            End If
-
             ofd.Multiselect = True
             ofd.Title = My.Resources.Contents.LED_ofd_Title
             ofd.Filter = My.Resources.Contents.LED_ofd_Filter
 
             If ofd.ShowDialog() = DialogResult.OK Then
+                If keyLED_Edit.Visible Then
+                    keyLED_Edit.Close()
+                End If
                 Await Task.Run(Sub()
                     OpenKeyLED(ofd.FileNames, True)
                                End Sub)
+                Await ReadyForAutoConvertForKeyLED()
+                keyLEDMIDEX_BetaButton.Enabled = True
             End If
         Catch ex As Exception
             If IsGreatExMode Then
@@ -3702,54 +3652,6 @@ Public Class MainProject
 
             IsWorking = False
 
-            If OpenProjectOnce Then
-                OpenProjectOnce = False
-                If abl_openedproj AndAlso abl_openedsnd AndAlso abl_openedled Then
-                    Select Case lang
-                        Case Translator.tL.English
-                            MessageBox.Show("Ableton Project, Sounds, LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        Case Translator.tL.Korean
-                            MessageBox.Show("에이블톤 프로젝트, 사운드, LED 파일들이 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    End Select
-                ElseIf abl_openedproj AndAlso abl_openedsnd AndAlso abl_openedled Then
-                    Select Case lang
-                        Case Translator.tL.English
-                            MessageBox.Show("Ableton Project, Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        Case Translator.tL.Korean
-                            MessageBox.Show("에이블톤 프로젝트, 사운드가 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    End Select
-                ElseIf abl_openedproj Then
-                    Select Case lang
-                        Case Translator.tL.English
-                            MessageBox.Show("Ableton Project Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        Case Translator.tL.Korean
-                            MessageBox.Show("에이블톤 프로젝트가 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    End Select
-                ElseIf abl_openedsnd AndAlso abl_openedled Then
-                    Select Case lang
-                        Case Translator.tL.English
-                            MessageBox.Show("Sounds, LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        Case Translator.tL.Korean
-                            MessageBox.Show("사운드, LED 파일이 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    End Select
-                ElseIf abl_openedsnd Then
-                    Select Case lang
-                        Case Translator.tL.English
-                            MessageBox.Show("Sounds Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        Case Translator.tL.Korean
-                            MessageBox.Show("사운드가 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    End Select
-                ElseIf abl_openedled Then
-                    Select Case lang
-                        Case Translator.tL.English
-                            MessageBox.Show("LEDs Loaded!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        Case Translator.tL.Korean
-                            MessageBox.Show("LED 파일이 로딩되었습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    End Select
-                End If
-                Exit Sub
-            End If
-
             Select Case lang
                 Case Translator.tL.English
                     MessageBox.Show("LED File Converted!" & vbNewLine & "You can show the LEDs on 'keyLED (MIDI Extension)' Tab!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -4458,7 +4360,7 @@ Public Class MainProject
         infoIsSaved = False
 
         w8t4abl = String.Empty
-        OpenProjectOnce = False
+        OpenProjectOnce = ProjectOpenMethod.Smart
 
         Invoke(Sub()
                keyLEDMIDEX_LEDViewMode.Checked = True
@@ -4508,14 +4410,119 @@ Public Class MainProject
     End Function
 
     Private Async Sub btnConvertKeyLEDAutomatically_Click(sender As Object, e As EventArgs) Handles btnConvertKeyLEDAutomatically.Click
-        Dim errorMessage As String = String.Empty
-
-        Await Task.Run(Sub()
-            ConvertKeyLEDForMIDEX_v2(ABLETON_PROJECT_XML_PATH, errorMessage, True)
-                       End Sub)
+        Dim errorMessage As String = Await ReadyForConvertKeyLEDForMIDEX()
 
         If Not String.IsNullOrWhiteSpace(errorMessage) Then
             MessageBox.Show(errorMessage, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End If
     End Sub
+
+    Private Sub UseNewFeatureAboutOpenProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles UseNewFeatureAboutOpenProjectToolStripMenuItem.Click
+        If UseNewFeatureAboutOpenProjectToolStripMenuItem.Checked Then
+            OpenProjectOnce = ProjectOpenMethod.Smart
+            OpenAPFToolStripMenuItem.Text = My.Resources.Contents.Main_OpenAbletonProject_Beta
+        Else
+            OpenProjectOnce = ProjectOpenMethod.Nogada
+            OpenAPFToolStripMenuItem.Text = My.Resources.Contents.Main_OpenAbletonProject
+        End If
+    End Sub
+
+    Private Async Sub OpenAPFToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenAPFToolStripMenuItem.Click
+        Select Case OpenProjectOnce
+            Case ProjectOpenMethod.Nogada
+                Await OpenAbletonProjectOnce()
+            
+            Case ProjectOpenMethod.Smart
+                Await OpenAbletonProjectOnce_v2()
+
+        End Select
+
+        Await ReadyForAutoConvertForKeyLED()
+    End Sub
+
+    ''' <summary>
+    ''' Nogada Version (v1.0)
+    ''' </summary>
+    ''' <returns></returns>
+    Private Async Function OpenAbletonProjectOnce() As Task
+        Dim apfPath As String = String.Empty
+        Dim soundPaths As String() = {}
+        Dim ledPaths As String() = {}
+
+        'Ableton Project File
+        Dim apfOfd As New OpenFileDialog() With {
+                .Filter = My.Resources.Contents.Project_ofd_Filter,
+                .Title = My.Resources.Contents.Project_ofd_Title,
+                .AddExtension = False,
+                .Multiselect = False
+        }
+
+        If apfOfd.ShowDialog() = DialogResult.OK Then
+            apfPath = apfOfd.FileName
+        End If
+
+        'Sounds
+        Dim soundsOfd As New OpenFileDialog() With {
+                .Filter = My.Resources.Contents.Sound_ofd_Filter,
+                .Title = My.Resources.Contents.Sound_ofd_Title,
+                .Multiselect = True
+        }
+
+        If soundsOfd.ShowDialog() = DialogResult.OK Then
+            soundPaths = soundsOfd.FileNames
+        End If
+
+        'LEDs
+        Dim ledsOfd As New OpenFileDialog() With {
+                .Multiselect = True,
+                .Title = My.Resources.Contents.LED_ofd_Title,
+                .Filter = My.Resources.Contents.LED_ofd_Filter            
+        }
+
+        If ledsOfd.ShowDialog() = DialogResult.OK Then
+            ledPaths = ledsOfd.FileNames
+        End If
+
+        Await Task.Run(Sub()
+            OpenAbletonProjectFile(apfPath, True)
+            OpenSounds(soundPaths, True)
+            OpenKeyLED(ledPaths, True)
+                       End Sub)
+    End Function
+
+    ''' <summary>
+    ''' Smart Version (v2.0)
+    ''' </summary>
+    ''' <returns></returns>
+    Private Async Function OpenAbletonProjectOnce_v2() As Task
+        Dim apfPath As String = String.Empty
+        Dim soundList As New List(Of String)
+        Dim ledPaths As String() = {}
+
+        'Load Ableton Project File Only
+        Dim apfOfd As New OpenFileDialog() With {
+                .Filter = My.Resources.Contents.Project_ofd_Filter,
+                .Title = My.Resources.Contents.Project_ofd_Title,
+                .AddExtension = False,
+                .Multiselect = False
+        }
+
+        If apfOfd.ShowDialog() = DialogResult.OK Then
+            apfPath = apfOfd.FileName
+
+            'Get Sound Files And LED Files Automatically
+            Dim apfDirectory As String = Directory.GetParent(apfPath).FullName
+
+            soundList.AddRange(Directory.GetFiles(apfDirectory, "*.wav", SearchOption.AllDirectories))
+            soundList.AddRange(Directory.GetFiles(apfDirectory, "*.mp3", SearchOption.AllDirectories))
+
+            ledPaths = Directory.GetFiles(apfDirectory, "*.mid", SearchOption.AllDirectories)
+        End If
+
+        Await Task.Run(Sub()
+            OpenAbletonProjectFile(apfPath, True)
+            OpenSounds(soundList.ToArray(), True)
+            OpenKeyLED(ledPaths, True)
+        End Sub)
+    End Function
 End Class
