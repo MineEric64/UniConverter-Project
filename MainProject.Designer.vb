@@ -254,10 +254,7 @@ Partial Class MainProject
         Me.InListBox = New System.Windows.Forms.ListBox()
         Me.ConnectButton = New System.Windows.Forms.Button()
         Me.LoadButton = New System.Windows.Forms.Button()
-        Me.BGW_keyLED = New System.ComponentModel.BackgroundWorker()
         Me.BGW_ablproj = New System.ComponentModel.BackgroundWorker()
-        Me.BGW_sounds = New System.ComponentModel.BackgroundWorker()
-        Me.BGW_keyLED2 = New System.ComponentModel.BackgroundWorker()
         Me.BGW_CheckUpdate = New System.ComponentModel.BackgroundWorker()
         Me.BGW_keySound = New System.ComponentModel.BackgroundWorker()
         Me.BGW_keySoundLayout = New System.ComponentModel.BackgroundWorker()
@@ -3064,16 +3061,7 @@ Partial Class MainProject
         Me.LoadButton.Text = "Load"
         Me.LoadButton.UseVisualStyleBackColor = true
         '
-        'BGW_keyLED
-        '
-        '
         'BGW_ablproj
-        '
-        '
-        'BGW_sounds
-        '
-        '
-        'BGW_keyLED2
         '
         '
         'BGW_CheckUpdate
@@ -3162,11 +3150,9 @@ End Sub
     Friend WithEvents CheckUpdateToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents DevelopingLabel2 As Label
     Friend WithEvents infoTB3 As TextBox
-    Friend WithEvents BGW_keyLED As System.ComponentModel.BackgroundWorker
     Friend WithEvents DeveloperModeToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents OpenKeyLEDToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents BGW_ablproj As System.ComponentModel.BackgroundWorker
-    Friend WithEvents BGW_sounds As System.ComponentModel.BackgroundWorker
     Friend WithEvents MIDISET As TabPage
     Friend WithEvents ConnectButton As Button
     Friend WithEvents LoadButton As Button
@@ -3175,7 +3161,6 @@ End Sub
     Friend WithEvents MIDIStatIn As Label
     Friend WithEvents MIDIStat As Label
     Friend WithEvents MIDIStatOut As Label
-    Friend WithEvents BGW_keyLED2 As System.ComponentModel.BackgroundWorker
     Friend WithEvents BGW_CheckUpdate As System.ComponentModel.BackgroundWorker
     Friend WithEvents BGW_keySound As System.ComponentModel.BackgroundWorker
     Friend WithEvents KeySoundTab As TabPage

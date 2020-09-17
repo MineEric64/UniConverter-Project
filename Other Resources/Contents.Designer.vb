@@ -101,11 +101,56 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Looks up a localized string similar to Loaded LED Files. Please Wait....
+        '''</summary>
+        Public Shared ReadOnly Property LED_Loaded() As String
+            Get
+                Return ResourceManager.GetString("LED_Loaded", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized string similar to Couldn&apos;t find any LED in this project..
         '''</summary>
         Public Shared ReadOnly Property LED_Not_Found() As String
             Get
                 Return ResourceManager.GetString("LED_Not_Found", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to LED Files|*.mid.
+        '''</summary>
+        Public Shared ReadOnly Property LED_ofd_Filter() As String
+            Get
+                Return ResourceManager.GetString("LED_ofd_Filter", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Select LED Files.
+        '''</summary>
+        Public Shared ReadOnly Property LED_ofd_Title() As String
+            Get
+                Return ResourceManager.GetString("LED_ofd_Title", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Loading LED Files... ({0} / {1}).
+        '''</summary>
+        Public Shared ReadOnly Property LED_Open() As String
+            Get
+                Return ResourceManager.GetString("LED_Open", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Opening LED Files.
+        '''</summary>
+        Public Shared ReadOnly Property LED_Open_Title() As String
+            Get
+                Return ResourceManager.GetString("LED_Open_Title", resourceCulture)
             End Get
         End Property
         
@@ -255,6 +300,51 @@ Namespace My.Resources
         Public Shared ReadOnly Property Project_Title() As String
             Get
                 Return ResourceManager.GetString("Project_Title", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Loaded Sound Files. Please Wait....
+        '''</summary>
+        Public Shared ReadOnly Property Sound_Loaded() As String
+            Get
+                Return ResourceManager.GetString("Sound_Loaded", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to wav sound files|*.wav|mp3 sounds files|*.mp3|All Sound Files|*.*.
+        '''</summary>
+        Public Shared ReadOnly Property Sound_ofd_Filter() As String
+            Get
+                Return ResourceManager.GetString("Sound_ofd_Filter", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Select Sounds.
+        '''</summary>
+        Public Shared ReadOnly Property Sound_ofd_Title() As String
+            Get
+                Return ResourceManager.GetString("Sound_ofd_Title", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Loading Sound Files... ({0} / {1}).
+        '''</summary>
+        Public Shared ReadOnly Property Sound_Open() As String
+            Get
+                Return ResourceManager.GetString("Sound_Open", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Loading Sound Files.
+        '''</summary>
+        Public Shared ReadOnly Property Sound_Open_Title() As String
+            Get
+                Return ResourceManager.GetString("Sound_Open_Title", resourceCulture)
             End Get
         End Property
     End Class

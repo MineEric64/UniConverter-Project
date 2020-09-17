@@ -222,6 +222,7 @@ Public Class MainProject
 
     Public Shared ReadOnly ABLETON_PROJECT_PATH As String = WORKSPACE_PATH & "\ableproj"
     Public Shared ReadOnly ABLETON_PROJECT_XML_PATH As String = ABLETON_PROJECT_PATH & "\abl_proj.xml"
+    Public Shared ReadOnly ABLETON_SOUNDS_PATH As String = ABLETON_PROJECT_PATH & "\sounds"
     Public Shared ReadOnly ABLETON_KEYLED_PATH As String = ABLETON_PROJECT_PATH & "\CoLED"
     
     Public Shared ReadOnly UNIPACK_PROJECT_PATH As String = WORKSPACE_PATH & "\unipack"
@@ -588,20 +589,14 @@ Public Class MainProject
     End Sub
 
     Private Sub OpenSoundsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SoundsToolStripMenuItem.Click
-        Dim ofd As New OpenFileDialog
-        Select Case lang
-            Case Translator.tL.English
-                ofd.Filter = "wav sound files|*.wav|mp3 sounds files|*.mp3"
-                ofd.Title = "Select Sounds"
-            Case Translator.tL.Korean
-                ofd.Filter = "wav 파일|*.wav|mp3 파일|*.mp3"
-                ofd.Title = "음악 파일을 선택하세요"
-        End Select
-        ofd.Multiselect = True
+        Dim ofd As New OpenFileDialog()
+        ofd.Filter = My.Resources.Contents.Sound_ofd_Filter
+        ofd.Multiselect = My.Resources.Contents.Sound_ofd_Title
 
-        If ofd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-            ofd_FileNames = ofd.FileNames
-            BGW_sounds.RunWorkerAsync()
+        If ofd.ShowDialog() = DialogResult.OK Then
+            Task.Run(Sub()
+                         OpenSounds(ofd.FileNames, True)
+                     End Sub)
         End If
     End Sub
 #Region "Smart Invoke Function"
@@ -629,7 +624,9 @@ Public Class MainProject
     End Sub
 
     Private Sub SaveProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveProjectToolStripMenuItem.Click
-        ThreadPool.QueueUserWorkItem(AddressOf Save2Project, True)
+        Task.Run(Sub()
+            Save2Project(True)
+                 End Sub)
     End Sub
 
     ''' <summary>
@@ -693,110 +690,68 @@ Public Class MainProject
         Return path
     End Function
 
-    Private Sub BGW_keyLED_DoWork(sender As Object, e As DoWorkEventArgs) Handles BGW_keyLED.DoWork
-        Try
-            Dim FileNames As String() = ofd_FileNames
+    Public Sub OpenKeyLED(fileNames As String(), showLoadingMessage As Boolean)
+        If showLoadingMessage Then
+            Invoke(Sub()
+                Loading.Show()
+                Loading.DPr.Maximum = fileNames.Length
 
-            UI(Sub()
-                   Loading.Show()
-                   Loading.DPr.Maximum = FileNames.Length
-                   Loading.DLb.Left = 40
-                   Select Case lang
-                       Case Translator.tL.English
-                           Loading.Text = Me.Text & ": " & Loading.MsgEn.loading_LED_open_msg.Replace("({0}/{1})", "")
-                           Loading.DLb.Text = Loading.MsgEn.loading_LED_open_msg
-                       Case Translator.tL.Korean
-                           Loading.Text = Me.Text & ": " & Loading.MsgKr.loading_LED_open_msg.Replace("({0}/{1})", "")
-                           Loading.DLb.Text = Loading.MsgKr.loading_LED_open_msg
-                   End Select
-               End Sub)
-
-            If Directory.Exists("Workspace\ableproj\CoLED") Then
-                My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\CoLED", FileIO.DeleteDirectoryOption.DeleteAllContents)
-                Directory.CreateDirectory("Workspace\ableproj\CoLED")
-            Else
-                Directory.CreateDirectory("Workspace\ableproj\CoLED")
-            End If
-
-            For i = 0 To FileNames.Length - 1
-                File.Copy(FileNames(i), "Workspace\ableproj\CoLED\" & FileNames(i).Split("\").Last, True)
-                UI(Sub()
-                       Loading.DPr.Style = ProgressBarStyle.Continuous
-                       Loading.DPr.Value += 1
-                       Loading.DLb.Left = 40
-                       Select Case lang
-                           Case Translator.tL.English
-                               Loading.DLb.Text = String.Format(Loading.MsgEn.loading_LED_open_msg, Loading.DPr.Value, FileNames.Length)
-                           Case Translator.tL.Korean
-                               Loading.DLb.Text = String.Format(Loading.MsgKr.loading_LED_open_msg, Loading.DPr.Value, FileNames.Length)
-                       End Select
+                Loading.Text = My.Resources.Contents.LED_Open_Title
+                Loading.DLb.Text = String.Format(My.Resources.Contents.LED_Open, 0, fileNames.Length)
                    End Sub)
-            Next
+        End If
 
-            UI(Sub()
-                   Loading.DPr.Value = Loading.DPr.Maximum
-                   Loading.DPr.Style = ProgressBarStyle.Marquee
-                   Loading.DLb.Left = 40
-                   Select Case lang
-                       Case Translator.tL.English
-                           Loading.DLb.Text = Loading.MsgEn.loading_Sound_Loaded_msg
-                       Case Translator.tL.Korean
-                           Loading.DLb.Text = Loading.MsgKr.loading_Sound_Loaded_msg
-                   End Select
+        If Directory.Exists(ABLETON_KEYLED_PATH) Then
+            Directory.Delete(ABLETON_KEYLED_PATH, True)
+        End If
+
+        Directory.CreateDirectory(ABLETON_KEYLED_PATH)
+
+        For i = 0 To fileNames.Length - 1
+            Dim fileName As String = fileNames(i)
+
+            File.Copy(fileName, Path.Combine(ABLETON_KEYLED_PATH, Path.GetFileName(fileName)), True)
+            
+            Invoke(Sub()
+                   Loading.DPr.Style = ProgressBarStyle.Continuous
+                   Loading.DPr.Value += 1
+
+                   Loading.DLb.Text = String.Format(My.Resources.Contents.LED_Open, Loading.DPr.Value, fileNames.Length)
                End Sub)
+        Next
 
-            abl_openedled = True
-            UI(Sub() Loading.Dispose())
+        Invoke(Sub()
+               Loading.DPr.Value = Loading.DPr.Maximum
+               Loading.DPr.Style = ProgressBarStyle.Marquee
 
-            GetMidiExtensionSaveFile(FileNames(0))
+               Loading.DLb.Text = My.Resources.Contents.LED_Loaded
+           End Sub)
 
-            If abl_openedproj AndAlso abl_openedled Then
-                Invoke(Sub()
-                        btnConvertKeyLEDAutomatically.Enabled = True
-                    End Sub)
+        abl_openedled = True
 
-                If AutoConvert.Checked Then
-                    Dim errorMessage As String = String.Empty
+        Invoke(Sub()
+            keyLEDMIDEX_BetaButton.Enabled = True
 
-                    Task.Run(Sub()
-                        ConvertKeyLEDForMIDEX_v2(ABLETON_PROJECT_XML_PATH, errorMessage, True)
-                    End Sub)
+            Loading.Close()
+           End Sub)
 
-                    If Not String.IsNullOrWhiteSpace(errorMessage) Then
-                        MessageBox.Show(errorMessage, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    End If
+        GetMidiExtensionSaveFile(FileNames(0))
+
+        If abl_openedproj AndAlso abl_openedled Then
+            Invoke(Sub()
+                    btnConvertKeyLEDAutomatically.Enabled = True
+                End Sub)
+
+            If AutoConvert.Checked Then
+                Dim errorMessage As String = String.Empty
+
+                ConvertKeyLEDForMIDEX_v2(ABLETON_PROJECT_XML_PATH, errorMessage, True)
+
+                If Not String.IsNullOrWhiteSpace(errorMessage) Then
+                    MessageBox.Show(errorMessage, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 End If
             End If
-
-        Catch ex As Exception
-            If IsGreatExMode Then
-                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Else
-                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End If
-            e.Cancel = True
-        End Try
-    End Sub
-
-    Private Sub BGW_keyLED_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles BGW_keyLED.RunWorkerCompleted
-        Try
-            If e.Error IsNot Nothing Then
-                MessageBox.Show("Error - " & e.Error.Message & vbNewLine & "Error Message: " & e.Error.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                Exit Sub
-            ElseIf e.Cancelled Then
-                Exit Sub
-            Else
-
-                keyLEDMIDEX_BetaButton.Enabled = True
-
-            End If
-        Catch ex As Exception
-            If IsGreatExMode Then
-                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Else
-                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End If
-        End Try
+        End If
     End Sub
 
     Private Function GetMidiExtensionSaveFile(ledFilePath As String) As Boolean
@@ -822,132 +777,6 @@ Public Class MainProject
 
         Return _midiExtensionMapping.Count > 0
     End Function
-
-    'LED Save 파일 (0save 파일, 미디 익스텐션용)
-    Private Sub BGW_keyLED2_DoWork(sender As Object, e As DoWorkEventArgs) Handles BGW_keyLED2.DoWork
-        Try
-            Dim FileName As String = ofd_FileName
-
-            If String.IsNullOrEmpty(FileName) OrElse stopitnow Then
-                e.Cancel = True
-            End If
-
-            If e.Cancel = False Then
-                UI(Sub()
-                       Loading.Show()
-                       FileName = ofd_FileName
-                       Loading.DPr.Maximum = 1
-                       Loading.DLb.Left = 40
-                       Select Case lang
-                           Case Translator.tL.English
-                               Loading.Text = Me.Text & ": " & Loading.MsgEn.loading_LEDSave_open_msg
-                               Loading.DLb.Text = Loading.MsgEn.loading_LEDSave_open_msg
-                           Case Translator.tL.Korean
-                               Loading.Text = Me.Text & ": " & Loading.MsgKr.loading_LEDSave_open_msg
-                               Loading.DLb.Text = Loading.MsgKr.loading_LEDSave_open_msg
-                       End Select
-                   End Sub)
-
-                File.Copy(FileName, Application.StartupPath & "\Workspace\ableproj\LEDSave.uni", True)
-                UI(Sub()
-                       Loading.DPr.Style = ProgressBarStyle.Continuous
-                       Loading.DPr.Value = 1
-                       Loading.DLb.Left = 40
-                       Select Case lang
-                           Case Translator.tL.English
-                               Loading.DLb.Text = String.Format(Loading.MsgEn.loading_LED_open_msg, Loading.DPr.Value, 1)
-                           Case Translator.tL.Korean
-                               Loading.DLb.Text = String.Format(Loading.MsgKr.loading_LED_open_msg, Loading.DPr.Value, 1)
-                       End Select
-
-                       Loading.DPr.Value = Loading.DPr.Maximum
-                       Loading.DPr.Style = ProgressBarStyle.Marquee
-                       Loading.DLb.Left = 40
-                       Select Case lang
-                           Case Translator.tL.English
-                               Loading.DLb.Text = Loading.MsgEn.loading_LEDSave_Loaded_msg
-                           Case Translator.tL.Korean
-                               Loading.DLb.Text = Loading.MsgKr.loading_LEDSave_Loaded_msg
-                       End Select
-                   End Sub)
-
-                abl_openedled2 = True
-                UI(Sub() Loading.Dispose())
-            End If
-
-        Catch ex As Exception
-            If IsGreatExMode Then
-                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Else
-                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End If
-            e.Cancel = True
-        End Try
-    End Sub
-
-    Private Sub BGW_keyLED2_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles BGW_keyLED2.RunWorkerCompleted
-        Try
-            If e.Error IsNot Nothing Then
-                MessageBox.Show("Error - " & e.Error.Message & vbNewLine & "Error Message: " & e.Error.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                Exit Sub
-            ElseIf e.Cancelled Then
-                If OpenProjectOnce Then
-                    If AutoConvert.Checked Then
-                        BGW_keySound.RunWorkerAsync()
-                    End If
-                Else
-                    Select Case lang
-                        Case Translator.tL.English
-                            MessageBox.Show("LED Files Loaded! You can edit LEDs in 'keyLED (MIDI Extension)' Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        Case Translator.tL.Korean
-                            MessageBox.Show("LED 파일이 로딩되었습니다! 'keyLED (미디 익스텐션)' 탭에서 LED를 편집할 수 있습니다.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    End Select
-                End If
-                Exit Sub
-            Else
-                If OpenProjectOnce Then
-                    If AutoConvert.Checked Then
-                        BGW_keySound.RunWorkerAsync()
-                    End If
-                Else
-                    Select Case lang
-                        Case Translator.tL.English
-                            MessageBox.Show("LED Files Loaded! You can edit LEDs in 'keyLED (MIDI Extension)' Tab.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        Case Translator.tL.Korean
-                            MessageBox.Show("LED 파일이 로딩되었습니다! 'keyLED (미디 익스텐션)' 탭에서 LED를 편집할 수 있습니다.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    End Select
-                End If
-            End If
-        Catch ex As Exception
-            If IsGreatExMode Then
-                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Else
-                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End If
-        End Try
-    End Sub
-
-    Private Sub OpenkeyLED2()
-        Try
-            ofd.Multiselect = False
-            ofd.Title = "Open the keyLED Save File"
-            ofd.Filter = "keyLED Save File|*.*"
-
-            If ofd.ShowDialog() = DialogResult.OK Then
-                ofd_FileName = ofd.FileName
-                BGW_keyLED2.RunWorkerAsync()
-            Else
-                ofd_FileName = String.Empty
-                BGW_keyLED2.RunWorkerAsync()
-            End If
-        Catch ex As Exception
-            If IsGreatExMode Then
-                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Else
-                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End If
-        End Try
-    End Sub
 
     Public Sub ExtractGZip(gzipFileName As String, targetDir As String)
 
@@ -1892,90 +1721,76 @@ Public Class MainProject
         Return strs
     End Function
 
-    Public Sub OpenSounds(sender As Object, e As DoWorkEventArgs) Handles BGW_sounds.DoWork
-        Dim FileNames() As String
-        FileNames = ofd_FileNames
-
-        UI(Sub()
+    Public Sub OpenSounds(fileNames As String(), showLoadingMessage As Boolean)
+        Invoke(Sub()
                Loading.Show()
                Loading.DPr.Maximum = FileNames.Length
-               Loading.DLb.Left = 40
-               Select Case lang
-                   Case Translator.tL.English
-                       Loading.Text = Me.Text & ": " & Loading.MsgEn.loading_Sound_Open_msg
-                       Loading.DLb.Text = Loading.MsgEn.loading_Sound_Open_msg
-                   Case Translator.tL.Korean
-                       Loading.Text = Me.Text & ": " & Loading.MsgKr.loading_Sound_Open_msg
-                       Loading.DLb.Text = Loading.MsgKr.loading_Sound_Open_msg
-               End Select
+
+               Loading.Text = My.Resources.Contents.Sound_Open_Title
+               Loading.DLb.Text = String.Format(My.Resources.Contents.Sound_Open, 0, fileNames.Length)
            End Sub)
 
-        If Path.GetExtension(FileNames(FileNames.Length - 1)) = ".wav" Then
+        If Directory.Exists(ABLETON_SOUNDS_PATH) Then
+            Directory.Delete(ABLETON_SOUNDS_PATH)
+        End If
 
-            If My.Computer.FileSystem.DirectoryExists("Workspace\ableproj\sounds") = True Then
-                My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
-            End If
+        Directory.CreateDirectory(ABLETON_SOUNDS_PATH)
 
-            My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\sounds")
+        For i = 0 To fileNames.Length - 1
+            Dim fileName As String = fileNames(i)
+            Dim fileExtension As String = Path.GetExtension(fileName)
 
-
-            For i = 0 To FileNames.Length - 1
-                File.Copy(FileNames(i), "Workspace\ableproj\sounds\" & FileNames(i).Split("\").Last, True)
-                UI(Sub()
+            If fileExtension = ".mp3" OrElse fileExtension = ".wav" Then
+                File.Copy(fileName, $"{ABLETON_SOUNDS_PATH}\{Path.GetFileName(fileName)}", True)
+                
+                Invoke(Sub()
                        Loading.DPr.Style = ProgressBarStyle.Continuous
                        Loading.DPr.Value += 1
-                       Loading.DLb.Left = 40
-                       Select Case lang
-                           Case Translator.tL.English
-                               Loading.DLb.Text = String.Format(Loading.MsgEn.loading_Sound_Open_msg, Loading.DPr.Value, FileNames.Length)
-                           Case Translator.tL.Korean
-                               Loading.DLb.Text = String.Format(Loading.MsgKr.loading_Sound_Open_msg, Loading.DPr.Value, FileNames.Length)
-                       End Select
+                       
+                       Loading.DLb.Text = String.Format(My.Resources.Contents.Sound_Open, Loading.DPr.Value, fileNames.Length)
                    End Sub)
-            Next
-
-        ElseIf Path.GetExtension(FileNames(FileNames.Length - 1)) = ".mp3" Then
-
-            If My.Computer.FileSystem.DirectoryExists("Workspace\ableproj\sounds") = True Then
-                My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
             End If
-            My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\sounds")
+        Next
 
-            For i = 0 To FileNames.Length - 1
-                File.Copy(FileNames(i), "Workspace\TmpSound\" & FileNames(i).Split("\").Last.Replace(" ", "").Trim(), True)
-            Next
-
-            Try
-                For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\", FileIO.SearchOption.SearchTopLevelOnly, "*.mp3")
-                    Dim wavFile As String = foundFile.Replace(".mp3", ".wav")
-
-                    Sound_Cutting.Mp3ToWav(foundFile, wavFile)
-                    Thread.Sleep(300)
-
-                    If File.Exists(wavFile) Then
-
-                        File.Move(wavFile, "Workspace\ableproj\sounds\" & Path.GetFileName(wavFile))
-                        Thread.Sleep(300)
-                        File.Delete(foundFile)
-
-                        UI(Sub()
-                               Loading.DPr.Style = ProgressBarStyle.Continuous
-                               Loading.DPr.Value += 1
-                               Loading.DLb.Left = 40
-
-                               Select Case lang
-                                   Case Translator.tL.English
-                                       Loading.DLb.Text = String.Format(Loading.MsgEn.loading_Sound_Open_msg, Loading.DPr.Value, ofd.FileNames.Length)
-                                   Case Translator.tL.Korean
-                                       Loading.DLb.Text = String.Format(Loading.MsgKr.loading_Sound_Open_msg, Loading.DPr.Value, ofd.FileNames.Length)
-                               End Select
-                           End Sub)
-
-                    End If
-                Next
-            Catch fex As IOException 'I/O 오류 해결 코드.
-            End Try
+        If My.Computer.FileSystem.DirectoryExists("Workspace\ableproj\sounds") = True Then
+            My.Computer.FileSystem.DeleteDirectory("Workspace\ableproj\sounds", FileIO.DeleteDirectoryOption.DeleteAllContents)
         End If
+        My.Computer.FileSystem.CreateDirectory("Workspace\ableproj\sounds")
+
+        For i = 0 To FileNames.Length - 1
+            File.Copy(FileNames(i), "Workspace\TmpSound\" & FileNames(i).Split("\").Last.Replace(" ", "").Trim(), True)
+        Next
+
+        Try
+            For Each foundFile As String In My.Computer.FileSystem.GetFiles("Workspace\", FileIO.SearchOption.SearchTopLevelOnly, "*.mp3")
+                Dim wavFile As String = foundFile.Replace(".mp3", ".wav")
+
+                Sound_Cutting.Mp3ToWav(foundFile, wavFile)
+                Thread.Sleep(300)
+
+                If File.Exists(wavFile) Then
+
+                    File.Move(wavFile, "Workspace\ableproj\sounds\" & Path.GetFileName(wavFile))
+                    Thread.Sleep(300)
+                    File.Delete(foundFile)
+
+                    UI(Sub()
+                           Loading.DPr.Style = ProgressBarStyle.Continuous
+                           Loading.DPr.Value += 1
+                           Loading.DLb.Left = 40
+
+                           Select Case lang
+                               Case Translator.tL.English
+                                   Loading.DLb.Text = String.Format(Loading.MsgEn.loading_Sound_Open_msg, Loading.DPr.Value, ofd.FileNames.Length)
+                               Case Translator.tL.Korean
+                                   Loading.DLb.Text = String.Format(Loading.MsgKr.loading_Sound_Open_msg, Loading.DPr.Value, ofd.FileNames.Length)
+                           End Select
+                       End Sub)
+
+                End If
+            Next
+        Catch fex As IOException 'I/O 오류 해결 코드.
+        End Try
 
         '-After Loading WAV/MP3!
         UI(Sub()
@@ -2014,7 +1829,7 @@ Public Class MainProject
            End Sub)
     End Sub
 
-    Private Sub BGW_sounds_Completed(sender As Object, e As RunWorkerCompletedEventArgs) Handles BGW_sounds.RunWorkerCompleted
+    Private Sub BGW_sounds_Completed(sender As Object, e As RunWorkerCompletedEventArgs) 
         Try
             If e.Error IsNot Nothing Then
                 MessageBox.Show("Error - " & e.Error.Message & vbNewLine & "Error Message: " & e.Error.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -2381,24 +2196,20 @@ Public Class MainProject
         End Try
     End Sub
 
-    Private Sub OpenKeyLEDToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenKeyLEDToolStripMenuItem.Click
+    Private Async Sub OpenKeyLEDToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenKeyLEDToolStripMenuItem.Click
         Try
             If keyLED_Edit.Visible Then
-                keyLED_Edit.Dispose()
+                keyLED_Edit.Close()
             End If
 
             ofd.Multiselect = True
-            Select Case lang
-                Case Translator.tL.English
-                    ofd.Title = "Select LED Files"
-                    ofd.Filter = "LED Files|*.mid"
-                Case Translator.tL.Korean
-                    ofd.Title = "LED 파일을 선택하세요"
-                    ofd.Filter = "LED 파일|*.mid"
-            End Select
+            ofd.Title = My.Resources.Contents.LED_ofd_Title
+            ofd.Filter = My.Resources.Contents.LED_ofd_Filter
+
             If ofd.ShowDialog() = DialogResult.OK Then
-                ofd_FileNames = ofd.FileNames
-                BGW_keyLED.RunWorkerAsync()
+                Await Task.Run(Sub()
+                    OpenKeyLED(ofd.FileNames, True)
+                               End Sub)
             End If
         Catch ex As Exception
             If IsGreatExMode Then
@@ -3519,14 +3330,6 @@ Public Class MainProject
                 Invoke(Sub()
                            With Loading
                                .Show()
-                               Select Case lang
-                                   Case Translator.tL.English
-                                       .Text = Loading.MsgEn.loading_keyLED_def_msg
-                                       .DLb.Text = Loading.MsgEn.loading_keyLED_open_msg
-                                   Case Translator.tL.Korean
-                                       .Text = Loading.MsgKr.loading_keyLED_def_msg
-                                       .DLb.Text = Loading.MsgKr.loading_keyLED_open_msg
-                               End Select
                                .DPr.Style = ProgressBarStyle.Marquee
                                .DPr.MarqueeAnimationSpeed = 10
                            End With
@@ -3608,15 +3411,6 @@ Public Class MainProject
                     Dim IsNextOfNext As New List(Of Boolean) 'MidiEffectRack 안에 MidiEffectRack이 있는가? ( https://blog.naver.com/ericseyoun/221673229156 참고 )
 
                     For i As Integer = 0 To setNode.Count - 1
-                        Invoke(Sub()
-                                   Select Case lang
-                                       Case Translator.tL.English
-                                           Loading.DLb.Text = String.Format(Loading.MsgEn.loading_keyLED_PageOrChain_msg, i, setNode.Count)
-                                       Case Translator.tL.Korean
-                                           Loading.DLb.Text = String.Format(Loading.MsgKr.loading_keyLED_PageOrChain_msg, i, setNode.Count)
-                                   End Select
-                               End Sub)
-
                         '유니컨버터 3074줄부터 제대로 다시 코딩.
                         Try
                             Dim _Test1 As Integer = Integer.Parse(setNode(i).Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect").Item("LomId").GetAttribute("Value"))
@@ -3645,16 +3439,6 @@ Public Class MainProject
                             End Try
                         End Try
                     Next
-
-                    Invoke(Sub()
-                               Loading.DLb.Left += 70
-                               Select Case lang
-                                   Case Translator.tL.English
-                                       Loading.DLb.Text = Loading.MsgEn.loading_keyLED_Convert2_msg
-                                   Case Translator.tL.Korean
-                                       Loading.DLb.Text = Loading.MsgKr.loading_keyLED_Convert2_msg
-                               End Select
-                           End Sub)
 
                     Dim UniPack_Chain As Integer = 1
                     Dim UniPack_X As Integer = 0
@@ -3891,14 +3675,6 @@ Public Class MainProject
                 End If
 
                 Debug.WriteLine("Finish...")
-                UI(Sub()
-                       Select Case lang
-                           Case Translator.tL.English
-                               Loading.Text = Loading.MsgEn.loading_keyLED_Convert3_msg
-                           Case Translator.tL.Korean
-                               Loading.Text = Loading.MsgKr.loading_keyLED_Convert3_msg
-                       End Select
-                   End Sub)
 
                 UI(Sub() Loading.Dispose())
 
@@ -4008,16 +3784,6 @@ Public Class MainProject
         End If
 
         For i As Integer = 0 To setNode.Count - 1
-            If ShowLoadingMessage Then
-                UI(Sub()
-                       Select Case lang
-                           Case Translator.tL.English
-                               Loading.DLb.Text = String.Format(Loading.MsgEn.loading_keyLED_PageOrChain_msg, li, setNode.Count)
-                           Case Translator.tL.Korean
-                               Loading.DLb.Text = String.Format(Loading.MsgKr.loading_keyLED_PageOrChain_msg, li, setNode.Count)
-                       End Select
-                   End Sub)
-            End If
             li += 1
 
             Try
@@ -4117,18 +3883,6 @@ Public Class MainProject
 
                     End If
 #End Region
-                    
-                    If ShowLoadingMessage Then
-                        UI(Sub()
-                               Loading.DLb.Left -= 70
-                               Select Case lang
-                                   Case Translator.tL.English
-                                       Loading.DLb.Text = String.Format(Loading.MsgEn.loading_keyLED_Convert_msg, dFile)
-                                   Case Translator.tL.Korean
-                                       Loading.DLb.Text = String.Format(Loading.MsgKr.loading_keyLED_Convert_msg, dFile)
-                               End Select
-                           End Sub)
-                       End If
 
                     Dim dPath As String = String.Format("{0}\Workspace\ableproj\CoLED\{1}", Application.StartupPath, dFile)
                     If File.Exists(dPath) = False Then
@@ -4149,18 +3903,6 @@ Public Class MainProject
                     Dim fileN As String = String.Empty
                     Dim x As XmlNode
                     Dim sFile As String = String.Empty
-
-                    If ShowLoadingMessage Then
-                        UI(Sub()
-                               Loading.DLb.Left += 70
-                               Select Case lang
-                                   Case Translator.tL.English
-                                       Loading.DLb.Text = Loading.MsgEn.loading_keyLED_Convert2_msg
-                                   Case Translator.tL.Korean
-                                       Loading.DLb.Text = Loading.MsgKr.loading_keyLED_Convert2_msg
-                               End Select
-                           End Sub)
-                    End If
 
                     'PatchSlot > Value > MxDPatchRef > FileRef > Name > Value 'Midi Extension.amxd'
                     'LED Save 파일의 id는 MxDeviceMidiEffect의 LomId Value랑 같음.

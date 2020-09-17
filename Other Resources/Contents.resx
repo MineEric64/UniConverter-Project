@@ -129,8 +129,23 @@
   <data name="LED_Converting_Title" xml:space="preserve">
     <value>Converting LED... ({0} / {1})</value>
   </data>
+  <data name="LED_Loaded" xml:space="preserve">
+    <value>Loaded LED Files. Please Wait...</value>
+  </data>
   <data name="LED_Not_Found" xml:space="preserve">
     <value>Couldn't find any LED in this project.</value>
+  </data>
+  <data name="LED_ofd_Filter" xml:space="preserve">
+    <value>LED Files|*.mid</value>
+  </data>
+  <data name="LED_ofd_Title" xml:space="preserve">
+    <value>Select LED Files</value>
+  </data>
+  <data name="LED_Open" xml:space="preserve">
+    <value>Loading LED Files... ({0} / {1})</value>
+  </data>
+  <data name="LED_Open_Title" xml:space="preserve">
+    <value>Opening LED Files</value>
   </data>
   <data name="LED_Save_File_Not_Found" xml:space="preserve">
     <value>This project's led made using Midi Extension Plugin.
@@ -184,5 +199,20 @@ You can edit info in Information Tab.</value>
   </data>
   <data name="Project_Title" xml:space="preserve">
     <value>Loading The Ableton Project File...</value>
+  </data>
+  <data name="Sound_Loaded" xml:space="preserve">
+    <value>Loaded Sound Files. Please Wait...</value>
+  </data>
+  <data name="Sound_ofd_Filter" xml:space="preserve">
+    <value>wav sound files|*.wav|mp3 sounds files|*.mp3|All Sound Files|*.*</value>
+  </data>
+  <data name="Sound_ofd_Title" xml:space="preserve">
+    <value>Select Sounds</value>
+  </data>
+  <data name="Sound_Open" xml:space="preserve">
+    <value>Loading Sound Files... ({0} / {1})</value>
+  </data>
+  <data name="Sound_Open_Title" xml:space="preserve">
+    <value>Loading Sound Files</value>
   </data>
 </root>
