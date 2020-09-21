@@ -33,6 +33,7 @@ Partial Class MainProject
         Me.OpenKeyLEDToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveProjectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ConvertALSToUnipackToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.AutoConvert = New System.Windows.Forms.ToolStripMenuItem()
         Me.UseNewFeatureAboutOpenProjectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -60,7 +61,9 @@ Partial Class MainProject
         Me.infoTB1 = New System.Windows.Forms.TextBox()
         Me.infoT1 = New System.Windows.Forms.Label()
         Me.KeySoundTab = New System.Windows.Forms.TabPage()
-        Me.DevelopingLabel1 = New System.Windows.Forms.Label()
+        Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.btnKeySound_AutoConvert = New System.Windows.Forms.Button()
         Me.btnPad_chain8 = New System.Windows.Forms.Button()
         Me.btnPad_chain7 = New System.Windows.Forms.Button()
         Me.btnPad_chain6 = New System.Windows.Forms.Button()
@@ -258,12 +261,10 @@ Partial Class MainProject
         Me.ConnectButton = New System.Windows.Forms.Button()
         Me.LoadButton = New System.Windows.Forms.Button()
         Me.BGW_CheckUpdate = New System.ComponentModel.BackgroundWorker()
-        Me.BGW_keySound = New System.ComponentModel.BackgroundWorker()
         Me.BGW_keySoundLayout = New System.ComponentModel.BackgroundWorker()
         Me.BGW_keyLEDLayout = New System.ComponentModel.BackgroundWorker()
         Me.BGW_soundcut = New System.ComponentModel.BackgroundWorker()
         Me.BGW_RsProj = New System.ComponentModel.BackgroundWorker()
-        Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.MenuStrip.SuspendLayout
         Me.HomeEdit.SuspendLayout
         Me.Info1.SuspendLayout
@@ -344,6 +345,11 @@ Partial Class MainProject
         Me.ConvertALSToUnipackToolStripMenuItem.Name = "ConvertALSToUnipackToolStripMenuItem"
         Me.ConvertALSToUnipackToolStripMenuItem.Size = New System.Drawing.Size(355, 22)
         Me.ConvertALSToUnipackToolStripMenuItem.Text = "Convert Ableton Project to UniPack!"
+        '
+        'ToolStripSeparator3
+        '
+        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(352, 6)
         '
         'AutoConvert
         '
@@ -556,7 +562,9 @@ Partial Class MainProject
         '
         'KeySoundTab
         '
-        Me.KeySoundTab.Controls.Add(Me.DevelopingLabel1)
+        Me.KeySoundTab.Controls.Add(Me.TextBox1)
+        Me.KeySoundTab.Controls.Add(Me.Label1)
+        Me.KeySoundTab.Controls.Add(Me.btnKeySound_AutoConvert)
         Me.KeySoundTab.Controls.Add(Me.btnPad_chain8)
         Me.KeySoundTab.Controls.Add(Me.btnPad_chain7)
         Me.KeySoundTab.Controls.Add(Me.btnPad_chain6)
@@ -574,22 +582,42 @@ Partial Class MainProject
         Me.KeySoundTab.Text = "keySound"
         Me.KeySoundTab.UseVisualStyleBackColor = true
         '
-        'DevelopingLabel1
+        'TextBox1
         '
-        Me.DevelopingLabel1.AutoSize = true
-        Me.DevelopingLabel1.Font = New System.Drawing.Font("NanumBarunGothicOTF", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
-        Me.DevelopingLabel1.Location = New System.Drawing.Point(163, 226)
-        Me.DevelopingLabel1.Name = "DevelopingLabel1"
-        Me.DevelopingLabel1.Size = New System.Drawing.Size(540, 62)
-        Me.DevelopingLabel1.TabIndex = 64
-        Me.DevelopingLabel1.Text = "We are developing ""Converting keySound""!"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"                           Coming Soon."& _ 
-    ".."
+        Me.TextBox1.Font = New System.Drawing.Font("NanumBarunGothicOTF", 18!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
+        Me.TextBox1.Location = New System.Drawing.Point(9, 16)
+        Me.TextBox1.Multiline = true
+        Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.Size = New System.Drawing.Size(483, 426)
+        Me.TextBox1.TabIndex = 74
+        Me.TextBox1.Tag = ""
+        Me.TextBox1.Text = "Developing keySound Layout Preview..."
+        '
+        'Label1
+        '
+        Me.Label1.Font = New System.Drawing.Font("NanumBarunGothicOTF", 26.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
+        Me.Label1.Location = New System.Drawing.Point(517, 13)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(236, 135)
+        Me.Label1.TabIndex = 73
+        Me.Label1.Text = "keySound"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"[ Beta ]"
+        Me.Label1.TextAlign = System.Drawing.ContentAlignment.TopRight
+        '
+        'btnKeySound_AutoConvert
+        '
+        Me.btnKeySound_AutoConvert.Font = New System.Drawing.Font("NanumBarunGothic", 9.75!)
+        Me.btnKeySound_AutoConvert.Location = New System.Drawing.Point(562, 343)
+        Me.btnKeySound_AutoConvert.Name = "btnKeySound_AutoConvert"
+        Me.btnKeySound_AutoConvert.Size = New System.Drawing.Size(191, 102)
+        Me.btnKeySound_AutoConvert.TabIndex = 64
+        Me.btnKeySound_AutoConvert.Text = "Convert KeySound Automatically!"
+        Me.btnKeySound_AutoConvert.UseVisualStyleBackColor = true
         '
         'btnPad_chain8
         '
         Me.btnPad_chain8.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.btnPad_chain8.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
-        Me.btnPad_chain8.Location = New System.Drawing.Point(508, 420)
+        Me.btnPad_chain8.Location = New System.Drawing.Point(458, 393)
         Me.btnPad_chain8.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btnPad_chain8.Name = "btnPad_chain8"
         Me.btnPad_chain8.Size = New System.Drawing.Size(53, 52)
@@ -601,7 +629,7 @@ Partial Class MainProject
         '
         Me.btnPad_chain7.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.btnPad_chain7.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
-        Me.btnPad_chain7.Location = New System.Drawing.Point(508, 367)
+        Me.btnPad_chain7.Location = New System.Drawing.Point(458, 340)
         Me.btnPad_chain7.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btnPad_chain7.Name = "btnPad_chain7"
         Me.btnPad_chain7.Size = New System.Drawing.Size(53, 48)
@@ -613,7 +641,7 @@ Partial Class MainProject
         '
         Me.btnPad_chain6.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.btnPad_chain6.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
-        Me.btnPad_chain6.Location = New System.Drawing.Point(508, 313)
+        Me.btnPad_chain6.Location = New System.Drawing.Point(458, 286)
         Me.btnPad_chain6.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btnPad_chain6.Name = "btnPad_chain6"
         Me.btnPad_chain6.Size = New System.Drawing.Size(53, 48)
@@ -625,7 +653,7 @@ Partial Class MainProject
         '
         Me.btnPad_chain5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.btnPad_chain5.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
-        Me.btnPad_chain5.Location = New System.Drawing.Point(508, 259)
+        Me.btnPad_chain5.Location = New System.Drawing.Point(458, 232)
         Me.btnPad_chain5.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btnPad_chain5.Name = "btnPad_chain5"
         Me.btnPad_chain5.Size = New System.Drawing.Size(53, 48)
@@ -637,7 +665,7 @@ Partial Class MainProject
         '
         Me.btnPad_chain4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.btnPad_chain4.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
-        Me.btnPad_chain4.Location = New System.Drawing.Point(508, 205)
+        Me.btnPad_chain4.Location = New System.Drawing.Point(458, 178)
         Me.btnPad_chain4.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btnPad_chain4.Name = "btnPad_chain4"
         Me.btnPad_chain4.Size = New System.Drawing.Size(53, 48)
@@ -649,7 +677,7 @@ Partial Class MainProject
         '
         Me.btnPad_chain3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.btnPad_chain3.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
-        Me.btnPad_chain3.Location = New System.Drawing.Point(508, 151)
+        Me.btnPad_chain3.Location = New System.Drawing.Point(458, 124)
         Me.btnPad_chain3.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btnPad_chain3.Name = "btnPad_chain3"
         Me.btnPad_chain3.Size = New System.Drawing.Size(53, 48)
@@ -661,7 +689,7 @@ Partial Class MainProject
         '
         Me.btnPad_chain2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.btnPad_chain2.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
-        Me.btnPad_chain2.Location = New System.Drawing.Point(508, 97)
+        Me.btnPad_chain2.Location = New System.Drawing.Point(458, 70)
         Me.btnPad_chain2.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btnPad_chain2.Name = "btnPad_chain2"
         Me.btnPad_chain2.Size = New System.Drawing.Size(53, 48)
@@ -673,7 +701,7 @@ Partial Class MainProject
         '
         Me.btnPad_chain1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.btnPad_chain1.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
-        Me.btnPad_chain1.Location = New System.Drawing.Point(508, 40)
+        Me.btnPad_chain1.Location = New System.Drawing.Point(458, 13)
         Me.btnPad_chain1.MinimumSize = New System.Drawing.Size(10, 10)
         Me.btnPad_chain1.Name = "btnPad_chain1"
         Me.btnPad_chain1.Size = New System.Drawing.Size(53, 51)
@@ -759,7 +787,7 @@ Partial Class MainProject
         Me.PadLayoutPanel.Controls.Add(Me.uni8_7, 6, 7)
         Me.PadLayoutPanel.Controls.Add(Me.uni8_8, 7, 7)
         Me.PadLayoutPanel.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
-        Me.PadLayoutPanel.Location = New System.Drawing.Point(56, 40)
+        Me.PadLayoutPanel.Location = New System.Drawing.Point(6, 13)
         Me.PadLayoutPanel.Name = "PadLayoutPanel"
         Me.PadLayoutPanel.RowCount = 8
         Me.PadLayoutPanel.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5!))
@@ -1669,7 +1697,7 @@ Partial Class MainProject
         Me.DevelopingLabel3.Name = "DevelopingLabel3"
         Me.DevelopingLabel3.Size = New System.Drawing.Size(250, 135)
         Me.DevelopingLabel3.TabIndex = 72
-        Me.DevelopingLabel3.Text = "keyLED (MIDI Extension)"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"[ Beta ]"
+        Me.DevelopingLabel3.Text = "keyLED (MIDI Extension)"
         Me.DevelopingLabel3.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'btn_Chain8
@@ -1739,7 +1767,7 @@ Partial Class MainProject
         Me.keyLEDMIDEX_BetaButton.Name = "keyLEDMIDEX_BetaButton"
         Me.keyLEDMIDEX_BetaButton.Size = New System.Drawing.Size(186, 86)
         Me.keyLEDMIDEX_BetaButton.TabIndex = 48
-        Me.keyLEDMIDEX_BetaButton.Text = "Edit keyLED! (MIDI Extension) (Advanced)"
+        Me.keyLEDMIDEX_BetaButton.Text = "Edit keyLED! (MIDI, Advanced)"
         Me.keyLEDMIDEX_BetaButton.UseVisualStyleBackColor = true
         '
         'keyLED_Pad64
@@ -3087,9 +3115,6 @@ Partial Class MainProject
         'BGW_CheckUpdate
         '
         '
-        'BGW_keySound
-        '
-        '
         'BGW_keySoundLayout
         '
         '
@@ -3101,11 +3126,6 @@ Partial Class MainProject
         '
         'BGW_RsProj
         '
-        '
-        'ToolStripSeparator3
-        '
-        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-        Me.ToolStripSeparator3.Size = New System.Drawing.Size(352, 6)
         '
         'MainProject
         '
@@ -3186,9 +3206,7 @@ End Sub
     Friend WithEvents MIDIStat As Label
     Friend WithEvents MIDIStatOut As Label
     Friend WithEvents BGW_CheckUpdate As System.ComponentModel.BackgroundWorker
-    Friend WithEvents BGW_keySound As System.ComponentModel.BackgroundWorker
     Friend WithEvents KeySoundTab As TabPage
-    Friend WithEvents DevelopingLabel1 As Label
     Friend WithEvents btnPad_chain8 As Button
     Friend WithEvents btnPad_chain7 As Button
     Friend WithEvents btnPad_chain6 As Button
@@ -3386,4 +3404,7 @@ End Sub
     Friend WithEvents OpenAPFToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator2 As ToolStripSeparator
     Friend WithEvents ToolStripSeparator3 As ToolStripSeparator
+    Friend WithEvents Label1 As Label
+    Friend WithEvents btnKeySound_AutoConvert As Button
+    Friend WithEvents TextBox1 As TextBox
 End Class

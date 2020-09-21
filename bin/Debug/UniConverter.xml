@@ -715,6 +715,11 @@ You can edit info in Information Tab..
  <param name="fileName">에이블톤 프로젝트 파일 경로</param>
  <param name="showLoadingMessage">불러오는 중 메시지의 존재 여부</param>
 </member>
+<member name="M:UniConverter.MainProject.ReadyForAutoConvertForKeySound">
+ <summary>
+ 자동 변환 (KeySound)
+ </summary>
+</member>
 <member name="M:UniConverter.MainProject.ReadyForAutoConvertForKeyLED">
  <summary>
  자동 변환 (KeyLED MIDEX)
@@ -738,6 +743,14 @@ You can edit info in Information Tab..
  MainProject에서 프로젝트를 저장합니다.
  </summary>
  <param name="Waiting">기다릴까?</param>
+</member>
+<member name="M:UniConverter.MainProject.ConvertKeySound_v2(System.String,System.String@,System.Boolean)">
+ <summary>
+ 종합 KeySound 변환 함수 (Version 2)
+ </summary>
+ <param name="apfPath">에이블톤 프로젝트 파일 경로</param>
+ <param name="err">오류 메시지</param>
+ <param name="showLoadingMessage">로딩 메시지 존재의 여부</param>
 </member>
 <member name="M:UniConverter.MainProject.ConvertKeyLEDForMIDEX_v2(System.String,System.String@,System.Boolean)">
  <summary>

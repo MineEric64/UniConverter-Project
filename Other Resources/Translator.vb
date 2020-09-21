@@ -61,7 +61,7 @@ Public Class Translator
                 '유니컨버터 v1.2.0.7 (프리-릴리즈 1) 한글 버전.
                 With MainProject
                     'info 탭
-                    .HomeEdit.TabPages(0).Text = Space(7) & "정보"
+                    .HomeEdit.TabPages(0).Text = New String(" "C, 7) & "정보"
                     .infoT1.Text = Space(5) & "제목"
                     .infoT2.Text = "제작자"
                     .infoT2.Left = .infoTB2.Left - 72
@@ -72,14 +72,13 @@ Public Class Translator
                     .Tip1.Text = "팁: 에이블톤 프로젝트를 열면 info를 수정할 수 있습니다."
 
                     'keySound 탭
-                    .DevelopingLabel1.Text = "'keySound 변환' 기능을 만들고 있습니다!" & vbNewLine & Space(17) & "잠시만 기다려주세요..."
 
                     'keyLED 탭
                     .DevelopingLabel2.Text = "'keyLED 변환' 기능을 만들고 있습니다!" & vbNewLine & Space(18) & "잠시만 기다려주세요..."
 
                     'keyLED (MIDEX) 탭
                     .HomeEdit.TabPages(3).Text = "keyLED (미디 익스텐션)"
-                    .DevelopingLabel3.Text = "keyLED (미디 익스텐션)" & vbNewLine & "[ 베타 ]"
+                    .DevelopingLabel3.Text = "keyLED (미디 익스텐션)"
                     .keyLEDMIDEX_BetaButton.Text = "keyLED 편집! (미디 익스텐션) (고급)"
                     .keyLEDMIDEX_Md.Text = "keyLED 모드"
                     .keyLEDMIDEX_prMode.Text = "테스트 모드"
@@ -103,6 +102,7 @@ Public Class Translator
                     'Tool Strip
                     .FileToolStripMenuItem.Text = "파일"
                     .OpenProjectToolStripMenuItem.Text = "프로젝트 열기"
+                    .OpenAPFToolStripMenuItem.Text = My.Resources.Contents.Main_OpenAbletonProject_Beta
                     .OpenAbletonProjectToolStripMenuItem.Text = "에이블톤 프로젝트 파일 열기"
                     .SoundsToolStripMenuItem.Text = "음악 파일 열기"
                     .OpenKeyLEDToolStripMenuItem.Text = "LED 파일 열기"
