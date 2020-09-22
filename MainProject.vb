@@ -2387,12 +2387,69 @@ Public Class MainProject
         Dim doc As New XmlDocument()
         doc.Load(apfPath)
 
-        Dim setNode As XmlNodeList = doc.GetElementsByTagName("")
+        Dim setNode As XmlNodeList = doc.GetElementsByTagName("InstrumentBranch")
         Dim keySoundList As New List(Of KeySoundStructure) '최종 배열 반환 리스트
 
+        Dim instrumentBranchList As New List(Of List(Of InstrumentBranch))(GetInstrumentBranches(setNode))
 
+        For i = 0 To instrumentBranchList.Count - 1
+            Dim branches As List(Of InstrumentBranch) = instrumentBranchList(i)
+            nodeListInNode = 
+        Next
 
         Return keySoundList.ToArray()
+    End Function
+
+    Public Shared Function GetInstrumentBranches(branchNode As XmlNodeList) As List(Of List(Of InstrumentBranch))
+        Dim instrumentBranchList As New List(Of List(Of InstrumentBranch))
+
+        For i  = 0 To branchNode.Count - 1
+            Dim soundNode As XmlNode = branchNode(i)
+            Dim xpaths As String() = GetXpathsForKeySound(GetXpathForXml(soundNode))
+
+            Dim branches As New List(Of InstrumentBranch)
+            Dim nodeInNode As XmlNode = soundNode
+
+            For j = 0 To xpaths.Length - 1
+                If nodeInNode.Name = "InstrumentBranch" Then
+                    Dim id As Integer = Integer.Parse(nodeInNode.Attributes("Id").Value)
+                    Dim branch As New InstrumentBranch(id, nodeInNode)
+
+                    If nodeInNode.ParentNode.ParentNode.Name = "InstrumentGroupDevice" Then 'Instrument Rack
+                        branch.InstrumentRack = nodeInNode.ParentNode.ParentNode
+                    End If
+
+                    branches.Add(branch)
+                End If
+
+                nodeInNode = nodeInNode.ParentNode
+            Next
+
+            branches.Reverse()
+            instrumentBranchList.Add(branches)
+        Next
+
+        Return instrumentBranchList
+    End Function
+
+    Public Shared Function GetXpathsForKeySound(xpath As String) As String()
+        Dim xpaths As String() = xpath.TrimStart("/").Split("/")
+        Dim xpathList As New List(Of String)
+
+        Dim needToAdd As Boolean = False
+
+        For i = 0 To xpaths.Count() - 1
+            If Not needToAdd AndAlso xpaths(i) = "InstrumentBranch" Then
+                needToAdd = True
+            End If
+            If Not needToAdd Then
+                Continue For
+            End If
+
+            xpathList.Add(xpaths(i))
+        Next
+        
+        Return xpathList.ToArray()
     End Function
 #Region "KeySound Conversion (Deprecated, v1)"
     <Obsolete("This method is deprecated, use ConvertKeySound_v2() instead.")>

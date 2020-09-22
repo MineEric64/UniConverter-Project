@@ -138,6 +138,7 @@
     <Compile Include="keyLED\MidiEffectBranches.vb" />
     <Compile Include="keyLED\MidiExtensionSave.vb" />
     <Compile Include="keyLED\MultiMapping.vb" />
+    <Compile Include="keySound\InstrumentBranch.vb" />
     <Compile Include="keySound\KeySoundStructure.vb" />
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
