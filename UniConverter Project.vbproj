@@ -140,6 +140,7 @@
     <Compile Include="keyLED\MultiMapping.vb" />
     <Compile Include="keySound\InstrumentBranch.vb" />
     <Compile Include="keySound\KeySoundStructure.vb" />
+    <Compile Include="keySound\SoundNodeList.vb" />
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
