@@ -2408,13 +2408,43 @@ Public Class MainProject
                 If branchesInNodeList.Count = 0 Then '추가
                     Dim nodeList As New SoundNodeList("InstrumentBranch", branch.Id, branch.Node)
 
-                    If Not IsNothing(branch.InstrumentRack) Then 'Instrument Branch 추가
+                    Dim drumRack As XmlNode = branch.Node.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("DrumGroupDevice")
+
+                    If Not IsNothing(drumRack) Then
+                        Dim drumBranches As XmlNodeList = drumRack.Item("Branches")?.SelectNodes("DrumBranch")
+
+                        If Not IsNothing(drumBranches) Then
+                            For k = 0 To drumBranches.Count - 1 'Drum Branches
+                                Dim drumBranch As XmlNode = drumBranches(k)
+                                Dim drumBranchId As Integer = Integer.Parse(drumBranch.Attributes("Id").Value)
+
+                                Dim drumNode As New SoundNodeList("DrumBranch", drumBranchId, drumBranch)
+                                nodeList.NodeList.Add(drumNode)
+                            Next
+                        End If
+                    End If
+
+                    If Not IsNothing(branch.InstrumentRack) Then 'Instrument Rack 추가
                         Dim instrumentRackId As Integer = Integer.Parse(branch.InstrumentRack.Attributes("Id").Value)
                         Dim instrumentRackList As List(Of SoundNodeList) = nodeListInNode.Where(Function(x) x.Name = "InstrumentRack" AndAlso x.Id = instrumentRackId).ToList()
 
                         If instrumentRackList.Count = 0 Then
                             Dim nodeInstrumentRack As New SoundNodeList("InstrumentRack", instrumentRackId, branch.InstrumentRack)
                             nodeListInNode.Add(nodeInstrumentRack)
+                        End If
+                    End If
+
+                    If Not IsNothing(branch.DrumBranch) Then 'Drum Branch
+                        Dim drumBranchId As Integer = Integer.Parse(branch.DrumBranch.Attributes("Id").Value)
+                        Dim drumBranchList As List(Of SoundNodeList) = nodeListInNode.Where(Function(x) x.Name = "DrumBranch" AndAlso x.Id = drumBranchId).ToList()
+
+                        If drumBranchList.Count = 0 Then '추가
+                            Dim drumBranchNode As New SoundNodeList("DrumBranch", drumBranchId, branch.DrumBranch)
+
+                            nodeListInNode.Add(drumBranchNode)
+                            nodeListInNode = drumBranchNode.NodeList
+                        Else '존재 하는 경우
+                            nodeListInNode = drumBranchList(0).NodeList
                         End If
                     End If
 
@@ -2438,7 +2468,7 @@ Public Class MainProject
                    Return
                End If
 
-               If node.Name = "InstrumentBranch" Then
+               If node.Name <> "InstrumentRack" Then
                    Dim isRealChain = False '현재 체인을 바꿀 수 있는 체인인가?
                    Dim instrumentRack As List(Of SoundNodeList) = parentNode.Where(Function(x) x.Name = "InstrumentRack").ToList()
 
@@ -2456,26 +2486,31 @@ Public Class MainProject
                         End If
                     End If
 
-                    Dim saveSoundList As KeySoundStructure()
-                    saveSoundList = GetKeySoundsFromInstrumentBranch(node.Node, mm)
-
-                   For Each sound In saveSoundList
+                   Dim sound As KeySoundStructure = GetKeySoundsFromInstrumentBranch(node, mm)
+                    
+                    If Not sound.IsNull() Then
                         If isRealChain Then
                             chain = sound.Chain
                         End If
 
                        sound.Chain = chain
                        keySoundList.Add(sound)
-                   Next
+                    End If
 
                    'NextOfNext InstrumentRack
-                   If saveSoundList.Length = 0 AndAlso node.NodeList.Count > 0 AndAlso isRealChain Then
+                   If sound.IsNull() AndAlso node.NodeList.Count > 0 AndAlso isRealChain Then
                        chain = Integer.Parse(node.Node.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1
                    End If
                End If
                                                                End Sub
 
             GetSoundNodeInLoop(soundList, checkChainAction)
+
+            For i = 0 To keySoundList.Count - 1
+                Dim sound As KeySoundStructure = keySoundList(i)
+
+
+            Next
 
         Else
             If showLoadingMessage THen
@@ -2487,58 +2522,89 @@ Public Class MainProject
         Return keySoundList.ToArray()
     End Function
 
-    Public Shared Function GetKeySoundsFromInstrumentBranch(node As XmlNode, ByRef mm As MultiMapping) As KeySoundStructure()
-        Dim soundList As New List(Of KeySoundStructure)
-
+    Public Shared Function GetKeySoundsFromInstrumentBranch(node As SoundNodeList, ByRef mm As MultiMapping) As KeySoundStructure
+        Dim keySound As KeySoundStructure = KeySoundStructure.Empty
+        
         Try
-            Dim drumRack As XmlNode = node.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("DrumGroupDevice")
+            Dim isRandom = False '멀티매핑 인가?
 
-            If Not IsNothing(drumRack) Then
-                Dim drumBranches As XmlNodeList = drumRack.Item("Branches")?.SelectNodes("DrumBranch")
-                
-                For i = 0 To drumBranches.Count - 1
-                    Dim drumBranch As XmlNode = drumBranches(i)
-
-                    Dim isRandom = False '멀티매핑 인가?
-
-                    If mm.Count > 0 Then
-                        isRandom = True
-                        mm.Count -= 1
-                    Else
-                        isRandom = False
-                        mm = New MultiMapping(0, 0, 0)
-                    End If
-
-                    If Not isRandom Then 'MidiRandom 테스트
-                        Try
-                            Dim midiRandomNode As XmlNode = node.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("MidiRandom")
-
-                            If Not IsNothing(midiRandomNode) Then
-                                Dim isActive As Boolean = Boolean.Parse(midiRandomNode.Item("On").Item("Manual").GetAttribute("Value"))
-                            
-                                If isActive Then
-                                    Dim choices As Integer = Integer.Parse(midiRandomNode.Item("Choices").Item("Manual").GetAttribute("Value"))
-                                    Dim noteNumber As Integer = Integer.Parse(drumBranch.Item("BranchInfo").Item("ReceivingNote").GetAttribute("Value"))
-
-                                    mm.Count = choices
-                                    mm.NoteNumberMin = noteNumber
-                                    mm.NoteNumberMax = noteNumber
-
-                                    Return {}
-                                End If
-                            End If
-
-                        Catch ex As NullReferenceException
-                            '정상적인 DrumBranch임.
-                        End Try
-                    End If
-                Next
+            If mm.Count > 0 Then
+                isRandom = True
+                mm.Count -= 1
+            Else
+                isRandom = False
+                mm = New MultiMapping(0, 0, 0)
             End If
+
+            If Not isRandom Then 'MidiRandom 테스트
+                Try
+                    Dim midiRandomNode As XmlNode = node.Node.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("MidiRandom")
+
+                    If Not IsNothing(midiRandomNode) Then
+                        Dim isActive As Boolean = Boolean.Parse(midiRandomNode.Item("On").Item("Manual").GetAttribute("Value"))
+                            
+                        If isActive Then
+                            Dim choices As Integer = Integer.Parse(midiRandomNode.Item("Choices").Item("Manual").GetAttribute("Value"))
+                            Dim noteNumber As Integer = Integer.Parse(node.Node.Item("BranchInfo").Item("ReceivingNote").GetAttribute("Value"))
+
+                            mm.Count = choices
+                            mm.NoteNumberMin = noteNumber
+                            mm.NoteNumberMax = noteNumber
+
+                            Return KeySoundStructure.Empty
+                        End If
+                    End If
+
+                Catch ex As NullReferenceException
+                    '정상적인 DrumBranch임.
+                End Try
+            End If
+
+            '사운드 가져오기 (with OriginalSimpler)
+            Dim soundName As String = String.Empty
+            Dim chain As Integer = -1
+            Dim x As Integer = -1
+            Dim y As Integer = -1
+            Dim loopNumber = 1
+
+            Dim startTime As TimeSpan = TimeSpan.Zero
+            Dim endTime As TimeSpan = TimeSpan.Zero
+
+            Dim originalSimpler As XmlNode = node.Node.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("OriginalSimpler")
+
+            If Not IsNothing(originalSimpler) Then
+                Dim multiSamplePart As XmlNode = originalSimpler.Item("Player").Item("MultiSampleMap").Item("SampleParts").Item("MultiSamplePart")
+                soundName = multiSamplePart.Item("SampleRef").Item("FileRef").Item("Name").GetAttribute("Value")
+
+                'Trimming Sound
+            End If
+
+            Dim branchInfo As XmlNode = node.Node.Item("BranchInfo")
+
+            If Not IsNothing(branchInfo) Then 'Position
+                Dim noteNumber As Integer = Integer.Parse(branchInfo.Item("ReceivingNote").GetAttribute("Value"))
+                Dim ksPoint As ksX = A2U.keySound.GetkeySound(ks_NoteEvents.NoteNumber_1, noteNumber)
+
+                x = ksPoint.x
+                y = ksPoint.y
+            End If
+
+            '성공
+            If Not String.IsNullOrWhiteSpace(soundName) AndAlso x <> -1 AndAlso y <> -1 Then
+                keySound = New KeySoundStructure(chain, x, y, soundName, loopNumber)
+                
+                'Trimming Sound
+                If startTime <> TimeSpan.Zero AndAlso endTime <> TimeSpan.Zero Then
+                    keySound.StartTime = startTime
+                    keySound.EndTime = endTime
+                End If
+            End If
+
         Catch ex As NullReferenceException
             '?
         End Try
 
-        Return soundList.ToArray()
+        Return keySound
     End Function
 
     Public Shared Function GetInstrumentBranches(branchNode As XmlNodeList) As List(Of List(Of InstrumentBranch))
@@ -2558,6 +2624,9 @@ Public Class MainProject
 
                     If nodeInNode.ParentNode.ParentNode.Name = "InstrumentGroupDevice" Then 'Instrument Rack
                         branch.InstrumentRack = nodeInNode.ParentNode.ParentNode
+                    End If
+                    If nodeInNode.ParentNode.ParentNode.ParentNode.ParentNode.ParentNode.ParentNode.Name = "DrumBranch" Then 'Drum Branch
+                        branch.DrumBranch = nodeInNode.ParentNode.ParentNode.ParentNode.ParentNode.ParentNode.ParentNode
                     End If
 
                     branches.Add(branch)

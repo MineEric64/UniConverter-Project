@@ -41,6 +41,13 @@ Public Class DeveloperMode_Project
             DeveloperMode_abl_openedproj = True
             OpenProject()
         End If
+
+        Dim itm As New List(Of String) _
+                From {"File Name", "Chains", "File Version", "Sound Cutting", "KeyTracks (keyLED)", "keyLED (MIDI Extension)", "keyLED (MIDEX, MidiFire)", "keyLED (integrated version)", "XML Test"}
+        Info_ListView.Items.Clear()
+        For Each items As String In itm
+            Info_ListView.Items.Add(items)
+        Next
     End Sub
 
     Private Sub Project_OpenButton_Click(sender As Object, e As EventArgs) Handles Project_OpenButton.Click
@@ -64,13 +71,6 @@ Public Class DeveloperMode_Project
         doc.Load(AbletonProjectXML)
         NewElementList = doc.GetElementsByTagName("Ableton")(0)
         DeveloperMode_abl_FileVersion = NewElementList.GetAttribute("Creator")
-
-        Dim itm As New List(Of String) _
-    From {"File Name", "Chains", "File Version", "Sound Cutting", "KeyTracks (keyLED)", "keyLED (MIDI Extension)", "keyLED (MIDEX, MidiFire)", "keyLED (integrated version)"}
-        Info_ListView.Items.Clear()
-        For Each items As String In itm
-            Info_ListView.Items.Add(items)
-        Next
     End Sub
 
     Private Async Sub Info_ListView_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Info_ListView.SelectedIndexChanged
@@ -103,6 +103,8 @@ Public Class DeveloperMode_Project
 
                         Debug.WriteLineIf(Not String.IsNullOrWhiteSpace(err), err)
                     End With
+                Case "XML Test"
+                    XmlTest()
             End Select
         End If
     End Sub
@@ -111,6 +113,19 @@ Public Class DeveloperMode_Project
         If node.Name = "#document" Then Return String.Empty
         Return GetXpath(node.SelectSingleNode("..")) & "/" + If(node.NodeType = XmlNodeType.Attribute, "@", String.Empty) + node.Name
     End Function
+
+    Private Shared Sub XmlTest()
+        Dim doc As New XmlDocument()
+        doc.Load("https://docbook.org/xml/4.3b3/test.xml")
+
+        Dim node As XmlNode = doc("article")("table")("tgroup")("tbody")("row")
+        Dim entryList As XmlNodeList = node.SelectNodes("entry")
+
+        Debug.WriteLine(entryList.Count)
+        For Each x As XmlNode In entryList
+            Debug.WriteLine(x.InnerText)
+        Next
+    End Sub
 
     Public Shared Function GetkeyLED_MIDEX_v2() As String
         Dim sb As New StringBuilder(255)
