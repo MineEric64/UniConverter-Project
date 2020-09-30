@@ -872,6 +872,16 @@ Public Class MainProject
                End Sub)
         End If
 
+        If showLoadingMessage Then
+            Invoke(Sub()
+                Loading.DLb.Text = My.Resources.Contents.Project_DeletingTempoaryFiles
+                   End Sub)
+        End If
+
+        If File.Exists(ABLETON_PROJECT_XML_PATH) Then
+            File.Delete(ABLETON_PROJECT_XML_PATH)
+        End If
+
         abl_FileName = fileName
         File.Copy(fileName, ABLETON_PROJECT_PATH & "\abl_proj.gz", True)
 
@@ -962,27 +972,57 @@ Public Class MainProject
     End Function
 
     Private Async Function ReadyForConvertKeySound() As Task(Of String)
-        Dim errorMessage As String = String.Empty
+        Dim errorMessage As New StringBuilder(255)
+        Dim conversionErrorMessage As String = String.Empty
         Dim soundConversion As Task(Of KeySoundStructure()) = Task.Run(Function() As KeySoundStructure()
-                                                                           Return ConvertKeySound_v2(ABLETON_PROJECT_XML_PATH, errorMessage, True)
+                                                                           Return ConvertKeySound_v2(ABLETON_PROJECT_XML_PATH, conversionErrorMessage, True)
                                                                        End Function)
 
         Dim sounds As KeySoundStructure() = Await soundConversion
+
+        If Not String.IsNullOrWhiteSpace(conversionErrorMessage) Then
+            errorMessage.Append(errorMessage)
+        End If
+
         Await Task.Run(Sub()
             Dim keySound As New StringBuilder(255)
+            Dim sortedSoundList As New List(Of KeySoundStructure)(sounds)
+            sortedSoundList = sortedSoundList.OrderBy(Function(x) x.Chain * 100 + x.X * 10 + x.Y).ToList()
+            
+            Dim previousChain = 0
 
-            Parallel.ForEach(sounds, Sub(sound)
+            For Each sound In sortedSoundList
+                Dim abletonSoundFilePath As String = $"{ABLETON_SOUNDS_PATH}\{sound.FileName}"
+                Dim unipackSoundFilePath As String = $"{UNIPACK_SOUNDS_PATH}\{sound.FileName}"
+
+                If Not File.Exists(abletonSoundFilePath) Then
+                    errorMessage.Append($"Error occured while converting to keySound: '{sound.FileName}' file doesn't exists.")
+                    Continue For
+                End If
+                If Not Directory.Exists(UNIPACK_SOUNDS_PATH) Then
+                    Directory.CreateDirectory(UNIPACK_SOUNDS_PATH)
+                End If
+
                 Dim key As String = sound.ToString()
                 Debug.WriteLine(key)
+
+                If previousChain <> 0 AndAlso previousChain <> sound.Chain Then
+                    keySound.Append(Environment.NewLine)
+                End If
                 
                 keySound.Append(key)
                 keySound.Append(Environment.NewLine)
-                                     End Sub)
+
+                File.Copy(abletonSoundFilePath, unipackSoundFilePath, True)
+
+                previousChain = sound.Chain
+             Next
 
             Dim content As String = keySound.ToString().TrimEnd(Environment.NewLine)
             File.WriteAllText(UNIPACK_KEYSOUND_PATH, content)
                        End Sub)
-        Return errorMessage
+
+        Return errorMessage.ToString()
     End Function
 
     ''' <summary>
@@ -1057,11 +1097,10 @@ Public Class MainProject
 
     Private Sub Info_SaveButton_Click(sender As Object, e As EventArgs) Handles Info_SaveButton.Click
         Try
-            'UniPack_SaveInfo(True)
+            UniPack_SaveInfo(True)
 
             'x.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("OriginalSimpler").Item("Player").Item("MultiSampleMap").Item("LoopModulators").Item("SampleStart").Item("Manual").GetAttribute("Value")
             'x.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("OriginalSimpler").Item("Player").Item("MultiSampleMap").Item("LoopModulators").Item("SampleLength").Item("Manual").GetAttribute("Value")
-            BGW_soundcut.RunWorkerAsync()
 
         Catch ex As Exception
             If IsGreatExMode Then
@@ -2424,16 +2463,6 @@ Public Class MainProject
                         End If
                     End If
 
-                    If Not IsNothing(branch.InstrumentRack) Then 'Instrument Rack 추가
-                        Dim instrumentRackId As Integer = Integer.Parse(branch.InstrumentRack.Attributes("Id").Value)
-                        Dim instrumentRackList As List(Of SoundNodeList) = nodeListInNode.Where(Function(x) x.Name = "InstrumentRack" AndAlso x.Id = instrumentRackId).ToList()
-
-                        If instrumentRackList.Count = 0 Then
-                            Dim nodeInstrumentRack As New SoundNodeList("InstrumentRack", instrumentRackId, branch.InstrumentRack)
-                            nodeListInNode.Add(nodeInstrumentRack)
-                        End If
-                    End If
-
                     If Not IsNothing(branch.DrumBranch) Then 'Drum Branch
                         Dim drumBranchId As Integer = Integer.Parse(branch.DrumBranch.Attributes("Id").Value)
                         Dim drumBranchList As List(Of SoundNodeList) = nodeListInNode.Where(Function(x) x.Name = "DrumBranch" AndAlso x.Id = drumBranchId).ToList()
@@ -2445,6 +2474,16 @@ Public Class MainProject
                             nodeListInNode = drumBranchNode.NodeList
                         Else '존재 하는 경우
                             nodeListInNode = drumBranchList(0).NodeList
+                        End If
+                    End If
+
+                    If Not IsNothing(branch.InstrumentRack) Then 'Instrument Rack 추가
+                        Dim instrumentRackId As Integer = Integer.Parse(branch.InstrumentRack.Attributes("Id").Value)
+                        Dim instrumentRackList As List(Of SoundNodeList) = nodeListInNode.Where(Function(x) x.Name = "InstrumentRack" AndAlso x.Id = instrumentRackId).ToList()
+
+                        If instrumentRackList.Count = 0 Then
+                            Dim nodeInstrumentRack As New SoundNodeList("InstrumentRack", instrumentRackId, branch.InstrumentRack)
+                            nodeListInNode.Add(nodeInstrumentRack)
                         End If
                     End If
 
@@ -2460,6 +2499,7 @@ Public Class MainProject
         If soundList.Count > 0 Then
             'Chain 유효성 검사 (with InstrumentRack)
             Dim chain = 1
+            Dim drumBranch As XmlNode = Nothing
             Dim mm As New MultiMapping(0, 0, 0)
 
             Dim needToExit = False
@@ -2482,23 +2522,25 @@ Public Class MainProject
 
                             If upperRangeNote - lowerRangeNote = 7 Then 'Chain Selector 부분
                                 isRealChain = True
+                            ElseIf upperRangeNote = -1 AndAlso lowerRangeNote = -1 Then 'Chain Selector Map (Beta)
+                                isRealChain = True
                             End If
                         End If
                     End If
 
-                   Dim sound As KeySoundStructure = GetKeySoundsFromInstrumentBranch(node, mm)
+                   Dim sounds As KeySoundStructure() = GetKeySoundsFromInstrumentBranch(node, drumBranch, mm)
                     
-                    If Not sound.IsNull() Then
+                    For Each sound In sounds
                         If isRealChain Then
                             chain = sound.Chain
                         End If
 
                        sound.Chain = chain
                        keySoundList.Add(sound)
-                    End If
+                    Next
 
                    'NextOfNext InstrumentRack
-                   If sound.IsNull() AndAlso node.NodeList.Count > 0 AndAlso isRealChain Then
+                   If sounds.Length = 0 AndAlso node.NodeList.Count > 0 AndAlso isRealChain Then
                        chain = Integer.Parse(node.Node.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1
                    End If
                End If
@@ -2506,11 +2548,9 @@ Public Class MainProject
 
             GetSoundNodeInLoop(soundList, checkChainAction)
 
-            For i = 0 To keySoundList.Count - 1
-                Dim sound As KeySoundStructure = keySoundList(i)
-
-
-            Next
+            If showLoadingMessage Then
+                MessageBox.Show("Sound Converted!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
 
         Else
             If showLoadingMessage THen
@@ -2522,11 +2562,15 @@ Public Class MainProject
         Return keySoundList.ToArray()
     End Function
 
-    Public Shared Function GetKeySoundsFromInstrumentBranch(node As SoundNodeList, ByRef mm As MultiMapping) As KeySoundStructure
-        Dim keySound As KeySoundStructure = KeySoundStructure.Empty
+    Public Shared Function GetKeySoundsFromInstrumentBranch(node As SoundNodeList, ByRef drumBranch As XmlNode, ByRef mm As MultiMapping) As KeySoundStructure()
+        Dim soundList As New List(Of KeySoundStructure)
         
         Try
             Dim isRandom = False '멀티매핑 인가?
+
+            If node.Name = "DrumBranch" Then
+                drumBranch = node.Node
+            End If
 
             If mm.Count > 0 Then
                 isRandom = True
@@ -2545,13 +2589,26 @@ Public Class MainProject
                             
                         If isActive Then
                             Dim choices As Integer = Integer.Parse(midiRandomNode.Item("Choices").Item("Manual").GetAttribute("Value"))
-                            Dim noteNumber As Integer = Integer.Parse(node.Node.Item("BranchInfo").Item("ReceivingNote").GetAttribute("Value"))
+                            Dim randomMinNoteNumber = 0
+                            Dim randomMaxNoteNumber = 0
+
+                            If node.Name = "DrumBranch" Then
+                                Dim noteNumber As Integer = GetNoteNumberFromDrumBranch(node.Node)
+                                randomMinNoteNumber = noteNumber
+                                randomMaxNoteNumber = noteNumber
+
+                            ElseIf node.Name = "InstrumentBranch" Then
+                                Dim p As Point = GetNoteNumberFromInstrumentBranch(node.Node)
+                                randomMinNoteNumber = p.X
+                                randomMaxNoteNumber = p.Y
+
+                            End If
 
                             mm.Count = choices
-                            mm.NoteNumberMin = noteNumber
-                            mm.NoteNumberMax = noteNumber
+                            mm.NoteNumberMin = randomMinNoteNumber
+                            mm.NoteNumberMax = randomMaxNoteNumber
 
-                            Return KeySoundStructure.Empty
+                            Return {}
                         End If
                     End If
 
@@ -2562,9 +2619,11 @@ Public Class MainProject
 
             '사운드 가져오기 (with OriginalSimpler)
             Dim soundName As String = String.Empty
-            Dim chain As Integer = -1
-            Dim x As Integer = -1
-            Dim y As Integer = -1
+            Dim minChain = 1
+            Dim maxChain = 1
+            Dim minNoteNumber As Integer = -1
+            Dim maxNoteNumber As Integer = -1
+            Dim noteNumberMethod As String = "keySound" 'keySound / keyLED
             Dim loopNumber = 1
 
             Dim startTime As TimeSpan = TimeSpan.Zero
@@ -2579,32 +2638,68 @@ Public Class MainProject
                 'Trimming Sound
             End If
 
-            Dim branchInfo As XmlNode = node.Node.Item("BranchInfo")
+            'Get Chain (Instrument Branch Only)
+            If node.Name = "InstrumentBranch" Then
+                minChain = Integer.Parse(node.Node.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1
+                maxChain = Integer.Parse(node.Node.Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1
+            End If
 
-            If Not IsNothing(branchInfo) Then 'Position
+            Dim branchInfo As XmlNode = drumBranch?.Item("BranchInfo")
+
+            'Get Position
+            If Not IsNothing(branchInfo) Then
                 Dim noteNumber As Integer = Integer.Parse(branchInfo.Item("ReceivingNote").GetAttribute("Value"))
-                Dim ksPoint As ksX = A2U.keySound.GetkeySound(ks_NoteEvents.NoteNumber_1, noteNumber)
+                
+                minNoteNumber = noteNumber
+                maxNoteNumber = noteNumber
 
-                x = ksPoint.x
-                y = ksPoint.y
+            ElseIf node.Name = "InstrumentBranch" Then
+                Dim p As Point = GetNoteNumberFromInstrumentBranch(node.Node)
+
+                minNoteNumber = p.X
+                maxNoteNumber = p.Y
+
             End If
 
             '성공
-            If Not String.IsNullOrWhiteSpace(soundName) AndAlso x <> -1 AndAlso y <> -1 Then
-                keySound = New KeySoundStructure(chain, x, y, soundName, loopNumber)
-                
-                'Trimming Sound
-                If startTime <> TimeSpan.Zero AndAlso endTime <> TimeSpan.Zero Then
-                    keySound.StartTime = startTime
-                    keySound.EndTime = endTime
-                End If
+            If Not String.IsNullOrWhiteSpace(soundName) AndAlso minNoteNumber <> -1 AndAlso maxNoteNumber <> -1 Then
+                For chain = minChain To maxChain
+                    For noteNumber = minNoteNumber To maxNoteNumber
+                        Dim x As Integer = -1
+                        Dim y As Integer = -1
+
+                        Select Case noteNumberMethod 'NoteNumber To X / Y
+                            Case "keySound"
+                                Dim ksPoint As ksX = A2U.keySound.GetkeySound(ks_NoteEvents.NoteNumber_1, noteNumber)
+                                x = ksPoint.x
+                                y = ksPoint.y
+
+                            Case "keyLED"
+                                x = A2U.keyLED_MIDEX.GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, noteNumber)
+                                y = A2U.keyLED_MIDEX.GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, noteNumber)
+                        
+                        End Select
+
+                        If x <> - 1 AndAlso y <> - 1 Then
+                            Dim sound As New KeySoundStructure(chain, x, y, soundName, loopNumber)
+                            
+                            'Trimming Sound
+                            If startTime <> TimeSpan.Zero AndAlso endTime <> TimeSpan.Zero Then
+                                sound.StartTime = startTime
+                                sound.EndTime = endTime
+                            End If
+
+                            soundList.Add(sound)
+                        End if
+                    Next
+                Next
             End If
 
         Catch ex As NullReferenceException
             '?
         End Try
 
-        Return keySound
+        Return soundList.ToArray()
     End Function
 
     Public Shared Function GetInstrumentBranches(branchNode As XmlNodeList) As List(Of List(Of InstrumentBranch))
@@ -2660,6 +2755,14 @@ Public Class MainProject
         Next
         
         Return xpathList.ToArray()
+    End Function
+
+    Public Shared Function GetNoteNumberFromDrumBranch(node As XmlNode) As Integer
+        Return Integer.Parse(node.Item("BranchInfo").Item("ReceivingNote").GetAttribute("Value"))
+    End Function
+
+    Public Shared Function GetNoteNumberFromInstrumentBranch(node As XmlNode) As Point
+        Return New Point(Integer.Parse(node.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value")), Integer.Parse(node.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value")))
     End Function
 
     Public Shared Sub GetSoundNodeInLoop(nodes As IEnumerable(Of SoundNodeList), doAction As Action(Of SoundNodeList, List(Of SoundNodeList)), Optional indent As Integer = 0)
