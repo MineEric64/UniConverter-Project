@@ -181,6 +181,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Contents.ko.resx</DependentUpon>
     </Compile>
+    <Compile Include="Other Resources\Footprint.vb" />
     <Compile Include="Other Resources\Loading.Designer.vb">
       <DependentUpon>Loading.vb</DependentUpon>
     </Compile>

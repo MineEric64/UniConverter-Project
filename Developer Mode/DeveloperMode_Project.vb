@@ -43,7 +43,7 @@ Public Class DeveloperMode_Project
         End If
 
         Dim itm As New List(Of String) _
-                From {"File Name", "Chains", "File Version", "Sound Cutting", "KeyTracks (keyLED)", "keyLED (MIDI Extension)", "keyLED (MIDEX, MidiFire)", "keyLED (integrated version)", "XML Test"}
+                From {"File Name", "Chains", "File Version", "Sound Cutting", "KeyTracks (keyLED)", "keyLED (MIDI Extension)", "keyLED (MIDEX, MidiFire)", "keyLED (integrated version)", "XML Test", "Mp3ToWav"}
         Info_ListView.Items.Clear()
         For Each items As String In itm
             Info_ListView.Items.Add(items)
@@ -105,6 +105,17 @@ Public Class DeveloperMode_Project
                     End With
                 Case "XML Test"
                     XmlTest()
+
+                Case "Mp3ToWav"
+                    Const mp3File = "C:\Users\gobac\Downloads\Workspace\Hinkik - Time Leaper.mp3"
+                    Const wavFile = "C:\Users\gobac\Downloads\Workspace\Hinkik - Time Leaper.wav"
+
+                    If File.Exists(mp3File) Then
+                        Sound_Cutting.Mp3ToWav(mp3File, wavFile)
+                    Else
+                        MessageBox.Show($"'{Path.GetFileName(mp3File)}' sound file doesn't exists on Downloads directory.")
+                    End If
+
             End Select
         End If
     End Sub

@@ -752,6 +752,13 @@ You can edit info in Information Tab..
  <param name="err">오류 메시지</param>
  <param name="showLoadingMessage">로딩 메시지 존재의 여부</param>
 </member>
+<member name="M:UniConverter.MainProject.GetTimeForTrimmingSound(System.Xml.XmlNode)">
+ <summary>
+ Get Time (Trimming Sound)
+ </summary>
+ <param name="node">MultiSamplePart (OriginalSimpler)</param>
+ <returns></returns>
+</member>
 <member name="M:UniConverter.MainProject.ConvertKeyLEDForMIDEX_v2(System.String,System.String@,System.Boolean)">
  <summary>
  종합 keyLED (MIDEX) 변환 함수 (Midi Extension, Midi Fire, Lightweight 지원)

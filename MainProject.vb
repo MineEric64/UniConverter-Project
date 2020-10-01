@@ -210,9 +210,6 @@ Public Class MainProject
     Public Shared abl_openedproj As Boolean
     Public Shared abl_openedsnd As Boolean
     Public Shared abl_openedled As Boolean
-    Public Shared abl_openedled2 As Boolean
-
-    Private splitSounds As New List(Of String)
 
     Private _midiExtensionMapping As New Dictionary(Of Integer, MidiExtensionSave)
 
@@ -504,7 +501,6 @@ Public Class MainProject
             abl_openedproj = False
             abl_openedsnd = False
             abl_openedled = False
-            abl_openedled2 = False
 
             IsSaved = True
             SoundIsSaved = False
@@ -986,12 +982,35 @@ Public Class MainProject
 
         Await Task.Run(Sub()
             Dim keySound As New StringBuilder(255)
+
             Dim sortedSoundList As New List(Of KeySoundStructure)(sounds)
             sortedSoundList = sortedSoundList.OrderBy(Function(x) x.Chain * 100 + x.X * 10 + x.Y).ToList()
-            
+            Dim trimmedSoundList As List(Of KeySoundStructure) = sortedSoundList.Where(Function(x) x.StartTime <> TimeSpan.Zero OrElse x.EndTime <> TimeSpan.Zero).ToList()
+            trimmedSoundList = trimmedSoundList.OrderBy(Function(x) Long.Parse($"{Convert.ToInt32(Math.Truncate(x.StartTime.TotalMilliseconds))}{Convert.ToInt32(Math.Truncate(x.EndTime.TotalMilliseconds))}")).ToList()
+
             Dim previousChain = 0
+            Dim padZeroFormat As String = New String("0"C, trimmedSoundList.Count.ToString().Length)
+
+            For i = 0 To trimmedSoundList.Count - 1
+                Dim sound As KeySoundStructure = trimmedSoundList(i)
+
+                If Path.GetExtension(sound.FileName) <> ".wav" Then 'mp3 파일은 이미 변환 했으므로
+                    sound.FileName = Path.ChangeExtension(sound.FileName, ".wav")
+                End If
+                
+                Dim trimmedSoundFileName As String = $"ucv_ac_ts_{(i + 1).ToString(padZeroFormat)}.wav"
+                Dim abletonSoundFilePath As String = $"{ABLETON_SOUNDS_PATH}\{sound.FileName}"
+                Dim trimmedSoundFilePath As String = $"{ABLETON_SOUNDS_PATH}\{trimmedSoundFileName}"
+
+                Sound_Cutting.TrimWavFile(abletonSoundFilePath, trimmedSoundFilePath, sound.StartTime, sound.EndTime)
+                sound.FileName = trimmedSoundFileName
+            Next
 
             For Each sound In sortedSoundList
+                If Path.GetExtension(sound.FileName) <> ".wav" Then 'mp3 파일은 이미 변환 했으므로
+                    sound.FileName = Path.ChangeExtension(sound.FileName, ".wav")
+                End If
+
                 Dim abletonSoundFilePath As String = $"{ABLETON_SOUNDS_PATH}\{sound.FileName}"
                 Dim unipackSoundFilePath As String = $"{UNIPACK_SOUNDS_PATH}\{sound.FileName}"
 
@@ -1098,9 +1117,6 @@ Public Class MainProject
     Private Sub Info_SaveButton_Click(sender As Object, e As EventArgs) Handles Info_SaveButton.Click
         Try
             UniPack_SaveInfo(True)
-
-            'x.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("OriginalSimpler").Item("Player").Item("MultiSampleMap").Item("LoopModulators").Item("SampleStart").Item("Manual").GetAttribute("Value")
-            'x.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("OriginalSimpler").Item("Player").Item("MultiSampleMap").Item("LoopModulators").Item("SampleLength").Item("Manual").GetAttribute("Value")
 
         Catch ex As Exception
             If IsGreatExMode Then
@@ -1413,7 +1429,7 @@ Public Class MainProject
             End If
 
             If Directory.Exists(ABLETON_SOUNDS_PATH) Then
-                Directory.Delete(ABLETON_SOUNDS_PATH)
+                Directory.Delete(ABLETON_SOUNDS_PATH, True)
             End If
 
             Directory.CreateDirectory(ABLETON_SOUNDS_PATH)
@@ -1443,7 +1459,7 @@ Public Class MainProject
             For i = 0 To toConvertSoundList.Count - 1
                 Dim filePath As String = toConvertSoundList(i)
                 Dim fileName As String = Path.GetFileName(filePath)
-                Dim destPath As String = $"{ABLETON_SOUNDS_PATH}\{Path.ChangeExtension(filePath, ".wav")}"
+                Dim destPath As String = $"{ABLETON_SOUNDS_PATH}\{Path.GetFileName(Path.ChangeExtension(filePath, ".wav"))}"
 
                 Sound_Cutting.Mp3ToWav(filePath, destPath)
 
@@ -2598,9 +2614,9 @@ Public Class MainProject
                                 randomMaxNoteNumber = noteNumber
 
                             ElseIf node.Name = "InstrumentBranch" Then
-                                Dim p As Point = GetNoteNumberFromInstrumentBranch(node.Node)
-                                randomMinNoteNumber = p.X
-                                randomMaxNoteNumber = p.Y
+                                Dim p As Footprint(Of Integer) = GetNoteNumberFromInstrumentBranch(node.Node)
+                                randomMinNoteNumber = p.Start
+                                randomMaxNoteNumber = p.End
 
                             End If
 
@@ -2636,6 +2652,18 @@ Public Class MainProject
                 soundName = multiSamplePart.Item("SampleRef").Item("FileRef").Item("Name").GetAttribute("Value")
 
                 'Trimming Sound
+                Dim fp As Footprint(Of TimeSpan) = GetTimeForTrimmingSound(multiSamplePart)
+
+                If fp.Start <> TimeSpan.Zero OrElse fp.End <> TimeSpan.Zero Then
+                    Dim waveFile As New WaveFileReader($"{ABLETON_SOUNDS_PATH}\{Path.ChangeExtension(soundName, ".wav")}")
+                    
+                    If fp.Start <> TimeSpan.Zero OrElse Math.Abs(Convert.ToInt32(Math.Truncate(waveFile.TotalTime.TotalSeconds)) - Convert.ToInt32(Math.Truncate(fp.End.TotalSeconds))) >= 1 Then
+                        startTime = fp.Start
+                        endTime = fp.End
+                    End If
+
+                    waveFile.Dispose()
+                End If
             End If
 
             'Get Chain (Instrument Branch Only)
@@ -2654,10 +2682,10 @@ Public Class MainProject
                 maxNoteNumber = noteNumber
 
             ElseIf node.Name = "InstrumentBranch" Then
-                Dim p As Point = GetNoteNumberFromInstrumentBranch(node.Node)
+                Dim p As Footprint(Of Integer) = GetNoteNumberFromInstrumentBranch(node.Node)
 
-                minNoteNumber = p.X
-                maxNoteNumber = p.Y
+                minNoteNumber = p.Start
+                maxNoteNumber = p.End
 
             End If
 
@@ -2684,7 +2712,7 @@ Public Class MainProject
                             Dim sound As New KeySoundStructure(chain, x, y, soundName, loopNumber)
                             
                             'Trimming Sound
-                            If startTime <> TimeSpan.Zero AndAlso endTime <> TimeSpan.Zero Then
+                            If startTime <> TimeSpan.Zero OrElse endTime <> TimeSpan.Zero Then
                                 sound.StartTime = startTime
                                 sound.EndTime = endTime
                             End If
@@ -2737,6 +2765,24 @@ Public Class MainProject
         Return instrumentBranchList
     End Function
 
+    ''' <summary>
+    ''' Get Time (Trimming Sound)
+    ''' </summary>
+    ''' <param name="node">MultiSamplePart (OriginalSimpler)</param>
+    ''' <returns></returns>
+    Public Shared Function GetTimeForTrimmingSound(node As XmlNode) As Footprint(Of TimeSpan)
+        Dim fp As New Footprint(Of TimeSpan)(TimeSpan.Zero, TimeSpan.Zero)
+
+        'Node (MultiSamplePart)
+        Dim sampleStart As Long = Long.Parse(node.Item("SampleStart").GetAttribute("Value"))
+        Dim sampleEnd As Long = Long.Parse(node.Item("SampleEnd").GetAttribute("Value"))
+
+        fp.Start = A2U.keySound.SampleTimeToTime(sampleStart)
+        fp.End = A2U.keySound.SampleTimeToTime(sampleEnd)
+
+        Return fp
+    End Function
+
     Public Shared Function GetXpathsForKeySound(xpath As String) As String()
         Dim xpaths As String() = xpath.TrimStart("/").Split("/")
         Dim xpathList As New List(Of String)
@@ -2761,8 +2807,8 @@ Public Class MainProject
         Return Integer.Parse(node.Item("BranchInfo").Item("ReceivingNote").GetAttribute("Value"))
     End Function
 
-    Public Shared Function GetNoteNumberFromInstrumentBranch(node As XmlNode) As Point
-        Return New Point(Integer.Parse(node.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value")), Integer.Parse(node.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value")))
+    Public Shared Function GetNoteNumberFromInstrumentBranch(node As XmlNode) As Footprint(Of Integer)
+        Return New Footprint(Of Integer)(Integer.Parse(node.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value")), Integer.Parse(node.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value")))
     End Function
 
     Public Shared Sub GetSoundNodeInLoop(nodes As IEnumerable(Of SoundNodeList), doAction As Action(Of SoundNodeList, List(Of SoundNodeList)), Optional indent As Integer = 0)
@@ -2901,13 +2947,13 @@ Public Class MainProject
                     Dim FinalSoundName As String = x.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("OriginalSimpler").Item("Player").Item("MultiSampleMap").Item("SampleParts").Item("MultiSamplePart").Item("SampleRef").Item("FileRef").Item("Name").GetAttribute("Value")
                     Dim Chain As Integer = Integer.Parse(x.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1
 
-                    If Not splitSounds.Count = 0 Then
+                    If False Then 'Not splitSounds.Count = 0 Then
                         Try
-                            Dim StartTime As TimeSpan = sLToTime(Convert.ToInt64(x.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("OriginalSimpler").Item("Player").Item("MultiSampleMap").Item("SampleParts").Item("MultiSamplePart").Item("SampleStart").GetAttribute("Value")))
-                            Dim EndTime As TimeSpan = sLToTime(Convert.ToInt64(x.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("OriginalSimpler").Item("Player").Item("MultiSampleMap").Item("SampleParts").Item("MultiSamplePart").Item("SampleEnd").GetAttribute("Value")))
+                            Dim StartTime As TimeSpan = TimeSpan.Zero 'sLToTime(Convert.ToInt64(x.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("OriginalSimpler").Item("Player").Item("MultiSampleMap").Item("SampleParts").Item("MultiSamplePart").Item("SampleStart").GetAttribute("Value")))
+                            Dim EndTime As TimeSpan = TimeSpan.Zero 'sLToTime(Convert.ToInt64(x.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("OriginalSimpler").Item("Player").Item("MultiSampleMap").Item("SampleParts").Item("MultiSamplePart").Item("SampleEnd").GetAttribute("Value")))
 
                             Dim key As String = StartTime.TotalMilliseconds & "-" & EndTime.TotalMilliseconds & ".wav"
-                            If splitSounds.Contains(key) Then
+                            If False Then 'splitSounds.Contains(key) Then
                                 FinalSoundName = key
                             End If
 
@@ -3073,8 +3119,6 @@ Public Class MainProject
                     Directory.CreateDirectory(Application.StartupPath & "\Workspace\TmpSound")
                 End If
 
-                splitSounds = New List(Of String)
-
                 UI(Sub()
                        Select Case lang
                            Case Translator.tL.English
@@ -3124,8 +3168,8 @@ Public Class MainProject
                     Dim ssTime As Long = x.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("OriginalSimpler").Item("Player").Item("MultiSampleMap").Item("SampleParts").Item("MultiSamplePart").Item("SampleStart").GetAttribute("Value")
                     Dim seTime As Long = x.Item("DeviceChain").Item("MidiToAudioDeviceChain").Item("Devices").Item("OriginalSimpler").Item("Player").Item("MultiSampleMap").Item("SampleParts").Item("MultiSamplePart").Item("SampleEnd").GetAttribute("Value")
 
-                    Dim StartTime As TimeSpan = sLToTime(ssTime)
-                    Dim EndTime As TimeSpan = sLToTime(seTime)
+                    Dim StartTime As TimeSpan = TimeSpan.Zero 'sLToTime(ssTime)
+                    Dim EndTime As TimeSpan = TimeSpan.Zero 'sLToTime(seTime)
                     trName = Convert.ToInt32(StartTime.TotalMilliseconds) & "-" & Convert.ToInt32(EndTime.TotalMilliseconds)
 
                     If File.Exists(Application.StartupPath & "\Workspace\ableproj\sounds\" & sndName) = False Then
@@ -3146,7 +3190,7 @@ Public Class MainProject
                     End If
 
                     Sound_Cutting.TrimWavFile(Application.StartupPath & "\Workspace\ableproj\sounds\" & sndName, Application.StartupPath & "\Workspace\TmpSound\" & trName & ".wav", StartTime, EndTime)
-                    splitSounds.Add(trName & ".wav")
+                    'splitSounds.Add(trName & ".wav")
                     Debug.WriteLine(sndName & " : " & trName & ".wav, " & StartTime.TotalMilliseconds & " - " & EndTime.TotalMilliseconds)
                     UI(Sub()
                            Select Case lang
@@ -4771,7 +4815,6 @@ Public Class MainProject
         abl_openedproj = False
         abl_openedsnd = False
         abl_openedled = False
-        abl_openedled2 = False
 
         Select Case lang
             Case Translator.tL.English
@@ -4985,6 +5028,10 @@ Public Class MainProject
             OpenSounds(soundList.ToArray(), True)
             OpenKeyLED(ledPaths, True)
         End Sub)
+
+        If abl_openedled Then
+            keyLEDMIDEX_BetaButton.Enabled = True
+        End If
     End Function
 
     Private Async Sub btnKeySound_AutoConvert_Click(sender As Object, e As EventArgs) Handles btnKeySound_AutoConvert.Click

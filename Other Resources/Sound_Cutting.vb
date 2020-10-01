@@ -33,7 +33,9 @@ Public Class Sound_Cutting
     Public Shared Sub Mp3ToWav(mp3File As String, outputFile As String)
         Try
             Using reader As New Mp3FileReader(mp3File)
-                WaveFileWriter.CreateWaveFile(outputFile, reader)
+                Using pcmStream As WaveStream = WaveFormatConversionStream.CreatePcmStream(reader)
+                    WaveFileWriter.CreateWaveFile(outputFile, pcmStream)
+                End Using
             End Using
         Catch
             Debug.WriteLine($"Error occured while converting mp3 to wav.{Environment.NewLine}Mp3 File: {mp3File}")
