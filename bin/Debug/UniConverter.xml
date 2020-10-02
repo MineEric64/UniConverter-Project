@@ -139,6 +139,16 @@ o 6 3 a  [rest of string was truncated]&quot;;.
   Looks up a localized string similar to Hello, World!.
 </summary>
 </member>
+<member name="P:UniConverter.My.Resources.Contents.KeySound_Created">
+<summary>
+  Looks up a localized string similar to Created KeySound successfully!.
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Contents.KeySound_Creating">
+<summary>
+  Looks up a localized string similar to Creating KeySound... ({0} / {1}).
+</summary>
+</member>
 <member name="P:UniConverter.My.Resources.Contents.LED_Converted">
 <summary>
   Looks up a localized string similar to Converted LED sucessfully!.
@@ -287,9 +297,24 @@ You can edit info in Information Tab..
   Looks up a localized string similar to Loading The Ableton Project File....
 </summary>
 </member>
+<member name="P:UniConverter.My.Resources.Contents.Sound_Converted">
+<summary>
+  Looks up a localized string similar to Converted Sound sucessfully!.
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Contents.Sound_Converting">
+<summary>
+  Looks up a localized string similar to Converting Sounds....
+</summary>
+</member>
 <member name="P:UniConverter.My.Resources.Contents.Sound_Loaded">
 <summary>
   Looks up a localized string similar to Sounds Loaded!.
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Contents.Sound_Not_Found">
+<summary>
+  Looks up a localized string similar to Couldn&apos;t find any sounds in this project..
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Sound_ofd_Filter">
@@ -310,6 +335,11 @@ You can edit info in Information Tab..
 <member name="P:UniConverter.My.Resources.Contents.Sound_Open_Title">
 <summary>
   Looks up a localized string similar to Loading Sound Files.
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Contents.Sound_Verifying">
+<summary>
+  Looks up a localized string similar to Verifying Sounds... ({0} / {1}).
 </summary>
 </member>
 <member name="M:UniConverter.keyLED_Edit_Ex.Flip_Rotate_90(System.Int32)">

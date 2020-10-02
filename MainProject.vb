@@ -593,7 +593,8 @@ Public Class MainProject
             Await Task.Run(Sub()
                          OpenSounds(ofd.FileNames, True)
                      End Sub)
-            'Await ReadyForAutoConvertForKeySound()
+
+            Await ReadyForAutoConvertForKeySound()
         End If
     End Sub
 #Region "Smart Invoke Function"
@@ -957,7 +958,7 @@ Public Class MainProject
             btnKeySound_AutoConvert.Enabled = True
 
             If AutoConvert.Checked Then
-                Dim errorMessage As String = Await ReadyForConvertKeySound()
+                Dim errorMessage As String = Await ReadyForConvertKeySound(True)
 
                 If Not String.IsNullOrWhiteSpace(errorMessage) Then
                     MessageBox.Show(String.Format(My.Resources.Contents.LED_Converting_Error, errorMessage), Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -967,7 +968,7 @@ Public Class MainProject
         End If
     End Function
 
-    Private Async Function ReadyForConvertKeySound() As Task(Of String)
+    Private Async Function ReadyForConvertKeySound(showLoadingMessage As Boolean) As Task(Of String)
         Dim errorMessage As New StringBuilder(255)
         Dim conversionErrorMessage As String = String.Empty
         Dim soundConversion As Task(Of KeySoundStructure()) = Task.Run(Function() As KeySoundStructure()
@@ -991,6 +992,13 @@ Public Class MainProject
             Dim previousChain = 0
             Dim padZeroFormat As String = New String("0"C, trimmedSoundList.Count.ToString().Length)
 
+            If showLoadingMessage Then
+                Invoke(Sub()
+                    Loading.Show()
+                    Loading.DLb.Text = String.Format(My.Resources.Contents.Sound_Verifying, 0, trimmedSoundList.Count)
+                       End Sub)
+            End If
+
             For i = 0 To trimmedSoundList.Count - 1
                 Dim sound As KeySoundStructure = trimmedSoundList(i)
 
@@ -1004,9 +1012,23 @@ Public Class MainProject
 
                 Sound_Cutting.TrimWavFile(abletonSoundFilePath, trimmedSoundFilePath, sound.StartTime, sound.EndTime)
                 sound.FileName = trimmedSoundFileName
+
+                If showLoadingMessage Then
+                    Invoke(Sub()
+                        Loading.DLb.Text = String.Format(My.Resources.Contents.Sound_Verifying, i + 1, trimmedSoundList.Count)
+                           End Sub)
+                End If
             Next
 
-            For Each sound In sortedSoundList
+            If showLoadingMessage Then
+                Invoke(Sub()
+                    Loading.DLb.Text = String.Format(My.Resources.Contents.Sound_Verifying, 0, sortedSoundList.Count)
+                       End Sub)
+            End If
+
+            For i = 0 To sortedSoundList.Count - 1
+                Dim sound As KeySoundStructure = sortedSoundList(i)
+
                 If Path.GetExtension(sound.FileName) <> ".wav" Then 'mp3 파일은 이미 변환 했으므로
                     sound.FileName = Path.ChangeExtension(sound.FileName, ".wav")
                 End If
@@ -1035,11 +1057,25 @@ Public Class MainProject
                 File.Copy(abletonSoundFilePath, unipackSoundFilePath, True)
 
                 previousChain = sound.Chain
+
+                If showLoadingMessage Then
+                    Invoke(Sub()
+                        Loading.DLb.Text = String.Format(My.Resources.Contents.KeySound_Creating, i + 1, sortedSoundList.Count)
+                           End Sub)
+                End If
              Next
 
             Dim content As String = keySound.ToString().TrimEnd(Environment.NewLine)
             File.WriteAllText(UNIPACK_KEYSOUND_PATH, content)
                        End Sub)
+
+        If showLoadingMessage Then
+            Invoke(Sub()
+                Loading.Close()
+                   End Sub)
+
+            MessageBox.Show(My.Resources.Contents.KeySound_Created, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
 
         Return errorMessage.ToString()
     End Function
@@ -1089,6 +1125,8 @@ Public Class MainProject
             Await Task.Run(Sub()
                 OpenAbletonProjectFile(alsOpen1.FileName, True)
                      End Sub)
+
+            Await ReadyForAutoConvertForKeySound()
             Await ReadyForAutoConvertForKeyLED()
         End If
     End Sub
@@ -2438,6 +2476,14 @@ Public Class MainProject
     ''' <param name="showLoadingMessage">로딩 메시지 존재의 여부</param>
     Public Function ConvertKeySound_v2(apfPath As String, ByRef err As String, showLoadingMessage As Boolean) As KeySoundStructure()
         Dim errSb As New StringBuilder(255)
+
+        If showLoadingMessage Then
+            Invoke(Sub()
+                Loading.Show()
+                Loading.Text = My.Resources.Contents.Sound_Converting
+                Loading.DLb.Text = My.Resources.Contents.Sound_Converting
+                   End Sub)
+        End If
         
         Dim doc As New XmlDocument()
         doc.Load(apfPath)
@@ -2449,6 +2495,12 @@ Public Class MainProject
         Dim nodeListInNode As List(Of SoundNodeList) = Nothing 'For문을 돌면서 LEDList에 Node를 넣을 배열
 
         Dim instrumentBranchList As New List(Of List(Of InstrumentBranch))(GetInstrumentBranches(setNode))
+
+        If showLoadingMessage Then
+            Invoke(Sub()
+                Loading.DLb.Text = String.Format(My.Resources.Contents.Sound_Verifying, 0, instrumentBranchList.Count)
+                   End Sub)
+        End If
 
         For i = 0 To instrumentBranchList.Count - 1
             Dim branches As List(Of InstrumentBranch) = instrumentBranchList(i)
@@ -2510,7 +2562,19 @@ Public Class MainProject
                     nodeListInNode = firstBranch.NodeList
                 End If
             Next
+
+            If showLoadingMessage Then
+                Invoke(Sub()
+                    Loading.DLb.Text = String.Format(My.Resources.Contents.Sound_Verifying, i + 1, instrumentBranchList.Count)
+                       End Sub)
+            End If
         Next
+
+        If showLoadingMessage Then
+            Invoke(Sub()
+                Loading.Text = My.Resources.Contents.Sound_Converting
+                   End Sub)
+        End If
 
         If soundList.Count > 0 Then
             'Chain 유효성 검사 (with InstrumentRack)
@@ -2565,12 +2629,20 @@ Public Class MainProject
             GetSoundNodeInLoop(soundList, checkChainAction)
 
             If showLoadingMessage Then
-                MessageBox.Show("Sound Converted!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Invoke(Sub()
+                    Loading.Close()
+                       End Sub)
+
+                MessageBox.Show(My.Resources.Contents.Sound_Converted, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
 
         Else
-            If showLoadingMessage THen
-                MessageBox.Show("sound not found", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If showLoadingMessage Then
+                Invoke(Sub()
+                    Loading.Close()
+                       End Sub)
+
+                MessageBox.Show(My.Resources.Contents.Sound_Not_Found, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
         End If
 
@@ -2653,9 +2725,10 @@ Public Class MainProject
 
                 'Trimming Sound
                 Dim fp As Footprint(Of TimeSpan) = GetTimeForTrimmingSound(multiSamplePart)
+                Dim filePath As String = $"{ABLETON_SOUNDS_PATH}\{Path.ChangeExtension(soundName, ".wav")}"
 
-                If fp.Start <> TimeSpan.Zero OrElse fp.End <> TimeSpan.Zero Then
-                    Dim waveFile As New WaveFileReader($"{ABLETON_SOUNDS_PATH}\{Path.ChangeExtension(soundName, ".wav")}")
+                If (fp.Start <> TimeSpan.Zero OrElse fp.End <> TimeSpan.Zero) AndAlso File.Exists(filePath) Then
+                    Dim waveFile As New WaveFileReader(filePath)
                     
                     If fp.Start <> TimeSpan.Zero OrElse Math.Abs(Convert.ToInt32(Math.Truncate(waveFile.TotalTime.TotalSeconds)) - Convert.ToInt32(Math.Truncate(fp.End.TotalSeconds))) >= 1 Then
                         startTime = fp.Start
@@ -3417,6 +3490,8 @@ Public Class MainProject
                 Invoke(Sub()
                     Loading.Close()
                        End Sub)
+
+                MessageBox.Show(My.Resources.Contents.LED_Converted, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
             
             err = errSb.ToString()
@@ -4941,6 +5016,7 @@ Public Class MainProject
 
         End Select
 
+        Await ReadyForAutoConvertForKeySound()
         Await ReadyForAutoConvertForKeyLED()
     End Sub
 
@@ -5035,7 +5111,7 @@ Public Class MainProject
     End Function
 
     Private Async Sub btnKeySound_AutoConvert_Click(sender As Object, e As EventArgs) Handles btnKeySound_AutoConvert.Click
-        Dim errorMessage As String = Await ReadyForConvertKeySound()
+        Dim errorMessage As String = Await ReadyForConvertKeySound(True)
 
         If Not String.IsNullOrWhiteSpace(errorMessage) Then
             MessageBox.Show(errorMessage, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)

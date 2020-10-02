@@ -120,6 +120,12 @@
   <data name="HelloWorld" xml:space="preserve">
     <value>안녕, 세상아!</value>
   </data>
+  <data name="KeySound_Created" xml:space="preserve">
+    <value>KeySound가 성공적으로 만들어졌습니다!</value>
+  </data>
+  <data name="KeySound_Creating" xml:space="preserve">
+    <value>KeySound 만드는 중... ({0} / {1})</value>
+  </data>
   <data name="LED_Converted" xml:space="preserve">
     <value>LED가 성공적으로 변환되었습니다!</value>
   </data>
@@ -212,8 +218,17 @@
   <data name="Project_Title" xml:space="preserve">
     <value>에이블톤 프로젝트 파일을 불러오는 중...</value>
   </data>
+  <data name="Sound_Converted" xml:space="preserve">
+    <value>사운드가 성공적으로 변환되었습니다!</value>
+  </data>
+  <data name="Sound_Converting" xml:space="preserve">
+    <value>사운드 변환 중...</value>
+  </data>
   <data name="Sound_Loaded" xml:space="preserve">
     <value>사운드 파일들을 불러왔습니다!</value>
+  </data>
+  <data name="Sound_Not_Found" xml:space="preserve">
+    <value>이 프로젝트에서 사운드를 찾지 못하였습니다.</value>
   </data>
   <data name="Sound_ofd_Filter" xml:space="preserve">
     <value>wav 파일|*.wav|mp3 파일|*.mp3|모든 사운드 파일|*.*</value>
@@ -226,5 +241,8 @@
   </data>
   <data name="Sound_Open_Title" xml:space="preserve">
     <value>사운드 파일을 불러오는 중...</value>
+  </data>
+  <data name="Sound_Verifying" xml:space="preserve">
+    <value>사운드 확인 중... ({0} / {1})</value>
   </data>
 </root>

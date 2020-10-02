@@ -74,6 +74,24 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Looks up a localized string similar to Created KeySound successfully!.
+        '''</summary>
+        Public Shared ReadOnly Property KeySound_Created() As String
+            Get
+                Return ResourceManager.GetString("KeySound_Created", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Creating KeySound... ({0} / {1}).
+        '''</summary>
+        Public Shared ReadOnly Property KeySound_Creating() As String
+            Get
+                Return ResourceManager.GetString("KeySound_Creating", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized string similar to Converted LED sucessfully!.
         '''</summary>
         Public Shared ReadOnly Property LED_Converted() As String
@@ -334,11 +352,38 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Looks up a localized string similar to Converted Sound sucessfully!.
+        '''</summary>
+        Public Shared ReadOnly Property Sound_Converted() As String
+            Get
+                Return ResourceManager.GetString("Sound_Converted", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Converting Sounds....
+        '''</summary>
+        Public Shared ReadOnly Property Sound_Converting() As String
+            Get
+                Return ResourceManager.GetString("Sound_Converting", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized string similar to Sounds Loaded!.
         '''</summary>
         Public Shared ReadOnly Property Sound_Loaded() As String
             Get
                 Return ResourceManager.GetString("Sound_Loaded", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Couldn&apos;t find any sounds in this project..
+        '''</summary>
+        Public Shared ReadOnly Property Sound_Not_Found() As String
+            Get
+                Return ResourceManager.GetString("Sound_Not_Found", resourceCulture)
             End Get
         End Property
         
@@ -375,6 +420,15 @@ Namespace My.Resources
         Public Shared ReadOnly Property Sound_Open_Title() As String
             Get
                 Return ResourceManager.GetString("Sound_Open_Title", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Verifying Sounds... ({0} / {1}).
+        '''</summary>
+        Public Shared ReadOnly Property Sound_Verifying() As String
+            Get
+                Return ResourceManager.GetString("Sound_Verifying", resourceCulture)
             End Get
         End Property
     End Class

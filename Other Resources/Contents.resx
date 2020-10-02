@@ -120,6 +120,12 @@
   <data name="HelloWorld" xml:space="preserve">
     <value>Hello, World!</value>
   </data>
+  <data name="KeySound_Created" xml:space="preserve">
+    <value>Created KeySound successfully!</value>
+  </data>
+  <data name="KeySound_Creating" xml:space="preserve">
+    <value>Creating KeySound... ({0} / {1})</value>
+  </data>
   <data name="LED_Converted" xml:space="preserve">
     <value>Converted LED sucessfully!</value>
   </data>
@@ -212,8 +218,17 @@ You can edit info in Information Tab.</value>
   <data name="Project_Title" xml:space="preserve">
     <value>Loading The Ableton Project File...</value>
   </data>
+  <data name="Sound_Converted" xml:space="preserve">
+    <value>Converted Sound sucessfully!</value>
+  </data>
+  <data name="Sound_Converting" xml:space="preserve">
+    <value>Converting Sounds...</value>
+  </data>
   <data name="Sound_Loaded" xml:space="preserve">
     <value>Sounds Loaded!</value>
+  </data>
+  <data name="Sound_Not_Found" xml:space="preserve">
+    <value>Couldn't find any sounds in this project.</value>
   </data>
   <data name="Sound_ofd_Filter" xml:space="preserve">
     <value>wav sound files|*.wav|mp3 sounds files|*.mp3|All Sound Files|*.*</value>
@@ -226,5 +241,8 @@ You can edit info in Information Tab.</value>
   </data>
   <data name="Sound_Open_Title" xml:space="preserve">
     <value>Loading Sound Files</value>
+  </data>
+  <data name="Sound_Verifying" xml:space="preserve">
+    <value>Verifying Sounds... ({0} / {1})</value>
   </data>
 </root>

@@ -605,6 +605,7 @@ Partial Class MainProject
         '
         'btnKeySound_AutoConvert
         '
+        Me.btnKeySound_AutoConvert.Enabled = false
         Me.btnKeySound_AutoConvert.Font = New System.Drawing.Font("NanumBarunGothic", 9.75!)
         Me.btnKeySound_AutoConvert.Location = New System.Drawing.Point(562, 343)
         Me.btnKeySound_AutoConvert.Name = "btnKeySound_AutoConvert"
