@@ -846,7 +846,8 @@ Public Class keyLED_Edit
 End Class
 
 Public Enum Plugins
-    MidiExtension
+    MidiExtension '1.0
+    MidiExt '2.0 이상
     MidiFire
     Lightweight
     Flip

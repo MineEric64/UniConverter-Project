@@ -200,6 +200,9 @@ You can edit info in Information Tab.</value>
   <data name="Project_Loading" xml:space="preserve">
     <value>Loading The Project File...</value>
   </data>
+  <data name="Project_Not_Opened" xml:space="preserve">
+    <value>You didn't open Ableton Project!</value>
+  </data>
   <data name="Project_ofd_Filter" xml:space="preserve">
     <value>Ableton Project File|*.als</value>
   </data>
@@ -244,5 +247,8 @@ You can edit info in Information Tab.</value>
   </data>
   <data name="Sound_Verifying" xml:space="preserve">
     <value>Verifying Sounds... ({0} / {1})</value>
+  </data>
+  <data name="UniPack_Info_Saved" xml:space="preserve">
+    <value>Saved UniPack Information!</value>
   </data>
 </root>

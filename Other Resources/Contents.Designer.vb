@@ -298,6 +298,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Looks up a localized string similar to You didn&apos;t open Ableton Project!.
+        '''</summary>
+        Public Shared ReadOnly Property Project_Not_Opened() As String
+            Get
+                Return ResourceManager.GetString("Project_Not_Opened", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized string similar to Ableton Project File|*.als.
         '''</summary>
         Public Shared ReadOnly Property Project_ofd_Filter() As String
@@ -429,6 +438,15 @@ Namespace My.Resources
         Public Shared ReadOnly Property Sound_Verifying() As String
             Get
                 Return ResourceManager.GetString("Sound_Verifying", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Saved UniPack Information!.
+        '''</summary>
+        Public Shared ReadOnly Property UniPack_Info_Saved() As String
+            Get
+                Return ResourceManager.GetString("UniPack_Info_Saved", resourceCulture)
             End Get
         End Property
     End Class

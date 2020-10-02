@@ -221,6 +221,7 @@ Public Class MainProject
     Public Shared ReadOnly ABLETON_KEYLED_PATH As String = ABLETON_PROJECT_PATH & "\CoLED"
     
     Public Shared ReadOnly UNIPACK_PROJECT_PATH As String = WORKSPACE_PATH & "\unipack"
+    Public Shared ReadOnly UNIPACK_INFO_PATH As String = UNIPACK_PROJECT_PATH & "\info"
     Public Shared ReadOnly UNIPACK_SOUNDS_PATH As String = UNIPACK_PROJECT_PATH & "\sounds"
     Public Shared ReadOnly UNIPACK_KEYSOUND_PATH As String = UNIPACK_PROJECT_PATH & "\keySound"
     Public Shared ReadOnly UNIPACK_KEYLED_PATH As String = UNIPACK_PROJECT_PATH & "\keyLED"
@@ -1168,32 +1169,22 @@ Public Class MainProject
     ''' <summary>
     ''' UniPack의 info 파일을 저장합니다.
     ''' </summary>
-    ''' <param name="Message">메시지 박스를 표시함.</param>
-    Public Sub UniPack_SaveInfo(Message As Boolean)
+    ''' <param name="showMessage">메시지 박스를 표시할지의 여부</param>
+    Public Sub UniPack_SaveInfo(showMessage As Boolean)
         Try
-            If abl_openedproj = True Then
-
-                If Directory.Exists(Application.StartupPath & "\Workspace\unipack") = False Then
-                    My.Computer.FileSystem.CreateDirectory(Application.StartupPath & "\Workspace\unipack")
+            If abl_openedproj Then
+                If Not Directory.Exists(UNIPACK_PROJECT_PATH) Then
+                    Directory.CreateDirectory(UNIPACK_PROJECT_PATH)
                 End If
 
-                File.WriteAllText(Application.StartupPath & "\Workspace\unipack\info", String.Format("title={0}{1}buttonX=8{1}buttonY=8{1}producerName={2}{1}chain={3}{1}squareButton=true", infoTB1.Text, vbNewLine, infoTB2.Text, infoTB3.Text))
+                File.WriteAllText(UNIPACK_INFO_PATH, String.Format("title={0}{1}buttonX=8{1}buttonY=8{1}producerName={2}{1}chain={3}{1}squareButton=true", infoTB1.Text, vbNewLine, infoTB2.Text, infoTB3.Text))
                 infoIsSaved = True
-                If Message Then
-                    Select Case lang
-                        Case Translator.tL.English
-                            MessageBox.Show("Saved info!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        Case Translator.tL.Korean
-                            MessageBox.Show("info를 저장 했습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    End Select
+
+                If showMessage Then
+                    MessageBox.Show(My.Resources.Contents.UniPack_Info_Saved, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End If
             Else
-                Select Case lang
-                    Case Translator.tL.English
-                        MessageBox.Show("You didn't open Ableton Project!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    Case Translator.tL.Korean
-                        MessageBox.Show("에이블톤 프로젝트를 열지 않았습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-                End Select
+                MessageBox.Show(My.Resources.Contents.Project_Not_Opened, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
 
         Catch ex As Exception
@@ -1700,15 +1691,26 @@ Public Class MainProject
     End Sub
 
     ''' <summary>
+    ''' 프로젝트를 저장 합니다.
+    ''' </summary>
+    ''' <param name="wait">기다릴지의 여부</param>
+    Public Sub SaveProject(wait As Boolean)
+        If abl_openedproj AndAlso (abl_openedsnd OrElse abl_openedled) Then
+            Dim title As String = abl_Name
+        End If
+    End Sub
+
+    ''' <summary>
     ''' MainProject에서 프로젝트를 저장합니다.
     ''' </summary>
     ''' <param name="Waiting">기다릴까?</param>
+    <Obsolete("This method is deprecated. Please use 'SaveProject' method.")>
     Public Sub Save2Project(Waiting As Boolean)
         Try
             Dim IsHaveProject As Boolean = False
             Dim IsHaveSound As Boolean = False
             Dim IsHaveLED As Boolean = False
-            UI(Sub()
+            Invoke(Sub()
                    IsHaveProject = abl_openedproj
                    IsHaveSound = abl_openedsnd
                    IsHaveLED = abl_openedled
@@ -1721,19 +1723,14 @@ Public Class MainProject
                 Dim sfd As New SaveFileDialog()
                 Dim aN As DialogResult
 
-                UI(Sub()
-                       Select Case lang
-                           Case Translator.tL.English
-                               sfd.Filter = "Zip File|*.zip|UniPack File|*.uni"
-                               sfd.Title = "Save the UniPack"
-                           Case Translator.tL.Korean
-                               sfd.Filter = "Zip 파일|*.zip|유니팩 파일|*.uni"
-                               sfd.Title = "유니팩을 어디에 저장할지 선택하세요"
-                       End Select
-                   End Sub)
+                Invoke(Sub()
+                    sfd.Title = My.Resources.Contents.Project_sfd_Title
+                    sfd.Filter = My.Resources.Contents.Project_sfd_Filter
+                       End Sub)
                 sfd.FileName = infoTitle
                 sfd.AddExtension = False
-                UI(Sub()
+
+                Invoke(Sub()
                        aN = sfd.ShowDialog()
                    End Sub)
 
@@ -3322,7 +3319,7 @@ Public Class MainProject
 #End Region
 
     ''' <summary>
-    ''' 종합 keyLED (MIDEX) 변환 함수 (Midi Extension, Midi Fire, Lightweight 지원)
+    ''' 종합 keyLED (MIDEX) 변환 함수 (Midi Extension, MIDIext, Midi Fire, Lightweight 지원)
     ''' </summary>
     ''' <param name="AbletonProjectFilePath">에이블톤 프로젝트 파일 경로</param>
     ''' <param name="err">오류 메시지</param>
@@ -3463,7 +3460,7 @@ Public Class MainProject
 
                             toSaveLEDList = ConvertKeyLEDForMidiExtension_v2(node.Node, mm, _midiExtensionMapping)
 
-                        Case Plugins.MidiFire, Plugins.Lightweight
+                        Case Plugins.MidiExt, Plugins.MidiFire, Plugins.Lightweight
                             toSaveLEDList = ConvertKeyLEDForMidiFire_v2(node.Node, mm)
 
                     End Select
@@ -3566,18 +3563,23 @@ Public Class MainProject
     End Function
 
     Public Shared Function GetPluginForKeyLED(name As String) As Plugins
+        Dim detectName As String = name.ToLower().Replace(" ", "")
+
         If String.IsNullOrWhiteSpace(name) Then
             Return Plugins.None
         End If
 
-        name = name.ToLower().Replace(" ", "")
+        If detectName.Contains(".amxd") Then
+            If detectName.Contains("midiext") OrElse detectName.Contains("midext") Then
+                If name.Contains("Midi Extension") Then
+                    Return Plugins.MidiExtension
+                Else
+                    Return Plugins.MidiExt
+                End If
 
-        If name.Contains(".amxd") Then
-            If name.Contains("midiext") OrElse name.Contains("midext") Then
-                Return Plugins.MidiExtension
-            ElseIf name.Contains("midifire") OrElse name.Contains("midfire") Then
+            ElseIf detectName.Contains("midifire") OrElse detectName.Contains("midfire") Then
                 Return Plugins.MidiFire
-            ElseIf name.Contains("lightweight") Then
+            ElseIf detectName.Contains("lightweight") Then
                 Return Plugins.Lightweight
             End If
         End If
