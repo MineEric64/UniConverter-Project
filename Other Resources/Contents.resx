@@ -120,11 +120,23 @@
   <data name="HelloWorld" xml:space="preserve">
     <value>Hello, World!</value>
   </data>
+  <data name="KeyLED_Created" xml:space="preserve">
+    <value>Created KeyLED successfully!</value>
+  </data>
+  <data name="KeyLED_Creating" xml:space="preserve">
+    <value>Creating KeyLED... ({0} / {1})</value>
+  </data>
+  <data name="KeyLED_Creating_Title" xml:space="preserve">
+    <value>Creating KeyLED</value>
+  </data>
   <data name="KeySound_Created" xml:space="preserve">
     <value>Created KeySound successfully!</value>
   </data>
   <data name="KeySound_Creating" xml:space="preserve">
     <value>Creating KeySound... ({0} / {1})</value>
+  </data>
+  <data name="KeySound_Creating_Title" xml:space="preserve">
+    <value>Creating KeySound</value>
   </data>
   <data name="LED_Converted" xml:space="preserve">
     <value>Converted LED sucessfully!</value>
@@ -139,7 +151,7 @@ Error Message:
 {0}</value>
   </data>
   <data name="LED_Converting_Title" xml:space="preserve">
-    <value>Converting LED... ({0} / {1})</value>
+    <value>Converting LED</value>
   </data>
   <data name="LED_Loaded" xml:space="preserve">
     <value>LED Files Loaded! You can edit LEDs in 'keyLED (MIDI Extension)' Tab.</value>
@@ -193,12 +205,21 @@ Would you like to select the data file and continue?
   <data name="Project_FileName" xml:space="preserve">
     <value>Finding File Name...</value>
   </data>
+  <data name="Project_Initialized" xml:space="preserve">
+    <value>Project initialized!</value>
+  </data>
+  <data name="Project_Initializing" xml:space="preserve">
+    <value>Initializing...</value>
+  </data>
   <data name="Project_Loaded" xml:space="preserve">
     <value>Ableton Project File Loaded!
 You can edit info in Information Tab.</value>
   </data>
   <data name="Project_Loading" xml:space="preserve">
     <value>Loading The Project File...</value>
+  </data>
+  <data name="Project_Not_Converted" xml:space="preserve">
+    <value>You didn't convert the project.</value>
   </data>
   <data name="Project_Not_Opened" xml:space="preserve">
     <value>You didn't open Ableton Project!</value>
@@ -211,6 +232,12 @@ You can edit info in Information Tab.</value>
   </data>
   <data name="Project_Reset" xml:space="preserve">
     <value>Reseting Project...</value>
+  </data>
+  <data name="Project_Saved" xml:space="preserve">
+    <value>Saved UniPack!</value>
+  </data>
+  <data name="Project_Saving" xml:space="preserve">
+    <value>Saving Project to UniPack...</value>
   </data>
   <data name="Project_sfd_Filter" xml:space="preserve">
     <value>Zip File|*.zip|UniPack File|*.uni</value>
@@ -226,6 +253,12 @@ You can edit info in Information Tab.</value>
   </data>
   <data name="Sound_Converting" xml:space="preserve">
     <value>Converting Sounds...</value>
+  </data>
+  <data name="Sound_Converting_Error" xml:space="preserve">
+    <value>Error occured while converting Sound.
+
+Error Message:
+{0}</value>
   </data>
   <data name="Sound_Loaded" xml:space="preserve">
     <value>Sounds Loaded!</value>
@@ -250,5 +283,11 @@ You can edit info in Information Tab.</value>
   </data>
   <data name="UniPack_Info_Saved" xml:space="preserve">
     <value>Saved UniPack Information!</value>
+  </data>
+  <data name="UniPack_Not_Saved" xml:space="preserve">
+    <value>You didn't save your UniPack. Would you like to save your UniPack?</value>
+  </data>
+  <data name="UniPack_Not_Saved_Title" xml:space="preserve">
+    <value>Not Saved</value>
   </data>
 </root>

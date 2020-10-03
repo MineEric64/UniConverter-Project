@@ -184,6 +184,21 @@ Public Class MainProject
     ''' </summary>
     Public Shared lang As Translator.tL
 
+    ''' <summary>
+    ''' 유니팩 이름
+    ''' </summary>
+    Public Shared UniPack_Title As String
+
+    ''' <summary>
+    ''' 유니팩 제작자 이름
+    ''' </summary>
+    Public Shared UniPack_ProducerName As String
+
+    ''' <summary>
+    ''' 유니팩 체인
+    ''' </summary>
+    Public Shared UniPack_Chains As Integer
+
 #Region "MIDI Settings"
     Public midioutput As MidiOut
 
@@ -303,10 +318,6 @@ Public Class MainProject
                 Me.Text &= " (Enabled Developer Mode)"
                 DeveloperModeToolStripMenuItem.Visible = True
             End If
-
-            Await Task.Run(Sub() 'Workspace의 UniPack 폴더 정리.
-                DeleteWorkspaceDir()
-                           End Sub)
 
 #Region "Dictionary 버튼 추가"
             'keySound 8x8 유니패드 버튼
@@ -496,30 +507,16 @@ Public Class MainProject
                 kl_ctrl("mc" & i).ForeColor = Color.Gray
             Next
 #End Region
-#Region "변수 기본값 설정"
-            Me.KeyPreview = True
-
-            abl_openedproj = False
-            abl_openedsnd = False
-            abl_openedled = False
-
-            IsSaved = True
-            SoundIsSaved = False
-            keyLEDIsSaved = False
-            infoIsSaved = False
-            IsUpdated = False
-            IsWorking = False
-            ks_Converted = False
-            kl_Converted = False
 
             w8t4abl = String.Empty
+            Me.KeyPreview = True
             OpenProjectOnce = ProjectOpenMethod.Smart
 
-            keyLEDMIDEX_LEDViewMode.Checked = True
-            keyLEDPad_Flush(False)
-            keyLEDMIDEX_BetaButton.Enabled = False
-#End Region
+            Await Initialize()
 
+            'Text of Info TextBox
+            infoTB1.Text = "My Amazing UniPack!" 'Title
+            infoTB2.Text = "UniConverter, " & My.Computer.Name 'Producer Name
 
             setxml.Load(file_ex)
             Dim setNode As XmlNode
@@ -532,10 +529,6 @@ Public Class MainProject
             If setNode.ChildNodes(2).InnerText = "True" Then
                 SetUpLight_ = True
             End If
-
-            'Text of Info TextBox
-            infoTB1.Text = "My Amazing UniPack!" 'Title
-            infoTB2.Text = "UniConverter, " & My.Computer.Name 'Producer Name
 
             'Translate the Language from "Translator" Class.
             Dim Ln As String = setNode.ChildNodes(3).InnerText
@@ -570,6 +563,38 @@ Public Class MainProject
             End If
         End Try
     End Sub
+
+    Public Async Function Initialize() As Task
+        Await Task.Run(Sub() 'Workspace의 UniPack 폴더 정리.
+            DeleteWorkspaceDir()
+        End Sub)
+
+#Region "변수 기본값 설정"
+        abl_openedproj = False
+        abl_openedsnd = False
+        abl_openedled = False
+
+        IsSaved = True
+        SoundIsSaved = False
+        keyLEDIsSaved = False
+        infoIsSaved = False
+        IsUpdated = False
+        IsWorking = False
+        ks_Converted = False
+        kl_Converted = False
+
+        UniPack_Title = String.Empty
+        UniPack_ProducerName = String.Empty
+        UniPack_Chains = 1
+
+        keyLEDMIDEX_LEDViewMode.Checked = True
+        keyLEDPad_Flush(False)
+
+        btnKeySound_AutoConvert.Enabled = False
+        keyLEDMIDEX_BetaButton.Enabled = False
+        btnConvertKeyLEDAutomatically.Enabled = False
+#End Region
+    End Function
 
     Private Sub InfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InfoToolStripMenuItem.Click
         Info.Show()
@@ -624,7 +649,7 @@ Public Class MainProject
 
     Private Sub SaveProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveProjectToolStripMenuItem.Click
         Task.Run(Sub()
-            Save2Project(True)
+            SaveProject(True)
                  End Sub)
     End Sub
 
@@ -962,9 +987,9 @@ Public Class MainProject
                 Dim errorMessage As String = Await ReadyForConvertKeySound(True)
 
                 If Not String.IsNullOrWhiteSpace(errorMessage) Then
-                    MessageBox.Show(String.Format(My.Resources.Contents.LED_Converting_Error, errorMessage), Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    MessageBox.Show(String.Format(My.Resources.Contents.Sound_Converting_Error, errorMessage), Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 End If
-                MessageBox.Show(My.Resources.Contents.LED_Converted, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show(My.Resources.Contents.KeySound_Created, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
         End If
     End Function
@@ -996,6 +1021,7 @@ Public Class MainProject
             If showLoadingMessage Then
                 Invoke(Sub()
                     Loading.Show()
+                    Loading.Text = My.Resources.Contents.KeySound_Creating_Title
                     Loading.DLb.Text = String.Format(My.Resources.Contents.Sound_Verifying, 0, trimmedSoundList.Count)
                        End Sub)
             End If
@@ -1074,8 +1100,6 @@ Public Class MainProject
             Invoke(Sub()
                 Loading.Close()
                    End Sub)
-
-            MessageBox.Show(My.Resources.Contents.KeySound_Created, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
 
         Return errorMessage.ToString()
@@ -1089,27 +1113,49 @@ Public Class MainProject
             btnConvertKeyLEDAutomatically.Enabled = True
 
             If AutoConvert.Checked Then
-                Dim errorMessage As String = Await ReadyForConvertKeyLEDForMIDEX()
+                Dim errorMessage As String = Await ReadyForConvertKeyLEDForMIDEX(True)
 
                 If Not String.IsNullOrWhiteSpace(errorMessage) Then
                     MessageBox.Show(String.Format(My.Resources.Contents.LED_Converting_Error, errorMessage), Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 End If
-                MessageBox.Show(My.Resources.Contents.LED_Converted, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show(My.Resources.Contents.KeyLED_Created, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
         End If
     End Function
 
-    Private Async Function ReadyForConvertKeyLEDForMIDEX() As Task(Of String)
+    Private Async Function ReadyForConvertKeyLEDForMIDEX(showLoadingMessage As Boolean) As Task(Of String)
         Dim errorMessage As String = String.Empty
         Dim ledConversion As Task(Of KeyLEDStructure()) = Task.Run(Function() As KeyLEDStructure()
             Return ConvertKeyLEDForMIDEX_v2(ABLETON_PROJECT_XML_PATH, errorMessage, True)
         End Function)
 
         Dim keyLEDs As KeyLEDStructure() = Await ledConversion
+
+        If showLoadingMessage Then
+            Invoke(Sub()
+                Loading.Show()
+                Loading.Text = My.Resources.Contents.KeyLED_Creating_Title
+                Loading.DLb.Text = String.Format(My.Resources.Contents.KeyLED_Creating, 0, keyLEDs.Length)
+                   End Sub)
+        End If
+
         Await Task.Run(Sub()
-            Parallel.ForEach(keyLEDs, Sub(led)
-                                          SaveKeyLED(led)
-                                                          End Sub)
+            For i = 0 To keyLEDs.Length - 1
+                Dim led As KeyLEDStructure = keyLEDs(i)
+                SaveKeyLED(led)
+
+                If showLoadingMessage Then
+                    Invoke(Sub()
+                        Loading.DLb.Text = String.Format(My.Resources.Contents.KeyLED_Creating, i + 1, keyLEDs.Length)
+                           End Sub)
+                End If
+            Next
+
+            If showLoadingMessage Then
+                Invoke(Sub()
+                    Loading.Close()
+                       End Sub)
+            End If
         End Sub)
 
         Return errorMessage
@@ -1176,6 +1222,10 @@ Public Class MainProject
                 If Not Directory.Exists(UNIPACK_PROJECT_PATH) Then
                     Directory.CreateDirectory(UNIPACK_PROJECT_PATH)
                 End If
+
+                UniPack_Title = infoTB1.Text
+                UniPack_ProducerName = infoTB2.Text
+                UniPack_Chains = Integer.Parse(infoTB3.Text)
 
                 File.WriteAllText(UNIPACK_INFO_PATH, String.Format("title={0}{1}buttonX=8{1}buttonY=8{1}producerName={2}{1}chain={3}{1}squareButton=true", infoTB1.Text, vbNewLine, infoTB2.Text, infoTB3.Text))
                 infoIsSaved = True
@@ -1668,22 +1718,19 @@ Public Class MainProject
         Tpdby.Show()
     End Sub
 
-    Private Sub MainProject_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
-        If IsUpdated = True Then
+    Private Async Sub MainProject_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        If IsUpdated Then
             Exit Sub
         End If
 
-        If IsSaved = False Then
-            Dim result As DialogResult
-            Select Case lang
-                Case Translator.tL.English
-                    result = MessageBox.Show("You didn't save your UniPack. Would you like to save your UniPack?", Me.Text & ": Not Saved", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
-                Case Translator.tL.Korean
-                    result = MessageBox.Show("유니팩을 저장하지 않으셨습니다. 유니팩을 저장 하시겠습니까?", Me.Text & ": 저장하지 않음", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
-            End Select
+        If Not IsSaved Then
+            Dim result As DialogResult = MessageBox.Show(My.Resources.Contents.UniPack_Not_Saved, My.Resources.Contents.UniPack_Not_Saved_Title, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
 
             If result = DialogResult.Yes Then
-                ThreadPool.QueueUserWorkItem(AddressOf Save2Project, False)
+                Await Task.Run(Sub()
+                    SaveProject(False)
+                               End Sub)
+
             ElseIf result = DialogResult.Cancel Then
                 e.Cancel = True
             End If
@@ -1696,7 +1743,43 @@ Public Class MainProject
     ''' <param name="wait">기다릴지의 여부</param>
     Public Sub SaveProject(wait As Boolean)
         If abl_openedproj AndAlso (abl_openedsnd OrElse abl_openedled) Then
-            Dim title As String = abl_Name
+            Dim sfd As New SaveFileDialog()
+            Invoke(Sub()
+                sfd.Title = My.Resources.Contents.Project_sfd_Title
+                sfd.Filter = My.Resources.Contents.Project_sfd_Filter
+                sfd.FileName = UniPack_Title
+                   End Sub)
+
+            Dim sfdResult As DialogResult = Nothing
+
+            Invoke(Sub()
+                       sfdResult = sfd.ShowDialog()
+                   End Sub)
+
+            If sfdResult = DialogResult.OK Then
+                If Directory.Exists(UNIPACK_PROJECT_PATH) Then
+                    If wait Then
+                        Invoke(Sub()
+                            Loading.Show()
+                            Loading.Text = My.Resources.Contents.Project_Saving
+                               End Sub)
+                    End If
+
+                    If File.Exists(sfd.FileName) Then
+                        File.Delete(sfd.FileName)
+                    End If
+
+                    ZipFile.CreateFromDirectory(UNIPACK_PROJECT_PATH, sfd.FileName)
+
+                    If wait Then
+                        Invoke(Sub()
+                            Loading.Close()
+                               End Sub)
+                    End If
+                Else
+                    MessageBox.Show(My.Resources.Contents.Project_Not_Converted, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End If
+            End If
         End If
     End Sub
 
@@ -4865,104 +4948,29 @@ Public Class MainProject
     End Sub
 
     Private Sub ResetTheProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ResetTheProjectToolStripMenuItem.Click
-        BGW_RsProj.RunWorkerAsync()
+        InitializeProject(True)
     End Sub
 
-    Private Sub BGW_RsProj_DoWork(sender As Object, e As DoWorkEventArgs) Handles BGW_RsProj.DoWork
-        '이 코드는 MainProject.Load 코드를 따와서 만들었습니다.
-        '만약 MainProject.Load 코드가 업데이트를 했다면, 이 코드도 업데이트를 해주시기 바랍니다.
-
-        Invoke(Sub()
-               With Loading
-                   .Show()
-                   .Text = My.Resources.Contents.Project_Reset
-                   .DLb.Text = My.Resources.Contents.Project_DeleteWorkspace
-               End With
-           End Sub)
-
-        IsWorking = True '프로젝트를 초기화할 때 프로젝트를 불러오면 안되니깐...
-
-        If Directory.Exists(WORKSPACE_PATH) Then
-            Directory.Delete(WORKSPACE_PATH, True)
-            Directory.CreateDirectory(WORKSPACE_PATH)
-        Else
-            Directory.CreateDirectory(WORKSPACE_PATH)
+    Public Async Sub InitializeProject(showLoadingMessage As Boolean)
+        If showLoadingMessage Then
+            Invoke(Sub()
+                With Loading
+                    .Show()
+                    .Text = My.Resources.Contents.Project_Reset
+                    .DLb.Text = My.Resources.Contents.Project_Initializing
+                End With
+            End Sub)
         End If
 
-        abl_openedproj = False
-        abl_openedsnd = False
-        abl_openedled = False
+        Await Initialize()
 
-        Select Case lang
-            Case Translator.tL.English
-                UI(Sub()
-                       infoTB1.Text = "My Amazing UniPack!"
-                       infoTB2.Text = "UniConverter, " & My.Computer.Name
+        If showLoadingMessage Then
+            Invoke(Sub()
+                Loading.Close()
                    End Sub)
-            Case Translator.tL.Korean
-                UI(Sub()
-                       infoTB1.Text = "나의 멋진 유니팩!"
-                       infoTB2.Text = "유니컨버터, " & My.Computer.Name
-                   End Sub)
-        End Select
 
-        Invoke(Sub()
-            infoTB3.Text = "1"
-
-            '키사운드 레이아웃 비활성화
-            PadLayoutPanel.Enabled = False
-            btnPad_chain1.Enabled = False
-            btnPad_chain2.Enabled = False
-            btnPad_chain3.Enabled = False
-            btnPad_chain4.Enabled = False
-            btnPad_chain5.Enabled = False
-            btnPad_chain6.Enabled = False
-            btnPad_chain7.Enabled = False
-            btnPad_chain8.Enabled = False
-            keySoundLayout = False
-
-            btnConvertKeyLEDAutomatically.Enabled = False
-           End Sub)
-
-        For x As Integer = 1 To 8
-            For y As Integer = 1 To 8
-                Dim dx As Integer = x
-                Dim dy As Integer = y
-                UI(Sub()
-                       ks_ctrl(dx & dy).Text = String.Empty
-                       ks_ctrl(dx & dy).BackColor = Color.Gray
-                       ks_ctrl(dx & dy).ForeColor = Color.Black
-                   End Sub)
-            Next
-        Next
-
-        SoundIsSaved = False
-        keyLEDIsSaved = False
-        infoIsSaved = False
-
-        w8t4abl = String.Empty
-        OpenProjectOnce = ProjectOpenMethod.Smart
-
-        Invoke(Sub()
-               keyLEDMIDEX_LEDViewMode.Checked = True
-               keyLEDPad_Flush(False)
-               keyLEDMIDEX_BetaButton.Enabled = False
-               kl_LEDFlush()
-           End Sub)
-
-        Invoke(Sub()
-               Loading.Close()
-           End Sub)
-
-        IsWorking = False
-        IsSaved = True
-
-        Select Case lang
-            Case Translator.tL.English
-                MessageBox.Show("The Project reseted!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Case Translator.tL.Korean
-                MessageBox.Show("프로젝트를 초기화 하였습니다!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-        End Select
+            MessageBox.Show(My.Resources.Contents.Project_Initialized)
+        End If
     End Sub
 
     Private Sub KeyLEDMIDEX_BetaButton_Click(sender As Object, e As EventArgs) Handles keyLEDMIDEX_BetaButton.Click
@@ -4991,7 +4999,7 @@ Public Class MainProject
     End Function
 
     Private Async Sub btnConvertKeyLEDAutomatically_Click(sender As Object, e As EventArgs) Handles btnConvertKeyLEDAutomatically.Click
-        Dim errorMessage As String = Await ReadyForConvertKeyLEDForMIDEX()
+        Dim errorMessage As String = Await ReadyForConvertKeyLEDForMIDEX(True)
 
         If Not String.IsNullOrWhiteSpace(errorMessage) Then
             MessageBox.Show(errorMessage, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)

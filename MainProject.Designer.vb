@@ -264,7 +264,6 @@ Partial Class MainProject
         Me.BGW_keySoundLayout = New System.ComponentModel.BackgroundWorker()
         Me.BGW_keyLEDLayout = New System.ComponentModel.BackgroundWorker()
         Me.BGW_soundcut = New System.ComponentModel.BackgroundWorker()
-        Me.BGW_RsProj = New System.ComponentModel.BackgroundWorker()
         Me.MenuStrip.SuspendLayout
         Me.HomeEdit.SuspendLayout
         Me.Info1.SuspendLayout
@@ -380,7 +379,7 @@ Partial Class MainProject
         '
         Me.ResetTheProjectToolStripMenuItem.Name = "ResetTheProjectToolStripMenuItem"
         Me.ResetTheProjectToolStripMenuItem.Size = New System.Drawing.Size(251, 22)
-        Me.ResetTheProjectToolStripMenuItem.Text = "Reset the Project"
+        Me.ResetTheProjectToolStripMenuItem.Text = "Initialize Project"
         '
         'ToolStripSeparator1
         '
@@ -3125,9 +3124,6 @@ Partial Class MainProject
         'BGW_soundcut
         '
         '
-        'BGW_RsProj
-        '
-        '
         'MainProject
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7!, 12!)
@@ -3396,7 +3392,6 @@ End Sub
     Friend WithEvents keyLEDMIDEX_prMode As RadioButton
     Friend WithEvents ResetTheProjectToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents BGW_soundcut As System.ComponentModel.BackgroundWorker
-    Friend WithEvents BGW_RsProj As System.ComponentModel.BackgroundWorker
     Friend WithEvents AutoConvert As ToolStripMenuItem
     Friend WithEvents LEDtoAutoPlayToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator1 As ToolStripSeparator

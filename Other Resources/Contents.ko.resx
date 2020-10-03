@@ -120,11 +120,23 @@
   <data name="HelloWorld" xml:space="preserve">
     <value>안녕, 세상아!</value>
   </data>
+  <data name="KeyLED_Created" xml:space="preserve">
+    <value>KeyLED가 성공적으로 생성되었습니다!</value>
+  </data>
+  <data name="KeyLED_Creating" xml:space="preserve">
+    <value>KeyLED 생성 중... ({0} / {1})</value>
+  </data>
+  <data name="KeyLED_Creating_Title" xml:space="preserve">
+    <value>KeyLED 생성 중</value>
+  </data>
   <data name="KeySound_Created" xml:space="preserve">
     <value>KeySound가 성공적으로 만들어졌습니다!</value>
   </data>
   <data name="KeySound_Creating" xml:space="preserve">
     <value>KeySound 만드는 중... ({0} / {1})</value>
+  </data>
+  <data name="KeySound_Creating_Title" xml:space="preserve">
+    <value>KeySound 만드는 중</value>
   </data>
   <data name="LED_Converted" xml:space="preserve">
     <value>LED가 성공적으로 변환되었습니다!</value>
@@ -193,12 +205,21 @@
   <data name="Project_FileName" xml:space="preserve">
     <value>파일 이름을 찾는 중...</value>
   </data>
+  <data name="Project_Initialized" xml:space="preserve">
+    <value>프로젝트가 초기화 되었습니다!</value>
+  </data>
+  <data name="Project_Initializing" xml:space="preserve">
+    <value>초기화 중...</value>
+  </data>
   <data name="Project_Loaded" xml:space="preserve">
     <value>에이블톤 프로젝트 파일이 로딩되었습니다!
 '정보' 탭에서 정보를 수정할 수 있습니다.</value>
   </data>
   <data name="Project_Loading" xml:space="preserve">
     <value>프로젝트 파일을 불러오는 중...</value>
+  </data>
+  <data name="Project_Not_Converted" xml:space="preserve">
+    <value>프로젝트를 변환하지 않았습니다.</value>
   </data>
   <data name="Project_Not_Opened" xml:space="preserve">
     <value>에이블톤 프로젝트를 열지 않았습니다!</value>
@@ -250,5 +271,11 @@
   </data>
   <data name="UniPack_Info_Saved" xml:space="preserve">
     <value>유니팩 정보를 저장 했습니다!</value>
+  </data>
+  <data name="UniPack_Not_Saved" xml:space="preserve">
+    <value>유니팩을 저장하지 않으셨습니다. 유니팩을 저장 하시겠습니까?</value>
+  </data>
+  <data name="UniPack_Not_Saved_Title" xml:space="preserve">
+    <value>저장하지 않음</value>
   </data>
 </root>

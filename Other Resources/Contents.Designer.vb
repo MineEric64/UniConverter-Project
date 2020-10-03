@@ -74,6 +74,33 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Looks up a localized string similar to Created KeyLED successfully!.
+        '''</summary>
+        Public Shared ReadOnly Property KeyLED_Created() As String
+            Get
+                Return ResourceManager.GetString("KeyLED_Created", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Creating KeyLED... ({0} / {1}).
+        '''</summary>
+        Public Shared ReadOnly Property KeyLED_Creating() As String
+            Get
+                Return ResourceManager.GetString("KeyLED_Creating", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Creating KeyLED.
+        '''</summary>
+        Public Shared ReadOnly Property KeyLED_Creating_Title() As String
+            Get
+                Return ResourceManager.GetString("KeyLED_Creating_Title", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized string similar to Created KeySound successfully!.
         '''</summary>
         Public Shared ReadOnly Property KeySound_Created() As String
@@ -88,6 +115,15 @@ Namespace My.Resources
         Public Shared ReadOnly Property KeySound_Creating() As String
             Get
                 Return ResourceManager.GetString("KeySound_Creating", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Creating KeySound.
+        '''</summary>
+        Public Shared ReadOnly Property KeySound_Creating_Title() As String
+            Get
+                Return ResourceManager.GetString("KeySound_Creating_Title", resourceCulture)
             End Get
         End Property
         
@@ -122,7 +158,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Converting LED... ({0} / {1}).
+        '''  Looks up a localized string similar to Converting LED.
         '''</summary>
         Public Shared ReadOnly Property LED_Converting_Title() As String
             Get
@@ -279,6 +315,24 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Looks up a localized string similar to Project initialized!.
+        '''</summary>
+        Public Shared ReadOnly Property Project_Initialized() As String
+            Get
+                Return ResourceManager.GetString("Project_Initialized", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Initializing....
+        '''</summary>
+        Public Shared ReadOnly Property Project_Initializing() As String
+            Get
+                Return ResourceManager.GetString("Project_Initializing", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized string similar to Ableton Project File Loaded!
         '''You can edit info in Information Tab..
         '''</summary>
@@ -294,6 +348,15 @@ Namespace My.Resources
         Public Shared ReadOnly Property Project_Loading() As String
             Get
                 Return ResourceManager.GetString("Project_Loading", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to You didn&apos;t convert the project..
+        '''</summary>
+        Public Shared ReadOnly Property Project_Not_Converted() As String
+            Get
+                Return ResourceManager.GetString("Project_Not_Converted", resourceCulture)
             End Get
         End Property
         
@@ -330,6 +393,24 @@ Namespace My.Resources
         Public Shared ReadOnly Property Project_Reset() As String
             Get
                 Return ResourceManager.GetString("Project_Reset", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Saved UniPack!.
+        '''</summary>
+        Public Shared ReadOnly Property Project_Saved() As String
+            Get
+                Return ResourceManager.GetString("Project_Saved", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Saving Project to UniPack....
+        '''</summary>
+        Public Shared ReadOnly Property Project_Saving() As String
+            Get
+                Return ResourceManager.GetString("Project_Saving", resourceCulture)
             End Get
         End Property
         
@@ -375,6 +456,18 @@ Namespace My.Resources
         Public Shared ReadOnly Property Sound_Converting() As String
             Get
                 Return ResourceManager.GetString("Sound_Converting", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Error occured while converting Sound.
+        '''
+        '''Error Message:
+        '''{0}.
+        '''</summary>
+        Public Shared ReadOnly Property Sound_Converting_Error() As String
+            Get
+                Return ResourceManager.GetString("Sound_Converting_Error", resourceCulture)
             End Get
         End Property
         
@@ -447,6 +540,24 @@ Namespace My.Resources
         Public Shared ReadOnly Property UniPack_Info_Saved() As String
             Get
                 Return ResourceManager.GetString("UniPack_Info_Saved", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to You didn&apos;t save your UniPack. Would you like to save your UniPack?.
+        '''</summary>
+        Public Shared ReadOnly Property UniPack_Not_Saved() As String
+            Get
+                Return ResourceManager.GetString("UniPack_Not_Saved", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Not Saved.
+        '''</summary>
+        Public Shared ReadOnly Property UniPack_Not_Saved_Title() As String
+            Get
+                Return ResourceManager.GetString("UniPack_Not_Saved_Title", resourceCulture)
             End Get
         End Property
     End Class
