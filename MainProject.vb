@@ -512,7 +512,7 @@ Public Class MainProject
             Me.KeyPreview = True
             OpenProjectOnce = ProjectOpenMethod.Smart
 
-            Await Initialize()
+            Initialize()
 
             'Text of Info TextBox
             infoTB1.Text = "My Amazing UniPack!" 'Title
@@ -564,11 +564,7 @@ Public Class MainProject
         End Try
     End Sub
 
-    Public Async Function Initialize() As Task
-        Await Task.Run(Sub() 'Workspace의 UniPack 폴더 정리.
-            DeleteWorkspaceDir()
-        End Sub)
-
+    Public Function Initialize() As Task
 #Region "변수 기본값 설정"
         abl_openedproj = False
         abl_openedsnd = False
@@ -594,6 +590,10 @@ Public Class MainProject
         keyLEDMIDEX_BetaButton.Enabled = False
         btnConvertKeyLEDAutomatically.Enabled = False
 #End Region
+
+        Task.Run(Sub() 'Workspace의 UniPack 폴더 정리.
+            DeleteWorkspaceDir()
+        End Sub)
     End Function
 
     Private Sub InfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InfoToolStripMenuItem.Click
@@ -2665,7 +2665,7 @@ Public Class MainProject
             'Chain 유효성 검사 (with InstrumentRack)
             Dim chain = 1
             Dim drumBranch As XmlNode = Nothing
-            Dim mm As New MultiMapping(0, 0, 0, 0, 0)
+            Dim mm As MultiMapping = MultiMapping.Empty
 
             Dim needToExit = False
             Dim checkChainAction As Action(Of SoundNodeList, List(Of SoundNodeList)) = Sub(node As SoundNodeList, parentNode As List(Of SoundNodeList))
@@ -2750,7 +2750,7 @@ Public Class MainProject
                 mm.CurrentCount -= 1
             Else
                 isRandom = False
-                mm = New MultiMapping(0, 0, 0, 0 ,0)
+                mm = MultiMapping.Empty
             End If
 
             If Not isRandom Then 'MidiRandom 테스트
@@ -2778,8 +2778,7 @@ Public Class MainProject
                             End If
 
                             mm.CurrentCount = choices
-                            mm.NoteNumberMin = randomMinNoteNumber
-                            mm.NoteNumberMax = randomMaxNoteNumber
+                            mm.NoteNumber = New Footprint(Of Integer)(randomMinNoteNumber, randomMaxNoteNumber)
 
                             Return {}
                         End If
@@ -3417,8 +3416,16 @@ Public Class MainProject
 
         'NextOfNext 문제점 완전히 해결
 
-        Dim doc As New XmlDocument
+        Dim doc As New XmlDocument()
         Dim setNode As XmlNodeList
+
+        Invoke(Sub()
+            Loading.Show()
+
+            Loading.Text = My.Resources.Contents.LED_Converting_Title
+            Loading.DLb.Text = My.Resources.Contents.LED_Converting
+        End Sub)
+
         doc.Load(AbletonProjectFilePath)
         setNode = doc.GetElementsByTagName("MidiEffectBranch")
 
@@ -3552,6 +3559,17 @@ Public Class MainProject
                             toSaveLEDList = ConvertKeyLEDForMidiFire_v2(node.Node, mm, indent)
 
                     End Select
+                    
+                    Dim midiEffectBranchChildNodeList As List(Of LEDNodeList) = node.NodeList.Where(Function(x) x.Name = "MidiEffectBranch").ToList()
+
+                    If midiEffectBranchChildNodeList.Count > 0 AndAlso mm.CurrentCount > 0 AndAlso mm.Count <> midiEffectBranchChildNodeList.Count Then
+                        mm.IsStrange = True 'Insufficient / Emptyspace 문제점
+                        toSaveLEDList = SupportStrangeMMKeyLED(node.NodeList, mm, pluginName)
+                    ElseIf midiEffectBranchChildNodeList.Count > 0 AndAlso mm.Count > 0 AndAlso mm.Count = midiEffectBranchChildNodeList.Count Then
+                        toSaveLEDList = SupportStrangeMMKeyLED(node.NodeList, mm, pluginName) 'Swapping / Normal
+                    Else
+                        mm.IsStrange = False
+                    End If
 
                     For Each led In toSaveLEDList
                         If isRealChain Then
@@ -3679,11 +3697,9 @@ Public Class MainProject
         Dim ledList As New List(Of KeyLEDStructure)
 
         Try
-            Dim device As XmlNode = node?.Item("DeviceChain")?.Item("MidiToMidiDeviceChain")?.Item("Devices")?.Item("MxDeviceMidiEffect")
-            Dim id As Integer = If(Not IsNothing(device), Integer.Parse(device.Item("LomId").GetAttribute("Value")), -1)
-
-            If id <> -1 AndAlso saveContent.ContainsKey(id) Then
-                Dim save As MidiExtensionSave = saveContent(id)
+            Dim save As MidiExtensionSave = GetMidiExtensionSave(node, saveContent)
+            
+            If Not String.IsNullOrWhiteSpace(save.MidiName) Then
                 Dim filePath As String = $"{ABLETON_KEYLED_PATH}\{save.MidiName}"
 
                 ledList.AddRange(ConvertKeyLEDForAnyMIDEX(node, mm, filePath, save.Speed, save.BPM))
@@ -3696,6 +3712,23 @@ Public Class MainProject
         End Try
 
         Return ledList.ToArray()
+    End Function
+
+    Public Shared Function GetMidiExtensionSave(node As XmlNode, saveContent As Dictionary(Of Integer, MidiExtensionSave)) As MidiExtensionSave
+        Try
+        Dim device As XmlNode = node?.Item("DeviceChain")?.Item("MidiToMidiDeviceChain")?.Item("Devices")?.Item("MxDeviceMidiEffect")
+        Dim id As Integer = If(Not IsNothing(device), Integer.Parse(device.Item("LomId").GetAttribute("Value")), -1)
+
+        If id <> -1 AndAlso saveContent.ContainsKey(id) Then
+            Dim save As MidiExtensionSave = saveContent(id)
+            Return save
+        End If
+
+        Catch ex As NullReferenceException
+            '?
+        End Try
+
+        Return New MidiExtensionSave()
     End Function
 
     Private Sub GetMappingFromOfd()
@@ -3782,14 +3815,10 @@ Public Class MainProject
         Dim ledList As New List(Of KeyLEDStructure)
 
         Try
-            Dim midiName As String = node.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices")?.Item("MxDeviceMidiEffect")?.Item("FileDropList")?.Item("FileDropList")?.Item("MxDFullFileDrop")?.Item("FileRef")?.Item("FileRef")?.Item("Name")?.GetAttribute("Value")
-            
-            If midiName = "2.mid" Then
-                Debug.WriteLine("WHERE")
-            End If
+            Dim save As MidiExtensionSave = GetMidiFireSave(node)
 
-            If Not String.IsNullOrWhiteSpace(midiName) Then
-                Dim midiPathList As List(Of String) = Directory.GetFiles(ABLETON_KEYLED_PATH, "*.mid").ToList().Where(Function(filePath) Path.GetFileName(filePath) = midiName).ToList()
+            If Not String.IsNullOrWhiteSpace(save.MidiName) Then
+                Dim midiPathList As List(Of String) = Directory.GetFiles(ABLETON_KEYLED_PATH, "*.mid").ToList().Where(Function(filePath) Path.GetFileName(filePath) = save.MidiName).ToList()
 
                 If midiPathList.Count > 0 Then
                     Dim midiPath As String = midiPathList.First()
@@ -3807,6 +3836,20 @@ Public Class MainProject
         Return ledList.ToArray()
     End Function
 
+    Public Shared Function GetMidiFireSave(node As XmlNode) As MidiExtensionSave
+        Dim save As New MidiExtensionSave()
+        
+        Dim midiName As String = node.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices")?.Item("MxDeviceMidiEffect")?.Item("FileDropList")?.Item("FileDropList")?.Item("MxDFullFileDrop")?.Item("FileRef")?.Item("FileRef")?.Item("Name")?.GetAttribute("Value")
+        Dim speed = 100
+        Dim bpm = 120
+
+        If Not String.IsNullOrWhiteSpace(midiName) Then
+            save.MidiName = midiName
+        End If
+
+        Return save
+    End Function
+
     ''' <summary>
     ''' 통합 이후 Midi Extension, MIDIext, Midi Fire, Lightweight를 통해 LED 파일만 변환할 때 통합적으로 불러오는 함수
     ''' </summary>
@@ -3816,21 +3859,16 @@ Public Class MainProject
     ''' <param name="midiFilePath">미디 (LED) 파일 경로</param>
     ''' <returns></returns>
     Public Shared Function ConvertKeyLEDForAnyMIDEX(node As XmlNode, ByRef mm As MultiMapping, indent As Integer, midiFilePath As String, Optional speed As Integer = 100, Optional bpm As Integer = 120) As KeyLEDStructure()
-        Dim ledList As New List(Of KeyLEDStructure)
+        Dim ledList As New List(Of KeyLEDStructure)()
 
         Dim isRandom = False '멀티매핑 인가?
-        Dim isMyChair = False '여기가 내 자리인가? (멀티매핑 Key 정확도)
-        Dim isInsufficient = False '멀티매핑의 요소보다 Node의 요소가 많아서 Node를 버려야 하는 경우
-        Dim isEmptySpace = False '멀티매핑의 요소보다 Node의 요소가 적어서 빈 공간의 LED를 만들어야 하는 경우
+        Dim isMyChair = True '여기가 내 자리인가? (멀티매핑 Key 정확도, Insufficient 및 Emptyspace 문제점 해결 변수)
 
-        If mm.CurrentCount > 0 AndAlso indent = mm.Indent + 1 Then
+        If mm.CurrentCount > 0 AndAlso indent = mm.Indent + 1 AndAlso Not mm.IsStrange Then
             isRandom = True
-            mm.CurrentCount -= 1
         Else
-            If Not mm.IsEmpty AndAlso ((mm.CurrentCount > 0 AndAlso indent <> mm.Indent + 1) OrElse (mm.IsStrange AndAlso mm.CurrentCount > 0)) Then
-                isEmptySpace = True
-                mm.IsStrange = True
-                mm.CurrentCount -= 1
+            If mm.IsStrange Then
+                isMyChair = False
             Else
                 mm = MultiMapping.Empty
             End If
@@ -3848,13 +3886,22 @@ Public Class MainProject
 
                     If isActive Then '활성화 상태인 경우
                         Dim choices As Integer = Integer.Parse(midiRandomNode.Item("Choices").Item("Manual").GetAttribute("Value"))
+                        
+                        Dim chainMin As Integer = Integer.Parse(node.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1
+                        Dim chainMax As Integer = Integer.Parse(node.Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1
+                        
                         Dim noteNumberMin As Integer = Integer.Parse(node.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))
                         Dim noteNumberMax As Integer = Integer.Parse(node.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))
 
                         mm.Count = choices
                         mm.CurrentCount = choices
-                        mm.NoteNumberMin = noteNumberMin
-                        mm.NoteNumberMax = noteNumberMax
+
+                        mm.Chain.Start = chainMin
+                        mm.Chain.End = chainMax
+
+                        mm.NoteNumber.Start = noteNumberMin
+                        mm.NoteNumber.End = noteNumberMax
+                        mm.Indent = indent
 
                         Return {}
                     End If
@@ -3869,23 +3916,14 @@ Public Class MainProject
             If File.Exists(midiFilePath) Then
                 Dim script As String = keyLED_Edit.keyLED_MidiToKeyLED(midiFilePath, True, speed, bpm)
 
-                Dim chainMin As Integer = Integer.Parse(node.Item("BranchSelectorRange").Item("Min").GetAttribute("Value"))
-                Dim chainMax As Integer = Integer.Parse(node.Item("BranchSelectorRange").Item("Max").GetAttribute("Value"))
+                Dim chainMin As Integer = Integer.Parse(node.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1
+                Dim chainMax As Integer = Integer.Parse(node.Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1
 
                 Dim noteNumberMin As Integer = Integer.Parse(node.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))
                 Dim noteNumberMax As Integer = Integer.Parse(node.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))
 
                 If isRandom Then
-                    Dim usedCount As Integer = noteNumberMin - mm.NoteNumberMin
-
-                    If usedCount = mm.Count - mm.CurrentCount Then
-                        isMyChair = True
-                    End If
-
-                    noteNumberMin = mm.NoteNumberMin
-                    noteNumberMax = mm.NoteNumberMax
-                Else
-                    isMyChair = True
+                    isMyChair = False 'SupportStrangeMMKeyLED 함수
                 End If
 
                 If isMyChair Then
@@ -3893,18 +3931,90 @@ Public Class MainProject
                         For noteNumber = noteNumberMin To noteNumberMax
                             Dim x As Integer = GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, noteNumber)
                             Dim y As Integer = GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, noteNumber)
-                            Dim loopNumber As Integer = 1
+                            Dim loopNumber = 1
 
-                            Dim led As New KeyLEDStructure(chain + 1, x, y, loopNumber, script)
+                            Dim led As New KeyLEDStructure(chain, x, y, loopNumber, script)
                             ledList.Add(led)
                         Next
                     Next
                 End If
             End If
 
+            If isRandom Then
+                mm.CurrentCount -= 1
+            End If
+
         Catch ex As NullReferenceException
             '?
         End Try
+
+        Return ledList.ToArray()
+    End Function
+
+    Public Function SupportStrangeMMKeyLED(nodeList As List(Of LEDNodeList), ByRef mm As MultiMapping, plugin As Plugins) As KeyLEDStructure()
+        Dim ledList As New List(Of KeyLEDStructure)()
+        
+        For i = 0 To mm.Count - 1
+            Dim node As XmlNode = Nothing
+            Dim isFound = False
+            
+            For j = 0 To nodeList.Count - 1
+                Dim ledNode As LEDNodeList = nodeList(j)
+
+                If ledNode.Name = "MidiEffectBranch" Then
+                    Dim noteNumberMin As Integer = Integer.Parse(ledNode.Node.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))
+                    Dim usedCount As Integer = noteNumberMin - mm.NoteNumber.Start
+
+                    If usedCount = i Then
+                        isFound = True
+                        node = ledNode.Node
+                        Exit For
+                    End If
+                End If
+            Next
+
+            Dim chainFootprint As Footprint(Of Integer) = mm.Chain
+            Dim noteNumberFootprint As Footprint(Of Integer) = mm.NoteNumber
+            Dim script = ""
+
+            If isFound Then
+                Dim chainMin As Integer = Integer.Parse(node.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1
+                Dim chainMax As Integer = Integer.Parse(node.Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1
+            
+                chainFootprint = New Footprint(Of Integer)(chainMin, chainMax)
+                
+                Dim midexSave As New MidiExtensionSave()
+
+                Select Case plugin
+                    Case Plugins.MidiExtension
+                        midexSave = GetMidiExtensionSave(node, _midiExtensionMapping)
+
+                    Case Plugins.MidiExt, Plugins.MidiFire, Plugins.Lightweight
+                        midexSave = GetMidiFireSave(node)
+
+                End Select
+
+                If Not String.IsNullOrWhiteSpace(midexSave.MidiName) Then
+                    Dim midiFilePath As String = $"{ABLETON_KEYLED_PATH}\{midexSave.MidiName}"
+                    script = keyLED_Edit.keyLED_MidiToKeyLED(midiFilePath, True, midexSave.Speed, midexSave.BPM)
+                End If
+            End If
+
+            For chain = chainFootprint.Start To chainFootprint.End
+                For noteNumber = noteNumberFootprint.Start To noteNumberFootprint.End
+                    Dim x As Integer = GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, noteNumber)
+                    Dim y As Integer = GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, noteNumber)
+                    Dim loopNumber = 1
+
+                    Dim led As New KeyLEDStructure(chain, x, y, loopNumber, script)
+                    ledList.Add(led)
+                Next
+            Next
+        Next
+
+        If mm.CurrentCount > 0 Then
+            mm.CurrentCount = 0
+        End If
 
         Return ledList.ToArray()
     End Function
@@ -5037,6 +5147,7 @@ Public Class MainProject
         If Not String.IsNullOrWhiteSpace(errorMessage) Then
             MessageBox.Show(errorMessage, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End If
+        MessageBox.Show(My.Resources.Contents.KeyLED_Created, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
 
     Private Sub UseNewFeatureAboutOpenProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles UseNewFeatureAboutOpenProjectToolStripMenuItem.Click
@@ -5159,5 +5270,6 @@ Public Class MainProject
         If Not String.IsNullOrWhiteSpace(errorMessage) Then
             MessageBox.Show(errorMessage, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End If
+        MessageBox.Show(My.Resources.Contents.KeySound_Created, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
 End Class
