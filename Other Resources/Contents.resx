@@ -239,6 +239,9 @@ You can edit info in Information Tab.</value>
   <data name="Project_Saving" xml:space="preserve">
     <value>Saving Project to UniPack...</value>
   </data>
+  <data name="Project_Saving_Title" xml:space="preserve">
+    <value>Saving UniPack</value>
+  </data>
   <data name="Project_sfd_Filter" xml:space="preserve">
     <value>Zip File|*.zip|UniPack File|*.uni</value>
   </data>

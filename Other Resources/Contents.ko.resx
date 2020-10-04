@@ -233,6 +233,9 @@
   <data name="Project_Reset" xml:space="preserve">
     <value>프로젝트를 초기화하는 중...</value>
   </data>
+  <data name="Project_Saving_Title" xml:space="preserve">
+    <value>프로젝트 저장 중</value>
+  </data>
   <data name="Project_sfd_Filter" xml:space="preserve">
     <value>Zip 파일|*.zip|유니팩 파일|*.uni</value>
   </data>

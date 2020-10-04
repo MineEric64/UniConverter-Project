@@ -332,6 +332,11 @@ You can edit info in Information Tab..
   Looks up a localized string similar to Saving Project to UniPack....
 </summary>
 </member>
+<member name="P:UniConverter.My.Resources.Contents.Project_Saving_Title">
+<summary>
+  Looks up a localized string similar to Saving UniPack.
+</summary>
+</member>
 <member name="P:UniConverter.My.Resources.Contents.Project_sfd_Filter">
 <summary>
   Looks up a localized string similar to Zip File|*.zip|UniPack File|*.uni.
@@ -897,7 +902,7 @@ Error Message:
  </summary>
  <returns></returns>
 </member>
-<member name="M:UniConverter.MainProject.ConvertKeyLEDForMidiFire_v2(System.Xml.XmlNode,UniConverter.MultiMapping@)">
+<member name="M:UniConverter.MainProject.ConvertKeyLEDForMidiFire_v2(System.Xml.XmlNode,UniConverter.MultiMapping@,System.Int32)">
  <summary>
  Midi Fire 플러그인을 위한 LED 자동 변환 함수
  </summary>
@@ -905,13 +910,14 @@ Error Message:
  <param name="mm"></param>
  <returns></returns>
 </member>
-<member name="M:UniConverter.MainProject.ConvertKeyLEDForAnyMIDEX(System.Xml.XmlNode,UniConverter.MultiMapping@,System.String,System.Int32,System.Int32)">
+<member name="M:UniConverter.MainProject.ConvertKeyLEDForAnyMIDEX(System.Xml.XmlNode,UniConverter.MultiMapping@,System.Int32,System.String,System.Int32,System.Int32)">
  <summary>
- 통합 이후 Midi Fire, Midi Extension, Lightweight를 통해 LED 파일만 변환할 때 통합적으로 불러오는 함수
+ 통합 이후 Midi Extension, MIDIext, Midi Fire, Lightweight를 통해 LED 파일만 변환할 때 통합적으로 불러오는 함수
  </summary>
- <param name="node"></param>
- <param name="mm"></param>
- <param name="midiFilePath"></param>
+ <param name="node">Xml 노드</param>
+ <param name="mm">멀티 매핑</param>
+ <param name="indent">깊이</param>
+ <param name="midiFilePath">미디 (LED) 파일 경로</param>
  <returns></returns>
 </member>
 <member name="M:UniConverter.MainProject.SaveKeyLED(UniConverter.KeyLEDStructure)">

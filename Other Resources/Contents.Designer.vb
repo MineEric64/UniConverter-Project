@@ -415,6 +415,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Looks up a localized string similar to Saving UniPack.
+        '''</summary>
+        Public Shared ReadOnly Property Project_Saving_Title() As String
+            Get
+                Return ResourceManager.GetString("Project_Saving_Title", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized string similar to Zip File|*.zip|UniPack File|*.uni.
         '''</summary>
         Public Shared ReadOnly Property Project_sfd_Filter() As String
