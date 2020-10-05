@@ -42,8 +42,10 @@ Public Class DeveloperMode_Project
             OpenProject()
         End If
 
-        Dim itm As New List(Of String) _
-                From {"File Name", "Chains", "File Version", "Sound Cutting", "KeyTracks (keyLED)", "keyLED (MIDI Extension)", "keyLED (MIDEX, MidiFire)", "keyLED (integrated version)", "XML Test", "Mp3ToWav"}
+        Dim itm As New List(Of String)()
+        itm.AddRange({"File Name", "Chains", "File Version", "Sound Cutting"})
+        itm.AddRange({"KeyTracks (keyLED)", "keyLED (MIDI Extension)", "keyLED (MIDEX, MidiFire)", "keyLED (integrated version)"})
+        itm.AddRange({"XML Test", "Mp3ToWav", "NewLine Test"})
         Info_ListView.Items.Clear()
         For Each items As String In itm
             Info_ListView.Items.Add(items)
@@ -115,10 +117,24 @@ Public Class DeveloperMode_Project
                     Else
                         MessageBox.Show($"'{Path.GetFileName(mp3File)}' sound file doesn't exists on Downloads directory.")
                     End If
+                Case "NewLine Test"
+                    Info_TextBox.Text = NewLineTest()
 
             End Select
         End If
     End Sub
+
+    Private Shared Function NewLineTest() As String
+        Dim sb As New StringBuilder()
+
+        For i = 0 To 499
+            sb.Append("Hello World!")
+            sb.Append(Environment.NewLine)
+        Next
+        sb.Length -= 1
+
+        Return sb.ToString()
+    End Function
 
     Private Shared Function GetXpath(ByVal node As XmlNode) As String
         If node.Name = "#document" Then Return String.Empty

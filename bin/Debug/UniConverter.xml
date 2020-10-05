@@ -134,6 +134,16 @@ o 6 3 a  [rest of string was truncated]&quot;;.
   resource lookups using this strongly typed resource class.
 </summary>
 </member>
+<member name="P:UniConverter.My.Resources.Contents.Flip_Horizontal">
+<summary>
+  Looks up a localized string similar to Horizontal.
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Contents.Flip_Vertical">
+<summary>
+  Looks up a localized string similar to Vertical.
+</summary>
+</member>
 <member name="P:UniConverter.My.Resources.Contents.HelloWorld">
 <summary>
   Looks up a localized string similar to Hello, World!.
@@ -420,20 +430,6 @@ Error Message:
   Looks up a localized string similar to Not Saved.
 </summary>
 </member>
-<member name="M:UniConverter.keyLED_Edit_Ex.Flip_Rotate_90(System.Int32)">
- <summary>
- 90도 회전해줍니다. 이 함수에서는 시계방향 90도를 해줍니다.
- </summary>
- <param name="source">X, Y 좌표입니다. XY형식으로 붙여서 쓰세요. 예: 88, 11, 35</param>
- <returns></returns>
-</member>
-<member name="M:UniConverter.keyLED_Edit_Ex.Flip_Rotate_270(System.Int32)">
- <summary>
- 90도 회전해줍니다. 이 함수에서는 반시계방향 90도를 해줍니다.
- </summary>
- <param name="source">X, Y 좌표입니다. XY형식으로 붙여서 쓰세요. 예: 88, 11, 35</param>
- <returns></returns>
-</member>
 <member name="F:UniConverter.keyLED_Test.ctrl">
  <summary>
  버튼 저장
@@ -472,6 +468,20 @@ Error Message:
  <param name="velo">벨로시티를 말합니다.</param>
  <param name="col">색을 말합니다.</param>
  <param name="Launchpad_Kind">런치패드 종류. (0: Mini/S, 1: MK2, 2: Pro)</param>
+</member>
+<member name="M:UniConverter.LEDExtensions.FlipStructure.Flip_Rotate_90(System.Int32)">
+ <summary>
+ 90도 회전해줍니다. 이 함수에서는 시계방향 90도를 해줍니다.
+ </summary>
+ <param name="source">X, Y 좌표입니다. XY형식으로 붙여서 쓰세요. 예: 88, 11, 35</param>
+ <returns></returns>
+</member>
+<member name="M:UniConverter.LEDExtensions.FlipStructure.Flip_Rotate_270(System.Int32)">
+ <summary>
+ 90도 회전해줍니다. 이 함수에서는 반시계방향 90도를 해줍니다.
+ </summary>
+ <param name="source">X, Y 좌표입니다. XY형식으로 붙여서 쓰세요. 예: 88, 11, 35</param>
+ <returns></returns>
 </member>
 <member name="F:UniConverter.DeveloperMode_Project.EachCode.keyLED_1">
  <summary>
@@ -575,11 +585,11 @@ Error Message:
  String의 수를 세줍니다. 결과는 Integer.
  </summary>
 </member>
-<member name="M:UniConverter.keyLED_Edit.keyLED_MidiToKeyLED(System.String,System.Boolean,System.Int32,System.Int32)">
+<member name="M:UniConverter.keyLED_Edit.keyLED_MidiToKeyLED(System.String,System.Boolean,System.Int32,System.Int32,UniConverter.LEDExtensions)">
  <summary>
- keyLED 기능: MIDI 파일을 keyLED 내용으로 변환해줍니다. 미디 익스텐션만 가능
+ keyLED 기능: MIDI 파일을 keyLED 내용으로 변환해줍니다.
  </summary>
- <param name="AutoConvert">자동 변환인지의 여부입니다.</param>
+ <param name="autoConvert">자동 변환인지의 여부입니다.</param>
 </member>
 <member name="M:UniConverter.Translator.TranslateMain">
  <summary>

@@ -263,7 +263,6 @@ Partial Class MainProject
         Me.BGW_CheckUpdate = New System.ComponentModel.BackgroundWorker()
         Me.BGW_keySoundLayout = New System.ComponentModel.BackgroundWorker()
         Me.BGW_keyLEDLayout = New System.ComponentModel.BackgroundWorker()
-        Me.BGW_soundcut = New System.ComponentModel.BackgroundWorker()
         Me.MenuStrip.SuspendLayout
         Me.HomeEdit.SuspendLayout
         Me.Info1.SuspendLayout
@@ -3121,9 +3120,6 @@ Partial Class MainProject
         'BGW_keyLEDLayout
         '
         '
-        'BGW_soundcut
-        '
-        '
         'MainProject
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7!, 12!)
@@ -3391,7 +3387,6 @@ End Sub
     Friend WithEvents keyLEDMIDEX_LEDViewMode As RadioButton
     Friend WithEvents keyLEDMIDEX_prMode As RadioButton
     Friend WithEvents ResetTheProjectToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents BGW_soundcut As System.ComponentModel.BackgroundWorker
     Friend WithEvents AutoConvert As ToolStripMenuItem
     Friend WithEvents LEDtoAutoPlayToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator1 As ToolStripSeparator

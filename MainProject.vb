@@ -512,7 +512,7 @@ Public Class MainProject
             Me.KeyPreview = True
             OpenProjectOnce = ProjectOpenMethod.Smart
 
-            Initialize()
+            Await Initialize()
 
             'Text of Info TextBox
             infoTB1.Text = "My Amazing UniPack!" 'Title
@@ -564,7 +564,7 @@ Public Class MainProject
         End Try
     End Sub
 
-    Public Function Initialize() As Task
+    Public Async Function Initialize() As Task
 #Region "변수 기본값 설정"
         abl_openedproj = False
         abl_openedsnd = False
@@ -584,14 +584,14 @@ Public Class MainProject
         UniPack_Chains = 1
 
         keyLEDMIDEX_LEDViewMode.Checked = True
-        keyLEDPad_Flush(False)
-
+        'keyLEDPad_Flush(False)
+        
         btnKeySound_AutoConvert.Enabled = False
         keyLEDMIDEX_BetaButton.Enabled = False
         btnConvertKeyLEDAutomatically.Enabled = False
 #End Region
 
-        Task.Run(Sub() 'Workspace의 UniPack 폴더 정리.
+        Await Task.Run(Sub() 'Workspace의 UniPack 폴더 정리.
             DeleteWorkspaceDir()
         End Sub)
     End Function
@@ -1091,8 +1091,10 @@ Public Class MainProject
                            End Sub)
                 End If
              Next
+            
+            keySound.Length -= 1
+            Dim content As String = keySound.ToString()
 
-            Dim content As String = keySound.ToString().TrimEnd(Environment.NewLine)
             File.WriteAllText(UNIPACK_KEYSOUND_PATH, content)
                        End Sub)
 
@@ -2976,7 +2978,7 @@ Public Class MainProject
     End Sub
 #Region "KeySound Conversion (Deprecated, v1)"
     <Obsolete("This method is deprecated, use ConvertKeySound_v2() instead.")>
-    Private Sub ConvertKeySound_v1()
+    Private Sub ConvertKeySound_DeprecatedVersion()
         '이 함수의 코드들은 스파게티 코드여서,
         '제작자인 저도 알아볼 수가 없습니다.
         '또한 이 함수에는 더 이상 새롭거나 수정된 코드가 없을 것입니다.
@@ -2986,23 +2988,6 @@ Public Class MainProject
         Try
             If IsWorking = False AndAlso abl_openedproj AndAlso abl_openedsnd Then
                 IsWorking = True
-
-                UI(Sub()
-                       With Loading
-                           .Show()
-                           Select Case lang
-                               Case Translator.tL.English
-                                   .Text = Loading.MsgEn.loading_keySound_def_msg
-                                   .DLb.Text = Loading.MsgEn.loading_keySound_open_msg
-                               Case Translator.tL.Korean
-                                   .Text = Loading.MsgKr.loading_keySound_def_msg
-                                   .DLb.Text = Loading.MsgKr.loading_keySound_open_msg
-                           End Select
-                           .DLb.Left -= 20
-                           .DPr.Style = ProgressBarStyle.Marquee
-                           .DPr.MarqueeAnimationSpeed = 10
-                       End With
-                   End Sub)
 
                 If Directory.Exists(Application.StartupPath & "\Workspace\unipack\sounds") Then
                     Invoke(Sub()
@@ -3014,15 +2999,6 @@ Public Class MainProject
                 Else
                     Directory.CreateDirectory(UNIPACK_SOUNDS_PATH)
                 End If
-
-                UI(Sub()
-                       Select Case lang
-                           Case Translator.tL.English
-                               Loading.DLb.Text = Loading.MsgEn.loading_keySound_open_msg
-                           Case Translator.tL.Korean
-                               Loading.DLb.Text = Loading.MsgKr.loading_keySound_open_msg
-                       End Select
-                   End Sub)
 
                 'InstrumentGroupDevice
                 'ChainSelector
@@ -3234,27 +3210,11 @@ Public Class MainProject
     End Sub
 #End Region
 #Region "Trimming Sounds (Deprecated, v1)"
-    Private Sub BGW_soundcut_DoWork(sender As Object, e As DoWorkEventArgs) Handles BGW_soundcut.DoWork
+    <Obsolete("This method is deprecated, use ConvertKeySound_v2() instead.")>
+    Private Sub TrimSounds_DeprecatedVersion() 
         Try
-            If e.Cancel = False AndAlso IsWorking = False AndAlso abl_openedproj AndAlso abl_openedsnd Then
+            If IsWorking = False AndAlso abl_openedproj AndAlso abl_openedsnd Then
                 IsWorking = True
-
-                UI(Sub()
-                       With Loading
-                           .Show()
-                           Select Case lang
-                               Case Translator.tL.English
-                                   .Text = Loading.MsgEn.loading_soundcut_def_msg
-                                   .DLb.Text = Loading.MsgEn.loading_soundcut_open_msg
-                               Case Translator.tL.Korean
-                                   .Text = Loading.MsgKr.loading_soundcut_def_msg
-                                   .DLb.Text = Loading.MsgKr.loading_soundcut_open_msg
-                           End Select
-                           .DLb.Left -= 20
-                           .DPr.Style = ProgressBarStyle.Marquee
-                           .DPr.MarqueeAnimationSpeed = 10
-                       End With
-                   End Sub)
 
                 Invoke(Sub()
                     Loading.DLb.Text = My.Resources.Contents.Project_DeletingTempoaryFiles
@@ -3276,15 +3236,6 @@ Public Class MainProject
                     Directory.CreateDirectory(Application.StartupPath & "\Workspace\TmpSound")
                 End If
 
-                UI(Sub()
-                       Select Case lang
-                           Case Translator.tL.English
-                               Loading.DLb.Text = Loading.MsgEn.loading_soundcut_open_msg
-                           Case Translator.tL.Korean
-                               Loading.DLb.Text = Loading.MsgKr.loading_soundcut_open_msg
-                       End Select
-                   End Sub)
-
                 Dim ablprj As String = Application.StartupPath & "\Workspace\ableproj\abl_proj.xml"
                 Dim doc As New XmlDocument
                 Dim setNode As XmlNodeList
@@ -3292,19 +3243,6 @@ Public Class MainProject
 
                 doc.Load(ablprj)
                 setNode = doc.GetElementsByTagName("InstrumentBranch")
-
-                UI(Sub()
-                       Loading.DPr.Style = ProgressBarStyle.Continuous
-                       Loading.DPr.Value = 0
-                       Loading.DPr.Maximum = setNode.Count
-                       Select Case lang
-                           Case Translator.tL.English
-                               Loading.DLb.Text = String.Format(Loading.MsgEn.loading_soundcut_convert1_msg, 0, Loading.DPr.Maximum)
-                           Case Translator.tL.Korean
-                               Loading.DLb.Text = String.Format(Loading.MsgKr.loading_soundcut_convert1_msg, 0, Loading.DPr.Maximum)
-                       End Select
-                       Loading.DLb.Left -= 30
-                   End Sub)
 
                 '에이블톤 sounds Crop 길이는 InstrumentBranch > DeviceChain > MidiToAudioDeviceChain > 
                 'Devices > OriginalSimpler > Player > MultiSampleMap > SampleParts > MultiSamplePart > 
@@ -3349,16 +3287,6 @@ Public Class MainProject
                     Sound_Cutting.TrimWavFile(Application.StartupPath & "\Workspace\ableproj\sounds\" & sndName, Application.StartupPath & "\Workspace\TmpSound\" & trName & ".wav", StartTime, EndTime)
                     'splitSounds.Add(trName & ".wav")
                     Debug.WriteLine(sndName & " : " & trName & ".wav, " & StartTime.TotalMilliseconds & " - " & EndTime.TotalMilliseconds)
-                    UI(Sub()
-                           Select Case lang
-                               Case Translator.tL.English
-                                   Loading.DLb.Text = String.Format(Loading.MsgEn.loading_soundcut_convert1_msg, il, Loading.DPr.Maximum)
-                                   Loading.DPr.Value = il
-                               Case Translator.tL.Korean
-                                   Loading.DLb.Text = String.Format(Loading.MsgKr.loading_soundcut_convert1_msg, il, Loading.DPr.Maximum)
-                                   Loading.DPr.Value = il
-                           End Select
-                       End Sub)
                     il += 1
                 Next
 
@@ -3366,17 +3294,6 @@ Public Class MainProject
                 Dim files As String() = Directory.GetFiles(Application.StartupPath & "\Workspace\TmpSound", "*.wav")
                 For i As Integer = 0 To files.Count - 1
                     File.Move(files(i), Application.StartupPath & "\Workspace\ableproj\sounds\" & Path.GetFileName(files(i)))
-
-                    Invoke(Sub()
-                               Loading.DPr.Value = i + 1
-                               Loading.DPr.Maximum = files.Count
-                               Select Case lang
-                                   Case Translator.tL.English
-                                       Loading.DLb.Text = String.Format(Loading.MsgEn.loading_soundcut_convert2_msg, 0, Loading.DPr.Maximum)
-                                   Case Translator.tL.Korean
-                                       Loading.DLb.Text = String.Format(Loading.MsgKr.loading_soundcut_convert2_msg, 0, Loading.DPr.Maximum)
-                               End Select
-                           End Sub)
                 Next
 
                 Invoke(Sub()
@@ -5090,11 +5007,11 @@ Public Class MainProject
         keyLEDMIDEX_Md.Enabled = Enabled
     End Sub
 
-    Private Sub ResetTheProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ResetTheProjectToolStripMenuItem.Click
-        InitializeProject(True)
+    Private Async Sub ResetTheProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ResetTheProjectToolStripMenuItem.Click
+        Await InitializeProject(True)
     End Sub
 
-    Public Async Sub InitializeProject(showLoadingMessage As Boolean)
+    Public Async Function InitializeProject(showLoadingMessage As Boolean) As Task
         If showLoadingMessage Then
             Invoke(Sub()
                 With Loading
@@ -5114,7 +5031,7 @@ Public Class MainProject
 
             MessageBox.Show(My.Resources.Contents.Project_Initialized)
         End If
-    End Sub
+    End Function
 
     Private Sub KeyLEDMIDEX_BetaButton_Click(sender As Object, e As EventArgs) Handles keyLEDMIDEX_BetaButton.Click
         keyLED_Edit.Show()

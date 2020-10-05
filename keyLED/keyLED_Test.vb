@@ -218,6 +218,9 @@ Public Class keyLED_Test
                 sp = Lines(i).Split(" ")
                 Dim sp3_v As Integer
                 If sp(0) = "o" OrElse sp(0) = "on" Then
+                    If sp(1) = "l" Then
+                        Continue For 'LED 테스트 기능을 리뉴얼 할 때 기능을 구현하도록 하겠음
+                    End If
 
                     'Velocity Code.
                     If sp(3) = "a" OrElse sp(3) = "auto" Then
@@ -256,6 +259,10 @@ Public Class keyLED_Test
 
                 ElseIf sp(0) = "f" OrElse sp(0) = "off" Then
 
+                    If sp(1) = "l" Then
+                        Continue For 'LED 테스트 기능을 리뉴얼 할 때 기능을 구현하도록 하겠음
+                    End If
+
                     'Off Code.
                     If sp(1) = "mc" Then
                         Try
@@ -287,12 +294,6 @@ Public Class keyLED_Test
                         Exit For
                     End If
                     Thread.Sleep(sp(1))
-
-                ElseIf sp(0) = "l" Then '새롭게 추가된 로고라이트
-                    '나중에 하겠소.
-                Else
-                    MessageBox.Show("Wrong LED command " & Lines(i) & " on line" & i, "Wrong Data", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    Exit For
                 End If
             Next
             stopwatch__1.[Stop]()

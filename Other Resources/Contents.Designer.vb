@@ -65,6 +65,24 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Looks up a localized string similar to Horizontal.
+        '''</summary>
+        Public Shared ReadOnly Property Flip_Horizontal() As String
+            Get
+                Return ResourceManager.GetString("Flip_Horizontal", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Vertical.
+        '''</summary>
+        Public Shared ReadOnly Property Flip_Vertical() As String
+            Get
+                Return ResourceManager.GetString("Flip_Vertical", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized string similar to Hello, World!.
         '''</summary>
         Public Shared ReadOnly Property HelloWorld() As String

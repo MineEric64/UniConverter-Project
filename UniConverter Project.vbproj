@@ -134,6 +134,7 @@
     <Compile Include="keyLED\keyLED_Test.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="keyLED\LEDExtensions.vb" />
     <Compile Include="keyLED\MidiEffectBranch.vb" />
     <Compile Include="keyLED\MidiEffectBranches.vb" />
     <Compile Include="keyLED\MidiExtensionSave.vb" />
