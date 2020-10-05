@@ -3481,9 +3481,9 @@ Public Class MainProject
 
                     If midiEffectBranchChildNodeList.Count > 0 AndAlso mm.CurrentCount > 0 AndAlso mm.Count <> midiEffectBranchChildNodeList.Count Then
                         mm.IsStrange = True 'Insufficient / Emptyspace 문제점
-                        toSaveLEDList = SupportStrangeMMKeyLED(node.NodeList, mm, pluginName)
+                        toSaveLEDList = SupportMMKeyLED(node.NodeList, mm, pluginName)
                     ElseIf midiEffectBranchChildNodeList.Count > 0 AndAlso mm.Count > 0 AndAlso mm.Count = midiEffectBranchChildNodeList.Count Then
-                        toSaveLEDList = SupportStrangeMMKeyLED(node.NodeList, mm, pluginName) 'Swapping / Normal
+                        toSaveLEDList = SupportMMKeyLED(node.NodeList, mm, pluginName) 'Swapping / Normal
                     Else
                         mm.IsStrange = False
                     End If
@@ -3739,7 +3739,7 @@ Public Class MainProject
 
                 If midiPathList.Count > 0 Then
                     Dim midiPath As String = midiPathList.First()
-                    ledList.AddRange(ConvertKeyLEDForAnyMIDEX(node, mm, indent, midiPath))
+                    ledList.AddRange(ConvertKeyLEDForAnyMIDEX(node, mm, indent, midiPath, save.Speed, save.BPM))
                 Else
                     ConvertKeyLEDForAnyMIDEX(node, mm, indent, String.Empty) 'MultiMapping
                 End If
@@ -3757,14 +3757,24 @@ Public Class MainProject
         Dim save As New MidiExtensionSave()
         
         Dim midiName As String = node.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices")?.Item("MxDeviceMidiEffect")?.Item("FileDropList")?.Item("FileDropList")?.Item("MxDFullFileDrop")?.Item("FileRef")?.Item("FileRef")?.Item("Name")?.GetAttribute("Value")
-        Dim speed = 100
-        Dim bpm = 120
+        Dim speed As String = node.Item("")
+        Dim bpm As String = String.Empty
 
         If Not String.IsNullOrWhiteSpace(midiName) Then
             save.MidiName = midiName
         End If
+        If Not IsNothing(speed) Then
+            save.Speed = Integer.Parse(speed)
+        End If
+        If Not IsNothing(bpm) Then
+            save.BPM = Integer.Parse(bpm)
+        End If
 
         Return save
+    End Function
+
+    Public Shared Function GetLEDExtensionsForMidiFire(node As XmlNode) As LEDExtensions
+        Return New LEDExtensions()
     End Function
 
     ''' <summary>
@@ -3868,7 +3878,7 @@ Public Class MainProject
         Return ledList.ToArray()
     End Function
 
-    Public Function SupportStrangeMMKeyLED(nodeList As List(Of LEDNodeList), ByRef mm As MultiMapping, plugin As Plugins) As KeyLEDStructure()
+    Public Function SupportMMKeyLED(nodeList As List(Of LEDNodeList), ByRef mm As MultiMapping, plugin As Plugins) As KeyLEDStructure()
         Dim ledList As New List(Of KeyLEDStructure)()
         
         For i = 0 To mm.Count - 1
