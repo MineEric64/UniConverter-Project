@@ -930,6 +930,15 @@ Error Message:
  <param name="midiFilePath">미디 (LED) 파일 경로</param>
  <returns></returns>
 </member>
+<member name="M:UniConverter.MainProject.SupportMMKeyLED(System.Collections.Generic.List{UniConverter.LEDNodeList},UniConverter.MultiMapping@,UniConverter.Plugins)">
+ <summary>
+ KeyLED 멀티 매핑 키 구하는 함수 (Insufficient, Emptyspace, Swapping 문제점 해결)
+ </summary>
+ <param name="nodeList">LED 노드 배열</param>
+ <param name="mm">멀티 매핑 정보</param>
+ <param name="plugin">플러그인 이름</param>
+ <returns>LED 배열</returns>
+</member>
 <member name="M:UniConverter.MainProject.SaveKeyLED(UniConverter.KeyLEDStructure)">
  <summary>
  keyLED를 Workspace에 저장

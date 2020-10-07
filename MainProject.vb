@@ -3878,6 +3878,13 @@ Public Class MainProject
         Return ledList.ToArray()
     End Function
 
+    ''' <summary>
+    ''' KeyLED 멀티 매핑 키 구하는 함수 (Insufficient, Emptyspace, Swapping 문제점 해결)
+    ''' </summary>
+    ''' <param name="nodeList">LED 노드 배열</param>
+    ''' <param name="mm">멀티 매핑 정보</param>
+    ''' <param name="plugin">플러그인 이름</param>
+    ''' <returns>LED 배열</returns>
     Public Function SupportMMKeyLED(nodeList As List(Of LEDNodeList), ByRef mm As MultiMapping, plugin As Plugins) As KeyLEDStructure()
         Dim ledList As New List(Of KeyLEDStructure)()
         
