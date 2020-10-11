@@ -1,8 +1,8 @@
 ﻿Imports System.Text
-Imports A2UP.A2U.keyLED_MIDEX
 
 Public Class LEDExtensions
-    Public Structure FlipStructure
+#Region "Flip Class"
+    Public Class FlipClass
         Public Enum Mirror
             Horizontal
             Vertical
@@ -13,15 +13,15 @@ Public Class LEDExtensions
         Public Rotate As Integer
         Public Duplicate As Boolean
 
-        Public Sub New(mirrorMode As Mirror, rotateAngle As Integer, duplicate As Boolean)
+        Sub New(mirrorMode As Mirror, rotateAngle As Integer, duplicate As Boolean)
             Me.MirrorMode = mirrorMode
             Me.Rotate = rotateAngle
             Me.Duplicate = duplicate
         End Sub
 
-        Public Shared ReadOnly Property Empty As FlipStructure
+        Public Shared ReadOnly Property Empty As FlipClass
             Get
-                Return New FlipStructure(Mirror.None, 0, False)
+                Return New FlipClass(Mirror.None, 0, False)
             End Get
         End Property
 
@@ -825,11 +825,14 @@ Public Class LEDExtensions
         End Select
     End Function
 #End Region
-    End Structure
+    End Class
+#End Region
 
-    Public Property Flip As FlipStructure
+    Public Property Flip As FlipClass
+    Public Property VelocityList As Dictionary(Of Integer, Integer)
 
     Sub New()
-        Me.Flip = FlipStructure.Empty
+        Me.Flip = FlipClass.Empty
+        Me.VelocityList = New Dictionary(Of Integer, Integer)()
     End Sub
 End Class

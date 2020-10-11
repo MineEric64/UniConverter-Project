@@ -4,6 +4,8 @@ Imports System.Text
 
 Imports NAudio.Midi
 
+Imports UniConverter.LEDExtensions
+
 Imports A2UP.A2U.keyLED_MIDEX
 
 Public Class keyLED_Edit
@@ -145,9 +147,10 @@ Public Class keyLED_Edit
             '이 코드는 Follow_JB님의 midi2keyLED를 참고하여 만든 코드. (Thanks to Follow_JB. :D)
 
             Dim str As New StringBuilder(100)
-            Dim delayCount As Integer = 0
+            Dim delayCount = 0
             Dim uniNoteNumberX As Integer 'X
             Dim uniNoteNumberY As Integer 'Y
+            Dim velocity As Integer
 
             For i = 0 To keyLED.Events.Count - 1
                 For j = 0 To keyLED.Events(i).Count - 1
@@ -156,84 +159,77 @@ Public Class keyLED_Edit
                     If algItemIndex = 0 Then 'Drum Rack Layout
 
                         If mdEvent.CommandCode = MidiCommandCode.NoteOn Then
-                            Dim a = DirectCast(mdEvent, NoteOnEvent)
-                            Dim bpm As New TempoEvent(500000, a.AbsoluteTime)
+                            Dim noteOn = DirectCast(mdEvent, NoteOnEvent)
+                            Dim bpm As New TempoEvent(500000, noteOn.AbsoluteTime)
 
-                            If Not delayCount = a.AbsoluteTime OrElse Not a.DeltaTime = 0 Then
-                                Dim bpmTempo = 0
-
-                                If tempo = 0 Then
-                                    bpmTempo = bpm.Tempo
-                                Else
-                                    bpmTempo = tempo
-                                End If
+                            If Not delayCount = noteOn.AbsoluteTime OrElse Not noteOn.DeltaTime = 0 Then
+                                Dim bpmTempo = If(tempo = 0, bpm.Tempo, tempo)
 
                                 str.Append("d ")
-                                str.Append(Math.Round(GetNoteDelay(keyLED_NoteEvents.NoteLength_2, bpm.Tempo, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delayCount) * (speed / 100)))
+                                str.Append(Math.Round(GetNoteDelay(keyLED_NoteEvents.NoteLength_2, bpmTempo, keyLED.DeltaTicksPerQuarterNote, noteOn.AbsoluteTime - delayCount) * (speed / 100)))
                                 str.Append(vbNewLine)
                             End If
 
                             '기본값
-                            uniNoteNumberX = GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber)
-                            uniNoteNumberY = GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber)
-                            delayCount = a.AbsoluteTime
+                            uniNoteNumberX = GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, noteOn.NoteNumber)
+                            uniNoteNumberY = GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, noteOn.NoteNumber)
+                            velocity = noteOn.Velocity
+                            delayCount = noteOn.AbsoluteTime
 
                             If uniNoteNumberX = 0 AndAlso uniNoteNumberY = 0 Then
-                                Debug.WriteLine("Unknown Note Number. [ Note: " & a.NoteNumber & " ]")
+                                Debug.WriteLine("Unknown Note Number. [ Note: " & noteOn.NoteNumber & " ]")
                                 Continue For
                             End If
 
-                            'LED 익스텐션
+#Region "LED 익스텐션"
                             If Not extension.Flip.IsEmpty Then
-                                extension.Flip.SyncFlip("on", uniNoteNumberX, uniNoteNumberY, a.Velocity, str)
+                                extension.Flip.SyncFlip("on", uniNoteNumberX, uniNoteNumberY, velocity, str)
                             End If
 
+                            If extension.VelocityList.Count > 0 Then
+                                SyncVelocity(velocity, extension.VelocityList)
+                            End If
+#End Region
                             If uniNoteNumberX <> -8192 AndAlso uniNoteNumberX <> -8193 Then
                                 str.Append("o ")
                                 str.Append(uniNoteNumberX)
                                 str.Append(" ")
                                 str.Append(uniNoteNumberY)
                                 str.Append(" a ")
-                                str.Append(a.Velocity)
+                                str.Append(velocity)
                                 str.Append(vbNewLine)
 
                             ElseIf uniNoteNumberX = -8193 Then '로고라이트 및 모드라이트
                                 str.Append("o l a ")
-                                str.Append(a.Velocity)
+                                str.Append(velocity)
                                 str.Append(vbNewLine)
                             Else
                                 str.Append("o mc ")
                                 str.Append(uniNoteNumberY)
                                 str.Append(" a ")
-                                str.Append(a.Velocity)
+                                str.Append(velocity)
                                 str.Append(vbNewLine)
                             End If
 
                         ElseIf mdEvent.CommandCode = MidiCommandCode.NoteOff Then
 
-                            Dim a = DirectCast(mdEvent, NoteEvent)
-                            Dim bpm As New TempoEvent(500000, a.AbsoluteTime)
+                            Dim noteOff = DirectCast(mdEvent, NoteEvent)
+                            Dim bpm As New TempoEvent(500000, noteOff.AbsoluteTime)
 
-                            If Not delayCount = a.AbsoluteTime OrElse Not a.DeltaTime = 0 Then
-                                Dim bpmTempo = 0
-
-                                If tempo = 0 Then
-                                    bpmTempo = bpm.Tempo
-                                Else
-                                    bpmTempo = tempo
-                                End If
+                            If Not delayCount = noteOff.AbsoluteTime OrElse Not noteOff.DeltaTime = 0 Then
+                                Dim bpmTempo = If(tempo = 0, bpm.Tempo, tempo)
 
                                 str.Append("d ")
-                                str.Append(Math.Round(GetNoteDelay(keyLED_NoteEvents.NoteLength_2, bpmTempo, keyLED.DeltaTicksPerQuarterNote, a.AbsoluteTime - delayCount) * (speed / 100)))
+                                str.Append(Math.Round(GetNoteDelay(keyLED_NoteEvents.NoteLength_2, bpmTempo, keyLED.DeltaTicksPerQuarterNote, noteOff.AbsoluteTime - delayCount) * (speed / 100)))
                                 str.Append(vbNewLine)
                             End If
 
-                            uniNoteNumberX = GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber)
-                            uniNoteNumberY = GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, a.NoteNumber)
-                            delayCount = a.AbsoluteTime
+                            uniNoteNumberX = GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, noteOff.NoteNumber)
+                            uniNoteNumberY = GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, noteOff.NoteNumber)
+                            delayCount = noteOff.AbsoluteTime
 
                             If uniNoteNumberX = 0 AndAlso uniNoteNumberY = 0 Then
-                                Debug.WriteLine("Unknown Note Number. [ Note: " & a.NoteNumber & " ]")
+                                Debug.WriteLine("Unknown Note Number. [ Note: " & noteOff.NoteNumber & " ]")
                                 Continue For
                             End If
 
@@ -242,16 +238,17 @@ Public Class keyLED_Edit
                             If Not j + 1 > keyLED.Events(i).Count - 1 Then
                                 Dim nextEvent As MidiEvent = keyLED.Events(i)(j + 1)
 
-                                If nextEvent.CommandCode = MidiCommandCode.NoteOn AndAlso DirectCast(nextEvent, NoteOnEvent).NoteNumber = a.NoteNumber Then
+                                If nextEvent.CommandCode = MidiCommandCode.NoteOn AndAlso DirectCast(nextEvent, NoteOnEvent).NoteNumber = noteOff.NoteNumber Then
                                     isFlickering = True
                                 End If
                             End If
 
-                            If isFlickering = False Then
+                            If Not isFlickering Then
+#Region "LED 익스텐션"
                                 If Not extension.Flip.IsEmpty Then
-                                    extension.Flip.SyncFlip("off", uniNoteNumberX, uniNoteNumberY, a.Velocity, str)
+                                    extension.Flip.SyncFlip("off", uniNoteNumberX, uniNoteNumberY, noteOff.Velocity, str)
                                 End If
-
+#End Region
                                 If uniNoteNumberX <> -8192 AndAlso uniNoteNumberX <> -8193 Then
                                     str.Append("f ")
                                     str.Append(uniNoteNumberX)
@@ -369,6 +366,16 @@ Public Class keyLED_Edit
     Public Async Function keyLED_MidiToKeyLEDAsync(filePath As String, autoConvert As Boolean, speed As Integer, tempo As Integer, extension As LEDExtensions) As Task(Of String)
         Return Await Task.Run(Function() keyLED_MidiToKeyLED(filePath, autoConvert, speed, tempo, extension))
     End Function
+
+    Public Shared Sub SyncVelocity(ByRef velocity As Integer, velocityList As Dictionary(Of Integer, Integer))
+        If Not velocityList.ContainsKey(-1) Then
+            If velocityList.ContainsKey(velocity) Then
+                velocity = velocityList(velocity)
+            End If
+        Else
+            velocity = velocityList(-1)
+        End If
+    End Sub
 
     Private Sub TestButton_Click(sender As Object, e As EventArgs) Handles TestButton.Click
         If CanEnable Then

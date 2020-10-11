@@ -45,7 +45,8 @@ Public Class DeveloperMode_Project
         Dim itm As New List(Of String)()
         itm.AddRange({"File Name", "Chains", "File Version", "Sound Cutting"})
         itm.AddRange({"KeyTracks (keyLED)", "keyLED (MIDI Extension)", "keyLED (MIDEX, MidiFire)", "keyLED (integrated version)"})
-        itm.AddRange({"XML Test", "Mp3ToWav", "NewLine Test"})
+        itm.AddRange({"XML Test", "Mp3ToWav", "NewLine Test", "Extract To Xml"})
+
         Info_ListView.Items.Clear()
         For Each items As String In itm
             Info_ListView.Items.Add(items)
@@ -120,8 +121,43 @@ Public Class DeveloperMode_Project
                 Case "NewLine Test"
                     Info_TextBox.Text = NewLineTest()
 
+                Case "Extract To Xml"
+                    Dim ofd As New OpenFileDialog()
+                    ofd.Filter = "Ableton Project File|*.als"
+                    ofd.Title = "Select Ableton Project File"
+
+                    Dim sfd As New SaveFileDialog()
+                    sfd.Filter = "Xml File|*.xml"
+                    sfd.Title = "Save Ableton Project To Xml"
+
+                    If ofd.ShowDialog() = DialogResult.OK Then
+                        sfd.FileName = $"{Path.GetFileNameWithoutExtension(ofd.FileName)}.xml"
+
+                        If sfd.ShowDialog() = DialogResult.OK Then
+                            Await Task.Run(Sub()
+                                ExtractAbletonProjectToXml(ofd.FileName, sfd.FileName)
+                                           End Sub)
+
+                            MessageBox.Show("Extracted Xml successfully!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        End If
+                    End If
+
             End Select
         End If
+    End Sub
+
+    Public Shared Sub ExtractAbletonProjectToXml(apfPath As String, destFilePath As String)
+        Dim gzipFile As String = Path.GetTempFileName()
+        Dim gzipDir As String = $"{Path.GetTempPath()}\{Path.GetRandomFileName()}"
+
+        Directory.CreateDirectory(gzipDir)
+
+        File.Copy(apfPath, gzipFile, True)
+        MainProject.ExtractGZip(gzipFile, gzipDir)
+        File.Move($"{gzipDir}\{Path.GetFileNameWithoutExtension(gzipFile)}", destFilePath)
+
+        File.Delete(gzipFile)
+        Directory.Delete(gzipDir, True)
     End Sub
 
     Private Shared Function NewLineTest() As String

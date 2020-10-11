@@ -469,14 +469,14 @@ Error Message:
  <param name="col">색을 말합니다.</param>
  <param name="Launchpad_Kind">런치패드 종류. (0: Mini/S, 1: MK2, 2: Pro)</param>
 </member>
-<member name="M:UniConverter.LEDExtensions.FlipStructure.Flip_Rotate_90(System.Int32)">
+<member name="M:UniConverter.LEDExtensions.FlipClass.Flip_Rotate_90(System.Int32)">
  <summary>
  90도 회전해줍니다. 이 함수에서는 시계방향 90도를 해줍니다.
  </summary>
  <param name="source">X, Y 좌표입니다. XY형식으로 붙여서 쓰세요. 예: 88, 11, 35</param>
  <returns></returns>
 </member>
-<member name="M:UniConverter.LEDExtensions.FlipStructure.Flip_Rotate_270(System.Int32)">
+<member name="M:UniConverter.LEDExtensions.FlipClass.Flip_Rotate_270(System.Int32)">
  <summary>
  90도 회전해줍니다. 이 함수에서는 반시계방향 90도를 해줍니다.
  </summary>
@@ -920,7 +920,7 @@ Error Message:
  <param name="mm"></param>
  <returns></returns>
 </member>
-<member name="M:UniConverter.MainProject.ConvertKeyLEDForAnyMIDEX(System.Xml.XmlNode,UniConverter.MultiMapping@,System.Int32,System.String,System.Int32,System.Int32)">
+<member name="M:UniConverter.MainProject.ConvertKeyLEDForAnyMIDEX(System.Xml.XmlNode,UniConverter.MultiMapping@,System.Int32,System.String,System.Int32,System.Int32,UniConverter.LEDExtensions)">
  <summary>
  통합 이후 Midi Extension, MIDIext, Midi Fire, Lightweight를 통해 LED 파일만 변환할 때 통합적으로 불러오는 함수
  </summary>
@@ -938,6 +938,13 @@ Error Message:
  <param name="mm">멀티 매핑 정보</param>
  <param name="plugin">플러그인 이름</param>
  <returns>LED 배열</returns>
+</member>
+<member name="M:UniConverter.MainProject.GetLEDExtensionsFromNode(System.Xml.XmlNode)">
+ <summary>
+ LED 익스텐션들을 가져오는 함수 (Velocity 지원)
+ </summary>
+ <param name="node">MidiEffectBranch 노드</param>
+ <returns></returns>
 </member>
 <member name="M:UniConverter.MainProject.SaveKeyLED(UniConverter.KeyLEDStructure)">
  <summary>

@@ -1,5 +1,5 @@
 ﻿Imports UniConverter.LEDExtensions
-Imports UniConverter.LEDExtensions.FlipStructure
+Imports UniConverter.LEDExtensions.FlipClass
 
 Public Class keyLED_Edit_Ex
     Private Sub KeyLED_Edit_Ex_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -20,8 +20,8 @@ Public Class keyLED_Edit_Ex
         End Select
     End Sub
 
-    Public Function GetFlipStructure() As FlipStructure
-        Dim flip As New FlipStructure(Mirror.None, 0, False)
+    Public Function GetFlipStructure() As FlipClass
+        Dim flip As New FlipClass(Mirror.None, 0, False)
 
         If Flip_MirrorCheckBox.Checked Then
             If Flip_MirrorComboBox.Text = My.Resources.Contents.Flip_Horizontal Then

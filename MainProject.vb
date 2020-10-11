@@ -15,6 +15,8 @@ Imports NAudio.Midi
 Imports ICSharpCode.SharpZipLib.GZip
 Imports ICSharpCode.SharpZipLib.Core
 
+Imports UniConverter.LEDExtensions
+
 Imports A2UP
 Imports A2UP.A2U.keyLED_MIDEX
 Imports A2UP.A2U.keySound
@@ -1786,6 +1788,8 @@ Public Class MainProject
                     MessageBox.Show(My.Resources.Contents.Project_Not_Converted, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End If
             End If
+        Else
+            MessageBox.Show(My.Resources.Contents.Project_Not_Converted, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
     End Sub
 #Region "Save Project Method (Deprecated)"
@@ -3443,6 +3447,10 @@ Public Class MainProject
                     If Not isFoundPlugin Then
                         Try
                             Dim pluginNameInXml As String = node.Node.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect")?.Item("SourceContext")?.Item("Value")?.Item("BranchSourceContext")?.Item("OriginalFileRef")?.Item("FileRef")?.Item("Name")?.GetAttribute("Value")
+                            
+                            If String.IsNullOrWhiteSpace(pluginNameInXml) Then
+                                pluginNameInXml = node.Node.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect")?.Item("PatchSlot")?.Item("Value")?.Item("MxDPatchRef")?.Item("FileRef")?.Item("Name").GetAttribute("Value")
+                            End If
                             pluginName = GetPluginForKeyLED(pluginNameInXml)
 
                             If pluginName = Plugins.None Then
@@ -3586,11 +3594,11 @@ Public Class MainProject
     End Function
 
     Public Shared Function GetPluginForKeyLED(name As String) As Plugins
-        Dim detectName As String = name.ToLower().Replace(" ", "")
-
         If String.IsNullOrWhiteSpace(name) Then
             Return Plugins.None
         End If
+
+        Dim detectName As String = name.ToLower().Replace(" ", "")
 
         If detectName.Contains(".amxd") Then
             If detectName.Contains("midiext") OrElse detectName.Contains("midext") Then
@@ -3757,23 +3765,24 @@ Public Class MainProject
         Dim save As New MidiExtensionSave()
         
         Dim midiName As String = node.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices")?.Item("MxDeviceMidiEffect")?.Item("FileDropList")?.Item("FileDropList")?.Item("MxDFullFileDrop")?.Item("FileRef")?.Item("FileRef")?.Item("Name")?.GetAttribute("Value")
-        Dim speed As String = node.Item("")
+        Dim speed As String = String.Empty 'node.Item("")
         Dim bpm As String = String.Empty
 
         If Not String.IsNullOrWhiteSpace(midiName) Then
             save.MidiName = midiName
         End If
         If Not IsNothing(speed) Then
-            save.Speed = Integer.Parse(speed)
+            'save.Speed = Integer.Parse(speed)
         End If
         If Not IsNothing(bpm) Then
-            save.BPM = Integer.Parse(bpm)
+           ' save.BPM = Integer.Parse(bpm)
         End If
 
         Return save
     End Function
 
     Public Shared Function GetLEDExtensionsForMidiFire(node As XmlNode) As LEDExtensions
+
         Return New LEDExtensions()
     End Function
 
@@ -3785,7 +3794,7 @@ Public Class MainProject
     ''' <param name="indent">깊이</param>
     ''' <param name="midiFilePath">미디 (LED) 파일 경로</param>
     ''' <returns></returns>
-    Public Shared Function ConvertKeyLEDForAnyMIDEX(node As XmlNode, ByRef mm As MultiMapping, indent As Integer, midiFilePath As String, Optional speed As Integer = 100, Optional bpm As Integer = 120) As KeyLEDStructure()
+    Public Shared Function ConvertKeyLEDForAnyMIDEX(node As XmlNode, ByRef mm As MultiMapping, indent As Integer, midiFilePath As String, Optional speed As Integer = 100, Optional bpm As Integer = 120, Optional extension As LEDExtensions = Nothing) As KeyLEDStructure()
         Dim ledList As New List(Of KeyLEDStructure)()
 
         Dim isRandom = False '멀티매핑 인가?
@@ -3841,7 +3850,9 @@ Public Class MainProject
 
         Try
             If File.Exists(midiFilePath) Then
-                Dim script As String = keyLED_Edit.keyLED_MidiToKeyLED(midiFilePath, True, speed, bpm)
+                'LED 익스텐션
+                extension = GetLEDExtensionsFromNode(node)
+                Dim script As String = keyLED_Edit.keyLED_MidiToKeyLED(midiFilePath, True, speed, bpm, extension)
 
                 Dim chainMin As Integer = Integer.Parse(node.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1
                 Dim chainMax As Integer = Integer.Parse(node.Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1
@@ -3850,7 +3861,7 @@ Public Class MainProject
                 Dim noteNumberMax As Integer = Integer.Parse(node.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))
 
                 If isRandom Then
-                    isMyChair = False 'SupportStrangeMMKeyLED 함수
+                    isMyChair = False 'SupportMMKeyLED 함수
                 End If
 
                 If isMyChair Then
@@ -3951,6 +3962,36 @@ Public Class MainProject
         End If
 
         Return ledList.ToArray()
+    End Function
+
+    ''' <summary>
+    ''' LED 익스텐션들을 가져오는 함수 (Velocity 지원)
+    ''' </summary>
+    ''' <param name="node">MidiEffectBranch 노드</param>
+    ''' <returns></returns>
+    Public Shared Function GetLEDExtensionsFromNode(node As XmlNode) As LEDExtensions
+        Dim ledExtension As New LEDExtensions()
+
+        Dim midiVelocity As XmlNode = node?.Item("DeviceChain")?.Item("MidiToMidiDeviceChain")?.Item("Devices")?.Item("MidiVelocity")
+
+        If Not IsNothing(midiVelocity) Then
+            Dim isActive As Boolean = Boolean.Parse(midiVelocity.Item("On").Item("Manual").GetAttribute("Value"))
+
+            If isActive Then
+                Dim mode As Integer = Integer.Parse(midiVelocity.Item("Mode").Item("Manual").GetAttribute("Value"))
+                Dim outHi As Integer = Integer.Parse(midiVelocity.Item("MaxOut").Item("Manual").GetAttribute("Value"))
+                Dim outLow As Integer = Integer.Parse(midiVelocity.Item("MinOut").Item("Manual").GetAttribute("Value"))
+
+                If mode = 2 OrElse (mode <> 2 AndAlso outHi = outLow) Then '전체 색상
+                    ledExtension.VelocityList.Add(-1, outHi)
+                Else
+                    
+
+                End If
+            End If
+        End If
+
+        Return ledExtension
     End Function
 
     ''' <summary>
