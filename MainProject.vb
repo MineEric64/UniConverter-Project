@@ -3763,19 +3763,28 @@ Public Class MainProject
 
     Public Shared Function GetMidiFireSave(node As XmlNode) As MidiExtensionSave
         Dim save As New MidiExtensionSave()
+        Dim mxDeviceMidiEffect As XmlNode = node.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices")?.Item("MxDeviceMidiEffect")
         
-        Dim midiName As String = node.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices")?.Item("MxDeviceMidiEffect")?.Item("FileDropList")?.Item("FileDropList")?.Item("MxDFullFileDrop")?.Item("FileRef")?.Item("FileRef")?.Item("Name")?.GetAttribute("Value")
-        Dim speed As String = String.Empty 'node.Item("")
-        Dim bpm As String = String.Empty
+        If Not IsNothing(mxDeviceMidiEffect) Then
+            Dim midiName As String = mxDeviceMidiEffect.Item("FileDropList")?.Item("FileDropList")?.Item("MxDFullFileDrop")?.Item("FileRef")?.Item("FileRef")?.Item("Name")?.GetAttribute("Value")
+            Dim speedToggle = False
+            Dim speed = 100
+            Dim bpmToggle = False
 
-        If Not String.IsNullOrWhiteSpace(midiName) Then
-            save.MidiName = midiName
-        End If
-        If Not IsNothing(speed) Then
-            'save.Speed = Integer.Parse(speed)
-        End If
-        If Not IsNothing(bpm) Then
-           ' save.BPM = Integer.Parse(bpm)
+            If Not String.IsNullOrWhiteSpace(midiName) Then
+                save.MidiName = midiName
+            End If
+
+            If speedToggle Then
+                save.Speed = speed
+
+            ElseIf bpmToggle Then
+                Dim parameterList As List(Of XmlNode) = mxDeviceMidiEffect.Item("ParameterList").Item("ParameterList").ChildNodes.Cast(Of XmlNode).Where(Function(x) x.Item("Name").GetAttribute("Value") = "realtime_bpm").ToList()
+
+                If parameterList.Count > 0 Then
+                    save.BPM = Integer.Parse(parameterList(0).Item("Timeable").Item("Manual").GetAttribute("Value"))
+                End If
+            End If
         End If
 
         Return save
@@ -3985,7 +3994,12 @@ Public Class MainProject
                 If mode = 2 OrElse (mode <> 2 AndAlso outHi = outLow) Then '전체 색상
                     ledExtension.VelocityList.Add(-1, outHi)
                 Else
-                    
+                    Dim graph As New Dictionary(Of Integer, Integer)()
+
+                    Dim start As Integer = outLow
+                    Dim [end] As Integer = outHi
+                    Dim drive As Integer = Double.Parse(midiVelocity.Item("Drive").Item("Manual").GetAttribute("Value"))
+
 
                 End If
             End If

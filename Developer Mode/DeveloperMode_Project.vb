@@ -45,7 +45,7 @@ Public Class DeveloperMode_Project
         Dim itm As New List(Of String)()
         itm.AddRange({"File Name", "Chains", "File Version", "Sound Cutting"})
         itm.AddRange({"KeyTracks (keyLED)", "keyLED (MIDI Extension)", "keyLED (MIDEX, MidiFire)", "keyLED (integrated version)"})
-        itm.AddRange({"XML Test", "Mp3ToWav", "NewLine Test", "Extract To Xml"})
+        itm.AddRange({"XML Test", "Mp3ToWav", "NewLine Test", "Extract To Xml", "LED Extension - Velocity"})
 
         Info_ListView.Items.Clear()
         For Each items As String In itm
@@ -142,6 +142,17 @@ Public Class DeveloperMode_Project
                         End If
                     End If
 
+                Case "LED Extension - Velocity"
+                    Dim picture As New Bitmap(128, 128)
+                    Dim points As Point() = DrawVelocityGraph(0, 100, 0R, 0, 100, "Clip")
+
+                    For Each point In points
+                        picture.SetPixel(point.X, 127 - point.Y, Color.OrangeRed)
+                    Next
+
+                    Clipboard.SetImage(picture)
+                    MessageBox.Show("Copied Image to Clipboard!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+
             End Select
         End If
     End Sub
@@ -159,6 +170,52 @@ Public Class DeveloperMode_Project
         File.Delete(gzipFile)
         Directory.Delete(gzipDir, True)
     End Sub
+
+    ''' <summary>
+    ''' Velocity 플러그인 그래프
+    ''' </summary>
+    ''' <param name="start">Out Low (Y)</param>
+    ''' <param name="[end]">Out Hi (Y)</param>
+    ''' <param name="drive">Drive Value</param>
+    ''' <param name="mode">Clip / Gate / Fixed</param>
+    ''' <returns>Point Array</returns>
+    Public Shared Function DrawVelocityGraph(start As Integer, [end] As Integer, drive As Double, Optional lowest As Integer = 0, Optional range As Integer = 127, Optional mode As String = "Clip") As Point()
+       Dim pointList As New List(Of Point)()
+        
+        Dim space As Double = ([end] - start) / (range - lowest)
+        Dim yf As Double = Convert.ToDouble(start)
+
+        If drive > 1.0R Then
+            drive = 1.0R
+        ElseIf drive < -1.0R Then
+            drive = -1.0R
+        End If
+
+        For x = 0 To 127
+            If mode = "Gate" AndAlso Not (x >= lowest AndAlso x <= range) Then
+                Continue For
+            End If
+
+            Dim y As Integer = Convert.ToInt32(Math.Truncate(yf))
+            Dim p As New Point(x, y)
+
+            If mode = "Clip" AndAlso Not (x >= lowest AndAlso x <= range) Then
+                If Not x >= lowest Then
+                    p.Y = [start]
+                ElseIf Not x <= range Then
+                    p.Y = [end]
+                End If
+
+            ElseIf mode = "Fixed" Then
+                p.Y = [end]
+            End If
+
+            pointList.Add(p)
+            yf += space
+       Next
+
+        Return pointList.ToArray()
+    End Function
 
     Private Shared Function NewLineTest() As String
         Dim sb As New StringBuilder()

@@ -498,6 +498,16 @@ Error Message:
  XML2Sounds Code.
  </summary>
 </member>
+<member name="M:UniConverter.DeveloperMode_Project.DrawVelocityGraph(System.Int32,System.Int32,System.Double,System.Int32,System.Int32,System.String)">
+ <summary>
+ Velocity 플러그인 그래프
+ </summary>
+ <param name="start">Out Low (Y)</param>
+ <param name="[end]">Out Hi (Y)</param>
+ <param name="drive">Drive Value</param>
+ <param name="mode">Clip / Gate / Fixed</param>
+ <returns>Point Array</returns>
+</member>
 <member name="M:UniConverter.DeveloperMode_Project.GetChainN">
  <summary>
  Get Ableton Project's Chain Number.
