@@ -147,7 +147,7 @@ Public Class DeveloperMode_Project
 
                 Case "LED Extension - Velocity"
                     Dim picture As New Bitmap(128, 128)
-                    Dim points As Point() = DrawVelocityGraph(0, 100, 0R, 0, 100, "Clip")
+                    Dim points As Point() = DrawVelocityGraph(0, 127, 1.0, 0, 127, "Clip")
 
                     Using gfx As Graphics = Graphics.FromImage(picture)
                         Using brush As New SolidBrush(Color.White)
@@ -221,26 +221,21 @@ Public Class DeveloperMode_Project
     ''' <param name="mode">Clip / Gate / Fixed</param>
     ''' <returns>Point Array</returns>
     Public Shared Function DrawVelocityGraph(start As Integer, [end] As Integer, drive As Double, Optional lowest As Integer = 0, Optional range As Integer = 127, Optional mode As String = "Clip") As Point()
-       Dim pointList As New List(Of Point)()
+        Dim pointList As New List(Of Point)()
         
-        Dim space As Double = ([end] - start) / (range - lowest)
-        Dim yf As Double = Convert.ToDouble(start)
+        Dim startPoint As New Point(lowest, start)
+        Dim endPoint As New Point(range, [end])
 
-        If drive > 1.0R Then
-            drive = 1.0R
-        ElseIf drive < -1.0R Then
-            drive = -1.0R
-        End If
+        pointList.AddRange(DrawCurveGraph(startPoint, endPoint, drive))
 
         For x = 0 To 127
-            If mode = "Gate" AndAlso Not (x >= lowest AndAlso x <= range) Then
+            If x >= lowest AndAlso x <= range OrElse mode = "Gate" Then
                 Continue For
             End If
 
-            Dim y As Integer = Convert.ToInt32(Math.Truncate(yf))
-            Dim p As New Point(x, y)
+            Dim p As New Point(x, 0)
 
-            If mode = "Clip" AndAlso Not (x >= lowest AndAlso x <= range) Then
+            If mode = "Clip" Then
                 If Not x >= lowest Then
                     p.Y = [start]
                 ElseIf Not x <= range Then
@@ -252,10 +247,9 @@ Public Class DeveloperMode_Project
             End If
 
             pointList.Add(p)
-            yf += space
        Next
 
-        Return pointList.ToArray()
+        Return pointList.OrderBy(Function(p) p.X * 10 + p.Y).ToArray()
     End Function
 
     Private Shared Function DrawCurveGraph(startPoint As Point, endPoint As Point, curvature As Double) As Point()
