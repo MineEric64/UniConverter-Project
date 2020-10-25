@@ -113,6 +113,19 @@
             <param name="message">A <see cref="T:System.String"/> that describes the error.</param>
             <param name="innerException">The <see cref="T:System.Exception"/> that caused this exception.</param>
         </member>
+        <member name="M:ICSharpCode.SharpZipLib.BZip2.BZip2Exception.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the BZip2Exception class with serialized data.
+            </summary>
+            <param name="info">
+            The System.Runtime.Serialization.SerializationInfo that holds the serialized
+            object data about the exception being thrown.
+            </param>
+            <param name="context">
+            The System.Runtime.Serialization.StreamingContext that contains contextual information
+            about the source or destination.
+            </param>
+        </member>
         <member name="T:ICSharpCode.SharpZipLib.BZip2.BZip2InputStream">
             <summary>
             An input stream that decompresses files in the BZip2 format
@@ -663,6 +676,19 @@
             <param name="message">A message describing the exception.</param>
             <param name="innerException">The inner exception</param>
         </member>
+        <member name="M:ICSharpCode.SharpZipLib.SharpZipBaseException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the SharpZipBaseException class with serialized data.
+            </summary>
+            <param name="info">
+            The System.Runtime.Serialization.SerializationInfo that holds the serialized
+            object data about the exception being thrown.
+            </param>
+            <param name="context">
+            The System.Runtime.Serialization.StreamingContext that contains contextual information
+            about the source or destination.
+            </param>
+        </member>
         <member name="T:ICSharpCode.SharpZipLib.StreamDecodingException">
             <summary>
             Indicates that an error occured during decoding of a input stream due to corrupt
@@ -688,6 +714,19 @@
             <param name="message">A message describing the exception.</param>
             <param name="innerException">The inner exception</param>
         </member>
+        <member name="M:ICSharpCode.SharpZipLib.StreamDecodingException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the StreamDecodingException class with serialized data.
+            </summary>
+            <param name="info">
+            The System.Runtime.Serialization.SerializationInfo that holds the serialized
+            object data about the exception being thrown.
+            </param>
+            <param name="context">
+            The System.Runtime.Serialization.StreamingContext that contains contextual information
+            about the source or destination.
+            </param>
+        </member>
         <member name="T:ICSharpCode.SharpZipLib.StreamUnsupportedException">
             <summary>
             Indicates that the input stream could not decoded due to known library incompability or missing features
@@ -711,6 +750,19 @@
             </summary>
             <param name="message">A message describing the exception.</param>
             <param name="innerException">The inner exception</param>
+        </member>
+        <member name="M:ICSharpCode.SharpZipLib.StreamUnsupportedException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the StreamUnsupportedException class with serialized data.
+            </summary>
+            <param name="info">
+            The System.Runtime.Serialization.SerializationInfo that holds the serialized
+            object data about the exception being thrown.
+            </param>
+            <param name="context">
+            The System.Runtime.Serialization.StreamingContext that contains contextual information
+            about the source or destination.
+            </param>
         </member>
         <member name="T:ICSharpCode.SharpZipLib.UnexpectedEndOfStreamException">
             <summary>
@@ -736,6 +788,19 @@
             <param name="message">A message describing the exception.</param>
             <param name="innerException">The inner exception</param>
         </member>
+        <member name="M:ICSharpCode.SharpZipLib.UnexpectedEndOfStreamException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the UnexpectedEndOfStreamException class with serialized data.
+            </summary>
+            <param name="info">
+            The System.Runtime.Serialization.SerializationInfo that holds the serialized
+            object data about the exception being thrown.
+            </param>
+            <param name="context">
+            The System.Runtime.Serialization.StreamingContext that contains contextual information
+            about the source or destination.
+            </param>
+        </member>
         <member name="T:ICSharpCode.SharpZipLib.ValueOutOfRangeException">
             <summary>
             Indicates that a value was outside of the expected range when decoding an input stream
@@ -743,13 +808,13 @@
         </member>
         <member name="M:ICSharpCode.SharpZipLib.ValueOutOfRangeException.#ctor(System.String)">
             <summary>
-            Initializes a new instance of the ValueOutOfRangeException class naming the the causing variable
+            Initializes a new instance of the ValueOutOfRangeException class naming the causing variable
             </summary>
             <param name="nameOfValue">Name of the variable, use: nameof()</param>
         </member>
         <member name="M:ICSharpCode.SharpZipLib.ValueOutOfRangeException.#ctor(System.String,System.Int64,System.Int64,System.Int64)">
             <summary>
-            Initializes a new instance of the ValueOutOfRangeException class naming the the causing variable,
+            Initializes a new instance of the ValueOutOfRangeException class naming the causing variable,
             it's current value and expected range.
             </summary>
             <param name="nameOfValue">Name of the variable, use: nameof()</param>
@@ -759,13 +824,26 @@
         </member>
         <member name="M:ICSharpCode.SharpZipLib.ValueOutOfRangeException.#ctor(System.String,System.String,System.String,System.String)">
             <summary>
-            Initializes a new instance of the ValueOutOfRangeException class naming the the causing variable,
+            Initializes a new instance of the ValueOutOfRangeException class naming the causing variable,
             it's current value and expected range.
             </summary>
             <param name="nameOfValue">Name of the variable, use: nameof()</param>
             <param name="value">The invalid value</param>
             <param name="maxValue">Expected maximum value</param>
             <param name="minValue">Expected minimum value</param>
+        </member>
+        <member name="M:ICSharpCode.SharpZipLib.ValueOutOfRangeException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the ValueOutOfRangeException class with serialized data.
+            </summary>
+            <param name="info">
+            The System.Runtime.Serialization.SerializationInfo that holds the serialized
+            object data about the exception being thrown.
+            </param>
+            <param name="context">
+            The System.Runtime.Serialization.StreamingContext that contains contextual information
+            about the source or destination.
+            </param>
         </member>
         <member name="T:ICSharpCode.SharpZipLib.Core.ScanEventArgs">
             <summary>
@@ -808,7 +886,7 @@
         </member>
         <member name="P:ICSharpCode.SharpZipLib.Core.ProgressEventArgs.ContinueRunning">
             <summary>
-            Get set a value indicating wether scanning should continue or not.
+            Get set a value indicating whether scanning should continue or not.
             </summary>
         </member>
         <member name="P:ICSharpCode.SharpZipLib.Core.ProgressEventArgs.PercentComplete">
@@ -869,7 +947,7 @@
         </member>
         <member name="P:ICSharpCode.SharpZipLib.Core.ScanFailureEventArgs.ContinueRunning">
             <summary>
-            Get / set a value indicating wether scanning should continue.
+            Get / set a value indicating whether scanning should continue.
             </summary>
         </member>
         <member name="T:ICSharpCode.SharpZipLib.Core.ProcessFileHandler">
@@ -1060,6 +1138,19 @@
             </summary>
             <param name="message">A message describing the exception.</param>
             <param name="innerException">The inner exception</param>
+        </member>
+        <member name="M:ICSharpCode.SharpZipLib.Core.InvalidNameException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the InvalidNameException class with serialized data.
+            </summary>
+            <param name="info">
+            The System.Runtime.Serialization.SerializationInfo that holds the serialized
+            object data about the exception being thrown.
+            </param>
+            <param name="context">
+            The System.Runtime.Serialization.StreamingContext that contains contextual information
+            about the source or destination.
+            </param>
         </member>
         <member name="T:ICSharpCode.SharpZipLib.Core.IScanFilter">
             <summary>
@@ -1290,6 +1381,17 @@
             <exception cref="T:System.ArgumentNullException">Required parameter is null</exception>
             <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="offset"/> and or <paramref name="count"/> are invalid.</exception>
             <exception cref="T:System.IO.EndOfStreamException">End of stream is encountered before all the data has been read.</exception>
+        </member>
+        <member name="M:ICSharpCode.SharpZipLib.Core.StreamUtils.ReadRequestedBytes(System.IO.Stream,System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Read as much data as possible from a <see cref="T:System.IO.Stream"/>", up to the requested number of bytes
+            </summary>
+            <param name="stream">The stream to read data from.</param>
+            <param name="buffer">The buffer to store data in.</param>
+            <param name="offset">The offset at which to begin storing data.</param>
+            <param name="count">The number of bytes of data to store.</param>
+            <exception cref="T:System.ArgumentNullException">Required parameter is null</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="offset"/> and or <paramref name="count"/> are invalid.</exception>
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Core.StreamUtils.Copy(System.IO.Stream,System.IO.Stream,System.Byte[])">
             <summary>
@@ -1746,6 +1848,19 @@
             <param name="message">A <see cref="T:System.String"/> that describes the error.</param>
             <param name="innerException">The <see cref="T:System.Exception"/> that caused this exception.</param>
         </member>
+        <member name="M:ICSharpCode.SharpZipLib.GZip.GZipException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the GZipException class with serialized data.
+            </summary>
+            <param name="info">
+            The System.Runtime.Serialization.SerializationInfo that holds the serialized
+            object data about the exception being thrown.
+            </param>
+            <param name="context">
+            The System.Runtime.Serialization.StreamingContext that contains contextual information
+            about the source or destination.
+            </param>
+        </member>
         <member name="T:ICSharpCode.SharpZipLib.GZip.GZipInputStream">
              <summary>
              This filter stream is used to decompress a "GZIP" format stream.
@@ -1911,6 +2026,12 @@
             and closes it.
             </summary>
         </member>
+        <member name="M:ICSharpCode.SharpZipLib.GZip.GZipOutputStream.Flush">
+            <summary>
+            Flushes the stream by ensuring the header is written, and then calling <see cref="M:ICSharpCode.SharpZipLib.Zip.Compression.Streams.DeflaterOutputStream.Flush">Flush</see>
+            on the deflater.
+            </summary>
+        </member>
         <member name="M:ICSharpCode.SharpZipLib.GZip.GZipOutputStream.Finish">
             <summary>
             Finish compression and write any footer information required to stream
@@ -1984,6 +2105,19 @@
             </summary>
             <param name="message">A <see cref="T:System.String"/> that describes the error.</param>
             <param name="innerException">The <see cref="T:System.Exception"/> that caused this exception.</param>
+        </member>
+        <member name="M:ICSharpCode.SharpZipLib.Lzw.LzwException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the LzwException class with serialized data.
+            </summary>
+            <param name="info">
+            The System.Runtime.Serialization.SerializationInfo that holds the serialized
+            object data about the exception being thrown.
+            </param>
+            <param name="context">
+            The System.Runtime.Serialization.StreamingContext that contains contextual information
+            about the source or destination.
+            </param>
         </member>
         <member name="T:ICSharpCode.SharpZipLib.Lzw.LzwInputStream">
              <summary>
@@ -2124,7 +2258,7 @@
             Writes a sequence of bytes to stream and advances the current position
             This method always throws a NotSupportedException
             </summary>
-            <param name="buffer">Thew buffer containing data to write.</param>
+            <param name="buffer">The buffer containing data to write.</param>
             <param name="offset">The offset of the first byte to write.</param>
             <param name="count">The number of bytes to write.</param>
             <exception cref="T:System.NotSupportedException">Any access</exception>
@@ -2171,6 +2305,19 @@
             </summary>
             <param name="message">Message describing the problem.</param>
             <param name="exception">The exception that is the cause of the current exception.</param>
+        </member>
+        <member name="M:ICSharpCode.SharpZipLib.Tar.InvalidHeaderException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the InvalidHeaderException class with serialized data.
+            </summary>
+            <param name="info">
+            The System.Runtime.Serialization.SerializationInfo that holds the serialized
+            object data about the exception being thrown.
+            </param>
+            <param name="context">
+            The System.Runtime.Serialization.StreamingContext that contains contextual information
+            about the source or destination.
+            </param>
         </member>
         <member name="T:ICSharpCode.SharpZipLib.Tar.ProgressMessageHandler">
             <summary>
@@ -2219,7 +2366,7 @@
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Tar.TarArchive.#ctor(ICSharpCode.SharpZipLib.Tar.TarInputStream)">
             <summary>
-            Initalise a TarArchive for input.
+            Initialise a TarArchive for input.
             </summary>
             <param name="stream">The <see cref="T:ICSharpCode.SharpZipLib.Tar.TarInputStream"/> to use for input.</param>
         </member>
@@ -2239,6 +2386,17 @@
             <param name="inputStream">The stream to retrieve archive data from.</param>
             <returns>Returns a new <see cref="T:ICSharpCode.SharpZipLib.Tar.TarArchive"/> suitable for reading from.</returns>
         </member>
+        <member name="M:ICSharpCode.SharpZipLib.Tar.TarArchive.CreateInputTarArchive(System.IO.Stream,System.Text.Encoding)">
+            <summary>
+            The InputStream based constructors create a TarArchive for the
+            purposes of extracting or listing a tar archive. Thus, use
+            these constructors when you wish to extract files from or list
+            the contents of an existing tar archive.
+            </summary>
+            <param name="inputStream">The stream to retrieve archive data from.</param>
+            <param name="nameEncoding">The <see cref="T:System.Text.Encoding"/> used for the Name fields, or null for ASCII only</param>
+            <returns>Returns a new <see cref="T:ICSharpCode.SharpZipLib.Tar.TarArchive"/> suitable for reading from.</returns>
+        </member>
         <member name="M:ICSharpCode.SharpZipLib.Tar.TarArchive.CreateInputTarArchive(System.IO.Stream,System.Int32)">
             <summary>
             Create TarArchive for reading setting block factor
@@ -2246,6 +2404,23 @@
             <param name="inputStream">A stream containing the tar archive contents</param>
             <param name="blockFactor">The blocking factor to apply</param>
             <returns>Returns a <see cref="T:ICSharpCode.SharpZipLib.Tar.TarArchive"/> suitable for reading.</returns>
+        </member>
+        <member name="M:ICSharpCode.SharpZipLib.Tar.TarArchive.CreateInputTarArchive(System.IO.Stream,System.Int32,System.Text.Encoding)">
+            <summary>
+            Create TarArchive for reading setting block factor
+            </summary>
+            <param name="inputStream">A stream containing the tar archive contents</param>
+            <param name="blockFactor">The blocking factor to apply</param>
+            <param name="nameEncoding">The <see cref="T:System.Text.Encoding"/> used for the Name fields, or null for ASCII only</param>
+            <returns>Returns a <see cref="T:ICSharpCode.SharpZipLib.Tar.TarArchive"/> suitable for reading.</returns>
+        </member>
+        <member name="M:ICSharpCode.SharpZipLib.Tar.TarArchive.CreateOutputTarArchive(System.IO.Stream,System.Text.Encoding)">
+            <summary>
+            Create a TarArchive for writing to, using the default blocking factor
+            </summary>
+            <param name="outputStream">The <see cref="T:System.IO.Stream"/> to write to</param>
+            <param name="nameEncoding">The <see cref="T:System.Text.Encoding"/> used for the Name fields, or null for ASCII only</param>
+            <returns>Returns a <see cref="T:ICSharpCode.SharpZipLib.Tar.TarArchive"/> suitable for writing.</returns>
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Tar.TarArchive.CreateOutputTarArchive(System.IO.Stream)">
             <summary>
@@ -2260,6 +2435,15 @@
             </summary>
             <param name="outputStream">The stream to write to</param>
             <param name="blockFactor">The blocking factor to use for buffering.</param>
+            <returns>Returns a <see cref="T:ICSharpCode.SharpZipLib.Tar.TarArchive"/> suitable for writing.</returns>
+        </member>
+        <member name="M:ICSharpCode.SharpZipLib.Tar.TarArchive.CreateOutputTarArchive(System.IO.Stream,System.Int32,System.Text.Encoding)">
+            <summary>
+            Create a <see cref="T:ICSharpCode.SharpZipLib.Tar.TarArchive">tar archive</see> for writing.
+            </summary>
+            <param name="outputStream">The stream to write to</param>
+            <param name="blockFactor">The blocking factor to use for buffering.</param>
+            <param name="nameEncoding">The <see cref="T:System.Text.Encoding"/> used for the Name fields, or null for ASCII only</param>
             <returns>Returns a <see cref="T:ICSharpCode.SharpZipLib.Tar.TarArchive"/> suitable for writing.</returns>
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Tar.TarArchive.SetKeepOldFiles(System.Boolean)">
@@ -2409,7 +2593,16 @@
             The destination directory into which to extract.
             </param>
         </member>
-        <member name="M:ICSharpCode.SharpZipLib.Tar.TarArchive.ExtractEntry(System.String,ICSharpCode.SharpZipLib.Tar.TarEntry)">
+        <member name="M:ICSharpCode.SharpZipLib.Tar.TarArchive.ExtractContents(System.String,System.Boolean)">
+            <summary>
+            Perform the "extract" command and extract the contents of the archive.
+            </summary>
+            <param name="destinationDirectory">
+            The destination directory into which to extract.
+            </param>
+            <param name="allowParentTraversal">Allow parent directory traversal in file paths (e.g. ../file)</param>
+        </member>
+        <member name="M:ICSharpCode.SharpZipLib.Tar.TarArchive.ExtractEntry(System.String,ICSharpCode.SharpZipLib.Tar.TarEntry,System.Boolean)">
             <summary>
             Extract an entry from the archive. This method assumes that the
             tarIn stream has been properly set with a call to GetNextEntry().
@@ -2420,6 +2613,7 @@
             <param name="entry">
             The TarEntry returned by tarIn.GetNextEntry().
             </param>
+            <param name="allowParentTraversal">Allow parent directory traversal in file paths (e.g. ../file)</param>
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Tar.TarArchive.WriteEntry(ICSharpCode.SharpZipLib.Tar.TarEntry,System.Boolean)">
             <summary>
@@ -2742,6 +2936,18 @@
             The header bytes from a tar archive entry.
             </param>
         </member>
+        <member name="M:ICSharpCode.SharpZipLib.Tar.TarEntry.#ctor(System.Byte[],System.Text.Encoding)">
+            <summary>
+            Construct an entry from an archive's header bytes. File is set
+            to null.
+            </summary>
+            <param name = "headerBuffer">
+            The header bytes from a tar archive entry.
+            </param>
+            <param name = "nameEncoding">
+            The <see cref="T:System.Text.Encoding"/> used for the Name fields, or null for ASCII only
+            </param>
+        </member>
         <member name="M:ICSharpCode.SharpZipLib.Tar.TarEntry.#ctor(ICSharpCode.SharpZipLib.Tar.TarHeader)">
             <summary>
             Construct a TarEntry using the <paramref name="header">header</paramref> provided
@@ -2908,6 +3114,17 @@
             The tar entry header buffer to fill in.
             </param>
         </member>
+        <member name="M:ICSharpCode.SharpZipLib.Tar.TarEntry.WriteEntryHeader(System.Byte[],System.Text.Encoding)">
+            <summary>
+            Write an entry's header information to a header buffer.
+            </summary>
+            <param name = "outBuffer">
+            The tar entry header buffer to fill in.
+            </param>
+            <param name = "nameEncoding">
+            The <see cref="T:System.Text.Encoding"/> used for the Name fields, or null for ASCII only
+            </param>
+        </member>
         <member name="M:ICSharpCode.SharpZipLib.Tar.TarEntry.AdjustEntryName(System.Byte[],System.String)">
             <summary>
             Convenience method that will modify an entry's name directly
@@ -2918,6 +3135,21 @@
             </param>
             <param name="newName">
             The new name to place into the header buffer.
+            </param>
+        </member>
+        <member name="M:ICSharpCode.SharpZipLib.Tar.TarEntry.AdjustEntryName(System.Byte[],System.String,System.Text.Encoding)">
+            <summary>
+            Convenience method that will modify an entry's name directly
+            in place in an entry header buffer byte array.
+            </summary>
+            <param name="buffer">
+            The buffer containing the entry header to modify.
+            </param>
+            <param name="newName">
+            The new name to place into the header buffer.
+            </param>
+            <param name="nameEncoding">
+            The <see cref="T:System.Text.Encoding"/> used for the Name fields, or null for ASCII only
             </param>
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Tar.TarEntry.NameTarHeader(ICSharpCode.SharpZipLib.Tar.TarHeader,System.String)">
@@ -2963,6 +3195,19 @@
             </summary>
             <param name="message">A <see cref="T:System.String"/> that describes the error.</param>
             <param name="innerException">The <see cref="T:System.Exception"/> that caused this exception.</param>
+        </member>
+        <member name="M:ICSharpCode.SharpZipLib.Tar.TarException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the TarException class with serialized data.
+            </summary>
+            <param name="info">
+            The System.Runtime.Serialization.SerializationInfo that holds the serialized
+            object data about the exception being thrown.
+            </param>
+            <param name="context">
+            The System.Runtime.Serialization.StreamingContext that contains contextual information
+            about the source or destination.
+            </param>
         </member>
         <member name="T:ICSharpCode.SharpZipLib.Tar.TarExtendedHeaderReader">
             <summary>
@@ -3327,6 +3572,17 @@
             </summary>
             <returns>A new <see cref="T:System.Object"/> that is a copy of the current instance.</returns>
         </member>
+        <member name="M:ICSharpCode.SharpZipLib.Tar.TarHeader.ParseBuffer(System.Byte[],System.Text.Encoding)">
+            <summary>
+            Parse TarHeader information from a header buffer.
+            </summary>
+            <param name = "header">
+            The tar entry header buffer to get information from.
+            </param>
+            <param name = "nameEncoding">
+            The <see cref="T:System.Text.Encoding"/> used for the Name field, or null for ASCII only
+            </param>
+        </member>
         <member name="M:ICSharpCode.SharpZipLib.Tar.TarHeader.ParseBuffer(System.Byte[])">
             <summary>
             Parse TarHeader information from a header buffer.
@@ -3340,6 +3596,13 @@
             'Write' header information to buffer provided, updating the <see cref="P:ICSharpCode.SharpZipLib.Tar.TarHeader.Checksum">check sum</see>.
             </summary>
             <param name="outBuffer">output buffer for header information</param>
+        </member>
+        <member name="M:ICSharpCode.SharpZipLib.Tar.TarHeader.WriteHeader(System.Byte[],System.Text.Encoding)">
+            <summary>
+            'Write' header information to buffer provided, updating the <see cref="P:ICSharpCode.SharpZipLib.Tar.TarHeader.Checksum">check sum</see>.
+            </summary>
+            <param name="outBuffer">output buffer for header information</param>
+            <param name="nameEncoding">The <see cref="T:System.Text.Encoding"/> used for the Name field, or null for ASCII only</param>
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Tar.TarHeader.GetHashCode">
             <summary>
@@ -3389,6 +3652,26 @@
             The name parsed.
             </returns>
         </member>
+        <member name="M:ICSharpCode.SharpZipLib.Tar.TarHeader.ParseName(System.Byte[],System.Int32,System.Int32,System.Text.Encoding)">
+            <summary>
+            Parse a name from a header buffer.
+            </summary>
+            <param name="header">
+            The header buffer from which to parse.
+            </param>
+            <param name="offset">
+            The offset into the buffer from which to parse.
+            </param>
+            <param name="length">
+            The number of header bytes to parse.
+            </param>
+            <param name="encoding">
+            name encoding, or null for ASCII only
+            </param>
+            <returns>
+            The name parsed.
+            </returns>
+        </member>
         <member name="M:ICSharpCode.SharpZipLib.Tar.TarHeader.GetNameBytes(System.Text.StringBuilder,System.Int32,System.Byte[],System.Int32,System.Int32)">
             <summary>
             Add <paramref name="name">name</paramref> to the buffer as a collection of bytes
@@ -3411,6 +3694,18 @@
             <param name="length">The number of characters/bytes to add</param>
             <returns>The next free index in the <paramref name="buffer"/></returns>
         </member>
+        <member name="M:ICSharpCode.SharpZipLib.Tar.TarHeader.GetNameBytes(System.String,System.Int32,System.Byte[],System.Int32,System.Int32,System.Text.Encoding)">
+            <summary>
+            Add <paramref name="name">name</paramref> to the buffer as a collection of bytes
+            </summary>
+            <param name="name">The name to add</param>
+            <param name="nameOffset">The offset of the first character</param>
+            <param name="buffer">The buffer to add to</param>
+            <param name="bufferOffset">The index of the first byte to add</param>
+            <param name="length">The number of characters/bytes to add</param>
+            <param name="encoding">name encoding, or null for ASCII only</param>
+            <returns>The next free index in the <paramref name="buffer"/></returns>
+        </member>
         <member name="M:ICSharpCode.SharpZipLib.Tar.TarHeader.GetNameBytes(System.Text.StringBuilder,System.Byte[],System.Int32,System.Int32)">
             <summary>
             Add an entry name to the buffer
@@ -3430,6 +3725,29 @@
             <returns>
             The index of the next free byte in the buffer
             </returns>
+            TODO: what should be default behavior?(omit upper byte or UTF8?)
+        </member>
+        <member name="M:ICSharpCode.SharpZipLib.Tar.TarHeader.GetNameBytes(System.Text.StringBuilder,System.Byte[],System.Int32,System.Int32,System.Text.Encoding)">
+            <summary>
+            Add an entry name to the buffer
+            </summary>
+            <param name="name">
+            The name to add
+            </param>
+            <param name="buffer">
+            The buffer to add to
+            </param>
+            <param name="offset">
+            The offset into the buffer from which to start adding
+            </param>
+            <param name="length">
+            The number of header bytes to add
+            </param>
+            <param name="encoding">
+            </param>
+            <returns>
+            The index of the next free byte in the buffer
+            </returns>
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Tar.TarHeader.GetNameBytes(System.String,System.Byte[],System.Int32,System.Int32)">
             <summary>
@@ -3439,6 +3757,18 @@
             <param name="buffer">The buffer to add to</param>
             <param name="offset">The offset into the buffer from which to start adding</param>
             <param name="length">The number of header bytes to add</param>
+            <returns>The index of the next free byte in the buffer</returns>
+            TODO: what should be default behavior?(omit upper byte or UTF8?)
+        </member>
+        <member name="M:ICSharpCode.SharpZipLib.Tar.TarHeader.GetNameBytes(System.String,System.Byte[],System.Int32,System.Int32,System.Text.Encoding)">
+            <summary>
+            Add an entry name to the buffer
+            </summary>
+            <param name="name">The name to add</param>
+            <param name="buffer">The buffer to add to</param>
+            <param name="offset">The offset into the buffer from which to start adding</param>
+            <param name="length">The number of header bytes to add</param>
+            <param name="encoding"></param>
             <returns>The index of the next free byte in the buffer</returns>
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Tar.TarHeader.GetAsciiBytes(System.String,System.Int32,System.Byte[],System.Int32,System.Int32)">
@@ -3450,6 +3780,18 @@
             <param name="buffer">The buffer to add to.</param>
             <param name="bufferOffset">The offset to start adding at.</param>
             <param name="length">The number of ascii characters to add.</param>
+            <returns>The next free index in the buffer.</returns>
+        </member>
+        <member name="M:ICSharpCode.SharpZipLib.Tar.TarHeader.GetAsciiBytes(System.String,System.Int32,System.Byte[],System.Int32,System.Int32,System.Text.Encoding)">
+            <summary>
+            Add a string to a buffer as a collection of ascii bytes.
+            </summary>
+            <param name="toAdd">The string to add</param>
+            <param name="nameOffset">The offset of the first character to add.</param>
+            <param name="buffer">The buffer to add to.</param>
+            <param name="bufferOffset">The offset to start adding at.</param>
+            <param name="length">The number of ascii characters to add.</param>
+            <param name="encoding">String encoding, or null for ASCII only</param>
             <returns>The next free index in the buffer.</returns>
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Tar.TarHeader.GetOctalBytes(System.Int64,System.Byte[],System.Int32,System.Int32)">
@@ -3525,12 +3867,27 @@
             </summary>
             <param name="inputStream">stream to source data from</param>
         </member>
+        <member name="M:ICSharpCode.SharpZipLib.Tar.TarInputStream.#ctor(System.IO.Stream,System.Text.Encoding)">
+            <summary>
+            Construct a TarInputStream with default block factor
+            </summary>
+            <param name="inputStream">stream to source data from</param>
+            <param name="nameEncoding">The <see cref="T:System.Text.Encoding"/> used for the Name fields, or null for ASCII only</param>
+        </member>
         <member name="M:ICSharpCode.SharpZipLib.Tar.TarInputStream.#ctor(System.IO.Stream,System.Int32)">
             <summary>
             Construct a TarInputStream with user specified block factor
             </summary>
             <param name="inputStream">stream to source data from</param>
             <param name="blockFactor">block factor to apply to archive</param>
+        </member>
+        <member name="M:ICSharpCode.SharpZipLib.Tar.TarInputStream.#ctor(System.IO.Stream,System.Int32,System.Text.Encoding)">
+            <summary>
+            Construct a TarInputStream with user specified block factor
+            </summary>
+            <param name="inputStream">stream to source data from</param>
+            <param name="blockFactor">block factor to apply to archive</param>
+            <param name="nameEncoding">The <see cref="T:System.Text.Encoding"/> used for the Name fields, or null for ASCII only</param>
         </member>
         <member name="P:ICSharpCode.SharpZipLib.Tar.TarInputStream.IsStreamOwner">
             <summary>
@@ -3757,7 +4114,7 @@
             Create a tar entry based on the header information passed
             </summary>
             <param name="headerBuffer">
-            Buffer containing header information to create an an entry from.
+            Buffer containing header information to create an entry from.
             </param>
             <returns>
             Created TarEntry or descendant class
@@ -3767,6 +4124,17 @@
             <summary>
             Standard entry factory class creating instances of the class TarEntry
             </summary>
+        </member>
+        <member name="M:ICSharpCode.SharpZipLib.Tar.TarInputStream.EntryFactoryAdapter.#ctor">
+            <summary>
+            Construct standard entry factory class with ASCII name encoding
+            </summary>
+        </member>
+        <member name="M:ICSharpCode.SharpZipLib.Tar.TarInputStream.EntryFactoryAdapter.#ctor(System.Text.Encoding)">
+            <summary>
+            Construct standard entry factory with name encoding
+            </summary>
+            <param name="nameEncoding">The <see cref="T:System.Text.Encoding"/> used for the Name fields, or null for ASCII only</param>
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Tar.TarInputStream.EntryFactoryAdapter.CreateEntry(System.String)">
             <summary>
@@ -3843,12 +4211,27 @@
             </summary>
             <param name="outputStream">stream to write to</param>
         </member>
+        <member name="M:ICSharpCode.SharpZipLib.Tar.TarOutputStream.#ctor(System.IO.Stream,System.Text.Encoding)">
+            <summary>
+            Construct TarOutputStream using default block factor
+            </summary>
+            <param name="outputStream">stream to write to</param>
+            <param name="nameEncoding">The <see cref="T:System.Text.Encoding"/> used for the Name fields, or null for ASCII only</param>
+        </member>
         <member name="M:ICSharpCode.SharpZipLib.Tar.TarOutputStream.#ctor(System.IO.Stream,System.Int32)">
             <summary>
             Construct TarOutputStream with user specified block factor
             </summary>
             <param name="outputStream">stream to write to</param>
             <param name="blockFactor">blocking factor</param>
+        </member>
+        <member name="M:ICSharpCode.SharpZipLib.Tar.TarOutputStream.#ctor(System.IO.Stream,System.Int32,System.Text.Encoding)">
+            <summary>
+            Construct TarOutputStream with user specified block factor
+            </summary>
+            <param name="outputStream">stream to write to</param>
+            <param name="blockFactor">blocking factor</param>
+            <param name="nameEncoding">The <see cref="T:System.Text.Encoding"/> used for the Name fields, or null for ASCII only</param>
         </member>
         <member name="P:ICSharpCode.SharpZipLib.Tar.TarOutputStream.IsStreamOwner">
             <summary>
@@ -3913,7 +4296,7 @@
             <param name="count">The desired number of bytes to read.</param>
             <returns>The total number of bytes read, or zero if at the end of the stream.
             The number of bytes may be less than the <paramref name="count">count</paramref>
-            requested if data is not avialable.</returns>
+            requested if data is not available.</returns>
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Tar.TarOutputStream.Flush">
             <summary>
@@ -3948,7 +4331,7 @@
         </member>
         <member name="P:ICSharpCode.SharpZipLib.Tar.TarOutputStream.IsEntryOpen">
             <summary>
-            Get a value indicating wether an entry is open, requiring more data to be written.
+            Get a value indicating whether an entry is open, requiring more data to be written.
             </summary>
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Tar.TarOutputStream.PutNextEntry(ICSharpCode.SharpZipLib.Tar.TarEntry)">
@@ -4023,7 +4406,7 @@
         </member>
         <member name="F:ICSharpCode.SharpZipLib.Tar.TarOutputStream.isClosed">
             <summary>
-            Flag indicating wether this instance has been closed or not.
+            Flag indicating whether this instance has been closed or not.
             </summary>
         </member>
         <member name="F:ICSharpCode.SharpZipLib.Tar.TarOutputStream.currSize">
@@ -4049,6 +4432,11 @@
         <member name="F:ICSharpCode.SharpZipLib.Tar.TarOutputStream.outputStream">
             <summary>
             the destination stream for the archive contents
+            </summary>
+        </member>
+        <member name="F:ICSharpCode.SharpZipLib.Tar.TarOutputStream.nameEncoding">
+            <summary>
+            name encoding
             </summary>
         </member>
         <member name="T:ICSharpCode.SharpZipLib.Zip.Compression.Deflater">
@@ -4541,7 +4929,7 @@
         <member name="M:ICSharpCode.SharpZipLib.Zip.Compression.DeflaterEngine.#ctor(ICSharpCode.SharpZipLib.Zip.Compression.DeflaterPending)">
             <summary>
             Construct instance with pending buffer
-            Adler calculation will be peformed
+            Adler calculation will be performed
             </summary>
             <param name="pending">
             Pending buffer to use
@@ -5543,6 +5931,11 @@
             stream when <see cref="P:ICSharpCode.SharpZipLib.Zip.Compression.Streams.DeflaterOutputStream.IsStreamOwner"></see> is true.
             </summary>
         </member>
+        <member name="M:ICSharpCode.SharpZipLib.Zip.Compression.Streams.DeflaterOutputStream.GetAuthCodeIfAES">
+            <summary>
+            Get the Auth code for AES encrypted entries
+            </summary>
+        </member>
         <member name="M:ICSharpCode.SharpZipLib.Zip.Compression.Streams.DeflaterOutputStream.WriteByte(System.Byte)">
             <summary>
             Writes a single byte to the compressed output stream.
@@ -5605,7 +5998,7 @@
         </member>
         <member name="P:ICSharpCode.SharpZipLib.Zip.Compression.Streams.InflaterInputBuffer.RawLength">
             <summary>
-            Get the length of bytes bytes in the <see cref="P:ICSharpCode.SharpZipLib.Zip.Compression.Streams.InflaterInputBuffer.RawData"/>
+            Get the length of bytes in the <see cref="P:ICSharpCode.SharpZipLib.Zip.Compression.Streams.InflaterInputBuffer.RawData"/>
             </summary>
         </member>
         <member name="P:ICSharpCode.SharpZipLib.Zip.Compression.Streams.InflaterInputBuffer.RawData">
@@ -5838,7 +6231,7 @@
             Writes a sequence of bytes to stream and advances the current position
             This method always throws a NotSupportedException
             </summary>
-            <param name="buffer">Thew buffer containing data to write.</param>
+            <param name="buffer">The buffer containing data to write.</param>
             <param name="offset">The offset of the first byte to write.</param>
             <param name="count">The number of bytes to write.</param>
             <exception cref="T:System.NotSupportedException">Any access</exception>
@@ -5897,7 +6290,7 @@
         </member>
         <member name="F:ICSharpCode.SharpZipLib.Zip.Compression.Streams.InflaterInputStream.isClosed">
             <summary>
-            Flag indicating wether this instance has been closed or not.
+            Flag indicating whether this instance has been closed or not.
             </summary>
         </member>
         <member name="T:ICSharpCode.SharpZipLib.Zip.Compression.Streams.OutputWindow">
@@ -6221,13 +6614,22 @@
         </member>
         <member name="P:ICSharpCode.SharpZipLib.Zip.FastZip.CreateEmptyDirectories">
             <summary>
-            Get/set a value indicating wether empty directories should be created.
+            Get/set a value indicating whether empty directories should be created.
             </summary>
         </member>
         <member name="P:ICSharpCode.SharpZipLib.Zip.FastZip.Password">
             <summary>
             Get / set the password value.
             </summary>
+        </member>
+        <member name="P:ICSharpCode.SharpZipLib.Zip.FastZip.EntryEncryptionMethod">
+            <summary>
+            Get / set the method of encrypting entries.
+            </summary>
+            <remarks>
+            Only applies when <see cref="P:ICSharpCode.SharpZipLib.Zip.FastZip.Password"/> is set.
+            Defaults to ZipCrypto for backwards compatibility purposes.
+            </remarks>
         </member>
         <member name="P:ICSharpCode.SharpZipLib.Zip.FastZip.NameTransform">
             <summary>
@@ -6250,12 +6652,12 @@
             read Zip64 archives. However it does avoid the situation were a large file
             is added and cannot be completed correctly.
             NOTE: Setting the size for entries before they are added is the best solution!
-            By default the EntryFactory used by FastZip will set fhe file size.
+            By default the EntryFactory used by FastZip will set the file size.
             </remarks>
         </member>
         <member name="P:ICSharpCode.SharpZipLib.Zip.FastZip.RestoreDateTimeOnExtract">
             <summary>
-            Get/set a value indicating wether file dates and times should
+            Get/set a value indicating whether file dates and times should
             be restored when extracting files from an archive.
             </summary>
             <remarks>The default value is false.</remarks>
@@ -6305,6 +6707,49 @@
             <param name="recurse">True to recurse directories, false for no recursion.</param>
             <param name="fileFilter">The <see cref="T:ICSharpCode.SharpZipLib.Core.PathFilter">file filter</see> to apply.</param>
             <param name="directoryFilter">The <see cref="T:ICSharpCode.SharpZipLib.Core.PathFilter">directory filter</see> to apply.</param>
+            <remarks>The <paramref name="outputStream"/> is closed after creation.</remarks>
+        </member>
+        <member name="M:ICSharpCode.SharpZipLib.Zip.FastZip.CreateZip(System.IO.Stream,System.String,System.Boolean,System.String,System.String,System.Boolean)">
+            <summary>
+            Create a zip archive sending output to the <paramref name="outputStream"/> passed.
+            </summary>
+            <param name="outputStream">The stream to write archive data to.</param>
+            <param name="sourceDirectory">The directory to source files from.</param>
+            <param name="recurse">True to recurse directories, false for no recursion.</param>
+            <param name="fileFilter">The <see cref="T:ICSharpCode.SharpZipLib.Core.PathFilter">file filter</see> to apply.</param>
+            <param name="directoryFilter">The <see cref="T:ICSharpCode.SharpZipLib.Core.PathFilter">directory filter</see> to apply.</param>
+            <param name="leaveOpen">true to leave <paramref name="outputStream"/> open after the zip has been created, false to dispose it.</param>
+        </member>
+        <member name="M:ICSharpCode.SharpZipLib.Zip.FastZip.CreateZip(System.String,System.String,System.Boolean,ICSharpCode.SharpZipLib.Core.IScanFilter,ICSharpCode.SharpZipLib.Core.IScanFilter)">
+            <summary>
+            Create a zip file.
+            </summary>
+            <param name="zipFileName">The name of the zip file to create.</param>
+            <param name="sourceDirectory">The directory to source files from.</param>
+            <param name="recurse">True to recurse directories, false for no recursion.</param>
+            <param name="fileFilter">The <see cref="T:ICSharpCode.SharpZipLib.Core.IScanFilter">file filter</see> to apply.</param>
+            <param name="directoryFilter">The <see cref="T:ICSharpCode.SharpZipLib.Core.IScanFilter">directory filter</see> to apply.</param>
+        </member>
+        <member name="M:ICSharpCode.SharpZipLib.Zip.FastZip.CreateZip(System.IO.Stream,System.String,System.Boolean,ICSharpCode.SharpZipLib.Core.IScanFilter,ICSharpCode.SharpZipLib.Core.IScanFilter,System.Boolean)">
+            <summary>
+            Create a zip archive sending output to the <paramref name="outputStream"/> passed.
+            </summary>
+            <param name="outputStream">The stream to write archive data to.</param>
+            <param name="sourceDirectory">The directory to source files from.</param>
+            <param name="recurse">True to recurse directories, false for no recursion.</param>
+            <param name="fileFilter">The <see cref="T:ICSharpCode.SharpZipLib.Core.IScanFilter">file filter</see> to apply.</param>
+            <param name="directoryFilter">The <see cref="T:ICSharpCode.SharpZipLib.Core.IScanFilter">directory filter</see> to apply.</param>
+            <param name="leaveOpen">true to leave <paramref name="outputStream"/> open after the zip has been created, false to dispose it.</param>
+        </member>
+        <member name="M:ICSharpCode.SharpZipLib.Zip.FastZip.CreateZip(System.IO.Stream,System.String,System.Boolean,ICSharpCode.SharpZipLib.Core.FileSystemScanner,System.Boolean)">
+            <summary>
+            Create a zip archive sending output to the <paramref name="outputStream"/> passed.
+            </summary>
+            <param name="outputStream">The stream to write archive data to.</param>
+            <param name="sourceDirectory">The directory to source files from.</param>
+            <param name="recurse">True to recurse directories, false for no recursion.</param>
+            <param name="scanner">For performing the actual file system scan</param>
+            <param name="leaveOpen">true to leave <paramref name="outputStream"/> open after the zip has been created, false to dispose it.</param>
             <remarks>The <paramref name="outputStream"/> is closed after creation.</remarks>
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Zip.FastZip.ExtractZip(System.String,System.String,System.String)">
@@ -6432,7 +6877,7 @@
         </member>
         <member name="P:ICSharpCode.SharpZipLib.Zip.WindowsNameTransform.TrimIncomingPaths">
             <summary>
-            Gets or sets a value indicating wether paths on incoming values should be removed.
+            Gets or sets a value indicating whether paths on incoming values should be removed.
             </summary>
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Zip.WindowsNameTransform.TransformDirectory(System.String)">
@@ -6515,6 +6960,16 @@
         <member name="F:ICSharpCode.SharpZipLib.Zip.CompressionMethod.BZip2">
             <summary>
             BZip2 compression. Not supported by #Zip.
+            </summary>
+        </member>
+        <member name="F:ICSharpCode.SharpZipLib.Zip.CompressionMethod.LZMA">
+            <summary>
+            LZMA compression. Not supported by #Zip.
+            </summary>
+        </member>
+        <member name="F:ICSharpCode.SharpZipLib.Zip.CompressionMethod.PPMd">
+            <summary>
+            PPMd compression. Not supported by #Zip.
             </summary>
         </member>
         <member name="F:ICSharpCode.SharpZipLib.Zip.CompressionMethod.WinZipAES">
@@ -6614,7 +7069,7 @@
         </member>
         <member name="F:ICSharpCode.SharpZipLib.Zip.GeneralBitFlags.Descriptor">
             <summary>
-            Bit 3 if set indicates a trailing data desciptor is appended to the entry data
+            Bit 3 if set indicates a trailing data descriptor is appended to the entry data
             </summary>
         </member>
         <member name="F:ICSharpCode.SharpZipLib.Zip.GeneralBitFlags.ReservedPKware4">
@@ -6781,6 +7236,11 @@
             Size of cryptographic header stored before entry data
             </summary>
         </member>
+        <member name="F:ICSharpCode.SharpZipLib.Zip.ZipConstants.Zip64EndOfCentralDirectoryLocatorSize">
+            <summary>
+            The size of the Zip64 central directory locator.
+            </summary>
+        </member>
         <member name="F:ICSharpCode.SharpZipLib.Zip.ZipConstants.LocalHeaderSignature">
             <summary>
             Signature for local entry header
@@ -6865,12 +7325,12 @@
         </member>
         <member name="F:ICSharpCode.SharpZipLib.Zip.ZipConstants.CentralHeaderDigitalSignature">
             <summary>
-            Central header digitial signature
+            Central header digital signature
             </summary>
         </member>
         <member name="F:ICSharpCode.SharpZipLib.Zip.ZipConstants.CENDIGITALSIG">
             <summary>
-            Central header digitial signature
+            Central header digital signature
             </summary>
         </member>
         <member name="F:ICSharpCode.SharpZipLib.Zip.ZipConstants.EndOfCentralDirectorySignature">
@@ -6886,28 +7346,53 @@
         <member name="P:ICSharpCode.SharpZipLib.Zip.ZipConstants.DefaultCodePage">
             <summary>
             Default encoding used for string conversion.  0 gives the default system OEM code page.
-            Using the default code page isnt the full solution neccessarily
+            Using the default code page isnt the full solution necessarily
             there are many variable factors, codepage 850 is often a good choice for
             European users, however be careful about compatability.
             </summary>
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Zip.ZipConstants.ConvertToString(System.Byte[],System.Int32)">
-            <summary> Depracated wrapper for <see cref="M:ICSharpCode.SharpZipLib.Zip.ZipStrings.ConvertToString(System.Byte[],System.Int32)"/></summary>
+            <summary> Deprecated wrapper for <see cref="M:ICSharpCode.SharpZipLib.Zip.ZipStrings.ConvertToString(System.Byte[],System.Int32)"/></summary>
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Zip.ZipConstants.ConvertToString(System.Byte[])">
-            <summary> Depracated wrapper for <see cref="M:ICSharpCode.SharpZipLib.Zip.ZipStrings.ConvertToString(System.Byte[])"/></summary>
+            <summary> Deprecated wrapper for <see cref="M:ICSharpCode.SharpZipLib.Zip.ZipStrings.ConvertToString(System.Byte[])"/></summary>
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Zip.ZipConstants.ConvertToStringExt(System.Int32,System.Byte[],System.Int32)">
-            <summary> Depracated wrapper for <see cref="M:ICSharpCode.SharpZipLib.Zip.ZipStrings.ConvertToStringExt(System.Int32,System.Byte[],System.Int32)"/></summary>
+            <summary> Deprecated wrapper for <see cref="M:ICSharpCode.SharpZipLib.Zip.ZipStrings.ConvertToStringExt(System.Int32,System.Byte[],System.Int32)"/></summary>
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Zip.ZipConstants.ConvertToStringExt(System.Int32,System.Byte[])">
-            <summary> Depracated wrapper for <see cref="M:ICSharpCode.SharpZipLib.Zip.ZipStrings.ConvertToStringExt(System.Int32,System.Byte[])"/></summary>
+            <summary> Deprecated wrapper for <see cref="M:ICSharpCode.SharpZipLib.Zip.ZipStrings.ConvertToStringExt(System.Int32,System.Byte[])"/></summary>
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Zip.ZipConstants.ConvertToArray(System.String)">
-            <summary> Depracated wrapper for <see cref="M:ICSharpCode.SharpZipLib.Zip.ZipStrings.ConvertToArray(System.String)"/></summary>
+            <summary> Deprecated wrapper for <see cref="M:ICSharpCode.SharpZipLib.Zip.ZipStrings.ConvertToArray(System.String)"/></summary>
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Zip.ZipConstants.ConvertToArray(System.Int32,System.String)">
-            <summary> Depracated wrapper for <see cref="M:ICSharpCode.SharpZipLib.Zip.ZipStrings.ConvertToArray(System.Int32,System.String)"/></summary>
+            <summary> Deprecated wrapper for <see cref="M:ICSharpCode.SharpZipLib.Zip.ZipStrings.ConvertToArray(System.Int32,System.String)"/></summary>
+        </member>
+        <member name="T:ICSharpCode.SharpZipLib.Zip.ZipEncryptionMethod">
+            <summary>
+            The method of encrypting entries when creating zip archives.
+            </summary>
+        </member>
+        <member name="F:ICSharpCode.SharpZipLib.Zip.ZipEncryptionMethod.None">
+            <summary>
+            No encryption will be used.
+            </summary>
+        </member>
+        <member name="F:ICSharpCode.SharpZipLib.Zip.ZipEncryptionMethod.ZipCrypto">
+            <summary>
+            Encrypt entries with ZipCrypto.
+            </summary>
+        </member>
+        <member name="F:ICSharpCode.SharpZipLib.Zip.ZipEncryptionMethod.AES128">
+            <summary>
+            Encrypt entries with AES 128.
+            </summary>
+        </member>
+        <member name="F:ICSharpCode.SharpZipLib.Zip.ZipEncryptionMethod.AES256">
+            <summary>
+            Encrypt entries with AES 256.
+            </summary>
         </member>
         <member name="T:ICSharpCode.SharpZipLib.Zip.HostSystemID">
             <summary>
@@ -7089,7 +7574,7 @@
         </member>
         <member name="P:ICSharpCode.SharpZipLib.Zip.ZipEntry.HasCrc">
             <summary>
-            Get a value indicating wether the entry has a CRC value available.
+            Get a value indicating whether the entry has a CRC value available.
             </summary>
         </member>
         <member name="P:ICSharpCode.SharpZipLib.Zip.ZipEntry.IsCrypted">
@@ -7101,7 +7586,7 @@
         </member>
         <member name="P:ICSharpCode.SharpZipLib.Zip.ZipEntry.IsUnicodeText">
             <summary>
-            Get / set a flag indicating wether entry name and comment text are
+            Get / set a flag indicating whether entry name and comment text are
             encoded in <a href="http://www.unicode.org">unicode UTF8</a>.
             </summary>
             <remarks>This is an assistant that interprets the <see cref="P:ICSharpCode.SharpZipLib.Zip.ZipEntry.Flags">flags</see> property.</remarks>
@@ -7260,7 +7745,7 @@
             Get a value indicating whether this entry can be decompressed by the library.
             </summary>
             <remarks>This is based on the <see cref="P:ICSharpCode.SharpZipLib.Zip.ZipEntry.Version"></see> and
-            wether the <see cref="M:ICSharpCode.SharpZipLib.Zip.ZipEntry.IsCompressionMethodSupported">compression method</see> is supported.</remarks>
+            whether the <see cref="M:ICSharpCode.SharpZipLib.Zip.ZipEntry.IsCompressionMethodSupported">compression method</see> is supported.</remarks>
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Zip.ZipEntry.ForceZip64">
             <summary>
@@ -7269,7 +7754,7 @@
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Zip.ZipEntry.IsZip64Forced">
             <summary>
-            Get a value indicating wether Zip64 extensions were forced.
+            Get a value indicating whether Zip64 extensions were forced.
             </summary>
             <returns>A <see cref="T:System.Boolean"/> value of true if Zip64 extensions have been forced on; false if not.</returns>
         </member>
@@ -7282,7 +7767,7 @@
         </member>
         <member name="P:ICSharpCode.SharpZipLib.Zip.ZipEntry.CentralHeaderRequiresZip64">
             <summary>
-            Get a value indicating wether the central directory entry requires Zip64 extensions to be stored.
+            Get a value indicating whether the central directory entry requires Zip64 extensions to be stored.
             </summary>
         </member>
         <member name="P:ICSharpCode.SharpZipLib.Zip.ZipEntry.DosTime">
@@ -7389,6 +7874,11 @@
         <member name="P:ICSharpCode.SharpZipLib.Zip.ZipEntry.AESOverheadSize">
             <summary>
             Number of extra bytes required to hold the AES Header fields (Salt, Pwd verify, AuthCode)
+            </summary>
+        </member>
+        <member name="P:ICSharpCode.SharpZipLib.Zip.ZipEntry.EncryptionOverheadSize">
+            <summary>
+            Number of extra bytes required to hold the encryption header fields.
             </summary>
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Zip.ZipEntry.ProcessExtraData(System.Boolean)">
@@ -7575,7 +8065,7 @@
         </member>
         <member name="P:ICSharpCode.SharpZipLib.Zip.ZipEntryFactory.IsUnicodeText">
             <summary>
-            Get set a value indicating wether unidoce text should be set on.
+            Get set a value indicating whether unidoce text should be set on.
             </summary>
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Zip.ZipEntryFactory.MakeFileEntry(System.String)">
@@ -7639,6 +8129,19 @@
             </summary>
             <param name="message">A <see cref="T:System.String"/> that describes the error.</param>
             <param name="innerException">The <see cref="T:System.Exception"/> that caused this exception.</param>
+        </member>
+        <member name="M:ICSharpCode.SharpZipLib.Zip.ZipException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the ZipException class with serialized data.
+            </summary>
+            <param name="info">
+            The System.Runtime.Serialization.SerializationInfo that holds the serialized
+            object data about the exception being thrown.
+            </param>
+            <param name="context">
+            The System.Runtime.Serialization.StreamingContext that contains contextual information
+            about the source or destination.
+            </param>
         </member>
         <member name="T:ICSharpCode.SharpZipLib.Zip.ITaggedData">
             <summary>
@@ -8127,7 +8630,7 @@
         </member>
         <member name="T:ICSharpCode.SharpZipLib.Zip.TestStatus">
             <summary>
-            Status returned returned by <see cref="T:ICSharpCode.SharpZipLib.Zip.ZipTestResultHandler"/> during testing.
+            Status returned by <see cref="T:ICSharpCode.SharpZipLib.Zip.ZipTestResultHandler"/> during testing.
             </summary>
             <seealso cref="M:ICSharpCode.SharpZipLib.Zip.ZipFile.TestArchive(System.Boolean)">TestArchive</seealso>
         </member>
@@ -8164,7 +8667,7 @@
         </member>
         <member name="P:ICSharpCode.SharpZipLib.Zip.TestStatus.EntryValid">
             <summary>
-            Get a value indicating wether the last entry test was valid.
+            Get a value indicating whether the last entry test was valid.
             </summary>
         </member>
         <member name="T:ICSharpCode.SharpZipLib.Zip.ZipTestResultHandler">
@@ -8236,7 +8739,7 @@
         </member>
         <member name="T:ICSharpCode.SharpZipLib.Zip.ZipFile.KeysRequiredEventHandler">
             <summary>
-            Delegate for handling keys/password setting during compresion/decompression.
+            Delegate for handling keys/password setting during compression/decompression.
             </summary>
         </member>
         <member name="F:ICSharpCode.SharpZipLib.Zip.ZipFile.KeysRequired">
@@ -8263,7 +8766,7 @@
         </member>
         <member name="P:ICSharpCode.SharpZipLib.Zip.ZipFile.HaveKeys">
             <summary>
-            Get a value indicating wether encryption keys are currently available.
+            Get a value indicating whether encryption keys are currently available.
             </summary>
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Zip.ZipFile.#ctor(System.String)">
@@ -8292,11 +8795,44 @@
             The file doesn't contain a valid zip archive.
             </exception>
         </member>
+        <member name="M:ICSharpCode.SharpZipLib.Zip.ZipFile.#ctor(System.IO.FileStream,System.Boolean)">
+            <summary>
+            Opens a Zip file reading the given <see cref="T:System.IO.FileStream"/>.
+            </summary>
+            <param name="file">The <see cref="T:System.IO.FileStream"/> to read archive data from.</param>
+            <param name="leaveOpen">true to leave the <see cref="T:System.IO.FileStream">file</see> open when the ZipFile is disposed, false to dispose of it</param>
+            <exception cref="T:System.ArgumentNullException">The supplied argument is null.</exception>
+            <exception cref="T:System.IO.IOException">
+            An i/o error occurs.
+            </exception>
+            <exception cref="T:ICSharpCode.SharpZipLib.Zip.ZipException">
+            The file doesn't contain a valid zip archive.
+            </exception>
+        </member>
         <member name="M:ICSharpCode.SharpZipLib.Zip.ZipFile.#ctor(System.IO.Stream)">
             <summary>
             Opens a Zip file reading the given <see cref="T:System.IO.Stream"/>.
             </summary>
             <param name="stream">The <see cref="T:System.IO.Stream"/> to read archive data from.</param>
+            <exception cref="T:System.IO.IOException">
+            An i/o error occurs
+            </exception>
+            <exception cref="T:ICSharpCode.SharpZipLib.Zip.ZipException">
+            The stream doesn't contain a valid zip archive.<br/>
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            The <see cref="T:System.IO.Stream">stream</see> doesnt support seeking.
+            </exception>
+            <exception cref="T:System.ArgumentNullException">
+            The <see cref="T:System.IO.Stream">stream</see> argument is null.
+            </exception>
+        </member>
+        <member name="M:ICSharpCode.SharpZipLib.Zip.ZipFile.#ctor(System.IO.Stream,System.Boolean)">
+            <summary>
+            Opens a Zip file reading the given <see cref="T:System.IO.Stream"/>.
+            </summary>
+            <param name="stream">The <see cref="T:System.IO.Stream"/> to read archive data from.</param>
+            <param name="leaveOpen">true to leave the <see cref="T:System.IO.Stream">stream</see> open when the ZipFile is disposed, false to dispose of it</param>
             <exception cref="T:System.IO.IOException">
             An i/o error occurs
             </exception>
@@ -8357,7 +8893,7 @@
         </member>
         <member name="P:ICSharpCode.SharpZipLib.Zip.ZipFile.IsEmbeddedArchive">
             <summary>
-            Get a value indicating wether
+            Get a value indicating whether
             this archive is embedded in another file or not.
             </summary>
         </member>
@@ -8578,7 +9114,7 @@
             <param name="useUnicodeText">Ensure Unicode text is used for name and comment for this entry.</param>
             <exception cref="T:System.ArgumentNullException">Argument supplied is null.</exception>
             <exception cref="T:System.ObjectDisposedException">ZipFile has been closed.</exception>
-            <exception cref="T:System.ArgumentOutOfRangeException">Compression method is not supported.</exception>
+            <exception cref="T:System.NotImplementedException">Compression method is not supported for creating entries.</exception>
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Zip.ZipFile.Add(System.String,ICSharpCode.SharpZipLib.Zip.CompressionMethod)">
             <summary>
@@ -8587,7 +9123,7 @@
             <param name="fileName">The name of the file to add.</param>
             <param name="compressionMethod">The compression method to use.</param>
             <exception cref="T:System.ArgumentNullException">ZipFile has been closed.</exception>
-            <exception cref="T:System.ArgumentOutOfRangeException">The compression method is not supported.</exception>
+            <exception cref="T:System.NotImplementedException">Compression method is not supported for creating entries.</exception>
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Zip.ZipFile.Add(System.String)">
             <summary>
@@ -8618,6 +9154,7 @@
             <param name="dataSource">The source of the data for this entry.</param>
             <param name="entryName">The name to give to the entry.</param>
             <param name="compressionMethod">The compression method to use.</param>
+            <exception cref="T:System.NotImplementedException">Compression method is not supported for creating entries.</exception>
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Zip.ZipFile.Add(ICSharpCode.SharpZipLib.Zip.IStaticDataSource,System.String,ICSharpCode.SharpZipLib.Zip.CompressionMethod,System.Boolean)">
             <summary>
@@ -8627,6 +9164,7 @@
             <param name="entryName">The name to give to the entry.</param>
             <param name="compressionMethod">The compression method to use.</param>
             <param name="useUnicodeText">Ensure Unicode text is used for name and comments for this entry.</param>
+            <exception cref="T:System.NotImplementedException">Compression method is not supported for creating entries.</exception>
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Zip.ZipFile.Add(ICSharpCode.SharpZipLib.Zip.ZipEntry)">
             <summary>
@@ -8635,11 +9173,29 @@
             <param name="entry">The entry to add.</param>
             <remarks>This can be used to add directories, volume labels, or empty file entries.</remarks>
         </member>
+        <member name="M:ICSharpCode.SharpZipLib.Zip.ZipFile.Add(ICSharpCode.SharpZipLib.Zip.IStaticDataSource,ICSharpCode.SharpZipLib.Zip.ZipEntry)">
+            <summary>
+            Add a <see cref="T:ICSharpCode.SharpZipLib.Zip.ZipEntry"/> with data.
+            </summary>
+            <param name="dataSource">The source of the data for this entry.</param>
+            <param name="entry">The entry to add.</param>
+            <remarks>This can be used to add file entries with a custom data source.</remarks>
+            <exception cref="T:System.NotSupportedException">
+            The encryption method specified in <paramref name="entry"/> is unsupported.
+            </exception>
+            <exception cref="T:System.NotImplementedException">Compression method is not supported for creating entries.</exception>
+        </member>
         <member name="M:ICSharpCode.SharpZipLib.Zip.ZipFile.AddDirectory(System.String)">
             <summary>
             Add a directory entry to the archive.
             </summary>
             <param name="directoryName">The directory to add.</param>
+        </member>
+        <member name="M:ICSharpCode.SharpZipLib.Zip.ZipFile.CheckSupportedCompressionMethod(ICSharpCode.SharpZipLib.Zip.CompressionMethod)">
+            <summary>
+            Check if the specified compression method is supported for adding a new entry.
+            </summary>
+            <param name="compressionMethod">The compression method for the new entry.</param>
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Zip.ZipFile.Delete(System.String)">
             <summary>
@@ -9109,7 +9665,7 @@
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Zip.StaticDiskDataSource.#ctor(System.String)">
             <summary>
-            Initialise a new instnace of <see cref="T:ICSharpCode.SharpZipLib.Zip.StaticDiskDataSource"/>
+            Initialise a new instance of <see cref="T:ICSharpCode.SharpZipLib.Zip.StaticDiskDataSource"/>
             </summary>
             <param name="fileName">The name of the file to obtain data from.</param>
         </member>
@@ -9117,7 +9673,7 @@
             <summary>
             Get a <see cref="T:System.IO.Stream"/> providing data.
             </summary>
-            <returns>Returns a <see cref="T:System.IO.Stream"/> provising data.</returns>
+            <returns>Returns a <see cref="T:System.IO.Stream"/> providing data.</returns>
         </member>
         <member name="T:ICSharpCode.SharpZipLib.Zip.DynamicDiskDataSource">
             <summary>
@@ -9373,7 +9929,7 @@
         </member>
         <member name="P:ICSharpCode.SharpZipLib.Zip.ZipHelperStream.IsStreamOwner">
             <summary>
-            Get / set a value indicating wether the the underlying stream is owned or not.
+            Get / set a value indicating whether the underlying stream is owned or not.
             </summary>
             <remarks>If the stream is owned it is closed when this instance is closed.</remarks>
         </member>
@@ -9393,7 +9949,7 @@
             <param name="endLocation">Location, marking the end of block.</param>
             <param name="minimumBlockSize">Minimum size of the block.</param>
             <param name="maximumVariableData">The maximum variable data.</param>
-            <returns>Eeturns the offset of the first byte after the signature; -1 if not found</returns>
+            <returns>Returns the offset of the first byte after the signature; -1 if not found</returns>
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Zip.ZipHelperStream.WriteZip64EndOfCentralDirectory(System.Int64,System.Int64,System.Int64)">
             <summary>
@@ -9401,7 +9957,7 @@
             </summary>
             <param name="noOfEntries">The number of entries in the central directory.</param>
             <param name="sizeEntries">The size of entries in the central directory.</param>
-            <param name="centralDirOffset">The offset of the dentral directory.</param>
+            <param name="centralDirOffset">The offset of the central directory.</param>
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Zip.ZipHelperStream.WriteEndOfCentralDirectory(System.Int64,System.Int64,System.Int64,System.Byte[])">
             <summary>
@@ -9581,6 +10137,16 @@
             See the <see cref="P:ICSharpCode.SharpZipLib.Zip.ZipEntry.Version">ZipEntry Version</see> property for more details.
             </remarks>
         </member>
+        <member name="M:ICSharpCode.SharpZipLib.Zip.ZipInputStream.IsEntryCompressionMethodSupported(ICSharpCode.SharpZipLib.Zip.ZipEntry)">
+            <summary>
+            Is the compression method for the specified entry supported?
+            </summary>
+            <remarks>
+            Uses entry.CompressionMethodForHeader so that entries of type WinZipAES will be rejected. 
+            </remarks>
+            <param name="entry">the entry to check.</param>
+            <returns>true if the compression methiod is supported, false if not.</returns>
+        </member>
         <member name="M:ICSharpCode.SharpZipLib.Zip.ZipInputStream.GetNextEntry">
             <summary>
             Advances to the next entry in the archive
@@ -9683,8 +10249,8 @@
             <returns>
             The number of bytes read (this may be less than the length requested, even before the end of stream), or 0 on end of stream.
             </returns>
-            <exception name="IOException">
-            An i/o error occured.
+            <exception cref="T:System.IO.IOException">
+            An i/o error occurred.
             </exception>
             <exception cref="T:ICSharpCode.SharpZipLib.Zip.ZipException">
             The deflated stream is corrupted.
@@ -9778,6 +10344,31 @@
             A null name is not considered valid.
             </remarks>
         </member>
+        <member name="T:ICSharpCode.SharpZipLib.Zip.PathTransformer">
+            <summary>
+            An implementation of INameTransform that transforms entry paths as per the Zip file naming convention.
+            Strips path roots and puts directory separators in the correct format ('/')
+            </summary>
+        </member>
+        <member name="M:ICSharpCode.SharpZipLib.Zip.PathTransformer.#ctor">
+            <summary>
+            Initialize a new instance of <see cref="T:ICSharpCode.SharpZipLib.Zip.PathTransformer"></see>
+            </summary>
+        </member>
+        <member name="M:ICSharpCode.SharpZipLib.Zip.PathTransformer.TransformDirectory(System.String)">
+            <summary>
+            Transform a windows directory name according to the Zip file naming conventions.
+            </summary>
+            <param name="name">The directory name to transform.</param>
+            <returns>The transformed name.</returns>
+        </member>
+        <member name="M:ICSharpCode.SharpZipLib.Zip.PathTransformer.TransformFile(System.String)">
+            <summary>
+            Transform a windows file name according to the Zip file naming conventions.
+            </summary>
+            <param name="name">The file name to transform.</param>
+            <returns>The transformed name.</returns>
+        </member>
         <member name="T:ICSharpCode.SharpZipLib.Zip.ZipOutputStream">
              <summary>
              This is a DeflaterOutputStream that writes the files into a zip
@@ -9851,7 +10442,7 @@
             <param name="comment">
             The comment text for the entire archive.
             </param>
-            <exception name ="ArgumentOutOfRangeException">
+            <exception cref="T:System.ArgumentOutOfRangeException">
             The converted comment is longer than 0xffff bytes.
             </exception>
         </member>
@@ -9880,6 +10471,12 @@
             If backwards compatability is an issue be careful when adding <see cref="P:ICSharpCode.SharpZipLib.Zip.ZipEntry.Size">entries</see> to an archive.
             Setting this property to off is workable but less desirable as in those circumstances adding a file
             larger then 4GB will fail.</remarks>
+        </member>
+        <member name="P:ICSharpCode.SharpZipLib.Zip.ZipOutputStream.NameTransform">
+            <summary>
+            Used for transforming the names of entries added by <see cref="M:ICSharpCode.SharpZipLib.Zip.ZipOutputStream.PutNextEntry(ICSharpCode.SharpZipLib.Zip.ZipEntry)"/>.
+            Defaults to <see cref="T:ICSharpCode.SharpZipLib.Zip.PathTransformer"/>, set to null to disable transforms and use names as supplied.
+            </summary>
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Zip.ZipOutputStream.WriteLeShort(System.Int32)">
             <summary>
@@ -9921,6 +10518,9 @@
             Entry name is too long<br/>
             Finish has already been called<br/>
             </exception>
+            <exception cref="T:System.NotImplementedException">
+            The Compression method specified for the entry is unsupported.
+            </exception>
         </member>
         <member name="M:ICSharpCode.SharpZipLib.Zip.ZipOutputStream.CloseEntry">
             <summary>
@@ -9958,6 +10558,12 @@
             Comment exceeds the maximum length<br/>
             Entry name exceeds the maximum length
             </exception>
+        </member>
+        <member name="M:ICSharpCode.SharpZipLib.Zip.ZipOutputStream.Flush">
+            <summary>
+            Flushes the stream by calling <see cref="M:ICSharpCode.SharpZipLib.Zip.Compression.Streams.DeflaterOutputStream.Flush">Flush</see> on the deflater stream unless
+            the current compression method is <see cref="F:ICSharpCode.SharpZipLib.Zip.CompressionMethod.Stored"/>. Then it flushes the underlying output stream.
+            </summary>
         </member>
         <member name="F:ICSharpCode.SharpZipLib.Zip.ZipOutputStream.entries">
             <summary>
@@ -10037,7 +10643,7 @@
         </member>
         <member name="P:ICSharpCode.SharpZipLib.Zip.ZipStrings.UseUnicode">
             <summary>
-            Get wether the default codepage is set to UTF-8. Setting this property to false will
+            Get whether the default codepage is set to UTF-8. Setting this property to false will
             set the <see cref="P:ICSharpCode.SharpZipLib.Zip.ZipStrings.CodePage"/> to <see cref="P:ICSharpCode.SharpZipLib.Zip.ZipStrings.SystemDefaultCodePage"/>
             </summary>
             <remarks>

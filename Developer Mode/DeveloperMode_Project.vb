@@ -1,10 +1,12 @@
 ﻿Imports System.IO
+Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Xml
+
 Imports A2UP.A2U.keyLED_MIDEX
 Imports NAudio.Midi
 
-Imports System.Text
+Imports MathNet.Numerics.Interpolation
 
 Public Class DeveloperMode_Project
     'Developer Mode에서는 Exception 예외 처리 때 GreatEx가 필요 없습니다.
@@ -45,7 +47,8 @@ Public Class DeveloperMode_Project
         Dim itm As New List(Of String)()
         itm.AddRange({"File Name", "Chains", "File Version", "Sound Cutting"})
         itm.AddRange({"KeyTracks (keyLED)", "keyLED (MIDI Extension)", "keyLED (MIDEX, MidiFire)", "keyLED (integrated version)"})
-        itm.AddRange({"XML Test", "Mp3ToWav", "NewLine Test", "Extract To Xml", "LED Extension - Velocity"})
+        itm.AddRange({"XML Test", "Mp3ToWav", "NewLine Test", "Extract To Xml"})
+        itm.AddRange({"LED Extension - Velocity", "Draw Curve Graph", "Interpolate Test"})
 
         Info_ListView.Items.Clear()
         For Each items As String In itm
@@ -146,12 +149,50 @@ Public Class DeveloperMode_Project
                     Dim picture As New Bitmap(128, 128)
                     Dim points As Point() = DrawVelocityGraph(0, 100, 0R, 0, 100, "Clip")
 
+                    Using gfx As Graphics = Graphics.FromImage(picture)
+                        Using brush As New SolidBrush(Color.White)
+                            gfx.FillRectangle(brush, 0, 0, picture.Width, picture.Height)
+                        End Using
+                    End Using
+
                     For Each point In points
                         picture.SetPixel(point.X, 127 - point.Y, Color.OrangeRed)
                     Next
 
                     Clipboard.SetImage(picture)
                     MessageBox.Show("Copied Image to Clipboard!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+                Case "Draw Curve Graph"
+                    Dim picture As New Bitmap(1000, 1000)
+
+                    Dim startPoint As New Point(0, 0)
+                    Dim endPoint As New Point(picture.Width - 1, picture.Height - 1)
+                    Dim points As Point() = {}
+                    Dim curvature = 0.0
+
+                    Using gfx As Graphics = Graphics.FromImage(picture)
+                        Using brush As New SolidBrush(Color.White)
+                            gfx.FillRectangle(brush, 0, 0, picture.Width, picture.Height)
+                        End Using
+                    End Using
+
+                    If Double.TryParse(InputBox("Please enter the curvature value. (-1.0 ~ 1.0)"), curvature) Then
+                        points = DrawCurveGraph(startPoint, endPoint,curvature)
+                    End If
+
+                    For Each point In points
+                        picture.SetPixel(point.X, endPoint.Y - point.Y, Color.OrangeRed)
+                    Next
+
+                    Clipboard.SetImage(picture)
+                    MessageBox.Show("Copied Image to Clipboard!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+                Case "Interpolate Test"
+                    Dim p1 As New Point(0, 0)
+                    Dim p2 As New Point(499, 499)
+                    Dim p3 As New Point(999, 999)
+
+                    InterpolateTest(p1, p2, p3)
 
             End Select
         End If
@@ -216,6 +257,64 @@ Public Class DeveloperMode_Project
 
         Return pointList.ToArray()
     End Function
+
+    Private Shared Function DrawCurveGraph(startPoint As Point, endPoint As Point, curvature As Double) As Point()
+        Dim middlePoint As New Point((endPoint.X - startPoint.X) / 2, (endPoint.Y - startPoint.Y) / 2)
+        middlePoint.X += -Convert.ToInt32(Math.Truncate((endPoint.X - startPoint.X) * 0.25 * curvature))
+        middlePoint.Y += Convert.ToInt32(Math.Truncate((endPoint.Y - startPoint.Y) * 0.25 * curvature))
+
+        Dim bezierList As New List(Of Point)(ZeichneBezier(6, startPoint, middlePoint, endPoint))
+        Return bezierList.OrderBy(Function(p) p.X * 10 + p.Y).ToArray()
+    End Function
+
+    Private Shared Function ZeichneBezier(n As Integer, p1 As Point, p2 As Point, p3 As Point) As Point()
+        Dim pointList As New List(Of Point)()
+
+        If n > 0 Then
+            Dim p12 As New Point((p1.X + p2.X) / 2, (p1.Y + p2.Y) / 2)
+            Dim p23 As New Point((p2.X + p3.X) / 2, (p2.Y + p3.Y) / 2)
+            Dim p123 As New Point((p12.X + p23.X) / 2, (p12.Y + p23.Y) / 2)
+
+            pointList.AddRange(ZeichneBezier(n - 1, p1, p12, p123))
+            pointList.AddRange(ZeichneBezier(n - 1, p123, p23, p3))
+        Else
+            Dim line12 As Point() = DrawLine(p1, p2)
+            Dim line23 As Point() = DrawLine(p2, p3)
+
+            pointList.AddRange(line12)
+            pointList.AddRange(line23)
+        End If
+
+        Return pointList.ToArray()
+    End Function
+
+    Private Shared Function DrawLine(p1 As Point, p2 As Point) As Point()
+        Dim pointList As New List(Of Point)()
+        
+        Dim space As Double = (p2.Y - p1.Y) / (p2.X - p1.X)
+        Dim yf As Double = Convert.ToDouble(p1.Y)
+
+        For x = p1.X To p2.X
+            Dim y As Integer = Convert.ToInt32(Math.Truncate(yf))
+            Dim p As New Point(x, y)
+
+            pointList.Add(p)
+            yf += space
+        Next
+
+        Return pointList.ToArray()
+    End Function
+
+    Private Shared Sub InterpolateTest(p1 As Point, p2 As Point, p3 As Point)
+        Dim x As Double() = {Convert.ToDouble(p1.X), Convert.ToDouble(p2.X), Convert.ToDouble(p3.X)}
+        Dim y As Double() = {Convert.ToDouble(p1.Y), Convert.ToDouble(p2.Y), Convert.ToDouble(p3.Y)}
+
+        Dim polynomial As NevillePolynomialInterpolation = NevillePolynomialInterpolation.Interpolate(x, y)
+
+        For t = 0.0 To 1.0 Step 0.1
+            Debug.WriteLine(polynomial.Interpolate(t))
+        Next
+    End Sub
 
     Private Shared Function NewLineTest() As String
         Dim sb As New StringBuilder()
