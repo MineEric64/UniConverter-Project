@@ -156,7 +156,7 @@ Public Class DeveloperMode_Project
                     End Using
 
                     For Each point In points
-                        picture.SetPixel(point.X, 127 - point.Y, Color.OrangeRed)
+                        picture.SetPixel(Math.Min(Math.Max(point.X, 0), 127), 127 - Math.Min(point.Y, 127), Color.OrangeRed)
                     Next
 
                     Clipboard.SetImage(picture)
@@ -254,11 +254,26 @@ Public Class DeveloperMode_Project
 
     Private Shared Function DrawCurveGraph(startPoint As Point, endPoint As Point, curvature As Double) As Point()
         Dim middlePoint As New Point((endPoint.X - startPoint.X) / 2, (endPoint.Y - startPoint.Y) / 2)
-        middlePoint.X += -Convert.ToInt32(Math.Truncate((endPoint.X - startPoint.X) * 0.25 * curvature))
-        middlePoint.Y += Convert.ToInt32(Math.Truncate((endPoint.Y - startPoint.Y) * 0.25 * curvature))
+        middlePoint.X += -Convert.ToInt32(Math.Truncate((endPoint.X - startPoint.X) * 0.52 * curvature)) '오차 보정
+        middlePoint.Y += Convert.ToInt32(Math.Truncate((endPoint.Y - startPoint.Y) * 0.52 * curvature))
 
         Dim bezierList As New List(Of Point)(ZeichneBezier(6, startPoint, middlePoint, endPoint))
-        Return bezierList.OrderBy(Function(p) p.X * 10 + p.Y).ToArray()
+        Dim pointSortFunction As Func(Of Point, Boolean) = Function(p) p.X * 10 + p.Y
+        bezierList = bezierList.OrderBy(pointSortFunction).ToList()
+        
+        Dim ap As Point = Point.Empty
+
+        For y = 0 To 127 '값 보정
+            Dim pointList As List(Of Point) = bezierList.Where(Function(p) p.Y = y).ToList()
+
+            If pointList.Count > 0 Then
+                ap = pointList(0)
+            Else
+                bezierList.Add(New Point(ap.X, ap.Y + 1))
+            End If
+        Next
+        
+        Return bezierList.OrderBy(pointSortFunction).ToArray()
     End Function
 
     Private Shared Function ZeichneBezier(n As Integer, p1 As Point, p2 As Point, p3 As Point) As Point()
