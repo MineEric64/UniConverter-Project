@@ -483,6 +483,15 @@ Error Message:
  <param name="source">X, Y 좌표입니다. XY형식으로 붙여서 쓰세요. 예: 88, 11, 35</param>
  <returns></returns>
 </member>
+<member name="M:UniConverter.LEDExtensions.VelocityClass.SyncVelocityMap(System.Int32,System.Int32,System.Double,UniConverter.LEDExtensions.VelocityClass.VelocityMode,System.Int32,System.Int32)">
+ <summary>
+ Velocity 플러그인 그래프
+ </summary>
+ <param name="start">Out Low (Y)</param>
+ <param name="[end]">Out Hi (Y)</param>
+ <param name="drive">Drive Value</param>
+ <param name="mode">Clip / Gate / Fixed</param>
+</member>
 <member name="F:UniConverter.DeveloperMode_Project.EachCode.keyLED_1">
  <summary>
  XML2keyLED Code.

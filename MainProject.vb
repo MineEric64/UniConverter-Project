@@ -3992,15 +3992,13 @@ Public Class MainProject
                 Dim outLow As Integer = Integer.Parse(midiVelocity.Item("MinOut").Item("Manual").GetAttribute("Value"))
 
                 If mode = 2 OrElse (mode <> 2 AndAlso outHi = outLow) Then '전체 색상
-                    ledExtension.VelocityList.Add(-1, outHi)
+                    ledExtension.Velocity.VelocityMap.Add(-1, outHi)
                 Else
-                    Dim graph As New Dictionary(Of Integer, Integer)()
-
                     Dim start As Integer = outLow
                     Dim [end] As Integer = outHi
                     Dim drive As Integer = Double.Parse(midiVelocity.Item("Drive").Item("Manual").GetAttribute("Value"))
 
-
+                    ledExtension.Velocity.SyncVelocityMap(start, [end], drive, mode)
                 End If
             End If
         End If

@@ -186,8 +186,8 @@ Public Class keyLED_Edit
                                 extension.Flip.SyncFlip("on", uniNoteNumberX, uniNoteNumberY, velocity, str)
                             End If
 
-                            If extension.VelocityList.Count > 0 Then
-                                SyncVelocity(velocity, extension.VelocityList)
+                            If extension.Velocity.VelocityMap.Count > 0 Then
+                                SyncVelocity(velocity, extension.Velocity.VelocityMap)
                             End If
 #End Region
                             If uniNoteNumberX <> -8192 AndAlso uniNoteNumberX <> -8193 Then

@@ -40,8 +40,6 @@ Public Class keyLED_Edit_Ex
         Return flip
     End Function
 
-    
-
     Private Sub FlipExtensions_Changed(sender As Object, e As EventArgs) Handles Flip_MirrorCheckBox.CheckedChanged, Flip_MirrorComboBox.SelectedIndexChanged, Flip_RotateCheckBox.CheckedChanged, Flip_RotateComboBox.SelectedIndexChanged, Flip_DuplicateCheckBox.CheckedChanged
         If keyLED_Edit.GAZUA_.IsBusy Then
             Exit Sub '오류!

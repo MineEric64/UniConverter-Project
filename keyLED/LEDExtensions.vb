@@ -827,12 +827,145 @@ Public Class LEDExtensions
 #End Region
     End Class
 #End Region
+#Region "Velocity Class"
+    Public Class VelocityClass
+        Public Property VelocityMap As Dictionary(Of Integer, Integer)
+
+        Sub New(velocityMap As Dictionary(Of Integer, Integer))
+            Me.VelocityMap = velocityMap
+        End Sub
+
+        Public Shared ReadOnly Property Empty As VelocityClass
+            Get
+                Return New VelocityClass(New Dictionary(Of Integer, Integer))
+            End Get
+        End Property
+
+        Public ReadOnly Property IsEmpty As Boolean
+            Get
+                Return Me.VelocityMap.Count = 0
+            End Get
+        End Property
+
+        Public Enum VelocityMode
+            Clip
+            Gate
+            Fixed
+        End Enum
+
+        ''' <summary>
+        ''' Velocity 플러그인 그래프
+        ''' </summary>
+        ''' <param name="start">Out Low (Y)</param>
+        ''' <param name="[end]">Out Hi (Y)</param>
+        ''' <param name="drive">Drive Value</param>
+        ''' <param name="mode">Clip / Gate / Fixed</param>
+        Public Sub SyncVelocityMap(start As Integer, [end] As Integer, drive As Double, mode As VelocityMode, Optional lowest As Integer = 0, Optional range As Integer = 127)
+            Dim pointList As New List(Of Point)()
+            
+            Dim startPoint As New Point(lowest, start)
+            Dim endPoint As New Point(range, [end])
+
+            pointList.AddRange(DrawCurveGraph(startPoint, endPoint, drive))
+
+            For x = 0 To 127
+                If x >= lowest AndAlso x <= range OrElse mode = VelocityMode.Gate Then
+                    Continue For
+                End If
+
+                Dim p As New Point(x, 0)
+
+                If mode = VelocityMode.Clip Then
+                    If Not x >= lowest Then
+                        p.Y = [start]
+                    ElseIf Not x <= range Then
+                        p.Y = [end]
+                    End If
+
+                ElseIf mode = VelocityMode.Fixed Then
+                    p.Y = [end]
+                End If
+
+                pointList.Add(p)
+           Next
+
+            pointList = pointList.OrderBy(Function(p) p.X * 10 + p.Y).ToList()
+            VelocityMap.Clear()
+
+            For Each point In pointList
+                VelocityMap.Add(point.X, point.Y)
+            Next
+        End Sub
+
+        Private Function DrawCurveGraph(startPoint As Point, endPoint As Point, curvature As Double) As Point()
+            Dim middlePoint As New Point((endPoint.X - startPoint.X) / 2, (endPoint.Y - startPoint.Y) / 2)
+            middlePoint.X += -Convert.ToInt32(Math.Truncate((endPoint.X - startPoint.X) * 0.52 * curvature)) '오차 보정
+            middlePoint.Y += Convert.ToInt32(Math.Truncate((endPoint.Y - startPoint.Y) * 0.52 * curvature))
+
+            Dim bezierList As New List(Of Point)(ZeichneBezier(6, startPoint, middlePoint, endPoint))
+            Dim pointSortFunction As Func(Of Point, Boolean) = Function(p) p.X * 10 + p.Y
+            bezierList = bezierList.OrderBy(pointSortFunction).ToList()
+            
+            Dim ap As Point = Point.Empty
+
+            For y = 0 To 127 '값 보정
+                Dim pointList As List(Of Point) = bezierList.Where(Function(p) p.Y = y).ToList()
+
+                If pointList.Count > 0 Then
+                    ap = pointList(0)
+                Else
+                    bezierList.Add(New Point(ap.X, ap.Y + 1))
+                End If
+            Next
+            
+            Return bezierList.OrderBy(pointSortFunction).ToArray()
+        End Function
+
+        Private Function ZeichneBezier(n As Integer, p1 As Point, p2 As Point, p3 As Point) As Point()
+            Dim pointList As New List(Of Point)()
+
+            If n > 0 Then
+                Dim p12 As New Point((p1.X + p2.X) / 2, (p1.Y + p2.Y) / 2)
+                Dim p23 As New Point((p2.X + p3.X) / 2, (p2.Y + p3.Y) / 2)
+                Dim p123 As New Point((p12.X + p23.X) / 2, (p12.Y + p23.Y) / 2)
+
+                pointList.AddRange(ZeichneBezier(n - 1, p1, p12, p123))
+                pointList.AddRange(ZeichneBezier(n - 1, p123, p23, p3))
+            Else
+                Dim line12 As Point() = DrawLine(p1, p2)
+                Dim line23 As Point() = DrawLine(p2, p3)
+
+                pointList.AddRange(line12)
+                pointList.AddRange(line23)
+            End If
+
+            Return pointList.ToArray()
+        End Function
+
+        Private Function DrawLine(p1 As Point, p2 As Point) As Point()
+            Dim pointList As New List(Of Point)()
+            
+            Dim space As Double = (p2.Y - p1.Y) / (p2.X - p1.X)
+            Dim yf As Double = Convert.ToDouble(p1.Y)
+
+            For x = p1.X To p2.X
+                Dim y As Integer = Convert.ToInt32(Math.Truncate(yf))
+                Dim p As New Point(x, y)
+
+                pointList.Add(p)
+                yf += space
+            Next
+
+            Return pointList.ToArray()
+        End Function
+    End Class
+#End Region
 
     Public Property Flip As FlipClass
-    Public Property VelocityList As Dictionary(Of Integer, Integer)
+    Public Property Velocity As VelocityClass
 
     Sub New()
         Me.Flip = FlipClass.Empty
-        Me.VelocityList = New Dictionary(Of Integer, Integer)()
+        Me.Velocity = VelocityClass.Empty
     End Sub
 End Class
