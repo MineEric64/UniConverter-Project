@@ -1,9 +1,8 @@
 # UniConverter Project
 
-         UniConverter Project v1.0
+         UniConverter, UniPack Converter For Ableton
          
-![UniConverter_tmpIcon](https://github.com/MineEric64/UniConverter-Project/blob/master/Resources/UniConverterV2.png)
-![UniConverter_Icon](https://github.com/MineEric64/UniConverter-Project/blob/master/Resources/UniConverter_icon.png)
+![UniConverter_Icon](https://raw.githubusercontent.com/MineEric64/UniConverter-Project/master/Resources/UniConverter_New_Icon.png)
 
 ### Made By 'MineEric64'. (최에릭)
 #### Helped By 'Follow_JB', 'EX867'.
@@ -24,15 +23,15 @@ Last, UniConverter trims some Sounds, LEDs of UniPack.
 Also, you can edit simple information of UniPack directly!
 But, you can edit detail information of UniPack on [Unitor](https://bit.do/unitor).
 
-You can download UniConverter Latest Version on '[UniConverter Official Site](http://ucv.kro.kr)'.
-#### [ Latest Version: v1.2.0.7 (Pre-Release 1)   |   Test Version: v1.2.0.7 ]
+#### [ Latest Version: v1.2.0.7 (Pre-Release 2)   |   Test Version: v1.2.0.7 ]
 
 ## Functions
 > Ableton LED to UniPack LED
 
-> Converts LED automatically
 
 > Converts keySound automatically
 
+> Converts LED automatically
+
 ##### DEVELOPING PROJECTS make someone convenient.
-#### By MineEric64 (최에릭) on 04/05/20
+#### By MineEric64 (최에릭) on 11/02/20
