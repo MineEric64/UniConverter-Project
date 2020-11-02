@@ -3998,7 +3998,10 @@ Public Class MainProject
                     Dim [end] As Integer = outHi
                     Dim drive As Integer = Double.Parse(midiVelocity.Item("Drive").Item("Manual").GetAttribute("Value"))
 
-                    ledExtension.Velocity.SyncVelocityMap(start, [end], drive, mode)
+                    Dim lowest As Integer = Integer.Parse(midiVelocity.Item("Lowest").Item("Manual").GetAttribute("Value"))
+                    Dim range As Integer = Integer.Parse(midiVelocity.Item("Range").Item("Manual").GetAttribute("Value"))
+
+                    ledExtension.Velocity.SyncVelocityMap(start, [end], drive, mode, lowest, range)
                 End If
             End If
         End If

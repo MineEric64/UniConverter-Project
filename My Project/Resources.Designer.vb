@@ -175,6 +175,16 @@ Namespace My.Resources
         '''<summary>
         '''  Looks up a localized resource of type System.Drawing.Bitmap.
         '''</summary>
+        Friend ReadOnly Property UniConverter_New_Intro() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("UniConverter_New_Intro", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
         Friend ReadOnly Property UniConverterV2() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("UniConverterV2", resourceCulture)

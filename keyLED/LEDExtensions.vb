@@ -889,11 +889,13 @@ Public Class LEDExtensions
                 pointList.Add(p)
            Next
 
-            pointList = pointList.OrderBy(Function(p) p.X * 10 + p.Y).ToList()
+            pointList = pointList.OrderBy(Function(p) p.X * 10 + p.Y).Distinct().ToList()
             VelocityMap.Clear()
 
             For Each point In pointList
-                VelocityMap.Add(point.X, point.Y)
+                If Not VelocityMap.ContainsKey(point.X) THen
+                    VelocityMap.Add(point.X, point.Y)
+                End If
             Next
         End Sub
 
