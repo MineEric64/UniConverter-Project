@@ -113,6 +113,11 @@ o 6 3 a  [rest of string was truncated]&quot;;.
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
 </member>
+<member name="P:UniConverter.My.Resources.Resources.UniConverter_New_Intro_Video">
+<summary>
+  Looks up a localized resource of type System.Byte[].
+</summary>
+</member>
 <member name="P:UniConverter.My.Resources.Resources.UniConverterV2">
 <summary>
   Looks up a localized resource of type System.Drawing.Bitmap.

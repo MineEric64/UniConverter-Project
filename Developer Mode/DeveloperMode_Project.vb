@@ -147,7 +147,9 @@ Public Class DeveloperMode_Project
 
                 Case "LED Extension - Velocity"
                     Dim picture As New Bitmap(128, 128)
-                    Dim points As Point() = DrawVelocityGraph(0, 127, 1.0, 0, 127, "Clip")
+                    Dim points As Point()
+                    points = DrawVelocityGraph(0, 127, 1.0, 0, 127, "Clip")
+                    'points = DrawVelocityGraph(1, 51, 0.38, 1, 127)
 
                     Using gfx As Graphics = Graphics.FromImage(picture)
                         Using brush As New SolidBrush(Color.White)

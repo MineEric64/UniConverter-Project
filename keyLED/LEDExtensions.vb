@@ -892,10 +892,21 @@ Public Class LEDExtensions
             pointList = pointList.OrderBy(Function(p) p.X * 10 + p.Y).Distinct().ToList()
             VelocityMap.Clear()
 
+            Dim velocityListInMap As New Dictionary(Of Integer, List(Of Integer))()
+
             For Each point In pointList
-                If Not VelocityMap.ContainsKey(point.X) THen
-                    VelocityMap.Add(point.X, point.Y)
+                If Not velocityListInMap.ContainsKey(point.X) Then
+                    velocityListInMap.Add(point.X, New List(Of Integer)())
                 End If
+
+                velocityListInMap(point.X).Add(point.Y)
+            Next
+
+            For Each key In velocityListInMap.Keys
+                Dim velocityList As List(Of Integer) = velocityListInMap(key)
+                Dim average As Integer = Convert.ToInt32(Math.Truncate(velocityList.Average()))
+
+                VelocityMap.Add(key, average)
             Next
         End Sub
 

@@ -357,6 +357,7 @@
     <None Include="Resources\SuperLightText.txt" />
     <None Include="Resources\FLIP.png" />
     <None Include="Resources\UniConverter_New_Icon.png" />
+    <None Include="Resources\UniConverter_New_Loading_Final.mp4" />
     <Content Include="UniConverter.ico" />
   </ItemGroup>
   <ItemGroup>

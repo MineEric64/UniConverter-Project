@@ -298,6 +298,12 @@ Public Class MainProject
     ''' </summary>
     Public Shared TempDirectory As String = My.Computer.FileSystem.SpecialDirectories.Temp
 
+    Private Sub MainProject_Shown(sender As Object, e As EventArgs) Handles MyBase.BindingContextChanged
+        MainScreen.Show()
+        Thread.Sleep(6000)
+        MainScreen.Close()
+    End Sub
+
     Private Async Sub MainProject_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
             Dim file_ex As String = Application.StartupPath + "\settings.xml"
