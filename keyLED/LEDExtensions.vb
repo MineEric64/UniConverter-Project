@@ -1,4 +1,5 @@
-﻿Imports System.Text
+﻿Imports System.Drawing.Drawing2D
+Imports System.Text
 
 Public Class LEDExtensions
 #Region "Flip Class"
@@ -866,7 +867,7 @@ Public Class LEDExtensions
             Dim startPoint As New Point(lowest, start)
             Dim endPoint As New Point(range, [end])
 
-            pointList.AddRange(DrawCurveGraph(startPoint, endPoint, drive))
+            pointList.AddRange(DrawCurveGraph_v2(startPoint, endPoint, drive))
 
             For x = 0 To 127
                 If x >= lowest AndAlso x <= range OrElse mode = VelocityMode.Gate Then
@@ -910,6 +911,7 @@ Public Class LEDExtensions
             Next
         End Sub
 
+        <Obsolete("This method is deprecated, please use 'DrawCurveGraph_v2()' instead.", False)>
         Private Function DrawCurveGraph(startPoint As Point, endPoint As Point, curvature As Double) As Point()
             Dim middlePoint As New Point((endPoint.X - startPoint.X) / 2, (endPoint.Y - startPoint.Y) / 2)
             middlePoint.X += -Convert.ToInt32(Math.Truncate((endPoint.X - startPoint.X) * 0.52 * curvature)) '오차 보정
@@ -932,6 +934,24 @@ Public Class LEDExtensions
             Next
             
             Return bezierList.OrderBy(pointSortFunction).ToArray()
+        End Function
+
+        Private Shared Function DrawCurveGraph_v2(startPoint As Point, endPoint As Point, curvature As Double) As Point()
+            Dim middlePoint As New Point((endPoint.X - startPoint.X) / 2, (endPoint.Y - startPoint.Y) / 2)
+            middlePoint.X -= Convert.ToInt32(Math.Truncate((endPoint.X - startPoint.X) * 0.25 * curvature)) '오차 보정
+            middlePoint.Y += Convert.ToInt32(Math.Truncate((endPoint.Y - startPoint.Y) * 0.25 * curvature))
+
+            'https://stackoverflow.com/questions/52433314/extracting-points-coordinatesx-y-from-a-curve-c-sharp
+            Using path = New GraphicsPath()
+                path.AddCurve({startPoint, middlePoint, endPoint}, 1.0F)
+
+                Using mx = New Matrix(1, 0, 0, 1, 0, 0)
+                    path.Flatten(mx, 0.00001F)
+                End Using
+
+                Dim pointfList As New List(Of PointF)(path.PathPoints)
+                Return pointfList.Select(Function(p) Point.Round(p)).ToArray()
+            End Using
         End Function
 
         Private Function ZeichneBezier(n As Integer, p1 As Point, p2 As Point, p3 As Point) As Point()

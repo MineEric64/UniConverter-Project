@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports System.Threading
 Imports PVS.MediaPlayer
 
 Public Class MainScreen
@@ -35,5 +36,24 @@ Public Class MainScreen
             _videoPlayer.Pause()
             Timer1.Stop()
         End If
+    End Sub
+
+    Public Sub ShowFormSmoothly()
+        Me.Opacity = 0.00
+        Me.Show()
+
+        For i = 0 To 100
+            Me.Opacity = i / 100.0
+            Thread.Sleep(3)
+        Next
+    End Sub
+
+    Public Sub CloseFormSmoothly()
+        For i = 100 To 0 Step -1
+            Me.Opacity = i / 100.0
+            Thread.Sleep(3)
+        Next
+
+        Me.Close()
     End Sub
 End Class

@@ -298,14 +298,12 @@ Public Class MainProject
     ''' </summary>
     Public Shared TempDirectory As String = My.Computer.FileSystem.SpecialDirectories.Temp
 
-    Private Sub MainProject_Shown(sender As Object, e As EventArgs) Handles MyBase.BindingContextChanged
-        MainScreen.Show()
-        Thread.Sleep(6000)
-        MainScreen.Close()
-    End Sub
-
     Private Async Sub MainProject_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
+            MainScreen.ShowFormSmoothly()
+            Thread.Sleep(5300)
+            MainScreen.CloseFormSmoothly()
+
             Dim file_ex As String = Application.StartupPath + "\settings.xml"
 
             If File.Exists(file_ex) = False Then
@@ -3633,7 +3631,7 @@ Public Class MainProject
             If Not String.IsNullOrWhiteSpace(save.MidiName) Then
                 Dim filePath As String = $"{ABLETON_KEYLED_PATH}\{save.MidiName}"
 
-                ledList.AddRange(ConvertKeyLEDForAnyMIDEX(node, mm, filePath, save.Speed, save.BPM))
+                ledList.AddRange(ConvertKeyLEDForAnyMIDEX(node, mm, indent, filePath, save.Speed, save.BPM))
             Else
                 ConvertKeyLEDForAnyMIDEX(node, mm, indent, String.Empty) 'MultiMapping
             End If

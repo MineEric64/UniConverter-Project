@@ -1,13 +1,25 @@
 ﻿Imports System.IO
 Imports System.Text
+Imports PVS.MediaPlayer
 
 Public Class Info
+    Private ReadOnly _videoPlayer As Player = New Player()
+    Private ReadOnly _loadingVideoFile As String = $"{My.Computer.FileSystem.SpecialDirectories.Temp}\UniConverter_New_Loading.mp4"
 
     Private Sub Info_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Text = MainProject.Text & ": Information"
-        InfoText.Text = "Ver " & My.Application.Info.Version.ToString
+        InfoText.Text = "Ver " & My.Application.Info.Version.ToString()
 
         ToolTip1.SetToolTip(TipText1, "Q. Who made it?" & vbNewLine & "A. This program made by MineEric64 (최에릭), Helped by FollowJB, EX867.")
+
+        
+        File.WriteAllBytes(_loadingVideoFile, My.Resources.UniConverter_New_Loading)
+
+        panelVideoPlayer.BackgroundImage = My.Resources.UniConverter_New_Real_Icon
+        panelVideoPlayer.BackgroundImageLayout = ImageLayout.Zoom
+        _videoPlayer.Display.Window = panelVideoPlayer
+        _videoPlayer.Display.Mode = DisplayMode.SizeToFitCenter
+        _videoPlayer.Play(_loadingVideoFile)
 
         Select Case MainProject.lang
             Case Translator.tL.English
@@ -171,5 +183,14 @@ Public Class Info
                 MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
         End Try
+    End Sub
+
+    Private Sub panelVideoPlayer_Click(sender As Object, e As EventArgs) Handles panelVideoPlayer.MouseClick
+        _videoPlayer.Play(_loadingVideoFile)
+    End Sub
+
+    Private Sub Info_FormClosing(sender As Object, e As EventArgs) Handles MyBase.FormClosing
+        _videoPlayer.Dispose()
+        File.Delete(_loadingVideoFile)
     End Sub
 End Class

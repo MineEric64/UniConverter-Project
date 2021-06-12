@@ -358,6 +358,8 @@
     <None Include="Resources\FLIP.png" />
     <None Include="Resources\UniConverter_New_Icon.png" />
     <None Include="Resources\UniConverter_New_Loading_Final.mp4" />
+    <None Include="Resources\UniConverter_New_Loading_1.mp4" />
+    <None Include="Resources\UniConverter_New_Real_Icon.jpg" />
     <Content Include="UniConverter.ico" />
   </ItemGroup>
   <ItemGroup>
