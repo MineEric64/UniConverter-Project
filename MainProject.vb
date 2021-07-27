@@ -15,13 +15,9 @@ Imports NAudio.Midi
 Imports ICSharpCode.SharpZipLib.GZip
 Imports ICSharpCode.SharpZipLib.Core
 
-Imports UniConverter.LEDExtensions
-
 Imports A2UP
 Imports A2UP.A2U.keyLED_MIDEX
 Imports A2UP.A2U.keySound
-
-Imports WMPLib
 
 Public Class MainProject
 
@@ -31,76 +27,6 @@ Public Class MainProject
     ''' keySound 저장 여부.
     ''' </summary>
     Public Shared SoundIsSaved As Boolean
-
-    ''' <summary>
-    ''' keySound 버튼 저장
-    ''' </summary>
-    Public ks_ctrl As New Dictionary(Of String, Button)
-
-    ''' <summary>
-    ''' keySound 레이아웃 여부.
-    ''' </summary>
-    Dim keySoundLayout As Boolean
-
-    ''' <summary>
-    ''' X 버튼 좌표. (1~8)
-    ''' </summary>
-    Public ksUniPack_X As Integer
-
-    ''' <summary>
-    ''' Y 버튼 좌표. (1~8)
-    ''' </summary>
-    Public ksUniPack_Y As Integer
-
-    ''' <summary>
-    ''' 키사운드 매핑.
-    ''' </summary>
-    Public keySound_Mapping As Integer
-
-    ''' <summary>
-    ''' 최대 다중 매핑 지원. (1, 같은 사운드 다중 매핑 적용)
-    ''' </summary>
-    Public keySound_SameM As Integer
-
-    ''' <summary>
-    ''' 최대 다중 매핑 지원. (2, 다른 사운드 다중 매핑 적용)
-    ''' </summary>
-    Public keySound_DifM As Integer
-
-    ''' <summary>
-    ''' 현재 체인. (1~8)
-    ''' </summary>
-    Public keySound_CChain As Integer
-
-    ''' <summary>
-    ''' 선택한 체인. (1~8)
-    ''' </summary>
-    Public ksUniPack_SelectedChain As Integer = 1
-
-    ''' <summary>
-    ''' keySound Loop 여부.
-    ''' </summary>
-    Dim keySoundLoop As Boolean
-
-    ''' <summary>
-    ''' keySound Play Loop 1.
-    ''' </summary>
-    Dim ks_PlayLoop1 As New WindowsMediaPlayer
-
-    ''' <summary>
-    ''' keySound Play Loop 2.
-    ''' </summary>
-    Dim ks_PlayLoop2 As New WindowsMediaPlayer
-
-    ''' <summary>
-    ''' 다른 매핑할 때 소리를 재생함.
-    ''' </summary>
-    Dim ks_lpn As Integer = 0
-
-    ''' <summary>
-    ''' 현재 소리를 재생.
-    ''' </summary>
-    Dim ks_lpu As Integer = 1
 
     ''' <summary>
     ''' keySound 변환 여부.
@@ -175,11 +101,6 @@ Public Class MainProject
     ''' 지금 매우 중요한 작업 여부.
     ''' </summary>
     Public Shared IsWorking As Boolean
-
-    ''' <summary>
-    ''' Waiting For Ableton Project. (LED Convert: "keyLED")
-    ''' </summary>
-    Public Shared w8t4abl As String
 
     ''' <summary>
     ''' 유니컨버터 언어. (English / Korean)
@@ -325,196 +246,6 @@ Public Class MainProject
                 DeveloperModeToolStripMenuItem.Visible = True
             End If
 
-#Region "Dictionary 버튼 추가"
-            'keySound 8x8 유니패드 버튼
-            ks_ctrl.Add(11, uni1_1)
-            ks_ctrl.Add(12, uni1_2)
-            ks_ctrl.Add(13, uni1_3)
-            ks_ctrl.Add(14, uni1_4)
-            ks_ctrl.Add(15, uni1_5)
-            ks_ctrl.Add(16, uni1_6)
-            ks_ctrl.Add(17, uni1_7)
-            ks_ctrl.Add(18, uni1_8)
-            ks_ctrl.Add(21, uni2_1)
-            ks_ctrl.Add(22, uni2_2)
-            ks_ctrl.Add(23, uni2_3)
-            ks_ctrl.Add(24, uni2_4)
-            ks_ctrl.Add(25, uni2_5)
-            ks_ctrl.Add(26, uni2_6)
-            ks_ctrl.Add(27, uni2_7)
-            ks_ctrl.Add(28, uni2_8)
-            ks_ctrl.Add(31, uni3_1)
-            ks_ctrl.Add(32, uni3_2)
-            ks_ctrl.Add(33, uni3_3)
-            ks_ctrl.Add(34, uni3_4)
-            ks_ctrl.Add(35, uni3_5)
-            ks_ctrl.Add(36, uni3_6)
-            ks_ctrl.Add(37, uni3_7)
-            ks_ctrl.Add(38, uni3_8)
-            ks_ctrl.Add(41, uni4_1)
-            ks_ctrl.Add(42, uni4_2)
-            ks_ctrl.Add(43, uni4_3)
-            ks_ctrl.Add(44, uni4_4)
-            ks_ctrl.Add(45, uni4_5)
-            ks_ctrl.Add(46, uni4_6)
-            ks_ctrl.Add(47, uni4_7)
-            ks_ctrl.Add(48, uni4_8)
-            ks_ctrl.Add(51, uni5_1)
-            ks_ctrl.Add(52, uni5_2)
-            ks_ctrl.Add(53, uni5_3)
-            ks_ctrl.Add(54, uni5_4)
-            ks_ctrl.Add(55, uni5_5)
-            ks_ctrl.Add(56, uni5_6)
-            ks_ctrl.Add(57, uni5_7)
-            ks_ctrl.Add(58, uni5_8)
-            ks_ctrl.Add(61, uni6_1)
-            ks_ctrl.Add(62, uni6_2)
-            ks_ctrl.Add(63, uni6_3)
-            ks_ctrl.Add(64, uni6_4)
-            ks_ctrl.Add(65, uni6_5)
-            ks_ctrl.Add(66, uni6_6)
-            ks_ctrl.Add(67, uni6_7)
-            ks_ctrl.Add(68, uni6_8)
-            ks_ctrl.Add(71, uni7_1)
-            ks_ctrl.Add(72, uni7_2)
-            ks_ctrl.Add(73, uni7_3)
-            ks_ctrl.Add(74, uni7_4)
-            ks_ctrl.Add(75, uni7_5)
-            ks_ctrl.Add(76, uni7_6)
-            ks_ctrl.Add(77, uni7_7)
-            ks_ctrl.Add(78, uni7_8)
-            ks_ctrl.Add(81, uni8_1)
-            ks_ctrl.Add(82, uni8_2)
-            ks_ctrl.Add(83, uni8_3)
-            ks_ctrl.Add(84, uni8_4)
-            ks_ctrl.Add(85, uni8_5)
-            ks_ctrl.Add(86, uni8_6)
-            ks_ctrl.Add(87, uni8_7)
-            ks_ctrl.Add(88, uni8_8)
-
-            '키사운드 레이아웃 비활성화
-            PadLayoutPanel.Enabled = False
-            btnPad_chain1.Enabled = False
-            btnPad_chain2.Enabled = False
-            btnPad_chain3.Enabled = False
-            btnPad_chain4.Enabled = False
-            btnPad_chain5.Enabled = False
-            btnPad_chain6.Enabled = False
-            btnPad_chain7.Enabled = False
-            btnPad_chain8.Enabled = False
-            keySoundLayout = False
-
-            'keyLED 8x8 + Top Lights 유니패드 버튼
-            kl_ctrl.Add(11, u11)
-            kl_ctrl.Add(12, u12)
-            kl_ctrl.Add(13, u13)
-            kl_ctrl.Add(14, u14)
-            kl_ctrl.Add(15, u15)
-            kl_ctrl.Add(16, u16)
-            kl_ctrl.Add(17, u17)
-            kl_ctrl.Add(18, u18)
-            kl_ctrl.Add(21, u21)
-            kl_ctrl.Add(22, u22)
-            kl_ctrl.Add(23, u23)
-            kl_ctrl.Add(24, u24)
-            kl_ctrl.Add(25, u25)
-            kl_ctrl.Add(26, u26)
-            kl_ctrl.Add(27, u27)
-            kl_ctrl.Add(28, u28)
-            kl_ctrl.Add(31, u31)
-            kl_ctrl.Add(32, u32)
-            kl_ctrl.Add(33, u33)
-            kl_ctrl.Add(34, u34)
-            kl_ctrl.Add(35, u35)
-            kl_ctrl.Add(36, u36)
-            kl_ctrl.Add(37, u37)
-            kl_ctrl.Add(38, u38)
-            kl_ctrl.Add(41, u41)
-            kl_ctrl.Add(42, u42)
-            kl_ctrl.Add(43, u43)
-            kl_ctrl.Add(44, u44)
-            kl_ctrl.Add(45, u45)
-            kl_ctrl.Add(46, u46)
-            kl_ctrl.Add(47, u47)
-            kl_ctrl.Add(48, u48)
-            kl_ctrl.Add(51, u51)
-            kl_ctrl.Add(52, u52)
-            kl_ctrl.Add(53, u53)
-            kl_ctrl.Add(54, u54)
-            kl_ctrl.Add(55, u55)
-            kl_ctrl.Add(56, u56)
-            kl_ctrl.Add(57, u57)
-            kl_ctrl.Add(58, u58)
-            kl_ctrl.Add(61, u61)
-            kl_ctrl.Add(62, u62)
-            kl_ctrl.Add(63, u63)
-            kl_ctrl.Add(64, u64)
-            kl_ctrl.Add(65, u65)
-            kl_ctrl.Add(66, u66)
-            kl_ctrl.Add(67, u67)
-            kl_ctrl.Add(68, u68)
-            kl_ctrl.Add(71, u71)
-            kl_ctrl.Add(72, u72)
-            kl_ctrl.Add(73, u73)
-            kl_ctrl.Add(74, u74)
-            kl_ctrl.Add(75, u75)
-            kl_ctrl.Add(76, u76)
-            kl_ctrl.Add(77, u77)
-            kl_ctrl.Add(78, u78)
-            kl_ctrl.Add(81, u81)
-            kl_ctrl.Add(82, u82)
-            kl_ctrl.Add(83, u83)
-            kl_ctrl.Add(84, u84)
-            kl_ctrl.Add(85, u85)
-            kl_ctrl.Add(86, u86)
-            kl_ctrl.Add(87, u87)
-            kl_ctrl.Add(88, u88)
-
-            'UniPad MC Buttons
-            kl_ctrl.Add("mc1", mc1)
-            kl_ctrl.Add("mc2", mc2)
-            kl_ctrl.Add("mc3", mc3)
-            kl_ctrl.Add("mc4", mc4)
-            kl_ctrl.Add("mc5", mc5)
-            kl_ctrl.Add("mc6", mc6)
-            kl_ctrl.Add("mc7", mc7)
-            kl_ctrl.Add("mc8", mc8)
-            kl_ctrl.Add("mc9", mc9)
-            kl_ctrl.Add("mc10", mc10)
-            kl_ctrl.Add("mc11", mc11)
-            kl_ctrl.Add("mc12", mc12)
-            kl_ctrl.Add("mc13", mc13)
-            kl_ctrl.Add("mc14", mc14)
-            kl_ctrl.Add("mc15", mc15)
-            kl_ctrl.Add("mc16", mc16)
-            kl_ctrl.Add("mc17", mc17)
-            kl_ctrl.Add("mc18", mc18)
-            kl_ctrl.Add("mc19", mc19)
-            kl_ctrl.Add("mc20", mc20)
-            kl_ctrl.Add("mc21", mc21)
-            kl_ctrl.Add("mc22", mc22)
-            kl_ctrl.Add("mc23", mc23)
-            kl_ctrl.Add("mc24", mc24)
-            kl_ctrl.Add("mc25", mc25)
-            kl_ctrl.Add("mc26", mc26)
-            kl_ctrl.Add("mc27", mc27)
-            kl_ctrl.Add("mc28", mc28)
-            kl_ctrl.Add("mc29", mc29)
-            kl_ctrl.Add("mc30", mc30)
-            kl_ctrl.Add("mc31", mc31)
-            kl_ctrl.Add("mc32", mc32)
-#End Region
-#Region "패드 설정"
-            'keyLED Pad64.
-            For i = 1 To 32 'Width - 2, Height - 1 빼주는 이유는 빼주지 않으면 LED가 어긋나게 실행이 되기 때문이다.
-                Dim circle As New GraphicsPath
-                circle.AddEllipse(New Rectangle(0, 0, kl_ctrl("mc" & i).Size.Width - 2, kl_ctrl("mc" & i).Size.Height - 1))
-                kl_ctrl("mc" & i).Region = New Region(circle)
-                kl_ctrl("mc" & i).ForeColor = Color.Gray
-            Next
-#End Region
-
-            w8t4abl = String.Empty
             Me.KeyPreview = True
             OpenProjectOnce = ProjectOpenMethod.Smart
 
@@ -1262,228 +993,6 @@ Public Class MainProject
         Return rName
     End Function
 
-    Private Sub ShowkeySoundLayout()
-        If keySoundLayout = False Then
-            clskeySoundLayout()
-        End If
-
-        For x As Integer = 1 To 8
-            For y As Integer = 1 To 8
-                ks_ctrl(x & y).Text = String.Empty
-                ks_ctrl(x & y).BackColor = Color.Gray
-                ks_ctrl(x & y).ForeColor = Color.Black
-            Next
-        Next
-
-        keySound_CChain = 1
-        BGW_keySoundLayout.RunWorkerAsync()
-    End Sub
-
-    Private Sub clskeySoundLayout()
-        PadLayoutPanel.Enabled = True
-        btnPad_chain1.Enabled = True
-        btnPad_chain2.Enabled = True
-        btnPad_chain3.Enabled = True
-        btnPad_chain4.Enabled = True
-        btnPad_chain5.Enabled = True
-        btnPad_chain6.Enabled = True
-        btnPad_chain7.Enabled = True
-        btnPad_chain8.Enabled = True
-        keySoundLayout = True
-    End Sub
-
-    Private Sub BGW_keySoundLayout_DoWork(sender As Object, e As DoWorkEventArgs) Handles BGW_keySoundLayout.DoWork
-        Try
-
-            Dim btnText As String = ""
-            Dim ksnd As String = Application.StartupPath & "\Workspace\unipack\keySound"
-            Dim ksTmpTXT As String = File.ReadAllText(ksnd)
-            If String.IsNullOrWhiteSpace(ksTmpTXT) = False Then
-                For Each strLine As String In SplitbyLine(ksTmpTXT) 'String을 각 라인마다 자름.
-                    If String.IsNullOrWhiteSpace(strLine) = False Then
-
-                        Select Case Integer.Parse(Mid(strLine, 1, 1))
-                            Case 1 To 8
-                                'Continue.
-                            Case Else
-                                MessageBox.Show("Error! - Chain " & keySound_CChain.ToString & " doesn't exists in keySound. (Ex: Check Failed Chain " & Mid(strLine, 1, 1) & ", Full: " & strLine & ")", Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                                Exit Sub
-                        End Select
-
-                        If CInt(Mid(strLine, 1, 1)) = keySound_CChain Then
-
-                            ksUniPack_SelectedChain = keySound_CChain
-                            ksUniPack_X = CInt(Mid(strLine, 3, 1))
-                            ksUniPack_Y = CInt(Mid(strLine, 5, 1))
-
-                            'ex: 1 1 1 001.wav 1 (같은 사운드 다중 매핑 적용)
-                            If Strings.Right(strLine, 4) = ".mp3" Then '.mp3의 경우
-                                keySound_Mapping = 1
-                            ElseIf Strings.Right(strLine, 4) = ".wav" Then '.wav의 경우
-                                keySound_Mapping = 1
-                            Else
-                                keySound_SameM = Strings.Right(strLine, 1) '반복문이 1 이상의 경우
-                            End If
-
-                            'ex: 1 1 1 001.wav, 1 1 1 002.wav (다른 사운드 다중 매핑 적용, 추천)
-                            keySound_DifM = Cntstr(ksTmpTXT, ksUniPack_SelectedChain & " " & ksUniPack_X & " " & ksUniPack_Y & " ")
-
-                            If keySound_Mapping > 0 Then '기본적인 사운드 매핑.
-                                btnText = keySound_Mapping
-                            End If
-
-                            If keySound_SameM > 0 Then
-                                btnText = keySound_SameM
-                            End If
-
-                            If keySound_DifM > 1 Then '사운드 다중 매핑.
-                                If keySound_SameM > 0 Then
-                                    btnText = keySound_DifM + keySound_SameM
-                                Else
-                                    btnText = keySound_DifM
-                                End If
-                            End If
-
-                            Invoke(Sub()
-                                       ks_ctrl(ksUniPack_X & ksUniPack_Y).BackColor = Color.Green
-                                       ks_ctrl(ksUniPack_X & ksUniPack_Y).Text = btnText
-                                   End Sub)
-
-                        Else
-                            Continue For
-                        End If
-                    Else
-                        Continue For
-                    End If
-                Next
-            Else
-                MessageBox.Show("Error: keySound doesn't exists.", Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                Exit Sub
-            End If
-
-        Catch ex As Exception
-            If IsGreatExMode Then
-                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Else
-                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End If
-        End Try
-    End Sub
-
-    Private Sub keySound_ChainChanged(sender As Object, e As EventArgs) Handles btnPad_chain1.Click, btnPad_chain2.Click, btnPad_chain3.Click, btnPad_chain4.Click, btnPad_chain5.Click, btnPad_chain6.Click, btnPad_chain7.Click, btnPad_chain8.Click
-        '선택한 체인 선언.
-        Dim ClickedBtn As Button = CType(sender, Button)
-        keySound_CChain = CInt(ClickedBtn.Name.Substring(12, 1))
-
-        '선택한 체인으로 레이아웃 새로고침.
-        If keySoundLayout = True Then
-
-            For x As Integer = 1 To 8
-                For y As Integer = 1 To 8
-                    ks_ctrl(x & y).Text = String.Empty
-                    ks_ctrl(x & y).BackColor = Color.Gray
-                    ks_ctrl(x & y).ForeColor = Color.Black
-                Next
-            Next
-
-            BGW_keySoundLayout.RunWorkerAsync()
-
-        End If
-    End Sub
-
-    Private Sub UniPadButtons_Click(sender As Object, e As EventArgs) Handles uni1_1.MouseDown, uni1_2.MouseDown, uni1_3.MouseDown, uni1_4.MouseDown, uni1_5.MouseDown, uni1_6.MouseDown, uni1_7.MouseDown, uni1_8.MouseDown, uni2_1.MouseDown, uni2_2.MouseDown, uni2_3.MouseDown, uni2_4.MouseDown, uni2_5.MouseDown, uni2_6.MouseDown, uni2_7.MouseDown, uni2_8.MouseDown, uni3_1.MouseDown, uni3_2.MouseDown, uni3_3.MouseDown, uni3_4.MouseDown, uni3_5.MouseDown, uni3_6.MouseDown, uni3_7.MouseDown, uni3_8.MouseDown, uni4_1.MouseDown, uni4_2.MouseDown, uni4_3.MouseDown, uni4_4.MouseDown, uni4_5.MouseDown, uni4_6.MouseDown, uni4_7.MouseDown, uni4_8.MouseDown, uni5_1.MouseDown, uni5_2.MouseDown, uni5_3.MouseDown, uni5_4.MouseDown, uni5_5.MouseDown, uni5_6.MouseDown, uni5_7.MouseDown, uni5_8.MouseDown, uni6_1.MouseDown, uni6_2.MouseDown, uni6_3.MouseDown, uni6_4.MouseDown, uni6_5.MouseDown, uni6_6.MouseDown, uni6_7.MouseDown, uni6_8.MouseDown, uni7_1.MouseDown, uni7_2.MouseDown, uni7_3.MouseDown, uni7_4.MouseDown, uni7_5.MouseDown, uni7_6.MouseDown, uni7_7.MouseDown, uni7_8.MouseDown, uni8_1.MouseDown, uni8_2.MouseDown, uni8_3.MouseDown, uni8_4.MouseDown, uni8_5.MouseDown, uni8_6.MouseDown, uni8_7.MouseDown, uni8_8.MouseDown
-        PlaykeySound(sender)
-    End Sub
-
-    Private Sub UniPadButtons_Loop0(sender As Object, e As EventArgs) Handles uni1_1.MouseUp, uni1_2.MouseUp, uni1_3.MouseUp, uni1_4.MouseUp, uni1_5.MouseUp, uni1_6.MouseUp, uni1_7.MouseUp, uni1_8.MouseUp, uni2_1.MouseUp, uni2_2.MouseUp, uni2_3.MouseUp, uni2_4.MouseUp, uni2_5.MouseUp, uni2_6.MouseUp, uni2_7.MouseUp, uni2_8.MouseUp, uni3_1.MouseUp, uni3_2.MouseUp, uni3_3.MouseUp, uni3_4.MouseUp, uni3_5.MouseUp, uni3_6.MouseUp, uni3_7.MouseUp, uni3_8.MouseUp, uni4_1.MouseUp, uni4_2.MouseUp, uni4_3.MouseUp, uni4_4.MouseUp, uni4_5.MouseUp, uni4_6.MouseUp, uni4_7.MouseUp, uni4_8.MouseUp, uni5_1.MouseUp, uni5_2.MouseUp, uni5_3.MouseUp, uni5_4.MouseUp, uni5_5.MouseUp, uni5_6.MouseUp, uni5_7.MouseUp, uni5_8.MouseUp, uni6_1.MouseUp, uni6_2.MouseUp, uni6_3.MouseUp, uni6_4.MouseUp, uni6_5.MouseUp, uni6_6.MouseUp, uni6_7.MouseUp, uni6_8.MouseUp, uni7_1.MouseUp, uni7_2.MouseUp, uni7_3.MouseUp, uni7_4.MouseUp, uni7_5.MouseUp, uni7_6.MouseUp, uni7_7.MouseUp, uni7_8.MouseUp, uni8_1.MouseUp, uni8_2.MouseUp, uni8_3.MouseUp, uni8_4.MouseUp, uni8_5.MouseUp, uni8_6.MouseUp, uni8_7.MouseUp, uni8_8.MouseUp
-        If keySoundLoop = True Then
-            ks_PlayLoop1.controls.stop()
-            ks_PlayLoop2.controls.stop()
-        End If
-    End Sub
-
-    Private Sub ks_Disposing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
-        ks_PlayLoop1.controls.stop()
-        ks_PlayLoop2.controls.stop()
-    End Sub
-
-    Private Sub PlaykeySound(sender As Object)
-        Try
-
-            'keySound 테스트 할 때는 이 변수의 경로를 에이블톤 폴더로 바꿔주세요!
-            Dim sndFile As String = Application.StartupPath & "\Workspace\unipack\sounds"
-
-            Dim ClickedBtn As Button = CType(sender, Button)
-            Dim x As Integer = ClickedBtn.Name.Substring(3, 1)
-            Dim y As Integer = ClickedBtn.Name.Substring(5, 1)
-            Dim WavFile As String
-
-            Dim ksnd As String = Application.StartupPath & "\Workspace\unipack\keySound"
-            Dim ksTmpTXT As String = File.ReadAllText(ksnd)
-            If Not ks_lpn = Cntstr(ksTmpTXT, keySound_CChain & " " & x & " " & y & " ") Then
-                ks_lpu = 1
-            End If
-            ks_lpn = Cntstr(ksTmpTXT, keySound_CChain & " " & x & " " & y & " ")
-
-            If ks_lpn = ks_lpu - 1 Then
-                ks_lpu = 1
-            End If
-
-            For Each strLine As String In SplitbyLine(ksTmpTXT)
-                If strLine.Contains(keySound_CChain & " " & x & " " & y & " ") Then
-
-                    If Not ks_lpu = 1 Then
-                        For i As Integer = 1 To ks_lpu - 1
-                            Continue For
-                        Next
-                    End If
-
-                    For Each WavFileName As String In strLine.Split(" ")
-
-                        If WavFileName.Contains(".wav") Then
-                            WavFile = WavFileName
-                            If File.Exists(sndFile & "\" & WavFile) Then
-                                If Strings.Right(strLine, 4) = ".wav" Then
-                                    Dim a As New WindowsMediaPlayer
-                                    a.URL = sndFile & "\" & WavFile
-                                    a.controls.play()
-
-                                    If keySoundLoop = True Then keySoundLoop = False
-                                ElseIf Strings.Right(strLine, 1) = "1" Then
-                                    Dim a As New WindowsMediaPlayer
-                                    a.URL = sndFile & "\" & WavFile
-                                    a.controls.play()
-
-                                    If keySoundLoop = True Then keySoundLoop = False
-                                ElseIf Strings.Right(strLine, 1) = "0" Then
-                                    ks_PlayLoop1.URL = sndFile & "\" & WavFile
-                                    ks_PlayLoop1.controls.play()
-                                    ks_PlayLoop1.settings.playCount = Integer.MaxValue
-                                    keySoundLoop = True
-
-                                Else
-                                    ks_PlayLoop2.URL = sndFile & "\" & WavFile
-                                    ks_PlayLoop2.controls.play()
-                                    ks_PlayLoop2.settings.playCount = CInt(Strings.Right(strLine, 1))
-                                    If keySoundLoop = True Then keySoundLoop = False
-                                End If
-                            End If
-                        End If
-                    Next
-
-                    ks_lpu += 1
-                End If
-            Next
-
-        Catch ex As Exception
-            If IsGreatExMode Then
-                MessageBox.Show("Error - " & ex.Message & vbNewLine & "Error Message: " & ex.StackTrace, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Else
-                MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End If
-        End Try
-    End Sub
-
     ''' <summary>
     ''' Line by Line으로 문자열을 자릅니다.
     ''' </summary>
@@ -1497,7 +1006,7 @@ Public Class MainProject
         ElseIf Not inputstr.Contains(vbCr) AndAlso inputstr.Contains(vbLf) Then 'Linux (Lf)
             strs = inputstr.Split(vbLf)
         Else 'Windows (CrLf)
-            strs = inputstr.Split(new String() {Environment.NewLine}, StringSplitOptions.None)
+            strs = inputstr.Split(New String() {Environment.NewLine}, StringSplitOptions.None)
         End If
 
         Return strs
@@ -1507,12 +1016,12 @@ Public Class MainProject
         If fileNames.Length > 0 Then
             If showLoadingMessage Then
                 Invoke(Sub()
-                       Loading.Show()
-                       Loading.DPr.Maximum = FileNames.Length
+                           Loading.Show()
+                           Loading.DPr.Maximum = fileNames.Length
 
-                       Loading.Text = My.Resources.Contents.Sound_Open_Title
-                       Loading.DLb.Text = String.Format(My.Resources.Contents.Sound_Open, 0, fileNames.Length)
-                   End Sub)
+                           Loading.Text = My.Resources.Contents.Sound_Open_Title
+                           Loading.DLb.Text = String.Format(My.Resources.Contents.Sound_Open, 0, fileNames.Length)
+                       End Sub)
             End If
 
             If Directory.Exists(ABLETON_SOUNDS_PATH) Then
@@ -1529,14 +1038,14 @@ Public Class MainProject
 
                 If fileExtension = ".wav" Then
                     File.Copy(fileName, $"{ABLETON_SOUNDS_PATH}\{Path.GetFileName(fileName)}", True)
-                    
+
                     If showLoadingMessage Then
                         Invoke(Sub()
-                               Loading.DPr.Style = ProgressBarStyle.Continuous
-                               Loading.DPr.Value += 1
-                               
-                               Loading.DLb.Text = String.Format(My.Resources.Contents.Sound_Open, Loading.DPr.Value, fileNames.Length)
-                           End Sub)
+                                   Loading.DPr.Style = ProgressBarStyle.Continuous
+                                   Loading.DPr.Value += 1
+
+                                   Loading.DLb.Text = String.Format(My.Resources.Contents.Sound_Open, Loading.DPr.Value, fileNames.Length)
+                               End Sub)
                     End If
                 ElseIf fileExtension = ".mp3" Then
                     toConvertSoundList.Add(fileName)
@@ -1552,9 +1061,9 @@ Public Class MainProject
 
                 If showLoadingMessage Then
                     Invoke(Sub()
-                        Loading.DPr.Value += 1
-                        Loading.DLb.Text = String.Format(My.Resources.Contents.Sound_Open, Loading.DPr.Value, fileNames.Length)
-                    End Sub)
+                               Loading.DPr.Value += 1
+                               Loading.DLb.Text = String.Format(My.Resources.Contents.Sound_Open, Loading.DPr.Value, fileNames.Length)
+                           End Sub)
                 End If
             Next
 
@@ -1563,8 +1072,8 @@ Public Class MainProject
 
             If showLoadingMessage Then
                 Invoke(Sub()
-                    Loading.Close()
-                End Sub)
+                           Loading.Close()
+                       End Sub)
 
                 MessageBox.Show(My.Resources.Contents.Sound_Loaded, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
@@ -1736,7 +1245,7 @@ Public Class MainProject
 
             If result = DialogResult.Yes Then
                 Await Task.Run(Sub()
-                    SaveProject(False)
+                                   SaveProject(False)
                                End Sub)
 
             ElseIf result = DialogResult.Cancel Then
@@ -1753,9 +1262,9 @@ Public Class MainProject
         If abl_openedproj AndAlso (abl_openedsnd OrElse abl_openedled) Then
             Dim sfd As New SaveFileDialog()
             Invoke(Sub()
-                sfd.Title = My.Resources.Contents.Project_sfd_Title
-                sfd.Filter = My.Resources.Contents.Project_sfd_Filter
-                sfd.FileName = UniPack_Title
+                       sfd.Title = My.Resources.Contents.Project_sfd_Title
+                       sfd.Filter = My.Resources.Contents.Project_sfd_Filter
+                       sfd.FileName = UniPack_Title
                    End Sub)
 
             Dim sfdResult As DialogResult = Nothing
@@ -1768,9 +1277,9 @@ Public Class MainProject
                 If Directory.Exists(UNIPACK_PROJECT_PATH) Then
                     If wait Then
                         Invoke(Sub()
-                            Loading.Show()
-                            Loading.Text = My.Resources.Contents.Project_Saving_Title
-                            Loading.DLb.Text = My.Resources.Contents.Project_Saving
+                                   Loading.Show()
+                                   Loading.Text = My.Resources.Contents.Project_Saving_Title
+                                   Loading.DLb.Text = My.Resources.Contents.Project_Saving
                                End Sub)
                     End If
 
@@ -1783,7 +1292,7 @@ Public Class MainProject
 
                     If wait Then
                         Invoke(Sub()
-                            Loading.Close()
+                                   Loading.Close()
                                End Sub)
 
                         MessageBox.Show(My.Resources.Contents.Project_Saved, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -1808,10 +1317,10 @@ Public Class MainProject
             Dim IsHaveSound As Boolean = False
             Dim IsHaveLED As Boolean = False
             Invoke(Sub()
-                   IsHaveProject = abl_openedproj
-                   IsHaveSound = abl_openedsnd
-                   IsHaveLED = abl_openedled
-               End Sub)
+                       IsHaveProject = abl_openedproj
+                       IsHaveSound = abl_openedsnd
+                       IsHaveLED = abl_openedled
+                   End Sub)
 
             If IsHaveProject AndAlso IsHaveSound Or IsHaveProject AndAlso IsHaveLED Then
                 Dim infoTitle As String = String.Empty
@@ -1821,15 +1330,15 @@ Public Class MainProject
                 Dim aN As DialogResult
 
                 Invoke(Sub()
-                    sfd.Title = My.Resources.Contents.Project_sfd_Title
-                    sfd.Filter = My.Resources.Contents.Project_sfd_Filter
+                           sfd.Title = My.Resources.Contents.Project_sfd_Title
+                           sfd.Filter = My.Resources.Contents.Project_sfd_Filter
                        End Sub)
                 sfd.FileName = infoTitle
                 sfd.AddExtension = False
 
                 Invoke(Sub()
-                       aN = sfd.ShowDialog()
-                   End Sub)
+                           aN = sfd.ShowDialog()
+                       End Sub)
 
                 If aN = DialogResult.OK Then
                     If My.Computer.FileSystem.DirectoryExists(Application.StartupPath & "\Workspace\unipack") Then
@@ -1913,7 +1422,7 @@ Public Class MainProject
                End Sub)
         End Try
     End Sub
-    #End Region
+#End Region
 
     Private Sub infoTB1_TextChanged(sender As Object, e As EventArgs) Handles infoTB1.TextChanged
         IsSaved = False
@@ -1972,7 +1481,7 @@ Public Class MainProject
                     keyLED_Edit.Close()
                 End If
                 Await Task.Run(Sub()
-                    OpenKeyLED(ofd.FileNames, True)
+                                   OpenKeyLED(ofd.FileNames, True)
                                End Sub)
                 Await ReadyForAutoConvertForKeyLED()
                 keyLEDMIDEX_BetaButton.Enabled = True
@@ -2574,12 +2083,12 @@ Public Class MainProject
 
         If showLoadingMessage Then
             Invoke(Sub()
-                Loading.Show()
-                Loading.Text = My.Resources.Contents.Sound_Converting
-                Loading.DLb.Text = My.Resources.Contents.Sound_Converting
+                       Loading.Show()
+                       Loading.Text = My.Resources.Contents.Sound_Converting
+                       Loading.DLb.Text = My.Resources.Contents.Sound_Converting
                    End Sub)
         End If
-        
+
         Dim doc As New XmlDocument()
         doc.Load(apfPath)
 
@@ -2593,7 +2102,7 @@ Public Class MainProject
 
         If showLoadingMessage Then
             Invoke(Sub()
-                Loading.DLb.Text = String.Format(My.Resources.Contents.Sound_Verifying, 0, instrumentBranchList.Count)
+                       Loading.DLb.Text = String.Format(My.Resources.Contents.Sound_Verifying, 0, instrumentBranchList.Count)
                    End Sub)
         End If
 
@@ -2660,14 +2169,14 @@ Public Class MainProject
 
             If showLoadingMessage Then
                 Invoke(Sub()
-                    Loading.DLb.Text = String.Format(My.Resources.Contents.Sound_Verifying, i + 1, instrumentBranchList.Count)
+                           Loading.DLb.Text = String.Format(My.Resources.Contents.Sound_Verifying, i + 1, instrumentBranchList.Count)
                        End Sub)
             End If
         Next
 
         If showLoadingMessage Then
             Invoke(Sub()
-                Loading.Text = My.Resources.Contents.Sound_Converting
+                       Loading.Text = My.Resources.Contents.Sound_Converting
                    End Sub)
         End If
 
@@ -2679,53 +2188,53 @@ Public Class MainProject
 
             Dim needToExit = False
             Dim checkChainAction As Action(Of SoundNodeList, List(Of SoundNodeList)) = Sub(node As SoundNodeList, parentNode As List(Of SoundNodeList))
-               If needToExit Then
-                   Return
-               End If
+                                                                                           If needToExit Then
+                                                                                               Return
+                                                                                           End If
 
-               If node.Name <> "InstrumentRack" Then
-                   Dim isRealChain = False '현재 체인을 바꿀 수 있는 체인인가?
-                   Dim instrumentRack As List(Of SoundNodeList) = parentNode.Where(Function(x) x.Name = "InstrumentRack").ToList()
+                                                                                           If node.Name <> "InstrumentRack" Then
+                                                                                               Dim isRealChain = False '현재 체인을 바꿀 수 있는 체인인가?
+                                                                                               Dim instrumentRack As List(Of SoundNodeList) = parentNode.Where(Function(x) x.Name = "InstrumentRack").ToList()
 
-                    If instrumentRack.Count > 0 Then
-                        Dim macroControl As XmlNode = instrumentRack.First().Node.Item("MacroControls.0")
-                        Dim keyMidi As XmlNode = macroControl.Item("KeyMidi")
+                                                                                               If instrumentRack.Count > 0 Then
+                                                                                                   Dim macroControl As XmlNode = instrumentRack.First().Node.Item("MacroControls.0")
+                                                                                                   Dim keyMidi As XmlNode = macroControl.Item("KeyMidi")
 
-                        If Not IsNothing(keyMidi) Then
-                            Dim lowerRangeNote As Integer = Integer.Parse(keyMidi.Item("LowerRangeNote").GetAttribute("Value"))
-                            Dim upperRangeNote As Integer = Integer.Parse(keyMidi.Item("UpperRangeNote").GetAttribute("Value"))
+                                                                                                   If Not IsNothing(keyMidi) Then
+                                                                                                       Dim lowerRangeNote As Integer = Integer.Parse(keyMidi.Item("LowerRangeNote").GetAttribute("Value"))
+                                                                                                       Dim upperRangeNote As Integer = Integer.Parse(keyMidi.Item("UpperRangeNote").GetAttribute("Value"))
 
-                            If upperRangeNote - lowerRangeNote = 7 Then 'Chain Selector 부분
-                                isRealChain = True
-                            ElseIf upperRangeNote = -1 AndAlso lowerRangeNote = -1 Then 'Chain Selector Map (Beta)
-                                isRealChain = True
-                            End If
-                        End If
-                    End If
+                                                                                                       If upperRangeNote - lowerRangeNote = 7 Then 'Chain Selector 부분
+                                                                                                           isRealChain = True
+                                                                                                       ElseIf upperRangeNote = -1 AndAlso lowerRangeNote = -1 Then 'Chain Selector Map (Beta)
+                                                                                                           isRealChain = True
+                                                                                                       End If
+                                                                                                   End If
+                                                                                               End If
 
-                   Dim sounds As KeySoundStructure() = GetKeySoundsFromInstrumentBranch(node, drumBranch, mm)
-                    
-                    For Each sound In sounds
-                        If isRealChain Then
-                            chain = sound.Chain
-                        End If
+                                                                                               Dim sounds As KeySoundStructure() = GetKeySoundsFromInstrumentBranch(node, drumBranch, mm)
 
-                       sound.Chain = chain
-                       keySoundList.Add(sound)
-                    Next
+                                                                                               For Each sound In sounds
+                                                                                                   If isRealChain Then
+                                                                                                       chain = sound.Chain
+                                                                                                   End If
 
-                   'NextOfNext InstrumentRack
-                   If sounds.Length = 0 AndAlso node.NodeList.Count > 0 AndAlso isRealChain Then
-                       chain = Integer.Parse(node.Node.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1
-                   End If
-               End If
-                                                               End Sub
+                                                                                                   sound.Chain = chain
+                                                                                                   keySoundList.Add(sound)
+                                                                                               Next
+
+                                                                                               'NextOfNext InstrumentRack
+                                                                                               If sounds.Length = 0 AndAlso node.NodeList.Count > 0 AndAlso isRealChain Then
+                                                                                                   chain = Integer.Parse(node.Node.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1
+                                                                                               End If
+                                                                                           End If
+                                                                                       End Sub
 
             GetSoundNodeInLoop(soundList, checkChainAction)
 
             If showLoadingMessage Then
                 Invoke(Sub()
-                    Loading.Close()
+                           Loading.Close()
                        End Sub)
 
                 MessageBox.Show(My.Resources.Contents.Sound_Converted, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -2734,7 +2243,7 @@ Public Class MainProject
         Else
             If showLoadingMessage Then
                 Invoke(Sub()
-                    Loading.Close()
+                           Loading.Close()
                        End Sub)
 
                 MessageBox.Show(My.Resources.Contents.Sound_Not_Found, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -2747,7 +2256,7 @@ Public Class MainProject
 
     Public Shared Function GetKeySoundsFromInstrumentBranch(node As SoundNodeList, ByRef drumBranch As XmlNode, ByRef mm As MultiMapping) As KeySoundStructure()
         Dim soundList As New List(Of KeySoundStructure)
-        
+
         Try
             Dim isRandom = False '멀티매핑 인가?
 
@@ -2769,7 +2278,7 @@ Public Class MainProject
 
                     If Not IsNothing(midiRandomNode) Then
                         Dim isActive As Boolean = Boolean.Parse(midiRandomNode.Item("On").Item("Manual").GetAttribute("Value"))
-                            
+
                         If isActive Then
                             Dim choices As Integer = Integer.Parse(midiRandomNode.Item("Choices").Item("Manual").GetAttribute("Value"))
                             Dim randomMinNoteNumber = 0
@@ -2823,7 +2332,7 @@ Public Class MainProject
 
                 If (fp.Start <> TimeSpan.Zero OrElse fp.End <> TimeSpan.Zero) AndAlso File.Exists(filePath) Then
                     Dim waveFile As New WaveFileReader(filePath)
-                    
+
                     If fp.Start <> TimeSpan.Zero OrElse Math.Abs(Convert.ToInt32(Math.Truncate(waveFile.TotalTime.TotalSeconds)) - Convert.ToInt32(Math.Truncate(fp.End.TotalSeconds))) >= 1 Then
                         startTime = fp.Start
                         endTime = fp.End
@@ -2844,7 +2353,7 @@ Public Class MainProject
             'Get Position
             If Not IsNothing(branchInfo) Then
                 Dim noteNumber As Integer = Integer.Parse(branchInfo.Item("ReceivingNote").GetAttribute("Value"))
-                
+
                 minNoteNumber = noteNumber
                 maxNoteNumber = noteNumber
 
@@ -2872,12 +2381,12 @@ Public Class MainProject
                             Case "keyLED"
                                 x = A2U.keyLED_MIDEX.GX_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, noteNumber)
                                 y = A2U.keyLED_MIDEX.GY_keyLED(keyLED_NoteEvents.NoteNumber_DrumRackLayout, noteNumber)
-                        
+
                         End Select
 
-                        If x <> - 1 AndAlso y <> - 1 Then
+                        If x <> -1 AndAlso y <> -1 Then
                             Dim sound As New KeySoundStructure(chain, x, y, soundName, loopNumber)
-                            
+
                             'Trimming Sound
                             If startTime <> TimeSpan.Zero OrElse endTime <> TimeSpan.Zero Then
                                 sound.StartTime = startTime
@@ -2885,7 +2394,7 @@ Public Class MainProject
                             End If
 
                             soundList.Add(sound)
-                        End if
+                        End If
                     Next
                 Next
             End If
@@ -2900,7 +2409,7 @@ Public Class MainProject
     Public Shared Function GetInstrumentBranches(branchNode As XmlNodeList) As List(Of List(Of InstrumentBranch))
         Dim instrumentBranchList As New List(Of List(Of InstrumentBranch))
 
-        For i  = 0 To branchNode.Count - 1
+        For i = 0 To branchNode.Count - 1
             Dim soundNode As XmlNode = branchNode(i)
             Dim xpaths As String() = GetXpathsForKeySound(GetXpathForXml(soundNode))
 
@@ -2966,7 +2475,7 @@ Public Class MainProject
 
             xpathList.Add(xpaths(i))
         Next
-        
+
         Return xpathList.ToArray()
     End Function
 
@@ -2999,8 +2508,8 @@ Public Class MainProject
 
                 If Directory.Exists(Application.StartupPath & "\Workspace\unipack\sounds") Then
                     Invoke(Sub()
-                        Loading.DLb.Text = My.Resources.Contents.Project_DeletingTempoaryFiles
-                       End Sub)
+                               Loading.DLb.Text = My.Resources.Contents.Project_DeletingTempoaryFiles
+                           End Sub)
 
                     Directory.Delete(UNIPACK_SOUNDS_PATH, True)
                     Directory.CreateDirectory(UNIPACK_SOUNDS_PATH)
@@ -3187,9 +2696,6 @@ Public Class MainProject
                     curid += 1
                 Next
                 File.WriteAllText(Application.StartupPath & "\Workspace\unipack\keySound", str)
-                UI(Sub()
-                       ShowkeySoundLayout()
-                   End Sub)
 
                 IsWorking = False
                 ks_Converted = True
@@ -3219,13 +2725,13 @@ Public Class MainProject
 #End Region
 #Region "Trimming Sounds (Deprecated, v1)"
     <Obsolete("This method is deprecated, use ConvertKeySound_v2() instead.")>
-    Private Sub TrimSounds_DeprecatedVersion() 
+    Private Sub TrimSounds_DeprecatedVersion()
         Try
             If IsWorking = False AndAlso abl_openedproj AndAlso abl_openedsnd Then
                 IsWorking = True
 
                 Invoke(Sub()
-                    Loading.DLb.Text = My.Resources.Contents.Project_DeletingTempoaryFiles
+                           Loading.DLb.Text = My.Resources.Contents.Project_DeletingTempoaryFiles
                        End Sub)
 
                 If Directory.Exists(Application.StartupPath & "\Workspace\unipack\sounds") Then
@@ -3345,13 +2851,13 @@ Public Class MainProject
         Dim setNode As XmlNodeList
 
         Invoke(Sub()
-            Loading.Show()
+                   Loading.Show()
 
-            Loading.Text = My.Resources.Contents.LED_Converting_Title
-            Loading.DLb.Text = My.Resources.Contents.LED_Converting
-        End Sub)
+                   Loading.Text = My.Resources.Contents.LED_Converting_Title
+                   Loading.DLb.Text = My.Resources.Contents.LED_Converting
+               End Sub)
 
-        doc.Load(AbletonProjectFilePath)
+        doc.Load(abletonProjectFilePath)
         setNode = doc.GetElementsByTagName("MidiEffectBranch")
 
         Dim errSb As New StringBuilder(255)
@@ -3382,7 +2888,7 @@ Public Class MainProject
 
                 Dim branchesInNodeList As List(Of LEDNodeList)
                 branchesInNodeList = nodeListInNode.Where(Function(x) x.Name = "MidiEffectBranch" AndAlso x.Id = branch.Id).ToList()
-                
+
                 If branchesInNodeList.Count = 0 Then '추가
                     Dim nodeList As New LEDNodeList("MidiEffectBranch", branch.Id, branch.Node)
 
@@ -3406,12 +2912,12 @@ Public Class MainProject
             Next
 
             Invoke(Sub()
-                Loading.DLb.Text = String.Format(My.Resources.Contents.LED_Verifying, i + 1, midiEffectBranchList.Count)
+                       Loading.DLb.Text = String.Format(My.Resources.Contents.LED_Verifying, i + 1, midiEffectBranchList.Count)
                    End Sub)
         Next
 
         Invoke(Sub()
-            Loading.DLb.Text = My.Resources.Contents.LED_Converting
+                   Loading.DLb.Text = My.Resources.Contents.LED_Converting
                End Sub)
 
         If LEDList.Count > 0 Then
@@ -3424,113 +2930,113 @@ Public Class MainProject
             Dim mm As MultiMapping = MultiMapping.Empty
 
             Dim checkChainAction As Action(Of LEDNodeList, List(Of LEDNodeList), Integer) = Sub(node As LEDNodeList, parentNode As List(Of LEDNodeList), indent As Integer)
-                If needToExit Then
-                    Return
-                End If
-                
-                If node.Name = "MidiEffectBranch" Then
-                    Dim isRealChain = False '현재 체인을 바꿀 수 있는 체인인가?
+                                                                                                If needToExit Then
+                                                                                                    Return
+                                                                                                End If
 
-                    Dim midiEffectRack As List(Of LEDNodeList) = parentNode.Where(Function(x) x.Name = "MidiEffectRack").ToList()
+                                                                                                If node.Name = "MidiEffectBranch" Then
+                                                                                                    Dim isRealChain = False '현재 체인을 바꿀 수 있는 체인인가?
 
-                    If midiEffectRack.Count > 0 Then
-                        Dim macroControl As XmlNode = midiEffectRack.First().Node.Item("MacroControls.0")
-                        Dim keyMidi As XmlNode = macroControl.Item("KeyMidi")
+                                                                                                    Dim midiEffectRack As List(Of LEDNodeList) = parentNode.Where(Function(x) x.Name = "MidiEffectRack").ToList()
 
-                        If Not IsNothing(keyMidi) Then
-                            Dim lowerRangeNote As Integer = Integer.Parse(keyMidi.Item("LowerRangeNote").GetAttribute("Value"))
-                            Dim upperRangeNote As Integer = Integer.Parse(keyMidi.Item("UpperRangeNote").GetAttribute("Value"))
+                                                                                                    If midiEffectRack.Count > 0 Then
+                                                                                                        Dim macroControl As XmlNode = midiEffectRack.First().Node.Item("MacroControls.0")
+                                                                                                        Dim keyMidi As XmlNode = macroControl.Item("KeyMidi")
 
-                            If upperRangeNote - lowerRangeNote = 7 Then 'Chain Selector 부분
-                                isRealChain = True
-                            End If
-                        End If
-                    End If
+                                                                                                        If Not IsNothing(keyMidi) Then
+                                                                                                            Dim lowerRangeNote As Integer = Integer.Parse(keyMidi.Item("LowerRangeNote").GetAttribute("Value"))
+                                                                                                            Dim upperRangeNote As Integer = Integer.Parse(keyMidi.Item("UpperRangeNote").GetAttribute("Value"))
 
-                    '플러그인 자동 인식
-                    If Not isFoundPlugin Then
-                        Try
-                            Dim pluginNameInXml As String = node.Node.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect")?.Item("SourceContext")?.Item("Value")?.Item("BranchSourceContext")?.Item("OriginalFileRef")?.Item("FileRef")?.Item("Name")?.GetAttribute("Value")
-                            
-                            If String.IsNullOrWhiteSpace(pluginNameInXml) Then
-                                pluginNameInXml = node.Node.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect")?.Item("PatchSlot")?.Item("Value")?.Item("MxDPatchRef")?.Item("FileRef")?.Item("Name").GetAttribute("Value")
-                            End If
-                            pluginName = GetPluginForKeyLED(pluginNameInXml)
+                                                                                                            If upperRangeNote - lowerRangeNote = 7 Then 'Chain Selector 부분
+                                                                                                                isRealChain = True
+                                                                                                            End If
+                                                                                                        End If
+                                                                                                    End If
 
-                            If pluginName = Plugins.None Then
-                                isFoundPlugin = False
-                            Else
-                                isFoundPlugin = True
-                            End If
+                                                                                                    '플러그인 자동 인식
+                                                                                                    If Not isFoundPlugin Then
+                                                                                                        Try
+                                                                                                            Dim pluginNameInXml As String = node.Node.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect")?.Item("SourceContext")?.Item("Value")?.Item("BranchSourceContext")?.Item("OriginalFileRef")?.Item("FileRef")?.Item("Name")?.GetAttribute("Value")
 
-                        Catch ex As NullReferenceException
-                            isFoundPlugin = False
-                            pluginName = Plugins.None
-                        End Try
-                    End If
+                                                                                                            If String.IsNullOrWhiteSpace(pluginNameInXml) Then
+                                                                                                                pluginNameInXml = node.Node.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MxDeviceMidiEffect")?.Item("PatchSlot")?.Item("Value")?.Item("MxDPatchRef")?.Item("FileRef")?.Item("Name").GetAttribute("Value")
+                                                                                                            End If
+                                                                                                            pluginName = GetPluginForKeyLED(pluginNameInXml)
 
-                    Dim toSaveLEDList As KeyLEDStructure() = {}
+                                                                                                            If pluginName = Plugins.None Then
+                                                                                                                isFoundPlugin = False
+                                                                                                            Else
+                                                                                                                isFoundPlugin = True
+                                                                                                            End If
 
-                    Select Case pluginName
-                        Case Plugins.MidiExtension
-                            If _midiExtensionMapping.Count = 0 Then
-                                GetMappingFromOfd()
+                                                                                                        Catch ex As NullReferenceException
+                                                                                                            isFoundPlugin = False
+                                                                                                            pluginName = Plugins.None
+                                                                                                        End Try
+                                                                                                    End If
 
-                                If _midiExtensionMapping.Count = 0 Then
-                                    needToExit = True
-                                    Return
-                                End If
-                            End If
+                                                                                                    Dim toSaveLEDList As KeyLEDStructure() = {}
 
-                            toSaveLEDList = ConvertKeyLEDForMidiExtension_v2(node.Node, mm, indent, _midiExtensionMapping)
+                                                                                                    Select Case pluginName
+                                                                                                        Case Plugins.MidiExtension
+                                                                                                            If _midiExtensionMapping.Count = 0 Then
+                                                                                                                GetMappingFromOfd()
 
-                        Case Plugins.MidiExt, Plugins.MidiFire, Plugins.Lightweight
-                            toSaveLEDList = ConvertKeyLEDForMidiFire_v2(node.Node, mm, indent)
+                                                                                                                If _midiExtensionMapping.Count = 0 Then
+                                                                                                                    needToExit = True
+                                                                                                                    Return
+                                                                                                                End If
+                                                                                                            End If
 
-                    End Select
-                    
-                    Dim midiEffectBranchChildNodeList As List(Of LEDNodeList) = node.NodeList.Where(Function(x) x.Name = "MidiEffectBranch").ToList()
+                                                                                                            toSaveLEDList = ConvertKeyLEDForMidiExtension_v2(node.Node, mm, indent, _midiExtensionMapping)
 
-                    If midiEffectBranchChildNodeList.Count > 0 AndAlso mm.CurrentCount > 0 AndAlso mm.Count <> midiEffectBranchChildNodeList.Count Then
-                        mm.IsStrange = True 'Insufficient / Emptyspace 문제점
-                        toSaveLEDList = SupportMMKeyLED(node.NodeList, mm, pluginName)
-                    ElseIf midiEffectBranchChildNodeList.Count > 0 AndAlso mm.Count > 0 AndAlso mm.Count = midiEffectBranchChildNodeList.Count Then
-                        toSaveLEDList = SupportMMKeyLED(node.NodeList, mm, pluginName) 'Swapping / Normal
-                    Else
-                        mm.IsStrange = False
-                    End If
+                                                                                                        Case Plugins.MidiExt, Plugins.MidiFire, Plugins.Lightweight
+                                                                                                            toSaveLEDList = ConvertKeyLEDForMidiFire_v2(node.Node, mm, indent)
 
-                    For Each led In toSaveLEDList
-                        If isRealChain Then
-                            chain = led.Chain
-                        End If
+                                                                                                    End Select
 
-                        led.Chain = chain
-                        convertedLEDList.Add(led)
-                    Next
+                                                                                                    Dim midiEffectBranchChildNodeList As List(Of LEDNodeList) = node.NodeList.Where(Function(x) x.Name = "MidiEffectBranch").ToList()
 
-                    'NextOfNext MidiEffectRack
-                    If toSaveLEDList.Length = 0 AndAlso node.NodeList.Count > 0 AndAlso isRealChain Then
-                        chain = Integer.Parse(node.Node.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1
-                    End If
-                End If
-                                                                      End Sub
+                                                                                                    If midiEffectBranchChildNodeList.Count > 0 AndAlso mm.CurrentCount > 0 AndAlso mm.Count <> midiEffectBranchChildNodeList.Count Then
+                                                                                                        mm.IsStrange = True 'Insufficient / Emptyspace 문제점
+                                                                                                        toSaveLEDList = SupportMMKeyLED(node.NodeList, mm, pluginName)
+                                                                                                    ElseIf midiEffectBranchChildNodeList.Count > 0 AndAlso mm.Count > 0 AndAlso mm.Count = midiEffectBranchChildNodeList.Count Then
+                                                                                                        toSaveLEDList = SupportMMKeyLED(node.NodeList, mm, pluginName) 'Swapping / Normal
+                                                                                                    Else
+                                                                                                        mm.IsStrange = False
+                                                                                                    End If
+
+                                                                                                    For Each led In toSaveLEDList
+                                                                                                        If isRealChain Then
+                                                                                                            chain = led.Chain
+                                                                                                        End If
+
+                                                                                                        led.Chain = chain
+                                                                                                        convertedLEDList.Add(led)
+                                                                                                    Next
+
+                                                                                                    'NextOfNext MidiEffectRack
+                                                                                                    If toSaveLEDList.Length = 0 AndAlso node.NodeList.Count > 0 AndAlso isRealChain Then
+                                                                                                        chain = Integer.Parse(node.Node.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1
+                                                                                                    End If
+                                                                                                End If
+                                                                                            End Sub
 
             GetLEDNodeInLoop(LEDList, checkChainAction)
 
             If showLoadingMessage Then
                 Invoke(Sub()
-                    Loading.Close()
+                           Loading.Close()
                        End Sub)
 
                 MessageBox.Show(My.Resources.Contents.LED_Converted, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
-            
+
             err = errSb.ToString()
             Return convertedLEDList.ToArray()
         Else
             Invoke(Sub()
-                Loading.Close()
+                       Loading.Close()
                    End Sub)
 
             MessageBox.Show(My.Resources.Contents.LED_Not_Found, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -3560,7 +3066,7 @@ Public Class MainProject
 
             xpathList.Add(xpaths(i))
         Next
-        
+
         Return xpathList.ToArray()
     End Function
 
@@ -3627,7 +3133,7 @@ Public Class MainProject
 
         Try
             Dim save As MidiExtensionSave = GetMidiExtensionSave(node, saveContent)
-            
+
             If Not String.IsNullOrWhiteSpace(save.MidiName) Then
                 Dim filePath As String = $"{ABLETON_KEYLED_PATH}\{save.MidiName}"
 
@@ -3645,13 +3151,13 @@ Public Class MainProject
 
     Public Shared Function GetMidiExtensionSave(node As XmlNode, saveContent As Dictionary(Of Integer, MidiExtensionSave)) As MidiExtensionSave
         Try
-        Dim device As XmlNode = node?.Item("DeviceChain")?.Item("MidiToMidiDeviceChain")?.Item("Devices")?.Item("MxDeviceMidiEffect")
-        Dim id As Integer = If(Not IsNothing(device), Integer.Parse(device.Item("LomId").GetAttribute("Value")), -1)
+            Dim device As XmlNode = node?.Item("DeviceChain")?.Item("MidiToMidiDeviceChain")?.Item("Devices")?.Item("MxDeviceMidiEffect")
+            Dim id As Integer = If(Not IsNothing(device), Integer.Parse(device.Item("LomId").GetAttribute("Value")), -1)
 
-        If id <> -1 AndAlso saveContent.ContainsKey(id) Then
-            Dim save As MidiExtensionSave = saveContent(id)
-            Return save
-        End If
+            If id <> -1 AndAlso saveContent.ContainsKey(id) Then
+                Dim save As MidiExtensionSave = saveContent(id)
+                Return save
+            End If
 
         Catch ex As NullReferenceException
             '?
@@ -3665,14 +3171,14 @@ Public Class MainProject
             Dim fileName As String = String.Empty
 
             Invoke(Sub()
-                Dim _ofd As New OpenFileDialog()
-                _ofd.Multiselect = False
-                _ofd.Title = "Please"
+                       Dim _ofd As New OpenFileDialog()
+                       _ofd.Multiselect = False
+                       _ofd.Title = "Please"
 
-                If _ofd.ShowDialog() = DialogResult.OK Then
-                    fileName = _ofd.FileName
-                End If
-            End Sub)
+                       If _ofd.ShowDialog() = DialogResult.OK Then
+                           fileName = _ofd.FileName
+                       End If
+                   End Sub)
 
             If Not String.IsNullOrWhiteSpace(fileName) Then
                 _midiExtensionMapping = GetMappingListForMidiExtension(fileName)
@@ -3768,7 +3274,7 @@ Public Class MainProject
     Public Shared Function GetMidiFireSave(node As XmlNode) As MidiExtensionSave
         Dim save As New MidiExtensionSave()
         Dim mxDeviceMidiEffect As XmlNode = node.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices")?.Item("MxDeviceMidiEffect")
-        
+
         If Not IsNothing(mxDeviceMidiEffect) Then
             Dim midiName As String = mxDeviceMidiEffect.Item("FileDropList")?.Item("FileDropList")?.Item("MxDFullFileDrop")?.Item("FileRef")?.Item("FileRef")?.Item("Name")?.GetAttribute("Value")
             Dim speedToggle = False
@@ -3829,16 +3335,16 @@ Public Class MainProject
             'MidiRandom 테스트
             Try
                 Dim midiRandomNode As XmlNode = node.Item("DeviceChain").Item("MidiToMidiDeviceChain").Item("Devices").Item("MidiRandom")
-                
+
                 If Not IsNothing(midiRandomNode) Then
                     Dim isActive As Boolean = Boolean.Parse(midiRandomNode.Item("On").Item("Manual").GetAttribute("Value"))
 
                     If isActive Then '활성화 상태인 경우
                         Dim choices As Integer = Integer.Parse(midiRandomNode.Item("Choices").Item("Manual").GetAttribute("Value"))
-                        
+
                         Dim chainMin As Integer = Integer.Parse(node.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1
                         Dim chainMax As Integer = Integer.Parse(node.Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1
-                        
+
                         Dim noteNumberMin As Integer = Integer.Parse(node.Item("ZoneSettings").Item("KeyRange").Item("Min").GetAttribute("Value"))
                         Dim noteNumberMax As Integer = Integer.Parse(node.Item("ZoneSettings").Item("KeyRange").Item("Max").GetAttribute("Value"))
 
@@ -3911,11 +3417,11 @@ Public Class MainProject
     ''' <returns>LED 배열</returns>
     Public Function SupportMMKeyLED(nodeList As List(Of LEDNodeList), ByRef mm As MultiMapping, plugin As Plugins) As KeyLEDStructure()
         Dim ledList As New List(Of KeyLEDStructure)()
-        
+
         For i = 0 To mm.Count - 1
             Dim node As XmlNode = Nothing
             Dim isFound = False
-            
+
             For j = 0 To nodeList.Count - 1
                 Dim ledNode As LEDNodeList = nodeList(j)
 
@@ -3938,9 +3444,9 @@ Public Class MainProject
             If isFound Then
                 Dim chainMin As Integer = Integer.Parse(node.Item("BranchSelectorRange").Item("Min").GetAttribute("Value")) + 1
                 Dim chainMax As Integer = Integer.Parse(node.Item("BranchSelectorRange").Item("Max").GetAttribute("Value")) + 1
-            
+
                 chainFootprint = New Footprint(Of Integer)(chainMin, chainMax)
-                
+
                 Dim midexSave As New MidiExtensionSave()
 
                 Select Case plugin
@@ -4030,7 +3536,7 @@ Public Class MainProject
         Dim path As String = $"{UNIPACK_KEYLED_PATH}\{name}"
 
         If File.Exists(path) Then
-            File.Move(path, RenameKeyLED(path, "a"C))
+            File.Move(path, RenameKeyLED(path, "a"c))
         End If
 
         For Each c In LEDMappings
@@ -4186,7 +3692,7 @@ Public Class MainProject
                                 End Try
                                 IsNextOfNext.Add(NextOfNextFound)
                                 items.Add(i)
-                                Catch exNN As Exception
+                            Catch exNN As Exception
                                 Continue For '다른 무언가이였던것임!
                             End Try
                         End Try
@@ -4335,13 +3841,13 @@ Public Class MainProject
                                         End If
                                         For Each lpn As Char In LEDMappings
                                             If Not File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn)) Then
-                                                File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn), Str)
+                                                File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn), str)
                                                 Exit For
                                             End If
                                         Next
 
                                     Else
-                                        File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), Str)
+                                        File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), str)
                                     End If
 #End Region
 
@@ -4358,13 +3864,13 @@ Public Class MainProject
                                             End If
                                             For Each lpn As Char In LEDMappings
                                                 If Not File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn)) Then
-                                                    File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn), Str)
+                                                    File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn), str)
                                                     Exit For
                                                 End If
                                             Next
 
                                         Else
-                                            File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), Str)
+                                            File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), str)
                                         End If
 #End Region
                                     Next
@@ -4384,13 +3890,13 @@ Public Class MainProject
                                     End If
                                     For Each lpn As Char In LEDMappings
                                         If Not File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn)) Then
-                                            File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn), Str)
+                                            File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn), str)
                                             Exit For
                                         End If
                                     Next
 
                                 Else
-                                    File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), Str)
+                                    File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), str)
                                 End If
 #End Region
 
@@ -4406,13 +3912,13 @@ Public Class MainProject
                                         End If
                                         For Each lpn As Char In LEDMappings
                                             If Not File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn)) Then
-                                                File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn), Str)
+                                                File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3} {4}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L, lpn), str)
                                                 Exit For
                                             End If
                                         Next
 
                                     Else
-                                        File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), Str)
+                                        File.WriteAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", UniPack_Chain, UniPack_X, UniPack_Y, UniPack_L), str)
                                     End If
 #End Region
                                 Next
@@ -4430,26 +3936,13 @@ Public Class MainProject
 
                 UI(Sub() Loading.Dispose())
 
-                If w8t4abl = "keyLED" Then
-                    w8t4abl = String.Empty
-                End If
-
                 IsWorking = False
                 keyLEDIsSaved = True
                 kl_Converted = True
 
-                UI(Sub()
-                       keyLEDPad_Flush(True)
-                       Thread.Sleep(300)
-                       BGW_keyLEDLayout.RunWorkerAsync()
-                   End Sub)
-
                 If Not String.IsNullOrWhiteSpace(err) Then
                     MessageBox.Show("[ Warning ]" & vbNewLine & "keyLED (MIDI Extension): [] format is invaild." & vbNewLine & err.ToString(), Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 End If
-
-            Else
-                w8t4abl = "keyLED"
             End If
 
             IsWorking = False
@@ -4479,7 +3972,7 @@ Public Class MainProject
         setNode = doc.GetElementsByTagName("MidiEffectBranch")
 
         Dim MIDEX_LEDMapping As String = Application.StartupPath & "\Workspace\ableproj\LEDMapping.uni"
-        
+
         Dim InsBrnN As String = String.Empty 'Midi Effect Rack의 index를 통과 시켜주는 lst
         Dim li As Integer = 1 '람다 식 경고 실화냐...
 
@@ -4508,7 +4001,7 @@ Public Class MainProject
                 End Try
             End Try
         Next
-        
+
         If ShowLoadingMessage Then
             UI(Sub()
                    Loading.DLb.Left += 70
@@ -4792,7 +4285,7 @@ Public Class MainProject
         If Not Directory.Exists(UNIPACK_KEYLED_PATH) Then
             Directory.CreateDirectory(UNIPACK_KEYLED_PATH)
         End If
-        
+
         If File.Exists(UNIPACK_KEYLED_PATH & String.Format("\{0} {1} {2} {3}", chain, x, y, loopNumber)) OrElse File.Exists(UNIPACK_KEYLED_PATH & String.Format("\{0} {1} {2} {3} a", chain, x, y, loopNumber)) Then
             If File.Exists(UNIPACK_KEYLED_PATH & String.Format("\{0} {1} {2} {3}", chain, x, y, loopNumber)) Then
                 My.Computer.FileSystem.RenameFile(UNIPACK_KEYLED_PATH & String.Format("\{0} {1} {2} {3}", chain, x, y, loopNumber), String.Format("{0} {1} {2} {3} a", chain, x, y, loopNumber))
@@ -4903,185 +4396,6 @@ Public Class MainProject
                 MessageBox.Show("Error: " & ex.Message, Me.Text & ": Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
         End Try
-    End Sub
-
-    'keyLED
-    Private Sub BGW_keyLEDLayout_DoWork(sender As Object, e As DoWorkEventArgs) Handles BGW_keyLEDLayout.DoWork
-        For Each LEDFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath & "\Workspace\unipack\keyLED\", FileIO.SearchOption.SearchTopLevelOnly)
-
-            Dim LEDName As String = Path.GetFileName(LEDFile)
-            Dim LEDSyntax As String() = LEDName.Split(" ")
-
-            Dim Chain As Integer = LEDSyntax(0)
-            Dim x As Integer = LEDSyntax(1)
-            Dim y As Integer = LEDSyntax(2)
-            Dim l As Integer = LEDSyntax(3)
-
-            If klUniPack_SelectedChain = Chain Then
-
-                UI(Sub()
-                       kl_ctrl(x & y).BackColor = Color.SkyBlue
-                       If String.IsNullOrWhiteSpace(kl_ctrl(x & y).Text) Then
-                           kl_ctrl(x & y).Text = "1"
-                       Else
-                           kl_ctrl(x & y).Text = Integer.Parse(kl_ctrl(x & y).Text) + 1
-                       End If
-                   End Sub)
-
-            Else
-                Continue For
-            End If
-
-        Next
-    End Sub
-
-    Private Sub keyLED_Chains_Click(sender As Object, e As EventArgs) Handles btn_Chain1.Click, btn_Chain2.Click, btn_Chain3.Click, btn_Chain4.Click, btn_Chain5.Click, btn_Chain6.Click, btn_Chain7.Click, btn_Chain8.Click
-        Dim SelectedChain As Integer = CType(sender, Button).Name.Substring(9, 1)
-        klUniPack_SelectedChain = SelectedChain
-
-        If keyLEDMIDEX_LEDViewMode.Checked Then
-            kl_LEDFlush()
-            BGW_keyLEDLayout.RunWorkerAsync()
-        End If
-    End Sub
-
-    Private Sub keyLED_ButtonsClick(sender As Object, e As EventArgs) Handles u11.MouseDown, u12.MouseDown, u13.MouseDown, u14.MouseDown, u15.MouseDown, u16.MouseDown, u17.MouseDown, u18.MouseDown, u21.MouseDown, u22.MouseDown, u23.MouseDown, u24.MouseDown, u25.MouseDown, u26.MouseDown, u27.MouseDown, u28.MouseDown, u31.MouseDown, u32.MouseDown, u33.MouseDown, u34.MouseDown, u35.MouseDown, u36.MouseDown, u37.MouseDown, u38.MouseDown, u41.MouseDown, u42.MouseDown, u43.MouseDown, u44.MouseDown, u45.MouseDown, u46.MouseDown, u47.MouseDown, u48.MouseDown, u51.MouseDown, u52.MouseDown, u53.MouseDown, u54.MouseDown, u55.MouseDown, u56.MouseDown, u57.MouseDown, u58.MouseDown, u61.MouseDown, u62.MouseDown, u63.MouseDown, u64.MouseDown, u65.MouseDown, u66.MouseDown, u67.MouseDown, u68.MouseDown, u71.MouseDown, u72.MouseDown, u73.MouseDown, u74.MouseDown, u75.MouseDown, u76.MouseDown, u77.MouseDown, u78.MouseDown, u81.MouseDown, u82.MouseDown, u83.MouseDown, u84.MouseDown, u85.MouseDown, u86.MouseDown, u87.MouseDown, u88.MouseDown
-        Dim klX As Button = CType(sender, Button)
-        Dim x As Integer = klX.Name.Substring(1, 1)
-        Dim y As Integer = klX.Name.Substring(2, 1)
-        Dim l As Integer = 1 '유니컨버터 v1.1.0.3 Loop 변수.
-
-        If Not File.Exists(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", klUniPack_SelectedChain, x, y, l)) Then
-            Exit Sub
-        End If
-
-        File.WriteAllText(Application.StartupPath & "\Workspace\TmpLED.txt", File.ReadAllText(Application.StartupPath & String.Format("\Workspace\unipack\keyLED\{0} {1} {2} {3}", klUniPack_SelectedChain, x, y, l)))
-
-        If keyLEDMIDEX_prMode.Checked Then
-            ThreadPool.QueueUserWorkItem(AddressOf kl_LEDHandler)
-        End If
-    End Sub
-#Region "LED 테스트 코드"
-    Private Sub kl_LEDHandler()
-        Try
-            Dim linesInfo As New List(Of String)(File.ReadAllLines(Application.StartupPath & "\Workspace\TmpLED.txt"))
-            linesInfo.RemoveAll(Function(s) s.Trim = "")
-            Dim Lines() As String = linesInfo.ToArray
-            Dim linescounter As Integer = Lines.Length
-
-            Dim led As New ledReturn
-
-            Dim sp() As String
-            For i = 0 To linescounter - 1
-
-                sp = Lines(i).Split(" ")
-                If sp(0) = "o" OrElse sp(0) = "on" Then
-
-                    'Velocity Code.
-                    If sp(3) = "a" OrElse sp(3) = "auto" Then
-                        sp(3) = sp(4)
-                        If IsNumeric(sp(3)) = False Then
-                            MessageBox.Show("Wrong UniPad button code on line " & i + 1 & "!", "Wrong on command", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                            Exit For
-                        End If
-                        sp(3) = led.returnLED(sp(3))
-                    End If
-
-                    'On Code.
-                    If sp(1) = "mc" Then
-                        Try
-                            kl_ctrl("mc" & sp(2)).BackColor = ColorTranslator.FromHtml("#" & sp(3))
-                        Catch ex As Exception
-                            MessageBox.Show("Wrong UniPad button code mc line " & i + 1 & "! Or maybe you didn't pointed the button code!", "Wrong on command", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                            Exit For
-                        End Try
-                    Else
-
-                        Try
-                            kl_ctrl(sp(1) & sp(2)).BackColor = ColorTranslator.FromHtml("#" & sp(3))
-                        Catch
-                            MessageBox.Show("Wrong UniPad button code on line " & i + 1 & "! Or maybe you didn't pointed the button code!", "Wrong on command", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                            Exit For
-                        End Try
-                    End If
-
-                ElseIf sp(0) = "f" OrElse sp(0) = "off" Then
-
-                    'Off Code.
-                    If sp(1) = "mc" Then
-                        Try
-                            kl_ctrl("mc" & sp(2)).BackColor = Color.Gray
-                        Catch ex As Exception
-                            MessageBox.Show("Wrong UniPad button code mc line " & i + 1 & "! Or maybe you didn't pointed the button code!", "Wrong on command", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                            Exit For
-                        End Try
-                    Else
-
-                        Try
-                            kl_ctrl(sp(1) & sp(2)).BackColor = Color.Gray
-                        Catch
-                            MessageBox.Show("Wrong UniPad button code on line" & i + 1 & "! Or maybe you didn't pointed the button code!", "Wrong off command", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                            Exit For
-                        End Try
-                    End If
-
-                ElseIf sp(0) = "d" OrElse sp(0) = "delay" Then
-                    'Delay Code.
-                    If IsNumeric(sp(1)) = False Then
-                        MessageBox.Show("Wrong millisecond code on line " & i + 1 & "!", "Wrong delay command", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                        Exit For
-                    End If
-                    Thread.Sleep(sp(1))
-
-                Else
-                    MessageBox.Show("Wrong LED command " & Lines(i) & " on line" & i, "Wrong Data", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    Exit For
-                End If
-            Next
-        Catch
-
-        End Try
-    End Sub
-
-    Public Sub kl_LEDFlush()
-        For x As Integer = 1 To 8
-            For y As Integer = 1 To 8
-                kl_ctrl(x & y).BackColor = Color.Gray
-                kl_ctrl(x & y).Text = String.Empty
-            Next
-        Next
-
-        For mc As Integer = 1 To 32
-            kl_ctrl("mc" & mc).BackColor = Color.Gray
-        Next
-    End Sub
-#End Region
-
-    Private Sub KeyLEDMIDEX_LEDViewMode_CheckedChanged(sender As Object, e As EventArgs) Handles keyLEDMIDEX_LEDViewMode.CheckedChanged
-        If keyLEDMIDEX_LEDViewMode.Checked Then
-            kl_LEDFlush()
-            BGW_keyLEDLayout.RunWorkerAsync()
-        End If
-    End Sub
-
-    Private Sub KeyLEDMIDEX_prMode_CheckedChanged(sender As Object, e As EventArgs) Handles keyLEDMIDEX_prMode.CheckedChanged
-        If keyLEDMIDEX_prMode.Checked Then
-            kl_LEDFlush()
-        End If
-    End Sub
-
-    Public Sub keyLEDPad_Flush(ByVal Enabled As Boolean)
-        keyLED_Pad64.Enabled = Enabled
-        btn_Chain1.Enabled = Enabled
-        btn_Chain2.Enabled = Enabled
-        btn_Chain3.Enabled = Enabled
-        btn_Chain4.Enabled = Enabled
-        btn_Chain5.Enabled = Enabled
-        btn_Chain6.Enabled = Enabled
-        btn_Chain7.Enabled = Enabled
-        btn_Chain8.Enabled = Enabled
-
-        keyLEDMIDEX_Md.Enabled = Enabled
     End Sub
 
     Private Async Sub ResetTheProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ResetTheProjectToolStripMenuItem.Click
@@ -5265,5 +4579,9 @@ Public Class MainProject
             MessageBox.Show(errorMessage, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End If
         MessageBox.Show(My.Resources.Contents.KeySound_Created, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+    End Sub
+
+    Private Sub btnViewLayout_Click(sender As Object, e As EventArgs) Handles btnViewLayout.Click
+        HomeEdit.SelectedTab = HomeEdit.TabPages(2)
     End Sub
 End Class

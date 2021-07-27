@@ -58,7 +58,7 @@ Public Class Translator
                 Exit Sub '유니컨버터의 기본값 텍스트는 영어다.
             Case tL.Korean
 
-                '유니컨버터 v1.2.0.7 (프리-릴리즈 1) 한글 버전.
+                '유니컨버터 v1.2.0.8 한글 버전.
                 With MainProject
                     'info 탭
                     .HomeEdit.TabPages(0).Text = New String(" "C, 7) & "정보"
@@ -71,18 +71,17 @@ Public Class Translator
                     .Info_SaveButton.Text = "저장"
                     .Tip1.Text = "팁: 에이블톤 프로젝트를 열면 info를 수정할 수 있습니다."
 
-                    'keySound 탭
+                    'Conversions 탭
+                    .HomeEdit.TabPages(1).Text = "변환"
+                    .groupBoxConversion.Text = "변환"
+                    .groupBoxAdvanced.Text = "고급 기능"
+                    .keyLEDMIDEX_BetaButton.Text = "keyLED 편집! (미디 익스텐션)"
+                    .btnViewLayout.Text = "레이아웃 보기"
 
-                    'keyLED 탭
-                    .DevelopingLabel2.Text = "'keyLED 변환' 기능을 만들고 있습니다!" & vbNewLine & Space(18) & "잠시만 기다려주세요..."
-
-                    'keyLED (MIDEX) 탭
-                    .HomeEdit.TabPages(3).Text = "keyLED (미디 익스텐션)"
-                    .DevelopingLabel3.Text = "keyLED (미디 익스텐션)"
-                    .keyLEDMIDEX_BetaButton.Text = "keyLED 편집! (미디 익스텐션) (고급)"
-                    .keyLEDMIDEX_Md.Text = "keyLED 모드"
+                    'Pad Layout 탭
+                    .keyLEDMIDEX_Md.Text = "모드"
                     .keyLEDMIDEX_prMode.Text = "테스트 모드"
-                    .keyLEDMIDEX_LEDViewMode.Text = "LED 보기 모드"
+                    .keyLEDMIDEX_LEDViewMode.Text = "보기 모드"
 
                     'MIDI Devices 탭
                     .HomeEdit.TabPages(4).Text = "미디 디바이스"
@@ -94,9 +93,9 @@ Public Class Translator
 
                     'MainProject 폼
                     If IsDM = False Then
-                        .Text = "유니컨버터 베타 8"
+                        .Text = "유니컨버터 v1.2.0.8"
                     Else
-                        .Text = "유니컨버터 베타 8 (제작자 모드)"
+                        .Text = "유니컨버터 v1.2.0.8 (제작자 모드)"
                     End If
 
                     'Tool Strip

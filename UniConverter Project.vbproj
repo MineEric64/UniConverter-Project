@@ -170,12 +170,6 @@
     <Compile Include="Developer Mode\DeveloperMode_Workspace.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="keySound\keySound_Edit.Designer.vb">
-      <DependentUpon>keySound_Edit.vb</DependentUpon>
-    </Compile>
-    <Compile Include="keySound\keySound_Edit.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Other Resources\Contents.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -274,9 +268,6 @@
     <EmbeddedResource Include="Developer Mode\DeveloperMode_Workspace.resx">
       <DependentUpon>DeveloperMode_Workspace.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="keySound\keySound_Edit.resx">
-      <DependentUpon>keySound_Edit.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Other Resources\Contents.ko.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Contents.ko.Designer.vb</LastGenOutput>
@@ -332,17 +323,6 @@
       <LastGenOutput>Settings1.Designer.vb</LastGenOutput>
     </None>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="WMPLib">
-      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="FastColoredTextBox.dll" />

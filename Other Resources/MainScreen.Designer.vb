@@ -36,28 +36,28 @@ Partial Class MainScreen
         '
         Me.VerText.AutoSize = true
         Me.VerText.BackColor = System.Drawing.Color.FromArgb(CType(CType(22,Byte),Integer), CType(CType(30,Byte),Integer), CType(CType(43,Byte),Integer))
-        Me.VerText.Font = New System.Drawing.Font("NanumBarunGothicOTF", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
+        Me.VerText.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.VerText.ForeColor = System.Drawing.Color.White
         Me.VerText.Location = New System.Drawing.Point(560, 370)
         Me.VerText.Name = "VerText"
-        Me.VerText.Size = New System.Drawing.Size(81, 24)
+        Me.VerText.Size = New System.Drawing.Size(85, 25)
         Me.VerText.TabIndex = 6
         Me.VerText.Text = "Version"
         '
         'Timer1
         '
-        Me.Timer1.Enabled = true
+        Me.Timer1.Enabled = True
         Me.Timer1.Interval = 10
         '
         'Label3
         '
-        Me.Label3.AutoSize = true
-        Me.Label3.BackColor = System.Drawing.Color.FromArgb(CType(CType(22,Byte),Integer), CType(CType(30,Byte),Integer), CType(CType(43,Byte),Integer))
-        Me.Label3.Font = New System.Drawing.Font("NanumBarunGothicOTF", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
+        Me.Label3.AutoSize = True
+        Me.Label3.BackColor = System.Drawing.Color.FromArgb(CType(CType(22, Byte), Integer), CType(CType(30, Byte), Integer), CType(CType(43, Byte), Integer))
+        Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.Label3.ForeColor = System.Drawing.Color.White
         Me.Label3.Location = New System.Drawing.Point(2, 373)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(334, 17)
+        Me.Label3.Size = New System.Drawing.Size(330, 18)
         Me.Label3.TabIndex = 8
         Me.Label3.Text = "ⓒ 2018 ~ 2021 Team Unitor All Rights Reserved."
         '

@@ -559,71 +559,6 @@ Error Message:
  <param name="B2SooAR">1 Object's Length = 2 Object's Length</param>
  <returns></returns>
 </member>
-<member name="F:UniConverter.keySound_Edit.UniPack_SelectedChain">
- <summary>
- 선택한 체인. (1~8)
- </summary>
-</member>
-<member name="F:UniConverter.keySound_Edit.UniPack_X">
- <summary>
- X 버튼 좌표. (1~8)
- </summary>
-</member>
-<member name="F:UniConverter.keySound_Edit.UniPack_Y">
- <summary>
- Y 버튼 좌표. (1~8)
- </summary>
-</member>
-<member name="F:UniConverter.keySound_Edit.keySound_Mapping">
- <summary>
- 키사운드 매핑.
- </summary>
-</member>
-<member name="F:UniConverter.keySound_Edit.keySound_SameM">
- <summary>
- 최대 다중 매핑 지원. (1, 같은 사운드 다중 매핑 적용)
- </summary>
-</member>
-<member name="F:UniConverter.keySound_Edit.keySound_DifM">
- <summary>
- 최대 다중 매핑 지원. (2, 다른 사운드 다중 매핑 적용)
- </summary>
-</member>
-<member name="F:UniConverter.keySound_Edit.keySound_CChain">
- <summary>
- 현재 체인. (1~8)
- </summary>
-</member>
-<member name="F:UniConverter.keySound_Edit.keySoundLayoutTrue">
- <summary>
- 키사운드 레이아웃 Boolean 여부.
- </summary>
-</member>
-<member name="F:UniConverter.keySound_Edit.keySoundLoop">
- <summary>
- keySound Loop 여부.
- </summary>
-</member>
-<member name="F:UniConverter.keySound_Edit.Erait">
- <summary>
- 너무 힘들다...
- </summary>
-</member>
-<member name="F:UniConverter.keySound_Edit.Erait2">
- <summary>
- 너무 힘들다... 2
- </summary>
-</member>
-<member name="F:UniConverter.keySound_Edit.ctrl">
- <summary>
- 버튼 저장
- </summary>
-</member>
-<member name="M:UniConverter.keySound_Edit.Cntstr(System.String,System.String)">
- <summary>
- String의 수를 세줍니다. 결과는 Integer.
- </summary>
-</member>
 <member name="M:UniConverter.keyLED_Edit.keyLED_MidiToKeyLED(System.String,System.Boolean,System.Int32,System.Int32,UniConverter.LEDExtensions)">
  <summary>
  keyLED 기능: MIDI 파일을 keyLED 내용으로 변환해줍니다.
@@ -649,76 +584,6 @@ Error Message:
 <member name="F:UniConverter.MainProject.SoundIsSaved">
  <summary>
  keySound 저장 여부.
- </summary>
-</member>
-<member name="F:UniConverter.MainProject.ks_ctrl">
- <summary>
- keySound 버튼 저장
- </summary>
-</member>
-<member name="F:UniConverter.MainProject.keySoundLayout">
- <summary>
- keySound 레이아웃 여부.
- </summary>
-</member>
-<member name="F:UniConverter.MainProject.ksUniPack_X">
- <summary>
- X 버튼 좌표. (1~8)
- </summary>
-</member>
-<member name="F:UniConverter.MainProject.ksUniPack_Y">
- <summary>
- Y 버튼 좌표. (1~8)
- </summary>
-</member>
-<member name="F:UniConverter.MainProject.keySound_Mapping">
- <summary>
- 키사운드 매핑.
- </summary>
-</member>
-<member name="F:UniConverter.MainProject.keySound_SameM">
- <summary>
- 최대 다중 매핑 지원. (1, 같은 사운드 다중 매핑 적용)
- </summary>
-</member>
-<member name="F:UniConverter.MainProject.keySound_DifM">
- <summary>
- 최대 다중 매핑 지원. (2, 다른 사운드 다중 매핑 적용)
- </summary>
-</member>
-<member name="F:UniConverter.MainProject.keySound_CChain">
- <summary>
- 현재 체인. (1~8)
- </summary>
-</member>
-<member name="F:UniConverter.MainProject.ksUniPack_SelectedChain">
- <summary>
- 선택한 체인. (1~8)
- </summary>
-</member>
-<member name="F:UniConverter.MainProject.keySoundLoop">
- <summary>
- keySound Loop 여부.
- </summary>
-</member>
-<member name="F:UniConverter.MainProject.ks_PlayLoop1">
- <summary>
- keySound Play Loop 1.
- </summary>
-</member>
-<member name="F:UniConverter.MainProject.ks_PlayLoop2">
- <summary>
- keySound Play Loop 2.
- </summary>
-</member>
-<member name="F:UniConverter.MainProject.ks_lpn">
- <summary>
- 다른 매핑할 때 소리를 재생함.
- </summary>
-</member>
-<member name="F:UniConverter.MainProject.ks_lpu">
- <summary>
- 현재 소리를 재생.
  </summary>
 </member>
 <member name="F:UniConverter.MainProject.ks_Converted">
@@ -784,11 +649,6 @@ Error Message:
 <member name="F:UniConverter.MainProject.IsWorking">
  <summary>
  지금 매우 중요한 작업 여부.
- </summary>
-</member>
-<member name="F:UniConverter.MainProject.w8t4abl">
- <summary>
- Waiting For Ableton Project. (LED Convert: "keyLED")
  </summary>
 </member>
 <member name="F:UniConverter.MainProject.lang">
