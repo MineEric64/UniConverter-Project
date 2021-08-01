@@ -74,7 +74,6 @@ Partial Class MainProject
         Me.keyLEDMIDEX_LEDViewMode = New System.Windows.Forms.RadioButton()
         Me.keyLEDMIDEX_prMode = New System.Windows.Forms.RadioButton()
         Me.keyLED_Pad64 = New System.Windows.Forms.TableLayoutPanel()
-        Me.ucvLogo = New System.Windows.Forms.PictureBox()
         Me.mc32 = New System.Windows.Forms.Button()
         Me.u21 = New System.Windows.Forms.Button()
         Me.u11 = New System.Windows.Forms.Button()
@@ -180,6 +179,11 @@ Partial Class MainProject
         Me.ConnectButton = New System.Windows.Forms.Button()
         Me.LoadButton = New System.Windows.Forms.Button()
         Me.BGW_CheckUpdate = New System.ComponentModel.BackgroundWorker()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.uLogoLight = New System.Windows.Forms.Button()
+        Me.textBoxPadInfo = New System.Windows.Forms.TextBox()
+        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
+        Me.CloseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip.SuspendLayout()
         Me.HomeEdit.SuspendLayout()
         Me.Info1.SuspendLayout()
@@ -189,8 +193,8 @@ Partial Class MainProject
         Me.PadLayout.SuspendLayout()
         Me.keyLEDMIDEX_Md.SuspendLayout()
         Me.keyLED_Pad64.SuspendLayout()
-        CType(Me.ucvLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MIDISET.SuspendLayout()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'MenuStrip
@@ -205,7 +209,7 @@ Partial Class MainProject
         '
         'FileToolStripMenuItem
         '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenProjectToolStripMenuItem, Me.SaveProjectToolStripMenuItem, Me.ConvertALSToUnipackToolStripMenuItem, Me.ToolStripSeparator3, Me.AutoConvert, Me.UseNewFeatureAboutOpenProjectToolStripMenuItem})
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenProjectToolStripMenuItem, Me.SaveProjectToolStripMenuItem, Me.ConvertALSToUnipackToolStripMenuItem, Me.ToolStripSeparator3, Me.AutoConvert, Me.UseNewFeatureAboutOpenProjectToolStripMenuItem, Me.ToolStripSeparator4, Me.CloseToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
         Me.FileToolStripMenuItem.ShowShortcutKeys = False
         Me.FileToolStripMenuItem.Size = New System.Drawing.Size(39, 20)
@@ -401,6 +405,7 @@ Partial Class MainProject
         Me.infoTB3.Size = New System.Drawing.Size(329, 38)
         Me.infoTB3.TabIndex = 30
         Me.infoTB3.Text = "1"
+        Me.infoTB3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Tip1
         '
@@ -476,6 +481,7 @@ Partial Class MainProject
         '
         'Conversions
         '
+        Me.Conversions.Controls.Add(Me.PictureBox1)
         Me.Conversions.Controls.Add(Me.btnViewLayout)
         Me.Conversions.Controls.Add(Me.groupBoxAdvanced)
         Me.Conversions.Controls.Add(Me.groupBoxConversion)
@@ -491,9 +497,9 @@ Partial Class MainProject
         'btnViewLayout
         '
         Me.btnViewLayout.Font = New System.Drawing.Font("나눔바른고딕", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.btnViewLayout.Location = New System.Drawing.Point(25, 382)
+        Me.btnViewLayout.Location = New System.Drawing.Point(25, 180)
         Me.btnViewLayout.Name = "btnViewLayout"
-        Me.btnViewLayout.Size = New System.Drawing.Size(181, 86)
+        Me.btnViewLayout.Size = New System.Drawing.Size(180, 86)
         Me.btnViewLayout.TabIndex = 80
         Me.btnViewLayout.Text = "View Layout"
         Me.btnViewLayout.UseVisualStyleBackColor = True
@@ -537,7 +543,7 @@ Partial Class MainProject
         Me.btnKeySound_AutoConvert.Name = "btnKeySound_AutoConvert"
         Me.btnKeySound_AutoConvert.Size = New System.Drawing.Size(186, 86)
         Me.btnKeySound_AutoConvert.TabIndex = 64
-        Me.btnKeySound_AutoConvert.Text = "Convert KeySound automatically"
+        Me.btnKeySound_AutoConvert.Text = "Convert keySound automatically"
         Me.btnKeySound_AutoConvert.UseVisualStyleBackColor = True
         '
         'btnConvertKeyLEDAutomatically
@@ -563,6 +569,7 @@ Partial Class MainProject
         '
         'PadLayout
         '
+        Me.PadLayout.Controls.Add(Me.textBoxPadInfo)
         Me.PadLayout.Controls.Add(Me.Label2)
         Me.PadLayout.Controls.Add(Me.keyLEDMIDEX_Md)
         Me.PadLayout.Controls.Add(Me.keyLED_Pad64)
@@ -630,7 +637,7 @@ Partial Class MainProject
         Me.keyLED_Pad64.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
         Me.keyLED_Pad64.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
         Me.keyLED_Pad64.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
-        Me.keyLED_Pad64.Controls.Add(Me.ucvLogo, 9, 0)
+        Me.keyLED_Pad64.Controls.Add(Me.uLogoLight, 9, 0)
         Me.keyLED_Pad64.Controls.Add(Me.mc32, 0, 1)
         Me.keyLED_Pad64.Controls.Add(Me.u21, 1, 2)
         Me.keyLED_Pad64.Controls.Add(Me.u11, 1, 1)
@@ -740,19 +747,9 @@ Partial Class MainProject
         Me.keyLED_Pad64.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
         Me.keyLED_Pad64.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
         Me.keyLED_Pad64.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
+        Me.keyLED_Pad64.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
         Me.keyLED_Pad64.Size = New System.Drawing.Size(474, 462)
         Me.keyLED_Pad64.TabIndex = 77
-        '
-        'ucvLogo
-        '
-        Me.ucvLogo.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.ucvLogo.Image = Global.UniConverter.My.Resources.Resources.UniConverter_icon
-        Me.ucvLogo.Location = New System.Drawing.Point(426, 3)
-        Me.ucvLogo.Name = "ucvLogo"
-        Me.ucvLogo.Size = New System.Drawing.Size(45, 40)
-        Me.ucvLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.ucvLogo.TabIndex = 5
-        Me.ucvLogo.TabStop = False
         '
         'mc32
         '
@@ -1961,6 +1958,48 @@ Partial Class MainProject
         'BGW_CheckUpdate
         '
         '
+        'PictureBox1
+        '
+        Me.PictureBox1.Image = Global.UniConverter.My.Resources.Resources.Launchpad_Icon
+        Me.PictureBox1.Location = New System.Drawing.Point(25, 288)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(180, 180)
+        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox1.TabIndex = 82
+        Me.PictureBox1.TabStop = False
+        '
+        'uLogoLight
+        '
+        Me.uLogoLight.BackColor = System.Drawing.Color.Gray
+        Me.uLogoLight.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uLogoLight.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uLogoLight.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.uLogoLight.Location = New System.Drawing.Point(426, 3)
+        Me.uLogoLight.Name = "uLogoLight"
+        Me.uLogoLight.Size = New System.Drawing.Size(45, 40)
+        Me.uLogoLight.TabIndex = 2
+        Me.uLogoLight.UseVisualStyleBackColor = False
+        '
+        'textBoxPadInfo
+        '
+        Me.textBoxPadInfo.Location = New System.Drawing.Point(567, 122)
+        Me.textBoxPadInfo.Multiline = True
+        Me.textBoxPadInfo.Name = "textBoxPadInfo"
+        Me.textBoxPadInfo.Size = New System.Drawing.Size(186, 226)
+        Me.textBoxPadInfo.TabIndex = 88
+        Me.textBoxPadInfo.Visible = False
+        '
+        'ToolStripSeparator4
+        '
+        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
+        Me.ToolStripSeparator4.Size = New System.Drawing.Size(352, 6)
+        '
+        'CloseToolStripMenuItem
+        '
+        Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
+        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(355, 22)
+        Me.CloseToolStripMenuItem.Text = "Close"
+        '
         'MainProject
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
@@ -1986,12 +2025,13 @@ Partial Class MainProject
         Me.groupBoxAdvanced.ResumeLayout(False)
         Me.groupBoxConversion.ResumeLayout(False)
         Me.PadLayout.ResumeLayout(False)
+        Me.PadLayout.PerformLayout()
         Me.keyLEDMIDEX_Md.ResumeLayout(False)
         Me.keyLEDMIDEX_Md.PerformLayout()
         Me.keyLED_Pad64.ResumeLayout(False)
-        CType(Me.ucvLogo, System.ComponentModel.ISupportInitialize).EndInit()
         Me.MIDISET.ResumeLayout(False)
         Me.MIDISET.PerformLayout()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout
 
@@ -2052,7 +2092,6 @@ End Sub
     Friend WithEvents keyLEDMIDEX_LEDViewMode As RadioButton
     Friend WithEvents keyLEDMIDEX_prMode As RadioButton
     Friend WithEvents keyLED_Pad64 As TableLayoutPanel
-    Friend WithEvents ucvLogo As PictureBox
     Friend WithEvents mc32 As Button
     Friend WithEvents u21 As Button
     Friend WithEvents u11 As Button
@@ -2154,4 +2193,9 @@ End Sub
     Friend WithEvents groupBoxConversion As GroupBox
     Friend WithEvents groupBoxAdvanced As GroupBox
     Friend WithEvents btnViewLayout As Button
+    Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents uLogoLight As Button
+    Friend WithEvents textBoxPadInfo As TextBox
+    Friend WithEvents ToolStripSeparator4 As ToolStripSeparator
+    Friend WithEvents CloseToolStripMenuItem As ToolStripMenuItem
 End Class

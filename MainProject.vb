@@ -221,9 +221,7 @@ Public Class MainProject
 
     Private Async Sub MainProject_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
-            MainScreen.ShowFormSmoothly()
-            Thread.Sleep(5300)
-            MainScreen.CloseFormSmoothly()
+            ShowIntro()
 
             Dim file_ex As String = Application.StartupPath + "\settings.xml"
 
@@ -253,7 +251,7 @@ Public Class MainProject
 
             'Text of Info TextBox
             infoTB1.Text = "My Amazing UniPack!" 'Title
-            infoTB2.Text = "UniConverter, " & My.Computer.Name 'Producer Name
+            infoTB2.Text = "UniConverter, " & Environment.MachineName 'Producer Name
 
             setxml.Load(file_ex)
             Dim setNode As XmlNode
@@ -322,16 +320,26 @@ Public Class MainProject
 
         keyLEDMIDEX_LEDViewMode.Checked = True
         'keyLEDPad_Flush(False)
-        
+
         btnKeySound_AutoConvert.Enabled = False
         keyLEDMIDEX_BetaButton.Enabled = False
         btnConvertKeyLEDAutomatically.Enabled = False
 #End Region
 
         Await Task.Run(Sub() 'Workspace의 UniPack 폴더 정리.
-            DeleteWorkspaceDir()
-        End Sub)
+                           DeleteWorkspaceDir()
+                       End Sub)
     End Function
+
+    ''' <summary>
+    ''' MainScreen을 보여줄 인트로 구성 함수입니다.
+    ''' </summary>
+    Public Sub ShowIntro()
+        Thread.Sleep(1000) '오류 대비
+        MainScreen.ShowFormSmoothly()
+        Thread.Sleep(5300)
+        MainScreen.CloseFormSmoothly()
+    End Sub
 
     Private Sub InfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InfoToolStripMenuItem.Click
         Info.Show()
@@ -627,8 +635,8 @@ Public Class MainProject
                 Loading.DPr.Style = ProgressBarStyle.Marquee
                 Loading.DPr.MarqueeAnimationSpeed = 10
 
-                Loading.Text = Me.Text & $": {My.Resources.Contents.Project_Title}"
-                Loading.DLb.Text = My.Resources.Contents.Project_Loading
+                       Loading.Text = My.Resources.Contents.Project_Title
+                       Loading.DLb.Text = My.Resources.Contents.Project_Loading
                End Sub)
         End If
 
@@ -745,94 +753,97 @@ Public Class MainProject
         End If
 
         Await Task.Run(Sub()
-            Dim keySound As New StringBuilder(255)
+                           Dim keySound As New StringBuilder(255)
 
-            Dim sortedSoundList As New List(Of KeySoundStructure)(sounds)
-            sortedSoundList = sortedSoundList.OrderBy(Function(x) x.Chain * 100 + x.X * 10 + x.Y).ToList()
-            Dim trimmedSoundList As List(Of KeySoundStructure) = sortedSoundList.Where(Function(x) x.StartTime <> TimeSpan.Zero OrElse x.EndTime <> TimeSpan.Zero).ToList()
-            trimmedSoundList = trimmedSoundList.OrderBy(Function(x) Long.Parse($"{Convert.ToInt32(Math.Truncate(x.StartTime.TotalMilliseconds))}{Convert.ToInt32(Math.Truncate(x.EndTime.TotalMilliseconds))}")).ToList()
+                           Dim sortedSoundList As New List(Of KeySoundStructure)(sounds)
+                           sortedSoundList = sortedSoundList.OrderBy(Function(x) x.Chain * 100 + x.X * 10 + x.Y).ToList()
+                           Dim trimmedSoundList As List(Of KeySoundStructure) = sortedSoundList.Where(Function(x) x.StartTime <> TimeSpan.Zero OrElse x.EndTime <> TimeSpan.Zero).ToList()
+                           trimmedSoundList = trimmedSoundList.OrderBy(Function(x) Long.Parse($"{Convert.ToInt32(Math.Truncate(x.StartTime.TotalMilliseconds))}{Convert.ToInt32(Math.Truncate(x.EndTime.TotalMilliseconds))}")).ToList()
 
-            Dim previousChain = 0
-            Dim padZeroFormat As String = New String("0"C, trimmedSoundList.Count.ToString().Length)
+                           Dim previousChain = 0
+                           Dim padZeroFormat As String = New String("0"c, trimmedSoundList.Count.ToString().Length)
 
-            If showLoadingMessage Then
-                Invoke(Sub()
-                    Loading.Show()
-                    Loading.Text = My.Resources.Contents.KeySound_Creating_Title
-                    Loading.DLb.Text = String.Format(My.Resources.Contents.Sound_Verifying, 0, trimmedSoundList.Count)
-                       End Sub)
-            End If
+                           If showLoadingMessage Then
+                               Invoke(Sub()
+                                          Loading.Show()
+                                          Loading.Text = My.Resources.Contents.KeySound_Creating_Title
+                                          Loading.DLb.Text = String.Format(My.Resources.Contents.Sound_Verifying, 0, trimmedSoundList.Count)
+                                      End Sub)
+                           End If
 
-            For i = 0 To trimmedSoundList.Count - 1
-                Dim sound As KeySoundStructure = trimmedSoundList(i)
+                           For i = 0 To trimmedSoundList.Count - 1
+                               Dim sound As KeySoundStructure = trimmedSoundList(i)
 
-                If Path.GetExtension(sound.FileName) <> ".wav" Then 'mp3 파일은 이미 변환 했으므로
-                    sound.FileName = Path.ChangeExtension(sound.FileName, ".wav")
-                End If
-                
-                Dim trimmedSoundFileName As String = $"ucv_ac_ts_{(i + 1).ToString(padZeroFormat)}.wav"
-                Dim abletonSoundFilePath As String = $"{ABLETON_SOUNDS_PATH}\{sound.FileName}"
-                Dim trimmedSoundFilePath As String = $"{ABLETON_SOUNDS_PATH}\{trimmedSoundFileName}"
+                               If Path.GetExtension(sound.FileName) <> ".wav" Then 'mp3 파일은 이미 변환 했으므로
+                                   sound.FileName = Path.ChangeExtension(sound.FileName, ".wav")
+                               End If
 
-                Sound_Cutting.TrimWavFile(abletonSoundFilePath, trimmedSoundFilePath, sound.StartTime, sound.EndTime)
-                sound.FileName = trimmedSoundFileName
+                               Dim trimmedSoundFileName As String = $"ucv_ac_ts_{(i + 1).ToString(padZeroFormat)}.wav"
+                               Dim abletonSoundFilePath As String = $"{ABLETON_SOUNDS_PATH}\{sound.FileName}"
+                               Dim trimmedSoundFilePath As String = $"{ABLETON_SOUNDS_PATH}\{trimmedSoundFileName}"
 
-                If showLoadingMessage Then
-                    Invoke(Sub()
-                        Loading.DLb.Text = String.Format(My.Resources.Contents.Sound_Verifying, i + 1, trimmedSoundList.Count)
-                           End Sub)
-                End If
-            Next
+                               Sound_Cutting.TrimWavFile(abletonSoundFilePath, trimmedSoundFilePath, sound.StartTime, sound.EndTime)
+                               sound.FileName = trimmedSoundFileName
 
-            If showLoadingMessage Then
-                Invoke(Sub()
-                    Loading.DLb.Text = String.Format(My.Resources.Contents.Sound_Verifying, 0, sortedSoundList.Count)
-                       End Sub)
-            End If
+                               If showLoadingMessage Then
+                                   Invoke(Sub()
+                                              Loading.DLb.Text = String.Format(My.Resources.Contents.Sound_Verifying, i + 1, trimmedSoundList.Count)
+                                          End Sub)
+                               End If
+                           Next
 
-            For i = 0 To sortedSoundList.Count - 1
-                Dim sound As KeySoundStructure = sortedSoundList(i)
+                           If showLoadingMessage Then
+                               Invoke(Sub()
+                                          Loading.DLb.Text = String.Format(My.Resources.Contents.Sound_Verifying, 0, sortedSoundList.Count)
+                                      End Sub)
+                           End If
 
-                If Path.GetExtension(sound.FileName) <> ".wav" Then 'mp3 파일은 이미 변환 했으므로
-                    sound.FileName = Path.ChangeExtension(sound.FileName, ".wav")
-                End If
+                           For i = 0 To sortedSoundList.Count - 1
+                               Dim sound As KeySoundStructure = sortedSoundList(i)
 
-                Dim abletonSoundFilePath As String = $"{ABLETON_SOUNDS_PATH}\{sound.FileName}"
-                Dim unipackSoundFilePath As String = $"{UNIPACK_SOUNDS_PATH}\{sound.FileName}"
+                               If Path.GetExtension(sound.FileName) <> ".wav" Then 'mp3 파일은 이미 변환 했으므로
+                                   sound.FileName = Path.ChangeExtension(sound.FileName, ".wav")
+                               End If
 
-                If Not File.Exists(abletonSoundFilePath) Then
-                    errorMessage.Append($"Error occured while converting to keySound: '{sound.FileName}' file doesn't exists.")
-                    Continue For
-                End If
-                If Not Directory.Exists(UNIPACK_SOUNDS_PATH) Then
-                    Directory.CreateDirectory(UNIPACK_SOUNDS_PATH)
-                End If
+                               Dim abletonSoundFilePath As String = $"{ABLETON_SOUNDS_PATH}\{sound.FileName}"
+                               Dim unipackSoundFilePath As String = $"{UNIPACK_SOUNDS_PATH}\{sound.FileName}"
 
-                Dim key As String = sound.ToString()
-                Debug.WriteLine(key)
+                               If Not File.Exists(abletonSoundFilePath) Then
+                                   errorMessage.Append($"Error occured while converting to keySound: '{sound.FileName}' file doesn't exists.")
+                                   Continue For
+                               End If
+                               If Not Directory.Exists(UNIPACK_SOUNDS_PATH) Then
+                                   Directory.CreateDirectory(UNIPACK_SOUNDS_PATH)
+                               End If
 
-                If previousChain <> 0 AndAlso previousChain <> sound.Chain Then
-                    keySound.Append(Environment.NewLine)
-                End If
-                
-                keySound.Append(key)
-                keySound.Append(Environment.NewLine)
+                               Dim key As String = sound.ToString()
+                               Debug.WriteLine(key)
 
-                File.Copy(abletonSoundFilePath, unipackSoundFilePath, True)
+                               If previousChain <> 0 AndAlso previousChain <> sound.Chain Then
+                                   keySound.Append(Environment.NewLine)
+                               End If
 
-                previousChain = sound.Chain
+                               keySound.Append(key)
+                               keySound.Append(Environment.NewLine)
 
-                If showLoadingMessage Then
-                    Invoke(Sub()
-                        Loading.DLb.Text = String.Format(My.Resources.Contents.KeySound_Creating, i + 1, sortedSoundList.Count)
-                           End Sub)
-                End If
-             Next
-            
-            keySound.Length -= 1
-            Dim content As String = keySound.ToString()
+                               File.Copy(abletonSoundFilePath, unipackSoundFilePath, True)
 
-            File.WriteAllText(UNIPACK_KEYSOUND_PATH, content)
+                               previousChain = sound.Chain
+
+                               If showLoadingMessage Then
+                                   Invoke(Sub()
+                                              Loading.DLb.Text = String.Format(My.Resources.Contents.KeySound_Creating, i + 1, sortedSoundList.Count)
+                                          End Sub)
+                               End If
+                           Next
+
+                           keySound.Length -= 1
+                           Dim content As String = keySound.ToString()
+
+                           File.WriteAllText(UNIPACK_KEYSOUND_PATH, content)
+
+                           'Pad Layout 동기화 (keySound)
+
                        End Sub)
 
         If showLoadingMessage Then
@@ -4583,5 +4594,16 @@ Public Class MainProject
 
     Private Sub btnViewLayout_Click(sender As Object, e As EventArgs) Handles btnViewLayout.Click
         HomeEdit.SelectedTab = HomeEdit.TabPages(2)
+    End Sub
+
+    Private Sub CloseToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CloseToolStripMenuItem.Click
+        Application.Exit()
+    End Sub
+
+    Public Sub LoadSoundsForPadLayout()
+        Dim ksPath = $"{Application.StartupPath}\Workspace\unipack\keySound"
+        Dim soundsPath = $"{Application.StartupPath}\Workspace\unipack\sounds"
+
+
     End Sub
 End Class

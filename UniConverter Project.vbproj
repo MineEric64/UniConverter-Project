@@ -145,6 +145,7 @@
     <Compile Include="keyLED\MidiExtensionSave.vb" />
     <Compile Include="keyLED\MultiMapping.vb" />
     <Compile Include="keySound\InstrumentBranch.vb" />
+    <Compile Include="keySound\KeySoundArgument.vb" />
     <Compile Include="keySound\KeySoundStructure.vb" />
     <Compile Include="keySound\SoundNodeList.vb" />
     <Compile Include="My Project\Resources.Designer.vb">
@@ -230,6 +231,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Other Resources\Translator.vb" />
+    <Compile Include="keySound\SoundManager.vb" />
     <Compile Include="Tutorials.Designer.vb">
       <DependentUpon>Tutorials.vb</DependentUpon>
     </Compile>

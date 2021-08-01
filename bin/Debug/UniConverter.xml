@@ -8,56 +8,61 @@ UniConverter
 <members>
 <member name="T:UniConverter.My.Resources.Resources">
 <summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
+  지역화된 문자열 등을 찾기 위한 강력한 형식의 리소스 클래스입니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Resources.ResourceManager">
 <summary>
-  Returns the cached ResourceManager instance used by this class.
+  이 클래스에서 사용하는 캐시된 ResourceManager 인스턴스를 반환합니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Resources.Culture">
 <summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
+  이 강력한 형식의 리소스 클래스를 사용하여 모든 리소스 조회에 대해 현재 스레드의 CurrentUICulture 속성을
+  재정의합니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Resources.CMDCode_help">
 <summary>
-  Looks up a localized string similar to CMDCode-help V1.2.0.6 (2019-07-10 By MineEric64)
+  CMDCode-help V1.2.0.6 (2019-07-10 By MineEric64)
 
 /help - Showing How To Use Command. It shows the Commands to you.
 /? - Same as &apos;/help&apos;
 /clear - Clear Text.
 /del &lt;WName&gt; - Delete File/Directory named &lt;WName&gt;.
 /exists &lt;WName&gt; - Exists File/Directory named &lt;WName&gt;. Showing As Boolean.
-&lt;WName&gt; Lists: Workspace, abl_proj (Ableton Project File), sounds, keySound (Sound Mapping File), CoLED (LED Files), keyLED (UniPack LED Files), info (UniPack Information), ksTmp (Tempoary keySound), KeyTracks (LED KeyTr [rest of string was truncated]&quot;;.
+&lt;WName&gt; Lists: Workspace, abl_proj (Ableton Project File), sounds, keySound (Sound Mapping File), CoLED (LED Files), keyLED (UniPack LED Files), info (UniPack Information), ksTmp (Tempoary keySound), KeyTracks (LED KeyTr[나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Resources.FLIP">
 <summary>
-  Looks up a localized resource of type System.Drawing.Bitmap.
+  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Resources.Launchpad_Icon">
+<summary>
+  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Resources.License_DeveloperMode">
 <summary>
-  Looks up a localized string similar to PExpY2Vuc2VOYW1lPSJEZXZlbG9wZXIgTW9kZSIgTGljZW5zZURldmVsb3Blcj0iTWluZUVyaWM2NCIgUHJvZ3JhbTJ1c2VMaWNlbnNlPSJVbmlDb252ZXJ0ZXIiIExpY2Vuc2VDcmVhdGVEYXRlPSIyMDE5LTA3LTEwLTEzLTQ2IiBFeHBpcmVkRGF0ZT0iMjAyNC0wNy0xMC0xMy00NiI+
+  PExpY2Vuc2VOYW1lPSJEZXZlbG9wZXIgTW9kZSIgTGljZW5zZURldmVsb3Blcj0iTWluZUVyaWM2NCIgUHJvZ3JhbTJ1c2VMaWNlbnNlPSJVbmlDb252ZXJ0ZXIiIExpY2Vuc2VDcmVhdGVEYXRlPSIyMDE5LTA3LTEwLTEzLTQ2IiBFeHBpcmVkRGF0ZT0iMjAyNC0wNy0xMC0xMy00NiI+
 
 //This is UniConverter&apos;s Developer Mode License.
-- UniConverter ⓒ 2018~2019 최에릭 (MineEric64) All Rights Reserved..
+- UniConverter ⓒ 2018~2019 최에릭 (MineEric64) All Rights Reserved.과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Resources.License_GreatExMode">
 <summary>
-  Looks up a localized string similar to PExpY2Vuc2VOYW1lPSJHcmVhdEV4IE1vZGUiIExpY2Vuc2VEZXZlbG9wZXI9Ik1pbmVFcmljNjQiIFByb2dyYW0ydXNlTGljZW5zZT0iVW5pQ29udmVydGVyIiBMaWNlbnNlQ3JlYXRlRGF0ZT0iMjAxOS0wNy0xMC0xMy01MCIgRXhwaXJlZERhdGU9IjIwMjQtMDctMTAtMTMtNTAiPg==
+  PExpY2Vuc2VOYW1lPSJHcmVhdEV4IE1vZGUiIExpY2Vuc2VEZXZlbG9wZXI9Ik1pbmVFcmljNjQiIFByb2dyYW0ydXNlTGljZW5zZT0iVW5pQ29udmVydGVyIiBMaWNlbnNlQ3JlYXRlRGF0ZT0iMjAxOS0wNy0xMC0xMy01MCIgRXhwaXJlZERhdGU9IjIwMjQtMDctMTAtMTMtNTAiPg==
 
 //This is UniConverter&apos;s GreatEx Mode License.
-- UniConverter ⓒ 2018~2019 최에릭 (MineEric64) All Rights Reserved..
+- UniConverter ⓒ 2018~2019 최에릭 (MineEric64) All Rights Reserved.과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Resources.SuperLightText">
 <summary>
-  Looks up a localized string similar to o 3 4 a 37
+  o 3 4 a 37
 o 4 4 a 37
 o 4 5 a 37
 o 4 6 a 37
@@ -100,42 +105,42 @@ o 5 4 a 11
 o 5 5 a 11
 o 5 6 a 37
 o 5 7 a 37
-o 6 3 a  [rest of string was truncated]&quot;;.
+o 6 3 a [나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Resources.UniConverter_icon">
 <summary>
-  Looks up a localized resource of type System.Drawing.Bitmap.
+  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Resources.UniConverter_New_Intro">
 <summary>
-  Looks up a localized resource of type System.Drawing.Bitmap.
+  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Resources.UniConverter_New_Intro_Video">
 <summary>
-  Looks up a localized resource of type System.Byte[].
+  System.Byte[] 형식의 지역화된 리소스를 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Resources.UniConverter_New_Loading">
 <summary>
-  Looks up a localized resource of type System.Byte[].
+  System.Byte[] 형식의 지역화된 리소스를 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Resources.UniConverter_New_Real_Icon">
 <summary>
-  Looks up a localized resource of type System.Drawing.Bitmap.
+  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Resources.UniConverterV2">
 <summary>
-  Looks up a localized resource of type System.Drawing.Bitmap.
+  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Resources.Unipad">
 <summary>
-  Looks up a localized resource of type System.Drawing.Bitmap.
+  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
 </summary>
 </member>
 <member name="T:UniConverter.My.Resources.Contents">
@@ -570,6 +575,61 @@ Error Message:
  Translate the MainProject Form.
  </summary>
 </member>
+<member name="T:UniConverter.SoundManager">
+ <summary>
+ Invoke가 필요 없는 mciFunctions 클래스보다 향상된 사운드 관리자 입니다. mciFunctions랑 기능은 같지만 더 효율적인 코드를 제공합니다.
+ 또한 오디오 32비트를 지원합니다.
+ </summary>
+</member>
+<member name="P:UniConverter.SoundManager.SoundVolume">
+ <summary>
+ 사운드의 볼륨을 설정합니다. (기본 1.0)
+ </summary>
+</member>
+<member name="M:UniConverter.SoundManager.AddSound(System.Int32,System.Int32,System.Int32,System.Int32,System.String)">
+ <summary>
+ 소리 파일을 추가합니다. NAudio.Wave 네임스페이스를 사용하며 RAM (Random Access Memory)에 접근해서 소리를 빠르게 재생합니다.
+ 캐시 파일이기 때문에 속도가 굉장히 빠릅니다.
+ </summary>
+ <param name="chain"></param>
+ <param name="x">-1은 mc입니다.</param>
+ <param name="y"></param>
+ <param name="path"></param>
+</member>
+<member name="M:UniConverter.SoundManager.InitializeSound">
+ <summary>
+ 사운드 플레이시 첫 초기화를 해주므로서 첫 SoundManager.PlaySound() 지연 시간을 단축해줍니다.
+ </summary>
+</member>
+<member name="M:UniConverter.SoundManager.ChangePlaybackDevice">
+ <summary>
+ WasApi에서 사용하는 오디오 디바이스를 변경해줍니다.
+ </summary>
+</member>
+<member name="M:UniConverter.SoundManager.PlaySound(UniConverter.SoundManager.SoundKey)">
+ <summary>
+ 소리 파일을 재생합니다.
+ </summary>
+ <param name="sound">소리 재생 요청용 특정한 변수를 데이터로 보냅니다.</param>
+</member>
+<member name="M:UniConverter.SoundManager.GetSoundLength(System.Int32,System.Int32,System.Int32,System.Int32)">
+ <summary>
+ 추가한 사운드의 key로 통해 사운드의 길이를 구합니다.
+ </summary>
+</member>
+<member name="M:UniConverter.SoundManager.GetSoundLength(System.String)">
+ <summary>
+ 로컬 파일로 접근하여 사운드의 길이를 구합니다.
+ </summary>
+ <param name="path">로컬 파일의 위치</param>
+ <returns></returns>
+</member>
+<member name="P:UniConverter.SoundManager.IsPlaying">
+ <summary>
+ 현재 사운드 플레이어가 플레이 중인지 물어봅니다. 읽기 전용입니다.
+ </summary>
+ <returns></returns>
+</member>
 <member name="F:UniConverter.Tutorials.Answers_">
  <summary>
  답변 문자열().
@@ -724,6 +784,11 @@ Error Message:
 <member name="F:UniConverter.MainProject.TempDirectory">
  <summary>
  Temp 폴더.
+ </summary>
+</member>
+<member name="M:UniConverter.MainProject.ShowIntro">
+ <summary>
+ MainScreen을 보여줄 인트로 구성 함수입니다.
  </summary>
 </member>
 <member name="M:UniConverter.MainProject.ReadURLString(System.String)">
