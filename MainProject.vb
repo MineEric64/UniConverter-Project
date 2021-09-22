@@ -18,6 +18,8 @@ Imports ICSharpCode.SharpZipLib.Core
 Imports A2UP
 Imports A2UP.A2U.keyLED_MIDEX
 Imports A2UP.A2U.keySound
+Imports System.Runtime.InteropServices
+Imports System.Drawing.Text
 
 Public Class MainProject
 
@@ -157,7 +159,7 @@ Public Class MainProject
     Public Shared ReadOnly ABLETON_PROJECT_XML_PATH As String = ABLETON_PROJECT_PATH & "\abl_proj.xml"
     Public Shared ReadOnly ABLETON_SOUNDS_PATH As String = ABLETON_PROJECT_PATH & "\sounds"
     Public Shared ReadOnly ABLETON_KEYLED_PATH As String = ABLETON_PROJECT_PATH & "\CoLED"
-    
+
     Public Shared ReadOnly UNIPACK_PROJECT_PATH As String = WORKSPACE_PATH & "\unipack"
     Public Shared ReadOnly UNIPACK_INFO_PATH As String = UNIPACK_PROJECT_PATH & "\info"
     Public Shared ReadOnly UNIPACK_SOUNDS_PATH As String = UNIPACK_PROJECT_PATH & "\sounds"
@@ -207,6 +209,17 @@ Public Class MainProject
 #Region "DLL Import Functions"
     Declare Function GetDC Lib "user32" Alias "GetDC" (ByVal hwnd As Integer) As Integer
     'Declare Function RoundRect Lib "gdi32" Alias "RoundRect" (ByVal hdc As Integer, ByVal x1 As Integer, ByVal y1 As Integer, ByVal x2 As Integer, ByVal y2 As Integer, ByVal x3 As Integer, ByVal y3 As Integer) As Integer
+#End Region
+
+#Region "Sophiscated-UI"
+    Private Shared _pfc As New PrivateFontCollection()
+    Private Shared _pfcData As IntPtr
+
+    Public Shared ReadOnly Property NanumFont As FontFamily
+        Get
+            Return _pfc.Families(0)
+        End Get
+    End Property
 #End Region
 
     ''' <summary>
@@ -329,6 +342,9 @@ Public Class MainProject
         Await Task.Run(Sub() 'Workspace의 UniPack 폴더 정리.
                            DeleteWorkspaceDir()
                        End Sub)
+
+        InitializeNanumFont()
+        ApplyNanumFont(Me)
     End Function
 
     ''' <summary>
@@ -340,6 +356,38 @@ Public Class MainProject
         Thread.Sleep(5300)
         MainScreen.CloseFormSmoothly()
     End Sub
+
+    Private Sub InitializeNanumFont()
+        Dim fontLength = My.Resources.NanumBarunGothic.Length
+        Dim fontData = My.Resources.NanumBarunGothic
+
+        _pfcData = Marshal.AllocCoTaskMem(fontLength)
+        Marshal.Copy(fontData, 0, _pfcData, fontLength)
+
+        _pfc.AddMemoryFont(_pfcData, fontLength)
+    End Sub
+
+    Public Shared Function GetNanumFont(fontSize As Single) As Font
+        Return New Font(NanumFont, fontSize)
+    End Function
+
+    Public Shared Sub ApplyNanumFont(parent As Control)
+        Dim controls = GetAllChildControls(parent)
+
+        For Each child In controls
+            child.Font = GetNanumFont(child.Font.Size)
+        Next
+    End Sub
+
+    Public Shared Function GetAllChildControls(_control As Control, _type As Type) As IEnumerable(Of Control)
+        Dim controls = _control.Controls.Cast(Of Control)()
+        Return controls.SelectMany(Function(ctrl) GetAllChildControls(ctrl, _type)).Concat(controls).Where(Function(c) c.GetType() = _type)
+    End Function
+
+    Public Shared Function GetAllChildControls(_control As Control) As IEnumerable(Of Control)
+        Dim controls = _control.Controls.Cast(Of Control)()
+        Return controls.SelectMany(Function(ctrl) GetAllChildControls(ctrl)).Concat(controls)
+    End Function
 
     Private Sub InfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InfoToolStripMenuItem.Click
         Info.Show()
@@ -362,10 +410,8 @@ Public Class MainProject
 
         If ofd.ShowDialog() = DialogResult.OK Then
             Await Task.Run(Sub()
-                         OpenSounds(ofd.FileNames, True)
-                     End Sub)
-
-            Await ReadyForAutoConvertForKeySound()
+                               OpenSounds(ofd.FileNames, True)
+                           End Sub)
         End If
     End Sub
 #Region "Smart Invoke Function"
@@ -394,7 +440,7 @@ Public Class MainProject
 
     Private Sub SaveProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveProjectToolStripMenuItem.Click
         Task.Run(Sub()
-            SaveProject(True)
+                     SaveProject(True)
                  End Sub)
     End Sub
 
@@ -463,11 +509,11 @@ Public Class MainProject
         If fileNames.Length > 0 Then
             If showLoadingMessage Then
                 Invoke(Sub()
-                    Loading.Show()
-                    Loading.DPr.Maximum = fileNames.Length
+                           Loading.Show()
+                           Loading.DPr.Maximum = fileNames.Length
 
-                    Loading.Text = My.Resources.Contents.LED_Open_Title
-                    Loading.DLb.Text = String.Format(My.Resources.Contents.LED_Open, 0, fileNames.Length)
+                           Loading.Text = My.Resources.Contents.LED_Open_Title
+                           Loading.DLb.Text = String.Format(My.Resources.Contents.LED_Open, 0, fileNames.Length)
                        End Sub)
             End If
 
@@ -481,33 +527,30 @@ Public Class MainProject
                 Dim fileName As String = fileNames(i)
 
                 File.Copy(fileName, Path.Combine(ABLETON_KEYLED_PATH, Path.GetFileName(fileName)), True)
-                
+
                 If showLoadingMessage Then
                     Invoke(Sub()
-                           Loading.DPr.Style = ProgressBarStyle.Continuous
-                           Loading.DPr.Value += 1
+                               Loading.DPr.Style = ProgressBarStyle.Continuous
+                               Loading.DPr.Value += 1
 
-                           Loading.DLb.Text = String.Format(My.Resources.Contents.LED_Open, Loading.DPr.Value, fileNames.Length)
-                       End Sub)
+                               Loading.DLb.Text = String.Format(My.Resources.Contents.LED_Open, Loading.DPr.Value, fileNames.Length)
+                           End Sub)
                 End If
             Next
-
             If showLoadingMessage Then
                 Invoke(Sub()
-                       Loading.DPr.Value = Loading.DPr.Maximum
-                       Loading.DPr.Style = ProgressBarStyle.Marquee
+                           Loading.DPr.Value = Loading.DPr.Maximum
+                           Loading.DPr.Style = ProgressBarStyle.Marquee
 
-                       Loading.DLb.Text = My.Resources.Contents.LED_Loaded
-                   End Sub)
+                           Loading.DLb.Text = My.Resources.Contents.LED_Loaded
+                       End Sub)
             End If
-
             abl_openedled = True
             GetMidiExtensionSaveFile(fileNames)
-
             If showLoadingMessage Then
                 Invoke(Sub()
-                    Loading.Close()
-                End Sub)
+                           Loading.Close()
+                       End Sub)
 
                 MessageBox.Show(My.Resources.Contents.LED_Loaded, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
@@ -631,18 +674,17 @@ Public Class MainProject
 
         If showLoadingMessage Then
             Invoke(Sub()
-                Loading.Show()
-                Loading.DPr.Style = ProgressBarStyle.Marquee
-                Loading.DPr.MarqueeAnimationSpeed = 10
+                       Loading.Show()
+                       Loading.DPr.Style = ProgressBarStyle.Marquee
+                       Loading.DPr.MarqueeAnimationSpeed = 10
 
                        Loading.Text = My.Resources.Contents.Project_Title
                        Loading.DLb.Text = My.Resources.Contents.Project_Loading
-               End Sub)
+                   End Sub)
         End If
-
         If showLoadingMessage Then
             Invoke(Sub()
-                Loading.DLb.Text = My.Resources.Contents.Project_DeletingTempoaryFiles
+                       Loading.DLb.Text = My.Resources.Contents.Project_DeletingTempoaryFiles
                    End Sub)
         End If
 
@@ -652,29 +694,27 @@ Public Class MainProject
 
         abl_FileName = fileName
         File.Copy(fileName, ABLETON_PROJECT_PATH & "\abl_proj.gz", True)
-
         If showLoadingMessage Then
             Invoke(Sub()
-                Loading.DLb.Text = My.Resources.Contents.Project_Extracting
-               End Sub)
+                       Loading.DLb.Text = My.Resources.Contents.Project_Extracting
+                   End Sub)
         End If
 
         ExtractGZip(ABLETON_PROJECT_PATH & "\abl_proj.gz", ABLETON_PROJECT_PATH)
 
         If showLoadingMessage Then
             Invoke(Sub()
-                Loading.DLb.Text = My.Resources.Contents.Project_DeletingTempoaryFiles
-            End Sub)
+                       Loading.DLb.Text = My.Resources.Contents.Project_DeletingTempoaryFiles
+                   End Sub)
         End If
 
         File.Delete("Workspace\ableproj\abl_proj.gz")
 
         If showLoadingMessage Then
             Invoke(Sub()
-                Loading.DLb.Text = My.Resources.Contents.Project_ChangeExtension
-            End Sub)
+                       Loading.DLb.Text = My.Resources.Contents.Project_ChangeExtension
+                   End Sub)
         End If
-
         File.Move(ABLETON_PROJECT_PATH & "\abl_proj", ABLETON_PROJECT_XML_PATH)
 
         'Reading Informations of Ableton Project.
@@ -682,8 +722,8 @@ Public Class MainProject
         'Ableton Project's Name.
         If showLoadingMessage Then
             Invoke(Sub()
-                Loading.DLb.Text = My.Resources.Contents.Project_FileName
-            End Sub)
+                       Loading.DLb.Text = My.Resources.Contents.Project_FileName
+                   End Sub)
         End If
 
         Dim finalName As String = Path.GetFileNameWithoutExtension(fileName)
@@ -691,8 +731,8 @@ Public Class MainProject
         'Ableton Project's Chain.
         If showLoadingMessage Then
             Invoke(Sub()
-                Loading.DLb.Text = My.Resources.Contents.Project_Chain
-            End Sub)
+                       Loading.DLb.Text = My.Resources.Contents.Project_Chain
+                   End Sub)
         End If
 
         '정리.
@@ -702,10 +742,10 @@ Public Class MainProject
         'XML File Load.
         If showLoadingMessage Then
             Invoke(Sub()
-                Loading.DLb.Text = My.Resources.Contents.Project_Loading
+                       Loading.DLb.Text = My.Resources.Contents.Project_Loading
 
-                infoTB1.Text = abl_Name
-                infoTB3.Text = abl_Chain
+                       infoTB1.Text = abl_Name
+                       infoTB3.Text = abl_Chain
                    End Sub)
         End If
 
@@ -714,28 +754,27 @@ Public Class MainProject
 
         If showLoadingMessage Then
             Invoke(Sub()
-                Loading.Close()
-            End Sub)
+                       Loading.Close()
+                   End Sub)
 
             MessageBox.Show(My.Resources.Contents.Project_Loaded, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
 
     ''' <summary>
-    ''' 자동 변환 (KeySound)
+    ''' 자동 변환 (KeySound)/*
     ''' </summary>
     Public Async Function ReadyForAutoConvertForKeySound() As Task
         If abl_openedproj AndAlso abl_openedsnd Then
             btnKeySound_AutoConvert.Enabled = True
+            Dim errorMessage As String = Await ReadyForConvertKeySound(True)
 
-            If AutoConvert.Checked Then
-                Dim errorMessage As String = Await ReadyForConvertKeySound(True)
-
-                If Not String.IsNullOrWhiteSpace(errorMessage) Then
-                    MessageBox.Show(String.Format(My.Resources.Contents.Sound_Converting_Error, errorMessage), Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                End If
-                MessageBox.Show(My.Resources.Contents.KeySound_Created, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If Not String.IsNullOrWhiteSpace(errorMessage) Then
+                MessageBox.Show(String.Format(My.Resources.Contents.Sound_Converting_Error, errorMessage), Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End If
+            MessageBox.Show(My.Resources.Contents.KeySound_Created, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Else
+            MessageBox.Show(String.Concat(My.Resources.Contents.Project_Weird_Loaded, " [keySound]"), Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Function
 
@@ -848,7 +887,7 @@ Public Class MainProject
 
         If showLoadingMessage Then
             Invoke(Sub()
-                Loading.Close()
+                       Loading.Close()
                    End Sub)
         End If
 
@@ -862,82 +901,80 @@ Public Class MainProject
         If abl_openedproj AndAlso abl_openedled Then
             btnConvertKeyLEDAutomatically.Enabled = True
 
-            If AutoConvert.Checked Then
-                Dim errorMessage As String = Await ReadyForConvertKeyLEDForMIDEX(True)
+            Dim errorMessage As String = Await ReadyForConvertKeyLEDForMIDEX(True)
 
-                If Not String.IsNullOrWhiteSpace(errorMessage) Then
-                    MessageBox.Show(String.Format(My.Resources.Contents.LED_Converting_Error, errorMessage), Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                End If
-                MessageBox.Show(My.Resources.Contents.KeyLED_Created, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If Not String.IsNullOrWhiteSpace(errorMessage) Then
+                MessageBox.Show(String.Format(My.Resources.Contents.LED_Converting_Error, errorMessage), Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End If
+            MessageBox.Show(My.Resources.Contents.KeyLED_Created, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Else
+            MessageBox.Show(String.Concat(My.Resources.Contents.Project_Weird_Loaded, " [keyLED]"), Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Function
 
     Private Async Function ReadyForConvertKeyLEDForMIDEX(showLoadingMessage As Boolean) As Task(Of String)
         Dim errorMessage As String = String.Empty
         Dim ledConversion As Task(Of KeyLEDStructure()) = Task.Run(Function() As KeyLEDStructure()
-            Return ConvertKeyLEDForMIDEX_v2(ABLETON_PROJECT_XML_PATH, errorMessage, True)
-        End Function)
+                                                                       Return ConvertKeyLEDForMIDEX_v2(ABLETON_PROJECT_XML_PATH, errorMessage, True)
+                                                                   End Function)
 
         Dim keyLEDs As KeyLEDStructure() = Await ledConversion
 
         If showLoadingMessage Then
             Invoke(Sub()
-                Loading.Show()
-                Loading.Text = My.Resources.Contents.KeyLED_Creating_Title
-                Loading.DLb.Text = String.Format(My.Resources.Contents.KeyLED_Creating, 0, keyLEDs.Length)
+                       Loading.Show()
+                       Loading.Text = My.Resources.Contents.KeyLED_Creating_Title
+                       Loading.DLb.Text = String.Format(My.Resources.Contents.KeyLED_Creating, 0, keyLEDs.Length)
                    End Sub)
         End If
-
         Await Task.Run(Sub()
-            For i = 0 To keyLEDs.Length - 1
-                Dim led As KeyLEDStructure = keyLEDs(i)
-                SaveKeyLED(led)
+                           For i = 0 To keyLEDs.Length - 1
+                               Dim led As KeyLEDStructure = keyLEDs(i)
+                               SaveKeyLED(led)
 
-                If showLoadingMessage Then
-                    Invoke(Sub()
-                        Loading.DLb.Text = String.Format(My.Resources.Contents.KeyLED_Creating, i + 1, keyLEDs.Length)
-                           End Sub)
-                End If
-            Next
-
-            If showLoadingMessage Then
-                Invoke(Sub()
-                    Loading.Close()
+                               If showLoadingMessage Then
+                                   Invoke(Sub()
+                                              Loading.DLb.Text = String.Format(My.Resources.Contents.KeyLED_Creating, i + 1, keyLEDs.Length)
+                                          End Sub)
+                               End If
+                           Next
+                           If showLoadingMessage Then
+                               Invoke(Sub()
+                                          Loading.Close()
+                                      End Sub)
+                           End If
                        End Sub)
-            End If
-        End Sub)
 
         Return errorMessage
     End Function
-
     Private Async Sub OpenAbletonProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenAbletonProjectToolStripMenuItem.Click
-        Dim alsOpen1 As New OpenFileDialog
-        alsOpen1.Filter = My.Resources.Contents.Project_ofd_Filter
-        alsOpen1.Title = My.Resources.Contents.Project_ofd_Title
-        alsOpen1.AddExtension = False
-        alsOpen1.Multiselect = False
+        Dim alsOpen1 As New OpenFileDialog With {
+            .Filter = My.Resources.Contents.Project_ofd_Filter,
+            .Title = My.Resources.Contents.Project_ofd_Title,
+            .AddExtension = False,
+            .Multiselect = False
+        }
 
         If alsOpen1.ShowDialog() = DialogResult.OK Then
             Await Task.Run(Sub()
-                OpenAbletonProjectFile(alsOpen1.FileName, True)
-                     End Sub)
-
-            Await ReadyForAutoConvertForKeySound()
-            Await ReadyForAutoConvertForKeyLED()
+                               OpenAbletonProjectFile(alsOpen1.FileName, True)
+                           End Sub)
         End If
     End Sub
 
-    Private Sub ConvertALSToUnipackToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ConvertALSToUnipackToolStripMenuItem.Click
-
-        Dim sfd As New SaveFileDialog()
-        sfd.Filter = My.Resources.Contents.Project_sfd_Filter
-        sfd.Title = My.Resources.Contents.Project_sfd_Title
-        sfd.AddExtension = False
-
+    Private Async Sub CAOC(sender As Object, e As EventArgs) Handles tsmiCAOC.Click
         Try
-            If sfd.ShowDialog() = DialogResult.OK Then
-                'Convert Ableton Project to UniPack & Save UniPack (BETA!!!)
+            Await ReadyForAutoConvertForKeySound()
+            Await ReadyForAutoConvertForKeyLED()
+
+            If abl_openedproj AndAlso (abl_openedsnd OrElse abl_openedled) Then
+                Dim result As DialogResult = MessageBox.Show(My.Resources.Contents.UniPack_Not_Saved, My.Resources.Contents.UniPack_Not_Saved_Title, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+
+                If result = DialogResult.Yes Then
+                    Await Task.Run(Sub()
+                                       SaveProject(False)
+                                   End Sub)
+                End If
             End If
 
         Catch ex As Exception
@@ -1494,7 +1531,6 @@ Public Class MainProject
                 Await Task.Run(Sub()
                                    OpenKeyLED(ofd.FileNames, True)
                                End Sub)
-                Await ReadyForAutoConvertForKeyLED()
                 keyLEDMIDEX_BetaButton.Enabled = True
             End If
         Catch ex As Exception
@@ -2829,8 +2865,9 @@ Public Class MainProject
                     MessageBox.Show("Error occured when it splits the sounds automatically." & vbNewLine & err.ToString(), Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 End If
 
+                '이 두 줄은 v1.2.0.8 버전에 AutoConvert 기능이 CAOC으로 대체됨.
                 Dim AutoConvertBoolean As Boolean = False
-                Invoke(Sub() AutoConvertBoolean = AutoConvert.Checked)
+                'Invoke(Sub() AutoConvertBoolean = AutoConvert.Checked)
 
                 IsWorking = False
                 If abl_openedproj AndAlso abl_openedsnd AndAlso AutoConvertBoolean Then
@@ -4416,19 +4453,19 @@ Public Class MainProject
     Public Async Function InitializeProject(showLoadingMessage As Boolean) As Task
         If showLoadingMessage Then
             Invoke(Sub()
-                With Loading
-                    .Show()
-                    .Text = My.Resources.Contents.Project_Reset
-                    .DLb.Text = My.Resources.Contents.Project_Initializing
-                End With
-            End Sub)
+                       With Loading
+                           .Show()
+                           .Text = My.Resources.Contents.Project_Reset
+                           .DLb.Text = My.Resources.Contents.Project_Initializing
+                       End With
+                   End Sub)
         End If
 
         Await Initialize()
 
         If showLoadingMessage Then
             Invoke(Sub()
-                Loading.Close()
+                       Loading.Close()
                    End Sub)
 
             MessageBox.Show(My.Resources.Contents.Project_Initialized)
@@ -4443,7 +4480,6 @@ Public Class MainProject
     Private Sub LEDtoAutoPlayToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LEDtoAutoPlayToolStripMenuItem.Click
         keyLED_AutoPlay.Show()
     End Sub
-
     Public Shared Function ArrayToString(Of T)(ByVal array As IEnumerable(Of T)) As String
         Dim text As StringBuilder = New StringBuilder()
         text.Append("[")
@@ -4483,14 +4519,11 @@ Public Class MainProject
         Select Case OpenProjectOnce
             Case ProjectOpenMethod.Nogada
                 Await OpenAbletonProjectOnce()
-            
+
             Case ProjectOpenMethod.Smart
                 Await OpenAbletonProjectOnce_v2()
 
         End Select
-
-        Await ReadyForAutoConvertForKeySound()
-        Await ReadyForAutoConvertForKeyLED()
     End Sub
 
     ''' <summary>
@@ -4529,7 +4562,7 @@ Public Class MainProject
         Dim ledsOfd As New OpenFileDialog() With {
                 .Multiselect = True,
                 .Title = My.Resources.Contents.LED_ofd_Title,
-                .Filter = My.Resources.Contents.LED_ofd_Filter            
+                .Filter = My.Resources.Contents.LED_ofd_Filter
         }
 
         If ledsOfd.ShowDialog() = DialogResult.OK Then
@@ -4537,9 +4570,9 @@ Public Class MainProject
         End If
 
         Await Task.Run(Sub()
-            OpenAbletonProjectFile(apfPath, True)
-            OpenSounds(soundPaths, True)
-            OpenKeyLED(ledPaths, True)
+                           OpenAbletonProjectFile(apfPath, True)
+                           OpenSounds(soundPaths, True)
+                           OpenKeyLED(ledPaths, True)
                        End Sub)
     End Function
 
@@ -4573,10 +4606,10 @@ Public Class MainProject
         End If
 
         Await Task.Run(Sub()
-            OpenAbletonProjectFile(apfPath, True)
-            OpenSounds(soundList.ToArray(), True)
-            OpenKeyLED(ledPaths, True)
-        End Sub)
+                           OpenAbletonProjectFile(apfPath, True)
+                           OpenSounds(soundList.ToArray(), True)
+                           OpenKeyLED(ledPaths, True)
+                       End Sub)
 
         If abl_openedled Then
             keyLEDMIDEX_BetaButton.Enabled = True

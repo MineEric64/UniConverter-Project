@@ -121,6 +121,16 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  System.Byte[] 형식의 지역화된 리소스를 찾습니다.
+        '''</summary>
+        Friend ReadOnly Property NanumBarunGothic() As Byte()
+            Get
+                Dim obj As Object = ResourceManager.GetObject("NanumBarunGothic", resourceCulture)
+                Return CType(obj,Byte())
+            End Get
+        End Property
+        
+        '''<summary>
         '''  o 3 4 a 37
         '''o 4 4 a 37
         '''o 4 5 a 37

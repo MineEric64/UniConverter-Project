@@ -251,6 +251,9 @@
   <data name="Project_Title" xml:space="preserve">
     <value>에이블톤 프로젝트 파일을 불러오는 중...</value>
   </data>
+  <data name="Project_Werid_Loaded" xml:space="preserve">
+    <value>프로젝트가 제대로 열리지 않았습니다.</value>
+  </data>
   <data name="Sound_Converted" xml:space="preserve">
     <value>사운드가 성공적으로 변환되었습니다!</value>
   </data>

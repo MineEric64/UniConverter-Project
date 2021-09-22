@@ -60,6 +60,11 @@ UniConverter
 - UniConverter ⓒ 2018~2019 최에릭 (MineEric64) All Rights Reserved.과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
+<member name="P:UniConverter.My.Resources.Resources.NanumBarunGothic">
+<summary>
+  System.Byte[] 형식의 지역화된 리소스를 찾습니다.
+</summary>
+</member>
 <member name="P:UniConverter.My.Resources.Resources.SuperLightText">
 <summary>
   o 3 4 a 37
@@ -145,314 +150,319 @@ o 6 3 a [나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 �
 </member>
 <member name="T:UniConverter.My.Resources.Contents">
 <summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
+  지역화된 문자열 등을 찾기 위한 강력한 형식의 리소스 클래스입니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.ResourceManager">
 <summary>
-  Returns the cached ResourceManager instance used by this class.
+  이 클래스에서 사용하는 캐시된 ResourceManager 인스턴스를 반환합니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Culture">
 <summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
+  이 강력한 형식의 리소스 클래스를 사용하여 모든 리소스 조회에 대해 현재 스레드의 CurrentUICulture 속성을
+  재정의합니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Flip_Horizontal">
 <summary>
-  Looks up a localized string similar to Horizontal.
+  Horizontal과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Flip_Vertical">
 <summary>
-  Looks up a localized string similar to Vertical.
+  Vertical과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.HelloWorld">
 <summary>
-  Looks up a localized string similar to Hello, World!.
+  Hello, World!과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.KeyLED_Created">
 <summary>
-  Looks up a localized string similar to Created KeyLED successfully!.
+  Created KeyLED successfully!과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.KeyLED_Creating">
 <summary>
-  Looks up a localized string similar to Creating KeyLED... ({0} / {1}).
+  Creating KeyLED... ({0} / {1})과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.KeyLED_Creating_Title">
 <summary>
-  Looks up a localized string similar to Creating KeyLED.
+  Creating KeyLED과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.KeySound_Created">
 <summary>
-  Looks up a localized string similar to Created KeySound successfully!.
+  Created KeySound successfully!과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.KeySound_Creating">
 <summary>
-  Looks up a localized string similar to Creating KeySound... ({0} / {1}).
+  Creating KeySound... ({0} / {1})과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.KeySound_Creating_Title">
 <summary>
-  Looks up a localized string similar to Creating KeySound.
+  Creating KeySound과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.LED_Converted">
 <summary>
-  Looks up a localized string similar to Converted LED sucessfully!.
+  Converted LED sucessfully!과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.LED_Converting">
 <summary>
-  Looks up a localized string similar to Converting Ableton LED to UniPack LED....
+  Converting Ableton LED to UniPack LED...과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.LED_Converting_Error">
 <summary>
-  Looks up a localized string similar to Error occured while converting LED.
+  Error occured while converting LED.
 
 Error Message:
-{0}.
+{0}과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.LED_Converting_Title">
 <summary>
-  Looks up a localized string similar to Converting LED.
+  Converting LED과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.LED_Loaded">
 <summary>
-  Looks up a localized string similar to LED Files Loaded! You can edit LEDs in &apos;keyLED (MIDI Extension)&apos; Tab..
+  LED Files Loaded! You can edit LEDs in &apos;keyLED (MIDI Extension)&apos; Tab.과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.LED_Not_Found">
 <summary>
-  Looks up a localized string similar to Couldn&apos;t find any LED in this project..
+  Couldn&apos;t find any LED in this project.과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.LED_ofd_Filter">
 <summary>
-  Looks up a localized string similar to LED Files|*.mid.
+  LED Files|*.mid과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.LED_ofd_Title">
 <summary>
-  Looks up a localized string similar to Select LED Files.
+  Select LED Files과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.LED_Open">
 <summary>
-  Looks up a localized string similar to Loading LED Files... ({0} / {1}).
+  Loading LED Files... ({0} / {1})과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.LED_Open_Title">
 <summary>
-  Looks up a localized string similar to Opening LED Files.
+  Opening LED Files과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.LED_Save_File_Not_Found">
 <summary>
-  Looks up a localized string similar to This project&apos;s led made using Midi Extension Plugin.
+  This project&apos;s led made using Midi Extension Plugin.
 But Couldn&apos;t find Midi Extension data file.
 
 Would you like to select the data file and continue?
-(Often data file is in LED File (.mid extension) folder, it doesn&apos;t have extension also its name contains &apos;save&apos;).
+(Often data file is in LED File (.mid extension) folder, it doesn&apos;t have extension also its name contains &apos;save&apos;)과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.LED_Verifying">
 <summary>
-  Looks up a localized string similar to Verifying LED... ({0} / {1}).
+  Verifying LED... ({0} / {1})과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Main_OpenAbletonProject">
 <summary>
-  Looks up a localized string similar to Open Ableton Project.
+  Open Ableton Project과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Main_OpenAbletonProject_Beta">
 <summary>
-  Looks up a localized string similar to Open Ableton Project (Beta).
+  Open Ableton Project (Beta)과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Project_Chain">
 <summary>
-  Looks up a localized string similar to Finding Chains....
+  Finding Chains...과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Project_ChangeExtension">
 <summary>
-  Looks up a localized string similar to Applying to readable Infos....
+  Applying to readable Infos...과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Project_DeleteWorkspace">
 <summary>
-  Looks up a localized string similar to Deleting Workspace....
+  Deleting Workspace...과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Project_DeletingTempoaryFiles">
 <summary>
-  Looks up a localized string similar to Deleting The Tempoary Files....
+  Deleting The Tempoary Files...과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Project_Extracting">
 <summary>
-  Looks up a localized string similar to Extracting The Project File....
+  Extracting The Project File...과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Project_FileName">
 <summary>
-  Looks up a localized string similar to Finding File Name....
+  Finding File Name...과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Project_Initialized">
 <summary>
-  Looks up a localized string similar to Project initialized!.
+  Project initialized!과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Project_Initializing">
 <summary>
-  Looks up a localized string similar to Initializing....
+  Initializing...과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Project_Loaded">
 <summary>
-  Looks up a localized string similar to Ableton Project File Loaded!
-You can edit info in Information Tab..
+  Ableton Project File Loaded!
+You can edit info in Information Tab.과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Project_Loading">
 <summary>
-  Looks up a localized string similar to Loading The Project File....
+  Loading The Project File...과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Project_Not_Converted">
 <summary>
-  Looks up a localized string similar to You didn&apos;t convert the project..
+  You didn&apos;t convert the project.과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Project_Not_Opened">
 <summary>
-  Looks up a localized string similar to You didn&apos;t open Ableton Project!.
+  You didn&apos;t open Ableton Project!과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Project_ofd_Filter">
 <summary>
-  Looks up a localized string similar to Ableton Project File|*.als.
+  Ableton Project File|*.als과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Project_ofd_Title">
 <summary>
-  Looks up a localized string similar to Select a Ableton Project File.
+  Select a Ableton Project File과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Project_Reset">
 <summary>
-  Looks up a localized string similar to Reseting Project....
+  Reseting Project...과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Project_Saved">
 <summary>
-  Looks up a localized string similar to Saved UniPack!.
+  Saved UniPack!과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Project_Saving">
 <summary>
-  Looks up a localized string similar to Saving Project to UniPack....
+  Saving Project to UniPack...과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Project_Saving_Title">
 <summary>
-  Looks up a localized string similar to Saving UniPack.
+  Saving UniPack과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Project_sfd_Filter">
 <summary>
-  Looks up a localized string similar to Zip File|*.zip|UniPack File|*.uni.
+  Zip File|*.zip|UniPack File|*.uni과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Project_sfd_Title">
 <summary>
-  Looks up a localized string similar to Select the UniPack File.
+  Select the UniPack File과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Project_Title">
 <summary>
-  Looks up a localized string similar to Loading The Ableton Project File....
+  Loading The Ableton Project File...과(와) 유사한 지역화된 문자열을 찾습니다.
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Contents.Project_Weird_Loaded">
+<summary>
+  The project wasn&apos;t loaded properly.과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Sound_Converted">
 <summary>
-  Looks up a localized string similar to Converted Sound sucessfully!.
+  Converted Sound sucessfully!과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Sound_Converting">
 <summary>
-  Looks up a localized string similar to Converting Sounds....
+  Converting Sounds...과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Sound_Converting_Error">
 <summary>
-  Looks up a localized string similar to Error occured while converting Sound.
+  Error occured while converting Sound.
 
 Error Message:
-{0}.
+{0}과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Sound_Loaded">
 <summary>
-  Looks up a localized string similar to Sounds Loaded!.
+  Sounds Loaded!과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Sound_Not_Found">
 <summary>
-  Looks up a localized string similar to Couldn&apos;t find any sounds in this project..
+  Couldn&apos;t find any sounds in this project.과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Sound_ofd_Filter">
 <summary>
-  Looks up a localized string similar to wav sound files|*.wav|mp3 sounds files|*.mp3|All Sound Files|*.*.
+  wav sound files|*.wav|mp3 sounds files|*.mp3|All Sound Files|*.*과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Sound_ofd_Title">
 <summary>
-  Looks up a localized string similar to Select Sounds.
+  Select Sounds과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Sound_Open">
 <summary>
-  Looks up a localized string similar to Loading Sound Files... ({0} / {1}).
+  Loading Sound Files... ({0} / {1})과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Sound_Open_Title">
 <summary>
-  Looks up a localized string similar to Loading Sound Files.
+  Loading Sound Files과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.Sound_Verifying">
 <summary>
-  Looks up a localized string similar to Verifying Sounds... ({0} / {1}).
+  Verifying Sounds... ({0} / {1})과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.UniPack_Info_Saved">
 <summary>
-  Looks up a localized string similar to Saved UniPack Information!.
+  Saved UniPack Information!과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.UniPack_Not_Saved">
 <summary>
-  Looks up a localized string similar to You didn&apos;t save your UniPack. Would you like to save your UniPack?.
+  You didn&apos;t save your UniPack. Would you like to save your UniPack?과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Contents.UniPack_Not_Saved_Title">
 <summary>
-  Looks up a localized string similar to Not Saved.
+  Not Saved과(와) 유사한 지역화된 문자열을 찾습니다.
 </summary>
 </member>
 <member name="F:UniConverter.keyLED_Test.ctrl">
@@ -814,7 +824,7 @@ Error Message:
 </member>
 <member name="M:UniConverter.MainProject.ReadyForAutoConvertForKeySound">
  <summary>
- 자동 변환 (KeySound)
+ 자동 변환 (KeySound)/*
  </summary>
 </member>
 <member name="M:UniConverter.MainProject.ReadyForAutoConvertForKeyLED">

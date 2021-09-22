@@ -32,10 +32,11 @@ Partial Class MainProject
         Me.SoundsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenKeyLEDToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveProjectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ConvertALSToUnipackToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.tsmiCAOC = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
-        Me.AutoConvert = New System.Windows.Forms.ToolStripMenuItem()
         Me.UseNewFeatureAboutOpenProjectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
+        Me.CloseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ResetTheProjectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
@@ -61,6 +62,7 @@ Partial Class MainProject
         Me.infoTB1 = New System.Windows.Forms.TextBox()
         Me.infoT1 = New System.Windows.Forms.Label()
         Me.Conversions = New System.Windows.Forms.TabPage()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.btnViewLayout = New System.Windows.Forms.Button()
         Me.groupBoxAdvanced = New System.Windows.Forms.GroupBox()
         Me.keyLEDMIDEX_BetaButton = New System.Windows.Forms.Button()
@@ -69,11 +71,13 @@ Partial Class MainProject
         Me.btnConvertKeyLEDAutomatically = New System.Windows.Forms.Button()
         Me.lblConversions = New System.Windows.Forms.Label()
         Me.PadLayout = New System.Windows.Forms.TabPage()
+        Me.textBoxPadInfo = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.keyLEDMIDEX_Md = New System.Windows.Forms.GroupBox()
         Me.keyLEDMIDEX_LEDViewMode = New System.Windows.Forms.RadioButton()
         Me.keyLEDMIDEX_prMode = New System.Windows.Forms.RadioButton()
         Me.keyLED_Pad64 = New System.Windows.Forms.TableLayoutPanel()
+        Me.uLogoLight = New System.Windows.Forms.Button()
         Me.mc32 = New System.Windows.Forms.Button()
         Me.u21 = New System.Windows.Forms.Button()
         Me.u11 = New System.Windows.Forms.Button()
@@ -179,22 +183,17 @@ Partial Class MainProject
         Me.ConnectButton = New System.Windows.Forms.Button()
         Me.LoadButton = New System.Windows.Forms.Button()
         Me.BGW_CheckUpdate = New System.ComponentModel.BackgroundWorker()
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
-        Me.uLogoLight = New System.Windows.Forms.Button()
-        Me.textBoxPadInfo = New System.Windows.Forms.TextBox()
-        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
-        Me.CloseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip.SuspendLayout()
         Me.HomeEdit.SuspendLayout()
         Me.Info1.SuspendLayout()
         Me.Conversions.SuspendLayout()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.groupBoxAdvanced.SuspendLayout()
         Me.groupBoxConversion.SuspendLayout()
         Me.PadLayout.SuspendLayout()
         Me.keyLEDMIDEX_Md.SuspendLayout()
         Me.keyLED_Pad64.SuspendLayout()
         Me.MIDISET.SuspendLayout()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'MenuStrip
@@ -209,7 +208,7 @@ Partial Class MainProject
         '
         'FileToolStripMenuItem
         '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenProjectToolStripMenuItem, Me.SaveProjectToolStripMenuItem, Me.ConvertALSToUnipackToolStripMenuItem, Me.ToolStripSeparator3, Me.AutoConvert, Me.UseNewFeatureAboutOpenProjectToolStripMenuItem, Me.ToolStripSeparator4, Me.CloseToolStripMenuItem})
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenProjectToolStripMenuItem, Me.SaveProjectToolStripMenuItem, Me.tsmiCAOC, Me.ToolStripSeparator3, Me.UseNewFeatureAboutOpenProjectToolStripMenuItem, Me.ToolStripSeparator4, Me.CloseToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
         Me.FileToolStripMenuItem.ShowShortcutKeys = False
         Me.FileToolStripMenuItem.Size = New System.Drawing.Size(39, 20)
@@ -219,7 +218,7 @@ Partial Class MainProject
         '
         Me.OpenProjectToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenAPFToolStripMenuItem, Me.ToolStripSeparator2, Me.OpenAbletonProjectToolStripMenuItem, Me.SoundsToolStripMenuItem, Me.OpenKeyLEDToolStripMenuItem})
         Me.OpenProjectToolStripMenuItem.Name = "OpenProjectToolStripMenuItem"
-        Me.OpenProjectToolStripMenuItem.Size = New System.Drawing.Size(355, 22)
+        Me.OpenProjectToolStripMenuItem.Size = New System.Drawing.Size(333, 22)
         Me.OpenProjectToolStripMenuItem.Text = "Open Project"
         '
         'OpenAPFToolStripMenuItem
@@ -255,29 +254,19 @@ Partial Class MainProject
         '
         Me.SaveProjectToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
         Me.SaveProjectToolStripMenuItem.Name = "SaveProjectToolStripMenuItem"
-        Me.SaveProjectToolStripMenuItem.Size = New System.Drawing.Size(355, 22)
+        Me.SaveProjectToolStripMenuItem.Size = New System.Drawing.Size(333, 22)
         Me.SaveProjectToolStripMenuItem.Text = "Save Project (Loaded Project Only)"
         '
-        'ConvertALSToUnipackToolStripMenuItem
+        'tsmiCAOC
         '
-        Me.ConvertALSToUnipackToolStripMenuItem.Enabled = False
-        Me.ConvertALSToUnipackToolStripMenuItem.Name = "ConvertALSToUnipackToolStripMenuItem"
-        Me.ConvertALSToUnipackToolStripMenuItem.Size = New System.Drawing.Size(355, 22)
-        Me.ConvertALSToUnipackToolStripMenuItem.Text = "Convert Ableton Project to UniPack!"
+        Me.tsmiCAOC.Name = "tsmiCAOC"
+        Me.tsmiCAOC.Size = New System.Drawing.Size(333, 22)
+        Me.tsmiCAOC.Text = "[CAOC] Convert Ableton Project to UniPack!"
         '
         'ToolStripSeparator3
         '
         Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-        Me.ToolStripSeparator3.Size = New System.Drawing.Size(352, 6)
-        '
-        'AutoConvert
-        '
-        Me.AutoConvert.Checked = True
-        Me.AutoConvert.CheckOnClick = True
-        Me.AutoConvert.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.AutoConvert.Name = "AutoConvert"
-        Me.AutoConvert.Size = New System.Drawing.Size(355, 22)
-        Me.AutoConvert.Text = "Convert Automatically when you load the project"
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(330, 6)
         '
         'UseNewFeatureAboutOpenProjectToolStripMenuItem
         '
@@ -285,8 +274,19 @@ Partial Class MainProject
         Me.UseNewFeatureAboutOpenProjectToolStripMenuItem.CheckOnClick = True
         Me.UseNewFeatureAboutOpenProjectToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
         Me.UseNewFeatureAboutOpenProjectToolStripMenuItem.Name = "UseNewFeatureAboutOpenProjectToolStripMenuItem"
-        Me.UseNewFeatureAboutOpenProjectToolStripMenuItem.Size = New System.Drawing.Size(355, 22)
+        Me.UseNewFeatureAboutOpenProjectToolStripMenuItem.Size = New System.Drawing.Size(333, 22)
         Me.UseNewFeatureAboutOpenProjectToolStripMenuItem.Text = "Use new feature about Open Ableton Project"
+        '
+        'ToolStripSeparator4
+        '
+        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
+        Me.ToolStripSeparator4.Size = New System.Drawing.Size(330, 6)
+        '
+        'CloseToolStripMenuItem
+        '
+        Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
+        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(333, 22)
+        Me.CloseToolStripMenuItem.Text = "Close"
         '
         'EditToolStripMenuItem
         '
@@ -494,6 +494,16 @@ Partial Class MainProject
         Me.Conversions.Text = "Conversions"
         Me.Conversions.UseVisualStyleBackColor = True
         '
+        'PictureBox1
+        '
+        Me.PictureBox1.Image = Global.UniConverter.My.Resources.Resources.Launchpad_Icon
+        Me.PictureBox1.Location = New System.Drawing.Point(25, 288)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(180, 180)
+        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox1.TabIndex = 82
+        Me.PictureBox1.TabStop = False
+        '
         'btnViewLayout
         '
         Me.btnViewLayout.Font = New System.Drawing.Font("나눔바른고딕", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
@@ -579,6 +589,15 @@ Partial Class MainProject
         Me.PadLayout.TabIndex = 5
         Me.PadLayout.Text = "Pad Layout"
         Me.PadLayout.UseVisualStyleBackColor = True
+        '
+        'textBoxPadInfo
+        '
+        Me.textBoxPadInfo.Location = New System.Drawing.Point(567, 122)
+        Me.textBoxPadInfo.Multiline = True
+        Me.textBoxPadInfo.Name = "textBoxPadInfo"
+        Me.textBoxPadInfo.Size = New System.Drawing.Size(186, 226)
+        Me.textBoxPadInfo.TabIndex = 88
+        Me.textBoxPadInfo.Visible = False
         '
         'Label2
         '
@@ -750,6 +769,18 @@ Partial Class MainProject
         Me.keyLED_Pad64.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
         Me.keyLED_Pad64.Size = New System.Drawing.Size(474, 462)
         Me.keyLED_Pad64.TabIndex = 77
+        '
+        'uLogoLight
+        '
+        Me.uLogoLight.BackColor = System.Drawing.Color.Gray
+        Me.uLogoLight.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.uLogoLight.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.uLogoLight.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.uLogoLight.Location = New System.Drawing.Point(426, 3)
+        Me.uLogoLight.Name = "uLogoLight"
+        Me.uLogoLight.Size = New System.Drawing.Size(45, 40)
+        Me.uLogoLight.TabIndex = 2
+        Me.uLogoLight.UseVisualStyleBackColor = False
         '
         'mc32
         '
@@ -1958,48 +1989,6 @@ Partial Class MainProject
         'BGW_CheckUpdate
         '
         '
-        'PictureBox1
-        '
-        Me.PictureBox1.Image = Global.UniConverter.My.Resources.Resources.Launchpad_Icon
-        Me.PictureBox1.Location = New System.Drawing.Point(25, 288)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(180, 180)
-        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.PictureBox1.TabIndex = 82
-        Me.PictureBox1.TabStop = False
-        '
-        'uLogoLight
-        '
-        Me.uLogoLight.BackColor = System.Drawing.Color.Gray
-        Me.uLogoLight.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.uLogoLight.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.uLogoLight.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
-        Me.uLogoLight.Location = New System.Drawing.Point(426, 3)
-        Me.uLogoLight.Name = "uLogoLight"
-        Me.uLogoLight.Size = New System.Drawing.Size(45, 40)
-        Me.uLogoLight.TabIndex = 2
-        Me.uLogoLight.UseVisualStyleBackColor = False
-        '
-        'textBoxPadInfo
-        '
-        Me.textBoxPadInfo.Location = New System.Drawing.Point(567, 122)
-        Me.textBoxPadInfo.Multiline = True
-        Me.textBoxPadInfo.Name = "textBoxPadInfo"
-        Me.textBoxPadInfo.Size = New System.Drawing.Size(186, 226)
-        Me.textBoxPadInfo.TabIndex = 88
-        Me.textBoxPadInfo.Visible = False
-        '
-        'ToolStripSeparator4
-        '
-        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
-        Me.ToolStripSeparator4.Size = New System.Drawing.Size(352, 6)
-        '
-        'CloseToolStripMenuItem
-        '
-        Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
-        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(355, 22)
-        Me.CloseToolStripMenuItem.Text = "Close"
-        '
         'MainProject
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
@@ -2022,6 +2011,7 @@ Partial Class MainProject
         Me.Info1.ResumeLayout(False)
         Me.Info1.PerformLayout()
         Me.Conversions.ResumeLayout(False)
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.groupBoxAdvanced.ResumeLayout(False)
         Me.groupBoxConversion.ResumeLayout(False)
         Me.PadLayout.ResumeLayout(False)
@@ -2031,7 +2021,6 @@ Partial Class MainProject
         Me.keyLED_Pad64.ResumeLayout(False)
         Me.MIDISET.ResumeLayout(False)
         Me.MIDISET.PerformLayout()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout
 
@@ -2054,7 +2043,7 @@ End Sub
     Friend WithEvents HomeEdit As TabControl
     Friend WithEvents Info1 As TabPage
     Friend WithEvents OpenAbletonProjectToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ConvertALSToUnipackToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents tsmiCAOC As ToolStripMenuItem
     Friend WithEvents infoT3 As Label
     Friend WithEvents infoT2 As Label
     Friend WithEvents infoTB2 As TextBox
@@ -2077,7 +2066,6 @@ End Sub
     Friend WithEvents BGW_CheckUpdate As System.ComponentModel.BackgroundWorker
     Friend WithEvents Conversions As TabPage
     Friend WithEvents ResetTheProjectToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents AutoConvert As ToolStripMenuItem
     Friend WithEvents LEDtoAutoPlayToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
     Friend WithEvents UseNewFeatureAboutOpenProjectToolStripMenuItem As ToolStripMenuItem

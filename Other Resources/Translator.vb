@@ -106,8 +106,7 @@ Public Class Translator
                     .SoundsToolStripMenuItem.Text = "음악 파일 열기"
                     .OpenKeyLEDToolStripMenuItem.Text = "LED 파일 열기"
                     .SaveProjectToolStripMenuItem.Text = "프로젝트 저장 (불러온 프로젝트만)"
-                    .ConvertALSToUnipackToolStripMenuItem.Text = "에이블톤 프로젝트에서 유니팩으로 변환!"
-                    .AutoConvert.Text = "프로젝트를 열 때 자동으로 변환"
+                    .tsmiCAOC.Text = "에이블톤 프로젝트에서 유니팩으로 변환!"
 
                     .EditToolStripMenuItem.Text = "편집"
                     .ResetTheProjectToolStripMenuItem.Text = "프로젝트 초기화"
