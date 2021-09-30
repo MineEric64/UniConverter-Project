@@ -38,12 +38,12 @@ But, you can edit detail information of UniPack on [Unitor](http://unitor.net).
 >> External (Midi Extension (MIDIext) v1.0~v2.3, MIDIFire, Lightweight)
 
 ## TODO
-- Improved Launchpad Connection [ ]
-- Pad Layout [ ]
-- Improved MidiVelocity Error [ ]
-- MidiVelocity Error Controller [ ]
-- Checking Update [ ]
-- Fookin Intro error (replacing with another library) [ ]
+- [ ] Improved Launchpad Connection 
+- [ ] Pad Layout
+- [ ] Improved MidiVelocity Error
+- [ ] MidiVelocity Error Controller
+- [ ] Checking Update
+- [ ] Fookin Intro error (replacing with another library)
 
 ##### DEVELOPING PROJECTS make someone convenient.
 #### By MineEric64 (최에릭) on 09/30/21
