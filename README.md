@@ -21,17 +21,21 @@ For Example, UniConverter reads algorithms to Ableton Project's Information.
 UniConverter converts Ableton Project's Information to UniPack's Information.
 Last, UniConverter trims some Sounds, LEDs of UniPack.
 Also, you can edit simple information of UniPack directly!
-But, you can edit detail information of UniPack on [Unitor](https://bit.do/unitor).
+But, you can edit detail information of UniPack on [Unitor](http://unitor.net).
 
-#### [ Latest Version: v1.2.0.7 (Pre-Release 2)   |   Test Version: v1.2.0.7 ]
+#### [ Latest Version: v1.2.0.7 (Pre-Release 2)   |   Test Version: v1.2.0.8 ]
 
-## Functions
-> Ableton LED to UniPack LED
+## Features
+> Sound & LED Conversion
 
+> One Tap Conversion (CAOC)
 
-> Converts keySound automatically
-
-> Converts LED automatically
+> Ableton LED to UniPack LED (midi file only)
+ 
+> supports some ableton plugins
+>> Internal (Velocity)
+>> 
+>> External (Midi Extension (MIDIext) v1.0~v2.3, MIDIFire, Lightweight)
 
 ##### DEVELOPING PROJECTS make someone convenient.
-#### By MineEric64 (최에릭) on 11/02/20
+#### By MineEric64 (최에릭) on 09/30/21
