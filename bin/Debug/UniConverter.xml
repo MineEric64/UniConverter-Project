@@ -542,7 +542,7 @@ Error Message:
  XML2Sounds Code.
  </summary>
 </member>
-<member name="M:UniConverter.DeveloperMode_Project.DrawVelocityGraph(System.Int32,System.Int32,System.Double,System.Int32,System.Int32,System.String)">
+<member name="M:UniConverter.DeveloperMode_Project.DrawVelocityGraph(System.Int32,System.Int32,System.Double,System.Int32,System.Int32,System.String,System.Double)">
  <summary>
  Velocity 플러그인 그래프
  </summary>

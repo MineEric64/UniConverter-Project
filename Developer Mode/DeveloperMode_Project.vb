@@ -49,7 +49,7 @@ Public Class DeveloperMode_Project
         itm.AddRange({"File Name", "Chains", "File Version", "Sound Cutting"})
         itm.AddRange({"KeyTracks (keyLED)", "keyLED (MIDI Extension)", "keyLED (MIDEX, MidiFire)", "keyLED (integrated version)"})
         itm.AddRange({"XML Test", "Mp3ToWav", "NewLine Test", "Extract To Xml"})
-        itm.AddRange({"LED Extension - Velocity", "Draw Curve Graph", "Interpolate Test"})
+        itm.AddRange({"LED Extension - Velocity", "Draw Curve Graph", "Interpolate Test", "Velocity Curve Test"})
 
         Info_ListView.Items.Clear()
         For Each items As String In itm
@@ -149,7 +149,7 @@ Public Class DeveloperMode_Project
                 Case "LED Extension - Velocity"
                     Dim picture As New Bitmap(128, 128)
                     Dim points As Point()
-                    points = DrawVelocityGraph(0, 127, 1.0, 0, 127, "Clip")
+                    points = DrawVelocityGraph(0, 127, 1.0, 0, 127, "Clip", 0.5)
                     'points = DrawVelocityGraph(1, 51, 0.38, 1, 127)
 
                     Using gfx As Graphics = Graphics.FromImage(picture)
@@ -197,6 +197,9 @@ Public Class DeveloperMode_Project
 
                     InterpolateTest(p1, p2, p3)
 
+                Case "Velocity Curve Test"
+                    VelocityCurve.Show()
+
             End Select
         End If
     End Sub
@@ -223,13 +226,13 @@ Public Class DeveloperMode_Project
     ''' <param name="drive">Drive Value</param>
     ''' <param name="mode">Clip / Gate / Fixed</param>
     ''' <returns>Point Array</returns>
-    Public Shared Function DrawVelocityGraph(start As Integer, [end] As Integer, drive As Double, Optional lowest As Integer = 0, Optional range As Integer = 127, Optional mode As String = "Clip") As Point()
+    Public Shared Function DrawVelocityGraph(start As Integer, [end] As Integer, drive As Double, Optional lowest As Integer = 0, Optional range As Integer = 127, Optional mode As String = "Clip", Optional errVal As Double = 0.5) As Point()
         Dim pointList As New List(Of Point)()
-        
+
         Dim startPoint As New Point(lowest, start)
         Dim endPoint As New Point(range, [end])
 
-        pointList.AddRange(DrawCurveGraph_v2(startPoint, endPoint, drive))
+        pointList.AddRange(DrawCurveGraph(startPoint, endPoint, drive, errVal))
 
         For x = 0 To 127
             If x >= lowest AndAlso x <= range OrElse mode = "Gate" Then
@@ -250,21 +253,21 @@ Public Class DeveloperMode_Project
             End If
 
             pointList.Add(p)
-       Next
+        Next
 
         Return pointList.OrderBy(Function(p) p.X * 10 + p.Y).ToArray()
     End Function
 
     <Obsolete("This method is deprecated, please use 'DrawCurveGraph_v2()' instead.", False)>
-    Private Shared Function DrawCurveGraph(startPoint As Point, endPoint As Point, curvature As Double) As Point()
+    Private Shared Function DrawCurveGraph(startPoint As Point, endPoint As Point, curvature As Double, errVal As Double) As Point()
         Dim middlePoint As New Point((endPoint.X - startPoint.X) / 2, (endPoint.Y - startPoint.Y) / 2)
-        middlePoint.X += -Convert.ToInt32(Math.Truncate((endPoint.X - startPoint.X) * 0.52 * curvature)) '오차 보정
-        middlePoint.Y += Convert.ToInt32(Math.Truncate((endPoint.Y - startPoint.Y) * 0.52 * curvature))
+        middlePoint.X -= Convert.ToInt32(Math.Ceiling((endPoint.X - startPoint.X) * errVal * curvature)) '오차 보정
+        middlePoint.Y += Convert.ToInt32(Math.Ceiling((endPoint.Y - startPoint.Y) * errVal * curvature))
 
         Dim bezierList As New List(Of Point)(ZeichneBezier(6, startPoint, middlePoint, endPoint))
         Dim pointSortFunction As Func(Of Point, Boolean) = Function(p) p.X * 10 + p.Y
         bezierList = bezierList.OrderBy(pointSortFunction).ToList()
-        
+
         Dim ap As Point = Point.Empty
 
         For y = 0 To 127 '값 보정
@@ -276,14 +279,14 @@ Public Class DeveloperMode_Project
                 bezierList.Add(New Point(ap.X, ap.Y + 1))
             End If
         Next
-        
+
         Return bezierList.OrderBy(pointSortFunction).ToArray()
     End Function
 
     Private Shared Function DrawCurveGraph_v2(startPoint As Point, endPoint As Point, curvature As Double) As Point()
         Dim middlePoint As New Point((endPoint.X - startPoint.X) / 2, (endPoint.Y - startPoint.Y) / 2)
-        middlePoint.X -= Convert.ToInt32(Math.Truncate((endPoint.X - startPoint.X) * 0.25 * curvature)) '오차 보정
-        middlePoint.Y += Convert.ToInt32(Math.Truncate((endPoint.Y - startPoint.Y) * 0.25 * curvature))
+        middlePoint.X -= Convert.ToInt32(Math.Truncate((endPoint.X - startPoint.X) * curvature)) '오차 보정
+        middlePoint.Y += Convert.ToInt32(Math.Truncate((endPoint.Y - startPoint.Y) * curvature))
 
         'https://stackoverflow.com/questions/52433314/extracting-points-coordinatesx-y-from-a-curve-c-sharp
         Using path = New GraphicsPath()

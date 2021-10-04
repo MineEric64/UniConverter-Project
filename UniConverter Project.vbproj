@@ -120,6 +120,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationEvents.vb" />
+    <Compile Include="Developer Mode\VelocityCurve.Designer.vb">
+      <DependentUpon>VelocityCurve.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Developer Mode\VelocityCurve.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="keyLED\KeyLEDStructure.vb" />
     <Compile Include="keyLED\keyLED_AutoPlay.Designer.vb">
       <DependentUpon>keyLED_AutoPlay.vb</DependentUpon>
@@ -252,6 +258,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Developer Mode\VelocityCurve.resx">
+      <DependentUpon>VelocityCurve.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="keyLED\keyLED_AutoPlay.resx">
       <DependentUpon>keyLED_AutoPlay.vb</DependentUpon>
     </EmbeddedResource>
