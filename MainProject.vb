@@ -766,7 +766,6 @@ Public Class MainProject
     ''' </summary>
     Public Async Function ReadyForAutoConvertForKeySound() As Task
         If abl_openedproj AndAlso abl_openedsnd Then
-            btnKeySound_AutoConvert.Enabled = True
             Dim errorMessage As String = Await ReadyForConvertKeySound(True)
 
             If Not String.IsNullOrWhiteSpace(errorMessage) Then
@@ -899,8 +898,6 @@ Public Class MainProject
     ''' </summary>
     Public Async Function ReadyForAutoConvertForKeyLED() As Task
         If abl_openedproj AndAlso abl_openedled Then
-            btnConvertKeyLEDAutomatically.Enabled = True
-
             Dim errorMessage As String = Await ReadyForConvertKeyLEDForMIDEX(True)
 
             If Not String.IsNullOrWhiteSpace(errorMessage) Then
@@ -1047,17 +1044,17 @@ Public Class MainProject
     ''' <param name="inputstr">문자열.</param>
     ''' <returns></returns>
     Public Shared Function SplitbyLine(inputstr As String) As String()
-        Dim strs As String() = {}
+        Dim v As String() = {}
 
         If inputstr.Contains(vbCr) AndAlso Not inputstr.Contains(vbLf) Then 'Macintosh (Cr)
-            strs = inputstr.Split(vbCr)
+            v = inputstr.Split(vbCr)
         ElseIf Not inputstr.Contains(vbCr) AndAlso inputstr.Contains(vbLf) Then 'Linux (Lf)
-            strs = inputstr.Split(vbLf)
+            v = inputstr.Split(vbLf)
         Else 'Windows (CrLf)
-            strs = inputstr.Split(New String() {Environment.NewLine}, StringSplitOptions.None)
+            v = inputstr.Split(New String() {vbCrLf}, StringSplitOptions.None)
         End If
 
-        Return strs
+        Return v
     End Function
 
     Private Sub OpenSounds(fileNames As String(), showLoadingMessage As Boolean)
@@ -4574,6 +4571,18 @@ Public Class MainProject
                            OpenSounds(soundPaths, True)
                            OpenKeyLED(ledPaths, True)
                        End Sub)
+
+        If abl_openedproj AndAlso abl_openedsnd Then
+            btnKeySound_AutoConvert.Enabled = True
+        End If
+
+        If abl_openedled Then
+            If abl_openedproj Then
+                btnConvertKeyLEDAutomatically.Enabled = True
+            End If
+
+            keyLEDMIDEX_BetaButton.Enabled = True
+        End If
     End Function
 
     ''' <summary>
@@ -4611,7 +4620,15 @@ Public Class MainProject
                            OpenKeyLED(ledPaths, True)
                        End Sub)
 
+        If abl_openedproj AndAlso abl_openedsnd Then
+            btnKeySound_AutoConvert.Enabled = True
+        End If
+
         If abl_openedled Then
+            If abl_openedproj Then
+                btnConvertKeyLEDAutomatically.Enabled = True
+            End If
+
             keyLEDMIDEX_BetaButton.Enabled = True
         End If
     End Function
