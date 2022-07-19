@@ -12,7 +12,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("UniPack Converter for UniPad. (Ableton Project File to UniPack)")>
 <Assembly: AssemblyCompany("Team Unitor")>
 <Assembly: AssemblyProduct("UniConverter")>
-<Assembly: AssemblyCopyright("Copyright 2018~2021. Team Unitor All Rights Reserved.")>
+<Assembly: AssemblyCopyright("Copyright 2018~2022. Team Unitor All Rights Reserved.")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>

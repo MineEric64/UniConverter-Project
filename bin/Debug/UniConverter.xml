@@ -8,66 +8,66 @@ UniConverter
 <members>
 <member name="T:UniConverter.My.Resources.Resources">
 <summary>
-  지역화된 문자열 등을 찾기 위한 강력한 형식의 리소스 클래스입니다.
+  A strongly-typed resource class, for looking up localized strings, etc.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Resources.ResourceManager">
 <summary>
-  이 클래스에서 사용하는 캐시된 ResourceManager 인스턴스를 반환합니다.
+  Returns the cached ResourceManager instance used by this class.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Resources.Culture">
 <summary>
-  이 강력한 형식의 리소스 클래스를 사용하여 모든 리소스 조회에 대해 현재 스레드의 CurrentUICulture 속성을
-  재정의합니다.
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Resources.CMDCode_help">
 <summary>
-  CMDCode-help V1.2.0.6 (2019-07-10 By MineEric64)
+  Looks up a localized string similar to CMDCode-help V1.2.0.6 (2019-07-10 By MineEric64)
 
 /help - Showing How To Use Command. It shows the Commands to you.
 /? - Same as &apos;/help&apos;
 /clear - Clear Text.
 /del &lt;WName&gt; - Delete File/Directory named &lt;WName&gt;.
 /exists &lt;WName&gt; - Exists File/Directory named &lt;WName&gt;. Showing As Boolean.
-&lt;WName&gt; Lists: Workspace, abl_proj (Ableton Project File), sounds, keySound (Sound Mapping File), CoLED (LED Files), keyLED (UniPack LED Files), info (UniPack Information), ksTmp (Tempoary keySound), KeyTracks (LED KeyTr[나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 문자열을 찾습니다.
+&lt;WName&gt; Lists: Workspace, abl_proj (Ableton Project File), sounds, keySound (Sound Mapping File), CoLED (LED Files), keyLED (UniPack LED Files), info (UniPack Information), ksTmp (Tempoary keySound), KeyTracks (LED KeyTr [rest of string was truncated]&quot;;.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Resources.FLIP">
 <summary>
-  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+  Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Resources.Launchpad_Icon">
 <summary>
-  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+  Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Resources.License_DeveloperMode">
 <summary>
-  PExpY2Vuc2VOYW1lPSJEZXZlbG9wZXIgTW9kZSIgTGljZW5zZURldmVsb3Blcj0iTWluZUVyaWM2NCIgUHJvZ3JhbTJ1c2VMaWNlbnNlPSJVbmlDb252ZXJ0ZXIiIExpY2Vuc2VDcmVhdGVEYXRlPSIyMDE5LTA3LTEwLTEzLTQ2IiBFeHBpcmVkRGF0ZT0iMjAyNC0wNy0xMC0xMy00NiI+
+  Looks up a localized string similar to PExpY2Vuc2VOYW1lPSJEZXZlbG9wZXIgTW9kZSIgTGljZW5zZURldmVsb3Blcj0iTWluZUVyaWM2NCIgUHJvZ3JhbTJ1c2VMaWNlbnNlPSJVbmlDb252ZXJ0ZXIiIExpY2Vuc2VDcmVhdGVEYXRlPSIyMDE5LTA3LTEwLTEzLTQ2IiBFeHBpcmVkRGF0ZT0iMjAyNC0wNy0xMC0xMy00NiI+
 
 //This is UniConverter&apos;s Developer Mode License.
-- UniConverter ⓒ 2018~2019 최에릭 (MineEric64) All Rights Reserved.과(와) 유사한 지역화된 문자열을 찾습니다.
+- UniConverter ⓒ 2018~2019 최에릭 (MineEric64) All Rights Reserved..
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Resources.License_GreatExMode">
 <summary>
-  PExpY2Vuc2VOYW1lPSJHcmVhdEV4IE1vZGUiIExpY2Vuc2VEZXZlbG9wZXI9Ik1pbmVFcmljNjQiIFByb2dyYW0ydXNlTGljZW5zZT0iVW5pQ29udmVydGVyIiBMaWNlbnNlQ3JlYXRlRGF0ZT0iMjAxOS0wNy0xMC0xMy01MCIgRXhwaXJlZERhdGU9IjIwMjQtMDctMTAtMTMtNTAiPg==
+  Looks up a localized string similar to PExpY2Vuc2VOYW1lPSJHcmVhdEV4IE1vZGUiIExpY2Vuc2VEZXZlbG9wZXI9Ik1pbmVFcmljNjQiIFByb2dyYW0ydXNlTGljZW5zZT0iVW5pQ29udmVydGVyIiBMaWNlbnNlQ3JlYXRlRGF0ZT0iMjAxOS0wNy0xMC0xMy01MCIgRXhwaXJlZERhdGU9IjIwMjQtMDctMTAtMTMtNTAiPg==
 
 //This is UniConverter&apos;s GreatEx Mode License.
-- UniConverter ⓒ 2018~2019 최에릭 (MineEric64) All Rights Reserved.과(와) 유사한 지역화된 문자열을 찾습니다.
+- UniConverter ⓒ 2018~2019 최에릭 (MineEric64) All Rights Reserved..
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Resources.NanumBarunGothic">
 <summary>
-  System.Byte[] 형식의 지역화된 리소스를 찾습니다.
+  Looks up a localized resource of type System.Byte[].
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Resources.SuperLightText">
 <summary>
-  o 3 4 a 37
+  Looks up a localized string similar to o 3 4 a 37
 o 4 4 a 37
 o 4 5 a 37
 o 4 6 a 37
@@ -110,42 +110,57 @@ o 5 4 a 11
 o 5 5 a 11
 o 5 6 a 37
 o 5 7 a 37
-o 6 3 a [나머지 문자열은 잘림]&quot;;과(와) 유사한 지역화된 문자열을 찾습니다.
+o 6 3 a  [rest of string was truncated]&quot;;.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Resources.UniConverter_icon">
 <summary>
-  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Resources.UniConverter_New_Icon">
+<summary>
+  Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Resources.UniConverter_New_Icon_from_Dev">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Resources.UniConverter_New_Intro">
 <summary>
-  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+  Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Resources.UniConverter_New_Intro_Video">
 <summary>
-  System.Byte[] 형식의 지역화된 리소스를 찾습니다.
+  Looks up a localized resource of type System.Byte[].
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Resources.UniConverter_New_Loading">
 <summary>
-  System.Byte[] 형식의 지역화된 리소스를 찾습니다.
+  Looks up a localized resource of type System.Byte[].
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Resources.UniConverter_New_Real_Icon">
 <summary>
-  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:UniConverter.My.Resources.Resources.UniConverter_New_Title">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Resources.UniConverterV2">
 <summary>
-  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+  Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
 </member>
 <member name="P:UniConverter.My.Resources.Resources.Unipad">
 <summary>
-  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+  Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
 </member>
 <member name="T:UniConverter.My.Resources.Contents">

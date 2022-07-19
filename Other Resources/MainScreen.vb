@@ -3,9 +3,10 @@ Imports System.Threading
 Imports PVS.MediaPlayer
 
 Public Class MainScreen
-    Private _videoPlayer As Player = New Player()
+    Private _videoPlayer As Player
 
     Private Sub MainScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        _videoPlayer = New Player()
         VerText.Text = My.Application.Info.Version.ToString()
 
         If Not Player.MFPresent Then

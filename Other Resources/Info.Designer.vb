@@ -44,30 +44,30 @@ Partial Class Info
         '
         'InfoText
         '
-        Me.InfoText.AutoSize = true
-        Me.InfoText.Font = New System.Drawing.Font("NanumBarunGothicOTF", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
+        Me.InfoText.AutoSize = True
+        Me.InfoText.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.InfoText.ForeColor = System.Drawing.Color.White
         Me.InfoText.Location = New System.Drawing.Point(300, 305)
         Me.InfoText.Name = "InfoText"
-        Me.InfoText.Size = New System.Drawing.Size(45, 22)
+        Me.InfoText.Size = New System.Drawing.Size(49, 24)
         Me.InfoText.TabIndex = 2
         Me.InfoText.Text = "Ver."
         '
         'TipText1
         '
-        Me.TipText1.AutoSize = true
-        Me.TipText1.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
+        Me.TipText1.AutoSize = True
+        Me.TipText1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.TipText1.ForeColor = System.Drawing.Color.White
         Me.TipText1.Location = New System.Drawing.Point(42, 205)
         Me.TipText1.Name = "TipText1"
-        Me.TipText1.Size = New System.Drawing.Size(321, 14)
+        Me.TipText1.Size = New System.Drawing.Size(316, 15)
         Me.TipText1.TabIndex = 3
-        Me.TipText1.Text = "Copyright 2018 ~ 2021. Team Unitor All Rights Reserved."
+        Me.TipText1.Text = "Copyright 2018 ~ 2022. Team Unitor All Rights Reserved."
         '
         'ModeE
         '
-        Me.ModeE.BackColor = System.Drawing.Color.FromArgb(CType(CType(22,Byte),Integer), CType(CType(30,Byte),Integer), CType(CType(43,Byte),Integer))
-        Me.ModeE.Font = New System.Drawing.Font("NanumBarunGothic", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
+        Me.ModeE.BackColor = System.Drawing.Color.FromArgb(CType(CType(22, Byte), Integer), CType(CType(30, Byte), Integer), CType(CType(43, Byte), Integer))
+        Me.ModeE.Font = New System.Drawing.Font("NanumBarunGothic", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.ModeE.ForeColor = System.Drawing.Color.White
         Me.ModeE.Location = New System.Drawing.Point(77, 222)
         Me.ModeE.Name = "ModeE"
@@ -77,86 +77,86 @@ Partial Class Info
         'OKButton
         '
         Me.OKButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.OKButton.Font = New System.Drawing.Font("NanumGothic", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
+        Me.OKButton.Font = New System.Drawing.Font("NanumGothic", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.OKButton.ForeColor = System.Drawing.Color.White
         Me.OKButton.Location = New System.Drawing.Point(252, 222)
         Me.OKButton.Name = "OKButton"
         Me.OKButton.Size = New System.Drawing.Size(75, 23)
         Me.OKButton.TabIndex = 5
         Me.OKButton.Text = "OK"
-        Me.OKButton.UseVisualStyleBackColor = true
+        Me.OKButton.UseVisualStyleBackColor = True
         '
         'ucv_link
         '
-        Me.ucv_link.AutoSize = true
+        Me.ucv_link.AutoSize = True
         Me.ucv_link.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.ucv_link.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
+        Me.ucv_link.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.ucv_link.LinkColor = System.Drawing.Color.White
         Me.ucv_link.Location = New System.Drawing.Point(12, 290)
         Me.ucv_link.Name = "ucv_link"
-        Me.ucv_link.Size = New System.Drawing.Size(105, 14)
+        Me.ucv_link.Size = New System.Drawing.Size(102, 15)
         Me.ucv_link.TabIndex = 6
-        Me.ucv_link.TabStop = true
+        Me.ucv_link.TabStop = True
         Me.ucv_link.Text = "UniConverter Site"
         '
         'UCV_Alpha
         '
-        Me.UCV_Alpha.Image = CType(resources.GetObject("UCV_Alpha.Image"),System.Drawing.Image)
+        Me.UCV_Alpha.Image = Global.UniConverter.My.Resources.Resources.UniConverter_New_Title
         Me.UCV_Alpha.Location = New System.Drawing.Point(121, 160)
         Me.UCV_Alpha.Name = "UCV_Alpha"
         Me.UCV_Alpha.Size = New System.Drawing.Size(163, 42)
-        Me.UCV_Alpha.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.UCV_Alpha.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
         Me.UCV_Alpha.TabIndex = 7
-        Me.UCV_Alpha.TabStop = false
+        Me.UCV_Alpha.TabStop = False
         '
         'unitor_link
         '
-        Me.unitor_link.AutoSize = true
+        Me.unitor_link.AutoSize = True
         Me.unitor_link.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.unitor_link.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
+        Me.unitor_link.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.unitor_link.LinkColor = System.Drawing.Color.White
         Me.unitor_link.Location = New System.Drawing.Point(12, 313)
         Me.unitor_link.Name = "unitor_link"
-        Me.unitor_link.Size = New System.Drawing.Size(112, 14)
+        Me.unitor_link.Size = New System.Drawing.Size(111, 15)
         Me.unitor_link.TabIndex = 8
-        Me.unitor_link.TabStop = true
+        Me.unitor_link.TabStop = True
         Me.unitor_link.Text = "MineEric64 GitHub"
         '
         'ucvg_link
         '
-        Me.ucvg_link.AutoSize = true
+        Me.ucvg_link.AutoSize = True
         Me.ucvg_link.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.ucvg_link.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
+        Me.ucvg_link.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.ucvg_link.LinkColor = System.Drawing.Color.White
         Me.ucvg_link.Location = New System.Drawing.Point(123, 290)
         Me.ucvg_link.Name = "ucvg_link"
-        Me.ucvg_link.Size = New System.Drawing.Size(123, 14)
+        Me.ucvg_link.Size = New System.Drawing.Size(119, 15)
         Me.ucvg_link.TabIndex = 9
-        Me.ucvg_link.TabStop = true
+        Me.ucvg_link.TabStop = True
         Me.ucvg_link.Text = "UniConverter GitHub"
         '
         'unipad_link
         '
-        Me.unipad_link.AutoSize = true
+        Me.unipad_link.AutoSize = True
         Me.unipad_link.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.unipad_link.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
+        Me.unipad_link.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.unipad_link.LinkColor = System.Drawing.Color.White
         Me.unipad_link.Location = New System.Drawing.Point(206, 313)
         Me.unipad_link.Name = "unipad_link"
-        Me.unipad_link.Size = New System.Drawing.Size(75, 14)
+        Me.unipad_link.Size = New System.Drawing.Size(76, 15)
         Me.unipad_link.TabIndex = 10
-        Me.unipad_link.TabStop = true
+        Me.unipad_link.TabStop = True
         Me.unipad_link.Text = "UniPad Cafe"
         '
         'unipadc_link
         '
-        Me.unipadc_link.AutoSize = true
+        Me.unipadc_link.AutoSize = True
         Me.unipadc_link.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.unipadc_link.Font = New System.Drawing.Font("NanumBarunGothicOTF", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129,Byte))
+        Me.unipadc_link.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.unipadc_link.LinkColor = System.Drawing.Color.White
         Me.unipadc_link.Location = New System.Drawing.Point(130, 313)
         Me.unipadc_link.Name = "unipadc_link"
-        Me.unipadc_link.Size = New System.Drawing.Size(70, 14)
+        Me.unipadc_link.Size = New System.Drawing.Size(72, 15)
         Me.unipadc_link.TabIndex = 11
         Me.unipadc_link.TabStop = true
         Me.unipadc_link.Text = "UniPad Site"

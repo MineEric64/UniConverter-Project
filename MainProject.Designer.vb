@@ -198,7 +198,7 @@ Partial Class MainProject
         '
         'MenuStrip
         '
-        Me.MenuStrip.Font = New System.Drawing.Font("나눔바른고딕", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.MenuStrip.Font = New System.Drawing.Font("NanumBarunGothic", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.EditToolStripMenuItem, Me.TutorialsToolStripMenuItem, Me.SettingsToolStripMenuItem})
         Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip.Name = "MenuStrip"
@@ -370,7 +370,7 @@ Partial Class MainProject
         Me.HomeEdit.Controls.Add(Me.Conversions)
         Me.HomeEdit.Controls.Add(Me.PadLayout)
         Me.HomeEdit.Controls.Add(Me.MIDISET)
-        Me.HomeEdit.Font = New System.Drawing.Font("나눔바른고딕", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.HomeEdit.Font = New System.Drawing.Font("NanumBarunGothic", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.HomeEdit.HotTrack = True
         Me.HomeEdit.Location = New System.Drawing.Point(12, 27)
         Me.HomeEdit.Name = "HomeEdit"
@@ -410,7 +410,7 @@ Partial Class MainProject
         'Tip1
         '
         Me.Tip1.AutoSize = True
-        Me.Tip1.Font = New System.Drawing.Font("나눔바른고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.Tip1.Font = New System.Drawing.Font("NanumBarunGothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.Tip1.ForeColor = System.Drawing.Color.LightCoral
         Me.Tip1.Location = New System.Drawing.Point(6, 472)
         Me.Tip1.Name = "Tip1"
@@ -420,7 +420,7 @@ Partial Class MainProject
         '
         'Info_SaveButton
         '
-        Me.Info_SaveButton.Font = New System.Drawing.Font("나눔스퀘어라운드 Bold", 24.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.Info_SaveButton.Font = New System.Drawing.Font("NanumSquareRound Bold", 24.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.Info_SaveButton.Location = New System.Drawing.Point(557, 360)
         Me.Info_SaveButton.Name = "Info_SaveButton"
         Me.Info_SaveButton.Size = New System.Drawing.Size(196, 116)
@@ -452,7 +452,7 @@ Partial Class MainProject
         '
         'infoTB2
         '
-        Me.infoTB2.Font = New System.Drawing.Font("-윤디자인웹돋움", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.infoTB2.Font = New System.Drawing.Font("YDIWebDotum", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.infoTB2.Location = New System.Drawing.Point(248, 181)
         Me.infoTB2.Name = "infoTB2"
         Me.infoTB2.Size = New System.Drawing.Size(329, 30)
@@ -461,7 +461,7 @@ Partial Class MainProject
         '
         'infoTB1
         '
-        Me.infoTB1.Font = New System.Drawing.Font("-윤디자인웹돋움", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.infoTB1.Font = New System.Drawing.Font("YDIWebDotum", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.infoTB1.Location = New System.Drawing.Point(249, 96)
         Me.infoTB1.Name = "infoTB1"
         Me.infoTB1.Size = New System.Drawing.Size(328, 30)
@@ -506,7 +506,7 @@ Partial Class MainProject
         '
         'btnViewLayout
         '
-        Me.btnViewLayout.Font = New System.Drawing.Font("나눔바른고딕", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.btnViewLayout.Font = New System.Drawing.Font("NanumBarunGothic", 8.999999!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.btnViewLayout.Location = New System.Drawing.Point(25, 180)
         Me.btnViewLayout.Name = "btnViewLayout"
         Me.btnViewLayout.Size = New System.Drawing.Size(180, 86)
@@ -526,7 +526,7 @@ Partial Class MainProject
         '
         'keyLEDMIDEX_BetaButton
         '
-        Me.keyLEDMIDEX_BetaButton.Font = New System.Drawing.Font("나눔바른고딕", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.keyLEDMIDEX_BetaButton.Font = New System.Drawing.Font("NanumBarunGothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.keyLEDMIDEX_BetaButton.Location = New System.Drawing.Point(14, 29)
         Me.keyLEDMIDEX_BetaButton.Name = "keyLEDMIDEX_BetaButton"
         Me.keyLEDMIDEX_BetaButton.Size = New System.Drawing.Size(186, 86)
@@ -548,7 +548,7 @@ Partial Class MainProject
         'btnKeySound_AutoConvert
         '
         Me.btnKeySound_AutoConvert.Enabled = False
-        Me.btnKeySound_AutoConvert.Font = New System.Drawing.Font("나눔바른고딕", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.btnKeySound_AutoConvert.Font = New System.Drawing.Font("NanumBarunGothic", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.btnKeySound_AutoConvert.Location = New System.Drawing.Point(18, 29)
         Me.btnKeySound_AutoConvert.Name = "btnKeySound_AutoConvert"
         Me.btnKeySound_AutoConvert.Size = New System.Drawing.Size(186, 86)
@@ -559,7 +559,7 @@ Partial Class MainProject
         'btnConvertKeyLEDAutomatically
         '
         Me.btnConvertKeyLEDAutomatically.Enabled = False
-        Me.btnConvertKeyLEDAutomatically.Font = New System.Drawing.Font("나눔바른고딕", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.btnConvertKeyLEDAutomatically.Font = New System.Drawing.Font("NanumBarunGothic", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.btnConvertKeyLEDAutomatically.Location = New System.Drawing.Point(240, 29)
         Me.btnConvertKeyLEDAutomatically.Name = "btnConvertKeyLEDAutomatically"
         Me.btnConvertKeyLEDAutomatically.Size = New System.Drawing.Size(186, 86)
@@ -775,7 +775,7 @@ Partial Class MainProject
         Me.uLogoLight.BackColor = System.Drawing.Color.Gray
         Me.uLogoLight.Dock = System.Windows.Forms.DockStyle.Fill
         Me.uLogoLight.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.uLogoLight.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.uLogoLight.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.uLogoLight.Location = New System.Drawing.Point(426, 3)
         Me.uLogoLight.Name = "uLogoLight"
         Me.uLogoLight.Size = New System.Drawing.Size(45, 40)
@@ -798,7 +798,7 @@ Partial Class MainProject
         Me.u21.BackColor = System.Drawing.Color.Gray
         Me.u21.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u21.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u21.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u21.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u21.Location = New System.Drawing.Point(50, 95)
         Me.u21.Name = "u21"
         Me.u21.Size = New System.Drawing.Size(41, 40)
@@ -810,7 +810,7 @@ Partial Class MainProject
         Me.u11.BackColor = System.Drawing.Color.Gray
         Me.u11.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u11.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u11.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u11.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u11.Location = New System.Drawing.Point(50, 49)
         Me.u11.Name = "u11"
         Me.u11.Size = New System.Drawing.Size(41, 40)
@@ -833,7 +833,7 @@ Partial Class MainProject
         Me.u12.BackColor = System.Drawing.Color.Gray
         Me.u12.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u12.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u12.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u12.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u12.Location = New System.Drawing.Point(97, 49)
         Me.u12.Name = "u12"
         Me.u12.Size = New System.Drawing.Size(41, 40)
@@ -845,7 +845,7 @@ Partial Class MainProject
         Me.u22.BackColor = System.Drawing.Color.Gray
         Me.u22.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u22.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u22.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u22.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u22.Location = New System.Drawing.Point(97, 95)
         Me.u22.Name = "u22"
         Me.u22.Size = New System.Drawing.Size(41, 40)
@@ -857,7 +857,7 @@ Partial Class MainProject
         Me.u13.BackColor = System.Drawing.Color.Gray
         Me.u13.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u13.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u13.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u13.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u13.Location = New System.Drawing.Point(144, 49)
         Me.u13.Name = "u13"
         Me.u13.Size = New System.Drawing.Size(41, 40)
@@ -869,7 +869,7 @@ Partial Class MainProject
         Me.u23.BackColor = System.Drawing.Color.Gray
         Me.u23.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u23.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u23.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u23.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u23.Location = New System.Drawing.Point(144, 95)
         Me.u23.Name = "u23"
         Me.u23.Size = New System.Drawing.Size(41, 40)
@@ -881,7 +881,7 @@ Partial Class MainProject
         Me.u14.BackColor = System.Drawing.Color.Gray
         Me.u14.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u14.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u14.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u14.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u14.Location = New System.Drawing.Point(191, 49)
         Me.u14.Name = "u14"
         Me.u14.Size = New System.Drawing.Size(41, 40)
@@ -970,7 +970,7 @@ Partial Class MainProject
         Me.u18.BackColor = System.Drawing.Color.Gray
         Me.u18.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u18.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u18.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u18.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u18.Location = New System.Drawing.Point(379, 49)
         Me.u18.Name = "u18"
         Me.u18.Size = New System.Drawing.Size(41, 40)
@@ -982,7 +982,7 @@ Partial Class MainProject
         Me.u17.BackColor = System.Drawing.Color.Gray
         Me.u17.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u17.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u17.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u17.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u17.Location = New System.Drawing.Point(332, 49)
         Me.u17.Name = "u17"
         Me.u17.Size = New System.Drawing.Size(41, 40)
@@ -994,7 +994,7 @@ Partial Class MainProject
         Me.u16.BackColor = System.Drawing.Color.Gray
         Me.u16.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u16.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u16.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u16.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u16.Location = New System.Drawing.Point(285, 49)
         Me.u16.Name = "u16"
         Me.u16.Size = New System.Drawing.Size(41, 40)
@@ -1006,7 +1006,7 @@ Partial Class MainProject
         Me.u15.BackColor = System.Drawing.Color.Gray
         Me.u15.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u15.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u15.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u15.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u15.Location = New System.Drawing.Point(238, 49)
         Me.u15.Name = "u15"
         Me.u15.Size = New System.Drawing.Size(41, 40)
@@ -1018,7 +1018,7 @@ Partial Class MainProject
         Me.u24.BackColor = System.Drawing.Color.Gray
         Me.u24.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u24.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u24.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u24.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u24.Location = New System.Drawing.Point(191, 95)
         Me.u24.Name = "u24"
         Me.u24.Size = New System.Drawing.Size(41, 40)
@@ -1030,7 +1030,7 @@ Partial Class MainProject
         Me.u34.BackColor = System.Drawing.Color.Gray
         Me.u34.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u34.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u34.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u34.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u34.Location = New System.Drawing.Point(191, 141)
         Me.u34.Name = "u34"
         Me.u34.Size = New System.Drawing.Size(41, 40)
@@ -1042,7 +1042,7 @@ Partial Class MainProject
         Me.u33.BackColor = System.Drawing.Color.Gray
         Me.u33.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u33.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u33.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u33.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u33.Location = New System.Drawing.Point(144, 141)
         Me.u33.Name = "u33"
         Me.u33.Size = New System.Drawing.Size(41, 40)
@@ -1054,7 +1054,7 @@ Partial Class MainProject
         Me.u32.BackColor = System.Drawing.Color.Gray
         Me.u32.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u32.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u32.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u32.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u32.Location = New System.Drawing.Point(97, 141)
         Me.u32.Name = "u32"
         Me.u32.Size = New System.Drawing.Size(41, 40)
@@ -1066,7 +1066,7 @@ Partial Class MainProject
         Me.u31.BackColor = System.Drawing.Color.Gray
         Me.u31.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u31.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u31.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u31.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u31.Location = New System.Drawing.Point(50, 141)
         Me.u31.Name = "u31"
         Me.u31.Size = New System.Drawing.Size(41, 40)
@@ -1155,7 +1155,7 @@ Partial Class MainProject
         Me.u81.BackColor = System.Drawing.Color.Gray
         Me.u81.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u81.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u81.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u81.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u81.Location = New System.Drawing.Point(50, 371)
         Me.u81.Name = "u81"
         Me.u81.Size = New System.Drawing.Size(41, 40)
@@ -1167,7 +1167,7 @@ Partial Class MainProject
         Me.u82.BackColor = System.Drawing.Color.Gray
         Me.u82.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u82.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u82.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u82.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u82.Location = New System.Drawing.Point(97, 371)
         Me.u82.Name = "u82"
         Me.u82.Size = New System.Drawing.Size(41, 40)
@@ -1179,7 +1179,7 @@ Partial Class MainProject
         Me.u72.BackColor = System.Drawing.Color.Gray
         Me.u72.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u72.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u72.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u72.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u72.Location = New System.Drawing.Point(97, 325)
         Me.u72.Name = "u72"
         Me.u72.Size = New System.Drawing.Size(41, 40)
@@ -1191,7 +1191,7 @@ Partial Class MainProject
         Me.u71.BackColor = System.Drawing.Color.Gray
         Me.u71.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u71.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u71.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u71.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u71.Location = New System.Drawing.Point(50, 325)
         Me.u71.Name = "u71"
         Me.u71.Size = New System.Drawing.Size(41, 40)
@@ -1203,7 +1203,7 @@ Partial Class MainProject
         Me.u61.BackColor = System.Drawing.Color.Gray
         Me.u61.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u61.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u61.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u61.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u61.Location = New System.Drawing.Point(50, 279)
         Me.u61.Name = "u61"
         Me.u61.Size = New System.Drawing.Size(41, 40)
@@ -1215,7 +1215,7 @@ Partial Class MainProject
         Me.u62.BackColor = System.Drawing.Color.Gray
         Me.u62.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u62.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u62.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u62.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u62.Location = New System.Drawing.Point(97, 279)
         Me.u62.Name = "u62"
         Me.u62.Size = New System.Drawing.Size(41, 40)
@@ -1227,7 +1227,7 @@ Partial Class MainProject
         Me.u52.BackColor = System.Drawing.Color.Gray
         Me.u52.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u52.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u52.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u52.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u52.Location = New System.Drawing.Point(97, 233)
         Me.u52.Name = "u52"
         Me.u52.Size = New System.Drawing.Size(41, 40)
@@ -1239,7 +1239,7 @@ Partial Class MainProject
         Me.u51.BackColor = System.Drawing.Color.Gray
         Me.u51.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u51.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u51.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u51.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u51.Location = New System.Drawing.Point(50, 233)
         Me.u51.Name = "u51"
         Me.u51.Size = New System.Drawing.Size(41, 40)
@@ -1251,7 +1251,7 @@ Partial Class MainProject
         Me.u41.BackColor = System.Drawing.Color.Gray
         Me.u41.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u41.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u41.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u41.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u41.Location = New System.Drawing.Point(50, 187)
         Me.u41.Name = "u41"
         Me.u41.Size = New System.Drawing.Size(41, 40)
@@ -1263,7 +1263,7 @@ Partial Class MainProject
         Me.u42.BackColor = System.Drawing.Color.Gray
         Me.u42.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u42.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u42.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u42.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u42.Location = New System.Drawing.Point(97, 187)
         Me.u42.Name = "u42"
         Me.u42.Size = New System.Drawing.Size(41, 40)
@@ -1275,7 +1275,7 @@ Partial Class MainProject
         Me.u43.BackColor = System.Drawing.Color.Gray
         Me.u43.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u43.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u43.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u43.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u43.Location = New System.Drawing.Point(144, 187)
         Me.u43.Name = "u43"
         Me.u43.Size = New System.Drawing.Size(41, 40)
@@ -1287,7 +1287,7 @@ Partial Class MainProject
         Me.u53.BackColor = System.Drawing.Color.Gray
         Me.u53.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u53.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u53.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u53.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u53.Location = New System.Drawing.Point(144, 233)
         Me.u53.Name = "u53"
         Me.u53.Size = New System.Drawing.Size(41, 40)
@@ -1299,7 +1299,7 @@ Partial Class MainProject
         Me.u63.BackColor = System.Drawing.Color.Gray
         Me.u63.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u63.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u63.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u63.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u63.Location = New System.Drawing.Point(144, 279)
         Me.u63.Name = "u63"
         Me.u63.Size = New System.Drawing.Size(41, 40)
@@ -1311,7 +1311,7 @@ Partial Class MainProject
         Me.u73.BackColor = System.Drawing.Color.Gray
         Me.u73.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u73.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u73.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u73.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u73.Location = New System.Drawing.Point(144, 325)
         Me.u73.Name = "u73"
         Me.u73.Size = New System.Drawing.Size(41, 40)
@@ -1323,7 +1323,7 @@ Partial Class MainProject
         Me.u83.BackColor = System.Drawing.Color.Gray
         Me.u83.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u83.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u83.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u83.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u83.Location = New System.Drawing.Point(144, 371)
         Me.u83.Name = "u83"
         Me.u83.Size = New System.Drawing.Size(41, 40)
@@ -1423,7 +1423,7 @@ Partial Class MainProject
         Me.u88.BackColor = System.Drawing.Color.Gray
         Me.u88.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u88.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u88.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u88.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u88.Location = New System.Drawing.Point(379, 371)
         Me.u88.Name = "u88"
         Me.u88.Size = New System.Drawing.Size(41, 40)
@@ -1435,7 +1435,7 @@ Partial Class MainProject
         Me.u87.BackColor = System.Drawing.Color.Gray
         Me.u87.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u87.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u87.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u87.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u87.Location = New System.Drawing.Point(332, 371)
         Me.u87.Name = "u87"
         Me.u87.Size = New System.Drawing.Size(41, 40)
@@ -1447,7 +1447,7 @@ Partial Class MainProject
         Me.u86.BackColor = System.Drawing.Color.Gray
         Me.u86.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u86.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u86.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u86.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u86.Location = New System.Drawing.Point(285, 371)
         Me.u86.Name = "u86"
         Me.u86.Size = New System.Drawing.Size(41, 40)
@@ -1459,7 +1459,7 @@ Partial Class MainProject
         Me.u85.BackColor = System.Drawing.Color.Gray
         Me.u85.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u85.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u85.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u85.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u85.Location = New System.Drawing.Point(238, 371)
         Me.u85.Name = "u85"
         Me.u85.Size = New System.Drawing.Size(41, 40)
@@ -1471,7 +1471,7 @@ Partial Class MainProject
         Me.u75.BackColor = System.Drawing.Color.Gray
         Me.u75.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u75.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u75.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u75.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u75.Location = New System.Drawing.Point(238, 325)
         Me.u75.Name = "u75"
         Me.u75.Size = New System.Drawing.Size(41, 40)
@@ -1483,7 +1483,7 @@ Partial Class MainProject
         Me.u74.BackColor = System.Drawing.Color.Gray
         Me.u74.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u74.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u74.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u74.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u74.Location = New System.Drawing.Point(191, 325)
         Me.u74.Name = "u74"
         Me.u74.Size = New System.Drawing.Size(41, 40)
@@ -1495,7 +1495,7 @@ Partial Class MainProject
         Me.u84.BackColor = System.Drawing.Color.Gray
         Me.u84.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u84.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u84.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u84.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u84.Location = New System.Drawing.Point(191, 371)
         Me.u84.Name = "u84"
         Me.u84.Size = New System.Drawing.Size(41, 40)
@@ -1507,7 +1507,7 @@ Partial Class MainProject
         Me.u64.BackColor = System.Drawing.Color.Gray
         Me.u64.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u64.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u64.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u64.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u64.Location = New System.Drawing.Point(191, 279)
         Me.u64.Name = "u64"
         Me.u64.Size = New System.Drawing.Size(41, 40)
@@ -1519,7 +1519,7 @@ Partial Class MainProject
         Me.u54.BackColor = System.Drawing.Color.Gray
         Me.u54.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u54.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u54.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u54.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u54.Location = New System.Drawing.Point(191, 233)
         Me.u54.Name = "u54"
         Me.u54.Size = New System.Drawing.Size(41, 40)
@@ -1531,7 +1531,7 @@ Partial Class MainProject
         Me.u44.BackColor = System.Drawing.Color.Gray
         Me.u44.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u44.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u44.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u44.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u44.Location = New System.Drawing.Point(191, 187)
         Me.u44.Name = "u44"
         Me.u44.Size = New System.Drawing.Size(41, 40)
@@ -1543,7 +1543,7 @@ Partial Class MainProject
         Me.u45.BackColor = System.Drawing.Color.Gray
         Me.u45.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u45.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u45.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u45.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u45.Location = New System.Drawing.Point(238, 187)
         Me.u45.Name = "u45"
         Me.u45.Size = New System.Drawing.Size(41, 40)
@@ -1555,7 +1555,7 @@ Partial Class MainProject
         Me.u35.BackColor = System.Drawing.Color.Gray
         Me.u35.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u35.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u35.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u35.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u35.Location = New System.Drawing.Point(238, 141)
         Me.u35.Name = "u35"
         Me.u35.Size = New System.Drawing.Size(41, 40)
@@ -1567,7 +1567,7 @@ Partial Class MainProject
         Me.u25.BackColor = System.Drawing.Color.Gray
         Me.u25.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u25.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u25.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u25.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u25.Location = New System.Drawing.Point(238, 95)
         Me.u25.Name = "u25"
         Me.u25.Size = New System.Drawing.Size(41, 40)
@@ -1579,7 +1579,7 @@ Partial Class MainProject
         Me.u26.BackColor = System.Drawing.Color.Gray
         Me.u26.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u26.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u26.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u26.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u26.Location = New System.Drawing.Point(285, 95)
         Me.u26.Name = "u26"
         Me.u26.Size = New System.Drawing.Size(41, 40)
@@ -1591,7 +1591,7 @@ Partial Class MainProject
         Me.u36.BackColor = System.Drawing.Color.Gray
         Me.u36.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u36.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u36.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u36.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u36.Location = New System.Drawing.Point(285, 141)
         Me.u36.Name = "u36"
         Me.u36.Size = New System.Drawing.Size(41, 40)
@@ -1603,7 +1603,7 @@ Partial Class MainProject
         Me.u46.BackColor = System.Drawing.Color.Gray
         Me.u46.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u46.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u46.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u46.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u46.Location = New System.Drawing.Point(285, 187)
         Me.u46.Name = "u46"
         Me.u46.Size = New System.Drawing.Size(41, 40)
@@ -1615,7 +1615,7 @@ Partial Class MainProject
         Me.u56.BackColor = System.Drawing.Color.Gray
         Me.u56.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u56.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u56.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u56.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u56.Location = New System.Drawing.Point(285, 233)
         Me.u56.Name = "u56"
         Me.u56.Size = New System.Drawing.Size(41, 40)
@@ -1627,7 +1627,7 @@ Partial Class MainProject
         Me.u55.BackColor = System.Drawing.Color.Gray
         Me.u55.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u55.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u55.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u55.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u55.Location = New System.Drawing.Point(238, 233)
         Me.u55.Name = "u55"
         Me.u55.Size = New System.Drawing.Size(41, 40)
@@ -1639,7 +1639,7 @@ Partial Class MainProject
         Me.u65.BackColor = System.Drawing.Color.Gray
         Me.u65.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u65.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u65.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u65.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u65.Location = New System.Drawing.Point(238, 279)
         Me.u65.Name = "u65"
         Me.u65.Size = New System.Drawing.Size(41, 40)
@@ -1651,7 +1651,7 @@ Partial Class MainProject
         Me.u66.BackColor = System.Drawing.Color.Gray
         Me.u66.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u66.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u66.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u66.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u66.Location = New System.Drawing.Point(285, 279)
         Me.u66.Name = "u66"
         Me.u66.Size = New System.Drawing.Size(41, 40)
@@ -1663,7 +1663,7 @@ Partial Class MainProject
         Me.u76.BackColor = System.Drawing.Color.Gray
         Me.u76.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u76.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u76.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u76.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u76.Location = New System.Drawing.Point(285, 325)
         Me.u76.Name = "u76"
         Me.u76.Size = New System.Drawing.Size(41, 40)
@@ -1675,7 +1675,7 @@ Partial Class MainProject
         Me.u77.BackColor = System.Drawing.Color.Gray
         Me.u77.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u77.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u77.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u77.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u77.Location = New System.Drawing.Point(332, 325)
         Me.u77.Name = "u77"
         Me.u77.Size = New System.Drawing.Size(41, 40)
@@ -1687,7 +1687,7 @@ Partial Class MainProject
         Me.u67.BackColor = System.Drawing.Color.Gray
         Me.u67.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u67.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u67.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u67.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u67.Location = New System.Drawing.Point(332, 279)
         Me.u67.Name = "u67"
         Me.u67.Size = New System.Drawing.Size(41, 40)
@@ -1699,7 +1699,7 @@ Partial Class MainProject
         Me.u68.BackColor = System.Drawing.Color.Gray
         Me.u68.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u68.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u68.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u68.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u68.Location = New System.Drawing.Point(379, 279)
         Me.u68.Name = "u68"
         Me.u68.Size = New System.Drawing.Size(41, 40)
@@ -1711,7 +1711,7 @@ Partial Class MainProject
         Me.u78.BackColor = System.Drawing.Color.Gray
         Me.u78.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u78.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u78.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u78.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u78.Location = New System.Drawing.Point(379, 325)
         Me.u78.Name = "u78"
         Me.u78.Size = New System.Drawing.Size(41, 40)
@@ -1756,7 +1756,7 @@ Partial Class MainProject
         Me.u58.BackColor = System.Drawing.Color.Gray
         Me.u58.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u58.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u58.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u58.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u58.Location = New System.Drawing.Point(379, 233)
         Me.u58.Name = "u58"
         Me.u58.Size = New System.Drawing.Size(41, 40)
@@ -1768,7 +1768,7 @@ Partial Class MainProject
         Me.u57.BackColor = System.Drawing.Color.Gray
         Me.u57.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u57.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u57.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u57.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u57.Location = New System.Drawing.Point(332, 233)
         Me.u57.Name = "u57"
         Me.u57.Size = New System.Drawing.Size(41, 40)
@@ -1780,7 +1780,7 @@ Partial Class MainProject
         Me.u47.BackColor = System.Drawing.Color.Gray
         Me.u47.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u47.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u47.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u47.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u47.Location = New System.Drawing.Point(332, 187)
         Me.u47.Name = "u47"
         Me.u47.Size = New System.Drawing.Size(41, 40)
@@ -1792,7 +1792,7 @@ Partial Class MainProject
         Me.u48.BackColor = System.Drawing.Color.Gray
         Me.u48.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u48.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u48.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u48.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u48.Location = New System.Drawing.Point(379, 187)
         Me.u48.Name = "u48"
         Me.u48.Size = New System.Drawing.Size(41, 40)
@@ -1804,7 +1804,7 @@ Partial Class MainProject
         Me.u38.BackColor = System.Drawing.Color.Gray
         Me.u38.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u38.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u38.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u38.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u38.Location = New System.Drawing.Point(379, 141)
         Me.u38.Name = "u38"
         Me.u38.Size = New System.Drawing.Size(41, 40)
@@ -1827,7 +1827,7 @@ Partial Class MainProject
         Me.u37.BackColor = System.Drawing.Color.Gray
         Me.u37.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u37.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u37.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u37.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u37.Location = New System.Drawing.Point(332, 141)
         Me.u37.Name = "u37"
         Me.u37.Size = New System.Drawing.Size(41, 40)
@@ -1839,7 +1839,7 @@ Partial Class MainProject
         Me.u27.BackColor = System.Drawing.Color.Gray
         Me.u27.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u27.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u27.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u27.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u27.Location = New System.Drawing.Point(332, 95)
         Me.u27.Name = "u27"
         Me.u27.Size = New System.Drawing.Size(41, 40)
@@ -1851,7 +1851,7 @@ Partial Class MainProject
         Me.u28.BackColor = System.Drawing.Color.Gray
         Me.u28.Dock = System.Windows.Forms.DockStyle.Fill
         Me.u28.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.u28.Font = New System.Drawing.Font("맑은 고딕", 8.2!)
+        Me.u28.Font = New System.Drawing.Font("Malgun Gothic", 8.2!)
         Me.u28.Location = New System.Drawing.Point(379, 95)
         Me.u28.Name = "u28"
         Me.u28.Size = New System.Drawing.Size(41, 40)
@@ -1948,7 +1948,7 @@ Partial Class MainProject
         '
         'OutListBox
         '
-        Me.OutListBox.Font = New System.Drawing.Font("나눔바른고딕", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.OutListBox.Font = New System.Drawing.Font("NanumBarunGothic", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.OutListBox.FormattingEnabled = True
         Me.OutListBox.ItemHeight = 17
         Me.OutListBox.Location = New System.Drawing.Point(265, 32)
@@ -1958,7 +1958,7 @@ Partial Class MainProject
         '
         'InListBox
         '
-        Me.InListBox.Font = New System.Drawing.Font("나눔바른고딕", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.InListBox.Font = New System.Drawing.Font("NanumBarunGothic", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.InListBox.FormattingEnabled = True
         Me.InListBox.ItemHeight = 17
         Me.InListBox.Location = New System.Drawing.Point(27, 32)
@@ -1998,7 +1998,7 @@ Partial Class MainProject
         Me.ClientSize = New System.Drawing.Size(808, 563)
         Me.Controls.Add(Me.HomeEdit)
         Me.Controls.Add(Me.MenuStrip)
-        Me.Font = New System.Drawing.Font("굴림", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.Font = New System.Drawing.Font("Gulim", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.KeyPreview = True
         Me.MainMenuStrip = Me.MenuStrip
