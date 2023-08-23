@@ -6,40 +6,28 @@ UniPack Converter for Ableton & UniPad
          
 ![UniConverter_Icon](https://i.imgur.com/OOxXPlH.jpg)
 ![Animation Loading...](https://raw.githubusercontent.com/MineEric64/UniConverter-Project/master/Resources/UniConverter_AllNew.gif)
+> Made by MineEric64
 
+## Overview
+Hi.
+I'll be back when 2024 comes.
 
-### Made by MineEric64
-#### Helped By 'Follow_JB', 'EX867'
+since Jan. 2018
 
-## Instruction
+## How to use
+https://github.com/Luigi38/ProjectNextop/assets/25432800/b7c60943-0d81-4586-a4c1-14525fd839c5
 
-#### using .NET Framework 4.6.2, [FastColoredTextBox](https://github.com/PavelTorgashov/FastColoredTextBox), [SharpZipLibrary](https://github.com/icsharpcode/SharpZipLib), [NAudio](https://github.com/naudio/NAudio), [A2UP](https://github.com/MineEric64/A2UP)
-
-UniConverter converts Ableton Projects to UniPack.
-#### Q. How? 
-#### A. Simple! UniConverter reads Ableton's various algorithms.
-
-For Example, UniConverter reads algorithms to Ableton Project's Information.
-#### (ex: Project's information, Sounds/LED's Position, More...)
-
-UniConverter converts Ableton Project's Information to UniPack's Information.
-Last, UniConverter trims some Sounds, LEDs of UniPack.
-Also, you can edit simple information of UniPack directly!
-But, you can edit detail information of UniPack on [Unitor](http://unitor.net).
-
-#### [ Latest Version: v1.2.0.7 (Pre-Release 2)   |   Test Version: v1.2.0.8 ]
+## [Releases](https://github.com/MineEric64/UniConverter-Project/releases)
+- Latest: [v1.2.0.7 (Pre-Release 2)](https://github.com/MineEric64/UniConverter-Project/releases/tag/v1.2.0.7-pr2)
+- Beta: v1.2.0.8 available, but you should be allowed permission to use.
 
 ## Features
-> Sound & LED Conversion
-
-> One Tap Conversion (CAOC)
-
-> Ableton LED to UniPack LED (midi file only)
- 
-> supports some ableton plugins
->> Internal (Velocity)
->> 
->> External (Midi Extension (MIDIext) v1.0~v2.3, MIDIFire, Lightweight)
+- Sound & LED Conversion
+- One Tap Conversion (CAOC)
+- Ableton LED to UniPack LED (midi file only)
+- supports some ableton plugins
+- Internal Plugin (Velocity) 
+- External Plugin (Midi Extension (MIDIext) v1.0~v2.3, MIDIFire, Lightweight)
 
 ## TODO
 - [ ] Improved Launchpad Connection 
@@ -49,5 +37,4 @@ But, you can edit detail information of UniPack on [Unitor](http://unitor.net).
 - [ ] Checking Update
 - [ ] Fookin Intro error (replacing with another library)
 
-##### DEVELOPING PROJECTS make someone convenient.
-##### since 2018.01
+DEVELOPING PROJECTS make someone convenient.
